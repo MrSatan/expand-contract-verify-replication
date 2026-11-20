@@ -6,7 +6,7 @@ This document records the case-by-case label adjudications applied on top of the
 
 1. **Prisma execution-oracle discrepancies (8 cases):** Every case where the initial rule-based label disagreed with the official Prisma 7.10.1 DMMF + PostgreSQL 18.7 execution oracle was inspected against the parent commit tree (`git ls-tree` / `git show <parent>:<path>`). In all eight cases, the execution oracle was confirmed correct.
 2. **Django and Rails discrepant or low-confidence cases:** Cases flagged as `REVIEW` in the initial extraction or exhibiting discrepancies between initial rules and repository artefacts were inspected against the parent commit tree.
-3. **Scope limitation (discrepant resolution bias):** High-confidence (`HIGH`) cases where the initial rule-based labeller and `ECV-Fast` agreed were not re-audited individually; potential shared errors are quantified separately via the blind second-rater agreement protocol (`second_rater/`).
+3. **Scope limitation (discrepant resolution bias):** High-confidence (`HIGH`) cases where the initial rule-based labeller and `ECV-Fast` agreed were not re-audited individually; the paper reports `ECV-Fast` metrics before and after adjudication (`pre_initial_rule_based` and `pre_v4_adjudication` in `rq3_v4_metrics.json`), and a blind 60-case audit sheet (`second_rater/`) is included for independent verification.
 
 The programmatic overrides are stored in `scripts/v4/label_overrides_v4.py`.
 
