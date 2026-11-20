@@ -1,0 +1,745 @@
+{
+  "repo": "24pullrequests/24pullrequests",
+  "ecosystem": "rails",
+  "stars": 1707,
+  "has_k8s_helm": false,
+  "status": "ok",
+  "stats": {
+    "total_migration_commits_in_history": 56,
+    "migration_commits_analyzed": 55,
+    "total_migration_files_parsed": 115,
+    "commits_with_any_destructive": 7,
+    "commits_with_forward_destructive": 7,
+    "commits_with_rollback_only_destructive": 0,
+    "total_ops_extracted": 13,
+    "destructive_ops_up": 12,
+    "destructive_ops_down": 1
+  },
+  "verdict_counts": {
+    "DUAL_VERSION_VIOLATION_BOTH": 5,
+    "SAFE_CONTRACT": 3,
+    "ROLLBACK_ONLY_FALSE_ALARM": 1,
+    "SAFE_ADDITIVE": 1,
+    "DUAL_VERSION_VIOLATION_BACKWARD": 3
+  },
+  "destructive_commits": [
+    {
+      "sha": "32ff5ca18157c65515aca40c4a30c3f347c32022",
+      "parent": "29d58761a6cbeaacfd5ddc031590183488a420bf",
+      "date": "2018-11-28T10:29:20Z",
+      "subject": "Rename PullRequest to Contribution across the site (#2376)",
+      "mig_files": [
+        "db/migrate/20181123153926_rename_pull_requests.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/admin/dasher_controller.rb",
+        "app/controllers/contributions_controller.rb",
+        "app/controllers/dashboards_controller.rb",
+        "app/controllers/gifts_controller.rb",
+        "app/controllers/languages_controller.rb",
+        "app/controllers/organisations_controller.rb",
+        "app/controllers/pull_request_downloads_controller.rb",
+        "app/controllers/pull_requests_controller.rb",
+        "app/controllers/static_controller.rb",
+        "app/controllers/users_controller.rb",
+        "app/helpers/application_helper.rb",
+        "app/helpers/count_helper.rb"
+      ],
+      "orm_models_parsed_old": 19,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_TABLE",
+            "table": "pull_requests",
+            "column": null,
+            "new_name": "contributions",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20181123153926_rename_pull_requests.rb",
+            "line": 3,
+            "raw_snippet": "rename_table :pull_requests, :contributions",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "pull_requests",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": true,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/pull_request.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_TABLE 'pull_requests'->'contributions' breaks both directions.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_TABLE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_COLUMN",
+            "table": "gifts",
+            "column": "pull_request_id",
+            "new_name": "contribution_id",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20181123153926_rename_pull_requests.rb",
+            "line": 4,
+            "raw_snippet": "rename_column :gifts, :pull_request_id, :contribution_id",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "gifts",
+            "column": "pull_request_id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/gift.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_COLUMN 'pull_request_id'->'contribution_id' breaks both C_{t-1} |= S_t and C_t |= S_{t-1}.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_COLUMN",
+            "table": "organisations",
+            "column": "pull_request_count",
+            "new_name": "contribution_count",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20181123153926_rename_pull_requests.rb",
+            "line": 5,
+            "raw_snippet": "rename_column :organisations, :pull_request_count, :contribution_count",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "organisations",
+            "column": "pull_request_count",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/organisation.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_COLUMN 'pull_request_count'->'contribution_count' breaks both C_{t-1} |= S_t and C_t |= S_{t-1}.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_COLUMN",
+            "table": "users",
+            "column": "pull_requests_count",
+            "new_name": "contributions_count",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20181123153926_rename_pull_requests.rb",
+            "line": 6,
+            "raw_snippet": "rename_column :users, :pull_requests_count, :contributions_count",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users",
+            "column": "pull_requests_count",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/user.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_COLUMN 'pull_requests_count'->'contributions_count' breaks both C_{t-1} |= S_t and C_t |= S_{t-1}.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_COLUMN",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "05cd28ad59a358903c88a0297473209dd21816b6",
+      "parent": "0e9ebbf035d4d0243c8fc4aea94e256559fd0d7e",
+      "date": "2017-12-03T03:50:15-06:00",
+      "subject": "unsubscribe without authentication (#2096)",
+      "mig_files": [
+        "db/migrate/20171130191208_add_unsubscribe_token_to_users.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/unsubscribes_controller.rb",
+        "app/controllers/users_controller.rb",
+        "app/helpers/application_helper.rb",
+        "app/models/user.rb",
+        "config/routes.rb",
+        "db/schema.rb",
+        "spec/controllers/unsubscribes_controller_spec.rb",
+        "spec/controllers/users_controller_spec.rb",
+        "spec/factories.rb",
+        "spec/models/user_spec.rb"
+      ],
+      "orm_models_parsed_old": 19,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "users",
+            "column": "unsubscribe_token",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20171130191208_add_unsubscribe_token_to_users.rb",
+            "line": 12,
+            "raw_snippet": "change_column_null :users, :unsubscribe_token, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users",
+            "column": "unsubscribe_token",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/user.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Column 'users.unsubscribe_token' not active in C_{t-1} ORM.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "SET_NOT_NULL",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "users",
+            "column": "unsubscribe_token",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20171130191208_add_unsubscribe_token_to_users.rb",
+            "line": 19,
+            "raw_snippet": "remove_column :users, :unsubscribe_token",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users",
+            "column": "unsubscribe_token",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "fc96c05a43c3c0447580ce28b4d6c41a5d18273a",
+      "parent": "bb536df6ad9a42765fb59a7c408e8359335c8411",
+      "date": "2017-10-04T00:37:39-03:00",
+      "subject": "Explicit add rails version to migration files",
+      "mig_files": [
+        "db/migrate/20121115154537_create_users.rb",
+        "db/migrate/20121116201525_create_projects.rb",
+        "db/migrate/20121120183925_add_gravatar_id_to_users.rb",
+        "db/migrate/20121125194342_add_token_to_user.rb",
+        "db/migrate/20121125210249_create_pull_requests.rb",
+        "db/migrate/20121125214809_add_email_frequency_to_users.rb",
+        "db/migrate/20121126105209_create_gifts.rb",
+        "db/migrate/20121130205728_create_skills.rb",
+        "db/migrate/20121201194057_add_pull_request_counter_cache_column_to_users.rb",
+        "db/migrate/20121203140250_add_last_sent_at_to_users.rb",
+        "db/migrate/20121205014649_add_twitter_token_to_user.rb",
+        "db/migrate/20121205214829_add_twitter_username_to_users.rb",
+        "db/migrate/20121212160326_add_indexes_to_pull_request.rb",
+        "db/migrate/20121212160611_add_indexes_to_skills.rb",
+        "db/migrate/20130913073803_add_confirmable_email_fields_to_user.rb",
+        "db/migrate/20131124235403_add_language_to_pull_request.rb",
+        "db/migrate/20131125081458_add_comments_count_to_pull_requests.rb",
+        "db/migrate/20131126232238_add_submitted_by_to_project.rb",
+        "db/migrate/20131201095112_add_inactive_to_project.rb",
+        "db/migrate/20131202171451_create_organisations.rb",
+        "db/migrate/20131202234014_create_pull_request_archive.rb",
+        "db/migrate/20131208191548_create_labels.rb",
+        "db/migrate/20131208203303_create_project_labels.rb",
+        "db/migrate/20131209154457_create_archived_pull_requests.rb",
+        "db/migrate/20131215015229_add_pull_request_count_to_organisation.rb",
+        "db/migrate/20141023124630_create_events.rb",
+        "db/migrate/20141023190850_add_description_to_events.rb",
+        "db/migrate/20141023191920_add_user_id_to_events.rb",
+        "db/migrate/20141026172558_change_description_from_string_to_text_in_events.rb",
+        "db/migrate/20141027181959_add_indexes_to_events.rb",
+        "db/migrate/20141027215446_rename_organiser_to_name_in_events.rb",
+        "db/migrate/20141207102627_add_profile_fields_to_users.rb",
+        "db/migrate/20141215161710_set_gift_index_as_unique.rb",
+        "db/migrate/20141223044223_add_thank_you_email_sent_to_user.rb",
+        "db/migrate/20151122220446_add_lat_lng_to_users.rb",
+        "db/migrate/20151127190033_add_featured_to_project.rb",
+        "db/migrate/20151210211153_add_defaults_event_lat_lng.rb",
+        "db/migrate/20151217144215_create_aggregation_filters.rb",
+        "db/migrate/20151217162334_add_contribulator_to_projects.rb",
+        "db/migrate/20151223170543_rename_filter_column.rb",
+        "db/migrate/20161127203934_add_merged_by_id_to_pull_requests.rb"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 19,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "events",
+            "column": "description",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20141026172558_change_description_from_string_to_text_in_events.rb",
+            "line": 3,
+            "raw_snippet": "change_column :events, :description, :text",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "events",
+            "column": "description",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/event.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening text -> text preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_COLUMN",
+            "table": "events",
+            "column": "organiser",
+            "new_name": "name",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20141027215446_rename_organiser_to_name_in_events.rb",
+            "line": 3,
+            "raw_snippet": "rename_column :events, :organiser, :name",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "events",
+            "column": "organiser",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/event.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Renamed column 'organiser' not referenced in C_{t-1} or C_t.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_COLUMN",
+            "table": "aggregation_filters",
+            "column": "repo_pattern",
+            "new_name": "title_pattern",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20151223170543_rename_filter_column.rb",
+            "line": 3,
+            "raw_snippet": "rename_column :aggregation_filters, :repo_pattern, :title_pattern",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "aggregation_filters",
+            "column": "repo_pattern",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/aggregation_filter.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Renamed column 'repo_pattern' not referenced in C_{t-1} or C_t.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_COLUMN",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "e770f29f4388171d32ee744e59ca9a45dea84664",
+      "parent": "e8c1df6d7acef26af8dda85102c6bd519213e21f",
+      "date": "2016-12-09T11:11:23Z",
+      "subject": "Convert User#uid field to integer to allow joining with id columns",
+      "mig_files": [
+        "db/migrate/20161209105217_change_uids_to_integer.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "db/schema.rb"
+      ],
+      "orm_models_parsed_old": 19,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "users",
+            "column": "uid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "integer using cast(uid as integer)",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20161209105217_change_uids_to_integer.rb",
+            "line": 3,
+            "raw_snippet": "change_column :users, :uid, 'integer USING CAST(uid AS integer)'",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users",
+            "column": "uid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/user.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'users.uid' (string -> integer using cast(uid as integer)).",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "c0d289f8fd672005d53452b79b55162966acfb4e",
+      "parent": "831418602fdd14f6974ef2d2a871c5dc09f2a103",
+      "date": "2015-12-23T18:14:06+01:00",
+      "subject": "Move aggregation filtering from repos to titles",
+      "mig_files": [
+        "db/migrate/20151223170543_rename_filter_column.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/aggregation_filter.rb",
+        "db/schema.rb",
+        "spec/factories.rb",
+        "spec/models/organisation_spec.rb",
+        "spec/models/user_spec.rb"
+      ],
+      "orm_models_parsed_old": 19,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_COLUMN",
+            "table": "aggregation_filters",
+            "column": "repo_pattern",
+            "new_name": "title_pattern",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20151223170543_rename_filter_column.rb",
+            "line": 3,
+            "raw_snippet": "rename_column :aggregation_filters, :repo_pattern, :title_pattern",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "aggregation_filters",
+            "column": "repo_pattern",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/aggregation_filter.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_COLUMN 'repo_pattern'->'title_pattern' breaks both C_{t-1} |= S_t and C_t |= S_{t-1}.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_COLUMN",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "b70a855896fb3347cb99847db3c91f58fd1b4802",
+      "parent": "7e3d4c96edbfe8ef1261ecc2307fbaef06586c45",
+      "date": "2014-10-27T21:55:52Z",
+      "subject": "organiser -> name in events",
+      "mig_files": [
+        "db/migrate/20141027215446_rename_organiser_to_name_in_events.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "db/schema.rb"
+      ],
+      "orm_models_parsed_old": 18,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_COLUMN",
+            "table": "events",
+            "column": "organiser",
+            "new_name": "name",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20141027215446_rename_organiser_to_name_in_events.rb",
+            "line": 3,
+            "raw_snippet": "rename_column :events, :organiser, :name",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "events",
+            "column": "organiser",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/event.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "RENAME_COLUMN 'organiser'->'name' breaks C_{t-1} |= S_t.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_COLUMN",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "04abf4d64e9470b96790fc098b8d215a64617c26",
+      "parent": "84dc8e9e7f9b7650f6f84fa7bf74f35d7dc6aa8e",
+      "date": "2014-10-26T17:38:20Z",
+      "subject": "Change event description from string -> text",
+      "mig_files": [
+        "db/migrate/20141026172558_change_description_from_string_to_text_in_events.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "db/schema.rb"
+      ],
+      "orm_models_parsed_old": 18,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "events",
+            "column": "description",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20141026172558_change_description_from_string_to_text_in_events.rb",
+            "line": 3,
+            "raw_snippet": "change_column :events, :description, :text",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "events",
+            "column": "description",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/event.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'events.description' (string -> text).",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "method": "Every candidate issue was re-read in full (title, body, first comments) via `gh issue view`; raw text archived in research/v3/rq2_issue_texts.json (accessed 2026-11-20). Each item is labelled by what the thread itself shows, not by search-query category. AI-assisted reading; the author must confirm each label before submission.",
+  "included": [
+    {"repo": "fatkodima/online_migrations", "number": 84, "created": "2026-03-05", "class": "Observed dual-version failure",
+     "evidence": "Reporter observed PG::UndefinedColumn on old processes still running after a column-rename finalisation, before new code was deployed; root cause traced to explicit column enumeration triggered by pre-existing ignored_columns."},
+    {"repo": "getsentry/sentry", "number": 98147, "created": "2025-08-13", "class": "Observed missing-column crash (root cause not confirmed in thread)",
+     "evidence": "Self-hosted 25.7.0 on Kubernetes: snuba consumer fails with UndefinedColumn for sentry_monitor.is_upserting. Thread does not establish whether the cause was version skew between components or an incomplete migration."},
+    {"repo": "David-Wobrock/django-migration-linter", "number": 294, "created": "2025-01-07", "class": "Single-file linter false positive on a two-release Contract",
+     "evidence": "Valid SeparateDatabaseAndState two-migration removal flagged; maintainer acknowledges SeparateDatabaseAndState is not handled and notes the pair is only safe if deployed separately (a cross-release property)."},
+    {"repo": "ankane/strong_migrations", "number": 95, "created": "2019-11-11", "class": "Maintainer design decision (single-file limitation)",
+     "evidence": "Maintainer lists as 'decided against': not requiring safety_assured for remove_column when ignored_columns is detected, because ignored_columns is typically removed after the drop runs, which a single-file check cannot reason about."},
+    {"repo": "ankane/strong_migrations", "number": 208, "created": "2022-11-11", "class": "Practitioner confusion about release ordering",
+     "evidence": "User asks why ignored_columns + safety_assured remove_column cannot ship in one commit; maintainer: a single commit is fine only if the migration runs after all old code stops (i.e. post-deploy)."},
+    {"repo": "ankane/strong_migrations", "number": 66, "created": "2019-04-16", "class": "Escape hatch disables all checks",
+     "evidence": "Maintainer confirms safety_assured skips all checks, including custom ones."},
+    {"repo": "ankane/strong_migrations", "number": 211, "created": "2022-12-16", "class": "Schema-cache skew hazard",
+     "evidence": "Removing a column default while old Rails processes keep a cached schema can write unexpected NULLs until restart."},
+    {"repo": "sbdchd/squawk", "number": 1370, "created": "2026-09-28", "class": "Practitioner uses a linter as a C_{t-1}-vs-S_t gate; reports rule gaps",
+     "evidence": "Team runs squawk in CI to check that the previously deployed version still runs on the new schema; reports that DROP VIEW/FUNCTION/TYPE/TRIGGER and DROP DEFAULT raise no compatibility rule; maintainer agrees to add rules."},
+    {"repo": "sbdchd/squawk", "number": 115, "created": "2021-04-15", "class": "ORM-generated NOT NULL sequence not flagged",
+     "evidence": "Django-generated SET DEFAULT / UPDATE / SET NOT NULL / DROP DEFAULT migration produced no warning; discussion focuses on locking, not on old-version inserts."},
+    {"repo": "sbdchd/squawk", "number": 149, "created": "2021-06-15", "class": "Demand for per-statement suppression",
+     "evidence": "User integrating squawk in CI asks for a way to ignore a specific intentional statement (SET NOT NULL)."}
+  ],
+  "excluded": [
+    {"repo": "mastodon/mastodon", "number": 26246, "reason": "Bug in the search importer (hard-coded ids vs domains), not a schema-migration or dual-version failure."},
+    {"repo": "chatwoot/chatwoot", "number": 12288, "reason": "Fresh-install task reads a table before it is created; initialisation-order bug, not dual-version."},
+    {"repo": "netbox-community/netbox", "number": 17401, "reason": "Self-hosted upgrade migration failure without reproduction; no evidence of version skew."},
+    {"repo": "Dispatcharr/Dispatcharr", "number": 987, "reason": "CREATE INDEX fails due to pending trigger events inside a data migration; not dual-version."}
+  ]
+}

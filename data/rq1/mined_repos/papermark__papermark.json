@@ -1,0 +1,804 @@
+{
+  "repo": "papermark/papermark",
+  "ecosystem": "prisma",
+  "stars": 9423,
+  "has_k8s_helm": false,
+  "status": "ok",
+  "stats": {
+    "total_migration_commits_in_history": 161,
+    "migration_commits_analyzed": 150,
+    "total_migration_files_parsed": 154,
+    "commits_with_any_destructive": 10,
+    "commits_with_forward_destructive": 10,
+    "commits_with_rollback_only_destructive": 0,
+    "total_ops_extracted": 14,
+    "destructive_ops_up": 14,
+    "destructive_ops_down": 0
+  },
+  "verdict_counts": {
+    "DUAL_VERSION_VIOLATION_BACKWARD": 10,
+    "SAFE_ADDITIVE": 3,
+    "DUAL_VERSION_VIOLATION_BOTH": 1
+  },
+  "destructive_commits": [
+    {
+      "sha": "51a67827f78aaac0ddd4d64dbdf11ee5d612e1b9",
+      "parent": "4c1694788e4ea556b82681746b8b3facca2d839c",
+      "date": "2025-12-08T17:23:07+01:00",
+      "subject": "feat(ee): add agent chat",
+      "mig_files": [
+        "prisma/migrations/20251208000000_add_chat_model/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "app/(ee)/api/ai/chat/[chatId]/messages/route.ts",
+        "app/(ee)/api/ai/chat/[chatId]/route.ts",
+        "app/(ee)/api/ai/chat/route.ts",
+        "app/(ee)/api/ai/store/teams/[teamId]/datarooms/[dataroomId]/route.ts",
+        "app/(ee)/api/ai/store/teams/[teamId]/documents/[documentId]/route.ts",
+        "app/(ee)/api/ai/store/teams/[teamId]/route.ts",
+        "app/api/views-dataroom/route.ts",
+        "app/api/views/route.ts",
+        "components/ai-elements/conversation.tsx",
+        "components/ai-elements/message.tsx",
+        "components/ai-elements/prompt-input.tsx",
+        "components/ai-elements/shimmer.tsx"
+      ],
+      "orm_models_parsed_old": 56,
+      "raw_sql": "-- DropIndex\nDROP INDEX \"Chat_threadId_documentId_key\";\n\n-- DropIndex\nDROP INDEX \"Chat_threadId_idx\";\n\n-- DropIndex\nDROP INDEX \"Chat_threadId_key\";\n\n-- DropIndex\nDROP INDEX \"Chat_userId_documentId_key\";\n\n-- AlterTable\nALTER TABLE \"Chat\" DROP COLUMN \"threadId\",\nADD COLUMN     \"dataroomId\" TEXT,\nADD COLUMN     \"linkId\" TEXT,\nADD COLUMN     \"teamId\" TEXT NOT NULL,\nADD COLUMN     \"title\" TEXT,\nADD COLUMN     \"updatedAt\" TIMESTAMP(3) NOT NULL,\nADD COLUMN     \"vectorStoreId\" TEXT,\nADD COLUMN     \"viewId\" TEXT,\nADD COLUMN     \"viewerId\" TEXT,\nALTER COLUMN \"userId\" DROP NOT NULL,\nALTER COLUMN \"documentId\" DROP NOT NULL;\n\n-- AlterTable\nALTER TABLE \"Dataroom\" ADD COLUMN     \"agentsEnabled\" BOOLEAN NOT NULL DEFAULT false,\nADD COLUMN     \"vectorStoreId\" TEXT;\n\n-- AlterTable\nALTER TABLE \"DataroomDocument\" ADD COLUMN     \"vectorStoreFileId\" TEXT;\n\n-- AlterTable\nALTER TABLE \"Document\" ADD COLUMN     \"agentsEnabled\" BOOLEAN NOT NULL DEFAULT false;\n\n-- AlterTable\nALTER TABLE \"DocumentVersion\" ADD COLUMN     \"vectorStoreFileId\" TEXT;\n\n-- AlterTable\nALTER TABLE \"Link\" ADD COLUMN     \"enableAIAgents\" BOOLEAN DEFAULT false;\n\n-- AlterTable\nALTER TABLE \"Team\" ADD COLUMN     \"agentsEnabled\" BOOLEAN NOT NULL DEFAULT false,\nADD COLUMN     \"vectorStoreId\" TEXT;\n\n-- CreateTable\nCREATE TABLE \"ChatMessage\" (\n    \"id\" TEXT NOT NULL,\n    \"chatId\" TEXT NOT NULL,\n    \"role\" TEXT NOT NULL,\n    \"content\" TEXT NOT NULL,\n    \"metadata\" JSONB,\n    \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n\n    CONSTRAINT \"ChatMessage_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateIndex\nCREATE INDEX \"ChatMessage_chatId_createdAt_idx\" ON \"ChatMessage\"(\"chatId\" ASC, \"createdAt\" ASC);\n\n-- CreateIndex\nCREATE INDEX \"ChatMessage_chatId_idx\" ON \"ChatMessage\"(\"chatId\" ASC);\n\n-- CreateIndex\nCREATE INDEX \"Chat_createdAt_idx\" ON \"Chat\"(\"createdAt\" DESC);\n\n-- CreateIndex\nCREATE INDEX \"Chat_dataroomId_idx\" ON \"Chat\"(\"dataroomId\" ASC);\n\n-- CreateIndex\nCREATE INDEX \"Chat_documentId_idx\" ON \"Chat\"(\"documentId\" ASC);\n\n-- CreateIndex\nCREATE INDEX \"Chat_linkId_idx\" ON \"Chat\"(\"linkId\" ASC);\n\n-- CreateIndex\nCREATE INDEX \"Chat_teamId_idx\" ON \"Chat\"(\"teamId\" ASC);\n\n-- CreateIndex\nCREATE INDEX \"Chat_userId_idx\" ON \"Chat\"(\"userId\" ASC);\n\n-- CreateIndex\nCREATE INDEX \"Chat_viewId_idx\" ON \"Chat\"(\"viewId\" ASC);\n\n-- CreateIndex\nCREATE INDEX \"Chat_viewerId_idx\" ON \"Chat\"(\"viewerId\" ASC);\n\n-- AddForeignKey\nALTER TABLE \"Chat\" ADD CONSTRAINT \"Chat_dataroomId_fkey\" FOREIGN KEY (\"dataroomId\") REFERENCES \"Dataroom\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"Chat\" ADD CONSTRAINT \"Chat_linkId_fkey\" FOREIGN KEY (\"linkId\") REFERENCES \"Link\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"Chat\" ADD CONSTRAINT \"Chat_teamId_fkey\" FOREIGN KEY (\"teamId\") REFERENCES \"Team\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"Chat\" ADD CONSTRAINT \"Chat_viewId_fkey\" FOREIGN KEY (\"viewId\") REFERENCES \"View\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"Chat\" ADD CONSTRAINT \"Chat_viewerId_fkey\" FOREIGN KEY (\"viewerId\") REFERENCES \"Viewer\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"ChatMessage\" ADD CONSTRAINT \"ChatMessage_chatId_fkey\" FOREIGN KEY (\"chatId\") REFERENCES \"Chat\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "chat",
+            "column": "threadid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20251208000000_add_chat_model/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE chat DROP COLUMN \"threadId\"",
+            "extra": {
+              "table_sql": "Chat",
+              "column_sql": "threadId"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "chat",
+            "column": "threadid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "prisma/schema/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'threadid' active in C_{t-1} ORM (prisma/schema/schema.prisma)"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "chat",
+            "column": "teamid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TEXT",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20251208000000_add_chat_model/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE chat ADD COLUMN \"teamId\" TEXT NOT NULL",
+            "extra": {
+              "table_sql": "Chat",
+              "column_sql": "teamId"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "chat",
+            "column": "teamid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "prisma/schema/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'chat.teamid' breaks C_{t-1} INSERTs."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "chat",
+            "column": "updatedat",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TIMESTAMP(3)",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20251208000000_add_chat_model/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE chat ADD COLUMN \"updatedAt\" TIMESTAMP(3) NOT NULL",
+            "extra": {
+              "table_sql": "Chat",
+              "column_sql": "updatedAt"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "chat",
+            "column": "updatedat",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "prisma/schema/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'chat.updatedat' breaks C_{t-1} INSERTs."
+        }
+      ]
+    },
+    {
+      "sha": "4490fbed0df44b040006426eb82159166c4c1d99",
+      "parent": "8e4446207910ccaa7501029b62f6167547f85660",
+      "date": "2025-07-30T14:37:15+02:00",
+      "subject": "feat: add serialization for bigint from database to client",
+      "mig_files": [
+        "prisma/migrations/20250730000000_change_file_size_bigint/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "lib/utils.ts",
+        "pages/api/links/generate-index.ts",
+        "pages/api/teams/[teamId]/datarooms/[id]/generate-index.ts",
+        "pages/api/teams/[teamId]/documents/[id]/index.ts",
+        "pages/api/teams/[teamId]/documents/agreement.ts",
+        "pages/api/teams/[teamId]/documents/index.ts",
+        "prisma/schema/schema.prisma"
+      ],
+      "orm_models_parsed_old": 46,
+      "raw_sql": "-- AlterTable\nALTER TABLE \"DocumentUpload\" ALTER COLUMN \"fileSize\" SET DATA TYPE BIGINT;\n\n-- AlterTable\nALTER TABLE \"DocumentVersion\" ALTER COLUMN \"fileSize\" SET DATA TYPE BIGINT;\n\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "documentupload",
+            "column": "filesize",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "BIGINT",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20250730000000_change_file_size_bigint/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE documentupload ALTER COLUMN \"fileSize\" SET DATA TYPE BIGINT",
+            "extra": {
+              "table_sql": "DocumentUpload",
+              "column_sql": "fileSize"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "documentupload",
+            "column": "filesize",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening Int -> BIGINT preserves C_{t-1} data compatibility."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "documentversion",
+            "column": "filesize",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "BIGINT",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20250730000000_change_file_size_bigint/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE documentversion ALTER COLUMN \"fileSize\" SET DATA TYPE BIGINT",
+            "extra": {
+              "table_sql": "DocumentVersion",
+              "column_sql": "fileSize"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "documentversion",
+            "column": "filesize",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening BigInt -> BIGINT preserves C_{t-1} data compatibility."
+        }
+      ]
+    },
+    {
+      "sha": "8e4446207910ccaa7501029b62f6167547f85660",
+      "parent": "1b6b2ebf38922c8925e26485342fe180142e3c79",
+      "date": "2025-07-30T13:39:16+02:00",
+      "subject": "fix: change fileSize to bigint",
+      "mig_files": [
+        "prisma/migrations/20250730000000_change_file_size_bigint/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "prisma/schema/schema.prisma"
+      ],
+      "orm_models_parsed_old": 46,
+      "raw_sql": "-- AlterTable\nALTER TABLE \"DocumentVersion\" ALTER COLUMN \"fileSize\" SET DATA TYPE BIGINT;\n\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "documentversion",
+            "column": "filesize",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "BIGINT",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20250730000000_change_file_size_bigint/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE documentversion ALTER COLUMN \"fileSize\" SET DATA TYPE BIGINT",
+            "extra": {
+              "table_sql": "DocumentVersion",
+              "column_sql": "fileSize"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "documentversion",
+            "column": "filesize",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening Int -> BIGINT preserves C_{t-1} data compatibility."
+        }
+      ]
+    },
+    {
+      "sha": "eb7300021def29d70ecaa7fc9a3e22eccc370088",
+      "parent": "d37611d65ca9a177dccf05daad50cac60293c7b5",
+      "date": "2025-05-02T14:12:00+02:00",
+      "subject": "feat: add agreement, custom fields to presets",
+      "mig_files": [
+        "prisma/migrations/20250502000000_add_additional_present_fields/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "components/links/link-sheet/agreement-section.tsx",
+        "components/links/link-sheet/custom-fields-section.tsx",
+        "components/links/link-sheet/index.tsx",
+        "components/links/link-sheet/link-options.tsx",
+        "lib/zod/schemas/presets.ts",
+        "pages/api/teams/[teamId]/presets/[id].ts",
+        "pages/api/teams/[teamId]/presets/index.ts",
+        "pages/settings/presets/[id].tsx",
+        "pages/settings/presets/new.tsx",
+        "prisma/schema/link.prisma"
+      ],
+      "orm_models_parsed_old": 44,
+      "raw_sql": "-- AlterTable\nALTER TABLE \"LinkPreset\" ADD COLUMN     \"agreementId\" TEXT,\nADD COLUMN     \"customFields\" JSONB,\nADD COLUMN     \"enableAgreement\" BOOLEAN DEFAULT false,\nADD COLUMN     \"enableCustomFields\" BOOLEAN DEFAULT false,\nDROP COLUMN \"expiresIn\",\nADD COLUMN     \"expiresIn\" INTEGER;\n\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "linkpreset",
+            "column": "expiresin",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20250502000000_add_additional_present_fields/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE linkpreset DROP COLUMN \"expiresIn\"",
+            "extra": {
+              "table_sql": "LinkPreset",
+              "column_sql": "expiresIn"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "linkpreset",
+            "column": "expiresin",
+            "orm_active_old": true,
+            "orm_active_new": true,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema/link.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'expiresin' active in C_{t-1} ORM (prisma/schema/link.prisma); identifier removed in same commit diff"
+        }
+      ]
+    },
+    {
+      "sha": "251defe39b715b8489d3e85dc69a4043d43bca76",
+      "parent": "25bbba3408c571a1eb9e1124f1a35099f3e156f7",
+      "date": "2025-04-30T00:50:22+05:30",
+      "subject": "Natural date and time input",
+      "mig_files": [
+        "prisma/migrations/20250429175856_update_expires_in/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "components/links/link-sheet/expiration-section.tsx",
+        "components/links/link-sheet/expirationIn-section.tsx",
+        "components/links/link-sheet/index.tsx",
+        "components/ui/smart-date-time-picker.tsx",
+        "lib/utils.ts",
+        "lib/zod/schemas/presets.ts",
+        "pages/settings/presets/[id].tsx",
+        "pages/settings/presets/index.tsx",
+        "pages/settings/presets/new.tsx",
+        "prisma/schema/link.prisma"
+      ],
+      "orm_models_parsed_old": 42,
+      "raw_sql": "/*\n  Warnings:\n\n  - The `expiresIn` column on the `LinkPreset` table would be dropped and recreated. This will lead to data loss if there is data in the column.\n\n*/\n-- AlterTable\nALTER TABLE \"LinkPreset\" DROP COLUMN \"expiresIn\",\nADD COLUMN     \"expiresIn\" JSONB;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "linkpreset",
+            "column": "expiresin",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20250429175856_update_expires_in/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE linkpreset DROP COLUMN \"expiresIn\"",
+            "extra": {
+              "table_sql": "LinkPreset",
+              "column_sql": "expiresIn"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "linkpreset",
+            "column": "expiresin",
+            "orm_active_old": true,
+            "orm_active_new": true,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema/link.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'expiresin' active in C_{t-1} ORM (prisma/schema/link.prisma); identifier removed in same commit diff"
+        }
+      ]
+    },
+    {
+      "sha": "d848e55595d1cc139d85358c6725f76c595fd738",
+      "parent": "efd29601776ab0b2555c3bbf51f366450854ff4d",
+      "date": "2025-03-16T19:30:15+01:00",
+      "subject": "refactor: change db table conversation to chat",
+      "mig_files": [
+        "prisma/migrations/20250310000000_rename_conversation_table/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "pages/api/assistants/threads/index.ts",
+        "prisma/schema.prisma",
+        "prisma/schema/dataroom.prisma",
+        "prisma/schema/schema.prisma"
+      ],
+      "orm_models_parsed_old": 37,
+      "raw_sql": "-- Rename the table (this preserves all data)\nALTER TABLE \"Conversation\" RENAME TO \"Chat\";\n\n-- Rename constraints and indices to match the new table name\nALTER INDEX \"Conversation_pkey\" RENAME TO \"Chat_pkey\";\nALTER INDEX \"Conversation_threadId_key\" RENAME TO \"Chat_threadId_key\";\nALTER INDEX \"Conversation_threadId_idx\" RENAME TO \"Chat_threadId_idx\";\nALTER INDEX \"Conversation_userId_documentId_key\" RENAME TO \"Chat_userId_documentId_key\";\nALTER INDEX \"Conversation_threadId_documentId_key\" RENAME TO \"Chat_threadId_documentId_key\";\n\n-- Rename foreign key constraints\nALTER TABLE \"Chat\" RENAME CONSTRAINT \"Conversation_userId_fkey\" TO \"Chat_userId_fkey\";\nALTER TABLE \"Chat\" RENAME CONSTRAINT \"Conversation_documentId_fkey\" TO \"Chat_documentId_fkey\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TABLE",
+            "table": "conversation",
+            "column": null,
+            "new_name": "chat",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20250310000000_rename_conversation_table/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE conversation RENAME TO \"Chat\"",
+            "extra": {
+              "table_sql": "Conversation",
+              "new_name_sql": "Chat"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "conversation",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": true,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_TABLE 'conversation'->'chat' breaks both directions."
+        }
+      ]
+    },
+    {
+      "sha": "6369555c4b27fbcb98a8af3baa58b07d4e525b9a",
+      "parent": "e2aa7d10bfcce7bcb1ad05dc5e617152acc20fe9",
+      "date": "2025-02-17T12:43:55+01:00",
+      "subject": "feat: add contact id to user table",
+      "mig_files": [
+        "prisma/migrations/20250217000000_add_contactid_to_user/migration.sql",
+        "prisma/migrations/20250217000000_remove_link_column/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "lib/unsend.ts",
+        "pages/api/auth/[...nextauth].ts",
+        "pages/api/teams/[teamId]/index.ts",
+        "prisma/schema.prisma"
+      ],
+      "orm_models_parsed_old": 37,
+      "raw_sql": "-- AlterTable\nALTER TABLE \"User\" ADD COLUMN     \"contactId\" TEXT;\n\n\n-- AlterTable\nALTER TABLE \"Link\" DROP COLUMN \"screenShieldPercentage\";\n\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "link",
+            "column": "screenshieldpercentage",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20250217000000_remove_link_column/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE link DROP COLUMN \"screenShieldPercentage\"",
+            "extra": {
+              "table_sql": "Link",
+              "column_sql": "screenShieldPercentage"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "link",
+            "column": "screenshieldpercentage",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'screenshieldpercentage' active in C_{t-1} ORM (prisma/schema.prisma); identifier removed in same commit diff"
+        }
+      ]
+    },
+    {
+      "sha": "376bf072fa57c8bb59c73330eda11a7a0a915be6",
+      "parent": "1525dfe647a2b56643622424f38efb1bd107f9f6",
+      "date": "2024-09-21T13:46:59+02:00",
+      "subject": "feat(prisma): adjust viewer table model",
+      "mig_files": [
+        "prisma/migrations/20240921000000_add_viewer_migration/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "pages/api/jobs/send-dataroom-view-invitation.ts",
+        "prisma/schema.prisma"
+      ],
+      "orm_models_parsed_old": 31,
+      "raw_sql": "-- DropForeignKey\nALTER TABLE \"Viewer\" DROP CONSTRAINT \"Viewer_dataroomId_fkey\";\n\n-- DropIndex\nDROP INDEX \"Viewer_dataroomId_email_key\";\n\n-- AlterTable\nALTER TABLE \"Viewer\" ALTER COLUMN \"dataroomId\" DROP NOT NULL,\nALTER COLUMN \"teamId\" SET NOT NULL;\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"Viewer_teamId_email_key\" ON \"Viewer\"(\"teamId\", \"email\");\n\n-- AddForeignKey\nALTER TABLE \"Viewer\" ADD CONSTRAINT \"Viewer_dataroomId_fkey\" FOREIGN KEY (\"dataroomId\") REFERENCES \"Dataroom\"(\"id\") ON DELETE SET NULL ON UPDATE CASCADE;\n\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "SET_NOT_NULL",
+            "table": "viewer",
+            "column": "teamid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20240921000000_add_viewer_migration/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE viewer ALTER COLUMN \"teamId\" SET NOT NULL",
+            "extra": {
+              "table_sql": "Viewer",
+              "column_sql": "teamId"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "viewer",
+            "column": "teamid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "SET_NOT_NULL on 'viewer.teamid' which was nullable in C_{t-1} ORM (prisma/schema.prisma)."
+        }
+      ]
+    },
+    {
+      "sha": "38869ff63c12bce606c31a478d678a34048ea9f3",
+      "parent": "27c5602b8e3925b7c854e8256fa81753c80cdf46",
+      "date": "2024-07-20T20:07:38+02:00",
+      "subject": "feat: add delete team",
+      "mig_files": [
+        "prisma/migrations/20240720000000_change_owner_dependecy/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "components/settings/delete-team-modal.tsx",
+        "components/settings/delete-team.tsx",
+        "components/ui/modal.tsx",
+        "lib/files/delete-team-files-server.ts",
+        "pages/api/teams/[teamId]/index.ts",
+        "pages/settings/general.tsx",
+        "prisma/schema.prisma",
+        "tailwind.config.js"
+      ],
+      "orm_models_parsed_old": 27,
+      "raw_sql": "-- DropForeignKey\nALTER TABLE \"Document\" DROP CONSTRAINT \"Document_ownerId_fkey\";\n\n-- DropForeignKey\nALTER TABLE \"Document\" DROP CONSTRAINT \"Document_teamId_fkey\";\n\n-- DropForeignKey\nALTER TABLE \"Domain\" DROP CONSTRAINT \"Domain_teamId_fkey\";\n\n-- DropForeignKey\nALTER TABLE \"Domain\" DROP CONSTRAINT \"Domain_userId_fkey\";\n\n-- AlterTable\nALTER TABLE \"Document\" ALTER COLUMN \"ownerId\" DROP NOT NULL,\nALTER COLUMN \"teamId\" SET NOT NULL;\n\n-- AlterTable\nALTER TABLE \"Domain\" ALTER COLUMN \"userId\" DROP NOT NULL,\nALTER COLUMN \"teamId\" SET NOT NULL;\n\n-- AddForeignKey\nALTER TABLE \"Document\" ADD CONSTRAINT \"Document_ownerId_fkey\" FOREIGN KEY (\"ownerId\") REFERENCES \"User\"(\"id\") ON DELETE SET NULL ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"Document\" ADD CONSTRAINT \"Document_teamId_fkey\" FOREIGN KEY (\"teamId\") REFERENCES \"Team\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"Domain\" ADD CONSTRAINT \"Domain_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"User\"(\"id\") ON DELETE SET NULL ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"Domain\" ADD CONSTRAINT \"Domain_teamId_fkey\" FOREIGN KEY (\"teamId\") REFERENCES \"Team\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "SET_NOT_NULL",
+            "table": "document",
+            "column": "teamid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20240720000000_change_owner_dependecy/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE document ALTER COLUMN \"teamId\" SET NOT NULL",
+            "extra": {
+              "table_sql": "Document",
+              "column_sql": "teamId"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "document",
+            "column": "teamid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "SET_NOT_NULL on 'document.teamid' which was nullable in C_{t-1} ORM (prisma/schema.prisma)."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "SET_NOT_NULL",
+            "table": "domain",
+            "column": "teamid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20240720000000_change_owner_dependecy/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE domain ALTER COLUMN \"teamId\" SET NOT NULL",
+            "extra": {
+              "table_sql": "Domain",
+              "column_sql": "teamId"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "domain",
+            "column": "teamid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "SET_NOT_NULL on 'domain.teamid' which was nullable in C_{t-1} ORM (prisma/schema.prisma)."
+        }
+      ]
+    },
+    {
+      "sha": "b5e0ebde7ffae3d8f92467f5aa8fe8dc3fe9cdeb",
+      "parent": "35de751299ff27a0b952fda70206820afa5a3702",
+      "date": "2024-02-15T18:34:56+11:00",
+      "subject": "feat: add allowlist and denylist to links",
+      "mig_files": [
+        "prisma/migrations/20240215035046_add_allow_deny_list_to_links/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "components/links/link-sheet/allow-list-section.tsx",
+        "components/links/link-sheet/deny-list-section.tsx",
+        "components/links/link-sheet/email-authentication-section.tsx",
+        "components/links/link-sheet/index.tsx",
+        "components/links/links-table.tsx",
+        "lib/utils.ts",
+        "pages/api/links/[id]/index.ts",
+        "pages/api/links/index.ts",
+        "pages/api/views.ts",
+        "prisma/schema.prisma"
+      ],
+      "orm_models_parsed_old": 17,
+      "raw_sql": "/*\n  Warnings:\n\n  - You are about to drop the column `allowedEmails` on the `Link` table. All the data in the column will be lost.\n\n*/\n-- AlterTable\nALTER TABLE \"Link\" DROP COLUMN \"allowedEmails\",\nADD COLUMN     \"allowList\" TEXT[],\nADD COLUMN     \"denyList\" TEXT[];\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "link",
+            "column": "allowedemails",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20240215035046_add_allow_deny_list_to_links/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE link DROP COLUMN \"allowedEmails\"",
+            "extra": {
+              "table_sql": "Link",
+              "column_sql": "allowedEmails"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "link",
+            "column": "allowedemails",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff"
+        }
+      ]
+    }
+  ]
+}

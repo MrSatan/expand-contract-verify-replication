@@ -1,0 +1,1607 @@
+{
+  "repo": "hoppscotch/hoppscotch",
+  "ecosystem": "prisma",
+  "stars": 80852,
+  "has_k8s_helm": false,
+  "status": "ok",
+  "stats": {
+    "total_migration_commits_in_history": 30,
+    "migration_commits_analyzed": 24,
+    "total_migration_files_parsed": 27,
+    "commits_with_any_destructive": 6,
+    "commits_with_forward_destructive": 6,
+    "commits_with_rollback_only_destructive": 0,
+    "total_ops_extracted": 36,
+    "destructive_ops_up": 36,
+    "destructive_ops_down": 0
+  },
+  "verdict_counts": {
+    "SAFE_CONTRACT": 1,
+    "DATA_DEPENDENT": 4,
+    "DUAL_VERSION_VIOLATION_BACKWARD": 30,
+    "DUAL_VERSION_VIOLATION_BOTH": 1
+  },
+  "destructive_commits": [
+    {
+      "sha": "803e4633a27be10d80e752d62bd0dab09ed2924a",
+      "parent": "faf2bfc8ebeed5a0315b8636c39246dc361c6611",
+      "date": "2026-02-23T20:41:55+06:00",
+      "subject": "feat: api documentation versioning (#5676)",
+      "mig_files": [
+        "packages/hoppscotch-backend/prisma/migrations/20251207122817_add_slug_to_published_docs/migration.sql",
+        "packages/hoppscotch-backend/prisma/migrations/20260209063744_published_doc_environment/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "packages/hoppscotch-backend/prisma/schema.prisma",
+        "packages/hoppscotch-backend/src/errors.ts",
+        "packages/hoppscotch-backend/src/published-docs/input-type.args.ts",
+        "packages/hoppscotch-backend/src/published-docs/published-docs.controller.ts",
+        "packages/hoppscotch-backend/src/published-docs/published-docs.dto.ts",
+        "packages/hoppscotch-backend/src/published-docs/published-docs.model.ts",
+        "packages/hoppscotch-backend/src/published-docs/published-docs.resolver.ts",
+        "packages/hoppscotch-backend/src/published-docs/published-docs.service.spec.ts",
+        "packages/hoppscotch-backend/src/published-docs/published-docs.service.ts",
+        "packages/hoppscotch-backend/src/team-collection/team-collection.service.ts",
+        "packages/hoppscotch-backend/src/user-collection/user-collection.service.ts",
+        "packages/hoppscotch-common/src/components.d.ts"
+      ],
+      "orm_models_parsed_old": 23,
+      "raw_sql": "-- Step 1: Add slug column as nullable first\nALTER TABLE \"PublishedDocs\" ADD COLUMN \"slug\" TEXT;\n\n-- Step 2: For backward compatibility, set slug = id for existing records\nUPDATE \"PublishedDocs\" SET \"slug\" = \"id\" WHERE \"slug\" IS NULL;\n\n-- Step 3: Handle duplicates - for multiple published docs with same collection and version\n-- Keep the latest one (most recent), delete all older ones\n-- delete old duplicates are safe, as multiple published docs with same collection and version is not expected behavior till v2025.11.x\nWITH ranked_docs AS (\n  SELECT \n    id,\n    \"collectionID\",\n    version,\n    \"createdOn\",\n    ROW_NUMBER() OVER (PARTITION BY \"collectionID\", version ORDER BY \"createdOn\" DESC) as rn\n  FROM \"PublishedDocs\"\n)\nDELETE FROM \"PublishedDocs\"\nWHERE id IN (\n  SELECT id FROM ranked_docs WHERE rn > 1\n);\n\n-- Step 4: Now make slug NOT NULL\nALTER TABLE \"PublishedDocs\" ALTER COLUMN \"slug\" SET NOT NULL;\n\n-- CreateIndex\nCREATE INDEX \"PublishedDocs_collectionID_idx\" ON \"PublishedDocs\"(\"collectionID\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"PublishedDocs_slug_version_key\" ON \"PublishedDocs\"(\"slug\", \"version\");\n\n-- AlterTable\nALTER TABLE \"PublishedDocs\" ADD COLUMN     \"environmentID\" TEXT,\nADD COLUMN     \"environmentName\" TEXT,\nADD COLUMN     \"environmentVariables\" JSONB;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "SET_NOT_NULL",
+            "table": "publisheddocs",
+            "column": "slug",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/hoppscotch-backend/prisma/migrations/20251207122817_add_slug_to_published_docs/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE publisheddocs ALTER COLUMN \"slug\" SET NOT NULL",
+            "extra": {
+              "table_sql": "PublishedDocs"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "publisheddocs",
+            "column": "slug",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/hoppscotch-backend/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Column 'publisheddocs.slug' not active in C_{t-1} ORM."
+        }
+      ]
+    },
+    {
+      "sha": "a7440d58cda5b9406d5cba73d6213ab426a66d91",
+      "parent": "1df781ec0a7fad421b3f30770cd49da4cca68c96",
+      "date": "2025-08-27T14:03:27+06:00",
+      "subject": "fix: maintain incremental `orderIndex` for collections and requests (#5338)",
+      "mig_files": [
+        "packages/hoppscotch-backend/prisma/migrations/20250818154928_fix_order_index/migration.sql",
+        "packages/hoppscotch-backend/prisma/migrations/20250822044741_order_index_unique_constraint/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "packages/hoppscotch-backend/prisma/schema.prisma",
+        "packages/hoppscotch-backend/src/errors.ts",
+        "packages/hoppscotch-backend/src/infra-config/helper.ts",
+        "packages/hoppscotch-backend/src/infra-config/infra-config.service.ts",
+        "packages/hoppscotch-backend/src/mailer/mailer.service.ts",
+        "packages/hoppscotch-backend/src/main.ts",
+        "packages/hoppscotch-backend/src/prisma/prisma-error-codes.ts",
+        "packages/hoppscotch-backend/src/prisma/prisma.service.ts",
+        "packages/hoppscotch-backend/src/team-collection/input-type.args.ts",
+        "packages/hoppscotch-backend/src/team-collection/team-collection.resolver.ts",
+        "packages/hoppscotch-backend/src/team-collection/team-collection.service.spec.ts",
+        "packages/hoppscotch-backend/src/team-collection/team-collection.service.ts"
+      ],
+      "orm_models_parsed_old": 19,
+      "raw_sql": "-- Recalculate orderIndex for UserCollection per (parentID)\nWITH ordered AS (\n  SELECT\n    id,\n    ROW_NUMBER() OVER (\n      PARTITION BY \"parentID\"\n      ORDER BY \"orderIndex\" ASC, \"createdOn\" ASC, id ASC\n    ) AS new_index\n  FROM \"UserCollection\"\n)\nUPDATE \"UserCollection\" uc\nSET \"orderIndex\" = o.new_index\nFROM ordered o\nWHERE uc.id = o.id;\n\n-- Recalculate orderIndex for UserRequest per (collectionID)\nWITH ordered AS (\n  SELECT\n    id,\n    ROW_NUMBER() OVER (\n      PARTITION BY \"collectionID\"\n      ORDER BY \"orderIndex\" ASC, \"createdOn\" ASC, id ASC\n    ) AS new_index\n  FROM \"UserRequest\"\n)\nUPDATE \"UserRequest\" ur\nSET \"orderIndex\" = o.new_index\nFROM ordered o\nWHERE ur.id = o.id;\n\n-- Recalculate orderIndex for TeamCollection per (teamID, parentID)\nWITH ordered AS (\n  SELECT\n    id,\n    ROW_NUMBER() OVER (\n      PARTITION BY \"teamID\", \"parentID\"\n      ORDER BY \"orderIndex\" ASC, \"createdOn\" ASC, id ASC\n    ) AS new_index\n  FROM \"TeamCollection\"\n)\nUPDATE \"TeamCollection\" tc\nSET \"orderIndex\" = o.new_index\nFROM ordered o\nWHERE tc.id = o.id;\n\n-- Recalculate orderIndex for TeamRequest per (teamID, collectionID)\nWITH ordered AS (\n  SELECT\n    id,\n    ROW_NUMBER() OVER (\n      PARTITION BY \"teamID\", \"collectionID\"\n      ORDER BY \"orderIndex\" ASC, \"createdOn\" ASC, id ASC\n    ) AS new_index\n  FROM \"TeamRequest\"\n)\nUPDATE \"TeamRequest\" tr\nSET \"orderIndex\" = o.new_index\nFROM ordered o\nWHERE tr.id = o.id;\n\n-- Recreate as DEFERRABLE UNIQUE CONSTRAINTS\n\nALTER TABLE \"TeamCollection\"\nADD CONSTRAINT \"TeamCollection_teamID_parentID_orderIndex_key\"\n  UNIQUE (\"teamID\", \"parentID\", \"orderIndex\")\n  DEFERRABLE INITIALLY DEFERRED;\n\nALTER TABLE \"TeamRequest\"\nADD CONSTRAINT \"TeamRequest_teamID_collectionID_orderIndex_key\"\n  UNIQUE (\"teamID\", \"collectionID\", \"orderIndex\")\n  DEFERRABLE INITIALLY DEFERRED;\n\nALTER TABLE \"UserCollection\"\nADD CONSTRAINT \"UserCollection_userUid_parentID_orderIndex_key\"\n  UNIQUE (\"userUid\", \"parentID\", \"orderIndex\")\n  DEFERRABLE INITIALLY DEFERRED;\n\nALTER TABLE \"UserRequest\"\nADD CONSTRAINT \"UserRequest_userUid_collectionID_orderIndex_key\"\n  UNIQUE (\"userUid\", \"collectionID\", \"orderIndex\")\n  DEFERRABLE INITIALLY DEFERRED;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ADD_UNIQUE_OR_CHECK",
+            "table": "teamcollection",
+            "column": "teamid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/hoppscotch-backend/prisma/migrations/20250822044741_order_index_unique_constraint/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE teamcollection ADD CONSTRAINT \"TeamCollection_teamID_parentID_orderIndex_key\" UNIQUE (\"teamID\", \"parentID\", \"orderIndex\") DEFERRABLE INITIALLY DEFERRED",
+            "extra": {
+              "table_sql": "TeamCollection",
+              "column_sql": "teamID"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "teamcollection",
+            "column": "teamid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/hoppscotch-backend/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "DATA_DEPENDENT",
+          "compat_forward": "SAFE",
+          "classification": "DATA_DEPENDENT",
+          "reason": "CHECK/UNIQUE constraint added on active C_{t-1} table 'teamcollection'; safety depends on C_{t-1} write values."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ADD_UNIQUE_OR_CHECK",
+            "table": "teamrequest",
+            "column": "teamid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/hoppscotch-backend/prisma/migrations/20250822044741_order_index_unique_constraint/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE teamrequest ADD CONSTRAINT \"TeamRequest_teamID_collectionID_orderIndex_key\" UNIQUE (\"teamID\", \"collectionID\", \"orderIndex\") DEFERRABLE INITIALLY DEFERRED",
+            "extra": {
+              "table_sql": "TeamRequest",
+              "column_sql": "teamID"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "teamrequest",
+            "column": "teamid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/hoppscotch-backend/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "DATA_DEPENDENT",
+          "compat_forward": "SAFE",
+          "classification": "DATA_DEPENDENT",
+          "reason": "CHECK/UNIQUE constraint added on active C_{t-1} table 'teamrequest'; safety depends on C_{t-1} write values."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ADD_UNIQUE_OR_CHECK",
+            "table": "usercollection",
+            "column": "useruid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/hoppscotch-backend/prisma/migrations/20250822044741_order_index_unique_constraint/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE usercollection ADD CONSTRAINT \"UserCollection_userUid_parentID_orderIndex_key\" UNIQUE (\"userUid\", \"parentID\", \"orderIndex\") DEFERRABLE INITIALLY DEFERRED",
+            "extra": {
+              "table_sql": "UserCollection",
+              "column_sql": "userUid"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "usercollection",
+            "column": "useruid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/hoppscotch-backend/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "DATA_DEPENDENT",
+          "compat_forward": "SAFE",
+          "classification": "DATA_DEPENDENT",
+          "reason": "CHECK/UNIQUE constraint added on active C_{t-1} table 'usercollection'; safety depends on C_{t-1} write values."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ADD_UNIQUE_OR_CHECK",
+            "table": "userrequest",
+            "column": "useruid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/hoppscotch-backend/prisma/migrations/20250822044741_order_index_unique_constraint/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE userrequest ADD CONSTRAINT \"UserRequest_userUid_collectionID_orderIndex_key\" UNIQUE (\"userUid\", \"collectionID\", \"orderIndex\") DEFERRABLE INITIALLY DEFERRED",
+            "extra": {
+              "table_sql": "UserRequest",
+              "column_sql": "userUid"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "userrequest",
+            "column": "useruid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/hoppscotch-backend/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "DATA_DEPENDENT",
+          "compat_forward": "SAFE",
+          "classification": "DATA_DEPENDENT",
+          "reason": "CHECK/UNIQUE constraint added on active C_{t-1} table 'userrequest'; safety depends on C_{t-1} write values."
+        }
+      ]
+    },
+    {
+      "sha": "8f5eed5151e5228b250c951b49d97899edecfe81",
+      "parent": "28ce90234f9f3fe7cf0e6c06433561dd6c7b1639",
+      "date": "2025-07-28T21:32:14+06:00",
+      "subject": "chore: migrate to `@db.Timestamptz(3)` and remove `luxon` dependency (#5283)",
+      "mig_files": [
+        "packages/hoppscotch-backend/prisma/migrations/20250725154928_timestamp_with_timezone/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "packages/hoppscotch-backend/prisma/schema.prisma",
+        "packages/hoppscotch-backend/src/auth/auth.service.ts",
+        "packages/hoppscotch-backend/src/auth/helper.ts",
+        "packages/hoppscotch-backend/src/auth/strategies/microsoft.strategy.ts",
+        "packages/hoppscotch-backend/src/guards/infra-token.guard.ts",
+        "packages/hoppscotch-backend/src/guards/rest-pat-auth.guard.ts",
+        "packages/hoppscotch-backend/src/utils.ts"
+      ],
+      "orm_models_parsed_old": 19,
+      "raw_sql": "-- AlterTable\nALTER TABLE \"Account\" ALTER COLUMN \"loggedIn\" SET DATA TYPE TIMESTAMPTZ(3) USING \"loggedIn\" AT TIME ZONE 'UTC';\n\n-- AlterTable\nALTER TABLE \"InfraConfig\" ALTER COLUMN \"createdOn\" SET DATA TYPE TIMESTAMPTZ(3) USING \"createdOn\" AT TIME ZONE 'UTC',\nALTER COLUMN \"updatedOn\" SET DATA TYPE TIMESTAMPTZ(3) USING \"updatedOn\" AT TIME ZONE 'UTC';\n\n-- AlterTable\nALTER TABLE \"InfraToken\" ALTER COLUMN \"expiresOn\" SET DATA TYPE TIMESTAMPTZ(3) USING \"expiresOn\" AT TIME ZONE 'UTC',\nALTER COLUMN \"createdOn\" SET DATA TYPE TIMESTAMPTZ(3) USING \"createdOn\" AT TIME ZONE 'UTC',\nALTER COLUMN \"updatedOn\" SET DATA TYPE TIMESTAMPTZ(3) USING \"updatedOn\" AT TIME ZONE 'UTC';\n\n-- AlterTable\nALTER TABLE \"InvitedUsers\" ALTER COLUMN \"invitedOn\" SET DATA TYPE TIMESTAMPTZ(3) USING \"invitedOn\" AT TIME ZONE 'UTC';\n\n-- AlterTable\nALTER TABLE \"PersonalAccessToken\" ALTER COLUMN \"expiresOn\" SET DATA TYPE TIMESTAMPTZ(3) USING \"expiresOn\" AT TIME ZONE 'UTC',\nALTER COLUMN \"createdOn\" SET DATA TYPE TIMESTAMPTZ(3) USING \"createdOn\" AT TIME ZONE 'UTC',\nALTER COLUMN \"updatedOn\" SET DATA TYPE TIMESTAMPTZ(3) USING \"updatedOn\" AT TIME ZONE 'UTC';\n\n-- AlterTable\nALTER TABLE \"Shortcode\" ALTER COLUMN \"createdOn\" SET DATA TYPE TIMESTAMPTZ(3) USING \"createdOn\" AT TIME ZONE 'UTC',\nALTER COLUMN \"updatedOn\" SET DATA TYPE TIMESTAMPTZ(3) USING \"updatedOn\" AT TIME ZONE 'UTC';\n\n-- AlterTable\nALTER TABLE \"TeamCollection\" ALTER COLUMN \"createdOn\" SET DATA TYPE TIMESTAMPTZ(3) USING \"createdOn\" AT TIME ZONE 'UTC',\nALTER COLUMN \"updatedOn\" SET DATA TYPE TIMESTAMPTZ(3) USING \"updatedOn\" AT TIME ZONE 'UTC';\n\n-- AlterTable\nALTER TABLE \"TeamRequest\" ALTER COLUMN \"createdOn\" SET DATA TYPE TIMESTAMPTZ(3) USING \"createdOn\" AT TIME ZONE 'UTC',\nALTER COLUMN \"updatedOn\" SET DATA TYPE TIMESTAMPTZ(3) USING \"updatedOn\" AT TIME ZONE 'UTC';\n\n-- AlterTable\nALTER TABLE \"User\" ALTER COLUMN \"createdOn\" SET DATA TYPE TIMESTAMPTZ(3) USING \"createdOn\" AT TIME ZONE 'UTC',\nALTER COLUMN \"lastLoggedOn\" SET DATA TYPE TIMESTAMPTZ(3) USING \"lastLoggedOn\" AT TIME ZONE 'UTC',\nALTER COLUMN \"lastActiveOn\" SET DATA TYPE TIMESTAMPTZ(3) USING \"lastActiveOn\" AT TIME ZONE 'UTC';\n\n-- AlterTable\nALTER TABLE \"UserCollection\" ALTER COLUMN \"createdOn\" SET DATA TYPE TIMESTAMPTZ(3) USING \"createdOn\" AT TIME ZONE 'UTC',\nALTER COLUMN \"updatedOn\" SET DATA TYPE TIMESTAMPTZ(3) USING \"updatedOn\" AT TIME ZONE 'UTC';\n\n-- AlterTable\nALTER TABLE \"UserHistory\" ALTER COLUMN \"executedOn\" SET DATA TYPE TIMESTAMPTZ(3) USING \"executedOn\" AT TIME ZONE 'UTC';\n\n-- AlterTable\nALTER TABLE \"UserRequest\" ALTER COLUMN \"createdOn\" SET DATA TYPE TIMESTAMPTZ(3) USING \"createdOn\" AT TIME ZONE 'UTC',\nALTER COLUMN \"updatedOn\" SET DATA TYPE TIMESTAMPTZ(3) USING \"updatedOn\" AT TIME ZONE 'UTC';\n\n-- AlterTable\nALTER TABLE \"UserSettings\" ALTER COLUMN \"updatedOn\" SET DATA TYPE TIMESTAMPTZ(3) USING \"updatedOn\" AT TIME ZONE 'UTC';\n\n-- AlterTable\nALTER TABLE \"VerificationToken\" ALTER COLUMN \"expiresOn\" SET DATA TYPE TIMESTAMPTZ(3) USING \"expiresOn\" AT TIME ZONE 'UTC';\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "account",
+            "column": "loggedin",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TIMESTAMPTZ(3)",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/hoppscotch-backend/prisma/migrations/20250725154928_timestamp_with_timezone/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE account ALTER COLUMN \"loggedIn\" SET DATA TYPE TIMESTAMPTZ(3) USING \"loggedIn\" AT TIME ZONE 'UTC'",
+            "extra": {
+              "table_sql": "Account",
+              "column_sql": "loggedIn"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "account",
+            "column": "loggedin",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/hoppscotch-backend/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'account.loggedin' (DateTime -> TIMESTAMPTZ(3))."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "infraconfig",
+            "column": "createdon",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TIMESTAMPTZ(3)",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/hoppscotch-backend/prisma/migrations/20250725154928_timestamp_with_timezone/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE infraconfig ALTER COLUMN \"createdOn\" SET DATA TYPE TIMESTAMPTZ(3) USING \"createdOn\" AT TIME ZONE 'UTC'",
+            "extra": {
+              "table_sql": "InfraConfig",
+              "column_sql": "createdOn"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "infraconfig",
+            "column": "createdon",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/hoppscotch-backend/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'infraconfig.createdon' (DateTime -> TIMESTAMPTZ(3))."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "infraconfig",
+            "column": "updatedon",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TIMESTAMPTZ(3)",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/hoppscotch-backend/prisma/migrations/20250725154928_timestamp_with_timezone/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE infraconfig ALTER COLUMN \"updatedOn\" SET DATA TYPE TIMESTAMPTZ(3) USING \"updatedOn\" AT TIME ZONE 'UTC'",
+            "extra": {
+              "table_sql": "InfraConfig",
+              "column_sql": "updatedOn"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "infraconfig",
+            "column": "updatedon",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/hoppscotch-backend/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'infraconfig.updatedon' (DateTime -> TIMESTAMPTZ(3))."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "infratoken",
+            "column": "expireson",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TIMESTAMPTZ(3)",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/hoppscotch-backend/prisma/migrations/20250725154928_timestamp_with_timezone/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE infratoken ALTER COLUMN \"expiresOn\" SET DATA TYPE TIMESTAMPTZ(3) USING \"expiresOn\" AT TIME ZONE 'UTC'",
+            "extra": {
+              "table_sql": "InfraToken",
+              "column_sql": "expiresOn"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "infratoken",
+            "column": "expireson",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/hoppscotch-backend/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'infratoken.expireson' (DateTime -> TIMESTAMPTZ(3))."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "infratoken",
+            "column": "createdon",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TIMESTAMPTZ(3)",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/hoppscotch-backend/prisma/migrations/20250725154928_timestamp_with_timezone/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE infratoken ALTER COLUMN \"createdOn\" SET DATA TYPE TIMESTAMPTZ(3) USING \"createdOn\" AT TIME ZONE 'UTC'",
+            "extra": {
+              "table_sql": "InfraToken",
+              "column_sql": "createdOn"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "infratoken",
+            "column": "createdon",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/hoppscotch-backend/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'infratoken.createdon' (DateTime -> TIMESTAMPTZ(3))."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "infratoken",
+            "column": "updatedon",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TIMESTAMPTZ(3)",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/hoppscotch-backend/prisma/migrations/20250725154928_timestamp_with_timezone/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE infratoken ALTER COLUMN \"updatedOn\" SET DATA TYPE TIMESTAMPTZ(3) USING \"updatedOn\" AT TIME ZONE 'UTC'",
+            "extra": {
+              "table_sql": "InfraToken",
+              "column_sql": "updatedOn"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "infratoken",
+            "column": "updatedon",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/hoppscotch-backend/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'infratoken.updatedon' (DateTime -> TIMESTAMPTZ(3))."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "invitedusers",
+            "column": "invitedon",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TIMESTAMPTZ(3)",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/hoppscotch-backend/prisma/migrations/20250725154928_timestamp_with_timezone/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE invitedusers ALTER COLUMN \"invitedOn\" SET DATA TYPE TIMESTAMPTZ(3) USING \"invitedOn\" AT TIME ZONE 'UTC'",
+            "extra": {
+              "table_sql": "InvitedUsers",
+              "column_sql": "invitedOn"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "invitedusers",
+            "column": "invitedon",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/hoppscotch-backend/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'invitedusers.invitedon' (DateTime -> TIMESTAMPTZ(3))."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "personalaccesstoken",
+            "column": "expireson",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TIMESTAMPTZ(3)",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/hoppscotch-backend/prisma/migrations/20250725154928_timestamp_with_timezone/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE personalaccesstoken ALTER COLUMN \"expiresOn\" SET DATA TYPE TIMESTAMPTZ(3) USING \"expiresOn\" AT TIME ZONE 'UTC'",
+            "extra": {
+              "table_sql": "PersonalAccessToken",
+              "column_sql": "expiresOn"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "personalaccesstoken",
+            "column": "expireson",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/hoppscotch-backend/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'personalaccesstoken.expireson' (DateTime -> TIMESTAMPTZ(3))."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "personalaccesstoken",
+            "column": "createdon",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TIMESTAMPTZ(3)",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/hoppscotch-backend/prisma/migrations/20250725154928_timestamp_with_timezone/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE personalaccesstoken ALTER COLUMN \"createdOn\" SET DATA TYPE TIMESTAMPTZ(3) USING \"createdOn\" AT TIME ZONE 'UTC'",
+            "extra": {
+              "table_sql": "PersonalAccessToken",
+              "column_sql": "createdOn"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "personalaccesstoken",
+            "column": "createdon",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/hoppscotch-backend/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'personalaccesstoken.createdon' (DateTime -> TIMESTAMPTZ(3))."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "personalaccesstoken",
+            "column": "updatedon",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TIMESTAMPTZ(3)",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/hoppscotch-backend/prisma/migrations/20250725154928_timestamp_with_timezone/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE personalaccesstoken ALTER COLUMN \"updatedOn\" SET DATA TYPE TIMESTAMPTZ(3) USING \"updatedOn\" AT TIME ZONE 'UTC'",
+            "extra": {
+              "table_sql": "PersonalAccessToken",
+              "column_sql": "updatedOn"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "personalaccesstoken",
+            "column": "updatedon",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/hoppscotch-backend/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'personalaccesstoken.updatedon' (DateTime -> TIMESTAMPTZ(3))."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "shortcode",
+            "column": "createdon",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TIMESTAMPTZ(3)",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/hoppscotch-backend/prisma/migrations/20250725154928_timestamp_with_timezone/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE shortcode ALTER COLUMN \"createdOn\" SET DATA TYPE TIMESTAMPTZ(3) USING \"createdOn\" AT TIME ZONE 'UTC'",
+            "extra": {
+              "table_sql": "Shortcode",
+              "column_sql": "createdOn"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "shortcode",
+            "column": "createdon",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/hoppscotch-backend/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'shortcode.createdon' (DateTime -> TIMESTAMPTZ(3))."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "shortcode",
+            "column": "updatedon",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TIMESTAMPTZ(3)",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/hoppscotch-backend/prisma/migrations/20250725154928_timestamp_with_timezone/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE shortcode ALTER COLUMN \"updatedOn\" SET DATA TYPE TIMESTAMPTZ(3) USING \"updatedOn\" AT TIME ZONE 'UTC'",
+            "extra": {
+              "table_sql": "Shortcode",
+              "column_sql": "updatedOn"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "shortcode",
+            "column": "updatedon",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/hoppscotch-backend/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'shortcode.updatedon' (DateTime -> TIMESTAMPTZ(3))."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "teamcollection",
+            "column": "createdon",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TIMESTAMPTZ(3)",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/hoppscotch-backend/prisma/migrations/20250725154928_timestamp_with_timezone/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE teamcollection ALTER COLUMN \"createdOn\" SET DATA TYPE TIMESTAMPTZ(3) USING \"createdOn\" AT TIME ZONE 'UTC'",
+            "extra": {
+              "table_sql": "TeamCollection",
+              "column_sql": "createdOn"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "teamcollection",
+            "column": "createdon",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/hoppscotch-backend/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'teamcollection.createdon' (DateTime -> TIMESTAMPTZ(3))."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "teamcollection",
+            "column": "updatedon",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TIMESTAMPTZ(3)",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/hoppscotch-backend/prisma/migrations/20250725154928_timestamp_with_timezone/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE teamcollection ALTER COLUMN \"updatedOn\" SET DATA TYPE TIMESTAMPTZ(3) USING \"updatedOn\" AT TIME ZONE 'UTC'",
+            "extra": {
+              "table_sql": "TeamCollection",
+              "column_sql": "updatedOn"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "teamcollection",
+            "column": "updatedon",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/hoppscotch-backend/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'teamcollection.updatedon' (DateTime -> TIMESTAMPTZ(3))."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "teamrequest",
+            "column": "createdon",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TIMESTAMPTZ(3)",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/hoppscotch-backend/prisma/migrations/20250725154928_timestamp_with_timezone/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE teamrequest ALTER COLUMN \"createdOn\" SET DATA TYPE TIMESTAMPTZ(3) USING \"createdOn\" AT TIME ZONE 'UTC'",
+            "extra": {
+              "table_sql": "TeamRequest",
+              "column_sql": "createdOn"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "teamrequest",
+            "column": "createdon",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/hoppscotch-backend/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'teamrequest.createdon' (DateTime -> TIMESTAMPTZ(3))."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "teamrequest",
+            "column": "updatedon",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TIMESTAMPTZ(3)",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/hoppscotch-backend/prisma/migrations/20250725154928_timestamp_with_timezone/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE teamrequest ALTER COLUMN \"updatedOn\" SET DATA TYPE TIMESTAMPTZ(3) USING \"updatedOn\" AT TIME ZONE 'UTC'",
+            "extra": {
+              "table_sql": "TeamRequest",
+              "column_sql": "updatedOn"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "teamrequest",
+            "column": "updatedon",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/hoppscotch-backend/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'teamrequest.updatedon' (DateTime -> TIMESTAMPTZ(3))."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "user",
+            "column": "createdon",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TIMESTAMPTZ(3)",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/hoppscotch-backend/prisma/migrations/20250725154928_timestamp_with_timezone/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE user ALTER COLUMN \"createdOn\" SET DATA TYPE TIMESTAMPTZ(3) USING \"createdOn\" AT TIME ZONE 'UTC'",
+            "extra": {
+              "table_sql": "User",
+              "column_sql": "createdOn"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "user",
+            "column": "createdon",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/hoppscotch-backend/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'user.createdon' (DateTime -> TIMESTAMPTZ(3))."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "user",
+            "column": "lastloggedon",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TIMESTAMPTZ(3)",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/hoppscotch-backend/prisma/migrations/20250725154928_timestamp_with_timezone/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE user ALTER COLUMN \"lastLoggedOn\" SET DATA TYPE TIMESTAMPTZ(3) USING \"lastLoggedOn\" AT TIME ZONE 'UTC'",
+            "extra": {
+              "table_sql": "User",
+              "column_sql": "lastLoggedOn"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "user",
+            "column": "lastloggedon",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/hoppscotch-backend/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'user.lastloggedon' (DateTime -> TIMESTAMPTZ(3))."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "user",
+            "column": "lastactiveon",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TIMESTAMPTZ(3)",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/hoppscotch-backend/prisma/migrations/20250725154928_timestamp_with_timezone/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE user ALTER COLUMN \"lastActiveOn\" SET DATA TYPE TIMESTAMPTZ(3) USING \"lastActiveOn\" AT TIME ZONE 'UTC'",
+            "extra": {
+              "table_sql": "User",
+              "column_sql": "lastActiveOn"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "user",
+            "column": "lastactiveon",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/hoppscotch-backend/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'user.lastactiveon' (DateTime -> TIMESTAMPTZ(3))."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "usercollection",
+            "column": "createdon",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TIMESTAMPTZ(3)",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/hoppscotch-backend/prisma/migrations/20250725154928_timestamp_with_timezone/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE usercollection ALTER COLUMN \"createdOn\" SET DATA TYPE TIMESTAMPTZ(3) USING \"createdOn\" AT TIME ZONE 'UTC'",
+            "extra": {
+              "table_sql": "UserCollection",
+              "column_sql": "createdOn"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "usercollection",
+            "column": "createdon",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/hoppscotch-backend/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'usercollection.createdon' (DateTime -> TIMESTAMPTZ(3))."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "usercollection",
+            "column": "updatedon",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TIMESTAMPTZ(3)",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/hoppscotch-backend/prisma/migrations/20250725154928_timestamp_with_timezone/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE usercollection ALTER COLUMN \"updatedOn\" SET DATA TYPE TIMESTAMPTZ(3) USING \"updatedOn\" AT TIME ZONE 'UTC'",
+            "extra": {
+              "table_sql": "UserCollection",
+              "column_sql": "updatedOn"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "usercollection",
+            "column": "updatedon",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/hoppscotch-backend/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'usercollection.updatedon' (DateTime -> TIMESTAMPTZ(3))."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "userhistory",
+            "column": "executedon",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TIMESTAMPTZ(3)",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/hoppscotch-backend/prisma/migrations/20250725154928_timestamp_with_timezone/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE userhistory ALTER COLUMN \"executedOn\" SET DATA TYPE TIMESTAMPTZ(3) USING \"executedOn\" AT TIME ZONE 'UTC'",
+            "extra": {
+              "table_sql": "UserHistory",
+              "column_sql": "executedOn"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "userhistory",
+            "column": "executedon",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/hoppscotch-backend/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'userhistory.executedon' (DateTime -> TIMESTAMPTZ(3))."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "userrequest",
+            "column": "createdon",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TIMESTAMPTZ(3)",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/hoppscotch-backend/prisma/migrations/20250725154928_timestamp_with_timezone/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE userrequest ALTER COLUMN \"createdOn\" SET DATA TYPE TIMESTAMPTZ(3) USING \"createdOn\" AT TIME ZONE 'UTC'",
+            "extra": {
+              "table_sql": "UserRequest",
+              "column_sql": "createdOn"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "userrequest",
+            "column": "createdon",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/hoppscotch-backend/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'userrequest.createdon' (DateTime -> TIMESTAMPTZ(3))."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "userrequest",
+            "column": "updatedon",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TIMESTAMPTZ(3)",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/hoppscotch-backend/prisma/migrations/20250725154928_timestamp_with_timezone/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE userrequest ALTER COLUMN \"updatedOn\" SET DATA TYPE TIMESTAMPTZ(3) USING \"updatedOn\" AT TIME ZONE 'UTC'",
+            "extra": {
+              "table_sql": "UserRequest",
+              "column_sql": "updatedOn"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "userrequest",
+            "column": "updatedon",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/hoppscotch-backend/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'userrequest.updatedon' (DateTime -> TIMESTAMPTZ(3))."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "usersettings",
+            "column": "updatedon",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TIMESTAMPTZ(3)",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/hoppscotch-backend/prisma/migrations/20250725154928_timestamp_with_timezone/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE usersettings ALTER COLUMN \"updatedOn\" SET DATA TYPE TIMESTAMPTZ(3) USING \"updatedOn\" AT TIME ZONE 'UTC'",
+            "extra": {
+              "table_sql": "UserSettings",
+              "column_sql": "updatedOn"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "usersettings",
+            "column": "updatedon",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/hoppscotch-backend/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'usersettings.updatedon' (DateTime -> TIMESTAMPTZ(3))."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "verificationtoken",
+            "column": "expireson",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TIMESTAMPTZ(3)",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/hoppscotch-backend/prisma/migrations/20250725154928_timestamp_with_timezone/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE verificationtoken ALTER COLUMN \"expiresOn\" SET DATA TYPE TIMESTAMPTZ(3) USING \"expiresOn\" AT TIME ZONE 'UTC'",
+            "extra": {
+              "table_sql": "VerificationToken",
+              "column_sql": "expiresOn"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "verificationtoken",
+            "column": "expireson",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/hoppscotch-backend/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'verificationtoken.expireson' (DateTime -> TIMESTAMPTZ(3))."
+        }
+      ]
+    },
+    {
+      "sha": "f26d32c4e401cfb95e944bbddc9933fe0dc06707",
+      "parent": "609aaa4070ac48c384ba5104257e91abae08e75d",
+      "date": "2025-05-07T17:56:10+05:30",
+      "subject": "refactor: rename enum `TeamMemberRole` to `TeamAccessRole` (#5053)",
+      "mig_files": [
+        "packages/hoppscotch-backend/prisma/migrations/20250306054346_team_access_role_enum/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "packages/hoppscotch-backend/prisma/schema.prisma",
+        "packages/hoppscotch-backend/src/admin/admin.service.ts",
+        "packages/hoppscotch-backend/src/admin/input-types.args.ts",
+        "packages/hoppscotch-backend/src/infra-token/request-response.dto.ts",
+        "packages/hoppscotch-backend/src/team-collection/guards/gql-collection-team-member.guard.ts",
+        "packages/hoppscotch-backend/src/team-collection/team-collection.controller.ts",
+        "packages/hoppscotch-backend/src/team-collection/team-collection.resolver.ts",
+        "packages/hoppscotch-backend/src/team-collection/team-collection.service.spec.ts",
+        "packages/hoppscotch-backend/src/team-environments/gql-team-env-team.guard.ts",
+        "packages/hoppscotch-backend/src/team-environments/team-environments.resolver.ts",
+        "packages/hoppscotch-backend/src/team-environments/team-environments.service.spec.ts",
+        "packages/hoppscotch-backend/src/team-invitation/input-type.args.ts"
+      ],
+      "orm_models_parsed_old": 19,
+      "raw_sql": "-- Alter the enum type \"TeamMemberRole\" to \"TeamAccessRole\"\nALTER TYPE \"TeamMemberRole\" RENAME TO \"TeamAccessRole\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "teammemberrole",
+            "column": "teammemberrole",
+            "new_name": "teamaccessrole",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/hoppscotch-backend/prisma/migrations/20250306054346_team_access_role_enum/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* Alter the enum type \"TeamMemberRole\" to \"TeamAccessRole\" */ ALTER TYPE \"TeamMemberRole\" RENAME TO \"TeamAccessRole\"",
+            "extra": {
+              "table_sql": "TeamMemberRole",
+              "column_sql": "TeamMemberRole",
+              "new_name_sql": "TeamAccessRole"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "teammemberrole",
+            "column": "teammemberrole",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'teammemberrole' affects active C_{t-1} enum definition/code."
+        }
+      ]
+    },
+    {
+      "sha": "5dccce39b4d110f1d7a1aef1d3e6b76091867382",
+      "parent": "80d7dd046d75116093b7d3b2fc4991ad9d72afba",
+      "date": "2024-11-26T20:22:51+06:00",
+      "subject": "feat: env file sync with infra config (#4545)",
+      "mig_files": [
+        "packages/hoppscotch-backend/prisma/migrations/20241118054346_infra_config_sync_with_env_file/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "packages/hoppscotch-backend/prisma/schema.prisma",
+        "packages/hoppscotch-backend/src/auth/auth.module.ts",
+        "packages/hoppscotch-backend/src/errors.ts",
+        "packages/hoppscotch-backend/src/infra-config/helper.ts",
+        "packages/hoppscotch-backend/src/infra-config/infra-config.service.spec.ts",
+        "packages/hoppscotch-backend/src/infra-config/infra-config.service.ts",
+        "packages/hoppscotch-backend/src/shortcode/shortcode.service.spec.ts"
+      ],
+      "orm_models_parsed_old": 19,
+      "raw_sql": "-- AlterTable\nALTER TABLE \"InfraConfig\" DROP COLUMN \"active\",\nADD COLUMN     \"lastSyncedEnvFileValue\" TEXT;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "infraconfig",
+            "column": "active",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/hoppscotch-backend/prisma/migrations/20241118054346_infra_config_sync_with_env_file/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE infraconfig DROP COLUMN \"active\"",
+            "extra": {
+              "table_sql": "InfraConfig"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "infraconfig",
+            "column": "active",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/hoppscotch-backend/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'active' active in C_{t-1} ORM (packages/hoppscotch-backend/prisma/schema.prisma); identifier removed in same commit diff"
+        }
+      ]
+    },
+    {
+      "sha": "364381f017fd6ad3c8c6f3f8848a4b5c44f3b539",
+      "parent": "9433aa503b8602142a84757edb2787776453a705",
+      "date": "2023-01-19T05:13:21+05:30",
+      "subject": "chore: changed the schema of database to only store timestamp without timezone info",
+      "mig_files": [
+        "packages/hoppscotch-backend/prisma/migrations/20230118233921_timestamp_fix/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "packages/hoppscotch-backend/prisma/schema.prisma",
+        "packages/hoppscotch-backend/src/user/user.resolver.ts"
+      ],
+      "orm_models_parsed_old": 10,
+      "raw_sql": "-- AlterTable\nALTER TABLE \"Account\" ALTER COLUMN \"loggedIn\" SET DATA TYPE TIMESTAMP(3);\n\n-- AlterTable\nALTER TABLE \"PasswordlessVerification\" ALTER COLUMN \"expiresOn\" SET DATA TYPE TIMESTAMP(3);\n\n-- AlterTable\nALTER TABLE \"User\" ALTER COLUMN \"createdOn\" SET DATA TYPE TIMESTAMP(3);\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "account",
+            "column": "loggedin",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TIMESTAMP(3)",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/hoppscotch-backend/prisma/migrations/20230118233921_timestamp_fix/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE account ALTER COLUMN \"loggedIn\" SET DATA TYPE TIMESTAMP(3)",
+            "extra": {
+              "table_sql": "Account",
+              "column_sql": "loggedIn"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "account",
+            "column": "loggedin",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/hoppscotch-backend/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'account.loggedin' (DateTime -> TIMESTAMP(3))."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "passwordlessverification",
+            "column": "expireson",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TIMESTAMP(3)",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/hoppscotch-backend/prisma/migrations/20230118233921_timestamp_fix/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE passwordlessverification ALTER COLUMN \"expiresOn\" SET DATA TYPE TIMESTAMP(3)",
+            "extra": {
+              "table_sql": "PasswordlessVerification",
+              "column_sql": "expiresOn"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "passwordlessverification",
+            "column": "expireson",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/hoppscotch-backend/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'passwordlessverification.expireson' (DateTime -> TIMESTAMP(3))."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "user",
+            "column": "createdon",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TIMESTAMP(3)",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/hoppscotch-backend/prisma/migrations/20230118233921_timestamp_fix/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE user ALTER COLUMN \"createdOn\" SET DATA TYPE TIMESTAMP(3)",
+            "extra": {
+              "table_sql": "User",
+              "column_sql": "createdOn"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "user",
+            "column": "createdon",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/hoppscotch-backend/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'user.createdon' (DateTime -> TIMESTAMP(3))."
+        }
+      ]
+    }
+  ]
+}

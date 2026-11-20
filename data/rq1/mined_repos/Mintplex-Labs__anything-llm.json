@@ -1,0 +1,87 @@
+{
+  "repo": "Mintplex-Labs/anything-llm",
+  "ecosystem": "prisma",
+  "stars": 68438,
+  "has_k8s_helm": true,
+  "status": "ok",
+  "stats": {
+    "total_migration_commits_in_history": 40,
+    "migration_commits_analyzed": 40,
+    "total_migration_files_parsed": 40,
+    "commits_with_any_destructive": 1,
+    "commits_with_forward_destructive": 1,
+    "commits_with_rollback_only_destructive": 0,
+    "total_ops_extracted": 1,
+    "destructive_ops_up": 1,
+    "destructive_ops_down": 0
+  },
+  "verdict_counts": {
+    "DUAL_VERSION_VIOLATION_BACKWARD": 1
+  },
+  "destructive_commits": [
+    {
+      "sha": "6b2ed8ec124e31097107a7887e6ee828491a77b4",
+      "parent": "6a492f038da195a5c9a239d5ca2e9f2151c25f8c",
+      "date": "2026-03-13T12:55:59-07:00",
+      "subject": "Remove `WelcomeMessages` from app - no longer used (#5206)",
+      "mig_files": [
+        "server/prisma/migrations/20260313192859_init/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "frontend/src/components/EditingChatBubble/index.jsx",
+        "frontend/src/locales/ar/common.js",
+        "frontend/src/locales/cs/common.js",
+        "frontend/src/locales/da/common.js",
+        "frontend/src/locales/de/common.js",
+        "frontend/src/locales/en/common.js",
+        "frontend/src/locales/es/common.js",
+        "frontend/src/locales/et/common.js",
+        "frontend/src/locales/fa/common.js",
+        "frontend/src/locales/fr/common.js",
+        "frontend/src/locales/he/common.js",
+        "frontend/src/locales/it/common.js"
+      ],
+      "orm_models_parsed_old": 28,
+      "raw_sql": "/*\n  Warnings:\n\n  - You are about to drop the `welcome_messages` table. If the table is not empty, all the data it contains will be lost.\n\n*/\n-- DropTable\nPRAGMA foreign_keys=off;\nDROP TABLE \"welcome_messages\";\nPRAGMA foreign_keys=on;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "welcome_messages",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "server/prisma/migrations/20260313192859_init/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TABLE \"welcome_messages\"",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "welcome_messages",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "server/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'welcome_messages' active in C_{t-1}."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1490 @@
+{
+  "repo": "baserow/baserow",
+  "ecosystem": "django",
+  "stars": 6369,
+  "has_k8s_helm": true,
+  "status": "ok",
+  "stats": {
+    "total_migration_commits_in_history": 626,
+    "migration_commits_analyzed": 150,
+    "total_migration_files_parsed": 189,
+    "commits_with_any_destructive": 8,
+    "commits_with_forward_destructive": 7,
+    "commits_with_rollback_only_destructive": 1,
+    "total_ops_extracted": 71,
+    "destructive_ops_up": 20,
+    "destructive_ops_down": 2
+  },
+  "verdict_counts": {
+    "SAFE_ADDITIVE": 3,
+    "DUAL_VERSION_VIOLATION_BACKWARD": 23,
+    "ROLLBACK_ONLY_FALSE_ALARM": 2,
+    "SAFE_CONTRACT": 1
+  },
+  "destructive_commits": [
+    {
+      "sha": "216d724aa3e9b770a67860a8b551f26b83512d38",
+      "parent": "0cec516790a71842487c9a1b2af3344f677dad79",
+      "date": "2026-11-18T19:22:53+04:00",
+      "subject": "Add dashboard text filter widgets (#6572)",
+      "mig_files": [
+        "backend/src/baserow/contrib/dashboard/migrations/0007_textfilterwidget.py"
+      ],
+      "app_files_touched_in_commit": [
+        "backend/src/baserow/contrib/builder/formula_property_extractor.py",
+        "backend/src/baserow/contrib/dashboard/api/data_sources/serializers.py",
+        "backend/src/baserow/contrib/dashboard/api/data_sources/views.py",
+        "backend/src/baserow/contrib/dashboard/api/public/serializers.py",
+        "backend/src/baserow/contrib/dashboard/api/public/views.py",
+        "backend/src/baserow/contrib/dashboard/api/widgets/serializers.py",
+        "backend/src/baserow/contrib/dashboard/api/widgets/views.py",
+        "backend/src/baserow/contrib/dashboard/application_types.py",
+        "backend/src/baserow/contrib/dashboard/apps.py",
+        "backend/src/baserow/contrib/dashboard/data_providers.py",
+        "backend/src/baserow/contrib/dashboard/data_sources/actions.py",
+        "backend/src/baserow/contrib/dashboard/data_sources/dispatch_context.py"
+      ],
+      "orm_models_parsed_old": 10,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "dashboard_widgetfiltergroup",
+            "column": "target",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "backend/src/baserow/contrib/dashboard/migrations/0007_textfilterwidget.py",
+            "line": 176,
+            "raw_snippet": "migrations.AddField( model_name=\"widgetfiltergroup\", name=\"target\", field=models.ForeignKey( on_delete=django.db.models.deletion.CASCADE, related_name=\"groups\", to=\"dashboard.widge",
+            "extra": {
+              "model_name": "widgetfiltergroup",
+              "app_label": "dashboard",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "dashboard_widgetfiltergroup",
+            "column": "target",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'dashboard_widgetfiltergroup' was created in the same commit; C_{t-1} does not write to it."
+        }
+      ]
+    },
+    {
+      "sha": "8977543422bbdcdf6dbdcb530b84d68816aafd29",
+      "parent": "21daad9e63da4ad8bfbe2a76ebd8dbcdd1f52929",
+      "date": "2026-11-13T17:26:51+01:00",
+      "subject": "feat(integrations): encrypt the keys and tokens of MCP servers (#6667)",
+      "mig_files": [
+        "backend/src/baserow/contrib/integrations/migrations/0043_mcp_server_encrypted_secrets.py"
+      ],
+      "app_files_touched_in_commit": [
+        "backend/src/baserow/config/settings/base.py",
+        "backend/src/baserow/contrib/integrations/mcp/exceptions.py",
+        "backend/src/baserow/contrib/integrations/mcp/handler.py",
+        "backend/src/baserow/contrib/integrations/mcp/models.py",
+        "backend/src/baserow/core/apps.py",
+        "backend/src/baserow/core/encryption.py",
+        "backend/src/baserow/core/fields.py",
+        "backend/src/baserow/core/management/commands/reencrypt_secrets.py"
+      ],
+      "orm_models_parsed_old": 66,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "integrations_mcpserverintegration",
+            "column": "auth_header_value",
+            "new_name": null,
+            "old_type": "TextField",
+            "new_type": "EncryptedTextField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "backend/src/baserow/contrib/integrations/migrations/0043_mcp_server_encrypted_secrets.py",
+            "line": 14,
+            "raw_snippet": "migrations.AlterField( model_name='mcpserverintegration', name='auth_header_value', field=baserow.core.fields.EncryptedTextField(context='integrations.mcpserverintegration.auth_hea",
+            "extra": {
+              "model_name": "mcpserverintegration",
+              "app_label": "integrations",
+              "field_info": {
+                "field_type": "EncryptedTextField",
+                "null": false,
+                "has_default": true,
+                "has_db_default": true
+              }
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "integrations_mcpserverintegration",
+            "column": "auth_header_value",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "backend/src/baserow/contrib/integrations/mcp/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'integrations_mcpserverintegration.auth_header_value' (TextField -> EncryptedTextField)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "integrations_mcpserverintegration",
+            "column": "oauth_access_token",
+            "new_name": null,
+            "old_type": "TextField",
+            "new_type": "EncryptedTextField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "backend/src/baserow/contrib/integrations/migrations/0043_mcp_server_encrypted_secrets.py",
+            "line": 19,
+            "raw_snippet": "migrations.AlterField( model_name='mcpserverintegration', name='oauth_access_token', field=baserow.core.fields.EncryptedTextField(context='integrations.mcpserverintegration.oauth_a",
+            "extra": {
+              "model_name": "mcpserverintegration",
+              "app_label": "integrations",
+              "field_info": {
+                "field_type": "EncryptedTextField",
+                "null": false,
+                "has_default": true,
+                "has_db_default": true
+              }
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "integrations_mcpserverintegration",
+            "column": "oauth_access_token",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "backend/src/baserow/contrib/integrations/mcp/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'integrations_mcpserverintegration.oauth_access_token' (TextField -> EncryptedTextField)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "integrations_mcpserverintegration",
+            "column": "oauth_client_secret",
+            "new_name": null,
+            "old_type": "TextField",
+            "new_type": "EncryptedTextField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "backend/src/baserow/contrib/integrations/migrations/0043_mcp_server_encrypted_secrets.py",
+            "line": 24,
+            "raw_snippet": "migrations.AlterField( model_name='mcpserverintegration', name='oauth_client_secret', field=baserow.core.fields.EncryptedTextField(context='integrations.mcpserverintegration.oauth_",
+            "extra": {
+              "model_name": "mcpserverintegration",
+              "app_label": "integrations",
+              "field_info": {
+                "field_type": "EncryptedTextField",
+                "null": false,
+                "has_default": true,
+                "has_db_default": true
+              }
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "integrations_mcpserverintegration",
+            "column": "oauth_client_secret",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "backend/src/baserow/contrib/integrations/mcp/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'integrations_mcpserverintegration.oauth_client_secret' (TextField -> EncryptedTextField)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "integrations_mcpserverintegration",
+            "column": "oauth_refresh_token",
+            "new_name": null,
+            "old_type": "TextField",
+            "new_type": "EncryptedTextField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "backend/src/baserow/contrib/integrations/migrations/0043_mcp_server_encrypted_secrets.py",
+            "line": 29,
+            "raw_snippet": "migrations.AlterField( model_name='mcpserverintegration', name='oauth_refresh_token', field=baserow.core.fields.EncryptedTextField(context='integrations.mcpserverintegration.oauth_",
+            "extra": {
+              "model_name": "mcpserverintegration",
+              "app_label": "integrations",
+              "field_info": {
+                "field_type": "EncryptedTextField",
+                "null": false,
+                "has_default": true,
+                "has_db_default": true
+              }
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "integrations_mcpserverintegration",
+            "column": "oauth_refresh_token",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "backend/src/baserow/contrib/integrations/mcp/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'integrations_mcpserverintegration.oauth_refresh_token' (TextField -> EncryptedTextField)."
+        }
+      ]
+    },
+    {
+      "sha": "93eeb19dcb634544934d346008a970f70acb7a22",
+      "parent": "5d19eab8de782c5f220e7e644c392dd189da1706",
+      "date": "2026-10-19T10:38:57+02:00",
+      "subject": "feat: run Local Baserow integrations as Agents (#6064)",
+      "mig_files": [
+        "backend/src/baserow/contrib/database/migrations/0226_rowhistory_actor.py",
+        "backend/src/baserow/contrib/database/migrations/0227_backfill_rowhistory_anonymous_actor_type.py",
+        "backend/src/baserow/contrib/integrations/migrations/0039_localbaserowintegration_authorized_agent.py",
+        "enterprise/backend/src/baserow_enterprise/migrations/0068_auditlogentry_agent.py"
+      ],
+      "app_files_touched_in_commit": [
+        "backend/src/baserow/api/agents/serializers.py",
+        "backend/src/baserow/api/subjects/__init__.py",
+        "backend/src/baserow/api/subjects/serializers.py",
+        "backend/src/baserow/api/subjects/urls.py",
+        "backend/src/baserow/api/subjects/views.py",
+        "backend/src/baserow/api/urls.py",
+        "backend/src/baserow/api/workspaces/users/serializers.py",
+        "backend/src/baserow/api/workspaces/views.py",
+        "backend/src/baserow/contrib/automation/application_types.py",
+        "backend/src/baserow/contrib/automation/history/handler.py",
+        "backend/src/baserow/contrib/builder/application_types.py",
+        "backend/src/baserow/contrib/builder/builder_beta_init_application.py"
+      ],
+      "orm_models_parsed_old": 166,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "integrations_localbaserowintegration",
+            "column": "authorized_user",
+            "new_name": null,
+            "old_type": "ForeignKey",
+            "new_type": "BigIntegerField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "backend/src/baserow/contrib/integrations/migrations/0039_localbaserowintegration_authorized_agent.py",
+            "line": 24,
+            "raw_snippet": "migrations.AlterField( model_name=\"localbaserowintegration\", name=\"authorized_user\", field=models.BigIntegerField( blank=True, db_column=\"authorized_user_id\", null=True ), )",
+            "extra": {
+              "model_name": "localbaserowintegration",
+              "app_label": "integrations",
+              "field_info": {
+                "field_type": "BigIntegerField",
+                "null": true,
+                "has_default": false,
+                "has_db_default": false
+              },
+              "staged": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "integrations_localbaserowintegration",
+            "column": "authorized_user",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "backend/src/baserow/contrib/integrations/local_baserow/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'integrations_localbaserowintegration.authorized_user' (ForeignKey -> BigIntegerField)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "baserow_enterprise_auditlogentry",
+            "column": "actor_type",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "enterprise/backend/src/baserow_enterprise/migrations/0068_auditlogentry_agent.py",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE baserow_enterprise_auditlogentry DROP COLUMN IF EXISTS \"actor_type\"",
+            "extra": {
+              "staged": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "baserow_enterprise_auditlogentry",
+            "column": "actor_type",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "baserow_enterprise_auditlogexportjob",
+            "column": "filter_actor_type",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "enterprise/backend/src/baserow_enterprise/migrations/0068_auditlogentry_agent.py",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE baserow_enterprise_auditlogexportjob DROP COLUMN IF EXISTS \"filter_actor_type\"",
+            "extra": {
+              "staged": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "baserow_enterprise_auditlogexportjob",
+            "column": "filter_actor_type",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout."
+        }
+      ]
+    },
+    {
+      "sha": "9e8e2639fe50d6c80e091da106f2252f069e5e58",
+      "parent": "9c14b5804eb6888a0cfc98654a17264dd1078ca8",
+      "date": "2026-09-07T14:51:10+04:00",
+      "subject": "Revert changes around additional markdown support for Builder. (#6026)",
+      "mig_files": [
+        "backend/src/baserow/contrib/builder/migrations/0079_remove_text_format_fields.py",
+        "enterprise/backend/src/baserow_enterprise/migrations/0065_remove_text_format_fields.py"
+      ],
+      "app_files_touched_in_commit": [
+        "backend/src/baserow/contrib/builder/api/elements/serializers.py",
+        "backend/src/baserow/contrib/builder/constants.py",
+        "backend/src/baserow/contrib/builder/elements/collection_field_types.py",
+        "backend/src/baserow/contrib/builder/elements/element_types.py",
+        "backend/src/baserow/contrib/builder/elements/models.py",
+        "backend/src/baserow/contrib/builder/elements/registries.py",
+        "backend/src/baserow/contrib/builder/workflow_actions/models.py",
+        "backend/src/baserow/contrib/builder/workflow_actions/workflow_action_types.py",
+        "enterprise/backend/src/baserow_enterprise/builder/elements/element_types.py",
+        "enterprise/backend/src/baserow_enterprise/builder/elements/models.py"
+      ],
+      "orm_models_parsed_old": 138,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "builder_checkboxelement",
+            "column": "label_format",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "backend/src/baserow/contrib/builder/migrations/0079_remove_text_format_fields.py",
+            "line": 12,
+            "raw_snippet": "migrations.RemoveField( model_name=\"checkboxelement\", name=\"label_format\", )",
+            "extra": {
+              "model_name": "checkboxelement",
+              "app_label": "builder"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "builder_checkboxelement",
+            "column": "label_format",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "backend/src/baserow/contrib/builder/elements/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'label_format' active in C_{t-1} ORM (backend/src/baserow/contrib/builder/elements/models.py); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "builder_choiceelement",
+            "column": "label_format",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "backend/src/baserow/contrib/builder/migrations/0079_remove_text_format_fields.py",
+            "line": 16,
+            "raw_snippet": "migrations.RemoveField( model_name=\"choiceelement\", name=\"label_format\", )",
+            "extra": {
+              "model_name": "choiceelement",
+              "app_label": "builder"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "builder_choiceelement",
+            "column": "label_format",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "backend/src/baserow/contrib/builder/elements/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'label_format' active in C_{t-1} ORM (backend/src/baserow/contrib/builder/elements/models.py); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "builder_choiceelement",
+            "column": "option_format",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "backend/src/baserow/contrib/builder/migrations/0079_remove_text_format_fields.py",
+            "line": 20,
+            "raw_snippet": "migrations.RemoveField( model_name=\"choiceelement\", name=\"option_format\", )",
+            "extra": {
+              "model_name": "choiceelement",
+              "app_label": "builder"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "builder_choiceelement",
+            "column": "option_format",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "backend/src/baserow/contrib/builder/elements/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'option_format' active in C_{t-1} ORM (backend/src/baserow/contrib/builder/elements/models.py); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "builder_collectionfield",
+            "column": "name_format",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "backend/src/baserow/contrib/builder/migrations/0079_remove_text_format_fields.py",
+            "line": 24,
+            "raw_snippet": "migrations.RemoveField( model_name=\"collectionfield\", name=\"name_format\", )",
+            "extra": {
+              "model_name": "collectionfield",
+              "app_label": "builder"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "builder_collectionfield",
+            "column": "name_format",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "backend/src/baserow/contrib/builder/elements/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'name_format' active in C_{t-1} ORM (backend/src/baserow/contrib/builder/elements/models.py); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "builder_datetimepickerelement",
+            "column": "label_format",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "backend/src/baserow/contrib/builder/migrations/0079_remove_text_format_fields.py",
+            "line": 28,
+            "raw_snippet": "migrations.RemoveField( model_name=\"datetimepickerelement\", name=\"label_format\", )",
+            "extra": {
+              "model_name": "datetimepickerelement",
+              "app_label": "builder"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "builder_datetimepickerelement",
+            "column": "label_format",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "backend/src/baserow/contrib/builder/elements/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'label_format' active in C_{t-1} ORM (backend/src/baserow/contrib/builder/elements/models.py); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "builder_inputtextelement",
+            "column": "label_format",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "backend/src/baserow/contrib/builder/migrations/0079_remove_text_format_fields.py",
+            "line": 32,
+            "raw_snippet": "migrations.RemoveField( model_name=\"inputtextelement\", name=\"label_format\", )",
+            "extra": {
+              "model_name": "inputtextelement",
+              "app_label": "builder"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "builder_inputtextelement",
+            "column": "label_format",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "backend/src/baserow/contrib/builder/elements/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'label_format' active in C_{t-1} ORM (backend/src/baserow/contrib/builder/elements/models.py); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "builder_notificationworkflowaction",
+            "column": "description_format",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "backend/src/baserow/contrib/builder/migrations/0079_remove_text_format_fields.py",
+            "line": 36,
+            "raw_snippet": "migrations.RemoveField( model_name=\"notificationworkflowaction\", name=\"description_format\", )",
+            "extra": {
+              "model_name": "notificationworkflowaction",
+              "app_label": "builder"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "builder_notificationworkflowaction",
+            "column": "description_format",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "backend/src/baserow/contrib/builder/workflow_actions/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'description_format' active in C_{t-1} ORM (backend/src/baserow/contrib/builder/workflow_actions/models.py); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "builder_notificationworkflowaction",
+            "column": "title_format",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "backend/src/baserow/contrib/builder/migrations/0079_remove_text_format_fields.py",
+            "line": 40,
+            "raw_snippet": "migrations.RemoveField( model_name=\"notificationworkflowaction\", name=\"title_format\", )",
+            "extra": {
+              "model_name": "notificationworkflowaction",
+              "app_label": "builder"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "builder_notificationworkflowaction",
+            "column": "title_format",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "backend/src/baserow/contrib/builder/workflow_actions/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'title_format' active in C_{t-1} ORM (backend/src/baserow/contrib/builder/workflow_actions/models.py); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "builder_ratinginputelement",
+            "column": "label_format",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "backend/src/baserow/contrib/builder/migrations/0079_remove_text_format_fields.py",
+            "line": 44,
+            "raw_snippet": "migrations.RemoveField( model_name=\"ratinginputelement\", name=\"label_format\", )",
+            "extra": {
+              "model_name": "ratinginputelement",
+              "app_label": "builder"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "builder_ratinginputelement",
+            "column": "label_format",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "backend/src/baserow/contrib/builder/elements/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'label_format' active in C_{t-1} ORM (backend/src/baserow/contrib/builder/elements/models.py); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "builder_recordselectorelement",
+            "column": "label_format",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "backend/src/baserow/contrib/builder/migrations/0079_remove_text_format_fields.py",
+            "line": 48,
+            "raw_snippet": "migrations.RemoveField( model_name=\"recordselectorelement\", name=\"label_format\", )",
+            "extra": {
+              "model_name": "recordselectorelement",
+              "app_label": "builder"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "builder_recordselectorelement",
+            "column": "label_format",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "backend/src/baserow/contrib/builder/elements/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'label_format' active in C_{t-1} ORM (backend/src/baserow/contrib/builder/elements/models.py); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "baserow_enterprise_fileinputelement",
+            "column": "help_text_format",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "enterprise/backend/src/baserow_enterprise/migrations/0065_remove_text_format_fields.py",
+            "line": 12,
+            "raw_snippet": "migrations.RemoveField( model_name=\"fileinputelement\", name=\"help_text_format\", )",
+            "extra": {
+              "model_name": "fileinputelement",
+              "app_label": "baserow_enterprise"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "baserow_enterprise_fileinputelement",
+            "column": "help_text_format",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "enterprise/backend/src/baserow_enterprise/builder/elements/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'help_text_format' active in C_{t-1} ORM (enterprise/backend/src/baserow_enterprise/builder/elements/models.py); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "baserow_enterprise_fileinputelement",
+            "column": "label_format",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "enterprise/backend/src/baserow_enterprise/migrations/0065_remove_text_format_fields.py",
+            "line": 16,
+            "raw_snippet": "migrations.RemoveField( model_name=\"fileinputelement\", name=\"label_format\", )",
+            "extra": {
+              "model_name": "fileinputelement",
+              "app_label": "baserow_enterprise"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "baserow_enterprise_fileinputelement",
+            "column": "label_format",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "enterprise/backend/src/baserow_enterprise/builder/elements/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'label_format' active in C_{t-1} ORM (enterprise/backend/src/baserow_enterprise/builder/elements/models.py); identifier removed in same commit diff"
+        }
+      ]
+    },
+    {
+      "sha": "821a3d49913cfcf97d501927b3c71e9a656f0ebd",
+      "parent": "87e537cc4f674d7cd84890d8b2a769468529774c",
+      "date": "2026-08-28T18:16:42+02:00",
+      "subject": "feat[3/6]: Chain a button action's result into the ones after it (#1722) (#5951)",
+      "mig_files": [
+        "backend/src/baserow/contrib/database/migrations/0217_remove_buttonfield_url_formula.py"
+      ],
+      "app_files_touched_in_commit": [
+        "backend/src/baserow/contrib/database/api/workflow_actions/serializers.py",
+        "backend/src/baserow/contrib/database/api/workflow_actions/views.py",
+        "backend/src/baserow/contrib/database/apps.py",
+        "backend/src/baserow/contrib/database/fields/models.py",
+        "backend/src/baserow/contrib/database/workflow_actions/data_providers.py",
+        "backend/src/baserow/contrib/database/workflow_actions/dispatch_context.py",
+        "backend/src/baserow/contrib/database/workflow_actions/handler.py",
+        "backend/src/baserow/contrib/database/workflow_actions/registries.py",
+        "backend/src/baserow/contrib/database/workflow_actions/service.py",
+        "backend/src/baserow/contrib/database/workflow_actions/types.py",
+        "backend/src/baserow/contrib/database/workflow_actions/workflow_action_types.py"
+      ],
+      "orm_models_parsed_old": 103,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "database_buttonfield",
+            "column": "url_formula",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "backend/src/baserow/contrib/database/migrations/0217_remove_buttonfield_url_formula.py",
+            "line": 13,
+            "raw_snippet": "migrations.RemoveField( model_name='buttonfield', name='url_formula', )",
+            "extra": {
+              "model_name": "buttonfield",
+              "app_label": "database"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "database_buttonfield",
+            "column": "url_formula",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "backend/src/baserow/contrib/database/fields/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'url_formula' active in C_{t-1} ORM (backend/src/baserow/contrib/database/fields/models.py); identifier removed in same commit diff"
+        }
+      ]
+    },
+    {
+      "sha": "1cdb8fd9cdfe81071c29e67333fa1e0c56af4dfc",
+      "parent": "1fa388b83faa586fcd8ec2eab8f9de1d842c3df9",
+      "date": "2026-08-20T12:33:20+02:00",
+      "subject": "feat[2/6]: Run configured actions when a button is clicked (#1722) (#5786)",
+      "mig_files": [
+        "backend/src/baserow/contrib/database/migrations/0216_databaseworkflowaction_createrowworkflowaction_and_more.py"
+      ],
+      "app_files_touched_in_commit": [
+        "backend/src/baserow/config/settings/base.py",
+        "backend/src/baserow/contrib/database/api/urls.py",
+        "backend/src/baserow/contrib/database/api/workflow_actions/__init__.py",
+        "backend/src/baserow/contrib/database/api/workflow_actions/errors.py",
+        "backend/src/baserow/contrib/database/api/workflow_actions/serializers.py",
+        "backend/src/baserow/contrib/database/api/workflow_actions/service_serializers.py",
+        "backend/src/baserow/contrib/database/api/workflow_actions/urls.py",
+        "backend/src/baserow/contrib/database/api/workflow_actions/views.py",
+        "backend/src/baserow/contrib/database/apps.py",
+        "backend/src/baserow/contrib/database/fields/field_helpers.py",
+        "backend/src/baserow/contrib/database/fields/field_types.py",
+        "backend/src/baserow/contrib/database/fields/formula_visitors.py"
+      ],
+      "orm_models_parsed_old": 97,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "database_buttonfield",
+            "column": "url_formula",
+            "new_name": null,
+            "old_type": "CoreFormulaModelField",
+            "new_type": "FormulaField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "backend/src/baserow/contrib/database/migrations/0216_databaseworkflowaction_createrowworkflowaction_and_more.py",
+            "line": 84,
+            "raw_snippet": "migrations.AlterField( model_name='buttonfield', name='url_formula', field=baserow.core.formula.field.FormulaField(blank=True, db_default='', default='', help_text=\"Deprecated lega",
+            "extra": {
+              "model_name": "buttonfield",
+              "app_label": "database",
+              "field_info": {
+                "field_type": "FormulaField",
+                "null": true,
+                "has_default": true,
+                "has_db_default": true
+              }
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "database_buttonfield",
+            "column": "url_formula",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "backend/src/baserow/contrib/database/fields/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'database_buttonfield.url_formula' (CoreFormulaModelField -> FormulaField)."
+        }
+      ]
+    },
+    {
+      "sha": "f27bb387fee12f28e5285e23c6df9b057213c3ab",
+      "parent": "667cfdd8507aaaa854a73b196a1eec4d1f8784c5",
+      "date": "2026-08-20T10:49:57+02:00",
+      "subject": "feat [3/8]: add workspace AI provider management and complete AI Field resolution (#5785)",
+      "mig_files": [
+        "backend/src/baserow/core/migrations/0118_aiproviderworkspaceoverride_and_more.py"
+      ],
+      "app_files_touched_in_commit": [
+        "backend/src/baserow/api/ai_provider/errors.py",
+        "backend/src/baserow/api/ai_provider/serializers.py",
+        "backend/src/baserow/api/ai_provider/views.py",
+        "backend/src/baserow/api/workspaces/views.py",
+        "backend/src/baserow/core/ai_provider/exceptions.py",
+        "backend/src/baserow/core/ai_provider/handler.py",
+        "backend/src/baserow/core/ai_provider/models.py",
+        "backend/src/baserow/core/ai_provider/provider_types.py",
+        "backend/src/baserow/core/ai_provider/service.py",
+        "backend/src/baserow/core/ai_provider/signals.py",
+        "backend/src/baserow/core/generative_ai/registries.py",
+        "backend/src/baserow/core/management/commands/migrate_ai_provider_settings.py"
+      ],
+      "orm_models_parsed_old": 70,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "core_aiproviderworkspaceoverride",
+            "column": "provider_config",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "backend/src/baserow/core/migrations/0118_aiproviderworkspaceoverride_and_more.py",
+            "line": 38,
+            "raw_snippet": "migrations.AddField( model_name='aiproviderworkspaceoverride', name='provider_config', field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='workspace_",
+            "extra": {
+              "model_name": "aiproviderworkspaceoverride",
+              "app_label": "core",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "core_aiproviderworkspaceoverride",
+            "column": "provider_config",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'core_aiproviderworkspaceoverride' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "core_aiproviderworkspaceoverride",
+            "column": "workspace",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "backend/src/baserow/core/migrations/0118_aiproviderworkspaceoverride_and_more.py",
+            "line": 43,
+            "raw_snippet": "migrations.AddField( model_name='aiproviderworkspaceoverride', name='workspace', field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='ai_provider_over",
+            "extra": {
+              "model_name": "aiproviderworkspaceoverride",
+              "app_label": "core",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "core_aiproviderworkspaceoverride",
+            "column": "workspace",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'core_aiproviderworkspaceoverride' was created in the same commit; C_{t-1} does not write to it."
+        }
+      ]
+    },
+    {
+      "sha": "2bf3900d9b9d1e631a553e87af5774fd21b81ba4",
+      "parent": "b70bc968db5862cab7ee8df04eebc2c122affbc4",
+      "date": "2026-06-25T14:37:36+04:00",
+      "subject": "Add more `ColumnElement` layout options (#5457)",
+      "mig_files": [
+        "backend/src/baserow/contrib/builder/migrations/0072_columnelement_layout_options.py"
+      ],
+      "app_files_touched_in_commit": [
+        "backend/src/baserow/contrib/builder/elements/element_types.py",
+        "backend/src/baserow/contrib/builder/elements/models.py"
+      ],
+      "orm_models_parsed_old": 81,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "builder_columnelement",
+            "column": "layout_type",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "CharField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "backend/src/baserow/contrib/builder/migrations/0072_columnelement_layout_options.py",
+            "line": 14,
+            "raw_snippet": "migrations.AddField( model_name=\"columnelement\", name=\"layout_type\", field=models.CharField( choices=[ (\"auto\", \"Auto\"), (\"1:2\", \"Ratio 1 2\"), (\"2:1\", \"Ratio 2 1\"), (\"1:3\", \"Ratio ",
+            "extra": {
+              "model_name": "columnelement",
+              "app_label": "builder",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "builder_columnelement",
+            "column": "layout_type",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "backend/src/baserow/contrib/builder/elements/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'builder_columnelement.layout_type' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "builder_columnelement",
+            "column": "column_weights",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "JSONField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "backend/src/baserow/contrib/builder/migrations/0072_columnelement_layout_options.py",
+            "line": 34,
+            "raw_snippet": "migrations.AddField( model_name=\"columnelement\", name=\"column_weights\", field=models.JSONField( default=list, help_text=( \"Custom weight configuration for each column. Used when \" ",
+            "extra": {
+              "model_name": "columnelement",
+              "app_label": "builder",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "builder_columnelement",
+            "column": "column_weights",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "backend/src/baserow/contrib/builder/elements/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'builder_columnelement.column_weights' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    },
+    {
+      "sha": "74e89389948ca06ed8b05700363b55d2a30b6884",
+      "parent": "0fdf4838fd30dc30cee00e2b4055c5071e6c7cf7",
+      "date": "2026-05-18T10:00:39+07:00",
+      "subject": "Make original_workflow non-nullable again after Automation Node History was deployed. (#5326)",
+      "mig_files": [
+        "backend/src/baserow/contrib/automation/migrations/0029_alter_automationworkflowhistory_original_workflow.py"
+      ],
+      "app_files_touched_in_commit": [
+        "backend/src/baserow/contrib/automation/history/models.py"
+      ],
+      "orm_models_parsed_old": 28,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "SET_NOT_NULL",
+            "table": "automation_automationworkflowhistory",
+            "column": "original_workflow",
+            "new_name": null,
+            "old_type": "ForeignKey",
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "backend/src/baserow/contrib/automation/migrations/0029_alter_automationworkflowhistory_original_workflow.py",
+            "line": 27,
+            "raw_snippet": "migrations.AlterField( model_name='automationworkflowhistory', name='original_workflow', field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='workflow",
+            "extra": {
+              "model_name": "automationworkflowhistory",
+              "app_label": "automation",
+              "field_info": {
+                "field_type": "ForeignKey",
+                "null": false,
+                "has_default": false,
+                "has_db_default": false
+              }
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "automation_automationworkflowhistory",
+            "column": "original_workflow",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "backend/src/baserow/contrib/automation/history/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "SET_NOT_NULL on 'automation_automationworkflowhistory.original_workflow' which was nullable in C_{t-1} ORM (backend/src/baserow/contrib/automation/history/models.py)."
+        }
+      ]
+    },
+    {
+      "sha": "3e32bd6a80fbc3e6360b91722f79b58335ebdd3d",
+      "parent": "f1cdb4d5362785dadcc81894f8ae62f213b584b8",
+      "date": "2026-04-23T09:26:23+02:00",
+      "subject": "feat: improve workflow error detection and send notification (#5189)",
+      "mig_files": [
+        "backend/src/baserow/contrib/automation/migrations/0027_alter_automationnodehistory_options_and_more.py"
+      ],
+      "app_files_touched_in_commit": [
+        "backend/src/baserow/config/settings/base.py",
+        "backend/src/baserow/contrib/automation/api/workflows/errors.py",
+        "backend/src/baserow/contrib/automation/api/workflows/serializers.py",
+        "backend/src/baserow/contrib/automation/api/workflows/views.py",
+        "backend/src/baserow/contrib/automation/application_types.py",
+        "backend/src/baserow/contrib/automation/apps.py",
+        "backend/src/baserow/contrib/automation/history/models.py",
+        "backend/src/baserow/contrib/automation/notification_types.py",
+        "backend/src/baserow/contrib/automation/types.py",
+        "backend/src/baserow/contrib/automation/workflows/exceptions.py",
+        "backend/src/baserow/contrib/automation/workflows/handler.py",
+        "backend/src/baserow/contrib/automation/workflows/models.py"
+      ],
+      "orm_models_parsed_old": 28,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "automation_automationnoderesult",
+            "column": "iteration",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "backend/src/baserow/contrib/automation/migrations/0027_alter_automationnodehistory_options_and_more.py",
+            "line": 35,
+            "raw_snippet": "migrations.RemoveField( model_name='automationnoderesult', name='iteration', )",
+            "extra": {
+              "model_name": "automationnoderesult",
+              "app_label": "automation"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "automation_automationnoderesult",
+            "column": "iteration",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "backend/src/baserow/contrib/automation/history/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'iteration' active in C_{t-1} ORM (backend/src/baserow/contrib/automation/history/models.py); identifier removed in same commit diff"
+        }
+      ]
+    },
+    {
+      "sha": "2d97d9e9fe73340174c55013d2a7d184647216e4",
+      "parent": "f6a7d302ffa46fb8f7a9db9031355665f4221741",
+      "date": "2026-03-24T08:03:14+01:00",
+      "subject": "fix: previous node data provider returns wrong result when inside an iteration (#5009)",
+      "mig_files": [
+        "backend/src/baserow/contrib/automation/migrations/0025_automationnoderesult_iteration_path.py"
+      ],
+      "app_files_touched_in_commit": [
+        "backend/src/baserow/contrib/automation/automation_dispatch_context.py",
+        "backend/src/baserow/contrib/automation/data_providers/data_provider_types.py",
+        "backend/src/baserow/contrib/automation/history/exceptions.py",
+        "backend/src/baserow/contrib/automation/history/handler.py",
+        "backend/src/baserow/contrib/automation/history/models.py",
+        "backend/src/baserow/contrib/automation/nodes/handler.py",
+        "backend/src/baserow/contrib/automation/workflows/handler.py"
+      ],
+      "orm_models_parsed_old": 28,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "automation_automationnodehistory",
+            "column": "is_test_run",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "backend/src/baserow/contrib/automation/migrations/0025_automationnoderesult_iteration_path.py",
+            "line": 28,
+            "raw_snippet": "migrations.RemoveField( model_name='automationnodehistory', name='is_test_run', )",
+            "extra": {
+              "model_name": "automationnodehistory",
+              "app_label": "automation"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "automation_automationnodehistory",
+            "column": "is_test_run",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "backend/src/baserow/contrib/automation/history/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'is_test_run' already absent from C_{t-1} ORM and app code."
+        }
+      ]
+    }
+  ]
+}

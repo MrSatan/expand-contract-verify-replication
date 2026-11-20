@@ -1,0 +1,10 @@
+{
+  "name": "expand-contract-verify-replication",
+  "version": "3.0.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@electric-sql/pglite": "0.5.17",
+    "@prisma/internals": "7.10.1"
+  }
+}

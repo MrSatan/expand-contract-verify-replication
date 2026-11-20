@@ -1,0 +1,3440 @@
+{
+  "repo": "wasp-lang/wasp",
+  "ecosystem": "prisma",
+  "stars": 18811,
+  "has_k8s_helm": false,
+  "status": "ok",
+  "stats": {
+    "total_migration_commits_in_history": 86,
+    "migration_commits_analyzed": 62,
+    "total_migration_files_parsed": 89,
+    "commits_with_any_destructive": 14,
+    "commits_with_forward_destructive": 14,
+    "commits_with_rollback_only_destructive": 0,
+    "total_ops_extracted": 79,
+    "destructive_ops_up": 79,
+    "destructive_ops_down": 0
+  },
+  "verdict_counts": {
+    "SAFE_ADDITIVE": 5,
+    "UNCERTAIN": 25,
+    "SAFE_CONTRACT": 25,
+    "DUAL_VERSION_VIOLATION_BACKWARD": 20,
+    "DUAL_VERSION_VIOLATION_BOTH": 4
+  },
+  "destructive_commits": [
+    {
+      "sha": "f137decaa31150056f31ab31f9ffd0204bd6a5cc",
+      "parent": "36c6214d0038c7b67273082db022ed9553ff46a8",
+      "date": "2025-10-13T12:25:13+02:00",
+      "subject": "`ask-the-documents`: Import app into repo (#3174)",
+      "mig_files": [
+        "examples/ask-the-documents/migrations/20230907154352_add_extension/migration.sql",
+        "examples/ask-the-documents/migrations/20230911093209_add_url/migration.sql",
+        "examples/ask-the-documents/migrations/20231017125945_add_social_login/migration.sql",
+        "examples/ask-the-documents/migrations/20240227091831_new_auth/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "examples/ask-the-documents/postcss.config.js",
+        "examples/ask-the-documents/schema.prisma",
+        "examples/ask-the-documents/src/Layout.tsx",
+        "examples/ask-the-documents/src/auth/google.ts",
+        "examples/ask-the-documents/src/components/DocumentCard.tsx",
+        "examples/ask-the-documents/src/components/LinkIcons.jsx",
+        "examples/ask-the-documents/src/components/ListBoxWrapper.tsx",
+        "examples/ask-the-documents/src/components/MainPage/AskTheDocumentsForm.tsx",
+        "examples/ask-the-documents/src/components/MainPage/DocumentsList.tsx",
+        "examples/ask-the-documents/src/components/MainPage/SearchForm.tsx",
+        "examples/ask-the-documents/src/components/MainPage/SingleDocumentForm.tsx",
+        "examples/ask-the-documents/src/components/MainPage/UrlTreeForm.tsx"
+      ],
+      "orm_models_parsed_old": 15,
+      "raw_sql": "-- CreateExtension\nCREATE EXTENSION IF NOT EXISTS \"vector\";\n\n-- CreateTable\nCREATE TABLE \"Document\" (\n    \"id\" TEXT NOT NULL,\n    \"title\" TEXT NOT NULL,\n    \"content\" TEXT NOT NULL,\n    \"embedding\" vector(1536) NOT NULL,\n\n    CONSTRAINT \"Document_pkey\" PRIMARY KEY (\"id\")\n);\n\n/*\n  Warnings:\n\n  - A unique constraint covering the columns `[url]` on the table `Document` will be added. If there are existing duplicate values, this will fail.\n  - Added the required column `updatedAt` to the `Document` table without a default value. This is not possible if the table is not empty.\n  - Added the required column `url` to the `Document` table without a default value. This is not possible if the table is not empty.\n\n*/\n-- AlterTable\nALTER TABLE \"Document\" ADD COLUMN     \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\nADD COLUMN     \"updatedAt\" TIMESTAMP(3) NOT NULL,\nADD COLUMN     \"url\" TEXT NOT NULL;\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"Document_url_key\" ON \"Document\"(\"url\");\n\n-- CreateTable\nCREATE TABLE \"User\" (\n    \"id\" SERIAL NOT NULL,\n    \"email\" TEXT,\n\n    CONSTRAINT \"User_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateTable\nCREATE TABLE \"SocialLogin\" (\n    \"id\" SERIAL NOT NULL,\n    \"provider\" TEXT NOT NULL,\n    \"providerId\" TEXT NOT NULL,\n    \"userId\" INTEGER NOT NULL,\n    \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n\n    CONSTRAINT \"SocialLogin_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"SocialLogin_provider_providerId_userId_key\" ON \"SocialLogin\"(\"provider\", \"providerId\", \"userId\");\n\n-- AddForeignKey\nALTER TABLE \"SocialLogin\" ADD CONSTRAINT \"SocialLogin_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"User\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n/*\n  Warnings:\n\n  - You are about to drop the `SocialLogin` table. If the table is not empty, all the data it contains will be lost.\n\n*/\n-- DropForeignKey\nALTER TABLE \"SocialLogin\" DROP CONSTRAINT \"SocialLogin_userId_fkey\";\n\n-- DropTable\nDROP TABLE \"SocialLogin\";\n\n-- CreateTable\nCREATE TABLE \"Auth\" (\n    \"id\" TEXT NOT NULL,\n    \"userId\" INTEGER,\n\n    CONSTRAINT \"Auth_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateTable\nCREATE TABLE \"AuthIdentity\" (\n    \"providerName\" TEXT NOT NULL,\n    \"providerUserId\" TEXT NOT NULL,\n    \"providerData\" TEXT NOT NULL DEFAULT '{}',\n    \"authId\" TEXT NOT NULL,\n\n    CONSTRAINT \"AuthIdentity_pkey\" PRIMARY KEY (\"providerName\",\"providerUserId\")\n);\n\n-- CreateTable\nCREATE TABLE \"Session\" (\n    \"id\" TEXT NOT NULL,\n    \"expiresAt\" TIMESTAMP(3) NOT NULL,\n    \"userId\" TEXT NOT NULL,\n\n    CONSTRAINT \"Session_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"Auth_userId_key\" ON \"Auth\"(\"userId\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"Session_id_key\" ON \"Session\"(\"id\");\n\n-- CreateIndex\nCREATE INDEX \"Session_userId_idx\" ON \"Session\"(\"userId\");\n\n-- AddForeignKey\nALTER TABLE \"Auth\" ADD CONSTRAINT \"Auth_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"User\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"AuthIdentity\" ADD CONSTRAINT \"AuthIdentity_authId_fkey\" FOREIGN KEY (\"authId\") REFERENCES \"Auth\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"Session\" ADD CONSTRAINT \"Session_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"Auth\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "document",
+            "column": "updatedat",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TIMESTAMP(3)",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "examples/ask-the-documents/migrations/20230911093209_add_url/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE document ADD COLUMN \"updatedAt\" TIMESTAMP(3) NOT NULL",
+            "extra": {
+              "table_sql": "Document",
+              "column_sql": "updatedAt"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "document",
+            "column": "updatedat",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'document' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "document",
+            "column": "url",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TEXT",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "examples/ask-the-documents/migrations/20230911093209_add_url/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE document ADD COLUMN \"url\" TEXT NOT NULL",
+            "extra": {
+              "table_sql": "Document"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "document",
+            "column": "url",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'document' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "sociallogin",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "examples/ask-the-documents/migrations/20240227091831_new_auth/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE \"SocialLogin\"",
+            "extra": {
+              "table_sql": "SocialLogin"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "sociallogin",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'sociallogin' not resolved in C_{t-1} ORM snapshot."
+        }
+      ]
+    },
+    {
+      "sha": "342f3a878fd8ed868f7b24bcd334f7471d77f6e3",
+      "parent": "3ed865c9594c4025437c48e2f49a011bdaf2071d",
+      "date": "2025-10-10T17:02:10+02:00",
+      "subject": "Modernize `e2e-tests` (#3114)",
+      "mig_files": [
+        "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/.wasp/out/db/migrations/20230404165422_initial/migration.sql",
+        "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/.wasp/out/db/migrations/20230816133128_add_address/migration.sql",
+        "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/.wasp/out/db/migrations/20231124161113_initial/migration.sql",
+        "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/.wasp/out/db/migrations/20231124161208_remove_extras/migration.sql",
+        "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/.wasp/out/db/migrations/20231212135316_next/migration.sql",
+        "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/.wasp/out/db/migrations/20240110132515_add_session/migration.sql",
+        "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/.wasp/out/db/migrations/20240516082146_add_votes/migration.sql",
+        "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/.wasp/out/db/migrations/20250122145423_headless_tests_update/migration.sql",
+        "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/.wasp/out/db/migrations/20250321140734_add_visibility_enum/migration.sql",
+        "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/.wasp/out/db/migrations/20250403101137_add_email_verification_hook/migration.sql",
+        "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/.wasp/out/db/migrations/20250604115050_uppercase_text_job_request/migration.sql",
+        "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/migrations/20230404165422_initial/migration.sql",
+        "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/migrations/20230816133128_add_address/migration.sql",
+        "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/migrations/20231124161113_initial/migration.sql",
+        "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/migrations/20231124161208_remove_extras/migration.sql",
+        "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/migrations/20231212135316_next/migration.sql",
+        "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/migrations/20240110132515_add_session/migration.sql",
+        "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/migrations/20240516082146_add_votes/migration.sql",
+        "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/migrations/20250122145423_headless_tests_update/migration.sql",
+        "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/migrations/20250321140734_add_visibility_enum/migration.sql",
+        "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/migrations/20250403101137_add_email_verification_hook/migration.sql",
+        "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/migrations/20250604115050_uppercase_text_job_request/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/.wasp/out/db/schema.prisma",
+        "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/.wasp/out/sdk/wasp/api/events.ts",
+        "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/.wasp/out/sdk/wasp/api/index.ts",
+        "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/.wasp/out/sdk/wasp/auth/email/actions/login.ts",
+        "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/.wasp/out/sdk/wasp/auth/email/actions/passwordReset.ts",
+        "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/.wasp/out/sdk/wasp/auth/email/actions/signup.ts",
+        "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/.wasp/out/sdk/wasp/auth/email/actions/verifyEmail.ts",
+        "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/.wasp/out/sdk/wasp/auth/email/index.ts",
+        "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/.wasp/out/sdk/wasp/auth/forms/Auth.tsx",
+        "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/.wasp/out/sdk/wasp/auth/forms/ForgotPassword.tsx",
+        "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/.wasp/out/sdk/wasp/auth/forms/Login.tsx",
+        "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/.wasp/out/sdk/wasp/auth/forms/ResetPassword.tsx"
+      ],
+      "orm_models_parsed_old": 15,
+      "raw_sql": "-- CreateTable\nCREATE TABLE \"User\" (\n    \"id\" SERIAL NOT NULL,\n    \"email\" TEXT,\n    \"password\" TEXT,\n    \"isEmailVerified\" BOOLEAN NOT NULL DEFAULT false,\n    \"emailVerificationSentAt\" TIMESTAMP(3),\n    \"passwordResetSentAt\" TIMESTAMP(3),\n\n    CONSTRAINT \"User_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateTable\nCREATE TABLE \"SocialLogin\" (\n    \"id\" SERIAL NOT NULL,\n    \"provider\" TEXT NOT NULL,\n    \"providerId\" TEXT NOT NULL,\n    \"userId\" INTEGER NOT NULL,\n    \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n\n    CONSTRAINT \"SocialLogin_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateTable\nCREATE TABLE \"Task\" (\n    \"id\" SERIAL NOT NULL,\n    \"description\" TEXT NOT NULL,\n    \"isDone\" BOOLEAN NOT NULL DEFAULT false,\n    \"userId\" INTEGER NOT NULL,\n\n    CONSTRAINT \"Task_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"User_email_key\" ON \"User\"(\"email\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"SocialLogin_provider_providerId_userId_key\" ON \"SocialLogin\"(\"provider\", \"providerId\", \"userId\");\n\n-- AddForeignKey\nALTER TABLE \"SocialLogin\" ADD CONSTRAINT \"SocialLogin_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"User\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"Task\" ADD CONSTRAINT \"Task_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"User\"(\"id\") ON DELETE RESTRICT ON UPDATE CASCADE;\n\n-- AlterTable\nALTER TABLE \"User\" ADD COLUMN     \"address\" TEXT;\n\n-- CreateTable\nCREATE TABLE \"Auth\" (\n    \"id\" TEXT NOT NULL,\n    \"email\" TEXT,\n    \"username\" TEXT,\n    \"password\" TEXT,\n    \"isEmailVerified\" BOOLEAN NOT NULL DEFAULT false,\n    \"emailVerificationSentAt\" TIMESTAMP(3),\n    \"passwordResetSentAt\" TIMESTAMP(3),\n    \"userId\" INTEGER,\n\n    CONSTRAINT \"Auth_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateTable\nCREATE TABLE \"SocialAuthProvider\" (\n    \"id\" TEXT NOT NULL,\n    \"provider\" TEXT NOT NULL,\n    \"providerId\" TEXT NOT NULL,\n    \"authId\" TEXT NOT NULL,\n\n    CONSTRAINT \"SocialAuthProvider_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"Auth_email_key\" ON \"Auth\"(\"email\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"Auth_username_key\" ON \"Auth\"(\"username\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"Auth_userId_key\" ON \"Auth\"(\"userId\");\n\n-- AddForeignKey\nALTER TABLE \"Auth\" ADD CONSTRAINT \"Auth_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"User\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"SocialAuthProvider\" ADD CONSTRAINT \"SocialAuthProvider_authId_fkey\" FOREIGN KEY (\"authId\") REFERENCES \"Auth\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n/*\n  Warnings:\n\n  - You are about to drop the column `email` on the `User` table. All the data in the column will be lost.\n  - You are about to drop the column `emailVerificationSentAt` on the `User` table. All the data in the column will be lost.\n  - You are about to drop the column `isEmailVerified` on the `User` table. All the data in the column will be lost.\n  - You are about to drop the column `password` on the `User` table. All the data in the column will be lost.\n  - You are about to drop the column `passwordResetSentAt` on the `User` table. All the data in the column will be lost.\n  - You are about to drop the `SocialLogin` table. If the table is not empty, all the data it contains will be lost.\n\n*/\n-- DropForeignKey\nALTER TABLE \"SocialLogin\" DROP CONSTRAINT \"SocialLogin_userId_fkey\";\n\n-- DropIndex\nDROP INDEX \"User_email_key\";\n\n-- AlterTable\nALTER TABLE \"User\" DROP COLUMN \"email\",\nDROP COLUMN \"emailVerificationSentAt\",\nDROP COLUMN \"isEmailVerified\",\nDROP COLUMN \"password\",\nDROP COLUMN \"passwordResetSentAt\";\n\n-- DropTable\nDROP TABLE \"SocialLogin\";\n\n/*\n  Warnings:\n\n  - You are about to drop the column `email` on the `Auth` table. All the data in the column will be lost.\n  - You are about to drop the column `emailVerificationSentAt` on the `Auth` table. All the data in the column will be lost.\n  - You are about to drop the column `isEmailVerified` on the `Auth` table. All the data in the column will be lost.\n  - You are about to drop the column `password` on the `Auth` table. All the data in the column will be lost.\n  - You are about to drop the column `passwordResetSentAt` on the `Auth` table. All the data in the column will be lost.\n  - You are about to drop the column `username` on the `Auth` table. All the data in the column will be lost.\n  - You are about to drop the `SocialAuthProvider` table. If the table is not empty, all the data it contains will be lost.\n\n*/\n-- DropForeignKey\nALTER TABLE \"SocialAuthProvider\" DROP CONSTRAINT \"SocialAuthProvider_authId_fkey\";\n\n-- DropIndex\nDROP INDEX \"Auth_email_key\";\n\n-- DropIndex\nDROP INDEX \"Auth_username_key\";\n\n-- AlterTable\nALTER TABLE \"Auth\" DROP COLUMN \"email\",\nDROP COLUMN \"emailVerificationSentAt\",\nDROP COLUMN \"isEmailVerified\",\nDROP COLUMN \"password\",\nDROP COLUMN \"passwordResetSentAt\",\nDROP COLUMN \"username\";\n\n-- DropTable\nDROP TABLE \"SocialAuthProvider\";\n\n-- CreateTable\nCREATE TABLE \"AuthIdentity\" (\n    \"providerName\" TEXT NOT NULL,\n    \"providerUserId\" TEXT NOT NULL,\n    \"providerData\" TEXT NOT NULL DEFAULT '{}',\n    \"authId\" TEXT NOT NULL,\n\n    CONSTRAINT \"AuthIdentity_pkey\" PRIMARY KEY (\"providerName\",\"providerUserId\")\n);\n\n-- AddForeignKey\nALTER TABLE \"AuthIdentity\" ADD CONSTRAINT \"AuthIdentity_authId_fkey\" FOREIGN KEY (\"authId\") REFERENCES \"Auth\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- CreateTable\nCREATE TABLE \"Session\" (\n    \"id\" TEXT NOT NULL,\n    \"expiresAt\" TIMESTAMP(3) NOT NULL,\n    \"userId\" TEXT NOT NULL,\n\n    CONSTRAINT \"Session_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"Session_id_key\" ON \"Session\"(\"id\");\n\n-- CreateIndex\nCREATE INDEX \"Session_userId_idx\" ON \"Session\"(\"userId\");\n\n-- AddForeignKey\nALTER TABLE \"Session\" ADD CONSTRAINT \"Session_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"Auth\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- CreateTable\nCREATE TABLE \"TaskVote\" (\n    \"id\" TEXT NOT NULL,\n    \"userId\" INTEGER NOT NULL,\n    \"taskId\" INTEGER NOT NULL,\n\n    CONSTRAINT \"TaskVote_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- AddForeignKey\nALTER TABLE \"TaskVote\" ADD CONSTRAINT \"TaskVote_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"User\"(\"id\") ON DELETE RESTRICT ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"TaskVote\" ADD CONSTRAINT \"TaskVote_taskId_fkey\" FOREIGN KEY (\"taskId\") REFERENCES \"Task\"(\"id\") ON DELETE RESTRICT ON UPDATE CASCADE;\n\n-- AlterTable\nALTER TABLE \"User\" ADD COLUMN     \"isOnAfterLoginHookCalled\" BOOLEAN NOT NULL DEFAULT false,\nADD COLUMN     \"isOnAfterSignupHookCalled\" BOOLEAN NOT NULL DEFAULT false;\n\n-- CreateEnum\nCREATE TYPE \"TaskVisibility\" AS ENUM ('PRIVATE', 'LINK_ONLY', 'PUBLIC');\n\n-- AlterTable\nALTER TABLE \"Task\" ADD COLUMN     \"visibility\" \"TaskVisibility\" NOT NULL DEFAULT 'PRIVATE';\n\n-- AlterTable\nALTER TABLE \"User\" ADD COLUMN     \"isOnAfterEmailVerifiedHookCalled\" BOOLEAN NOT NULL DEFAULT false;\n\n-- CreateEnum\nCREATE TYPE \"UppercaseTextRequestState\" AS ENUM ('PENDING', 'SUCCESS', 'ERROR');\n\n-- CreateTable\nCREATE TABLE \"UppercaseTextRequest\" (\n    \"id\" TEXT NOT NULL,\n    \"input\" TEXT NOT NULL,\n    \"output\" TEXT,\n    \"userId\" INTEGER NOT NULL,\n    \"state\" \"UppercaseTextRequestState\" NOT NULL DEFAULT 'PENDING',\n    \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n\n    CONSTRAINT \"UppercaseTextRequest_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- AddForeignKey\nALTER TABLE \"UppercaseTextRequest\" ADD CONSTRAINT \"UppercaseTextRequest_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"User\"(\"id\") ON DELETE RESTRICT ON UPDATE CASCADE;\n\n-- CreateTable\nCREATE TABLE \"User\" (\n    \"id\" SERIAL NOT NULL,\n    \"email\" TEXT,\n    \"password\" TEXT,\n    \"isEmailVerified\" BOOLEAN NOT NULL DEFAULT false,\n    \"emailVerificationSentAt\" TIMESTAMP(3),\n    \"passwordResetSentAt\" TIMESTAMP(3),\n\n    CONSTRAINT \"User_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateTable\nCREATE TABLE \"SocialLogin\" (\n    \"id\" SERIAL NOT NULL,\n    \"provider\" TEXT NOT NULL,\n    \"providerId\" TEXT NOT NULL,\n    \"userId\" INTEGER NOT NULL,\n    \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n\n    CONSTRAINT \"SocialLogin_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateTable\nCREATE TABLE \"Task\" (\n    \"id\" SERIAL NOT NULL,\n    \"description\" TEXT NOT NULL,\n    \"isDone\" BOOLEAN NOT NULL DEFAULT false,\n    \"userId\" INTEGER NOT NULL,\n\n    CONSTRAINT \"Task_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"User_email_key\" ON \"User\"(\"email\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"SocialLogin_provider_providerId_userId_key\" ON \"SocialLogin\"(\"provider\", \"providerId\", \"userId\");\n\n-- AddForeignKey\nALTER TABLE \"SocialLogin\" ADD CONSTRAINT \"SocialLogin_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"User\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"Task\" ADD CONSTRAINT \"Task_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"User\"(\"id\") ON DELETE RESTRICT ON UPDATE CASCADE;\n\n-- AlterTable\nALTER TABLE \"User\" ADD COLUMN     \"address\" TEXT;\n\n-- CreateTable\nCREATE TABLE \"Auth\" (\n    \"id\" TEXT NOT NULL,\n    \"email\" TEXT,\n    \"username\" TEXT,\n    \"password\" TEXT,\n    \"isEmailVerified\" BOOLEAN NOT NULL DEFAULT false,\n    \"emailVerificationSentAt\" TIMESTAMP(3),\n    \"passwordResetSentAt\" TIMESTAMP(3),\n    \"userId\" INTEGER,\n\n    CONSTRAINT \"Auth_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateTable\nCREATE TABLE \"SocialAuthProvider\" (\n    \"id\" TEXT NOT NULL,\n    \"provider\" TEXT NOT NULL,\n    \"providerId\" TEXT NOT NULL,\n    \"authId\" TEXT NOT NULL,\n\n    CONSTRAINT \"SocialAuthProvider_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"Auth_email_key\" ON \"Auth\"(\"email\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"Auth_username_key\" ON \"Auth\"(\"username\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"Auth_userId_key\" ON \"Auth\"(\"userId\");\n\n-- AddForeignKey\nALTER TABLE \"Auth\" ADD CONSTRAINT \"Auth_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"User\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"SocialAuthProvider\" ADD CONSTRAINT \"SocialAuthProvider_authId_fkey\" FOREIGN KEY (\"authId\") REFERENCES \"Auth\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n/*\n  Warnings:\n\n  - You are about to drop the column `email` on the `User` table. All the data in the column will be lost.\n  - You are about to drop the column `emailVerificationSentAt` on the `User` table. All the data in the column will be lost.\n  - You are about to drop the column `isEmailVerified` on the `User` table. All the data in the column will be lost.\n  - You are about to drop the column `password` on the `User` table. All the data in the column will be lost.\n  - You are about to drop the column `passwordResetSentAt` on the `User` table. All the data in the column will be lost.\n  - You are about to drop the `SocialLogin` table. If the table is not empty, all the data it contains will be lost.\n\n*/\n-- DropForeignKey\nALTER TABLE \"SocialLogin\" DROP CONSTRAINT \"SocialLogin_userId_fkey\";\n\n-- DropIndex\nDROP INDEX \"User_email_key\";\n\n-- AlterTable\nALTER TABLE \"User\" DROP COLUMN \"email\",\nDROP COLUMN \"emailVerificationSentAt\",\nDROP COLUMN \"isEmailVerified\",\nDROP COLUMN \"password\",\nDROP COLUMN \"passwordResetSentAt\";\n\n-- DropTable\nDROP TABLE \"SocialLogin\";\n\n/*\n  Warnings:\n\n  - You are about to drop the column `email` on the `Auth` table. All the data in the column will be lost.\n  - You are about to drop the column `emailVerificationSentAt` on the `Auth` table. All the data in the column will be lost.\n  - You are about to drop the column `isEmailVerified` on the `Auth` table. All the data in the column will be lost.\n  - You are about to drop the column `password` on the `Auth` table. All the data in the column will be lost.\n  - You are about to drop the column `passwordResetSentAt` on the `Auth` table. All the data in the column will be lost.\n  - You are about to drop the column `username` on the `Auth` table. All the data in the column will be lost.\n  - You are about to drop the `SocialAuthProvider` table. If the table is not empty, all the data it contains will be lost.\n\n*/\n-- DropForeignKey\nALTER TABLE \"SocialAuthProvider\" DROP CONSTRAINT \"SocialAuthProvider_authId_fkey\";\n\n-- DropIndex\nDROP INDEX \"Auth_email_key\";\n\n-- DropIndex\nDROP INDEX \"Auth_username_key\";\n\n-- AlterTable\nALTER TABLE \"Auth\" DROP COLUMN \"email\",\nDROP COLUMN \"emailVerificationSentAt\",\nDROP COLUMN \"isEmailVerified\",\nDROP COLUMN \"password\",\nDROP COLUMN \"passwordResetSentAt\",\nDROP COLUMN \"username\";\n\n-- DropTable\nDROP TABLE \"SocialAuthProvider\";\n\n-- CreateTable\nCREATE TABLE \"AuthIdentity\" (\n    \"providerName\" TEXT NOT NULL,\n    \"providerUserId\" TEXT NOT NULL,\n    \"providerData\" TEXT NOT NULL DEFAULT '{}',\n    \"authId\" TEXT NOT NULL,\n\n    CONSTRAINT \"AuthIdentity_pkey\" PRIMARY KEY (\"providerName\",\"providerUserId\")\n);\n\n-- AddForeignKey\nALTER TABLE \"AuthIdentity\" ADD CONSTRAINT \"AuthIdentity_authId_fkey\" FOREIGN KEY (\"authId\") REFERENCES \"Auth\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- CreateTable\nCREATE TABLE \"Session\" (\n    \"id\" TEXT NOT NULL,\n    \"expiresAt\" TIMESTAMP(3) NOT NULL,\n    \"userId\" TEXT NOT NULL,\n\n    CONSTRAINT \"Session_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"Session_id_key\" ON \"Session\"(\"id\");\n\n-- CreateIndex\nCREATE INDEX \"Session_userId_idx\" ON \"Session\"(\"userId\");\n\n-- AddForeignKey\nALTER TABLE \"Session\" ADD CONSTRAINT \"Session_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"Auth\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- CreateTable\nCREATE TABLE \"TaskVote\" (\n    \"id\" TEXT NOT NULL,\n    \"userId\" INTEGER NOT NULL,\n    \"taskId\" INTEGER NOT NULL,\n\n    CONSTRAINT \"TaskVote_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- AddForeignKey\nALTER TABLE \"TaskVote\" ADD CONSTRAINT \"TaskVote_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"User\"(\"id\") ON DELETE RESTRICT ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"TaskVote\" ADD CONSTRAINT \"TaskVote_taskId_fkey\" FOREIGN KEY (\"taskId\") REFERENCES \"Task\"(\"id\") ON DELETE RESTRICT ON UPDATE CASCADE;\n\n-- AlterTable\nALTER TABLE \"User\" ADD COLUMN     \"isOnAfterLoginHookCalled\" BOOLEAN NOT NULL DEFAULT false,\nADD COLUMN     \"isOnAfterSignupHookCalled\" BOOLEAN NOT NULL DEFAULT false;\n\n-- CreateEnum\nCREATE TYPE \"TaskVisibility\" AS ENUM ('PRIVATE', 'LINK_ONLY', 'PUBLIC');\n\n-- AlterTable\nALTER TABLE \"Task\" ADD COLUMN     \"visibility\" \"TaskVisibility\" NOT NULL DEFAULT 'PRIVATE';\n\n-- AlterTable\nALTER TABLE \"User\" ADD COLUMN     \"isOnAfterEmailVerifiedHookCalled\" BOOLEAN NOT NULL DEFAULT false;\n\n-- CreateEnum\nCREATE TYPE \"UppercaseTextRequestState\" AS ENUM ('PENDING', 'SUCCESS', 'ERROR');\n\n-- CreateTable\nCREATE TABLE \"UppercaseTextRequest\" (\n    \"id\" TEXT NOT NULL,\n    \"input\" TEXT NOT NULL,\n    \"output\" TEXT,\n    \"userId\" INTEGER NOT NULL,\n    \"state\" \"UppercaseTextRequestState\" NOT NULL DEFAULT 'PENDING',\n    \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n\n    CONSTRAINT \"UppercaseTextRequest_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- AddForeignKey\nALTER TABLE \"UppercaseTextRequest\" ADD CONSTRAINT \"UppercaseTextRequest_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"User\"(\"id\") ON DELETE RESTRICT ON UPDATE CASCADE;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "user",
+            "column": "email",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/.wasp/out/db/migrations/20231124161208_remove_extras/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE user DROP COLUMN \"email\"",
+            "extra": {
+              "table_sql": "User"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "user",
+            "column": "email",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "waspc/examples/todoApp/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'email' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "user",
+            "column": "emailverificationsentat",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/.wasp/out/db/migrations/20231124161208_remove_extras/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE user DROP COLUMN \"emailVerificationSentAt\"",
+            "extra": {
+              "table_sql": "User",
+              "column_sql": "emailVerificationSentAt"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "user",
+            "column": "emailverificationsentat",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "waspc/examples/todoApp/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'emailverificationsentat' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "user",
+            "column": "isemailverified",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/.wasp/out/db/migrations/20231124161208_remove_extras/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE user DROP COLUMN \"isEmailVerified\"",
+            "extra": {
+              "table_sql": "User",
+              "column_sql": "isEmailVerified"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "user",
+            "column": "isemailverified",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "waspc/examples/todoApp/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'isemailverified' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "user",
+            "column": "password",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/.wasp/out/db/migrations/20231124161208_remove_extras/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE user DROP COLUMN \"password\"",
+            "extra": {
+              "table_sql": "User"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "user",
+            "column": "password",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "waspc/examples/todoApp/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'password' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "user",
+            "column": "passwordresetsentat",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/.wasp/out/db/migrations/20231124161208_remove_extras/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE user DROP COLUMN \"passwordResetSentAt\"",
+            "extra": {
+              "table_sql": "User",
+              "column_sql": "passwordResetSentAt"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "user",
+            "column": "passwordresetsentat",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "waspc/examples/todoApp/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'passwordresetsentat' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "sociallogin",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/.wasp/out/db/migrations/20231124161208_remove_extras/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE \"SocialLogin\"",
+            "extra": {
+              "table_sql": "SocialLogin"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "sociallogin",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'sociallogin' not resolved in C_{t-1} ORM snapshot."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "auth",
+            "column": "email",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/.wasp/out/db/migrations/20231212135316_next/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE auth DROP COLUMN \"email\"",
+            "extra": {
+              "table_sql": "Auth"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "auth",
+            "column": "email",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "waspc/e2e-tests/test-outputs/waspComplexTest-golden/waspComplexTest/.wasp/out/db/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'email' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "auth",
+            "column": "emailverificationsentat",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/.wasp/out/db/migrations/20231212135316_next/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE auth DROP COLUMN \"emailVerificationSentAt\"",
+            "extra": {
+              "table_sql": "Auth",
+              "column_sql": "emailVerificationSentAt"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "auth",
+            "column": "emailverificationsentat",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "waspc/e2e-tests/test-outputs/waspComplexTest-golden/waspComplexTest/.wasp/out/db/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'emailverificationsentat' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "auth",
+            "column": "isemailverified",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/.wasp/out/db/migrations/20231212135316_next/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE auth DROP COLUMN \"isEmailVerified\"",
+            "extra": {
+              "table_sql": "Auth",
+              "column_sql": "isEmailVerified"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "auth",
+            "column": "isemailverified",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "waspc/e2e-tests/test-outputs/waspComplexTest-golden/waspComplexTest/.wasp/out/db/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'isemailverified' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "auth",
+            "column": "password",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/.wasp/out/db/migrations/20231212135316_next/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE auth DROP COLUMN \"password\"",
+            "extra": {
+              "table_sql": "Auth"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "auth",
+            "column": "password",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "waspc/e2e-tests/test-outputs/waspComplexTest-golden/waspComplexTest/.wasp/out/db/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'password' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "auth",
+            "column": "passwordresetsentat",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/.wasp/out/db/migrations/20231212135316_next/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE auth DROP COLUMN \"passwordResetSentAt\"",
+            "extra": {
+              "table_sql": "Auth",
+              "column_sql": "passwordResetSentAt"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "auth",
+            "column": "passwordresetsentat",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "waspc/e2e-tests/test-outputs/waspComplexTest-golden/waspComplexTest/.wasp/out/db/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'passwordresetsentat' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "auth",
+            "column": "username",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/.wasp/out/db/migrations/20231212135316_next/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE auth DROP COLUMN \"username\"",
+            "extra": {
+              "table_sql": "Auth"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "auth",
+            "column": "username",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "waspc/e2e-tests/test-outputs/waspComplexTest-golden/waspComplexTest/.wasp/out/db/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'username' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "socialauthprovider",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/.wasp/out/db/migrations/20231212135316_next/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE \"SocialAuthProvider\"",
+            "extra": {
+              "table_sql": "SocialAuthProvider"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "socialauthprovider",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'socialauthprovider' not resolved in C_{t-1} ORM snapshot."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "user",
+            "column": "email",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/migrations/20231124161208_remove_extras/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE user DROP COLUMN \"email\"",
+            "extra": {
+              "table_sql": "User"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "user",
+            "column": "email",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "waspc/examples/todoApp/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'email' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "user",
+            "column": "emailverificationsentat",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/migrations/20231124161208_remove_extras/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE user DROP COLUMN \"emailVerificationSentAt\"",
+            "extra": {
+              "table_sql": "User",
+              "column_sql": "emailVerificationSentAt"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "user",
+            "column": "emailverificationsentat",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "waspc/examples/todoApp/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'emailverificationsentat' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "user",
+            "column": "isemailverified",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/migrations/20231124161208_remove_extras/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE user DROP COLUMN \"isEmailVerified\"",
+            "extra": {
+              "table_sql": "User",
+              "column_sql": "isEmailVerified"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "user",
+            "column": "isemailverified",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "waspc/examples/todoApp/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'isemailverified' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "user",
+            "column": "password",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/migrations/20231124161208_remove_extras/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE user DROP COLUMN \"password\"",
+            "extra": {
+              "table_sql": "User"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "user",
+            "column": "password",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "waspc/examples/todoApp/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'password' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "user",
+            "column": "passwordresetsentat",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/migrations/20231124161208_remove_extras/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE user DROP COLUMN \"passwordResetSentAt\"",
+            "extra": {
+              "table_sql": "User",
+              "column_sql": "passwordResetSentAt"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "user",
+            "column": "passwordresetsentat",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "waspc/examples/todoApp/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'passwordresetsentat' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "sociallogin",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/migrations/20231124161208_remove_extras/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE \"SocialLogin\"",
+            "extra": {
+              "table_sql": "SocialLogin"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "sociallogin",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'sociallogin' not resolved in C_{t-1} ORM snapshot."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "auth",
+            "column": "email",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/migrations/20231212135316_next/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE auth DROP COLUMN \"email\"",
+            "extra": {
+              "table_sql": "Auth"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "auth",
+            "column": "email",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "waspc/e2e-tests/test-outputs/waspComplexTest-golden/waspComplexTest/.wasp/out/db/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'email' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "auth",
+            "column": "emailverificationsentat",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/migrations/20231212135316_next/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE auth DROP COLUMN \"emailVerificationSentAt\"",
+            "extra": {
+              "table_sql": "Auth",
+              "column_sql": "emailVerificationSentAt"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "auth",
+            "column": "emailverificationsentat",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "waspc/e2e-tests/test-outputs/waspComplexTest-golden/waspComplexTest/.wasp/out/db/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'emailverificationsentat' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "auth",
+            "column": "isemailverified",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/migrations/20231212135316_next/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE auth DROP COLUMN \"isEmailVerified\"",
+            "extra": {
+              "table_sql": "Auth",
+              "column_sql": "isEmailVerified"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "auth",
+            "column": "isemailverified",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "waspc/e2e-tests/test-outputs/waspComplexTest-golden/waspComplexTest/.wasp/out/db/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'isemailverified' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "auth",
+            "column": "password",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/migrations/20231212135316_next/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE auth DROP COLUMN \"password\"",
+            "extra": {
+              "table_sql": "Auth"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "auth",
+            "column": "password",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "waspc/e2e-tests/test-outputs/waspComplexTest-golden/waspComplexTest/.wasp/out/db/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'password' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "auth",
+            "column": "passwordresetsentat",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/migrations/20231212135316_next/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE auth DROP COLUMN \"passwordResetSentAt\"",
+            "extra": {
+              "table_sql": "Auth",
+              "column_sql": "passwordResetSentAt"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "auth",
+            "column": "passwordresetsentat",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "waspc/e2e-tests/test-outputs/waspComplexTest-golden/waspComplexTest/.wasp/out/db/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'passwordresetsentat' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "auth",
+            "column": "username",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/migrations/20231212135316_next/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE auth DROP COLUMN \"username\"",
+            "extra": {
+              "table_sql": "Auth"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "auth",
+            "column": "username",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "waspc/e2e-tests/test-outputs/waspComplexTest-golden/waspComplexTest/.wasp/out/db/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'username' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "socialauthprovider",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/migrations/20231212135316_next/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE \"SocialAuthProvider\"",
+            "extra": {
+              "table_sql": "SocialAuthProvider"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "socialauthprovider",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'socialauthprovider' not resolved in C_{t-1} ORM snapshot."
+        }
+      ]
+    },
+    {
+      "sha": "4a6f106ea08148cccdabcb5678ad82ff60b16103",
+      "parent": "5b73745fe237c5099747e81c298d5cf3c01ec61c",
+      "date": "2025-09-11T13:38:58+02:00",
+      "subject": "Update tutorial example apps for 0.18.0 (#3145)",
+      "mig_files": [
+        "examples/tutorials/TodoApp/migrations/20240716203532_task_users/migration.sql",
+        "examples/tutorials/TodoAppTs/migrations/20240716144555_task_users/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "examples/tutorials/TodoApp/src/MainPage.jsx",
+        "examples/tutorials/TodoApp/src/vite-env.d.ts",
+        "examples/tutorials/TodoAppTs/src/MainPage.tsx",
+        "examples/tutorials/TodoAppTs/src/actions.ts",
+        "examples/tutorials/TodoAppTs/src/queries.ts",
+        "examples/tutorials/TodoAppTs/src/vite-env.d.ts"
+      ],
+      "orm_models_parsed_old": 15,
+      "raw_sql": "-- RedefineTables\nPRAGMA defer_foreign_keys=ON;\nPRAGMA foreign_keys=OFF;\nCREATE TABLE \"new_Task\" (\n    \"id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n    \"description\" TEXT NOT NULL,\n    \"isDone\" BOOLEAN NOT NULL DEFAULT false,\n    \"userId\" INTEGER,\n    CONSTRAINT \"Task_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"User\" (\"id\") ON DELETE SET NULL ON UPDATE CASCADE\n);\nINSERT INTO \"new_Task\" (\"description\", \"id\", \"isDone\") SELECT \"description\", \"id\", \"isDone\" FROM \"Task\";\nDROP TABLE \"Task\";\nALTER TABLE \"new_Task\" RENAME TO \"Task\";\nPRAGMA foreign_keys=ON;\nPRAGMA defer_foreign_keys=OFF;\n\n-- RedefineTables\nPRAGMA defer_foreign_keys=ON;\nPRAGMA foreign_keys=OFF;\nCREATE TABLE \"new_Task\" (\n    \"id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n    \"description\" TEXT NOT NULL,\n    \"isDone\" BOOLEAN NOT NULL DEFAULT false,\n    \"userId\" INTEGER,\n    CONSTRAINT \"Task_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"User\" (\"id\") ON DELETE SET NULL ON UPDATE CASCADE\n);\nINSERT INTO \"new_Task\" (\"description\", \"id\", \"isDone\") SELECT \"description\", \"id\", \"isDone\" FROM \"Task\";\nDROP TABLE \"Task\";\nALTER TABLE \"new_Task\" RENAME TO \"Task\";\nPRAGMA foreign_keys=ON;\nPRAGMA defer_foreign_keys=OFF;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "task",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "examples/tutorials/TodoApp/migrations/20240716203532_task_users/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TABLE \"Task\"",
+            "extra": {
+              "table_sql": "Task"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "task",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "waspc/examples/todoApp/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'task' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TABLE",
+            "table": "new_task",
+            "column": null,
+            "new_name": "task",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "examples/tutorials/TodoApp/migrations/20240716203532_task_users/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE new_task RENAME TO \"Task\"",
+            "extra": {
+              "table_sql": "new_Task",
+              "new_name_sql": "Task"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "new_task",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": true,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "UNCERTAIN",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'new_task' not resolved in C_{t-1} ORM snapshot."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "task",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "examples/tutorials/TodoAppTs/migrations/20240716144555_task_users/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TABLE \"Task\"",
+            "extra": {
+              "table_sql": "Task"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "task",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "waspc/examples/todoApp/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'task' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TABLE",
+            "table": "new_task",
+            "column": null,
+            "new_name": "task",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "examples/tutorials/TodoAppTs/migrations/20240716144555_task_users/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE new_task RENAME TO \"Task\"",
+            "extra": {
+              "table_sql": "new_Task",
+              "new_name_sql": "Task"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "new_task",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": true,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "UNCERTAIN",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'new_task' not resolved in C_{t-1} ORM snapshot."
+        }
+      ]
+    },
+    {
+      "sha": "a445da9ed075d3d1ef33219eaa64b7960cde66e2",
+      "parent": "fda10de0896cbbeb3bdc449d8c92e892b81a9c25",
+      "date": "2024-02-26T16:25:47+01:00",
+      "subject": "Mage 0.12 producing 0.11 (#1805)",
+      "mig_files": [
+        "mage/migrations/20240222151121_new_auth/migration.sql",
+        "mage/migrations/20240223170839_remove_old_auth/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "mage/src/client/components/Header.jsx",
+        "mage/src/client/components/WaitingRoomContent.jsx",
+        "mage/src/client/pages/FeedbackPage.jsx",
+        "mage/src/client/pages/LoginPage.jsx",
+        "mage/src/client/pages/MainPage.jsx",
+        "mage/src/client/pages/ResultPage.jsx",
+        "mage/src/client/pages/StatsPage.jsx",
+        "mage/src/client/pages/UserPage.jsx",
+        "mage/src/client/vite-env.d.ts",
+        "mage/src/server/auth.ts",
+        "mage/src/server/jobs/checkForPendingApps.ts",
+        "mage/src/server/jobs/failStaleGenerations.ts"
+      ],
+      "orm_models_parsed_old": 6,
+      "raw_sql": "-- CreateTable\nCREATE TABLE \"Auth\" (\n    \"id\" TEXT NOT NULL,\n    \"userId\" INTEGER,\n\n    CONSTRAINT \"Auth_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateTable\nCREATE TABLE \"AuthIdentity\" (\n    \"providerName\" TEXT NOT NULL,\n    \"providerUserId\" TEXT NOT NULL,\n    \"providerData\" TEXT NOT NULL DEFAULT '{}',\n    \"authId\" TEXT NOT NULL,\n\n    CONSTRAINT \"AuthIdentity_pkey\" PRIMARY KEY (\"providerName\",\"providerUserId\")\n);\n\n-- CreateTable\nCREATE TABLE \"Session\" (\n    \"id\" TEXT NOT NULL,\n    \"expiresAt\" TIMESTAMP(3) NOT NULL,\n    \"userId\" TEXT NOT NULL,\n\n    CONSTRAINT \"Session_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"Auth_userId_key\" ON \"Auth\"(\"userId\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"Session_id_key\" ON \"Session\"(\"id\");\n\n-- CreateIndex\nCREATE INDEX \"Session_userId_idx\" ON \"Session\"(\"userId\");\n\n-- AddForeignKey\nALTER TABLE \"Auth\" ADD CONSTRAINT \"Auth_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"User\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"AuthIdentity\" ADD CONSTRAINT \"AuthIdentity_authId_fkey\" FOREIGN KEY (\"authId\") REFERENCES \"Auth\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"Session\" ADD CONSTRAINT \"Session_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"Auth\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n/*\n  Warnings:\n\n  - You are about to drop the `SocialLogin` table. If the table is not empty, all the data it contains will be lost.\n\n*/\n-- DropForeignKey\nALTER TABLE \"SocialLogin\" DROP CONSTRAINT \"SocialLogin_userId_fkey\";\n\n-- DropIndex\nDROP INDEX \"User_email_key\";\n\n-- AlterTable\nALTER TABLE \"User\" ALTER COLUMN \"email\" DROP NOT NULL;\n\n-- DropTable\nDROP TABLE \"SocialLogin\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "sociallogin",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "mage/migrations/20240223170839_remove_old_auth/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE \"SocialLogin\"",
+            "extra": {
+              "table_sql": "SocialLogin"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "sociallogin",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "waspc/e2e-test/test-outputs/waspComplexTest-golden/waspComplexTest/.wasp/out/db/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'sociallogin' active in C_{t-1}."
+        }
+      ]
+    },
+    {
+      "sha": "1c0bfd20ca1af8afcba13a2e8144e4b6ffedfc52",
+      "parent": "c50b0e1f622c940bfd3e80943ed992224b66eb6b",
+      "date": "2024-02-26T14:33:28+01:00",
+      "subject": "Update the tutorial for 0.12.0 (#1799)",
+      "mig_files": [
+        "examples/tutorials/TodoApp/migrations/20240223105721_initial/migration.sql",
+        "examples/tutorials/TodoApp/migrations/20240223111915_task_users/migration.sql",
+        "examples/tutorials/TodoAppTs/migrations/20240223140655_initial/migration.sql",
+        "examples/tutorials/TodoAppTs/migrations/20240223141925_task_users/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "examples/tutorials/TodoApp/src/LoginPage.jsx",
+        "examples/tutorials/TodoApp/src/MainPage.jsx",
+        "examples/tutorials/TodoApp/src/SignupPage.jsx",
+        "examples/tutorials/TodoApp/src/actions.js",
+        "examples/tutorials/TodoApp/src/client/LoginPage.jsx",
+        "examples/tutorials/TodoApp/src/client/MainPage.jsx",
+        "examples/tutorials/TodoApp/src/client/SignupPage.jsx",
+        "examples/tutorials/TodoApp/src/client/vite-env.d.ts",
+        "examples/tutorials/TodoApp/src/client/vite.config.ts",
+        "examples/tutorials/TodoApp/src/queries.js",
+        "examples/tutorials/TodoApp/src/server/actions.js",
+        "examples/tutorials/TodoApp/src/server/queries.js"
+      ],
+      "orm_models_parsed_old": 6,
+      "raw_sql": "-- CreateTable\nCREATE TABLE \"Task\" (\n    \"id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n    \"description\" TEXT NOT NULL,\n    \"isDone\" BOOLEAN NOT NULL DEFAULT false\n);\n\n-- RedefineTables\nPRAGMA foreign_keys=OFF;\nCREATE TABLE \"new_Task\" (\n    \"id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n    \"description\" TEXT NOT NULL,\n    \"isDone\" BOOLEAN NOT NULL DEFAULT false,\n    \"userId\" INTEGER,\n    CONSTRAINT \"Task_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"User\" (\"id\") ON DELETE SET NULL ON UPDATE CASCADE\n);\nINSERT INTO \"new_Task\" (\"description\", \"id\", \"isDone\") SELECT \"description\", \"id\", \"isDone\" FROM \"Task\";\nDROP TABLE \"Task\";\nALTER TABLE \"new_Task\" RENAME TO \"Task\";\nPRAGMA foreign_key_check;\nPRAGMA foreign_keys=ON;\n\n-- CreateTable\nCREATE TABLE \"Task\" (\n    \"id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n    \"description\" TEXT NOT NULL,\n    \"isDone\" BOOLEAN NOT NULL DEFAULT false\n);\n\n-- RedefineTables\nPRAGMA foreign_keys=OFF;\nCREATE TABLE \"new_Task\" (\n    \"id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n    \"description\" TEXT NOT NULL,\n    \"isDone\" BOOLEAN NOT NULL DEFAULT false,\n    \"userId\" INTEGER,\n    CONSTRAINT \"Task_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"User\" (\"id\") ON DELETE SET NULL ON UPDATE CASCADE\n);\nINSERT INTO \"new_Task\" (\"description\", \"id\", \"isDone\") SELECT \"description\", \"id\", \"isDone\" FROM \"Task\";\nDROP TABLE \"Task\";\nALTER TABLE \"new_Task\" RENAME TO \"Task\";\nPRAGMA foreign_key_check;\nPRAGMA foreign_keys=ON;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "task",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "examples/tutorials/TodoApp/migrations/20240223111915_task_users/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TABLE \"Task\"",
+            "extra": {
+              "table_sql": "Task"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "task",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "waspc/e2e-test/test-outputs/waspMigrate-golden/waspMigrate/.wasp/out/db/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'task' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TABLE",
+            "table": "new_task",
+            "column": null,
+            "new_name": "task",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "examples/tutorials/TodoApp/migrations/20240223111915_task_users/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE new_task RENAME TO \"Task\"",
+            "extra": {
+              "table_sql": "new_Task",
+              "new_name_sql": "Task"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "new_task",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": true,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "UNCERTAIN",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'new_task' not resolved in C_{t-1} ORM snapshot."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "task",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "examples/tutorials/TodoAppTs/migrations/20240223141925_task_users/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TABLE \"Task\"",
+            "extra": {
+              "table_sql": "Task"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "task",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "waspc/e2e-test/test-outputs/waspMigrate-golden/waspMigrate/.wasp/out/db/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'task' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TABLE",
+            "table": "new_task",
+            "column": null,
+            "new_name": "task",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "examples/tutorials/TodoAppTs/migrations/20240223141925_task_users/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE new_task RENAME TO \"Task\"",
+            "extra": {
+              "table_sql": "new_Task",
+              "new_name_sql": "Task"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "new_task",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": true,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "UNCERTAIN",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'new_task' not resolved in C_{t-1} ORM snapshot."
+        }
+      ]
+    },
+    {
+      "sha": "633e25c125326a3639bdefa67b26b8d4dbd72c2a",
+      "parent": "e41fc5792c5f0f03203ad26a3541178043c13ce8",
+      "date": "2024-01-03T14:40:08+01:00",
+      "subject": "Injected auth models (#1583)",
+      "mig_files": [
+        "examples/hackathon-submissions/migrations/20231214123430_new_auth/migration.sql",
+        "examples/thoughts/migrations/20231214130619_new_auth/migration.sql",
+        "examples/todo-typescript/migrations/20231214130914_new_auth/migration.sql",
+        "examples/tutorials/TodoApp/migrations/20231214131517_new_auth/migration.sql",
+        "examples/tutorials/TodoApp/migrations/20231214131607_remove_extra_auth_fields/migration.sql",
+        "examples/tutorials/TodoAppTs/migrations/20231214131753_new_auth/migration.sql",
+        "examples/waspello/migrations/20231214132020_new_auth/migration.sql",
+        "examples/websockets-realtime-voting/migrations/20231214111940_new_auth/migration.sql",
+        "examples/websockets-realtime-voting/migrations/20231214112306_remove_extra_user_fields/migration.sql",
+        "waspc/examples/crud-testing/migrations/20231124155039_add_auth/migration.sql",
+        "waspc/examples/crud-testing/migrations/20231212120120_inital/migration.sql",
+        "waspc/examples/crud-testing/migrations/20231212132054_random/migration.sql",
+        "waspc/examples/crud-testing/migrations/20231212132224_thrid/migration.sql",
+        "waspc/examples/todoApp/migrations/20231124161113_initial/migration.sql",
+        "waspc/examples/todoApp/migrations/20231124161208_remove_extras/migration.sql",
+        "waspc/examples/todoApp/migrations/20231212135316_next/migration.sql",
+        "waspc/headless-test/examples/todoApp/migrations/20231213154621_initial/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "examples/thoughts/src/client/TopNavbar.jsx",
+        "examples/todo-typescript/src/client/MainPage.tsx",
+        "examples/waspello/src/client/Navbar.jsx",
+        "examples/waspello/src/client/user.ts",
+        "examples/websockets-realtime-voting/src/client/Layout.jsx",
+        "examples/websockets-realtime-voting/src/server/ws-server.ts",
+        "waspc/data/Generator/templates/react-app/src/auth/types.ts",
+        "waspc/data/Generator/templates/react-app/src/auth/user.ts",
+        "waspc/data/Generator/templates/react-app/src/entities/index.ts",
+        "waspc/data/Generator/templates/server/src/_types/index.ts",
+        "waspc/data/Generator/templates/server/src/auth/index.ts",
+        "waspc/data/Generator/templates/server/src/auth/providers/config/_oauth.ts"
+      ],
+      "orm_models_parsed_old": 3,
+      "raw_sql": "-- CreateTable\nCREATE TABLE \"Submission\" (\n    \"name\" TEXT NOT NULL,\n    \"email\" TEXT NOT NULL,\n    \"github\" TEXT NOT NULL,\n    \"description\" TEXT NOT NULL,\n    \"twitter\" TEXT,\n    \"country\" TEXT,\n    \"website\" TEXT,\n    \"image\" TEXT,\n    \"approved\" BOOLEAN NOT NULL DEFAULT false,\n    \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n\n    CONSTRAINT \"Submission_pkey\" PRIMARY KEY (\"name\")\n);\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"Submission_name_key\" ON \"Submission\"(\"name\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"Submission_email_key\" ON \"Submission\"(\"email\");\n\n-- CreateTable\nCREATE TABLE \"User\" (\n    \"id\" SERIAL NOT NULL,\n\n    CONSTRAINT \"User_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateTable\nCREATE TABLE \"Thought\" (\n    \"id\" SERIAL NOT NULL,\n    \"textMarkdown\" TEXT NOT NULL,\n    \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    \"updatedAt\" TIMESTAMP(3) NOT NULL,\n    \"userId\" INTEGER NOT NULL,\n\n    CONSTRAINT \"Thought_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateTable\nCREATE TABLE \"Tag\" (\n    \"id\" SERIAL NOT NULL,\n    \"name\" TEXT NOT NULL,\n    \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    \"userId\" INTEGER NOT NULL,\n\n    CONSTRAINT \"Tag_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateTable\nCREATE TABLE \"Auth\" (\n    \"id\" TEXT NOT NULL,\n    \"userId\" INTEGER,\n\n    CONSTRAINT \"Auth_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateTable\nCREATE TABLE \"AuthIdentity\" (\n    \"providerName\" TEXT NOT NULL,\n    \"providerUserId\" TEXT NOT NULL,\n    \"providerData\" TEXT NOT NULL DEFAULT '{}',\n    \"authId\" TEXT NOT NULL,\n\n    CONSTRAINT \"AuthIdentity_pkey\" PRIMARY KEY (\"providerName\",\"providerUserId\")\n);\n\n-- CreateTable\nCREATE TABLE \"_TagToThought\" (\n    \"A\" INTEGER NOT NULL,\n    \"B\" INTEGER NOT NULL\n);\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"Tag_name_userId_key\" ON \"Tag\"(\"name\", \"userId\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"Auth_userId_key\" ON \"Auth\"(\"userId\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"_TagToThought_AB_unique\" ON \"_TagToThought\"(\"A\", \"B\");\n\n-- CreateIndex\nCREATE INDEX \"_TagToThought_B_index\" ON \"_TagToThought\"(\"B\");\n\n-- AddForeignKey\nALTER TABLE \"Thought\" ADD CONSTRAINT \"Thought_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"User\"(\"id\") ON DELETE RESTRICT ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"Tag\" ADD CONSTRAINT \"Tag_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"User\"(\"id\") ON DELETE RESTRICT ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"Auth\" ADD CONSTRAINT \"Auth_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"User\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"AuthIdentity\" ADD CONSTRAINT \"AuthIdentity_authId_fkey\" FOREIGN KEY (\"authId\") REFERENCES \"Auth\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"_TagToThought\" ADD CONSTRAINT \"_TagToThought_A_fkey\" FOREIGN KEY (\"A\") REFERENCES \"Tag\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"_TagToThought\" ADD CONSTRAINT \"_TagToThought_B_fkey\" FOREIGN KEY (\"B\") REFERENCES \"Thought\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- CreateTable\nCREATE TABLE \"User\" (\n    \"id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT\n);\n\n-- CreateTable\nCREATE TABLE \"Task\" (\n    \"id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n    \"description\" TEXT NOT NULL,\n    \"isDone\" BOOLEAN NOT NULL DEFAULT false,\n    \"userId\" INTEGER NOT NULL,\n    CONSTRAINT \"Task_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"User\" (\"id\") ON DELETE RESTRICT ON UPDATE CASCADE\n);\n\n-- CreateTable\nCREATE TABLE \"Auth\" (\n    \"id\" TEXT NOT NULL PRIMARY KEY,\n    \"userId\" INTEGER,\n    CONSTRAINT \"Auth_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"User\" (\"id\") ON DELETE CASCADE ON UPDATE CASCADE\n);\n\n-- CreateTable\nCREATE TABLE \"AuthIdentity\" (\n    \"providerName\" TEXT NOT NULL,\n    \"providerUserId\" TEXT NOT NULL,\n    \"providerData\" TEXT NOT NULL DEFAULT '{}',\n    \"authId\" TEXT NOT NULL,\n\n    PRIMARY KEY (\"providerName\", \"providerUserId\"),\n    CONSTRAINT \"AuthIdentity_authId_fkey\" FOREIGN KEY (\"authId\") REFERENCES \"Auth\" (\"id\") ON DELETE CASCADE ON UPDATE CASCADE\n);\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"Auth_userId_key\" ON \"Auth\"(\"userId\");\n\n-- CreateTable\nCREATE TABLE \"User\" (\n    \"id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n    \"username\" TEXT NOT NULL,\n    \"password\" TEXT NOT NULL\n);\n\n-- CreateTable\nCREATE TABLE \"Task\" (\n    \"id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n    \"description\" TEXT NOT NULL,\n    \"isDone\" BOOLEAN NOT NULL DEFAULT false,\n    \"userId\" INTEGER,\n    CONSTRAINT \"Task_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"User\" (\"id\") ON DELETE SET NULL ON UPDATE CASCADE\n);\n\n-- CreateTable\nCREATE TABLE \"Auth\" (\n    \"id\" TEXT NOT NULL PRIMARY KEY,\n    \"userId\" INTEGER,\n    CONSTRAINT \"Auth_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"User\" (\"id\") ON DELETE CASCADE ON UPDATE CASCADE\n);\n\n-- CreateTable\nCREATE TABLE \"AuthIdentity\" (\n    \"providerName\" TEXT NOT NULL,\n    \"providerUserId\" TEXT NOT NULL,\n    \"providerData\" TEXT NOT NULL DEFAULT '{}',\n    \"authId\" TEXT NOT NULL,\n\n    PRIMARY KEY (\"providerName\", \"providerUserId\"),\n    CONSTRAINT \"AuthIdentity_authId_fkey\" FOREIGN KEY (\"authId\") REFERENCES \"Auth\" (\"id\") ON DELETE CASCADE ON UPDATE CASCADE\n);\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"User_username_key\" ON \"User\"(\"username\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"Auth_userId_key\" ON \"Auth\"(\"userId\");\n\n/*\n  Warnings:\n\n  - You are about to drop the column `password` on the `User` table. All the data in the column will be lost.\n  - You are about to drop the column `username` on the `User` table. All the data in the column will be lost.\n\n*/\n-- RedefineTables\nPRAGMA foreign_keys=OFF;\nCREATE TABLE \"new_User\" (\n    \"id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT\n);\nINSERT INTO \"new_User\" (\"id\") SELECT \"id\" FROM \"User\";\nDROP TABLE \"User\";\nALTER TABLE \"new_User\" RENAME TO \"User\";\nPRAGMA foreign_key_check;\nPRAGMA foreign_keys=ON;\n\n-- CreateTable\nCREATE TABLE \"User\" (\n    \"id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT\n);\n\n-- CreateTable\nCREATE TABLE \"Task\" (\n    \"id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n    \"description\" TEXT NOT NULL,\n    \"isDone\" BOOLEAN NOT NULL DEFAULT false,\n    \"userId\" INTEGER,\n    CONSTRAINT \"Task_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"User\" (\"id\") ON DELETE SET NULL ON UPDATE CASCADE\n);\n\n-- CreateTable\nCREATE TABLE \"Auth\" (\n    \"id\" TEXT NOT NULL PRIMARY KEY,\n    \"userId\" INTEGER,\n    CONSTRAINT \"Auth_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"User\" (\"id\") ON DELETE CASCADE ON UPDATE CASCADE\n);\n\n-- CreateTable\nCREATE TABLE \"AuthIdentity\" (\n    \"providerName\" TEXT NOT NULL,\n    \"providerUserId\" TEXT NOT NULL,\n    \"providerData\" TEXT NOT NULL DEFAULT '{}',\n    \"authId\" TEXT NOT NULL,\n\n    PRIMARY KEY (\"providerName\", \"providerUserId\"),\n    CONSTRAINT \"AuthIdentity_authId_fkey\" FOREIGN KEY (\"authId\") REFERENCES \"Auth\" (\"id\") ON DELETE CASCADE ON UPDATE CASCADE\n);\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"Auth_userId_key\" ON \"Auth\"(\"userId\");\n\n-- CreateTable\nCREATE TABLE \"User\" (\n    \"id\" SERIAL NOT NULL,\n\n    CONSTRAINT \"User_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateTable\nCREATE TABLE \"List\" (\n    \"id\" SERIAL NOT NULL,\n    \"name\" TEXT NOT NULL,\n    \"pos\" DOUBLE PRECISION NOT NULL,\n    \"userId\" INTEGER NOT NULL,\n\n    CONSTRAINT \"List_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateTable\nCREATE TABLE \"Card\" (\n    \"id\" SERIAL NOT NULL,\n    \"title\" TEXT NOT NULL,\n    \"pos\" DOUBLE PRECISION NOT NULL,\n    \"listId\" INTEGER NOT NULL,\n    \"authorId\" INTEGER NOT NULL,\n\n    CONSTRAINT \"Card_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateTable\nCREATE TABLE \"Auth\" (\n    \"id\" TEXT NOT NULL,\n    \"userId\" INTEGER,\n\n    CONSTRAINT \"Auth_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateTable\nCREATE TABLE \"AuthIdentity\" (\n    \"providerName\" TEXT NOT NULL,\n    \"providerUserId\" TEXT NOT NULL,\n    \"providerData\" TEXT NOT NULL DEFAULT '{}',\n    \"authId\" TEXT NOT NULL,\n\n    CONSTRAINT \"AuthIdentity_pkey\" PRIMARY KEY (\"providerName\",\"providerUserId\")\n);\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"Auth_userId_key\" ON \"Auth\"(\"userId\");\n\n-- AddForeignKey\nALTER TABLE \"List\" ADD CONSTRAINT \"List_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"User\"(\"id\") ON DELETE RESTRICT ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"Card\" ADD CONSTRAINT \"Card_listId_fkey\" FOREIGN KEY (\"listId\") REFERENCES \"List\"(\"id\") ON DELETE RESTRICT ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"Card\" ADD CONSTRAINT \"Card_authorId_fkey\" FOREIGN KEY (\"authorId\") REFERENCES \"User\"(\"id\") ON DELETE RESTRICT ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"Auth\" ADD CONSTRAINT \"Auth_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"User\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"AuthIdentity\" ADD CONSTRAINT \"AuthIdentity_authId_fkey\" FOREIGN KEY (\"authId\") REFERENCES \"Auth\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- CreateTable\nCREATE TABLE \"User\" (\n    \"id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n    \"username\" TEXT NOT NULL,\n    \"password\" TEXT NOT NULL\n);\n\n-- CreateTable\nCREATE TABLE \"Auth\" (\n    \"id\" TEXT NOT NULL PRIMARY KEY,\n    \"userId\" INTEGER,\n    CONSTRAINT \"Auth_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"User\" (\"id\") ON DELETE CASCADE ON UPDATE CASCADE\n);\n\n-- CreateTable\nCREATE TABLE \"AuthIdentity\" (\n    \"providerName\" TEXT NOT NULL,\n    \"providerUserId\" TEXT NOT NULL,\n    \"providerData\" TEXT NOT NULL DEFAULT '{}',\n    \"authId\" TEXT NOT NULL,\n\n    PRIMARY KEY (\"providerName\", \"providerUserId\"),\n    CONSTRAINT \"AuthIdentity_authId_fkey\" FOREIGN KEY (\"authId\") REFERENCES \"Auth\" (\"id\") ON DELETE CASCADE ON UPDATE CASCADE\n);\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"User_username_key\" ON \"User\"(\"username\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"Auth_userId_key\" ON \"Auth\"(\"userId\");\n\n/*\n  Warnings:\n\n  - You are about to drop the column `password` on the `User` table. All the data in the column will be lost.\n  - You are about to drop the column `username` on the `User` table. All the data in the column will be lost.\n\n*/\n-- RedefineTables\nPRAGMA foreign_keys=OFF;\nCREATE TABLE \"new_User\" (\n    \"id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT\n);\nINSERT INTO \"new_User\" (\"id\") SELECT \"id\" FROM \"User\";\nDROP TABLE \"User\";\nALTER TABLE \"new_User\" RENAME TO \"User\";\nPRAGMA foreign_key_check;\nPRAGMA foreign_keys=ON;\n\n-- CreateTable\nCREATE TABLE \"Auth\" (\n    \"id\" TEXT NOT NULL,\n    \"email\" TEXT,\n    \"username\" TEXT,\n    \"password\" TEXT,\n    \"isEmailVerified\" BOOLEAN NOT NULL DEFAULT false,\n    \"emailVerificationSentAt\" TIMESTAMP(3),\n    \"passwordResetSentAt\" TIMESTAMP(3),\n    \"userId\" INTEGER,\n\n    CONSTRAINT \"Auth_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateTable\nCREATE TABLE \"SocialAuthProvider\" (\n    \"id\" TEXT NOT NULL,\n    \"provider\" TEXT NOT NULL,\n    \"providerId\" TEXT NOT NULL,\n    \"authId\" TEXT NOT NULL,\n\n    CONSTRAINT \"SocialAuthProvider_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"Auth_email_key\" ON \"Auth\"(\"email\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"Auth_username_key\" ON \"Auth\"(\"username\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"Auth_userId_key\" ON \"Auth\"(\"userId\");\n\n-- AddForeignKey\nALTER TABLE \"Auth\" ADD CONSTRAINT \"Auth_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"User\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"SocialAuthProvider\" ADD CONSTRAINT \"SocialAuthProvider_authId_fkey\" FOREIGN KEY (\"authId\") REFERENCES \"Auth\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n/*\n  Warnings:\n\n  - You are about to drop the `SocialAuthProvider` table. If the table is not empty, all the data it contains will be lost.\n\n*/\n-- DropForeignKey\nALTER TABLE \"SocialAuthProvider\" DROP CONSTRAINT \"SocialAuthProvider_authId_fkey\";\n\n-- DropTable\nDROP TABLE \"SocialAuthProvider\";\n\n-- CreateTable\nCREATE TABLE \"AuthIdentity\" (\n    \"providerName\" TEXT NOT NULL,\n    \"providerUserId\" TEXT NOT NULL,\n    \"providerData\" TEXT NOT NULL DEFAULT '{}',\n    \"authId\" TEXT NOT NULL,\n\n    CONSTRAINT \"AuthIdentity_pkey\" PRIMARY KEY (\"providerName\",\"providerUserId\")\n);\n\n-- AddForeignKey\nALTER TABLE \"AuthIdentity\" ADD CONSTRAINT \"AuthIdentity_authId_fkey\" FOREIGN KEY (\"authId\") REFERENCES \"Auth\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n/*\n  Warnings:\n\n  - You are about to drop the column `email` on the `Auth` table. All the data in the column will be lost.\n  - You are about to drop the column `emailVerificationSentAt` on the `Auth` table. All the data in the column will be lost.\n  - You are about to drop the column `isEmailVerified` on the `Auth` table. All the data in the column will be lost.\n  - You are about to drop the column `password` on the `Auth` table. All the data in the column will be lost.\n  - You are about to drop the column `passwordResetSentAt` on the `Auth` table. All the data in the column will be lost.\n  - You are about to drop the column `username` on the `Auth` table. All the data in the column will be lost.\n\n*/\n-- DropIndex\nDROP INDEX \"Auth_email_key\";\n\n-- DropIndex\nDROP INDEX \"Auth_username_key\";\n\n-- AlterTable\nALTER TABLE \"Auth\" DROP COLUMN \"email\",\nDROP COLUMN \"emailVerificationSentAt\",\nDROP COLUMN \"isEmailVerified\",\nDROP COLUMN \"password\",\nDROP COLUMN \"passwordResetSentAt\",\nDROP COLUMN \"username\";\n\n/*\n  Warnings:\n\n  - You are about to drop the column `password` on the `User` table. All the data in the column will be lost.\n  - You are about to drop the column `username` on the `User` table. All the data in the column will be lost.\n\n*/\n-- DropIndex\nDROP INDEX \"User_username_key\";\n\n-- AlterTable\nALTER TABLE \"User\" DROP COLUMN \"password\",\nDROP COLUMN \"username\";\n\n-- CreateTable\nCREATE TABLE \"Auth\" (\n    \"id\" TEXT NOT NULL,\n    \"email\" TEXT,\n    \"username\" TEXT,\n    \"password\" TEXT,\n    \"isEmailVerified\" BOOLEAN NOT NULL DEFAULT false,\n    \"emailVerificationSentAt\" TIMESTAMP(3),\n    \"passwordResetSentAt\" TIMESTAMP(3),\n    \"userId\" INTEGER,\n\n    CONSTRAINT \"Auth_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateTable\nCREATE TABLE \"SocialAuthProvider\" (\n    \"id\" TEXT NOT NULL,\n    \"provider\" TEXT NOT NULL,\n    \"providerId\" TEXT NOT NULL,\n    \"authId\" TEXT NOT NULL,\n\n    CONSTRAINT \"SocialAuthProvider_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"Auth_email_key\" ON \"Auth\"(\"email\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"Auth_username_key\" ON \"Auth\"(\"username\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"Auth_userId_key\" ON \"Auth\"(\"userId\");\n\n-- AddForeignKey\nALTER TABLE \"Auth\" ADD CONSTRAINT \"Auth_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"User\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"SocialAuthProvider\" ADD CONSTRAINT \"SocialAuthProvider_authId_fkey\" FOREIGN KEY (\"authId\") REFERENCES \"Auth\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n/*\n  Warnings:\n\n  - You are about to drop the column `email` on the `User` table. All the data in the column will be lost.\n  - You are about to drop the column `emailVerificationSentAt` on the `User` table. All the data in the column will be lost.\n  - You are about to drop the column `isEmailVerified` on the `User` table. All the data in the column will be lost.\n  - You are about to drop the column `password` on the `User` table. All the data in the column will be lost.\n  - You are about to drop the column `passwordResetSentAt` on the `User` table. All the data in the column will be lost.\n  - You are about to drop the `SocialLogin` table. If the table is not empty, all the data it contains will be lost.\n\n*/\n-- DropForeignKey\nALTER TABLE \"SocialLogin\" DROP CONSTRAINT \"SocialLogin_userId_fkey\";\n\n-- DropIndex\nDROP INDEX \"User_email_key\";\n\n-- AlterTable\nALTER TABLE \"User\" DROP COLUMN \"email\",\nDROP COLUMN \"emailVerificationSentAt\",\nDROP COLUMN \"isEmailVerified\",\nDROP COLUMN \"password\",\nDROP COLUMN \"passwordResetSentAt\";\n\n-- DropTable\nDROP TABLE \"SocialLogin\";\n\n/*\n  Warnings:\n\n  - You are about to drop the column `email` on the `Auth` table. All the data in the column will be lost.\n  - You are about to drop the column `emailVerificationSentAt` on the `Auth` table. All the data in the column will be lost.\n  - You are about to drop the column `isEmailVerified` on the `Auth` table. All the data in the column will be lost.\n  - You are about to drop the column `password` on the `Auth` table. All the data in the column will be lost.\n  - You are about to drop the column `passwordResetSentAt` on the `Auth` table. All the data in the column will be lost.\n  - You are about to drop the column `username` on the `Auth` table. All the data in the column will be lost.\n  - You are about to drop the `SocialAuthProvider` table. If the table is not empty, all the data it contains will be lost.\n\n*/\n-- DropForeignKey\nALTER TABLE \"SocialAuthProvider\" DROP CONSTRAINT \"SocialAuthProvider_authId_fkey\";\n\n-- DropIndex\nDROP INDEX \"Auth_email_key\";\n\n-- DropIndex\nDROP INDEX \"Auth_username_key\";\n\n-- AlterTable\nALTER TABLE \"Auth\" DROP COLUMN \"email\",\nDROP COLUMN \"emailVerificationSentAt\",\nDROP COLUMN \"isEmailVerified\",\nDROP COLUMN \"password\",\nDROP COLUMN \"passwordResetSentAt\",\nDROP COLUMN \"username\";\n\n-- DropTable\nDROP TABLE \"SocialAuthProvider\";\n\n-- CreateTable\nCREATE TABLE \"AuthIdentity\" (\n    \"providerName\" TEXT NOT NULL,\n    \"providerUserId\" TEXT NOT NULL,\n    \"providerData\" TEXT NOT NULL DEFAULT '{}',\n    \"authId\" TEXT NOT NULL,\n\n    CONSTRAINT \"AuthIdentity_pkey\" PRIMARY KEY (\"providerName\",\"providerUserId\")\n);\n\n-- AddForeignKey\nALTER TABLE \"AuthIdentity\" ADD CONSTRAINT \"AuthIdentity_authId_fkey\" FOREIGN KEY (\"authId\") REFERENCES \"Auth\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- CreateTable\nCREATE TABLE \"User\" (\n    \"id\" SERIAL NOT NULL,\n\n    CONSTRAINT \"User_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateTable\nCREATE TABLE \"Task\" (\n    \"id\" SERIAL NOT NULL,\n    \"description\" TEXT NOT NULL,\n    \"isDone\" BOOLEAN NOT NULL DEFAULT false,\n    \"userId\" INTEGER NOT NULL,\n\n    CONSTRAINT \"Task_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateTable\nCREATE TABLE \"Auth\" (\n    \"id\" TEXT NOT NULL,\n    \"userId\" INTEGER,\n\n    CONSTRAINT \"Auth_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateTable\nCREATE TABLE \"AuthIdentity\" (\n    \"providerName\" TEXT NOT NULL,\n    \"providerUserId\" TEXT NOT NULL,\n    \"providerData\" TEXT NOT NULL DEFAULT '{}',\n    \"authId\" TEXT NOT NULL,\n\n    CONSTRAINT \"AuthIdentity_pkey\" PRIMARY KEY (\"providerName\",\"providerUserId\")\n);\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"Auth_userId_key\" ON \"Auth\"(\"userId\");\n\n-- AddForeignKey\nALTER TABLE \"Task\" ADD CONSTRAINT \"Task_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"User\"(\"id\") ON DELETE RESTRICT ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"Auth\" ADD CONSTRAINT \"Auth_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"User\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"AuthIdentity\" ADD CONSTRAINT \"AuthIdentity_authId_fkey\" FOREIGN KEY (\"authId\") REFERENCES \"Auth\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "user",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "examples/tutorials/TodoApp/migrations/20231214131607_remove_extra_auth_fields/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TABLE \"User\"",
+            "extra": {
+              "table_sql": "User"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "user",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "waspc/e2e-test/test-outputs/waspComplexTest-golden/waspComplexTest/.wasp/out/db/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'user' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TABLE",
+            "table": "new_user",
+            "column": null,
+            "new_name": "user",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "examples/tutorials/TodoApp/migrations/20231214131607_remove_extra_auth_fields/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE new_user RENAME TO \"User\"",
+            "extra": {
+              "table_sql": "new_User",
+              "new_name_sql": "User"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "new_user",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": true,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "UNCERTAIN",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'new_user' not resolved in C_{t-1} ORM snapshot."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "user",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "examples/websockets-realtime-voting/migrations/20231214112306_remove_extra_user_fields/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TABLE \"User\"",
+            "extra": {
+              "table_sql": "User"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "user",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "waspc/e2e-test/test-outputs/waspComplexTest-golden/waspComplexTest/.wasp/out/db/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'user' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TABLE",
+            "table": "new_user",
+            "column": null,
+            "new_name": "user",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "examples/websockets-realtime-voting/migrations/20231214112306_remove_extra_user_fields/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE new_user RENAME TO \"User\"",
+            "extra": {
+              "table_sql": "new_User",
+              "new_name_sql": "User"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "new_user",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": true,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "UNCERTAIN",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'new_user' not resolved in C_{t-1} ORM snapshot."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "socialauthprovider",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "waspc/examples/crud-testing/migrations/20231212120120_inital/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE \"SocialAuthProvider\"",
+            "extra": {
+              "table_sql": "SocialAuthProvider"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "socialauthprovider",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'socialauthprovider' not resolved in C_{t-1} ORM snapshot."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "auth",
+            "column": "email",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "waspc/examples/crud-testing/migrations/20231212132054_random/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE auth DROP COLUMN \"email\"",
+            "extra": {
+              "table_sql": "Auth"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "auth",
+            "column": "email",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "auth",
+            "column": "emailverificationsentat",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "waspc/examples/crud-testing/migrations/20231212132054_random/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE auth DROP COLUMN \"emailVerificationSentAt\"",
+            "extra": {
+              "table_sql": "Auth",
+              "column_sql": "emailVerificationSentAt"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "auth",
+            "column": "emailverificationsentat",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'auth' columns not resolved in C_{t-1} schema snapshot."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "auth",
+            "column": "isemailverified",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "waspc/examples/crud-testing/migrations/20231212132054_random/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE auth DROP COLUMN \"isEmailVerified\"",
+            "extra": {
+              "table_sql": "Auth",
+              "column_sql": "isEmailVerified"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "auth",
+            "column": "isemailverified",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'auth' columns not resolved in C_{t-1} schema snapshot."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "auth",
+            "column": "password",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "waspc/examples/crud-testing/migrations/20231212132054_random/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE auth DROP COLUMN \"password\"",
+            "extra": {
+              "table_sql": "Auth"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "auth",
+            "column": "password",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "auth",
+            "column": "passwordresetsentat",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "waspc/examples/crud-testing/migrations/20231212132054_random/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE auth DROP COLUMN \"passwordResetSentAt\"",
+            "extra": {
+              "table_sql": "Auth",
+              "column_sql": "passwordResetSentAt"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "auth",
+            "column": "passwordresetsentat",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'auth' columns not resolved in C_{t-1} schema snapshot."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "auth",
+            "column": "username",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "waspc/examples/crud-testing/migrations/20231212132054_random/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE auth DROP COLUMN \"username\"",
+            "extra": {
+              "table_sql": "Auth"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "auth",
+            "column": "username",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "user",
+            "column": "password",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "waspc/examples/crud-testing/migrations/20231212132224_thrid/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE user DROP COLUMN \"password\"",
+            "extra": {
+              "table_sql": "User"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "user",
+            "column": "password",
+            "orm_active_old": true,
+            "orm_active_new": true,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "waspc/e2e-test/test-outputs/waspComplexTest-golden/waspComplexTest/.wasp/out/db/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'password' active in C_{t-1} ORM (waspc/e2e-test/test-outputs/waspComplexTest-golden/waspComplexTest/.wasp/out/db/schema.prisma); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "user",
+            "column": "username",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "waspc/examples/crud-testing/migrations/20231212132224_thrid/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE user DROP COLUMN \"username\"",
+            "extra": {
+              "table_sql": "User"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "user",
+            "column": "username",
+            "orm_active_old": true,
+            "orm_active_new": true,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "waspc/e2e-test/test-outputs/waspComplexTest-golden/waspComplexTest/.wasp/out/db/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'username' active in C_{t-1} ORM (waspc/e2e-test/test-outputs/waspComplexTest-golden/waspComplexTest/.wasp/out/db/schema.prisma); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "user",
+            "column": "email",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "waspc/examples/todoApp/migrations/20231124161208_remove_extras/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE user DROP COLUMN \"email\"",
+            "extra": {
+              "table_sql": "User"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "user",
+            "column": "email",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "waspc/e2e-test/test-outputs/waspComplexTest-golden/waspComplexTest/.wasp/out/db/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "user",
+            "column": "emailverificationsentat",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "waspc/examples/todoApp/migrations/20231124161208_remove_extras/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE user DROP COLUMN \"emailVerificationSentAt\"",
+            "extra": {
+              "table_sql": "User",
+              "column_sql": "emailVerificationSentAt"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "user",
+            "column": "emailverificationsentat",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "waspc/e2e-test/test-outputs/waspComplexTest-golden/waspComplexTest/.wasp/out/db/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'emailverificationsentat' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "user",
+            "column": "isemailverified",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "waspc/examples/todoApp/migrations/20231124161208_remove_extras/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE user DROP COLUMN \"isEmailVerified\"",
+            "extra": {
+              "table_sql": "User",
+              "column_sql": "isEmailVerified"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "user",
+            "column": "isemailverified",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "waspc/e2e-test/test-outputs/waspComplexTest-golden/waspComplexTest/.wasp/out/db/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'isemailverified' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "user",
+            "column": "password",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "waspc/examples/todoApp/migrations/20231124161208_remove_extras/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE user DROP COLUMN \"password\"",
+            "extra": {
+              "table_sql": "User"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "user",
+            "column": "password",
+            "orm_active_old": true,
+            "orm_active_new": true,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "waspc/e2e-test/test-outputs/waspComplexTest-golden/waspComplexTest/.wasp/out/db/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'password' active in C_{t-1} ORM (waspc/e2e-test/test-outputs/waspComplexTest-golden/waspComplexTest/.wasp/out/db/schema.prisma); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "user",
+            "column": "passwordresetsentat",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "waspc/examples/todoApp/migrations/20231124161208_remove_extras/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE user DROP COLUMN \"passwordResetSentAt\"",
+            "extra": {
+              "table_sql": "User",
+              "column_sql": "passwordResetSentAt"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "user",
+            "column": "passwordresetsentat",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "waspc/e2e-test/test-outputs/waspComplexTest-golden/waspComplexTest/.wasp/out/db/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'passwordresetsentat' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "sociallogin",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "waspc/examples/todoApp/migrations/20231124161208_remove_extras/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE \"SocialLogin\"",
+            "extra": {
+              "table_sql": "SocialLogin"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "sociallogin",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "waspc/e2e-test/test-outputs/waspComplexTest-golden/waspComplexTest/.wasp/out/db/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'sociallogin' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "auth",
+            "column": "email",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "waspc/examples/todoApp/migrations/20231212135316_next/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE auth DROP COLUMN \"email\"",
+            "extra": {
+              "table_sql": "Auth"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "auth",
+            "column": "email",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "auth",
+            "column": "emailverificationsentat",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "waspc/examples/todoApp/migrations/20231212135316_next/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE auth DROP COLUMN \"emailVerificationSentAt\"",
+            "extra": {
+              "table_sql": "Auth",
+              "column_sql": "emailVerificationSentAt"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "auth",
+            "column": "emailverificationsentat",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'auth' columns not resolved in C_{t-1} schema snapshot."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "auth",
+            "column": "isemailverified",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "waspc/examples/todoApp/migrations/20231212135316_next/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE auth DROP COLUMN \"isEmailVerified\"",
+            "extra": {
+              "table_sql": "Auth",
+              "column_sql": "isEmailVerified"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "auth",
+            "column": "isemailverified",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'auth' columns not resolved in C_{t-1} schema snapshot."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "auth",
+            "column": "password",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "waspc/examples/todoApp/migrations/20231212135316_next/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE auth DROP COLUMN \"password\"",
+            "extra": {
+              "table_sql": "Auth"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "auth",
+            "column": "password",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "auth",
+            "column": "passwordresetsentat",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "waspc/examples/todoApp/migrations/20231212135316_next/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE auth DROP COLUMN \"passwordResetSentAt\"",
+            "extra": {
+              "table_sql": "Auth",
+              "column_sql": "passwordResetSentAt"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "auth",
+            "column": "passwordresetsentat",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'auth' columns not resolved in C_{t-1} schema snapshot."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "auth",
+            "column": "username",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "waspc/examples/todoApp/migrations/20231212135316_next/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE auth DROP COLUMN \"username\"",
+            "extra": {
+              "table_sql": "Auth"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "auth",
+            "column": "username",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "socialauthprovider",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "waspc/examples/todoApp/migrations/20231212135316_next/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE \"SocialAuthProvider\"",
+            "extra": {
+              "table_sql": "SocialAuthProvider"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "socialauthprovider",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'socialauthprovider' not resolved in C_{t-1} ORM snapshot."
+        }
+      ]
+    },
+    {
+      "sha": "fc1550fa1b9c9b683bda1f6585128ac74742622d",
+      "parent": "d9d04a384ac6118b7c2c2076297217266db663de",
+      "date": "2023-10-16T13:02:09+02:00",
+      "subject": "Update tutorials for v0.11.6 (#1504)",
+      "mig_files": [
+        "examples/tutorials/TodoAppTs/migrations/20231013154636_initial/migration.sql",
+        "examples/tutorials/TodoAppTs/migrations/20231013155651_user/migration.sql",
+        "examples/tutorials/TodoAppTs/migrations/20231013160107_users_tasks/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "examples/tutorials/TodoApp/src/client/Clocks.jsx",
+        "examples/tutorials/TodoApp/src/client/LoginPage.jsx",
+        "examples/tutorials/TodoApp/src/client/MainPage.jsx",
+        "examples/tutorials/TodoApp/src/client/SignupPage.jsx",
+        "examples/tutorials/TodoApp/src/client/vite.config.ts",
+        "examples/tutorials/TodoApp/src/server/actions.js",
+        "examples/tutorials/TodoApp/src/server/queries.js",
+        "examples/tutorials/TodoAppTs/src/client/LoginPage.tsx",
+        "examples/tutorials/TodoAppTs/src/client/MainPage.tsx",
+        "examples/tutorials/TodoAppTs/src/client/SignupPage.tsx",
+        "examples/tutorials/TodoAppTs/src/client/vite-env.d.ts",
+        "examples/tutorials/TodoAppTs/src/client/vite.config.ts"
+      ],
+      "orm_models_parsed_old": 3,
+      "raw_sql": "-- CreateTable\nCREATE TABLE \"Task\" (\n    \"id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n    \"description\" TEXT NOT NULL,\n    \"isDone\" BOOLEAN NOT NULL DEFAULT false\n);\n\n-- CreateTable\nCREATE TABLE \"User\" (\n    \"id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n    \"username\" TEXT NOT NULL,\n    \"password\" TEXT NOT NULL\n);\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"User_username_key\" ON \"User\"(\"username\");\n\n-- RedefineTables\nPRAGMA foreign_keys=OFF;\nCREATE TABLE \"new_Task\" (\n    \"id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n    \"description\" TEXT NOT NULL,\n    \"isDone\" BOOLEAN NOT NULL DEFAULT false,\n    \"userId\" INTEGER,\n    CONSTRAINT \"Task_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"User\" (\"id\") ON DELETE SET NULL ON UPDATE CASCADE\n);\nINSERT INTO \"new_Task\" (\"description\", \"id\", \"isDone\") SELECT \"description\", \"id\", \"isDone\" FROM \"Task\";\nDROP TABLE \"Task\";\nALTER TABLE \"new_Task\" RENAME TO \"Task\";\nPRAGMA foreign_key_check;\nPRAGMA foreign_keys=ON;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "task",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "examples/tutorials/TodoAppTs/migrations/20231013160107_users_tasks/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TABLE \"Task\"",
+            "extra": {
+              "table_sql": "Task"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "task",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "waspc/e2e-test/test-outputs/waspMigrate-golden/waspMigrate/.wasp/out/db/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'task' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TABLE",
+            "table": "new_task",
+            "column": null,
+            "new_name": "task",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "examples/tutorials/TodoAppTs/migrations/20231013160107_users_tasks/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE new_task RENAME TO \"Task\"",
+            "extra": {
+              "table_sql": "new_Task",
+              "new_name_sql": "Task"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "new_task",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": true,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "UNCERTAIN",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'new_task' not resolved in C_{t-1} ORM snapshot."
+        }
+      ]
+    },
+    {
+      "sha": "cb88dfc618e143caf7539f7e9464c6465596c2c1",
+      "parent": "ed3be9ca1a18146d7550adbd9cb3a905230a360b",
+      "date": "2023-09-12T13:03:57+02:00",
+      "subject": "Adding support for Postgres Extensions (#1443)",
+      "mig_files": [
+        "waspc/examples/pg-vector-example/migrations/20230907154352_add_extension/migration.sql",
+        "waspc/examples/pg-vector-example/migrations/20230911093209_add_url/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "waspc/data/Generator/templates/db/schema.prisma",
+        "waspc/examples/pg-vector-example/src/client/Layout.tsx",
+        "waspc/examples/pg-vector-example/src/client/components/SearchIcon.jsx",
+        "waspc/examples/pg-vector-example/src/client/pages/MainPage.tsx",
+        "waspc/examples/pg-vector-example/src/client/vite-env.d.ts",
+        "waspc/examples/pg-vector-example/src/server/documents.ts",
+        "waspc/examples/pg-vector-example/src/server/scrape.ts"
+      ],
+      "orm_models_parsed_old": 3,
+      "raw_sql": "-- CreateExtension\nCREATE EXTENSION IF NOT EXISTS \"vector\";\n\n-- CreateTable\nCREATE TABLE \"Document\" (\n    \"id\" TEXT NOT NULL,\n    \"title\" TEXT NOT NULL,\n    \"content\" TEXT NOT NULL,\n    \"embedding\" vector(1536) NOT NULL,\n\n    CONSTRAINT \"Document_pkey\" PRIMARY KEY (\"id\")\n);\n\n/*\n  Warnings:\n\n  - A unique constraint covering the columns `[url]` on the table `Document` will be added. If there are existing duplicate values, this will fail.\n  - Added the required column `updatedAt` to the `Document` table without a default value. This is not possible if the table is not empty.\n  - Added the required column `url` to the `Document` table without a default value. This is not possible if the table is not empty.\n\n*/\n-- AlterTable\nALTER TABLE \"Document\" ADD COLUMN     \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\nADD COLUMN     \"updatedAt\" TIMESTAMP(3) NOT NULL,\nADD COLUMN     \"url\" TEXT NOT NULL;\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"Document_url_key\" ON \"Document\"(\"url\");\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "document",
+            "column": "updatedat",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TIMESTAMP(3)",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "waspc/examples/pg-vector-example/migrations/20230911093209_add_url/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE document ADD COLUMN \"updatedAt\" TIMESTAMP(3) NOT NULL",
+            "extra": {
+              "table_sql": "Document",
+              "column_sql": "updatedAt"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "document",
+            "column": "updatedat",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'document' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "document",
+            "column": "url",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TEXT",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "waspc/examples/pg-vector-example/migrations/20230911093209_add_url/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE document ADD COLUMN \"url\" TEXT NOT NULL",
+            "extra": {
+              "table_sql": "Document"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "document",
+            "column": "url",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'document' was created in the same commit; C_{t-1} does not write to it."
+        }
+      ]
+    },
+    {
+      "sha": "cf9b85466edfb4847006cf5b0533b6b6fabce333",
+      "parent": "058d226be8ae312fb90e61cbf776297be8d39c76",
+      "date": "2023-07-03T17:26:17+02:00",
+      "subject": "Adds login for stats",
+      "mig_files": [
+        "wasp-ai/migrations/20230703150042_add_user/migration.sql",
+        "wasp-ai/migrations/20230703151150_add_email_to_user/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "wasp-ai/src/client/components/BarChart.jsx",
+        "wasp-ai/src/client/pages/LoginPage.jsx",
+        "wasp-ai/src/client/pages/StatsPage.jsx",
+        "wasp-ai/src/server/auth.ts",
+        "wasp-ai/src/server/operations.ts"
+      ],
+      "orm_models_parsed_old": 3,
+      "raw_sql": "-- CreateTable\nCREATE TABLE \"User\" (\n    \"id\" SERIAL NOT NULL,\n\n    CONSTRAINT \"User_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateTable\nCREATE TABLE \"SocialLogin\" (\n    \"id\" TEXT NOT NULL,\n    \"provider\" TEXT NOT NULL,\n    \"providerId\" TEXT NOT NULL,\n    \"userId\" INTEGER NOT NULL,\n\n    CONSTRAINT \"SocialLogin_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- AddForeignKey\nALTER TABLE \"SocialLogin\" ADD CONSTRAINT \"SocialLogin_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"User\"(\"id\") ON DELETE RESTRICT ON UPDATE CASCADE;\n\n/*\n  Warnings:\n\n  - A unique constraint covering the columns `[email]` on the table `User` will be added. If there are existing duplicate values, this will fail.\n  - Added the required column `email` to the `User` table without a default value. This is not possible if the table is not empty.\n\n*/\n-- AlterTable\nALTER TABLE \"User\" ADD COLUMN     \"email\" TEXT NOT NULL;\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"User_email_key\" ON \"User\"(\"email\");\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "user",
+            "column": "email",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TEXT",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "wasp-ai/migrations/20230703151150_add_email_to_user/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE user ADD COLUMN \"email\" TEXT NOT NULL",
+            "extra": {
+              "table_sql": "User"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "user",
+            "column": "email",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "waspc/e2e-test/test-outputs/waspComplexTest-golden/waspComplexTest/.wasp/out/db/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'user' was created in the same commit; C_{t-1} does not write to it."
+        }
+      ]
+    },
+    {
+      "sha": "adc1e1a84b6ebe460613fb54c272420f65ed59fd",
+      "parent": "24fb75ffd00057a143d2a47b12f08e0698f424ed",
+      "date": "2022-11-24T15:19:22+01:00",
+      "subject": "Fix name conflict in Waspleau (#830)",
+      "mig_files": [
+        "examples/waspleau/migrations/20221124022424_rename_metric_model/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "examples/waspleau/src/server/dashboard.js",
+        "examples/waspleau/src/server/workers/github.js",
+        "examples/waspleau/src/server/workers/loadTime.js",
+        "examples/waspleau/src/server/workers/utils.js"
+      ],
+      "orm_models_parsed_old": 1,
+      "raw_sql": "/*\n  Warnings:\n\n  - You are about to drop the `Metric` table. If the table is not empty, all the data it contains will be lost.\n\n*/\n-- DropTable\nDROP TABLE \"Metric\";\n\n-- CreateTable\nCREATE TABLE \"Datum\" (\n    \"id\" SERIAL NOT NULL,\n    \"name\" TEXT NOT NULL,\n    \"value\" TEXT NOT NULL,\n    \"updatedAt\" TIMESTAMP(3) NOT NULL,\n\n    CONSTRAINT \"Datum_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"Datum_name_key\" ON \"Datum\"(\"name\");\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "metric",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "examples/waspleau/migrations/20221124022424_rename_metric_model/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* Warnings: - You are about to drop the `Metric` table. If the table is not empty, all the data it contains will be lost. */ /* DropTable */ DROP TABLE \"Metric\"",
+            "extra": {
+              "table_sql": "Metric"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "metric",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'metric' active in C_{t-1}."
+        }
+      ]
+    },
+    {
+      "sha": "bc92b024e1aafb19f7469a5a64e4ca32fff02dc0",
+      "parent": "75ce7db6638cd60710477f574cb53b97ea094a9a",
+      "date": "2022-08-24T10:32:46-04:00",
+      "subject": "Renames auth method `EmailAndPassword` to `UsernameAndPassword` (#696)",
+      "mig_files": [
+        "examples/thoughts/migrations/20220818151104_rename_email_to_username/migration.sql",
+        "examples/thoughts/migrations/20220818165835_getting_up_to_date/migration.sql",
+        "examples/tutorials/TodoApp/migrations/20220818151104_rename_email_to_username/migration.sql",
+        "examples/tutorials/TodoApp/migrations/20220818170255_getting_up_to_date/migration.sql",
+        "examples/waspello/migrations/20220818151104_rename_email_to_username/migration.sql",
+        "waspc/examples/todoApp/migrations/20220818151104_rename_email_to_username/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "examples/realworld/ext/auth/LoginPage.js",
+        "examples/realworld/ext/auth/SignupPage.js",
+        "examples/thoughts/ext/TopNavbar.js",
+        "examples/waspello/ext/Navbar.js",
+        "waspc/data/Generator/templates/react-app/src/auth/forms/Login.js",
+        "waspc/data/Generator/templates/react-app/src/auth/forms/Signup.js",
+        "waspc/data/Generator/templates/react-app/src/auth/login.js",
+        "waspc/data/Generator/templates/server/src/core/auth/prismaMiddleware.js",
+        "waspc/data/Generator/templates/server/src/routes/auth/login.js",
+        "waspc/examples/todoApp/ext/pages/ProfilePage.js",
+        "web/src/pages/index.js"
+      ],
+      "orm_models_parsed_old": 1,
+      "raw_sql": "-- DropIndex\nDROP INDEX \"User.email_unique\";\n\n-- AlterTable\nALTER TABLE \"User\"\nRENAME COLUMN \"email\" TO \"username\";\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"User.username_unique\" ON \"User\"(\"username\");\n\n-- DropForeignKey\nALTER TABLE \"Tag\" DROP CONSTRAINT \"Tag_userId_fkey\";\n\n-- DropForeignKey\nALTER TABLE \"Thought\" DROP CONSTRAINT \"Thought_userId_fkey\";\n\n-- AddForeignKey\nALTER TABLE \"Thought\" ADD CONSTRAINT \"Thought_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"User\"(\"id\") ON DELETE RESTRICT ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"Tag\" ADD CONSTRAINT \"Tag_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"User\"(\"id\") ON DELETE RESTRICT ON UPDATE CASCADE;\n\n-- RenameIndex\nALTER INDEX \"Tag.name_userId_unique\" RENAME TO \"Tag_name_userId_key\";\n\n-- RenameIndex\nALTER INDEX \"User.username_unique\" RENAME TO \"User_username_key\";\n\n-- DropIndex\nDROP INDEX \"User.email_unique\";\n\n-- AlterTable\nALTER TABLE \"User\"\nRENAME COLUMN \"email\" TO \"username\";\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"User.username_unique\" ON \"User\"(\"username\");\n\n-- RedefineIndex\nDROP INDEX \"User.username_unique\";\nCREATE UNIQUE INDEX \"User_username_key\" ON \"User\"(\"username\");\n\n-- DropIndex\nDROP INDEX \"User_email_key\";\n\n-- AlterTable\nALTER TABLE \"User\"\nRENAME COLUMN \"email\" TO \"username\";\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"User_username_key\" ON \"User\"(\"username\");\n\n-- DropIndex\nDROP INDEX \"User_email_key\";\n\n-- AlterTable\nALTER TABLE \"User\"\nRENAME COLUMN \"email\" TO \"username\";\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"User_username_key\" ON \"User\"(\"username\");\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_COLUMN",
+            "table": "user",
+            "column": "email",
+            "new_name": "username",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "examples/thoughts/migrations/20220818151104_rename_email_to_username/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE user RENAME COLUMN \"email\" TO \"username\"",
+            "extra": {
+              "table_sql": "User"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "user",
+            "column": "email",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_COLUMN 'email'->'username' breaks both C_{t-1} |= S_t and C_t |= S_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_COLUMN",
+            "table": "user",
+            "column": "email",
+            "new_name": "username",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "examples/tutorials/TodoApp/migrations/20220818151104_rename_email_to_username/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE user RENAME COLUMN \"email\" TO \"username\"",
+            "extra": {
+              "table_sql": "User"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "user",
+            "column": "email",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_COLUMN 'email'->'username' breaks both C_{t-1} |= S_t and C_t |= S_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_COLUMN",
+            "table": "user",
+            "column": "email",
+            "new_name": "username",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "examples/waspello/migrations/20220818151104_rename_email_to_username/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE user RENAME COLUMN \"email\" TO \"username\"",
+            "extra": {
+              "table_sql": "User"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "user",
+            "column": "email",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_COLUMN 'email'->'username' breaks both C_{t-1} |= S_t and C_t |= S_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_COLUMN",
+            "table": "user",
+            "column": "email",
+            "new_name": "username",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "waspc/examples/todoApp/migrations/20220818151104_rename_email_to_username/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE user RENAME COLUMN \"email\" TO \"username\"",
+            "extra": {
+              "table_sql": "User"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "user",
+            "column": "email",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_COLUMN 'email'->'username' breaks both C_{t-1} |= S_t and C_t |= S_{t-1}."
+        }
+      ]
+    },
+    {
+      "sha": "1721371fc73f4485ca0046aafea2ee3fc0be41cf",
+      "parent": "f8c775923d30ef716e7b5c45392c80aefcf7dae8",
+      "date": "2022-05-25T12:55:54-04:00",
+      "subject": "Updates Waspleau with Jobs and some documentation updates (#600)",
+      "mig_files": [
+        "examples/waspleau/migrations/20220518180354_add_metrics/migration.sql",
+        "examples/waspleau/migrations/20220518182534_remove_dummy/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "examples/waspleau/ext/dashboard.js",
+        "examples/waspleau/ext/serverSetup.js",
+        "examples/waspleau/ext/workers/github.js",
+        "examples/waspleau/ext/workers/loadTime.js",
+        "examples/waspleau/ext/workers/utils.js"
+      ],
+      "orm_models_parsed_old": 1,
+      "raw_sql": "-- CreateTable\nCREATE TABLE \"Metric\" (\n    \"id\" SERIAL NOT NULL,\n    \"name\" TEXT NOT NULL,\n    \"value\" TEXT NOT NULL,\n    \"updatedAt\" TIMESTAMP(3) NOT NULL,\n\n    CONSTRAINT \"Metric_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"Metric_name_key\" ON \"Metric\"(\"name\");\n\n/*\n  Warnings:\n\n  - You are about to drop the `Dummy` table. If the table is not empty, all the data it contains will be lost.\n\n*/\n-- DropTable\nDROP TABLE \"Dummy\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "dummy",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "examples/waspleau/migrations/20220518182534_remove_dummy/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* Warnings: - You are about to drop the `Dummy` table. If the table is not empty, all the data it contains will be lost. */ /* DropTable */ DROP TABLE \"Dummy\"",
+            "extra": {
+              "table_sql": "Dummy"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "dummy",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'dummy' not resolved in C_{t-1} ORM snapshot."
+        }
+      ]
+    },
+    {
+      "sha": "09a72a7e1a0ba5bcd172e66890050f0d9a461332",
+      "parent": "830bb43be1200de367f66534121ce8d504645ccc",
+      "date": "2022-02-11T17:55:41-05:00",
+      "subject": "Upgrade Prisma to version 3.9.1 (#452)",
+      "mig_files": [
+        "examples/realworld/migrations/20220207203326_upgrade_prisma_to_3_9_1/migration.sql",
+        "examples/waspello/migrations/20220211211659_upgrade_prisma_to_3_9_1/migration.sql",
+        "waspc/examples/todoApp/migrations/20220207202502_upgrade_prisma_to_3_9_1/migration.sql"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 0,
+      "raw_sql": "-- DropForeignKey\nALTER TABLE \"Article\" DROP CONSTRAINT \"Article_userId_fkey\";\n\n-- DropForeignKey\nALTER TABLE \"Comment\" DROP CONSTRAINT \"Comment_articleId_fkey\";\n\n-- DropForeignKey\nALTER TABLE \"Comment\" DROP CONSTRAINT \"Comment_userId_fkey\";\n\n-- AddForeignKey\nALTER TABLE \"Article\" ADD CONSTRAINT \"Article_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"User\"(\"id\") ON DELETE RESTRICT ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"Comment\" ADD CONSTRAINT \"Comment_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"User\"(\"id\") ON DELETE RESTRICT ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"Comment\" ADD CONSTRAINT \"Comment_articleId_fkey\" FOREIGN KEY (\"articleId\") REFERENCES \"Article\"(\"id\") ON DELETE RESTRICT ON UPDATE CASCADE;\n\n-- RenameIndex\nALTER INDEX \"Article.slug_unique\" RENAME TO \"Article_slug_key\";\n\n-- RenameIndex\nALTER INDEX \"User.email_unique\" RENAME TO \"User_email_key\";\n\n-- RenameIndex\nALTER INDEX \"User.username_unique\" RENAME TO \"User_username_key\";\n\n-- DropForeignKey\nALTER TABLE \"Card\" DROP CONSTRAINT \"Card_authorId_fkey\";\n\n-- DropForeignKey\nALTER TABLE \"Card\" DROP CONSTRAINT \"Card_listId_fkey\";\n\n-- DropForeignKey\nALTER TABLE \"List\" DROP CONSTRAINT \"List_userId_fkey\";\n\n-- AddForeignKey\nALTER TABLE \"List\" ADD CONSTRAINT \"List_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"User\"(\"id\") ON DELETE RESTRICT ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"Card\" ADD CONSTRAINT \"Card_authorId_fkey\" FOREIGN KEY (\"authorId\") REFERENCES \"User\"(\"id\") ON DELETE RESTRICT ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"Card\" ADD CONSTRAINT \"Card_listId_fkey\" FOREIGN KEY (\"listId\") REFERENCES \"List\"(\"id\") ON DELETE RESTRICT ON UPDATE CASCADE;\n\n-- RenameIndex\nALTER INDEX \"User.email_unique\" RENAME TO \"User_email_key\";\n\n-- RedefineTables\nPRAGMA foreign_keys=OFF;\nCREATE TABLE \"new_Task\" (\n    \"id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n    \"description\" TEXT NOT NULL,\n    \"isDone\" BOOLEAN NOT NULL DEFAULT false,\n    \"userId\" INTEGER NOT NULL,\n    CONSTRAINT \"Task_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"User\" (\"id\") ON DELETE RESTRICT ON UPDATE CASCADE\n);\nINSERT INTO \"new_Task\" (\"description\", \"id\", \"isDone\", \"userId\") SELECT \"description\", \"id\", \"isDone\", \"userId\" FROM \"Task\";\nDROP TABLE \"Task\";\nALTER TABLE \"new_Task\" RENAME TO \"Task\";\nPRAGMA foreign_key_check;\nPRAGMA foreign_keys=ON;\n\n-- RedefineIndex\nDROP INDEX \"User.email_unique\";\nCREATE UNIQUE INDEX \"User_email_key\" ON \"User\"(\"email\");\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "task",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "waspc/examples/todoApp/migrations/20220207202502_upgrade_prisma_to_3_9_1/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TABLE \"Task\"",
+            "extra": {
+              "table_sql": "Task"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "task",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "C_{t-1} ORM snapshot unavailable."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TABLE",
+            "table": "new_task",
+            "column": null,
+            "new_name": "task",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "waspc/examples/todoApp/migrations/20220207202502_upgrade_prisma_to_3_9_1/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE new_task RENAME TO \"Task\"",
+            "extra": {
+              "table_sql": "new_Task",
+              "new_name_sql": "Task"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "new_task",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "UNCERTAIN",
+          "classification": "UNCERTAIN",
+          "reason": "C_{t-1} ORM snapshot unavailable."
+        }
+      ]
+    },
+    {
+      "sha": "a37600ad0ccd8dea5840da88de1c920fd288ffa0",
+      "parent": "eae7b209389d1123ebf88288dfd93d514d6895a9",
+      "date": "2021-07-13T20:31:15+02:00",
+      "subject": "Connected thoughts and tags to user.",
+      "mig_files": [
+        "examples/thoughts/migrations/20210713180928_attached_entities_to_user/migration.sql",
+        "examples/thoughts/migrations/20210713182512_tags_unique/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "examples/thoughts/ext/actions.js",
+        "examples/thoughts/ext/queries.js"
+      ],
+      "orm_models_parsed_old": 2,
+      "raw_sql": "/*\n  Warnings:\n\n  - Added the required column `userId` to the `Tag` table without a default value. This is not possible if the table is not empty.\n  - Added the required column `userId` to the `Thought` table without a default value. This is not possible if the table is not empty.\n\n*/\n-- AlterTable\nALTER TABLE \"Tag\" ADD COLUMN     \"userId\" INTEGER NOT NULL;\n\n-- AlterTable\nALTER TABLE \"Thought\" ADD COLUMN     \"userId\" INTEGER NOT NULL;\n\n-- AddForeignKey\nALTER TABLE \"Tag\" ADD FOREIGN KEY (\"userId\") REFERENCES \"User\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"Thought\" ADD FOREIGN KEY (\"userId\") REFERENCES \"User\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n/*\n  Warnings:\n\n  - A unique constraint covering the columns `[name,userId]` on the table `Tag` will be added. If there are existing duplicate values, this will fail.\n\n*/\n-- DropIndex\nDROP INDEX \"Tag.name_unique\";\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"Tag.name_userId_unique\" ON \"Tag\"(\"name\", \"userId\");\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "tag",
+            "column": "userid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "INT",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "examples/thoughts/migrations/20210713180928_attached_entities_to_user/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE tag ADD COLUMN \"userId\" INT NOT NULL",
+            "extra": {
+              "table_sql": "Tag",
+              "column_sql": "userId"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "tag",
+            "column": "userid",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'tag' not resolved in C_{t-1} ORM snapshot."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "thought",
+            "column": "userid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "INT",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "examples/thoughts/migrations/20210713180928_attached_entities_to_user/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE thought ADD COLUMN \"userId\" INT NOT NULL",
+            "extra": {
+              "table_sql": "Thought",
+              "column_sql": "userId"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "thought",
+            "column": "userid",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'thought' not resolved in C_{t-1} ORM snapshot."
+        }
+      ]
+    }
+  ]
+}

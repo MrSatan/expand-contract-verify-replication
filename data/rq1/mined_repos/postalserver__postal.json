@@ -1,0 +1,325 @@
+{
+  "repo": "postalserver/postal",
+  "ecosystem": "rails",
+  "stars": 16965,
+  "has_k8s_helm": false,
+  "status": "ok",
+  "stats": {
+    "total_migration_commits_in_history": 16,
+    "migration_commits_analyzed": 16,
+    "total_migration_files_parsed": 56,
+    "commits_with_any_destructive": 4,
+    "commits_with_forward_destructive": 4,
+    "commits_with_rollback_only_destructive": 0,
+    "total_ops_extracted": 4,
+    "destructive_ops_up": 4,
+    "destructive_ops_down": 0
+  },
+  "verdict_counts": {
+    "SAFE_CONTRACT": 2,
+    "DUAL_VERSION_VIOLATION_BACKWARD": 2
+  },
+  "destructive_commits": [
+    {
+      "sha": "0e4ed5ca0393f9a56e1efa7ae377d2e4b876bfe1",
+      "parent": "6ab36c09c966eb9a8b8ada52155f74d2537977f2",
+      "date": "2024-02-09T17:20:55Z",
+      "subject": "style(rubocop): Layout/EmptyLineAfterMagicComment",
+      "mig_files": [
+        "db/migrate/20161003195209_create_authie_sessions.authie.rb",
+        "db/migrate/20161003195210_add_indexes_to_authie_sessions.authie.rb",
+        "db/migrate/20161003195211_add_parent_id_to_authie_sessions.authie.rb",
+        "db/migrate/20161003195212_add_two_factor_auth_fields_to_authie.authie.rb",
+        "db/migrate/20170418200606_initial_schema.rb",
+        "db/migrate/20170421195414_add_token_hashes_to_authie_sessions.authie.rb",
+        "db/migrate/20170421195415_add_index_to_token_hashes_on_authie_sessions.authie.rb",
+        "db/migrate/20170428153353_remove_type_from_ip_pools.rb",
+        "db/migrate/20180216114344_add_host_to_authie_sessions.authie.rb",
+        "db/migrate/20200717083943_add_uuid_to_credentials.rb",
+        "db/migrate/20210727210551_add_priority_to_ip_addresses.rb",
+        "db/migrate/20240206173036_add_privacy_mode_to_servers.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "api/authenticator.rb",
+        "api/controllers/messages_api_controller.rb",
+        "api/controllers/send_api_controller.rb",
+        "api/structures/delivery_api_structure.rb",
+        "api/structures/message_api_structure.rb",
+        "app/controllers/address_endpoints_controller.rb",
+        "app/controllers/application_controller.rb",
+        "app/controllers/concerns/within_organization.rb",
+        "app/controllers/credentials_controller.rb",
+        "app/controllers/domains_controller.rb",
+        "app/controllers/help_controller.rb",
+        "app/controllers/http_endpoints_controller.rb"
+      ],
+      "orm_models_parsed_old": 36,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "ip_pools",
+            "column": "type",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20170428153353_remove_type_from_ip_pools.rb",
+            "line": 6,
+            "raw_snippet": "remove_column :ip_pools, :type, :string",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "ip_pools",
+            "column": "type",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/ip_pool.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'type' already absent from C_{t-1} ORM and app code.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "6ab36c09c966eb9a8b8ada52155f74d2537977f2",
+      "parent": "ba5bfbd6a0af9ea33bedb2948822417bd1a3fbc5",
+      "date": "2024-02-09T17:20:18Z",
+      "subject": "style(rubocop): Style/FrozenStringLiteralComment",
+      "mig_files": [
+        "db/migrate/20161003195209_create_authie_sessions.authie.rb",
+        "db/migrate/20161003195210_add_indexes_to_authie_sessions.authie.rb",
+        "db/migrate/20161003195211_add_parent_id_to_authie_sessions.authie.rb",
+        "db/migrate/20161003195212_add_two_factor_auth_fields_to_authie.authie.rb",
+        "db/migrate/20170418200606_initial_schema.rb",
+        "db/migrate/20170421195414_add_token_hashes_to_authie_sessions.authie.rb",
+        "db/migrate/20170421195415_add_index_to_token_hashes_on_authie_sessions.authie.rb",
+        "db/migrate/20170428153353_remove_type_from_ip_pools.rb",
+        "db/migrate/20180216114344_add_host_to_authie_sessions.authie.rb",
+        "db/migrate/20200717083943_add_uuid_to_credentials.rb",
+        "db/migrate/20210727210551_add_priority_to_ip_addresses.rb",
+        "db/migrate/20240206173036_add_privacy_mode_to_servers.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "api/authenticator.rb",
+        "api/controllers/messages_api_controller.rb",
+        "api/controllers/send_api_controller.rb",
+        "api/structures/delivery_api_structure.rb",
+        "api/structures/message_api_structure.rb",
+        "app/controllers/address_endpoints_controller.rb",
+        "app/controllers/application_controller.rb",
+        "app/controllers/concerns/within_organization.rb",
+        "app/controllers/credentials_controller.rb",
+        "app/controllers/domains_controller.rb",
+        "app/controllers/help_controller.rb",
+        "app/controllers/http_endpoints_controller.rb"
+      ],
+      "orm_models_parsed_old": 36,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "ip_pools",
+            "column": "type",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20170428153353_remove_type_from_ip_pools.rb",
+            "line": 5,
+            "raw_snippet": "remove_column :ip_pools, :type, :string",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "ip_pools",
+            "column": "type",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/ip_pool.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'type' already absent from C_{t-1} ORM and app code.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "fd289c46fd7c01dafc32b91a5315b160c1443c35",
+      "parent": "02c93a4850ac64bd41d1cc6e76a0084178878c00",
+      "date": "2023-03-16T15:50:53Z",
+      "subject": "style(rubocop): fix all safe auto correctable offenses",
+      "mig_files": [
+        "db/migrate/20161003195209_create_authie_sessions.authie.rb",
+        "db/migrate/20161003195210_add_indexes_to_authie_sessions.authie.rb",
+        "db/migrate/20161003195211_add_parent_id_to_authie_sessions.authie.rb",
+        "db/migrate/20161003195212_add_two_factor_auth_fields_to_authie.authie.rb",
+        "db/migrate/20170418200606_initial_schema.rb",
+        "db/migrate/20170421195414_add_token_hashes_to_authie_sessions.authie.rb",
+        "db/migrate/20170421195415_add_index_to_token_hashes_on_authie_sessions.authie.rb",
+        "db/migrate/20170428153353_remove_type_from_ip_pools.rb",
+        "db/migrate/20180216114344_add_host_to_authie_sessions.authie.rb",
+        "db/migrate/20200717083943_add_uuid_to_credentials.rb",
+        "db/migrate/20210727210551_add_priority_to_ip_addresses.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "api/authenticator.rb",
+        "api/controllers/messages_api_controller.rb",
+        "api/controllers/send_api_controller.rb",
+        "api/structures/delivery_api_structure.rb",
+        "api/structures/message_api_structure.rb",
+        "app/controllers/address_endpoints_controller.rb",
+        "app/controllers/application_controller.rb",
+        "app/controllers/credentials_controller.rb",
+        "app/controllers/domains_controller.rb",
+        "app/controllers/http_endpoints_controller.rb",
+        "app/controllers/ip_addresses_controller.rb",
+        "app/controllers/ip_pool_rules_controller.rb"
+      ],
+      "orm_models_parsed_old": 37,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "ip_pools",
+            "column": "type",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20170428153353_remove_type_from_ip_pools.rb",
+            "line": 4,
+            "raw_snippet": "remove_column :ip_pools, :type, :string",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "ip_pools",
+            "column": "type",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/ip_pool.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "698b580db467011b7b7ae44517eafb97cc1dd43a",
+      "parent": "88974cee856826f186b1374ea733d9d88c0f3ca2",
+      "date": "2017-04-28T16:40:53+01:00",
+      "subject": "remove types from ip pools",
+      "mig_files": [
+        "db/migrate/20170428153353_remove_type_from_ip_pools.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/ip_pools_controller.rb",
+        "app/controllers/organization_ip_pools_controller.rb",
+        "app/models/ip_pool.rb",
+        "app/models/organization.rb",
+        "db/schema.rb"
+      ],
+      "orm_models_parsed_old": 33,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "ip_pools",
+            "column": "type",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20170428153353_remove_type_from_ip_pools.rb",
+            "line": 3,
+            "raw_snippet": "remove_column :ip_pools, :type, :string",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "ip_pools",
+            "column": "type",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/ip_pool.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'type' active in C_{t-1} ORM (app/models/ip_pool.rb); identifier removed in same commit diff",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        }
+      ]
+    }
+  ]
+}

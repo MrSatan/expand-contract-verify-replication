@@ -1,0 +1,2355 @@
+{
+  "repo": "ghostfolio/ghostfolio",
+  "ecosystem": "prisma",
+  "stars": 9729,
+  "has_k8s_helm": false,
+  "status": "ok",
+  "stats": {
+    "total_migration_commits_in_history": 121,
+    "migration_commits_analyzed": 120,
+    "total_migration_files_parsed": 147,
+    "commits_with_any_destructive": 20,
+    "commits_with_forward_destructive": 20,
+    "commits_with_rollback_only_destructive": 0,
+    "total_ops_extracted": 48,
+    "destructive_ops_up": 48,
+    "destructive_ops_down": 0
+  },
+  "verdict_counts": {
+    "SAFE_CONTRACT": 7,
+    "DUAL_VERSION_VIOLATION_BACKWARD": 28,
+    "DUAL_VERSION_VIOLATION_BOTH": 13
+  },
+  "destructive_commits": [
+    {
+      "sha": "c16445d49e0c5b1eafd71112aa93e8c6ceb840bc",
+      "parent": "bc4e772442b8f2677eddb9b68e842a2032d94208",
+      "date": "2026-08-27T21:02:44+02:00",
+      "subject": "Release 3.62.0 (#7735)",
+      "mig_files": [
+        "prisma/migrations/20260826000000_added_expires_at_to_access/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/client/src/app/components/user-account-access/create-or-update-access-dialog/create-or-update-access-dialog.component.ts"
+      ],
+      "orm_models_parsed_old": 20,
+      "raw_sql": "-- AlterTable\nALTER TABLE \"Access\" ADD COLUMN \"expiresAt\" TIMESTAMP(3);\n\n-- Give an access which was granted before a date in the far future, because it\n-- was granted with no expiration date\nUPDATE \"Access\"\nSET \"expiresAt\" = '2050-12-31 12:00:00'\nWHERE \"expiresAt\" IS NULL;\n\n-- AlterTable\nALTER TABLE \"Access\" ALTER COLUMN \"expiresAt\" SET NOT NULL;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "SET_NOT_NULL",
+            "table": "access",
+            "column": "expiresat",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20260826000000_added_expires_at_to_access/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE access ALTER COLUMN \"expiresAt\" SET NOT NULL",
+            "extra": {
+              "table_sql": "Access",
+              "column_sql": "expiresAt"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "access",
+            "column": "expiresat",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: 'access.expiresat' was already non-nullable in C_{t-1} ORM."
+        }
+      ]
+    },
+    {
+      "sha": "b99e8a0c126e242b02f8f00215d5c3c2a1814f2f",
+      "parent": "13c893565f3bc8447888cfd61ed3af7c749b1401",
+      "date": "2026-08-26T12:04:57+02:00",
+      "subject": "Task/add expiration date to access (#7709)",
+      "mig_files": [
+        "prisma/migrations/20260826000000_added_expires_at_to_access/migration.sql",
+        "prisma/migrations/20260826010000_added_last_used_at_to_access/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/api/src/app/access/access.controller.ts",
+        "apps/api/src/app/access/access.service.ts",
+        "apps/api/src/app/endpoints/public/public.service.ts",
+        "apps/api/src/app/user/user.service.ts",
+        "apps/api/src/services/impersonation/impersonation.module.ts",
+        "apps/api/src/services/impersonation/impersonation.service.spec.ts",
+        "apps/api/src/services/impersonation/impersonation.service.ts",
+        "apps/client/src/app/components/access-table/access-table.component.ts",
+        "apps/client/src/app/components/user-account-access/create-or-update-access-dialog/create-or-update-access-dialog.component.ts",
+        "apps/client/src/app/components/user-account-access/user-account-access.component.ts",
+        "libs/common/src/lib/dtos/create-access.dto.ts",
+        "libs/common/src/lib/dtos/update-access.dto.ts"
+      ],
+      "orm_models_parsed_old": 20,
+      "raw_sql": "-- AlterTable\nALTER TABLE \"Access\" ADD COLUMN \"expiresAt\" TIMESTAMP(3);\n\n-- Give an access which was granted before a date in the far future, because it\n-- was granted with no expiration date\nUPDATE \"Access\"\nSET \"expiresAt\" = '2030-12-31 23:59:59.999'\nWHERE \"expiresAt\" IS NULL;\n\n-- AlterTable\nALTER TABLE \"Access\" ALTER COLUMN \"expiresAt\" SET NOT NULL;\n\n-- AlterTable\nALTER TABLE \"Access\" ADD COLUMN \"lastUsedAt\" TIMESTAMP(3);\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "SET_NOT_NULL",
+            "table": "access",
+            "column": "expiresat",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20260826000000_added_expires_at_to_access/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE access ALTER COLUMN \"expiresAt\" SET NOT NULL",
+            "extra": {
+              "table_sql": "Access",
+              "column_sql": "expiresAt"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "access",
+            "column": "expiresat",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Column 'access.expiresat' not active in C_{t-1} ORM."
+        }
+      ]
+    },
+    {
+      "sha": "17e1a2b5fcb4fce7a5c38db239522b2e48887179",
+      "parent": "45a20d3ea3b35fa9af242a4ae387919a4622c7c5",
+      "date": "2026-08-20T20:16:57+02:00",
+      "subject": "Task/remove deprecated permissions attribute from access (#7639)",
+      "mig_files": [
+        "prisma/migrations/20260820120000_removed_permissions_from_access/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/api/src/app/access/access.controller.ts",
+        "apps/api/src/app/user/user.service.ts",
+        "apps/client/src/app/components/user-account-access/create-or-update-access-dialog/create-or-update-access-dialog.component.ts",
+        "apps/client/src/app/components/user-account-access/create-or-update-access-dialog/interfaces/interfaces.ts",
+        "apps/client/src/app/components/user-account-access/user-account-access.component.ts",
+        "libs/common/src/lib/dtos/create-access.dto.ts",
+        "libs/common/src/lib/dtos/update-access.dto.ts",
+        "libs/common/src/lib/interfaces/access.interface.ts",
+        "libs/common/src/lib/interfaces/user.interface.ts",
+        "libs/common/src/lib/scopes.spec.ts",
+        "libs/common/src/lib/scopes.ts",
+        "prisma/schema.prisma"
+      ],
+      "orm_models_parsed_old": 20,
+      "raw_sql": "-- AlterTable\nALTER TABLE \"Access\" DROP COLUMN \"permissions\";\n\n-- DropEnum\nDROP TYPE \"AccessPermission\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "access",
+            "column": "permissions",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20260820120000_removed_permissions_from_access/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE access DROP COLUMN \"permissions\"",
+            "extra": {
+              "table_sql": "Access"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "access",
+            "column": "permissions",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "accesspermission",
+            "column": "accesspermission",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20260820120000_removed_permissions_from_access/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropEnum */ DROP TYPE \"AccessPermission\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "AccessPermission",
+              "column_sql": "AccessPermission"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "accesspermission",
+            "column": "accesspermission",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'accesspermission' affects active C_{t-1} enum definition/code."
+        }
+      ]
+    },
+    {
+      "sha": "7ded5e434040924236d4d97383e0e58f040467e6",
+      "parent": "026464ad62f8433df13b27e2f49d3ddce2ec093c",
+      "date": "2026-08-12T11:42:14+02:00",
+      "subject": "Task/remove isDraft of activity (#7577)",
+      "mig_files": [
+        "prisma/migrations/20260812120000_removed_is_draft_from_order/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/api/src/app/activities/activities.service.ts",
+        "apps/api/src/app/import/import.service.ts",
+        "apps/api/src/app/portfolio/calculator/portfolio-calculator-test-utils.ts",
+        "libs/common/src/lib/interfaces/responses/export-response.interface.ts",
+        "libs/ui/src/lib/activities-table/activities-table.component.stories.ts",
+        "prisma/schema.prisma"
+      ],
+      "orm_models_parsed_old": 20,
+      "raw_sql": "-- DropIndex\nDROP INDEX \"Order_isDraft_idx\";\n\n-- AlterTable\nALTER TABLE \"Order\" DROP COLUMN \"isDraft\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "order",
+            "column": "isdraft",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20260812120000_removed_is_draft_from_order/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE order DROP COLUMN \"isDraft\"",
+            "extra": {
+              "table_sql": "Order",
+              "column_sql": "isDraft"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "order",
+            "column": "isdraft",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'isdraft' active in C_{t-1} ORM (prisma/schema.prisma); identifier removed in same commit diff"
+        }
+      ]
+    },
+    {
+      "sha": "ddd20d30998542dcf80ce3dd31b3dd23206e8eb0",
+      "parent": "57c21846827688702cd3401c3547ce2800c84bd1",
+      "date": "2026-08-07T09:00:30+02:00",
+      "subject": "Task/remove redundant balance attribute from account (#7546)",
+      "mig_files": [
+        "prisma/migrations/20260805120000_removed_balance_from_account/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/api/src/app/account/account.controller.ts",
+        "apps/api/src/app/account/account.service.ts",
+        "apps/api/src/app/account/interfaces/cash-details.interface.ts",
+        "apps/api/src/app/export/export.service.ts",
+        "apps/api/src/app/import/import.service.ts",
+        "apps/api/src/app/portfolio/portfolio.service.spec.ts",
+        "apps/api/src/app/portfolio/portfolio.service.ts",
+        "apps/client/src/app/components/holding-detail-dialog/holding-detail-dialog.component.ts",
+        "apps/client/src/app/pages/accounts/accounts-page.component.ts",
+        "apps/client/src/app/pages/accounts/create-or-update-account-dialog/interfaces/interfaces.ts",
+        "libs/common/src/lib/config.ts",
+        "libs/common/src/lib/dtos/create-account.dto.ts"
+      ],
+      "orm_models_parsed_old": 20,
+      "raw_sql": "-- AlterTable\nALTER TABLE \"Account\" DROP COLUMN \"balance\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "account",
+            "column": "balance",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20260805120000_removed_balance_from_account/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE account DROP COLUMN \"balance\"",
+            "extra": {
+              "table_sql": "Account"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "account",
+            "column": "balance",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'balance' active in C_{t-1} ORM (prisma/schema.prisma); identifier removed in same commit diff"
+        }
+      ]
+    },
+    {
+      "sha": "263e064fd6b1c55cc547a071023f4dced6185037",
+      "parent": "5e9ac0169e912d1480ca9a5f6db06b3f52fee8fb",
+      "date": "2026-08-01T14:27:47+02:00",
+      "subject": "Task/remove deprecated attribute isExcluded from account (#7253)",
+      "mig_files": [
+        "prisma/migrations/20260801103609_removed_is_excluded_from_account/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/api/src/app/export/export.service.ts",
+        "apps/api/src/app/import/import.service.ts",
+        "apps/api/src/app/portfolio/calculator/roai/portfolio-calculator-cash.spec.ts",
+        "apps/api/src/app/portfolio/portfolio.service.spec.ts",
+        "apps/api/src/helper/account.helper.ts",
+        "apps/client/src/app/pages/accounts/accounts-page.component.ts",
+        "apps/client/src/app/pages/accounts/create-or-update-account-dialog/create-or-update-account-dialog.component.ts",
+        "libs/common/src/lib/dtos/create-account-with-balances.dto.ts",
+        "libs/common/src/lib/dtos/create-account.dto.ts",
+        "libs/common/src/lib/dtos/update-account.dto.ts",
+        "libs/common/src/lib/helper.ts",
+        "libs/ui/src/lib/accounts-table/accounts-table.component.stories.ts"
+      ],
+      "orm_models_parsed_old": 19,
+      "raw_sql": "-- Create the \"EXCLUDE_FROM_ANALYSIS\" tag if it does not exist yet\nINSERT INTO \"Tag\" (\"id\", \"name\")\nVALUES ('f2e868af-8333-459f-b161-cbc6544c24bd', 'EXCLUDE_FROM_ANALYSIS')\nON CONFLICT DO NOTHING;\n\n-- Migrate accounts with \"isExcluded\" to the \"EXCLUDE_FROM_ANALYSIS\" tag\nINSERT INTO \"TagsOnAccounts\" (\"accountId\", \"tagId\", \"updatedAt\", \"userId\")\nSELECT\n  \"id\",\n  'f2e868af-8333-459f-b161-cbc6544c24bd',\n  CURRENT_TIMESTAMP,\n  \"userId\"\nFROM \"Account\"\nWHERE \"isExcluded\" = true\nON CONFLICT DO NOTHING;\n\n-- DropIndex\nDROP INDEX \"Account_isExcluded_idx\";\n\n-- AlterTable\nALTER TABLE \"Account\" DROP COLUMN \"isExcluded\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "account",
+            "column": "isexcluded",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20260801103609_removed_is_excluded_from_account/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE account DROP COLUMN \"isExcluded\"",
+            "extra": {
+              "table_sql": "Account",
+              "column_sql": "isExcluded"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "account",
+            "column": "isexcluded",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'isexcluded' active in C_{t-1} ORM (prisma/schema.prisma); identifier removed in same commit diff"
+        }
+      ]
+    },
+    {
+      "sha": "364b2f020ed49181170589dab3b1520aa233e8e2",
+      "parent": "8c59128d4431838f57dc4e5831d39c3ed520eed7",
+      "date": "2025-09-27T09:51:44+02:00",
+      "subject": "Feature/remove ITEM as order type enum (#5583)",
+      "mig_files": [
+        "prisma/migrations/20250926182138_removed_item_from_type/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/api/src/app/import/import.service.ts",
+        "prisma/schema.prisma"
+      ],
+      "orm_models_parsed_old": 17,
+      "raw_sql": "-- AlterEnum\nBEGIN;\nCREATE TYPE \"public\".\"Type_new\" AS ENUM ('BUY', 'DIVIDEND', 'FEE', 'INTEREST', 'LIABILITY', 'SELL');\nALTER TABLE \"public\".\"Order\" ALTER COLUMN \"type\" TYPE \"public\".\"Type_new\" USING (\"type\"::text::\"public\".\"Type_new\");\nALTER TYPE \"public\".\"Type\" RENAME TO \"Type_old\";\nALTER TYPE \"public\".\"Type_new\" RENAME TO \"Type\";\nDROP TYPE \"public\".\"Type_old\";\nCOMMIT;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "order",
+            "column": "type",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "\"public\".\"Type_new\"",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20250926182138_removed_item_from_type/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE order ALTER COLUMN \"type\" SET DATA TYPE \"public\".\"Type_new\" USING (CAST(CAST(\"type\" AS TEXT) AS \"public\".\"Type_new\"))",
+            "extra": {
+              "table_sql": "Order",
+              "column_sql": "Type"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "order",
+            "column": "type",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'order.type' (Type -> \"public\".\"Type_new\")."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "type",
+            "column": "type",
+            "new_name": "type_old",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20250926182138_removed_item_from_type/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TYPE \"public\".\"Type\" RENAME TO \"Type_old\"",
+            "extra": {
+              "table_sql": "Type",
+              "column_sql": "Type",
+              "new_name_sql": "Type_old"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "type",
+            "column": "type",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'type' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "type_new",
+            "column": "type_new",
+            "new_name": "type",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20250926182138_removed_item_from_type/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TYPE \"public\".\"Type_new\" RENAME TO \"Type\"",
+            "extra": {
+              "table_sql": "Type_new",
+              "column_sql": "Type_new",
+              "new_name_sql": "Type"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "type_new",
+            "column": "type_new",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'type_new' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "type_old",
+            "column": "type_old",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20250926182138_removed_item_from_type/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TYPE \"public\".\"Type_old\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "Type_old",
+              "column_sql": "Type_old"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "type_old",
+            "column": "type_old",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "ENUM 'type_old' not present in C_{t-1} schema."
+        }
+      ]
+    },
+    {
+      "sha": "cdbe6eedebc670579d0f31baaa6fcad051e48084",
+      "parent": "a6dde8ad434d54569fd4f686795d1b6abb5db546",
+      "date": "2024-04-23T18:55:37+02:00",
+      "subject": "Feature/change cash to liquidity in asset class enum (#3321)",
+      "mig_files": [
+        "prisma/migrations/20240422181320_added_liquidity_to_asset_class/migration.sql",
+        "prisma/migrations/20240422181356_added_cash_to_asset_sub_class/migration.sql",
+        "prisma/migrations/20240422181835_changed_cash_to_liquidity_in_asset_sub_class/migration.sql",
+        "prisma/migrations/20240422182643_removed_cash_from_asset_class/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/api/src/app/admin/admin.service.ts",
+        "apps/api/src/app/portfolio/portfolio.controller.ts",
+        "apps/api/src/app/portfolio/portfolio.service.ts",
+        "apps/api/src/services/data-provider/coingecko/coingecko.service.ts",
+        "apps/api/src/services/data-provider/data-enhancer/yahoo-finance/yahoo-finance.service.ts",
+        "apps/api/src/services/data-provider/eod-historical-data/eod-historical-data.service.ts",
+        "apps/client/src/app/pages/portfolio/allocations/allocations-page.component.ts",
+        "libs/common/src/lib/config.ts",
+        "libs/common/src/lib/interfaces/portfolio-position.interface.ts",
+        "libs/ui/src/lib/holdings-table/holdings-table.component.ts",
+        "libs/ui/src/lib/i18n.ts",
+        "prisma/schema.prisma"
+      ],
+      "orm_models_parsed_old": 15,
+      "raw_sql": "-- AlterEnum\nALTER TYPE \"AssetClass\" ADD VALUE 'LIQUIDITY';\n\n-- AlterEnum\nALTER TYPE \"AssetSubClass\" ADD VALUE 'CASH';\n\nUPDATE \"SymbolProfile\"\nSET \"assetClass\" = 'LIQUIDITY'\nWHERE \"assetClass\" = 'CASH';\n\nUPDATE \"SymbolProfileOverrides\"\nSET \"assetClass\" = 'LIQUIDITY'\nWHERE \"assetClass\" = 'CASH';\n\n-- AlterEnum\nBEGIN;\nCREATE TYPE \"AssetClass_new\" AS ENUM ('COMMODITY', 'EQUITY', 'FIXED_INCOME', 'LIQUIDITY', 'REAL_ESTATE');\nALTER TABLE \"SymbolProfile\" ALTER COLUMN \"assetClass\" TYPE \"AssetClass_new\" USING (\"assetClass\"::text::\"AssetClass_new\");\nALTER TABLE \"SymbolProfileOverrides\" ALTER COLUMN \"assetClass\" TYPE \"AssetClass_new\" USING (\"assetClass\"::text::\"AssetClass_new\");\nALTER TYPE \"AssetClass\" RENAME TO \"AssetClass_old\";\nALTER TYPE \"AssetClass_new\" RENAME TO \"AssetClass\";\nDROP TYPE \"AssetClass_old\";\nCOMMIT;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "symbolprofile",
+            "column": "assetclass",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "\"AssetClass_new\"",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20240422182643_removed_cash_from_asset_class/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE symbolprofile ALTER COLUMN \"assetClass\" SET DATA TYPE \"AssetClass_new\" USING (CAST(CAST(\"assetClass\" AS TEXT) AS \"AssetClass_new\"))",
+            "extra": {
+              "table_sql": "SymbolProfile",
+              "column_sql": "AssetClass"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "symbolprofile",
+            "column": "assetclass",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'symbolprofile.assetclass' (AssetClass -> \"AssetClass_new\")."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "symbolprofileoverrides",
+            "column": "assetclass",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "\"AssetClass_new\"",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20240422182643_removed_cash_from_asset_class/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE symbolprofileoverrides ALTER COLUMN \"assetClass\" SET DATA TYPE \"AssetClass_new\" USING (CAST(CAST(\"assetClass\" AS TEXT) AS \"AssetClass_new\"))",
+            "extra": {
+              "table_sql": "SymbolProfileOverrides",
+              "column_sql": "AssetClass"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "symbolprofileoverrides",
+            "column": "assetclass",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'symbolprofileoverrides.assetclass' (AssetClass -> \"AssetClass_new\")."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "assetclass",
+            "column": "assetclass",
+            "new_name": "assetclass_old",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20240422182643_removed_cash_from_asset_class/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TYPE \"AssetClass\" RENAME TO \"AssetClass_old\"",
+            "extra": {
+              "table_sql": "AssetClass",
+              "column_sql": "AssetClass",
+              "new_name_sql": "AssetClass_old"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "assetclass",
+            "column": "assetclass",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'assetclass' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "assetclass_new",
+            "column": "assetclass_new",
+            "new_name": "assetclass",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20240422182643_removed_cash_from_asset_class/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TYPE \"AssetClass_new\" RENAME TO \"AssetClass\"",
+            "extra": {
+              "table_sql": "AssetClass_new",
+              "column_sql": "AssetClass_new",
+              "new_name_sql": "AssetClass"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "assetclass_new",
+            "column": "assetclass_new",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'assetclass_new' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "assetclass_old",
+            "column": "assetclass_old",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20240422182643_removed_cash_from_asset_class/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TYPE \"AssetClass_old\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "AssetClass_old",
+              "column_sql": "AssetClass_old"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "assetclass_old",
+            "column": "assetclass_old",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "ENUM 'assetclass_old' not present in C_{t-1} schema."
+        }
+      ]
+    },
+    {
+      "sha": "6be38a1c198edb9f271e1dc23cd4fb81ce00d04e",
+      "parent": "a3178fb2137f3e161d2dab3573677d4949090cdc",
+      "date": "2024-02-24T19:44:56+01:00",
+      "subject": "Feature/remove is default flag from account database schema (#3041)",
+      "mig_files": [
+        "prisma/migrations/20240224102024_removed_is_default_from_account/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/api/src/app/account/account.controller.ts",
+        "apps/api/src/app/user/user.service.ts",
+        "apps/client/src/app/pages/portfolio/activities/activities-page.component.ts",
+        "libs/common/src/lib/interfaces/export.interface.ts",
+        "prisma/schema.prisma"
+      ],
+      "orm_models_parsed_old": 15,
+      "raw_sql": "-- AlterTable\nALTER TABLE \"Account\" DROP COLUMN \"isDefault\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "account",
+            "column": "isdefault",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20240224102024_removed_is_default_from_account/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE account DROP COLUMN \"isDefault\"",
+            "extra": {
+              "table_sql": "Account",
+              "column_sql": "isDefault"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "account",
+            "column": "isdefault",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'isdefault' active in C_{t-1} ORM (prisma/schema.prisma); identifier removed in same commit diff"
+        }
+      ]
+    },
+    {
+      "sha": "af71274ea94bac0fdfa7e7911b805dc091f44a9f",
+      "parent": "0feba4b8d9a8ea5946a0b9bd10a26a9713c45045",
+      "date": "2024-01-06T14:19:42+01:00",
+      "subject": "Feature/remove account type enum (#2832)",
+      "mig_files": [
+        "prisma/migrations/20240106124731_removed_account_type_enum/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "libs/common/src/lib/interfaces/export.interface.ts",
+        "prisma/schema.prisma"
+      ],
+      "orm_models_parsed_old": 15,
+      "raw_sql": "-- DropEnum\nDROP TYPE \"AccountType\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "accounttype",
+            "column": "accounttype",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20240106124731_removed_account_type_enum/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropEnum */ DROP TYPE \"AccountType\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "AccountType",
+              "column_sql": "AccountType"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "accounttype",
+            "column": "accounttype",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'accounttype' affects active C_{t-1} enum definition/code."
+        }
+      ]
+    },
+    {
+      "sha": "7cb86de7af96a21cdc7bfa46106b68c26df3c341",
+      "parent": "aa078588e855abdb0e0f005d92dcac1cc2454bef",
+      "date": "2023-11-07T17:56:18+01:00",
+      "subject": "Feature/remove account type from account database model (#2616)",
+      "mig_files": [
+        "prisma/migrations/20231107080536_removed_account_type_from_account/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/api/src/app/account/create-account.dto.ts",
+        "apps/api/src/app/account/update-account.dto.ts",
+        "prisma/schema.prisma"
+      ],
+      "orm_models_parsed_old": 15,
+      "raw_sql": "-- AlterTable\nALTER TABLE \"Account\" DROP COLUMN \"accountType\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "account",
+            "column": "accounttype",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20231107080536_removed_account_type_from_account/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE account DROP COLUMN \"accountType\"",
+            "extra": {
+              "table_sql": "Account",
+              "column_sql": "accountType"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "account",
+            "column": "accounttype",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'accounttype' active in C_{t-1} ORM (prisma/schema.prisma); identifier removed in same commit diff"
+        }
+      ]
+    },
+    {
+      "sha": "851401be1e401bd5dc752a5cfceed59599962d26",
+      "parent": "85052bc9bca0ecb8c5bbd159a02f4db5e5d3bf48",
+      "date": "2023-02-17T19:19:16+01:00",
+      "subject": "Feature/remove ghostfolio as data source type (#1717)",
+      "mig_files": [
+        "prisma/migrations/20230217173323_removed_ghostfolio_from_data_source/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "prisma/schema.prisma"
+      ],
+      "orm_models_parsed_old": 14,
+      "raw_sql": "-- AlterEnum\nBEGIN;\nCREATE TYPE \"DataSource_new\" AS ENUM ('ALPHA_VANTAGE', 'EOD_HISTORICAL_DATA', 'GOOGLE_SHEETS', 'MANUAL', 'RAPID_API', 'YAHOO');\nALTER TABLE \"MarketData\" ALTER COLUMN \"dataSource\" TYPE \"DataSource_new\" USING (\"dataSource\"::text::\"DataSource_new\");\nALTER TABLE \"SymbolProfile\" ALTER COLUMN \"dataSource\" TYPE \"DataSource_new\" USING (\"dataSource\"::text::\"DataSource_new\");\nALTER TYPE \"DataSource\" RENAME TO \"DataSource_old\";\nALTER TYPE \"DataSource_new\" RENAME TO \"DataSource\";\nDROP TYPE \"DataSource_old\";\nCOMMIT;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "marketdata",
+            "column": "datasource",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "\"DataSource_new\"",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20230217173323_removed_ghostfolio_from_data_source/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE marketdata ALTER COLUMN \"dataSource\" SET DATA TYPE \"DataSource_new\" USING (CAST(CAST(\"dataSource\" AS TEXT) AS \"DataSource_new\"))",
+            "extra": {
+              "table_sql": "MarketData",
+              "column_sql": "DataSource"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "marketdata",
+            "column": "datasource",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'marketdata.datasource' (DataSource -> \"DataSource_new\")."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "symbolprofile",
+            "column": "datasource",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "\"DataSource_new\"",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20230217173323_removed_ghostfolio_from_data_source/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE symbolprofile ALTER COLUMN \"dataSource\" SET DATA TYPE \"DataSource_new\" USING (CAST(CAST(\"dataSource\" AS TEXT) AS \"DataSource_new\"))",
+            "extra": {
+              "table_sql": "SymbolProfile",
+              "column_sql": "DataSource"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "symbolprofile",
+            "column": "datasource",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'symbolprofile.datasource' (DataSource -> \"DataSource_new\")."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "datasource",
+            "column": "datasource",
+            "new_name": "datasource_old",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20230217173323_removed_ghostfolio_from_data_source/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TYPE \"DataSource\" RENAME TO \"DataSource_old\"",
+            "extra": {
+              "table_sql": "DataSource",
+              "column_sql": "DataSource",
+              "new_name_sql": "DataSource_old"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "datasource",
+            "column": "datasource",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'datasource' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "datasource_new",
+            "column": "datasource_new",
+            "new_name": "datasource",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20230217173323_removed_ghostfolio_from_data_source/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TYPE \"DataSource_new\" RENAME TO \"DataSource\"",
+            "extra": {
+              "table_sql": "DataSource_new",
+              "column_sql": "DataSource_new",
+              "new_name_sql": "DataSource"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "datasource_new",
+            "column": "datasource_new",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'datasource_new' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "datasource_old",
+            "column": "datasource_old",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20230217173323_removed_ghostfolio_from_data_source/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TYPE \"DataSource_old\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "DataSource_old",
+              "column_sql": "DataSource_old"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "datasource_old",
+            "column": "datasource_old",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "ENUM 'datasource_old' not present in C_{t-1} schema."
+        }
+      ]
+    },
+    {
+      "sha": "0b65d05013941b57c28446856a50a0beaca27ef0",
+      "parent": "8793284e75cfc3bcc76c492e073c388c013dccc6",
+      "date": "2022-12-25T12:20:09+01:00",
+      "subject": "Feature/remove rakuten from data source type (#1534)",
+      "mig_files": [
+        "prisma/migrations/20221225084546_removed_rakuten_from_data_source/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "prisma/schema.prisma"
+      ],
+      "orm_models_parsed_old": 14,
+      "raw_sql": "-- AlterEnum\nBEGIN;\nCREATE TYPE \"DataSource_new\" AS ENUM ('ALPHA_VANTAGE', 'EOD_HISTORICAL_DATA', 'GHOSTFOLIO', 'GOOGLE_SHEETS', 'MANUAL', 'RAPID_API', 'YAHOO');\nALTER TABLE \"MarketData\" ALTER COLUMN \"dataSource\" TYPE \"DataSource_new\" USING (\"dataSource\"::text::\"DataSource_new\");\nALTER TABLE \"SymbolProfile\" ALTER COLUMN \"dataSource\" TYPE \"DataSource_new\" USING (\"dataSource\"::text::\"DataSource_new\");\nALTER TYPE \"DataSource\" RENAME TO \"DataSource_old\";\nALTER TYPE \"DataSource_new\" RENAME TO \"DataSource\";\nDROP TYPE \"DataSource_old\";\nCOMMIT;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "marketdata",
+            "column": "datasource",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "\"DataSource_new\"",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20221225084546_removed_rakuten_from_data_source/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE marketdata ALTER COLUMN \"dataSource\" SET DATA TYPE \"DataSource_new\" USING (CAST(CAST(\"dataSource\" AS TEXT) AS \"DataSource_new\"))",
+            "extra": {
+              "table_sql": "MarketData",
+              "column_sql": "DataSource"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "marketdata",
+            "column": "datasource",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'marketdata.datasource' (DataSource -> \"DataSource_new\")."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "symbolprofile",
+            "column": "datasource",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "\"DataSource_new\"",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20221225084546_removed_rakuten_from_data_source/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE symbolprofile ALTER COLUMN \"dataSource\" SET DATA TYPE \"DataSource_new\" USING (CAST(CAST(\"dataSource\" AS TEXT) AS \"DataSource_new\"))",
+            "extra": {
+              "table_sql": "SymbolProfile",
+              "column_sql": "DataSource"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "symbolprofile",
+            "column": "datasource",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'symbolprofile.datasource' (DataSource -> \"DataSource_new\")."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "datasource",
+            "column": "datasource",
+            "new_name": "datasource_old",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20221225084546_removed_rakuten_from_data_source/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TYPE \"DataSource\" RENAME TO \"DataSource_old\"",
+            "extra": {
+              "table_sql": "DataSource",
+              "column_sql": "DataSource",
+              "new_name_sql": "DataSource_old"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "datasource",
+            "column": "datasource",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'datasource' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "datasource_new",
+            "column": "datasource_new",
+            "new_name": "datasource",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20221225084546_removed_rakuten_from_data_source/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TYPE \"DataSource_new\" RENAME TO \"DataSource\"",
+            "extra": {
+              "table_sql": "DataSource_new",
+              "column_sql": "DataSource_new",
+              "new_name_sql": "DataSource"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "datasource_new",
+            "column": "datasource_new",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'datasource_new' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "datasource_old",
+            "column": "datasource_old",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20221225084546_removed_rakuten_from_data_source/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TYPE \"DataSource_old\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "DataSource_old",
+              "column_sql": "DataSource_old"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "datasource_old",
+            "column": "datasource_old",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "ENUM 'datasource_old' not present in C_{t-1} schema."
+        }
+      ]
+    },
+    {
+      "sha": "33cc7e4e7ef4c04a1b730584c529c3d738537c2d",
+      "parent": "47f84dab068cba00266039f6293c59e3af599714",
+      "date": "2022-10-16T09:42:18+02:00",
+      "subject": "Feature/remove rakuten from data source (#1361)",
+      "mig_files": [
+        "prisma/migrations/20221016065824_removed_rakuten_from_data_source/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "prisma/schema.prisma"
+      ],
+      "orm_models_parsed_old": 14,
+      "raw_sql": "-- AlterEnum\nBEGIN;\nCREATE TYPE \"DataSource_new\" AS ENUM ('ALPHA_VANTAGE', 'EOD_HISTORICAL_DATA', 'GHOSTFOLIO', 'GOOGLE_SHEETS', 'MANUAL', 'RAPID_API', 'YAHOO');\nALTER TABLE \"MarketData\" ALTER COLUMN \"dataSource\" TYPE \"DataSource_new\" USING (\"dataSource\"::text::\"DataSource_new\");\nALTER TABLE \"SymbolProfile\" ALTER COLUMN \"dataSource\" TYPE \"DataSource_new\" USING (\"dataSource\"::text::\"DataSource_new\");\nALTER TYPE \"DataSource\" RENAME TO \"DataSource_old\";\nALTER TYPE \"DataSource_new\" RENAME TO \"DataSource\";\nDROP TYPE \"DataSource_old\";\nCOMMIT;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "marketdata",
+            "column": "datasource",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "\"DataSource_new\"",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20221016065824_removed_rakuten_from_data_source/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE marketdata ALTER COLUMN \"dataSource\" SET DATA TYPE \"DataSource_new\" USING (CAST(CAST(\"dataSource\" AS TEXT) AS \"DataSource_new\"))",
+            "extra": {
+              "table_sql": "MarketData",
+              "column_sql": "DataSource"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "marketdata",
+            "column": "datasource",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'marketdata.datasource' (DataSource -> \"DataSource_new\")."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "symbolprofile",
+            "column": "datasource",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "\"DataSource_new\"",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20221016065824_removed_rakuten_from_data_source/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE symbolprofile ALTER COLUMN \"dataSource\" SET DATA TYPE \"DataSource_new\" USING (CAST(CAST(\"dataSource\" AS TEXT) AS \"DataSource_new\"))",
+            "extra": {
+              "table_sql": "SymbolProfile",
+              "column_sql": "DataSource"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "symbolprofile",
+            "column": "datasource",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'symbolprofile.datasource' (DataSource -> \"DataSource_new\")."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "datasource",
+            "column": "datasource",
+            "new_name": "datasource_old",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20221016065824_removed_rakuten_from_data_source/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TYPE \"DataSource\" RENAME TO \"DataSource_old\"",
+            "extra": {
+              "table_sql": "DataSource",
+              "column_sql": "DataSource",
+              "new_name_sql": "DataSource_old"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "datasource",
+            "column": "datasource",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'datasource' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "datasource_new",
+            "column": "datasource_new",
+            "new_name": "datasource",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20221016065824_removed_rakuten_from_data_source/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TYPE \"DataSource_new\" RENAME TO \"DataSource\"",
+            "extra": {
+              "table_sql": "DataSource_new",
+              "column_sql": "DataSource_new",
+              "new_name_sql": "DataSource"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "datasource_new",
+            "column": "datasource_new",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'datasource_new' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "datasource_old",
+            "column": "datasource_old",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20221016065824_removed_rakuten_from_data_source/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TYPE \"DataSource_old\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "DataSource_old",
+              "column_sql": "DataSource_old"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "datasource_old",
+            "column": "datasource_old",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "ENUM 'datasource_old' not present in C_{t-1} schema."
+        }
+      ]
+    },
+    {
+      "sha": "4f8fe83a16fd3ce3a1decf0c42d0f210c778dd3c",
+      "parent": "980ad1028cc860817bec83c493f6940b711ad7ac",
+      "date": "2022-09-10T16:11:49+02:00",
+      "subject": "Feature/clean up user database schema (#1242)",
+      "mig_files": [
+        "prisma/migrations/20220910135140_removed_currency_and_view_mode_from_user/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/api/src/app/order/order.controller.ts",
+        "apps/api/src/app/portfolio/portfolio.controller.ts",
+        "apps/api/src/app/portfolio/portfolio.service.ts",
+        "apps/api/src/app/user/update-user-setting.dto.ts",
+        "apps/api/src/app/user/user.service.ts",
+        "apps/api/src/services/exchange-rate-data.service.ts",
+        "apps/client/src/app/core/auth.guard.ts",
+        "libs/common/src/lib/interfaces/user-settings.interface.ts",
+        "libs/common/src/lib/interfaces/user-with-settings.ts",
+        "libs/common/src/lib/types/index.ts",
+        "libs/common/src/lib/types/view-mode.type.ts",
+        "prisma/schema.prisma"
+      ],
+      "orm_models_parsed_old": 14,
+      "raw_sql": "-- AlterTable\nALTER TABLE \"Settings\" DROP COLUMN \"currency\",\nDROP COLUMN \"viewMode\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "settings",
+            "column": "currency",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20220910135140_removed_currency_and_view_mode_from_user/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE settings DROP COLUMN \"currency\"",
+            "extra": {
+              "table_sql": "Settings"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "settings",
+            "column": "currency",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'currency' active in C_{t-1} ORM (prisma/schema.prisma); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "settings",
+            "column": "viewmode",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20220910135140_removed_currency_and_view_mode_from_user/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE settings DROP COLUMN \"viewMode\"",
+            "extra": {
+              "table_sql": "Settings",
+              "column_sql": "viewMode"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "settings",
+            "column": "viewmode",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'viewmode' active in C_{t-1} ORM (prisma/schema.prisma); identifier removed in same commit diff"
+        }
+      ]
+    },
+    {
+      "sha": "a3bfa46fb055c83eb95ab1ba0753ecc427e90599",
+      "parent": "8cb1b3f9255a9088356ca4a80170661b71e8f0f2",
+      "date": "2022-09-03T09:47:18+02:00",
+      "subject": "Feature/remove alias from user (#1218)",
+      "mig_files": [
+        "prisma/migrations/20220903065048_removed_alias_from_user/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/api/src/app/auth/web-auth.service.ts",
+        "apps/api/src/app/user/user.service.ts",
+        "prisma/schema.prisma",
+        "prisma/seed.js"
+      ],
+      "orm_models_parsed_old": 14,
+      "raw_sql": "-- AlterTable\nALTER TABLE \"User\" DROP COLUMN \"alias\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "user",
+            "column": "alias",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20220903065048_removed_alias_from_user/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE user DROP COLUMN \"alias\"",
+            "extra": {
+              "table_sql": "User"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "user",
+            "column": "alias",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'alias' active in C_{t-1} ORM (prisma/schema.prisma); identifier removed in same commit diff"
+        }
+      ]
+    },
+    {
+      "sha": "c216ab1d7665fe9f59444387c5368b11c68712e1",
+      "parent": "86acbf06f47eafd37f3ee0822217c0a7b005c1a2",
+      "date": "2022-03-05T11:07:27+01:00",
+      "subject": "Eliminate data source from order model (#730)",
+      "mig_files": [
+        "prisma/migrations/20220302184222_removed_data_source_from_order/migration.sql",
+        "prisma/migrations/20220302191841_removed_currency_from_order/migration.sql",
+        "prisma/migrations/20220302193633_removed_symbol_from_order/migration.sql",
+        "prisma/migrations/20220302200727_changed_currency_to_required_in_symbol_profile/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/api/src/app/export/export.service.ts",
+        "apps/api/src/app/import/import-data.dto.ts",
+        "apps/api/src/app/import/import.service.ts",
+        "apps/api/src/app/order/order.controller.ts",
+        "apps/api/src/app/order/order.service.ts",
+        "apps/api/src/app/portfolio/portfolio.service-new.ts",
+        "apps/api/src/app/portfolio/portfolio.service.ts",
+        "apps/api/src/interceptors/transform-data-source-in-response.interceptor.ts",
+        "apps/api/src/services/data-gathering.service.ts",
+        "apps/api/src/services/data-provider/ghostfolio-scraper-api/ghostfolio-scraper-api.service.ts",
+        "apps/api/src/services/exchange-rate-data.service.ts",
+        "apps/client/src/app/pages/portfolio/transactions/create-or-update-transaction-dialog/create-or-update-transaction-dialog.component.ts"
+      ],
+      "orm_models_parsed_old": 12,
+      "raw_sql": "-- AlterTable\nALTER TABLE \"Order\" DROP COLUMN \"dataSource\";\n\n-- AlterTable\nALTER TABLE \"Order\" DROP COLUMN \"currency\";\n\n-- AlterTable\nALTER TABLE \"Order\" DROP COLUMN \"symbol\";\n\n-- Set default value\nUPDATE \"SymbolProfile\" SET \"currency\" = 'USD' WHERE \"currency\" IS NULL;\n\n-- AlterTable\nALTER TABLE \"SymbolProfile\" ALTER COLUMN \"currency\" SET NOT NULL;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "order",
+            "column": "datasource",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20220302184222_removed_data_source_from_order/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE order DROP COLUMN \"dataSource\"",
+            "extra": {
+              "table_sql": "Order",
+              "column_sql": "dataSource"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "order",
+            "column": "datasource",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'datasource' active in C_{t-1} ORM (prisma/schema.prisma); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "order",
+            "column": "currency",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20220302191841_removed_currency_from_order/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE order DROP COLUMN \"currency\"",
+            "extra": {
+              "table_sql": "Order"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "order",
+            "column": "currency",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'currency' active in C_{t-1} ORM (prisma/schema.prisma); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "order",
+            "column": "symbol",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20220302193633_removed_symbol_from_order/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE order DROP COLUMN \"symbol\"",
+            "extra": {
+              "table_sql": "Order"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "order",
+            "column": "symbol",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'symbol' active in C_{t-1} ORM (prisma/schema.prisma); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "SET_NOT_NULL",
+            "table": "symbolprofile",
+            "column": "currency",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20220302200727_changed_currency_to_required_in_symbol_profile/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE symbolprofile ALTER COLUMN \"currency\" SET NOT NULL",
+            "extra": {
+              "table_sql": "SymbolProfile"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "symbolprofile",
+            "column": "currency",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "SET_NOT_NULL on 'symbolprofile.currency' which was nullable in C_{t-1} ORM (prisma/schema.prisma)."
+        }
+      ]
+    },
+    {
+      "sha": "65bfe52db48c23ec90be9076c817dbfd32d8b170",
+      "parent": "48b524de5aecaa091819e2b725a03e3208a357fe",
+      "date": "2022-02-06T09:32:41+01:00",
+      "subject": "Feature/simplify admin user sign up (#675)",
+      "mig_files": [
+        "prisma/migrations/20220205195653_added_default_value_for_provider_in_user/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/api/src/app/user/user.controller.ts",
+        "apps/api/src/app/user/user.service.ts",
+        "prisma/schema.prisma",
+        "prisma/seed.js"
+      ],
+      "orm_models_parsed_old": 12,
+      "raw_sql": "-- Set default value\nUPDATE \"User\" SET \"provider\" = 'ANONYMOUS' WHERE \"provider\" IS NULL;\n\n-- AlterTable\nALTER TABLE \"User\" ALTER COLUMN \"provider\" SET NOT NULL,\nALTER COLUMN \"provider\" SET DEFAULT E'ANONYMOUS';\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "SET_NOT_NULL",
+            "table": "user",
+            "column": "provider",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20220205195653_added_default_value_for_provider_in_user/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE user ALTER COLUMN \"provider\" SET NOT NULL",
+            "extra": {
+              "table_sql": "User"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "user",
+            "column": "provider",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "SET_NOT_NULL on 'user.provider' which was nullable in C_{t-1} ORM (prisma/schema.prisma)."
+        }
+      ]
+    },
+    {
+      "sha": "5000e9c79bd9cb550ae7b0aa65e877b593ba31fb",
+      "parent": "161cb82820e61cc5ca83d74eec347455c9837574",
+      "date": "2022-02-02T20:29:19+01:00",
+      "subject": "Feature/update database schema of order (#664)",
+      "mig_files": [
+        "prisma/migrations/20220202192001_changed_data_source_to_optional_in_order/migration.sql",
+        "prisma/migrations/20220202192041_changed_symbol_to_optional_in_order/migration.sql",
+        "prisma/migrations/20220202192216_changed_symbol_profile_to_required_in_order/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "prisma/schema.prisma"
+      ],
+      "orm_models_parsed_old": 12,
+      "raw_sql": "-- AlterTable\nALTER TABLE \"Order\" ALTER COLUMN \"dataSource\" DROP NOT NULL;\n\n-- AlterTable\nALTER TABLE \"Order\" ALTER COLUMN \"symbol\" DROP NOT NULL;\n\n-- DropForeignKey\nALTER TABLE \"Order\" DROP CONSTRAINT \"Order_symbolProfileId_fkey\";\n\n-- AlterTable\nALTER TABLE \"Order\" ALTER COLUMN \"symbolProfileId\" SET NOT NULL;\n\n-- AddForeignKey\nALTER TABLE \"Order\" ADD CONSTRAINT \"Order_symbolProfileId_fkey\" FOREIGN KEY (\"symbolProfileId\") REFERENCES \"SymbolProfile\"(\"id\") ON DELETE RESTRICT ON UPDATE CASCADE;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "SET_NOT_NULL",
+            "table": "order",
+            "column": "symbolprofileid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20220202192216_changed_symbol_profile_to_required_in_order/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE order ALTER COLUMN \"symbolProfileId\" SET NOT NULL",
+            "extra": {
+              "table_sql": "Order",
+              "column_sql": "symbolProfileId"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "order",
+            "column": "symbolprofileid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "SET_NOT_NULL on 'order.symbolprofileid' which was nullable in C_{t-1} ORM (prisma/schema.prisma)."
+        }
+      ]
+    },
+    {
+      "sha": "dcee651098d1ac41b30962b71397ddad2730832d",
+      "parent": "508a48f4c3f5d6bab71e28a0b893956cf988a886",
+      "date": "2021-09-24T21:09:48+02:00",
+      "subject": "Feature/support unlimited currencies (#387)",
+      "mig_files": [
+        "prisma/migrations/20210921151004_changed_currency_from_enum_to_string/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/api/src/app/account/account.service.ts",
+        "apps/api/src/app/account/create-account.dto.ts",
+        "apps/api/src/app/account/update-account.dto.ts",
+        "apps/api/src/app/admin/admin.service.ts",
+        "apps/api/src/app/cache/cache.module.ts",
+        "apps/api/src/app/experimental/create-order.dto.ts",
+        "apps/api/src/app/experimental/interfaces/data.interface.ts",
+        "apps/api/src/app/export/export.module.ts",
+        "apps/api/src/app/info/info.module.ts",
+        "apps/api/src/app/info/info.service.ts",
+        "apps/api/src/app/order/create-order.dto.ts",
+        "apps/api/src/app/order/update-order.dto.ts"
+      ],
+      "orm_models_parsed_old": 12,
+      "raw_sql": "-- AlterTable\nALTER TABLE \"Account\" ALTER COLUMN \"currency\" TYPE TEXT;\n\n-- AlterTable\nALTER TABLE \"Order\" ALTER COLUMN \"currency\" TYPE TEXT;\n\n-- AlterTable\nALTER TABLE \"Settings\" ALTER COLUMN \"currency\" TYPE TEXT;\n\n-- AlterTable\nALTER TABLE \"SymbolProfile\" ALTER COLUMN \"currency\" TYPE TEXT;\n\n-- DropEnum\nDROP TYPE \"Currency\" CASCADE;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "account",
+            "column": "currency",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TEXT",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20210921151004_changed_currency_from_enum_to_string/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE account ALTER COLUMN \"currency\" SET DATA TYPE TEXT",
+            "extra": {
+              "table_sql": "Account",
+              "column_sql": "Currency"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "account",
+            "column": "currency",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'account.currency' (Currency -> TEXT)."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "order",
+            "column": "currency",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TEXT",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20210921151004_changed_currency_from_enum_to_string/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE order ALTER COLUMN \"currency\" SET DATA TYPE TEXT",
+            "extra": {
+              "table_sql": "Order",
+              "column_sql": "Currency"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "order",
+            "column": "currency",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'order.currency' (Currency -> TEXT)."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "settings",
+            "column": "currency",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TEXT",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20210921151004_changed_currency_from_enum_to_string/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE settings ALTER COLUMN \"currency\" SET DATA TYPE TEXT",
+            "extra": {
+              "table_sql": "Settings",
+              "column_sql": "Currency"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "settings",
+            "column": "currency",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'settings.currency' (Currency -> TEXT)."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "symbolprofile",
+            "column": "currency",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TEXT",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20210921151004_changed_currency_from_enum_to_string/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE symbolprofile ALTER COLUMN \"currency\" SET DATA TYPE TEXT",
+            "extra": {
+              "table_sql": "SymbolProfile",
+              "column_sql": "Currency"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "symbolprofile",
+            "column": "currency",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'symbolprofile.currency' (Currency -> TEXT)."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "currency",
+            "column": "currency",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20210921151004_changed_currency_from_enum_to_string/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropEnum */ DROP TYPE \"Currency\" CASCADE",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "Currency",
+              "column_sql": "Currency"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "currency",
+            "column": "currency",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'currency' affects active C_{t-1} enum definition/code."
+        }
+      ]
+    }
+  ]
+}

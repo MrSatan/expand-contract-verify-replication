@@ -1,0 +1,4726 @@
+{
+  "repo": "mastodon/mastodon",
+  "ecosystem": "rails",
+  "stars": 50606,
+  "has_k8s_helm": false,
+  "status": "ok",
+  "stats": {
+    "total_migration_commits_in_history": 590,
+    "migration_commits_analyzed": 150,
+    "total_migration_files_parsed": 309,
+    "commits_with_any_destructive": 29,
+    "commits_with_forward_destructive": 24,
+    "commits_with_rollback_only_destructive": 5,
+    "total_ops_extracted": 96,
+    "destructive_ops_up": 74,
+    "destructive_ops_down": 22
+  },
+  "verdict_counts": {
+    "ROLLBACK_ONLY_FALSE_ALARM": 22,
+    "SAFE_CONTRACT": 25,
+    "DUAL_VERSION_VIOLATION_BACKWARD": 38,
+    "SAFE_ADDITIVE": 8,
+    "UNCERTAIN": 3
+  },
+  "destructive_commits": [
+    {
+      "sha": "559688e153ce3a50b26e327bfe488743da99f3dc",
+      "parent": "a8b8d3780e8df3861cb57abad9c1ac2b12a81834",
+      "date": "2026-10-22T21:06:34Z",
+      "subject": "add migration (#41264)",
+      "mig_files": [
+        "db/migrate/20261013134454_add_action_category_to_warning_presets.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/account_warning_preset.rb",
+        "db/schema.rb",
+        "spec/requests/admin/warning_presets_spec.rb"
+      ],
+      "orm_models_parsed_old": 121,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "account_warning_presets",
+            "column": "action_category",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20261013134454_add_action_category_to_warning_presets.rb",
+            "line": 9,
+            "raw_snippet": "remove_column :account_warning_presets, :action_category",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "account_warning_presets",
+            "column": "action_category",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "c4ca1bbbc5505372f22e69d6f97855b48f2a84ab",
+      "parent": "46a65f5248ca456e09841e57f7dc2de4ddb4c539",
+      "date": "2026-10-22T12:21:19Z",
+      "subject": "Add canned response filtered dropdown (#41092)",
+      "mig_files": [
+        "db/migrate/20261013134454_add_action_category_to_warning_presets.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/admin/warning_presets_controller.rb",
+        "app/helpers/admin/account_actions_helper.rb",
+        "app/models/account_warning_preset.rb",
+        "db/schema.rb",
+        "spec/fabricators/account_warning_preset_fabricator.rb",
+        "spec/requests/admin/warning_presets_spec.rb",
+        "spec/system/admin/warning_presets_spec.rb"
+      ],
+      "orm_models_parsed_old": 121,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "account_warning_presets",
+            "column": "action_category",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20261013134454_add_action_category_to_warning_presets.rb",
+            "line": 16,
+            "raw_snippet": "remove_column :account_warning_presets, :action_category",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "account_warning_presets",
+            "column": "action_category",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "8b6f338d5e3df03d05e5ad1797ca8fb553747b85",
+      "parent": "2157685ae05feb3da1c89953bd29db24419211a8",
+      "date": "2026-10-19T07:26:12Z",
+      "subject": "Remove `Account#private_key` (#40236)",
+      "mig_files": [
+        "db/post_migrate/20261016161747_remove_private_key_from_accounts.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/account.rb",
+        "app/models/keypair.rb",
+        "app/services/activitypub/process_account_service.rb",
+        "db/schema.rb",
+        "lib/mastodon/cli/accounts.rb",
+        "spec/fabricators/account_fabricator.rb",
+        "spec/models/account_spec.rb",
+        "spec/requests/signature_verification_spec.rb",
+        "spec/services/activitypub/process_activity_service_spec.rb"
+      ],
+      "orm_models_parsed_old": 121,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "accounts",
+            "column": "private_key",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": true,
+            "file_path": "db/post_migrate/20261016161747_remove_private_key_from_accounts.rb",
+            "line": 5,
+            "raw_snippet": "remove_column :accounts, :private_key, :text, null: true",
+            "extra": {
+              "post_deploy": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "accounts",
+            "column": "private_key",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/account.rb"
+            ],
+            "app_files_old": [],
+            "notes": [
+              "post_deploy"
+            ]
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Post-deployment migration: runs after C_{t-1} has drained; C_t does not use the symbol.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": "DROP_COLUMN",
+            "bypassed": true
+          }
+        }
+      ]
+    },
+    {
+      "sha": "7ad82554f85618959918293b66935a36ac714eb3",
+      "parent": "ffb94bb4046dce0763167a96d05146f6a0cbd668",
+      "date": "2026-09-30T15:00:16Z",
+      "subject": "Refactor FASP capabilities into own db model (#40763)",
+      "mig_files": [
+        "db/migrate/20260925094651_create_fasp_capabilities.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/admin/fasp/providers_controller.rb",
+        "app/models/fasp/capability.rb",
+        "app/models/fasp/provider.rb",
+        "db/schema.rb",
+        "spec/fabricators/fasp/capability_fabricator.rb",
+        "spec/fabricators/fasp/provider_fabricator.rb",
+        "spec/models/fasp/provider_spec.rb"
+      ],
+      "orm_models_parsed_old": 118,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "fasp_providers",
+            "column": "capabilities",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": true,
+            "file_path": "db/migrate/20260925094651_create_fasp_capabilities.rb",
+            "line": 23,
+            "raw_snippet": "remove_column :fasp_providers, :capabilities",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "fasp_providers",
+            "column": "capabilities",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/fasp/provider.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'capabilities' active in C_{t-1} ORM (app/models/fasp/provider.rb); identifier removed in same commit diff",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": "DROP_COLUMN",
+            "bypassed": true
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_TABLE",
+            "table": "fasp_capabilities",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260925094651_create_fasp_capabilities.rb",
+            "line": 43,
+            "raw_snippet": "drop_table :fasp_capabilities",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "fasp_capabilities",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "873ec3f1abee20b77f196a312edd1a51b6962380",
+      "parent": "c4f0f146b708dbfb645334cd6af482d64d5f0870",
+      "date": "2026-08-05T14:15:38+02:00",
+      "subject": "Change follow recommendation materialized views to manually-maintained tables (#40039)",
+      "mig_files": [
+        "db/post_migrate/20260804081821_convert_materialized_views_to_tables.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/account_summary.rb",
+        "app/models/follow_recommendation.rb",
+        "db/schema.rb"
+      ],
+      "orm_models_parsed_old": 115,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_TABLE",
+            "table": "tmp_global_follow_recommendations",
+            "column": null,
+            "new_name": "global_follow_recommendations",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": true,
+            "file_path": "db/post_migrate/20260804081821_convert_materialized_views_to_tables.rb",
+            "line": 42,
+            "raw_snippet": "rename_table :tmp_global_follow_recommendations, :global_follow_recommendations",
+            "extra": {
+              "post_deploy": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "tmp_global_follow_recommendations",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": [
+              "post_deploy"
+            ]
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Post-deployment migration: runs after C_{t-1} has drained; C_t does not use the symbol.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": "RENAME_TABLE",
+            "bypassed": true
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_TABLE",
+            "table": "tmp_account_summaries",
+            "column": null,
+            "new_name": "account_summaries",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": true,
+            "file_path": "db/post_migrate/20260804081821_convert_materialized_views_to_tables.rb",
+            "line": 45,
+            "raw_snippet": "rename_table :tmp_account_summaries, :account_summaries",
+            "extra": {
+              "post_deploy": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "tmp_account_summaries",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": [
+              "post_deploy"
+            ]
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Post-deployment migration: runs after C_{t-1} has drained; C_t does not use the symbol.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": "RENAME_TABLE",
+            "bypassed": true
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_TABLE",
+            "table": "account_summaries",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/post_migrate/20260804081821_convert_materialized_views_to_tables.rb",
+            "line": 49,
+            "raw_snippet": "drop_table :account_summaries",
+            "extra": {
+              "post_deploy": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "account_summaries",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_TABLE",
+            "table": "global_follow_recommendations",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/post_migrate/20260804081821_convert_materialized_views_to_tables.rb",
+            "line": 54,
+            "raw_snippet": "drop_table :global_follow_recommendations",
+            "extra": {
+              "post_deploy": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "global_follow_recommendations",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "e0efc9683fa2228a4b019dbc8dda687663329aa5",
+      "parent": "20c105c194edc1aa09d1c28b8008ca1f69e4bd13",
+      "date": "2026-07-28T10:09:21+02:00",
+      "subject": "Add uniqueness constraint on Account `uri` (#39882)",
+      "mig_files": [
+        "db/migrate/20260720090737_change_account_uri_nullable.rb",
+        "db/migrate/20260720092724_change_account_uri_default.rb",
+        "db/post_migrate/20260720100326_fix_blank_account_uri.rb",
+        "db/post_migrate/20260720103819_rename_index_accounts_on_uri_to_old.rb",
+        "db/post_migrate/20260720104058_add_unique_index_on_accounts_uri.rb",
+        "db/post_migrate/20260720113713_remove_old_index_on_accounts_uri.rb",
+        "db/post_migrate/20260720124731_clean_up_invalid_accounts.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/account.rb",
+        "db/schema.rb",
+        "lib/mastodon/cli/accounts.rb",
+        "spec/fabricators/account_fabricator.rb",
+        "spec/lib/mastodon/cli/accounts_spec.rb",
+        "spec/lib/mastodon/cli/maintenance_spec.rb"
+      ],
+      "orm_models_parsed_old": 114,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "accounts",
+            "column": "uri",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260720090737_change_account_uri_nullable.rb",
+            "line": 13,
+            "raw_snippet": "change_column_null :accounts, :uri, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "accounts",
+            "column": "uri",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "3b6d94ce6247b5a4c5546bce2831cf5eefe1ea71",
+      "parent": "f6ea52e82250bd0a1303192815d7ce851c494770",
+      "date": "2026-03-10T15:54:38+01:00",
+      "subject": "Add column for html descriptions of collections (#38124)",
+      "mig_files": [
+        "db/migrate/20260310095021_add_description_html_to_collections.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/collection.rb",
+        "app/serializers/rest/collection_serializer.rb",
+        "db/schema.rb",
+        "spec/fabricators/collection_fabricator.rb",
+        "spec/models/collection_spec.rb",
+        "spec/serializers/rest/collection_serializer_spec.rb"
+      ],
+      "orm_models_parsed_old": 110,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "collections",
+            "column": "description",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260310095021_add_description_html_to_collections.rb",
+            "line": 8,
+            "raw_snippet": "change_column :collections, :description, :text, null: true",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "collections",
+            "column": "description",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/collection.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening text -> text preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "collections",
+            "column": "description",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260310095021_add_description_html_to_collections.rb",
+            "line": 10,
+            "raw_snippet": "change_column :collections, :description, :text, null: false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "collections",
+            "column": "description",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "4709121f72a797ad7617942fe05f13f23a438d1e",
+      "parent": "dab31f7a884947c4e8eca291e4e07d1e5f0d95fc",
+      "date": "2025-05-20T10:51:19-04:00",
+      "subject": "Remove Legacy OTP Secret code (#34743)",
+      "mig_files": [
+        "db/post_migrate/20240307180905_migrate_devise_two_factor_secrets.rb",
+        "db/post_migrate/20250520192024_remove_legacy_devise_two_factor_secrets_from_users.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/concerns/legacy_otp_secret.rb",
+        "app/models/user.rb",
+        "db/schema.rb",
+        "spec/models/user_spec.rb"
+      ],
+      "orm_models_parsed_old": 103,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "users",
+            "column": "encrypted_otp_secret",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": true,
+            "file_path": "db/post_migrate/20250520192024_remove_legacy_devise_two_factor_secrets_from_users.rb",
+            "line": 6,
+            "raw_snippet": "remove_column :users, :encrypted_otp_secret, :string",
+            "extra": {
+              "post_deploy": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users",
+            "column": "encrypted_otp_secret",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/user.rb"
+            ],
+            "app_files_old": [],
+            "notes": [
+              "post_deploy"
+            ]
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Post-deployment migration: runs after C_{t-1} has drained; C_t does not use the symbol.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": "DROP_COLUMN",
+            "bypassed": true
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "users",
+            "column": "encrypted_otp_secret_iv",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": true,
+            "file_path": "db/post_migrate/20250520192024_remove_legacy_devise_two_factor_secrets_from_users.rb",
+            "line": 7,
+            "raw_snippet": "remove_column :users, :encrypted_otp_secret_iv, :string",
+            "extra": {
+              "post_deploy": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users",
+            "column": "encrypted_otp_secret_iv",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/user.rb"
+            ],
+            "app_files_old": [],
+            "notes": [
+              "post_deploy"
+            ]
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Post-deployment migration: runs after C_{t-1} has drained; C_t does not use the symbol.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": "DROP_COLUMN",
+            "bypassed": true
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "users",
+            "column": "encrypted_otp_secret_salt",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": true,
+            "file_path": "db/post_migrate/20250520192024_remove_legacy_devise_two_factor_secrets_from_users.rb",
+            "line": 8,
+            "raw_snippet": "remove_column :users, :encrypted_otp_secret_salt, :string",
+            "extra": {
+              "post_deploy": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users",
+            "column": "encrypted_otp_secret_salt",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/user.rb"
+            ],
+            "app_files_old": [],
+            "notes": [
+              "post_deploy"
+            ]
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Post-deployment migration: runs after C_{t-1} has drained; C_t does not use the symbol.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": "DROP_COLUMN",
+            "bypassed": true
+          }
+        }
+      ]
+    },
+    {
+      "sha": "7bc301e184afb95d8acd77294e2c23a6989ebc34",
+      "parent": "dee744c79382ffd208bcf050cf8f32e02724e110",
+      "date": "2025-04-23T10:12:31+02:00",
+      "subject": "Make `Web::PushSubscription#user` and `Web::PushSubscription#access_token` relationships non-optional (#34498)",
+      "mig_files": [
+        "db/migrate/20250422083912_add_not_null_to_web_push_subscription_user.rb",
+        "db/migrate/20250422084214_validate_add_not_null_to_web_push_subscription_user.rb",
+        "db/migrate/20250422085027_add_not_null_to_web_push_subscription_access_token.rb",
+        "db/migrate/20250422085303_validate_add_not_null_to_web_push_subscription_access_token.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/web/push_subscription.rb",
+        "app/serializers/web/notification_serializer.rb",
+        "db/schema.rb",
+        "spec/fabricators/web_push_subscription_fabricator.rb",
+        "spec/requests/api/v1/push/subscriptions_spec.rb"
+      ],
+      "orm_models_parsed_old": 102,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "web_push_subscriptions",
+            "column": "user_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250422084214_validate_add_not_null_to_web_push_subscription_user.rb",
+            "line": 11,
+            "raw_snippet": "change_column_null :web_push_subscriptions, :user_id, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "web_push_subscriptions",
+            "column": "user_id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/web/push_subscription.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "SET_NOT_NULL on 'web_push_subscriptions.user_id' which was nullable in C_{t-1} ORM (app/models/web/push_subscription.rb).",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "SET_NOT_NULL",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "web_push_subscriptions",
+            "column": "access_token_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250422085303_validate_add_not_null_to_web_push_subscription_access_token.rb",
+            "line": 11,
+            "raw_snippet": "change_column_null :web_push_subscriptions, :access_token_id, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "web_push_subscriptions",
+            "column": "access_token_id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/web/push_subscription.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "SET_NOT_NULL on 'web_push_subscriptions.access_token_id' which was nullable in C_{t-1} ORM (app/models/web/push_subscription.rb).",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "SET_NOT_NULL",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "4c2f64907bb7220db5c6323dd18fb8d37443741c",
+      "parent": "e74d682b218096578d59f9a310a85e315dac1b6a",
+      "date": "2025-04-10T08:49:24-04:00",
+      "subject": "Remove deprecated `Import` model (#34371)",
+      "mig_files": [
+        "db/migrate/20250410144908_drop_imports.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/lib/admin/metrics/dimension/space_usage_dimension.rb",
+        "app/models/import.rb",
+        "app/services/import_service.rb",
+        "app/workers/import/relationship_worker.rb",
+        "app/workers/import_worker.rb",
+        "config/initializers/paperclip.rb",
+        "db/schema.rb",
+        "lib/mastodon/cli/media.rb",
+        "spec/fabricators/import_fabricator.rb",
+        "spec/models/import_spec.rb",
+        "spec/services/import_service_spec.rb",
+        "spec/workers/import_worker_spec.rb"
+      ],
+      "orm_models_parsed_old": 101,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_TABLE",
+            "table": "imports",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250410144908_drop_imports.rb",
+            "line": 5,
+            "raw_snippet": "drop_table :imports",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "imports",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/admin/import.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'imports' active in C_{t-1}.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_TABLE",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "b648c64e2ecc3b56f977a20bf725ecef1b7881dd",
+      "parent": "d2fbf42b0eeaca9cbb4df0350d87e6c84f0cfaf4",
+      "date": "2024-12-20T09:33:48-05:00",
+      "subject": "Add `NOT NULL` requirement to columns on `polls` (#33374)",
+      "mig_files": [
+        "db/migrate/20241216224507_add_not_null_to_poll_account_column.rb",
+        "db/migrate/20241216224514_validate_not_null_to_poll_account_column.rb",
+        "db/migrate/20241216224520_add_not_null_to_poll_status_column.rb",
+        "db/migrate/20241216224530_validate_not_null_to_poll_status_column.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/poll.rb",
+        "db/schema.rb"
+      ],
+      "orm_models_parsed_old": 99,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "polls",
+            "column": "account_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20241216224514_validate_not_null_to_poll_account_column.rb",
+            "line": 11,
+            "raw_snippet": "change_column_null :polls, :account_id, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "polls",
+            "column": "account_id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/poll.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "SET_NOT_NULL on 'polls.account_id' which was nullable in C_{t-1} ORM (app/models/poll.rb).",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "SET_NOT_NULL",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "polls",
+            "column": "status_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20241216224530_validate_not_null_to_poll_status_column.rb",
+            "line": 11,
+            "raw_snippet": "change_column_null :polls, :status_id, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "polls",
+            "column": "status_id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/poll.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "SET_NOT_NULL on 'polls.status_id' which was nullable in C_{t-1} ORM (app/models/poll.rb).",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "SET_NOT_NULL",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "978142ac9e6a84a14d4c0e1abb64af391694b8f9",
+      "parent": "f19fd0b88991f9728a74fcfe05e22f01ca62d6bc",
+      "date": "2024-12-17T08:38:18-05:00",
+      "subject": "Add missing `NOT NULL` on more columns from \"large but valid\" tables (#33330)",
+      "mig_files": [
+        "db/migrate/20241216223425_add_not_null_to_account_note_account_column.rb",
+        "db/migrate/20241216223433_validate_not_null_to_account_note_account_column.rb",
+        "db/migrate/20241216223446_add_not_null_to_account_note_target_account_column.rb",
+        "db/migrate/20241216223452_validate_not_null_to_account_note_target_account_column.rb",
+        "db/migrate/20241216223852_add_not_null_to_marker_user_column.rb",
+        "db/migrate/20241216223859_validate_not_null_to_marker_user_column.rb",
+        "db/migrate/20241216224211_add_not_null_to_poll_vote_account_column.rb",
+        "db/migrate/20241216224218_validate_not_null_to_poll_vote_account_column.rb",
+        "db/migrate/20241216224229_add_not_null_to_poll_vote_poll_column.rb",
+        "db/migrate/20241216224237_validate_not_null_to_poll_vote_poll_column.rb",
+        "db/migrate/20241216224813_add_not_null_to_tombstone_account_column.rb",
+        "db/migrate/20241216224825_validate_not_null_to_tombstone_account_column.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/account_note.rb",
+        "app/models/marker.rb",
+        "app/models/poll_vote.rb",
+        "app/models/tombstone.rb",
+        "db/schema.rb"
+      ],
+      "orm_models_parsed_old": 99,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "account_notes",
+            "column": "account_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20241216223433_validate_not_null_to_account_note_account_column.rb",
+            "line": 11,
+            "raw_snippet": "change_column_null :account_notes, :account_id, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "account_notes",
+            "column": "account_id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/account_note.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "SET_NOT_NULL on 'account_notes.account_id' which was nullable in C_{t-1} ORM (app/models/account_note.rb).",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "SET_NOT_NULL",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "account_notes",
+            "column": "target_account_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20241216223452_validate_not_null_to_account_note_target_account_column.rb",
+            "line": 11,
+            "raw_snippet": "change_column_null :account_notes, :target_account_id, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "account_notes",
+            "column": "target_account_id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/account_note.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "SET_NOT_NULL on 'account_notes.target_account_id' which was nullable in C_{t-1} ORM (app/models/account_note.rb).",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "SET_NOT_NULL",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "markers",
+            "column": "user_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20241216223859_validate_not_null_to_marker_user_column.rb",
+            "line": 11,
+            "raw_snippet": "change_column_null :markers, :user_id, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "markers",
+            "column": "user_id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/marker.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "SET_NOT_NULL on 'markers.user_id' which was nullable in C_{t-1} ORM (app/models/marker.rb).",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "SET_NOT_NULL",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "poll_votes",
+            "column": "account_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20241216224218_validate_not_null_to_poll_vote_account_column.rb",
+            "line": 11,
+            "raw_snippet": "change_column_null :poll_votes, :account_id, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "poll_votes",
+            "column": "account_id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/poll_vote.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "SET_NOT_NULL on 'poll_votes.account_id' which was nullable in C_{t-1} ORM (app/models/poll_vote.rb).",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "SET_NOT_NULL",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "poll_votes",
+            "column": "poll_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20241216224237_validate_not_null_to_poll_vote_poll_column.rb",
+            "line": 11,
+            "raw_snippet": "change_column_null :poll_votes, :poll_id, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "poll_votes",
+            "column": "poll_id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/poll_vote.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "SET_NOT_NULL on 'poll_votes.poll_id' which was nullable in C_{t-1} ORM (app/models/poll_vote.rb).",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "SET_NOT_NULL",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "tombstones",
+            "column": "account_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20241216224825_validate_not_null_to_tombstone_account_column.rb",
+            "line": 11,
+            "raw_snippet": "change_column_null :tombstones, :account_id, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "tombstones",
+            "column": "account_id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/tombstone.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "SET_NOT_NULL on 'tombstones.account_id' which was nullable in C_{t-1} ORM (app/models/tombstone.rb).",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "SET_NOT_NULL",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "cf4595967b1167491bca31cedc21213b458fbe1b",
+      "parent": "a596f3479b01e7be88f9730c5ec6f7a6206acb87",
+      "date": "2024-12-16T03:20:08-05:00",
+      "subject": "Add `NOT NULL` requirement to columns on `account_conversations` (#33308)",
+      "mig_files": [
+        "db/migrate/20241213170027_add_not_null_to_account_conversation_account_column.rb",
+        "db/migrate/20241213170036_validate_not_null_to_account_conversation_account_column.rb",
+        "db/migrate/20241213170043_add_not_null_to_account_conversation_conversation_column.rb",
+        "db/migrate/20241213170053_validate_not_null_to_account_conversation_conversation_column.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/account_conversation.rb",
+        "db/schema.rb"
+      ],
+      "orm_models_parsed_old": 99,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "account_conversations",
+            "column": "account_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20241213170036_validate_not_null_to_account_conversation_account_column.rb",
+            "line": 11,
+            "raw_snippet": "change_column_null :account_conversations, :account_id, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "account_conversations",
+            "column": "account_id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/account_conversation.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "SET_NOT_NULL on 'account_conversations.account_id' which was nullable in C_{t-1} ORM (app/models/account_conversation.rb).",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "SET_NOT_NULL",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "account_conversations",
+            "column": "conversation_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20241213170053_validate_not_null_to_account_conversation_conversation_column.rb",
+            "line": 11,
+            "raw_snippet": "change_column_null :account_conversations, :conversation_id, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "account_conversations",
+            "column": "conversation_id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/account_conversation.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "SET_NOT_NULL on 'account_conversations.conversation_id' which was nullable in C_{t-1} ORM (app/models/account_conversation.rb).",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "SET_NOT_NULL",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "efc85e39a0b198fe42d62bd3df079326255fc894",
+      "parent": "4130bda12e0329f0a1a9fcc83eaaefe60f4f65fc",
+      "date": "2024-12-13T19:16:03-05:00",
+      "subject": "Add missing `NOT NULL` requirement to small, indexed, valid data tables (#33284)",
+      "mig_files": [
+        "db/migrate/20241212152158_add_not_null_to_account_alias_columns.rb",
+        "db/migrate/20241212152618_add_not_null_to_account_deletion_request_columns.rb",
+        "db/migrate/20241212152734_add_not_null_to_account_domain_block_columns.rb",
+        "db/migrate/20241212152910_add_not_null_to_admin_action_log_columns.rb",
+        "db/migrate/20241212153054_add_not_null_to_announcement_mute_columns.rb",
+        "db/migrate/20241212153202_add_not_null_to_announcement_reaction_columns.rb",
+        "db/migrate/20241212153254_add_not_null_to_custom_filter_columns.rb",
+        "db/migrate/20241212154231_add_not_null_to_scheduled_status_columns.rb",
+        "db/migrate/20241212154346_add_not_null_to_user_invite_request_columns.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/account_alias.rb",
+        "app/models/account_deletion_request.rb",
+        "app/models/account_domain_block.rb",
+        "app/models/admin/action_log.rb",
+        "app/models/announcement_mute.rb",
+        "app/models/announcement_reaction.rb",
+        "app/models/custom_filter.rb",
+        "app/models/scheduled_status.rb",
+        "app/models/user_invite_request.rb",
+        "db/schema.rb"
+      ],
+      "orm_models_parsed_old": 101,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "account_aliases",
+            "column": "account_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": true,
+            "file_path": "db/migrate/20241212152158_add_not_null_to_account_alias_columns.rb",
+            "line": 10,
+            "raw_snippet": "change_column_null :account_aliases, :account_id, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "account_aliases",
+            "column": "account_id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/account_alias.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "SET_NOT_NULL on 'account_aliases.account_id' which was nullable in C_{t-1} ORM (app/models/account_alias.rb).",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": "SET_NOT_NULL",
+            "bypassed": true
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "account_deletion_requests",
+            "column": "account_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": true,
+            "file_path": "db/migrate/20241212152618_add_not_null_to_account_deletion_request_columns.rb",
+            "line": 10,
+            "raw_snippet": "change_column_null :account_deletion_requests, :account_id, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "account_deletion_requests",
+            "column": "account_id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/account_deletion_request.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "SET_NOT_NULL on 'account_deletion_requests.account_id' which was nullable in C_{t-1} ORM (app/models/account_deletion_request.rb).",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": "SET_NOT_NULL",
+            "bypassed": true
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "account_domain_blocks",
+            "column": "account_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": true,
+            "file_path": "db/migrate/20241212152734_add_not_null_to_account_domain_block_columns.rb",
+            "line": 12,
+            "raw_snippet": "change_column_null :account_domain_blocks, :account_id, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "account_domain_blocks",
+            "column": "account_id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/account_domain_block.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "SET_NOT_NULL on 'account_domain_blocks.account_id' which was nullable in C_{t-1} ORM (app/models/account_domain_block.rb).",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": "SET_NOT_NULL",
+            "bypassed": true
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "account_domain_blocks",
+            "column": "domain",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": true,
+            "file_path": "db/migrate/20241212152734_add_not_null_to_account_domain_block_columns.rb",
+            "line": 13,
+            "raw_snippet": "change_column_null :account_domain_blocks, :domain, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "account_domain_blocks",
+            "column": "domain",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/account_domain_block.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "SET_NOT_NULL on 'account_domain_blocks.domain' which was nullable in C_{t-1} ORM (app/models/account_domain_block.rb).",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": "SET_NOT_NULL",
+            "bypassed": true
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "admin_action_logs",
+            "column": "account_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": true,
+            "file_path": "db/migrate/20241212152910_add_not_null_to_admin_action_log_columns.rb",
+            "line": 10,
+            "raw_snippet": "change_column_null :admin_action_logs, :account_id, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "admin_action_logs",
+            "column": "account_id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/admin/action_log.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "SET_NOT_NULL on 'admin_action_logs.account_id' which was nullable in C_{t-1} ORM (app/models/admin/action_log.rb).",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": "SET_NOT_NULL",
+            "bypassed": true
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "announcement_mutes",
+            "column": "account_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": true,
+            "file_path": "db/migrate/20241212153054_add_not_null_to_announcement_mute_columns.rb",
+            "line": 12,
+            "raw_snippet": "change_column_null :announcement_mutes, :account_id, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "announcement_mutes",
+            "column": "account_id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/announcement_mute.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "SET_NOT_NULL on 'announcement_mutes.account_id' which was nullable in C_{t-1} ORM (app/models/announcement_mute.rb).",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": "SET_NOT_NULL",
+            "bypassed": true
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "announcement_mutes",
+            "column": "announcement_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": true,
+            "file_path": "db/migrate/20241212153054_add_not_null_to_announcement_mute_columns.rb",
+            "line": 13,
+            "raw_snippet": "change_column_null :announcement_mutes, :announcement_id, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "announcement_mutes",
+            "column": "announcement_id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/announcement_mute.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "SET_NOT_NULL on 'announcement_mutes.announcement_id' which was nullable in C_{t-1} ORM (app/models/announcement_mute.rb).",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": "SET_NOT_NULL",
+            "bypassed": true
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "announcement_reactions",
+            "column": "account_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": true,
+            "file_path": "db/migrate/20241212153202_add_not_null_to_announcement_reaction_columns.rb",
+            "line": 12,
+            "raw_snippet": "change_column_null :announcement_reactions, :account_id, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "announcement_reactions",
+            "column": "account_id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/announcement_reaction.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "SET_NOT_NULL on 'announcement_reactions.account_id' which was nullable in C_{t-1} ORM (app/models/announcement_reaction.rb).",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": "SET_NOT_NULL",
+            "bypassed": true
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "announcement_reactions",
+            "column": "announcement_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": true,
+            "file_path": "db/migrate/20241212153202_add_not_null_to_announcement_reaction_columns.rb",
+            "line": 13,
+            "raw_snippet": "change_column_null :announcement_reactions, :announcement_id, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "announcement_reactions",
+            "column": "announcement_id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/announcement_reaction.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "SET_NOT_NULL on 'announcement_reactions.announcement_id' which was nullable in C_{t-1} ORM (app/models/announcement_reaction.rb).",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": "SET_NOT_NULL",
+            "bypassed": true
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "custom_filters",
+            "column": "account_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": true,
+            "file_path": "db/migrate/20241212153254_add_not_null_to_custom_filter_columns.rb",
+            "line": 10,
+            "raw_snippet": "change_column_null :custom_filters, :account_id, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "custom_filters",
+            "column": "account_id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/custom_filter.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "SET_NOT_NULL on 'custom_filters.account_id' which was nullable in C_{t-1} ORM (app/models/custom_filter.rb).",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": "SET_NOT_NULL",
+            "bypassed": true
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "scheduled_statuses",
+            "column": "account_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": true,
+            "file_path": "db/migrate/20241212154231_add_not_null_to_scheduled_status_columns.rb",
+            "line": 10,
+            "raw_snippet": "change_column_null :scheduled_statuses, :account_id, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "scheduled_statuses",
+            "column": "account_id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/scheduled_status.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "SET_NOT_NULL on 'scheduled_statuses.account_id' which was nullable in C_{t-1} ORM (app/models/scheduled_status.rb).",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": "SET_NOT_NULL",
+            "bypassed": true
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "user_invite_requests",
+            "column": "user_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": true,
+            "file_path": "db/migrate/20241212154346_add_not_null_to_user_invite_request_columns.rb",
+            "line": 10,
+            "raw_snippet": "change_column_null :user_invite_requests, :user_id, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "user_invite_requests",
+            "column": "user_id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/user_invite_request.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "SET_NOT_NULL on 'user_invite_requests.user_id' which was nullable in C_{t-1} ORM (app/models/user_invite_request.rb).",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": "SET_NOT_NULL",
+            "bypassed": true
+          }
+        }
+      ]
+    },
+    {
+      "sha": "708919ee93ba32ded56e1db75d89fb30d8bce88c",
+      "parent": "4bf6af3b6119d9c5fc4a67f066ccbd9d8431b413",
+      "date": "2024-12-12T05:44:58-05:00",
+      "subject": "Update deprecated `enum` style in older migrations (#32925)",
+      "mig_files": [
+        "db/migrate/20170304202101_add_type_to_media_attachments.rb",
+        "db/migrate/20181024224956_migrate_account_conversations.rb",
+        "db/migrate/20190511134027_add_silenced_at_suspended_at_to_accounts.rb",
+        "db/post_migrate/20190511152737_remove_suspended_silenced_account_fields.rb",
+        "db/post_migrate/20201017234926_fill_account_suspension_origin.rb"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 99,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "media_attachments",
+            "column": "type",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20170304202101_add_type_to_media_attachments.rb",
+            "line": 25,
+            "raw_snippet": "remove_column :media_attachments, :type",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "media_attachments",
+            "column": "type",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "accounts",
+            "column": "suspended",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": true,
+            "file_path": "db/post_migrate/20190511152737_remove_suspended_silenced_account_fields.rb",
+            "line": 33,
+            "raw_snippet": "remove_column :accounts, :suspended, :boolean, null: false, default: false",
+            "extra": {
+              "post_deploy": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "accounts",
+            "column": "suspended",
+            "orm_active_old": false,
+            "orm_active_new": true,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/account.rb"
+            ],
+            "app_files_old": [],
+            "notes": [
+              "post_deploy"
+            ]
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "Post-deploy DROP_COLUMN on 'accounts.suspended' while C_t still loads/uses the symbol.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": "DROP_COLUMN",
+            "bypassed": true
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "accounts",
+            "column": "silenced",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": true,
+            "file_path": "db/post_migrate/20190511152737_remove_suspended_silenced_account_fields.rb",
+            "line": 34,
+            "raw_snippet": "remove_column :accounts, :silenced, :boolean, null: false, default: false",
+            "extra": {
+              "post_deploy": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "accounts",
+            "column": "silenced",
+            "orm_active_old": false,
+            "orm_active_new": true,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/account.rb"
+            ],
+            "app_files_old": [],
+            "notes": [
+              "post_deploy"
+            ]
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "Post-deploy DROP_COLUMN on 'accounts.silenced' while C_t still loads/uses the symbol.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": "DROP_COLUMN",
+            "bypassed": true
+          }
+        }
+      ]
+    },
+    {
+      "sha": "43702b95a2bab0c786f0c4a0e8cc833e84251518",
+      "parent": "315c1709107552b0772bced42d212cda607ce367",
+      "date": "2024-12-11T10:50:50-05:00",
+      "subject": "Enable `Rails/ReversibleMigration` cop (#33264)",
+      "mig_files": [
+        "db/migrate/20170205175257_remove_devices.rb",
+        "db/migrate/20170711225116_fix_null_booleans.rb",
+        "db/migrate/20220827195229_change_canonical_email_blocks_nullable.rb"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 100,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_TABLE",
+            "table": "devices",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20170205175257_remove_devices.rb",
+            "line": 5,
+            "raw_snippet": "drop_table :devices",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "devices",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'devices' not resolved in C_{t-1} ORM snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_TABLE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "domain_blocks",
+            "column": "reject_media",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": true,
+            "file_path": "db/migrate/20170711225116_fix_null_booleans.rb",
+            "line": 7,
+            "raw_snippet": "change_column_null :domain_blocks, :reject_media, false, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "domain_blocks",
+            "column": "reject_media",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/domain_block.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: 'domain_blocks.reject_media' was already non-nullable in C_{t-1} ORM.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": "SET_NOT_NULL",
+            "bypassed": true
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "imports",
+            "column": "approved",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": true,
+            "file_path": "db/migrate/20170711225116_fix_null_booleans.rb",
+            "line": 10,
+            "raw_snippet": "change_column_null :imports, :approved, false, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "imports",
+            "column": "approved",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/admin/import.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: 'imports.approved' was already non-nullable in C_{t-1} ORM.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": "SET_NOT_NULL",
+            "bypassed": true
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "statuses",
+            "column": "sensitive",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": true,
+            "file_path": "db/migrate/20170711225116_fix_null_booleans.rb",
+            "line": 12,
+            "raw_snippet": "change_column_null :statuses, :sensitive, false, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "statuses",
+            "column": "sensitive",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/status.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: 'statuses.sensitive' was already non-nullable in C_{t-1} ORM.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": "SET_NOT_NULL",
+            "bypassed": true
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "statuses",
+            "column": "reply",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": true,
+            "file_path": "db/migrate/20170711225116_fix_null_booleans.rb",
+            "line": 13,
+            "raw_snippet": "change_column_null :statuses, :reply, false, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "statuses",
+            "column": "reply",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/status.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: 'statuses.reply' was already non-nullable in C_{t-1} ORM.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": "SET_NOT_NULL",
+            "bypassed": true
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "users",
+            "column": "admin",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": true,
+            "file_path": "db/migrate/20170711225116_fix_null_booleans.rb",
+            "line": 15,
+            "raw_snippet": "change_column_null :users, :admin, false, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users",
+            "column": "admin",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": true,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/user.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Column 'users.admin' not active in C_{t-1} ORM.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": "SET_NOT_NULL",
+            "bypassed": true
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "users",
+            "column": "otp_required_for_login",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": true,
+            "file_path": "db/migrate/20170711225116_fix_null_booleans.rb",
+            "line": 18,
+            "raw_snippet": "change_column_null :users, :otp_required_for_login, false, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users",
+            "column": "otp_required_for_login",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/user.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: 'users.otp_required_for_login' was already non-nullable in C_{t-1} ORM.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": "SET_NOT_NULL",
+            "bypassed": true
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "canonical_email_blocks",
+            "column": "reference_account_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "bigint",
+            "phase_section": "up",
+            "has_safety_bypass": true,
+            "file_path": "db/migrate/20220827195229_change_canonical_email_blocks_nullable.rb",
+            "line": 5,
+            "raw_snippet": "change_column :canonical_email_blocks, :reference_account_id, :bigint, null: true, default: nil",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "canonical_email_blocks",
+            "column": "reference_account_id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/canonical_email_block.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening bigint -> bigint preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": true
+          }
+        }
+      ]
+    },
+    {
+      "sha": "d6241f67518005c3b10f4777640b9323ef62bb8c",
+      "parent": "bcb3b627b983908e8fb9a0b67140e48415157f53",
+      "date": "2024-12-11T09:25:48-05:00",
+      "subject": "Fix `Rails/ThreeStateBooleanColumn` cop (#33269)",
+      "mig_files": [
+        "db/migrate/20160325130944_add_admin_to_users.rb",
+        "db/migrate/20161123093447_add_sensitive_to_statuses.rb",
+        "db/migrate/20170123203248_add_reject_media_to_domain_blocks.rb",
+        "db/migrate/20170127165745_add_devise_two_factor_to_users.rb",
+        "db/migrate/20170209184350_add_reply_to_statuses.rb",
+        "db/migrate/20170330163835_create_imports.rb",
+        "db/migrate/20170905165803_add_local_to_statuses.rb",
+        "db/migrate/20181203021853_add_discoverable_to_accounts.rb",
+        "db/migrate/20190509164208_add_by_moderator_to_tombstone.rb",
+        "db/migrate/20190805123746_add_capabilities_to_tags.rb",
+        "db/migrate/20191212163405_add_hide_collections_to_accounts.rb",
+        "db/migrate/20200309150742_add_forwarded_to_reports.rb",
+        "db/migrate/20210609202149_create_login_activities.rb",
+        "db/migrate/20210621221010_add_skip_sign_in_token_to_users.rb",
+        "db/migrate/20211031031021_create_preview_card_providers.rb",
+        "db/migrate/20211115032527_add_trendable_to_preview_cards.rb",
+        "db/migrate/20220202200743_add_trendable_to_accounts.rb",
+        "db/migrate/20220202200926_add_trendable_to_statuses.rb",
+        "db/migrate/20220303000827_add_ordered_media_attachment_ids_to_status_edits.rb",
+        "db/migrate/20240312105620_create_severed_relationships.rb"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 100,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "statuses",
+            "column": "reply",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20170209184350_add_reply_to_statuses.rb",
+            "line": 10,
+            "raw_snippet": "remove_column :statuses, :reply",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "statuses",
+            "column": "reply",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "e4e35ab1348234d3910f8f24f0c3e67c303f3967",
+      "parent": "e76aff7de563f1c7afdfdd83e35728ba412d02b8",
+      "date": "2024-12-10T10:50:49-05:00",
+      "subject": "Add NOT NULL requirement to account columns on `AccountPin` (#33244)",
+      "mig_files": [
+        "db/migrate/20241210140838_add_not_null_to_account_pin_account_columns.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/account_pin.rb",
+        "db/schema.rb"
+      ],
+      "orm_models_parsed_old": 99,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "account_pins",
+            "column": "account_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": true,
+            "file_path": "db/migrate/20241210140838_add_not_null_to_account_pin_account_columns.rb",
+            "line": 12,
+            "raw_snippet": "change_column_null :account_pins, :account_id, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "account_pins",
+            "column": "account_id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/account_pin.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "SET_NOT_NULL on 'account_pins.account_id' which was nullable in C_{t-1} ORM (app/models/account_pin.rb).",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": "SET_NOT_NULL",
+            "bypassed": true
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "account_pins",
+            "column": "target_account_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": true,
+            "file_path": "db/migrate/20241210140838_add_not_null_to_account_pin_account_columns.rb",
+            "line": 13,
+            "raw_snippet": "change_column_null :account_pins, :target_account_id, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "account_pins",
+            "column": "target_account_id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/account_pin.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "SET_NOT_NULL on 'account_pins.target_account_id' which was nullable in C_{t-1} ORM (app/models/account_pin.rb).",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": "SET_NOT_NULL",
+            "bypassed": true
+          }
+        }
+      ]
+    },
+    {
+      "sha": "fbcd14ff7e18c8689426433aa5ad673c9ebd6409",
+      "parent": "25387dc4238d1e512029e2c6c76fb81b81bbc3b3",
+      "date": "2024-12-06T11:58:18+01:00",
+      "subject": "Always remove setting keys in legacy user settings migrations (#33196)",
+      "mig_files": [
+        "db/migrate/20241205135901_remove_legacy_user_settings_data.rb",
+        "db/post_migrate/20241205135925_remove_legacy_user_settings_columns.rb"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 98,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "settings",
+            "column": "thing_type",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": true,
+            "file_path": "db/post_migrate/20241205135925_remove_legacy_user_settings_columns.rb",
+            "line": 38,
+            "raw_snippet": "remove_column :settings, :thing_type, :string",
+            "extra": {
+              "post_deploy": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "settings",
+            "column": "thing_type",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/setting.rb"
+            ],
+            "app_files_old": [],
+            "notes": [
+              "post_deploy"
+            ]
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Post-deployment migration: runs after C_{t-1} has drained; C_t does not use the symbol.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": "DROP_COLUMN",
+            "bypassed": true
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "settings",
+            "column": "thing_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": true,
+            "file_path": "db/post_migrate/20241205135925_remove_legacy_user_settings_columns.rb",
+            "line": 39,
+            "raw_snippet": "remove_column :settings, :thing_id, :bigint",
+            "extra": {
+              "post_deploy": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "settings",
+            "column": "thing_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/setting.rb"
+            ],
+            "app_files_old": [],
+            "notes": [
+              "post_deploy"
+            ]
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Post-deployment migration: runs after C_{t-1} has drained; C_t does not use the symbol.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": "DROP_COLUMN",
+            "bypassed": true
+          }
+        }
+      ]
+    },
+    {
+      "sha": "17c02c92105b8c1c34df507c1ba84f24069da5c2",
+      "parent": "b82c791770b4a158f02263c48d329e8742fe331f",
+      "date": "2024-12-05T09:34:14-05:00",
+      "subject": "Remove `thing_type` and `thing_id` columns from settings table (#31971)",
+      "mig_files": [
+        "db/migrate/20220304195405_migrate_hide_network_preference.rb",
+        "db/migrate/20241205135901_remove_legacy_user_settings_data.rb",
+        "db/post_migrate/20241205135925_remove_legacy_user_settings_columns.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/setting.rb",
+        "db/schema.rb",
+        "spec/fabricators/setting_fabricator.rb"
+      ],
+      "orm_models_parsed_old": 98,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "settings",
+            "column": "thing_type",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": true,
+            "file_path": "db/post_migrate/20241205135925_remove_legacy_user_settings_columns.rb",
+            "line": 22,
+            "raw_snippet": "remove_column :settings, :thing_type, :string",
+            "extra": {
+              "post_deploy": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "settings",
+            "column": "thing_type",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/setting.rb"
+            ],
+            "app_files_old": [],
+            "notes": [
+              "post_deploy"
+            ]
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Post-deployment migration: runs after C_{t-1} has drained; C_t does not use the symbol.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": "DROP_COLUMN",
+            "bypassed": true
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "settings",
+            "column": "thing_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": true,
+            "file_path": "db/post_migrate/20241205135925_remove_legacy_user_settings_columns.rb",
+            "line": 23,
+            "raw_snippet": "remove_column :settings, :thing_id, :bigint",
+            "extra": {
+              "post_deploy": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "settings",
+            "column": "thing_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/setting.rb"
+            ],
+            "app_files_old": [],
+            "notes": [
+              "post_deploy"
+            ]
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Post-deployment migration: runs after C_{t-1} has drained; C_t does not use the symbol.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": "DROP_COLUMN",
+            "bypassed": true
+          }
+        }
+      ]
+    },
+    {
+      "sha": "5405bdd344ff140e4e9cf9782770e7180794edec",
+      "parent": "2d399f5d4a26e2f9c398ec7ab01f1aaee1d0e1ac",
+      "date": "2024-09-18T05:27:43-04:00",
+      "subject": "Remove unused E2EE messaging code (#31193)",
+      "mig_files": [
+        "db/migrate/20240720140205_drop_end_to_end_message_tables.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/activitypub/claims_controller.rb",
+        "app/controllers/activitypub/collections_controller.rb",
+        "app/controllers/api/v1/crypto/deliveries_controller.rb",
+        "app/controllers/api/v1/crypto/encrypted_messages_controller.rb",
+        "app/controllers/api/v1/crypto/keys/claims_controller.rb",
+        "app/controllers/api/v1/crypto/keys/counts_controller.rb",
+        "app/controllers/api/v1/crypto/keys/queries_controller.rb",
+        "app/controllers/api/v1/crypto/keys/uploads_controller.rb",
+        "app/helpers/context_helper.rb",
+        "app/lib/activitypub/activity/create.rb",
+        "app/lib/inline_renderer.rb",
+        "app/lib/vacuum/system_keys_vacuum.rb"
+      ],
+      "orm_models_parsed_old": 100,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_TABLE",
+            "table": "system_keys",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20240720140205_drop_end_to_end_message_tables.rb",
+            "line": 5,
+            "raw_snippet": "drop_table :system_keys",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "system_keys",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/system_key.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'system_keys' active in C_{t-1}.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_TABLE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_TABLE",
+            "table": "one_time_keys",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20240720140205_drop_end_to_end_message_tables.rb",
+            "line": 6,
+            "raw_snippet": "drop_table :one_time_keys",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "one_time_keys",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/one_time_key.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'one_time_keys' active in C_{t-1}.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_TABLE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_TABLE",
+            "table": "encrypted_messages",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20240720140205_drop_end_to_end_message_tables.rb",
+            "line": 7,
+            "raw_snippet": "drop_table :encrypted_messages",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "encrypted_messages",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/encrypted_message.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'encrypted_messages' active in C_{t-1}.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_TABLE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_TABLE",
+            "table": "devices",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20240720140205_drop_end_to_end_message_tables.rb",
+            "line": 8,
+            "raw_snippet": "drop_table :devices",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "devices",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/device.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'devices' active in C_{t-1}.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_TABLE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "accounts",
+            "column": "devices_url",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": true,
+            "file_path": "db/migrate/20240720140205_drop_end_to_end_message_tables.rb",
+            "line": 9,
+            "raw_snippet": "remove_column :accounts, :devices_url",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "accounts",
+            "column": "devices_url",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/account.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'devices_url' active in C_{t-1} ORM (app/models/account.rb)",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": "DROP_COLUMN",
+            "bypassed": true
+          }
+        }
+      ]
+    },
+    {
+      "sha": "cbdd8edf68321b384d871855cd73b717ca394de2",
+      "parent": "e29c401f774613b5c47fb69faf6ec99abf7c61a6",
+      "date": "2024-08-09T15:30:55+02:00",
+      "subject": "Revamp notification policy options (#31343)",
+      "mig_files": [
+        "db/migrate/20240808114841_add_new_notification_policies.rb",
+        "db/migrate/20240808124338_migrate_notifications_policy_v2.rb",
+        "db/post_migrate/20240808124339_post_deployment_migrate_notifications_policy_v2.rb",
+        "db/post_migrate/20240808125420_drop_old_policies_from_notifications_policy.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/api/v1/notifications/policies_controller.rb",
+        "app/controllers/api/v2/notifications/policies_controller.rb",
+        "app/models/notification_policy.rb",
+        "app/serializers/rest/notification_policy_serializer.rb",
+        "app/serializers/rest/v1/notification_policy_serializer.rb",
+        "app/services/notify_service.rb",
+        "config/routes/api.rb",
+        "db/schema.rb",
+        "spec/requests/api/v1/notifications/policies_spec.rb",
+        "spec/requests/api/v2/notifications/policies_spec.rb",
+        "spec/services/notify_service_spec.rb"
+      ],
+      "orm_models_parsed_old": 100,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "notification_policies",
+            "column": "filter_not_following",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": true,
+            "file_path": "db/post_migrate/20240808125420_drop_old_policies_from_notifications_policy.rb",
+            "line": 6,
+            "raw_snippet": "remove_column :notification_policies, :filter_not_following, :boolean, default: false, null: false",
+            "extra": {
+              "post_deploy": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "notification_policies",
+            "column": "filter_not_following",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "db/schema.rb"
+            ],
+            "app_files_old": [],
+            "notes": [
+              "post_deploy"
+            ]
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Post-deployment migration: runs after C_{t-1} has drained; C_t does not use the symbol.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": "DROP_COLUMN",
+            "bypassed": true
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "notification_policies",
+            "column": "filter_not_followers",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": true,
+            "file_path": "db/post_migrate/20240808125420_drop_old_policies_from_notifications_policy.rb",
+            "line": 7,
+            "raw_snippet": "remove_column :notification_policies, :filter_not_followers, :boolean, default: false, null: false",
+            "extra": {
+              "post_deploy": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "notification_policies",
+            "column": "filter_not_followers",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "db/schema.rb"
+            ],
+            "app_files_old": [],
+            "notes": [
+              "post_deploy"
+            ]
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Post-deployment migration: runs after C_{t-1} has drained; C_t does not use the symbol.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": "DROP_COLUMN",
+            "bypassed": true
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "notification_policies",
+            "column": "filter_new_accounts",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": true,
+            "file_path": "db/post_migrate/20240808125420_drop_old_policies_from_notifications_policy.rb",
+            "line": 8,
+            "raw_snippet": "remove_column :notification_policies, :filter_new_accounts, :boolean, default: false, null: false",
+            "extra": {
+              "post_deploy": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "notification_policies",
+            "column": "filter_new_accounts",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "db/schema.rb"
+            ],
+            "app_files_old": [],
+            "notes": [
+              "post_deploy"
+            ]
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Post-deployment migration: runs after C_{t-1} has drained; C_t does not use the symbol.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": "DROP_COLUMN",
+            "bypassed": true
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "notification_policies",
+            "column": "filter_private_mentions",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": true,
+            "file_path": "db/post_migrate/20240808125420_drop_old_policies_from_notifications_policy.rb",
+            "line": 9,
+            "raw_snippet": "remove_column :notification_policies, :filter_private_mentions, :boolean, default: true, null: false",
+            "extra": {
+              "post_deploy": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "notification_policies",
+            "column": "filter_private_mentions",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "db/schema.rb"
+            ],
+            "app_files_old": [],
+            "notes": [
+              "post_deploy"
+            ]
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Post-deployment migration: runs after C_{t-1} has drained; C_t does not use the symbol.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": "DROP_COLUMN",
+            "bypassed": true
+          }
+        }
+      ]
+    },
+    {
+      "sha": "35a437a03f4e1f606afea8953f0be62807da91cc",
+      "parent": "c929b4cace3f95fe54fdafe449ea7e972c8d61e8",
+      "date": "2024-07-12T14:09:52+02:00",
+      "subject": "Destroy `NotificationRequest`s that are dismissed (#31008)",
+      "mig_files": [
+        "db/post_migrate/20240712064044_remove_dismissed_from_notification_requests.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/api/v1/notifications/requests_controller.rb",
+        "app/models/notification_policy.rb",
+        "app/models/notification_request.rb",
+        "db/schema.rb",
+        "spec/fabricators/notification_request_fabricator.rb",
+        "spec/models/notification_request_spec.rb",
+        "spec/requests/api/v1/notifications/requests_spec.rb",
+        "spec/services/notify_service_spec.rb"
+      ],
+      "orm_models_parsed_old": 100,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "notification_requests",
+            "column": "dismissed",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": true,
+            "file_path": "db/post_migrate/20240712064044_remove_dismissed_from_notification_requests.rb",
+            "line": 7,
+            "raw_snippet": "remove_column :notification_requests, :dismissed",
+            "extra": {
+              "post_deploy": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "notification_requests",
+            "column": "dismissed",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/notification_request.rb"
+            ],
+            "app_files_old": [],
+            "notes": [
+              "post_deploy"
+            ]
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Post-deployment migration: runs after C_{t-1} has drained; C_t does not use the symbol.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": "DROP_COLUMN",
+            "bypassed": true
+          }
+        }
+      ]
+    },
+    {
+      "sha": "528a7f57fa8a31d1a901c247cc55b214e2dc1af5",
+      "parent": "7a84b76bb1716b131c35d9569bfcef3b32d73e60",
+      "date": "2024-06-26T09:51:11-04:00",
+      "subject": "Fix `Rails/ReversibleMigration` cop for `change_column` (#30835)",
+      "mig_files": [
+        "db/migrate/20160223164502_make_uris_nullable_in_statuses.rb",
+        "db/migrate/20170322143850_change_primary_key_to_bigint_on_statuses.rb",
+        "db/migrate/20170609145826_remove_default_language_from_statuses.rb"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 102,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "statuses",
+            "column": "uri",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "string",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160223164502_make_uris_nullable_in_statuses.rb",
+            "line": 5,
+            "raw_snippet": "change_column :statuses, :uri, :string, null: true, default: nil",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "statuses",
+            "column": "uri",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/status.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening string -> string preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "media_attachments",
+            "column": "status_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "bigint",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20170322143850_change_primary_key_to_bigint_on_statuses.rb",
+            "line": 11,
+            "raw_snippet": "change_column :media_attachments, :status_id, :bigint",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "media_attachments",
+            "column": "status_id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/media_attachment.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening bigint -> bigint preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "mentions",
+            "column": "status_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "bigint",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20170322143850_change_primary_key_to_bigint_on_statuses.rb",
+            "line": 12,
+            "raw_snippet": "change_column :mentions, :status_id, :bigint",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "mentions",
+            "column": "status_id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/mention.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening bigint -> bigint preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "notifications",
+            "column": "activity_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "bigint",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20170322143850_change_primary_key_to_bigint_on_statuses.rb",
+            "line": 13,
+            "raw_snippet": "change_column :notifications, :activity_id, :bigint",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "notifications",
+            "column": "activity_id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/notification.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening bigint -> bigint preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "preview_cards",
+            "column": "status_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "bigint",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20170322143850_change_primary_key_to_bigint_on_statuses.rb",
+            "line": 14,
+            "raw_snippet": "change_column :preview_cards, :status_id, :bigint",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "preview_cards",
+            "column": "status_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/preview_card.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Column 'preview_cards.status_id' not active in C_{t-1}.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "reports",
+            "column": "status_ids",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "bigint",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20170322143850_change_primary_key_to_bigint_on_statuses.rb",
+            "line": 15,
+            "raw_snippet": "change_column :reports, :status_ids, :bigint, array: true",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "reports",
+            "column": "status_ids",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/report.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening bigint -> bigint preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "statuses_tags",
+            "column": "status_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "bigint",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20170322143850_change_primary_key_to_bigint_on_statuses.rb",
+            "line": 16,
+            "raw_snippet": "change_column :statuses_tags, :status_id, :bigint",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "statuses_tags",
+            "column": "status_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "db/schema.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "UNCERTAIN",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'statuses_tags' has no ActiveRecord class in C_{t-1} app/models.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "stream_entries",
+            "column": "activity_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "bigint",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20170322143850_change_primary_key_to_bigint_on_statuses.rb",
+            "line": 17,
+            "raw_snippet": "change_column :stream_entries, :activity_id, :bigint",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "stream_entries",
+            "column": "activity_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'stream_entries' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "statuses",
+            "column": "language",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "string",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20170609145826_remove_default_language_from_statuses.rb",
+            "line": 5,
+            "raw_snippet": "change_column :statuses, :language, :string, default: nil, null: true",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "statuses",
+            "column": "language",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/status.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening string -> string preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "4651c0cb39c1a1e4feb6d8fc2b53de622eeb7373",
+      "parent": "2cab1c7b09f64cae8128fa33645137fe55daf075",
+      "date": "2024-06-21T10:43:12-04:00",
+      "subject": "Fix `Rails/ReversibleMigrationMethodDefinition` cop (#30794)",
+      "mig_files": [
+        "db/migrate/20160227230233_add_attachment_avatar_to_accounts.rb",
+        "db/migrate/20160305115639_add_devise_to_users.rb",
+        "db/migrate/20160312193225_add_attachment_header_to_accounts.rb",
+        "db/migrate/20161006213403_rails_settings_migration.rb",
+        "db/migrate/20170330164118_add_attachment_data_to_imports.rb"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 100,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "users",
+            "column": "encrypted_password",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160305115639_add_devise_to_users.rb",
+            "line": 30,
+            "raw_snippet": "remove_column :users, :encrypted_password",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users",
+            "column": "encrypted_password",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "users",
+            "column": "reset_password_token",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160305115639_add_devise_to_users.rb",
+            "line": 31,
+            "raw_snippet": "remove_column :users, :reset_password_token",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users",
+            "column": "reset_password_token",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "users",
+            "column": "reset_password_sent_at",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160305115639_add_devise_to_users.rb",
+            "line": 32,
+            "raw_snippet": "remove_column :users, :reset_password_sent_at",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users",
+            "column": "reset_password_sent_at",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "users",
+            "column": "remember_created_at",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160305115639_add_devise_to_users.rb",
+            "line": 33,
+            "raw_snippet": "remove_column :users, :remember_created_at",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users",
+            "column": "remember_created_at",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "users",
+            "column": "sign_in_count",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160305115639_add_devise_to_users.rb",
+            "line": 34,
+            "raw_snippet": "remove_column :users, :sign_in_count",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users",
+            "column": "sign_in_count",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "users",
+            "column": "current_sign_in_at",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160305115639_add_devise_to_users.rb",
+            "line": 35,
+            "raw_snippet": "remove_column :users, :current_sign_in_at",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users",
+            "column": "current_sign_in_at",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "users",
+            "column": "current_sign_in_ip",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160305115639_add_devise_to_users.rb",
+            "line": 36,
+            "raw_snippet": "remove_column :users, :current_sign_in_ip",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users",
+            "column": "current_sign_in_ip",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "users",
+            "column": "last_sign_in_at",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160305115639_add_devise_to_users.rb",
+            "line": 37,
+            "raw_snippet": "remove_column :users, :last_sign_in_at",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users",
+            "column": "last_sign_in_at",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "users",
+            "column": "last_sign_in_ip",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160305115639_add_devise_to_users.rb",
+            "line": 38,
+            "raw_snippet": "remove_column :users, :last_sign_in_ip",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users",
+            "column": "last_sign_in_ip",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_TABLE",
+            "table": "settings",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20161006213403_rails_settings_migration.rb",
+            "line": 15,
+            "raw_snippet": "drop_table :settings",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "settings",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "9e9613b2864062ce4174ae02db3f94629ebdca0e",
+      "parent": "37e4d96b70b46fb0994af23eefd6a77498895ba3",
+      "date": "2024-06-07T15:45:11+02:00",
+      "subject": "Fix `mentions.account_id` and `mentions.status_id` not having `NOT NULL` database constraints (#30591)",
+      "mig_files": [
+        "db/migrate/20240607093446_change_mention_status_id_non_nullable.rb",
+        "db/migrate/20240607093954_validate_change_mention_status_id_non_nullable.rb",
+        "db/migrate/20240607094603_change_mention_account_id_non_nullable.rb",
+        "db/migrate/20240607094856_validate_change_mention_account_id_non_nullable.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/mention.rb",
+        "db/schema.rb"
+      ],
+      "orm_models_parsed_old": 100,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "mentions",
+            "column": "status_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20240607093954_validate_change_mention_status_id_non_nullable.rb",
+            "line": 6,
+            "raw_snippet": "change_column_null :mentions, :status_id, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "mentions",
+            "column": "status_id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/mention.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "SET_NOT_NULL on 'mentions.status_id' which was nullable in C_{t-1} ORM (app/models/mention.rb).",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "SET_NOT_NULL",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "mentions",
+            "column": "account_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20240607094856_validate_change_mention_account_id_non_nullable.rb",
+            "line": 6,
+            "raw_snippet": "change_column_null :mentions, :account_id, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "mentions",
+            "column": "account_id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/mention.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "SET_NOT_NULL on 'mentions.account_id' which was nullable in C_{t-1} ORM (app/models/mention.rb).",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "SET_NOT_NULL",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "00cf8d37480b053b179e1caa12c5e9fc04813a4b",
+      "parent": "2bcbeed95143448625eccbbf3a3245a1eec26dce",
+      "date": "2024-05-20T16:59:27+02:00",
+      "subject": "Change older Paperclip database migrations for consistency (#30204)",
+      "mig_files": [
+        "db/migrate/20160227230233_add_attachment_avatar_to_accounts.rb",
+        "db/migrate/20160312193225_add_attachment_header_to_accounts.rb",
+        "db/migrate/20160905150353_create_media_attachments.rb",
+        "db/migrate/20170330164118_add_attachment_data_to_imports.rb",
+        "db/migrate/20170901141119_truncate_preview_cards.rb",
+        "db/migrate/20170913000752_create_site_uploads.rb",
+        "db/migrate/20170917153509_create_custom_emojis.rb",
+        "db/migrate/20200627125810_add_thumbnail_columns_to_media_attachments.rb"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 100,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_TABLE",
+            "table": "preview_cards",
+            "column": null,
+            "new_name": "deprecated_preview_cards",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20170901141119_truncate_preview_cards.rb",
+            "line": 5,
+            "raw_snippet": "rename_table :preview_cards, :deprecated_preview_cards",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "preview_cards",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/preview_card.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "RENAME_TABLE 'preview_cards' breaks C_{t-1} |= S_t.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_TABLE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_TABLE",
+            "table": "preview_cards",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20170901141119_truncate_preview_cards.rb",
+            "line": 33,
+            "raw_snippet": "drop_table :preview_cards",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "preview_cards",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_TABLE",
+            "table": "deprecated_preview_cards",
+            "column": null,
+            "new_name": "preview_cards",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20170901141119_truncate_preview_cards.rb",
+            "line": 34,
+            "raw_snippet": "rename_table :deprecated_preview_cards, :preview_cards",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "deprecated_preview_cards",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "media_attachments",
+            "column": "thumbnail_remote_url",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20200627125810_add_thumbnail_columns_to_media_attachments.rb",
+            "line": 16,
+            "raw_snippet": "remove_column :media_attachments, :thumbnail_remote_url",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "media_attachments",
+            "column": "thumbnail_remote_url",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "58376eeddac328d275339cd920a49bb29067f1c6",
+      "parent": "d71d26a3c90ba196dfc41043b73c53d4ca8f2398",
+      "date": "2024-03-22T17:22:36+01:00",
+      "subject": "Remove obsolete `admin` and `moderator` columns from `users` table (#29718)",
+      "mig_files": [
+        "db/post_migrate/20240322161611_remove_obsolete_roles_from_users.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/user.rb",
+        "db/schema.rb"
+      ],
+      "orm_models_parsed_old": 100,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "users",
+            "column": "admin",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": true,
+            "file_path": "db/post_migrate/20240322161611_remove_obsolete_roles_from_users.rb",
+            "line": 5,
+            "raw_snippet": "remove_column :users, :admin, :boolean, default: false, null: false",
+            "extra": {
+              "post_deploy": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users",
+            "column": "admin",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/user.rb"
+            ],
+            "app_files_old": [],
+            "notes": [
+              "post_deploy"
+            ]
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Post-deployment migration: runs after C_{t-1} has drained; C_t does not use the symbol.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": "DROP_COLUMN",
+            "bypassed": true
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "users",
+            "column": "moderator",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": true,
+            "file_path": "db/post_migrate/20240322161611_remove_obsolete_roles_from_users.rb",
+            "line": 6,
+            "raw_snippet": "remove_column :users, :moderator, :boolean, default: false, null: false",
+            "extra": {
+              "post_deploy": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users",
+            "column": "moderator",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/user.rb"
+            ],
+            "app_files_old": [],
+            "notes": [
+              "post_deploy"
+            ]
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Post-deployment migration: runs after C_{t-1} has drained; C_t does not use the symbol.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": "DROP_COLUMN",
+            "bypassed": true
+          }
+        }
+      ]
+    },
+    {
+      "sha": "dfa43707eb88276b8268e49c7853d226006bf140",
+      "parent": "34f293475eb6c303a110219d717f430e2edeb269",
+      "date": "2024-03-22T16:44:31+01:00",
+      "subject": "Change `AccountRelationshipSeveranceEvent` model to store lost followers and following counts separately (#29714)",
+      "mig_files": [
+        "db/migrate/20240322125607_add_followers_and_following_counts_to_account_relationship_severance_events.rb",
+        "db/post_migrate/20240322130318_remove_relationships_count_from_account_relationship_severance_events.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/account_relationship_severance_event.rb",
+        "app/serializers/rest/account_relationship_severance_event_serializer.rb",
+        "db/schema.rb"
+      ],
+      "orm_models_parsed_old": 100,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "account_relationship_severance_events",
+            "column": "relationships_count",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": true,
+            "file_path": "db/post_migrate/20240322130318_remove_relationships_count_from_account_relationship_severance_events.rb",
+            "line": 5,
+            "raw_snippet": "remove_column :account_relationship_severance_events, :relationships_count, :integer, default: 0, null: false",
+            "extra": {
+              "post_deploy": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "account_relationship_severance_events",
+            "column": "relationships_count",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/account_relationship_severance_event.rb"
+            ],
+            "app_files_old": [],
+            "notes": [
+              "post_deploy"
+            ]
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Post-deployment migration: runs after C_{t-1} has drained; C_t does not use the symbol.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": "DROP_COLUMN",
+            "bypassed": true
+          }
+        }
+      ]
+    }
+  ]
+}

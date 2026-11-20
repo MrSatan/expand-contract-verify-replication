@@ -1,0 +1,3756 @@
+{
+  "repo": "triggerdotdev/trigger.dev",
+  "ecosystem": "prisma",
+  "stars": 16786,
+  "has_k8s_helm": true,
+  "status": "ok",
+  "stats": {
+    "total_migration_commits_in_history": 439,
+    "migration_commits_analyzed": 150,
+    "total_migration_files_parsed": 264,
+    "commits_with_any_destructive": 14,
+    "commits_with_forward_destructive": 14,
+    "commits_with_rollback_only_destructive": 0,
+    "total_ops_extracted": 86,
+    "destructive_ops_up": 86,
+    "destructive_ops_down": 0
+  },
+  "verdict_counts": {
+    "DUAL_VERSION_VIOLATION_BACKWARD": 51,
+    "SAFE_CONTRACT": 4,
+    "DATA_DEPENDENT": 1,
+    "UNCERTAIN": 8,
+    "SAFE_ADDITIVE": 3,
+    "DUAL_VERSION_VIOLATION_BOTH": 19
+  },
+  "destructive_commits": [
+    {
+      "sha": "79a74ee2368252da264582a85e9d33885018d4c2",
+      "parent": "dbf6dfa296faa606925597328801717c423be7ad",
+      "date": "2026-10-29T10:58:11Z",
+      "subject": "chore: remove retired logs search projector",
+      "mig_files": [
+        "internal-packages/database/prisma/migrations/20261029120000_drop_logs_search_projector_checkpoints/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/webapp/app/entry.server.tsx",
+        "apps/webapp/app/env.server.ts",
+        "apps/webapp/app/routes/admin.api.v1.logs-search-projector.ts",
+        "apps/webapp/app/services/clickhouse/clickhouseFactory.server.ts",
+        "apps/webapp/app/services/logsSearchProjector.server.ts",
+        "apps/webapp/app/services/logsSearchProjectorInstance.server.ts",
+        "apps/webapp/app/services/logsSearchProjectorRedisStore.server.ts",
+        "apps/webapp/app/services/logsSearchProjectorStateStore.server.ts",
+        "apps/webapp/app/services/logsSearchProjectorTelemetry.server.ts",
+        "apps/webapp/app/v3/logsSearchProjectorWorker.server.ts",
+        "internal-packages/clickhouse/src/index.ts",
+        "internal-packages/clickhouse/src/taskEventsSearchProjector.ts"
+      ],
+      "orm_models_parsed_old": 95,
+      "raw_sql": "-- Fail fast if another transaction holds a lock on this projector-only table.\nSET lock_timeout = '5s';\n\nDROP TABLE IF EXISTS \"public\".\"LogsSearchProjectorCheckpoint\";\n\nRESET lock_timeout;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "logssearchprojectorcheckpoint",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20261029120000_drop_logs_search_projector_checkpoints/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TABLE IF EXISTS \"public\".\"LogsSearchProjectorCheckpoint\"",
+            "extra": {
+              "table_sql": "LogsSearchProjectorCheckpoint"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "logssearchprojectorcheckpoint",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "internal-packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'logssearchprojectorcheckpoint' active in C_{t-1}."
+        }
+      ]
+    },
+    {
+      "sha": "218efa65747ca5b03df3de606ce261011b84d333",
+      "parent": "28f424096e7c82e99e23cfa0c15068565ad98e90",
+      "date": "2026-10-02T15:09:25Z",
+      "subject": "feat(webapp,core,cli): shared webhook endpoints, waiters and an endpoints dashboard",
+      "mig_files": [
+        "internal-packages/database/prisma/migrations/20260928120000_webhook_shared_endpoints/migration.sql",
+        "internal-packages/database/prisma/migrations/20260928120001_webhook_endpoint_declared_id_key/migration.sql",
+        "internal-packages/database/prisma/migrations/20260929120000_webhook_endpoint_setup_prompt/migration.sql",
+        "internal-packages/database/prisma/migrations/20260929130000_organization_webhook_limits_config/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/webapp/app/components/admin/backOffice/WebhookLimitsSection.server.ts",
+        "apps/webapp/app/components/admin/backOffice/WebhookLimitsSection.tsx",
+        "apps/webapp/app/components/metrics/ActivityBarChart.tsx",
+        "apps/webapp/app/components/navigation/favoritePages.tsx",
+        "apps/webapp/app/components/runs/v3/RunIcon.tsx",
+        "apps/webapp/app/components/webhookConsole/WebhookComposer.tsx",
+        "apps/webapp/app/components/webhookDeliveries/v1/DeliveriesTable.tsx",
+        "apps/webapp/app/components/webhookDeliveries/v1/DeliveryHeadersTable.tsx",
+        "apps/webapp/app/components/webhookDeliveries/v1/DeliveryStatus.tsx",
+        "apps/webapp/app/components/webhookDeliveries/v1/DeliveryTargetsTable.tsx",
+        "apps/webapp/app/components/webhookDeliveries/v1/DeliveryTimeline.tsx",
+        "apps/webapp/app/components/webhookDeliveries/v1/WebhookDeliveryFilters.tsx"
+      ],
+      "orm_models_parsed_old": 90,
+      "raw_sql": "-- Shared webhook endpoints: one endpoint row per declared endpoint, with a list of routing targets\n-- (each with its own compiled filter) replacing the single target and endpoint-level filter. Hosted\n-- webhooks are unreleased, so existing rows are test data and are deleted rather than migrated.\n\nDELETE FROM \"public\".\"WebhookDelivery\";\nDELETE FROM \"public\".\"WebhookEndpoint\";\n\nALTER TYPE \"public\".\"WebhookDeliveryStatus\" ADD VALUE IF NOT EXISTS 'UNMATCHED';\n\nALTER TABLE \"public\".\"WebhookEndpoint\" DROP COLUMN IF EXISTS \"filter\",\nDROP COLUMN IF EXISTS \"filterAst\",\nDROP COLUMN IF EXISTS \"filterAstVersion\",\nDROP COLUMN IF EXISTS \"handlerWebhookId\",\nDROP COLUMN IF EXISTS \"routingTarget\",\nADD COLUMN IF NOT EXISTS \"declaredId\" TEXT NOT NULL,\nADD COLUMN IF NOT EXISTS \"routingTargets\" JSONB NOT NULL DEFAULT '[]';\n\nALTER TABLE \"public\".\"WebhookDelivery\" ADD COLUMN IF NOT EXISTS \"targets\" JSONB NOT NULL DEFAULT '[]';\n\nCREATE UNIQUE INDEX CONCURRENTLY IF NOT EXISTS \"WebhookEndpoint_runtimeEnvironmentId_declaredId_endpointTen_key\" ON \"public\".\"WebhookEndpoint\"(\"runtimeEnvironmentId\", \"declaredId\", \"endpointTenantId\", \"endpointExternalRef\");\n\nALTER TABLE \"public\".\"WebhookEndpoint\" ADD COLUMN IF NOT EXISTS \"setupPrompt\" TEXT;\n\nALTER TABLE \"public\".\"Organization\" ADD COLUMN IF NOT EXISTS \"webhookLimitsConfig\" JSONB;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "webhookendpoint",
+            "column": "filter",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20260928120000_webhook_shared_endpoints/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE webhookendpoint DROP COLUMN IF EXISTS \"filter\"",
+            "extra": {
+              "table_sql": "WebhookEndpoint"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "webhookendpoint",
+            "column": "filter",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "internal-packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "webhookendpoint",
+            "column": "filterast",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20260928120000_webhook_shared_endpoints/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE webhookendpoint DROP COLUMN IF EXISTS \"filterAst\"",
+            "extra": {
+              "table_sql": "WebhookEndpoint",
+              "column_sql": "filterAst"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "webhookendpoint",
+            "column": "filterast",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "internal-packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'filterast' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "webhookendpoint",
+            "column": "filterastversion",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20260928120000_webhook_shared_endpoints/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE webhookendpoint DROP COLUMN IF EXISTS \"filterAstVersion\"",
+            "extra": {
+              "table_sql": "WebhookEndpoint",
+              "column_sql": "filterAstVersion"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "webhookendpoint",
+            "column": "filterastversion",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "internal-packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'filterastversion' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "webhookendpoint",
+            "column": "handlerwebhookid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20260928120000_webhook_shared_endpoints/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE webhookendpoint DROP COLUMN IF EXISTS \"handlerWebhookId\"",
+            "extra": {
+              "table_sql": "WebhookEndpoint",
+              "column_sql": "handlerWebhookId"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "webhookendpoint",
+            "column": "handlerwebhookid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "internal-packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'handlerwebhookid' active in C_{t-1} ORM (internal-packages/database/prisma/schema.prisma)"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "webhookendpoint",
+            "column": "routingtarget",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20260928120000_webhook_shared_endpoints/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE webhookendpoint DROP COLUMN IF EXISTS \"routingTarget\"",
+            "extra": {
+              "table_sql": "WebhookEndpoint",
+              "column_sql": "routingTarget"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "webhookendpoint",
+            "column": "routingtarget",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "internal-packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'routingtarget' active in C_{t-1} ORM (internal-packages/database/prisma/schema.prisma)"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "webhookendpoint",
+            "column": "declaredid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TEXT",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20260928120000_webhook_shared_endpoints/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE webhookendpoint ADD COLUMN IF NOT EXISTS \"declaredId\" TEXT NOT NULL",
+            "extra": {
+              "table_sql": "WebhookEndpoint",
+              "column_sql": "declaredId"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "webhookendpoint",
+            "column": "declaredid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "internal-packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'webhookendpoint.declaredid' breaks C_{t-1} INSERTs."
+        }
+      ]
+    },
+    {
+      "sha": "ed1bb72fb8158b93118df5eba40360e53a3018fa",
+      "parent": "3c5bbc1607263b0d55226dd1f5576f6f37d88b61",
+      "date": "2026-08-12T12:24:32+01:00",
+      "subject": "feat: implement cron window spread backend (#4566)",
+      "mig_files": [
+        "internal-packages/database/prisma/migrations/20260810130446_add_cron_spread_fields/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/webapp/app/env.server.ts",
+        "apps/webapp/app/presenters/v3/ScheduleListPresenter.server.ts",
+        "apps/webapp/app/presenters/v3/ViewSchedulePresenter.server.ts",
+        "apps/webapp/app/routes/api.v1.schedules.$scheduleId.activate.ts",
+        "apps/webapp/app/routes/api.v1.schedules.$scheduleId.deactivate.ts",
+        "apps/webapp/app/routes/api.v1.schedules.$scheduleId.ts",
+        "apps/webapp/app/routes/api.v1.schedules.ts",
+        "apps/webapp/app/services/runsReplicationService.server.ts",
+        "apps/webapp/app/v3/scheduleEngine.server.ts",
+        "apps/webapp/app/v3/scheduleWindow.server.ts",
+        "apps/webapp/app/v3/schedules.ts",
+        "apps/webapp/app/v3/services/checkSchedule.server.ts"
+      ],
+      "orm_models_parsed_old": 86,
+      "raw_sql": "-- AlterTable\nALTER TABLE \"public\".\"TaskSchedule\"\n  ADD COLUMN     \"windowDurationSeconds\" INTEGER,\n  ADD COLUMN     \"windowPercentage\" INTEGER;\n\nALTER TABLE \"public\".\"TaskSchedule\"\n  ADD CONSTRAINT \"TaskSchedule_window_exclusive\"\n  CHECK (\n    \"windowDurationSeconds\" IS NULL\n    OR \"windowPercentage\" IS NULL\n  ) NOT VALID;\n\n-- AlterTable\nALTER TABLE \"public\".\"TaskScheduleInstance\"\n  ADD COLUMN     \"schedulePhase\" INTEGER;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ADD_UNIQUE_OR_CHECK",
+            "table": "taskschedule",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20260810130446_add_cron_spread_fields/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE taskschedule ADD CONSTRAINT \"TaskSchedule_window_exclusive\" CHECK (\"windowDurationSeconds\" IS NULL OR \"windowPercentage\" IS NULL)",
+            "extra": {
+              "table_sql": "TaskSchedule"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "taskschedule",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "internal-packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "DATA_DEPENDENT",
+          "compat_forward": "SAFE",
+          "classification": "DATA_DEPENDENT",
+          "reason": "CHECK/UNIQUE constraint added on active C_{t-1} table 'taskschedule'; safety depends on C_{t-1} write values."
+        }
+      ]
+    },
+    {
+      "sha": "70bca82d842a0f0df4df2344d2bb04442ccb8f1d",
+      "parent": "1f4369d092c5e0e67e606fbd25b2b62d2c17d408",
+      "date": "2026-07-04T07:02:28+01:00",
+      "subject": "feat(run-ops): activation \u2014 drop cross-DB FKs, provision run-ops DB, enable split (#4124)",
+      "mig_files": [
+        "internal-packages/database/prisma/migrations/20260626140000_drop_bulk_action_item_group_fk/migration.sql",
+        "internal-packages/database/prisma/migrations/20260626150000_drop_batch_task_run_environment_fk/migration.sql",
+        "internal-packages/database/prisma/migrations/20260629120000_drop_run_ops_control_plane_foreign_keys/migration.sql",
+        "internal-packages/database/prisma/migrations/20260630120000_drop_project_alert_run_subgraph_foreign_keys/migration.sql",
+        "internal-packages/database/prisma/migrations/20260630130000_drop_task_run_to_task_run_tag_join/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/webapp/app/v3/services/bulk/performBulkAction.server.ts",
+        "internal-packages/database/prisma/schema.prisma",
+        "internal-packages/run-store/src/PostgresRunStore.controlPlaneAlertFk.test.ts"
+      ],
+      "orm_models_parsed_old": 84,
+      "raw_sql": "-- Fail fast instead of queueing behind a long txn/VACUUM for the ACCESS EXCLUSIVE lock.\nSET lock_timeout = '5s';\n\n-- DropForeignKey\nALTER TABLE \"BulkActionItem\" DROP CONSTRAINT IF EXISTS \"BulkActionItem_groupId_fkey\";\n\n-- Fail fast instead of queueing behind a long txn/VACUUM for the ACCESS EXCLUSIVE lock.\nSET lock_timeout = '5s';\n\n-- DropForeignKey\nALTER TABLE \"BatchTaskRun\" DROP CONSTRAINT IF EXISTS \"BatchTaskRun_runtimeEnvironmentId_fkey\";\n\n-- Run-ops DB split: drop run-ops tables' cross-database FKs to control-plane tables (they\n-- can't be enforced on the run-ops DB, which has no control-plane tables). Mirrors the\n-- earlier TaskRun/BatchTaskRun drops; IF EXISTS so it's idempotent across both databases.\n\n-- Fail fast instead of queueing behind a long txn/VACUUM for the ACCESS EXCLUSIVE lock.\nSET lock_timeout = '5s';\n\n-- Waitpoint\nALTER TABLE \"Waitpoint\" DROP CONSTRAINT IF EXISTS \"Waitpoint_projectId_fkey\";\nALTER TABLE \"Waitpoint\" DROP CONSTRAINT IF EXISTS \"Waitpoint_environmentId_fkey\";\n\n-- TaskRunWaitpoint\nALTER TABLE \"TaskRunWaitpoint\" DROP CONSTRAINT IF EXISTS \"TaskRunWaitpoint_projectId_fkey\";\n\n-- TaskRunCheckpoint\nALTER TABLE \"TaskRunCheckpoint\" DROP CONSTRAINT IF EXISTS \"TaskRunCheckpoint_projectId_fkey\";\nALTER TABLE \"TaskRunCheckpoint\" DROP CONSTRAINT IF EXISTS \"TaskRunCheckpoint_runtimeEnvironmentId_fkey\";\n\n-- TaskRunAttempt\nALTER TABLE \"TaskRunAttempt\" DROP CONSTRAINT IF EXISTS \"TaskRunAttempt_backgroundWorkerId_fkey\";\nALTER TABLE \"TaskRunAttempt\" DROP CONSTRAINT IF EXISTS \"TaskRunAttempt_backgroundWorkerTaskId_fkey\";\nALTER TABLE \"TaskRunAttempt\" DROP CONSTRAINT IF EXISTS \"TaskRunAttempt_runtimeEnvironmentId_fkey\";\n\n-- TaskRunTag\nALTER TABLE \"TaskRunTag\" DROP CONSTRAINT IF EXISTS \"TaskRunTag_projectId_fkey\";\n\n-- WaitpointTag\nALTER TABLE \"WaitpointTag\" DROP CONSTRAINT IF EXISTS \"WaitpointTag_projectId_fkey\";\nALTER TABLE \"WaitpointTag\" DROP CONSTRAINT IF EXISTS \"WaitpointTag_environmentId_fkey\";\n\n-- Run-ops DB split: drop ProjectAlert's cross-DB FKs into the run subgraph (taskRunId -> TaskRun,\n-- taskRunAttemptId -> TaskRunAttempt). A ksuid run lives only on the dedicated run-ops DB so the FK\n-- can't be enforced; scalar columns are kept and the run is resolved via runStore.findRun. Mirrors\n-- ca1a4e18e; IF EXISTS so it's idempotent across both databases.\n\n-- Fail fast instead of queueing behind a long txn/VACUUM for the ACCESS EXCLUSIVE lock.\nSET lock_timeout = '5s';\n\nALTER TABLE \"ProjectAlert\" DROP CONSTRAINT IF EXISTS \"ProjectAlert_taskRunId_fkey\";\nALTER TABLE \"ProjectAlert\" DROP CONSTRAINT IF EXISTS \"ProjectAlert_taskRunAttemptId_fkey\";\n\n/*\n  Warnings:\n\n  - You are about to drop the `_TaskRunToTaskRunTag` table. If the table is not empty, all the data it contains will be lost.\n\n*/\n\n-- Fail fast instead of queueing behind a long txn/VACUUM for the ACCESS EXCLUSIVE lock.\nSET lock_timeout = '5s';\n\n-- DropTable\nDROP TABLE IF EXISTS \"_TaskRunToTaskRunTag\" CASCADE;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "_taskruntotaskruntag",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20260630130000_drop_task_run_to_task_run_tag_join/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE IF EXISTS \"_TaskRunToTaskRunTag\" CASCADE",
+            "extra": {
+              "table_sql": "_TaskRunToTaskRunTag"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "_taskruntotaskruntag",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table '_taskruntotaskruntag' not resolved in C_{t-1} ORM snapshot."
+        }
+      ]
+    },
+    {
+      "sha": "8673d42c80b4f0eecb30238df26e40830eb3f564",
+      "parent": "16538f6fdb1d029322400b641f578700b4d6b08a",
+      "date": "2026-05-10T22:29:12+01:00",
+      "subject": "feat: ai-chat reference project + MCP agent-chat tooling",
+      "mig_files": [
+        "references/ai-chat/prisma/migrations/20260305112427_init/migration.sql",
+        "references/ai-chat/prisma/migrations/20260306165319_add_user_model/migration.sql",
+        "references/ai-chat/prisma/migrations/20260327180000_remove_user_tool/migration.sql",
+        "references/ai-chat/prisma/migrations/20260425091008_add_chat_model_and_user_github_token/migration.sql",
+        "references/ai-chat/prisma/migrations/20260425121916_add_session_id_to_chat_session/migration.sql",
+        "references/ai-chat/prisma/migrations/20260427053743_simplify_chat_session_for_run_manager/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "packages/cli-v3/src/build/buildWorker.ts",
+        "packages/cli-v3/src/build/bundleSkills.ts",
+        "packages/cli-v3/src/dev/devSession.ts",
+        "packages/cli-v3/src/dev/taskRunProcessPool.ts",
+        "packages/cli-v3/src/entryPoints/dev-index-worker.ts",
+        "packages/cli-v3/src/entryPoints/dev-run-controller.ts",
+        "packages/cli-v3/src/entryPoints/dev-run-worker.ts",
+        "packages/cli-v3/src/entryPoints/managed-index-controller.ts",
+        "packages/cli-v3/src/entryPoints/managed-index-worker.ts",
+        "packages/cli-v3/src/entryPoints/managed-run-worker.ts",
+        "packages/cli-v3/src/mcp/config.ts",
+        "packages/cli-v3/src/mcp/tools.ts"
+      ],
+      "orm_models_parsed_old": 83,
+      "raw_sql": "-- CreateTable\nCREATE TABLE \"Chat\" (\n    \"id\" TEXT NOT NULL,\n    \"title\" TEXT NOT NULL,\n    \"messages\" JSONB NOT NULL DEFAULT '[]',\n    \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    \"updatedAt\" TIMESTAMP(3) NOT NULL,\n\n    CONSTRAINT \"Chat_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateTable\nCREATE TABLE \"ChatSession\" (\n    \"id\" TEXT NOT NULL,\n    \"runId\" TEXT NOT NULL,\n    \"publicAccessToken\" TEXT NOT NULL,\n    \"lastEventId\" TEXT,\n\n    CONSTRAINT \"ChatSession_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- AlterTable\nALTER TABLE \"Chat\" ADD COLUMN     \"userId\" TEXT;\n\n-- CreateTable\nCREATE TABLE \"User\" (\n    \"id\" TEXT NOT NULL,\n    \"name\" TEXT NOT NULL,\n    \"plan\" TEXT NOT NULL DEFAULT 'free',\n    \"preferredModel\" TEXT,\n    \"messageCount\" INTEGER NOT NULL DEFAULT 0,\n    \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    \"updatedAt\" TIMESTAMP(3) NOT NULL,\n\n    CONSTRAINT \"User_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- AddForeignKey\nALTER TABLE \"Chat\" ADD CONSTRAINT \"Chat_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"User\"(\"id\") ON DELETE SET NULL ON UPDATE CASCADE;\n\n-- DropTable\nDROP TABLE IF EXISTS \"UserTool\";\n\n-- AlterTable\nALTER TABLE \"Chat\" ADD COLUMN     \"model\" TEXT NOT NULL DEFAULT 'gpt-4o-mini';\n\n-- AlterTable\nALTER TABLE \"User\" ADD COLUMN     \"githubToken\" TEXT;\n\n-- AlterTable\nALTER TABLE \"ChatSession\" ADD COLUMN     \"sessionId\" TEXT;\n\n/*\n  Warnings:\n\n  - You are about to drop the column `runId` on the `ChatSession` table. All the data in the column will be lost.\n  - You are about to drop the column `sessionId` on the `ChatSession` table. All the data in the column will be lost.\n\n*/\n-- AlterTable\nALTER TABLE \"ChatSession\" DROP COLUMN \"runId\",\nDROP COLUMN \"sessionId\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "usertool",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "references/ai-chat/prisma/migrations/20260327180000_remove_user_tool/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE IF EXISTS \"UserTool\"",
+            "extra": {
+              "table_sql": "UserTool"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "usertool",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'usertool' not resolved in C_{t-1} ORM snapshot."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "chatsession",
+            "column": "runid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "references/ai-chat/prisma/migrations/20260427053743_simplify_chat_session_for_run_manager/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE chatsession DROP COLUMN \"runId\"",
+            "extra": {
+              "table_sql": "ChatSession",
+              "column_sql": "runId"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "chatsession",
+            "column": "runid",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'chatsession' columns not resolved in C_{t-1} schema snapshot."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "chatsession",
+            "column": "sessionid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "references/ai-chat/prisma/migrations/20260427053743_simplify_chat_session_for_run_manager/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE chatsession DROP COLUMN \"sessionId\"",
+            "extra": {
+              "table_sql": "ChatSession",
+              "column_sql": "sessionId"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "chatsession",
+            "column": "sessionid",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'chatsession' columns not resolved in C_{t-1} schema snapshot."
+        }
+      ]
+    },
+    {
+      "sha": "c69e939c3405690a2cc475f22c2bdb88fd321c27",
+      "parent": "e134da7306ef7dc4d7dec3f6b5d5716ee02672bc",
+      "date": "2026-04-28T12:35:55+01:00",
+      "subject": "feat: Sessions - bidirectional durable agent streams (#3417)",
+      "mig_files": [
+        "internal-packages/database/prisma/migrations/20260419000000_add_sessions_table/migration.sql",
+        "internal-packages/database/prisma/migrations/20260426190818_sessions_as_run_manager/migration.sql",
+        "internal-packages/database/prisma/migrations/20260426190819_session_current_run_id_index/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/webapp/app/entry.server.tsx",
+        "apps/webapp/app/env.server.ts",
+        "apps/webapp/app/routes/api.v1.runs.$runFriendlyId.session-streams.wait.ts",
+        "apps/webapp/app/routes/api.v1.sessions.$session.close.ts",
+        "apps/webapp/app/routes/api.v1.sessions.$session.end-and-continue.ts",
+        "apps/webapp/app/routes/api.v1.sessions.$session.ts",
+        "apps/webapp/app/routes/api.v1.sessions.ts",
+        "apps/webapp/app/routes/realtime.v1.sessions.$session.$io.append.ts",
+        "apps/webapp/app/routes/realtime.v1.sessions.$session.$io.ts",
+        "apps/webapp/app/routes/realtime.v1.streams.$runId.$target.$streamId.append.ts",
+        "apps/webapp/app/services/authorization.server.ts",
+        "apps/webapp/app/services/realtime/mintSessionToken.server.ts"
+      ],
+      "orm_models_parsed_old": 80,
+      "raw_sql": "-- CreateTable\nCREATE TABLE \"Session\" (\n    \"id\" TEXT NOT NULL,\n    \"friendlyId\" TEXT NOT NULL,\n    \"externalId\" TEXT,\n    \"type\" TEXT NOT NULL,\n    \"projectId\" TEXT NOT NULL,\n    \"runtimeEnvironmentId\" TEXT NOT NULL,\n    \"environmentType\" \"RuntimeEnvironmentType\" NOT NULL,\n    \"organizationId\" TEXT NOT NULL,\n    \"taskIdentifier\" TEXT,\n    \"tags\" TEXT[] NOT NULL DEFAULT ARRAY[]::TEXT[],\n    \"metadata\" JSONB,\n    \"closedAt\" TIMESTAMP(3),\n    \"closedReason\" TEXT,\n    \"expiresAt\" TIMESTAMP(3),\n    \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    \"updatedAt\" TIMESTAMP(3) NOT NULL,\n\n    CONSTRAINT \"Session_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"Session_friendlyId_key\"\n    ON \"Session\"(\"friendlyId\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"Session_runtimeEnvironmentId_externalId_key\"\n    ON \"Session\"(\"runtimeEnvironmentId\", \"externalId\");\n\n-- CreateIndex\nCREATE INDEX \"Session_expiresAt_idx\"\n    ON \"Session\"(\"expiresAt\");\n\n-- AlterTable\nALTER TABLE \"Session\"\n    ADD COLUMN \"currentRunId\"      TEXT,\n    ADD COLUMN \"currentRunVersion\" INTEGER NOT NULL DEFAULT 0,\n    ADD COLUMN \"triggerConfig\"     JSONB NOT NULL,\n    ALTER COLUMN \"taskIdentifier\" SET NOT NULL;\n\n-- CreateTable\nCREATE TABLE \"SessionRun\" (\n    \"id\"          TEXT NOT NULL,\n    \"sessionId\"   TEXT NOT NULL,\n    \"runId\"       TEXT NOT NULL,\n    \"reason\"      TEXT NOT NULL,\n    \"triggeredAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n\n    CONSTRAINT \"SessionRun_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"SessionRun_runId_key\"\n    ON \"SessionRun\"(\"runId\");\n\n-- CreateIndex\nCREATE INDEX \"SessionRun_sessionId_idx\"\n    ON \"SessionRun\"(\"sessionId\");\n\n-- AddForeignKey\nALTER TABLE \"SessionRun\"\n    ADD CONSTRAINT \"SessionRun_sessionId_fkey\"\n    FOREIGN KEY (\"sessionId\") REFERENCES \"Session\"(\"id\")\n    ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- CreateIndex\nCREATE INDEX CONCURRENTLY IF NOT EXISTS \"Session_currentRunId_idx\"\n    ON \"Session\"(\"currentRunId\");\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "session",
+            "column": "triggerconfig",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "JSONB",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20260426190818_sessions_as_run_manager/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE session ADD COLUMN \"triggerConfig\" JSONB NOT NULL",
+            "extra": {
+              "table_sql": "Session",
+              "column_sql": "triggerConfig"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "session",
+            "column": "triggerconfig",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'session' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "SET_NOT_NULL",
+            "table": "session",
+            "column": "taskidentifier",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20260426190818_sessions_as_run_manager/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE session ALTER COLUMN \"taskIdentifier\" SET NOT NULL",
+            "extra": {
+              "table_sql": "Session",
+              "column_sql": "taskIdentifier"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "session",
+            "column": "taskidentifier",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'session' columns not resolved in C_{t-1} schema snapshot."
+        }
+      ]
+    },
+    {
+      "sha": "54d95ee4b98f638b41a708036b099bd54a80d44f",
+      "parent": "35298ac357d4717203cc181986d29109ae90e6cd",
+      "date": "2026-03-23T06:23:19Z",
+      "subject": "feat: AI prompt management dashboard and enhanced span inspectors (#3244)",
+      "mig_files": [
+        "internal-packages/database/prisma/migrations/20260317221618_add_prompt_management/migration.sql",
+        "internal-packages/database/prisma/migrations/20260318114244_add_prompt_friendly_id/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/webapp/app/components/BlankStatePanels.tsx",
+        "apps/webapp/app/components/code/TSQLResultsTable.tsx",
+        "apps/webapp/app/components/code/TextEditor.tsx",
+        "apps/webapp/app/components/metrics/OperationsFilter.tsx",
+        "apps/webapp/app/components/metrics/PromptsFilter.tsx",
+        "apps/webapp/app/components/metrics/ProvidersFilter.tsx",
+        "apps/webapp/app/components/metrics/QueryWidget.tsx",
+        "apps/webapp/app/components/navigation/SideMenu.tsx",
+        "apps/webapp/app/components/navigation/sideMenuTypes.ts",
+        "apps/webapp/app/components/primitives/Resizable.tsx",
+        "apps/webapp/app/components/runs/v3/PromptSpanDetails.tsx",
+        "apps/webapp/app/components/runs/v3/SpanTitle.tsx"
+      ],
+      "orm_models_parsed_old": 71,
+      "raw_sql": "-- CreateTable\nCREATE TABLE \"public\".\"prompts\" (\n    \"id\" TEXT NOT NULL,\n    \"slug\" TEXT NOT NULL,\n    \"description\" TEXT,\n    \"type\" TEXT NOT NULL DEFAULT 'text',\n    \"organizationId\" TEXT NOT NULL,\n    \"projectId\" TEXT NOT NULL,\n    \"runtimeEnvironmentId\" TEXT NOT NULL,\n    \"filePath\" TEXT,\n    \"exportName\" TEXT,\n    \"variableSchema\" JSONB,\n    \"defaultModel\" TEXT,\n    \"defaultConfig\" JSONB,\n    \"tags\" TEXT[] DEFAULT ARRAY[]::TEXT[],\n    \"archivedAt\" TIMESTAMP(3),\n    \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    \"updatedAt\" TIMESTAMP(3) NOT NULL,\n\n    CONSTRAINT \"prompts_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateTable\nCREATE TABLE \"public\".\"prompt_versions\" (\n    \"id\" TEXT NOT NULL,\n    \"version\" INTEGER NOT NULL,\n    \"promptId\" TEXT NOT NULL,\n    \"textContent\" TEXT,\n    \"chatContent\" JSONB,\n    \"model\" TEXT,\n    \"config\" JSONB,\n    \"source\" TEXT NOT NULL,\n    \"commitMessage\" TEXT,\n    \"contentHash\" TEXT NOT NULL,\n    \"labels\" TEXT[] DEFAULT ARRAY[]::TEXT[],\n    \"workerId\" TEXT,\n    \"createdBy\" TEXT,\n    \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n\n    CONSTRAINT \"prompt_versions_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateIndex\nCREATE INDEX \"prompts_projectId_idx\" ON \"public\".\"prompts\"(\"projectId\");\n\n-- CreateIndex\nCREATE INDEX \"prompts_runtimeEnvironmentId_idx\" ON \"public\".\"prompts\"(\"runtimeEnvironmentId\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"prompts_projectId_runtimeEnvironmentId_slug_key\" ON \"public\".\"prompts\"(\"projectId\", \"runtimeEnvironmentId\", \"slug\");\n\n-- CreateIndex\nCREATE INDEX \"prompt_versions_promptId_idx\" ON \"public\".\"prompt_versions\"(\"promptId\");\n\n-- CreateIndex\nCREATE INDEX \"prompt_versions_contentHash_idx\" ON \"public\".\"prompt_versions\"(\"contentHash\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"prompt_versions_promptId_version_key\" ON \"public\".\"prompt_versions\"(\"promptId\", \"version\");\n\n-- AddForeignKey\nALTER TABLE \"public\".\"prompts\" ADD CONSTRAINT \"prompts_organizationId_fkey\" FOREIGN KEY (\"organizationId\") REFERENCES \"public\".\"Organization\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"public\".\"prompts\" ADD CONSTRAINT \"prompts_projectId_fkey\" FOREIGN KEY (\"projectId\") REFERENCES \"public\".\"Project\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"public\".\"prompts\" ADD CONSTRAINT \"prompts_runtimeEnvironmentId_fkey\" FOREIGN KEY (\"runtimeEnvironmentId\") REFERENCES \"public\".\"RuntimeEnvironment\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"public\".\"prompt_versions\" ADD CONSTRAINT \"prompt_versions_promptId_fkey\" FOREIGN KEY (\"promptId\") REFERENCES \"public\".\"prompts\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"public\".\"prompt_versions\" ADD CONSTRAINT \"prompt_versions_workerId_fkey\" FOREIGN KEY (\"workerId\") REFERENCES \"public\".\"BackgroundWorker\"(\"id\") ON DELETE SET NULL ON UPDATE CASCADE;\n\n-- AlterTable\nALTER TABLE \"public\".\"prompts\" ADD COLUMN \"friendly_id\" TEXT NOT NULL;\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"prompts_friendly_id_key\" ON \"public\".\"prompts\"(\"friendly_id\");\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "prompts",
+            "column": "friendly_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TEXT",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20260318114244_add_prompt_friendly_id/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE prompts ADD COLUMN \"friendly_id\" TEXT NOT NULL",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "prompts",
+            "column": "friendly_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'prompts' was created in the same commit; C_{t-1} does not write to it."
+        }
+      ]
+    },
+    {
+      "sha": "bc0d1ff59a8152b303ca7f30fa7b2be0b98646c5",
+      "parent": "062bcaece8ad7f1046097977efab18c1fcc0ee42",
+      "date": "2026-02-12T17:48:02Z",
+      "subject": "Metrics dashboards (#3019)",
+      "mig_files": [
+        "internal-packages/database/prisma/migrations/20260201130503_metrics_dashboard_table_created/migration.sql",
+        "internal-packages/database/prisma/migrations/20260202044337_metrics_dashboard_description/migration.sql",
+        "internal-packages/database/prisma/migrations/20260202100000_add_friendlyid_to_metrics_dashboard/migration.sql",
+        "internal-packages/database/prisma/migrations/20260211120000_make_metrics_dashboard_owner_nullable/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/webapp/app/components/AlphaBadge.tsx",
+        "apps/webapp/app/components/code/AIQueryInput.tsx",
+        "apps/webapp/app/components/code/ChartConfigPanel.tsx",
+        "apps/webapp/app/components/code/QueryResultsChart.tsx",
+        "apps/webapp/app/components/code/TSQLEditor.tsx",
+        "apps/webapp/app/components/code/TSQLResultsTable.tsx",
+        "apps/webapp/app/components/code/chartColors.ts",
+        "apps/webapp/app/components/code/tsql/tsqlCompletion.ts",
+        "apps/webapp/app/components/layout/AppLayout.tsx",
+        "apps/webapp/app/components/logs/LogsTaskFilter.tsx",
+        "apps/webapp/app/components/metrics/QueryWidget.tsx",
+        "apps/webapp/app/components/metrics/QueuesFilter.tsx"
+      ],
+      "orm_models_parsed_old": 64,
+      "raw_sql": "-- CreateTable\nCREATE TABLE\n    \"public\".\"MetricsDashboard\" (\n        \"id\" TEXT NOT NULL,\n        \"title\" TEXT NOT NULL,\n        \"organizationId\" TEXT NOT NULL,\n        \"projectId\" TEXT,\n        \"ownerId\" TEXT NOT NULL,\n        \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n        \"updatedAt\" TIMESTAMP(3) NOT NULL,\n        \"layout\" TEXT NOT NULL,\n        CONSTRAINT \"MetricsDashboard_pkey\" PRIMARY KEY (\"id\")\n    );\n\n-- CreateIndex\nCREATE INDEX \"MetricsDashboard_projectId_createdAt_idx\" ON \"public\".\"MetricsDashboard\" (\"projectId\", \"createdAt\" DESC);\n\n-- AddForeignKey\nALTER TABLE \"public\".\"MetricsDashboard\" ADD CONSTRAINT \"MetricsDashboard_organizationId_fkey\" FOREIGN KEY (\"organizationId\") REFERENCES \"public\".\"Organization\" (\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"public\".\"MetricsDashboard\" ADD CONSTRAINT \"MetricsDashboard_projectId_fkey\" FOREIGN KEY (\"projectId\") REFERENCES \"public\".\"Project\" (\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"public\".\"MetricsDashboard\" ADD CONSTRAINT \"MetricsDashboard_ownerId_fkey\" FOREIGN KEY (\"ownerId\") REFERENCES \"public\".\"User\" (\"id\") ON DELETE SET NULL ON UPDATE CASCADE;\n-- AlterTable\nALTER TABLE \"public\".\"MetricsDashboard\"\nADD COLUMN \"description\" TEXT NOT NULL DEFAULT '';\n-- AlterTable\nALTER TABLE \"public\".\"MetricsDashboard\" ADD COLUMN \"friendlyId\" TEXT NOT NULL;\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"MetricsDashboard_friendlyId_key\" ON \"public\".\"MetricsDashboard\"(\"friendlyId\");\n\n-- AlterTable: make ownerId nullable to match ON DELETE SET NULL foreign key\nALTER TABLE \"public\".\"MetricsDashboard\" ALTER COLUMN \"ownerId\" DROP NOT NULL;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "metricsdashboard",
+            "column": "friendlyid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TEXT",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20260202100000_add_friendlyid_to_metrics_dashboard/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE metricsdashboard ADD COLUMN \"friendlyId\" TEXT NOT NULL",
+            "extra": {
+              "table_sql": "MetricsDashboard",
+              "column_sql": "friendlyId"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "metricsdashboard",
+            "column": "friendlyid",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'metricsdashboard' was created in the same commit; C_{t-1} does not write to it."
+        }
+      ]
+    },
+    {
+      "sha": "f53db6fd164aa4c591d09523b8316786d20531fb",
+      "parent": "c0b86efbd3d9f0577c1b3a5803bce0f43c131c12",
+      "date": "2026-01-29T13:02:47Z",
+      "subject": "Query: time limits, performance improvements, styling (#2953)",
+      "mig_files": [
+        "internal-packages/database/prisma/migrations/20260124203524_customer_query_add_title_remove_cost/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/webapp/app/components/code/QueryResultsChart.tsx",
+        "apps/webapp/app/components/code/TSQLResultsTable.tsx",
+        "apps/webapp/app/components/primitives/AnimatedNumber.tsx",
+        "apps/webapp/app/components/primitives/Callout.tsx",
+        "apps/webapp/app/components/primitives/Resizable.tsx",
+        "apps/webapp/app/components/primitives/charts/Card.tsx",
+        "apps/webapp/app/components/primitives/charts/ChartLegendCompound.tsx",
+        "apps/webapp/app/components/primitives/charts/ChartLine.tsx",
+        "apps/webapp/app/components/primitives/charts/ChartRoot.tsx",
+        "apps/webapp/app/components/runs/v3/SharedFilters.tsx",
+        "apps/webapp/app/env.server.ts",
+        "apps/webapp/app/presenters/v3/QueryPresenter.server.ts"
+      ],
+      "orm_models_parsed_old": 62,
+      "raw_sql": "-- AlterTable\nALTER TABLE \"CustomerQuery\"\nADD COLUMN IF NOT EXISTS \"title\" TEXT;\n\n-- AlterTable\nALTER TABLE \"CustomerQuery\"\nDROP COLUMN IF EXISTS \"costInCents\";",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "customerquery",
+            "column": "costincents",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20260124203524_customer_query_add_title_remove_cost/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE customerquery DROP COLUMN IF EXISTS \"costInCents\"",
+            "extra": {
+              "table_sql": "CustomerQuery",
+              "column_sql": "costInCents"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "customerquery",
+            "column": "costincents",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "internal-packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'costincents' active in C_{t-1} ORM (internal-packages/database/prisma/schema.prisma)"
+        }
+      ]
+    },
+    {
+      "sha": "7a7c4b1a8262042108607ae2bd49d16c89c124d4",
+      "parent": "733894bb4ffac417060528945d64cbfa26db7819",
+      "date": "2026-01-15T18:03:06Z",
+      "subject": "feat(webapp): New limits page (#2885)",
+      "mig_files": [
+        "internal-packages/database/prisma/migrations/20260115154554_taskscheduleinstance_required_projectid/migration.sql",
+        "internal-packages/database/prisma/migrations/20260115164415_taskscheduleinstance_required_projectid_index/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/webapp/app/components/navigation/SideMenu.tsx",
+        "apps/webapp/app/presenters/v3/LimitsPresenter.server.ts",
+        "apps/webapp/app/presenters/v3/ScheduleListPresenter.server.ts",
+        "apps/webapp/app/routes/_app.orgs.$organizationSlug.projects.$projectParam.env.$envParam.limits/route.tsx",
+        "apps/webapp/app/runEngine/concerns/batchLimits.server.ts",
+        "apps/webapp/app/services/authorizationRateLimitMiddleware.server.ts",
+        "apps/webapp/app/utils/pathBuilder.ts",
+        "apps/webapp/app/v3/services/checkSchedule.server.ts",
+        "apps/webapp/tailwind.config.js",
+        "internal-packages/database/prisma/schema.prisma",
+        "internal-packages/tsql/src/query/printer.test.ts",
+        "internal-packages/tsql/src/query/printer.ts"
+      ],
+      "orm_models_parsed_old": 62,
+      "raw_sql": "/*\nWarnings:\n\n- Made the column `projectId` on table `TaskScheduleInstance` required. This step will fail if there are existing NULL values in that column.\n\n */\n-- Backfill from TaskSchedule\nUPDATE \"TaskScheduleInstance\" tsi\nSET\n  \"projectId\" = ts.\"projectId\"\nFROM\n  \"TaskSchedule\" ts\nWHERE\n  tsi.\"taskScheduleId\" = ts.\"id\"\n  AND tsi.\"projectId\" IS NULL;\n\n-- AlterTable\nALTER TABLE \"public\".\"TaskScheduleInstance\"\nALTER COLUMN \"projectId\"\nSET\n  NOT NULL;\n-- CreateIndex\nCREATE INDEX CONCURRENTLY IF NOT EXISTS \"TaskScheduleInstance_projectId_active_idx\" ON \"public\".\"TaskScheduleInstance\" (\"projectId\", \"active\");",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "SET_NOT_NULL",
+            "table": "taskscheduleinstance",
+            "column": "projectid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20260115154554_taskscheduleinstance_required_projectid/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE taskscheduleinstance ALTER COLUMN \"projectId\" SET NOT NULL",
+            "extra": {
+              "table_sql": "TaskScheduleInstance",
+              "column_sql": "projectId"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "taskscheduleinstance",
+            "column": "projectid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "internal-packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "SET_NOT_NULL on 'taskscheduleinstance.projectid' which was nullable in C_{t-1} ORM (internal-packages/database/prisma/schema.prisma)."
+        }
+      ]
+    },
+    {
+      "sha": "8d5c86fea068c51836e45291817de10e79c2b9bc",
+      "parent": "a9b0b4f7c9913b533ea2afd0aca2659a63e99c06",
+      "date": "2025-07-21T15:45:27+01:00",
+      "subject": "v4: simplified release concurrency system and status changes (#2284)",
+      "mig_files": [
+        "internal-packages/database/prisma/migrations/20250715124534_add_concurrency_limit_burst_factor_to_runtime_environment/migration.sql",
+        "internal-packages/database/prisma/migrations/20250716145327_drop_release_concurrency_on_waitpoint_on_task_queue/migration.sql",
+        "internal-packages/database/prisma/migrations/20250716150513_add_dequeued_task_run_status/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/webapp/app/api/versions.ts",
+        "apps/webapp/app/components/runs/v3/RunFilters.tsx",
+        "apps/webapp/app/components/runs/v3/TaskRunStatus.tsx",
+        "apps/webapp/app/database-types.ts",
+        "apps/webapp/app/env.server.ts",
+        "apps/webapp/app/models/taskRun.server.ts",
+        "apps/webapp/app/presenters/v3/ApiRetrieveRunPresenter.server.ts",
+        "apps/webapp/app/presenters/v3/ApiRunListPresenter.server.ts",
+        "apps/webapp/app/presenters/v3/QueueListPresenter.server.ts",
+        "apps/webapp/app/presenters/v3/QueueRetrievePresenter.server.ts",
+        "apps/webapp/app/routes/_app.orgs.$organizationSlug.projects.$projectParam.env.$envParam.queues/route.tsx",
+        "apps/webapp/app/routes/api.v1.projects.$projectRef.runs.ts"
+      ],
+      "orm_models_parsed_old": 54,
+      "raw_sql": "-- AlterTable\nALTER TABLE \"RuntimeEnvironment\" ADD COLUMN     \"concurrencyLimitBurstFactor\" DECIMAL(4,2) NOT NULL DEFAULT 2.00;\n\n/*\n  Warnings:\n\n  - You are about to drop the column `releaseConcurrencyOnWaitpoint` on the `TaskQueue` table. All the data in the column will be lost.\n\n*/\n-- AlterTable\nALTER TABLE \"TaskQueue\" DROP COLUMN \"releaseConcurrencyOnWaitpoint\";\n-- AlterEnum\nALTER TYPE \"TaskRunStatus\" ADD VALUE 'DEQUEUED';",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "taskqueue",
+            "column": "releaseconcurrencyonwaitpoint",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250716145327_drop_release_concurrency_on_waitpoint_on_task_queue/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE taskqueue DROP COLUMN \"releaseConcurrencyOnWaitpoint\"",
+            "extra": {
+              "table_sql": "TaskQueue",
+              "column_sql": "releaseConcurrencyOnWaitpoint"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "taskqueue",
+            "column": "releaseconcurrencyonwaitpoint",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "internal-packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'releaseconcurrencyonwaitpoint' active in C_{t-1} ORM (internal-packages/database/prisma/schema.prisma); identifier removed in same commit diff"
+        }
+      ]
+    },
+    {
+      "sha": "630e9556b04b565b2e7378cd47d3a2f529c3e034",
+      "parent": "6db1b71202d18cb9a5352a5acaba3cf58e34b1fc",
+      "date": "2025-07-14T15:50:01+01:00",
+      "subject": "Bulk actions 2.0 (and switch all run listing to ClickHouse) (#2264)",
+      "mig_files": [
+        "internal-packages/database/prisma/migrations/20250616083614_bulk_action_v2/migration.sql",
+        "internal-packages/database/prisma/migrations/20250616084546_bulk_action_item_drop_friendly_id_unique_constraint/migration.sql",
+        "internal-packages/database/prisma/migrations/20250616084735_bulk_action_item_friendly_id_optional/migration.sql",
+        "internal-packages/database/prisma/migrations/20250623141255_bulk_action_group_counts_completed_at/migration.sql",
+        "internal-packages/database/prisma/migrations/20250708130212_task_run_add_bulk_action_group_ids/migration.sql",
+        "internal-packages/database/prisma/migrations/20250709131914_bulk_action_group_environment_id_created_at_index/migration.sql",
+        "internal-packages/database/prisma/migrations/20250710105648_bulk_action_notification_type/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/webapp/app/assets/icons/ListCheckedIcon.tsx",
+        "apps/webapp/app/components/BlankStatePanels.tsx",
+        "apps/webapp/app/components/BulkActionFilterSummary.tsx",
+        "apps/webapp/app/components/ListPagination.tsx",
+        "apps/webapp/app/components/navigation/SideMenu.tsx",
+        "apps/webapp/app/components/primitives/Accordion.tsx",
+        "apps/webapp/app/components/primitives/AppliedFilter.tsx",
+        "apps/webapp/app/components/primitives/Badge.tsx",
+        "apps/webapp/app/components/primitives/Pagination.tsx",
+        "apps/webapp/app/components/primitives/RadioButton.tsx",
+        "apps/webapp/app/components/primitives/Select.tsx",
+        "apps/webapp/app/components/primitives/Switch.tsx"
+      ],
+      "orm_models_parsed_old": 54,
+      "raw_sql": "-- AlterTable\nALTER TABLE \"BulkActionGroup\"\nADD COLUMN IF NOT EXISTS \"cursor\" JSONB,\nADD COLUMN IF NOT EXISTS \"environmentId\" TEXT,\nADD COLUMN IF NOT EXISTS \"params\" JSONB,\nADD COLUMN IF NOT EXISTS \"processedCount\" INTEGER NOT NULL DEFAULT 0,\nADD COLUMN IF NOT EXISTS \"queryName\" TEXT,\nADD COLUMN IF NOT EXISTS \"reason\" TEXT,\nADD COLUMN IF NOT EXISTS \"totalCount\" INTEGER NOT NULL DEFAULT 0,\nADD COLUMN IF NOT EXISTS \"userId\" TEXT;\n\n-- Add foreign key constraints if they don't exist\nDO $$ \nBEGIN\n    IF NOT EXISTS (\n        SELECT 1 FROM pg_constraint \n        WHERE conname = 'BulkActionGroup_environmentId_fkey'\n    ) THEN\n        ALTER TABLE \"BulkActionGroup\" \n        ADD CONSTRAINT \"BulkActionGroup_environmentId_fkey\" \n        FOREIGN KEY (\"environmentId\") \n        REFERENCES \"RuntimeEnvironment\"(\"id\") \n        ON DELETE CASCADE ON UPDATE CASCADE;\n    END IF;\n\n    IF NOT EXISTS (\n        SELECT 1 FROM pg_constraint \n        WHERE conname = 'BulkActionGroup_userId_fkey'\n    ) THEN\n        ALTER TABLE \"BulkActionGroup\" \n        ADD CONSTRAINT \"BulkActionGroup_userId_fkey\" \n        FOREIGN KEY (\"userId\") \n        REFERENCES \"User\"(\"id\") \n        ON DELETE SET NULL ON UPDATE CASCADE;\n    END IF;\nEND $$;\n-- DropIndex\nDROP INDEX CONCURRENTLY IF EXISTS \"BulkActionItem_friendlyId_key\";\n-- AlterTable\nALTER TABLE \"BulkActionItem\"\nALTER COLUMN \"friendlyId\"\nDROP NOT NULL;\n/*\nWarnings:\n\n- You are about to drop the column `processedCount` on the `BulkActionGroup` table. All the data in the column will be lost.\n- You are about to drop the column `reason` on the `BulkActionGroup` table. All the data in the column will be lost.\n\n */\n-- AlterEnum\nALTER TYPE \"BulkActionStatus\" ADD VALUE 'ABORTED';\n\n-- AlterTable\nALTER TABLE \"BulkActionGroup\"\nDROP COLUMN \"processedCount\",\nDROP COLUMN \"reason\",\nADD COLUMN \"completedAt\" TIMESTAMP(3),\nADD COLUMN \"failureCount\" INTEGER NOT NULL DEFAULT 0,\nADD COLUMN \"name\" TEXT,\nADD COLUMN \"successCount\" INTEGER NOT NULL DEFAULT 0;\n-- AlterTable\nALTER TABLE \"TaskRun\" ADD COLUMN     \"bulkActionGroupIds\" TEXT[] DEFAULT ARRAY[]::TEXT[];\n-- CreateIndex\nCREATE INDEX CONCURRENTLY IF NOT EXISTS \"BulkActionGroup_environmentId_createdAt_idx\" ON \"BulkActionGroup\" (\"environmentId\", \"createdAt\" DESC);\n-- CreateEnum\nCREATE TYPE \"BulkActionNotificationType\" AS ENUM ('NONE', 'EMAIL');\n\n-- AlterTable\nALTER TABLE \"BulkActionGroup\"\nADD COLUMN \"completionNotification\" \"BulkActionNotificationType\" NOT NULL DEFAULT 'NONE';",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "bulkactiongroup",
+            "column": "processedcount",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250623141255_bulk_action_group_counts_completed_at/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE bulkactiongroup DROP COLUMN \"processedCount\"",
+            "extra": {
+              "table_sql": "BulkActionGroup",
+              "column_sql": "processedCount"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "bulkactiongroup",
+            "column": "processedcount",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "internal-packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'processedcount' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "bulkactiongroup",
+            "column": "reason",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250623141255_bulk_action_group_counts_completed_at/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE bulkactiongroup DROP COLUMN \"reason\"",
+            "extra": {
+              "table_sql": "BulkActionGroup"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "bulkactiongroup",
+            "column": "reason",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "internal-packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'reason' already absent from C_{t-1} ORM and app code."
+        }
+      ]
+    },
+    {
+      "sha": "2b3d54aff5e3a8be30f01c4022475ce91bf594b0",
+      "parent": "bb1f0a711ad5670d64dc10cee37af61523fc8808",
+      "date": "2025-06-06T11:52:14+01:00",
+      "subject": "Make removing the httpEndpointEnvironmentId column migration correctly idempotent (#2154)",
+      "mig_files": [
+        "internal-packages/database/prisma/migrations/20250526094044_remove_v2_trigger_http_endpoint_environment/migration.sql"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 52,
+      "raw_sql": "/*\n  Warnings:\n\n  - You are about to drop the column `httpEndpointEnvironmentId` on the `EventRecord` table. All the data in the column will be lost.\n  - You are about to drop the `TriggerHttpEndpointEnvironment` table. If the table is not empty, all the data it contains will be lost.\n\n*/\n-- AlterTable\nDO $$\nBEGIN\n    IF EXISTS (\n        SELECT 1 \n        FROM information_schema.tables \n        WHERE table_name = 'EventRecord'\n    ) THEN\n        ALTER TABLE \"EventRecord\" DROP COLUMN IF EXISTS \"httpEndpointEnvironmentId\" CASCADE;\n    END IF;\nEND $$;\n\n\n-- DropTable\nDROP TABLE IF EXISTS \"TriggerHttpEndpointEnvironment\" CASCADE;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "triggerhttpendpointenvironment",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526094044_remove_v2_trigger_http_endpoint_environment/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE IF EXISTS \"TriggerHttpEndpointEnvironment\" CASCADE",
+            "extra": {
+              "table_sql": "TriggerHttpEndpointEnvironment"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "triggerhttpendpointenvironment",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'triggerhttpendpointenvironment' not resolved in C_{t-1} ORM snapshot."
+        }
+      ]
+    },
+    {
+      "sha": "5301239e09a8cc98337c6af6b6c7cf213e44d7e8",
+      "parent": "261dce102a1ad0ee14648352ec42e9c7cb6dca0a",
+      "date": "2025-06-05T22:57:29+01:00",
+      "subject": "chore: remove v2 models from schema (#2107)",
+      "mig_files": [
+        "internal-packages/database/prisma/migrations/20250526092407_remove_v2_tables_round_1/migration.sql",
+        "internal-packages/database/prisma/migrations/20250526093738_remove_v2_round_2/migration.sql",
+        "internal-packages/database/prisma/migrations/20250526094044_remove_v2_trigger_http_endpoint_environment/migration.sql",
+        "internal-packages/database/prisma/migrations/20250526094442_remove_v2_round_3/migration.sql",
+        "internal-packages/database/prisma/migrations/20250526094729_remove_v2_round_4/migration.sql",
+        "internal-packages/database/prisma/migrations/20250526095040_remove_v2_round_5/migration.sql",
+        "internal-packages/database/prisma/migrations/20250526095444_remove_v2_round_6/migration.sql",
+        "internal-packages/database/prisma/migrations/20250526095826_remove_v2_round_7/migration.sql",
+        "internal-packages/database/prisma/migrations/20250526100059_remove_v2_round_8/migration.sql",
+        "internal-packages/database/prisma/migrations/20250526100402_remove_v2_round_9/migration.sql",
+        "internal-packages/database/prisma/migrations/20250526100607_remove_v2_round_10/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/webapp/app/database-types.ts",
+        "apps/webapp/app/services/platform.v3.server.ts",
+        "apps/webapp/app/services/telemetry.server.ts",
+        "internal-packages/database/prisma/schema.prisma"
+      ],
+      "orm_models_parsed_old": 94,
+      "raw_sql": "/*\n  Warnings:\n\n  - You are about to drop the `JobCounter` table. If the table is not empty, all the data it contains will be lost.\n  - You are about to drop the `WebhookDeliveryCounter` table. If the table is not empty, all the data it contains will be lost.\n  - You are about to drop the `ApiIntegrationVote` table. If the table is not empty, all the data it contains will be lost.\n  - You are about to drop the `ConnectionAttempt` table. If the table is not empty, all the data it contains will be lost.\n  - You are about to drop the `DeferredScheduledEventService` table. If the table is not empty, all the data it contains will be lost.\n  - You are about to drop the `DynamicTriggerRegistration` table. If the table is not empty, all the data it contains will be lost.\n  - You are about to drop the `EndpointIndex` table. If the table is not empty, all the data it contains will be lost.\n  - You are about to drop the `EventExample` table. If the table is not empty, all the data it contains will be lost.\n  - You are about to drop the `HttpSourceRequestDelivery` table. If the table is not empty, all the data it contains will be lost.\n  - You are about to drop the `JobAlias` table. If the table is not empty, all the data it contains will be lost.\n  - You are about to drop the `JobIntegration` table. If the table is not empty, all the data it contains will be lost.\n  - You are about to drop the `JobRunAutoYieldExecution` table. If the table is not empty, all the data it contains will be lost.\n  - You are about to drop the `JobRunStatusRecord` table. If the table is not empty, all the data it contains will be lost.\n  - You are about to drop the `JobRunSubscription` table. If the table is not empty, all the data it contains will be lost.\n  - You are about to drop the `KeyValueItem` table. If the table is not empty, all the data it contains will be lost.\n  - You are about to drop the `MissingConnection` table. If the table is not empty, all the data it contains will be lost.\n  - You are about to drop the `TaskAttempt` table. If the table is not empty, all the data it contains will be lost.\n  - You are about to drop the `TriggerSourceOption` table. If the table is not empty, all the data it contains will be lost.\n  - You are about to drop the `WebhookRequestDelivery` table. If the table is not empty, all the data it contains will be lost.\n  - You are about to drop the `_JobRunToMissingConnection` table. If the table is not empty, all the data it contains will be lost.\n\n*/\n\n-- DropTable\nDROP TABLE IF EXISTS \"JobCounter\";\n\n-- DropTable\nDROP TABLE IF EXISTS \"WebhookDeliveryCounter\";\n\n-- DropTable\nDROP TABLE IF EXISTS \"ApiIntegrationVote\";\n\n-- DropTable\nDROP TABLE IF EXISTS \"ConnectionAttempt\";\n\n-- DropTable\nDROP TABLE IF EXISTS \"DeferredScheduledEventService\";\n\n-- DropTable\nDROP TABLE IF EXISTS \"DynamicTriggerRegistration\";\n\n-- DropTable\nDROP TABLE IF EXISTS \"EndpointIndex\";\n\n-- DropTable\nDROP TABLE IF EXISTS \"EventExample\";\n\n-- DropTable\nDROP TABLE IF EXISTS \"HttpSourceRequestDelivery\";\n\n-- DropTable\nDROP TABLE IF EXISTS \"JobAlias\";\n\n-- DropTable\nDROP TABLE IF EXISTS \"JobIntegration\";\n\n-- DropTable\nDROP TABLE IF EXISTS \"JobRunAutoYieldExecution\";\n\n-- DropTable\nDROP TABLE IF EXISTS \"JobRunStatusRecord\";\n\n-- DropTable\nDROP TABLE IF EXISTS \"JobRunSubscription\";\n\n-- DropTable\nDROP TABLE IF EXISTS \"KeyValueItem\";\n\n-- DropTable\nDROP TABLE IF EXISTS \"MissingConnection\" CASCADE;\n\n-- DropTable\nDROP TABLE IF EXISTS \"TaskAttempt\";\n\n-- DropTable\nDROP TABLE IF EXISTS \"TriggerSourceOption\";\n\n-- DropTable\nDROP TABLE IF EXISTS \"WebhookRequestDelivery\";\n\n-- DropTable\nDROP TABLE IF EXISTS \"_JobRunToMissingConnection\";\n\n-- DropEnum\nDROP TYPE IF EXISTS \"EndpointIndexSource\";\n\n-- DropEnum\nDROP TYPE IF EXISTS \"EndpointIndexStatus\";\n\n-- DropEnum\nDROP TYPE IF EXISTS \"JobRunSubscriptionEvents\";\n\n-- DropEnum\nDROP TYPE IF EXISTS \"JobRunSubscriptionRecipientMethod\";\n\n-- DropEnum\nDROP TYPE IF EXISTS \"JobRunSubscriptionStatus\";\n\n-- DropEnum\nDROP TYPE IF EXISTS \"TaskAttemptStatus\";\n\n/*\n  Warnings:\n\n  - You are about to drop the `JobRunExecution` table. If the table is not empty, all the data it contains will be lost.\n  - You are about to drop the `ScheduleSource` table. If the table is not empty, all the data it contains will be lost.\n  - You are about to drop the `WebhookEnvironment` table. If the table is not empty, all the data it contains will be lost.\n\n*/\n-- DropTable\nDROP TABLE IF EXISTS \"JobRunExecution\" CASCADE;\n\n-- DropTable\nDROP TABLE IF EXISTS \"ScheduleSource\" CASCADE;\n\n-- DropTable\nDROP TABLE IF EXISTS \"WebhookEnvironment\" CASCADE;\n\n/*\n  Warnings:\n\n  - You are about to drop the column `httpEndpointEnvironmentId` on the `EventRecord` table. All the data in the column will be lost.\n  - You are about to drop the `TriggerHttpEndpointEnvironment` table. If the table is not empty, all the data it contains will be lost.\n\n*/\n-- AlterTable\nALTER TABLE \"EventRecord\" DROP COLUMN IF EXISTS \"httpEndpointEnvironmentId\" CASCADE;\n\n-- DropTable\nDROP TABLE IF EXISTS \"TriggerHttpEndpointEnvironment\" CASCADE;\n\n/*\n  Warnings:\n\n  - You are about to drop the `Task` table. If the table is not empty, all the data it contains will be lost.\n  - You are about to drop the `Webhook` table. If the table is not empty, all the data it contains will be lost.\n\n*/\n-- DropTable\nDROP TABLE IF EXISTS \"Task\" CASCADE;\n\n-- DropTable\nDROP TABLE IF EXISTS \"Webhook\" CASCADE;\n\n/*\n  Warnings:\n\n  - You are about to drop the `RunConnection` table. If the table is not empty, all the data it contains will be lost.\n  - You are about to drop the `TriggerSource` table. If the table is not empty, all the data it contains will be lost.\n\n*/\n\n-- DropTable\nDROP TABLE IF EXISTS \"RunConnection\" CASCADE;\n\n-- DropTable\nDROP TABLE IF EXISTS \"TriggerSource\" CASCADE;\n\n/*\n  Warnings:\n\n  - You are about to drop the `IntegrationConnection` table. If the table is not empty, all the data it contains will be lost.\n\n*/\n-- DropTable\nDROP TABLE IF EXISTS \"IntegrationConnection\" CASCADE;\n\n/*\n  Warnings:\n\n  - You are about to drop the `DynamicTrigger` table. If the table is not empty, all the data it contains will be lost.\n  - You are about to drop the `EventDispatcher` table. If the table is not empty, all the data it contains will be lost.\n  - You are about to drop the `EventRecord` table. If the table is not empty, all the data it contains will be lost.\n  - You are about to drop the `JobRun` table. If the table is not empty, all the data it contains will be lost.\n  - You are about to drop the `_DynamicTriggerToJob` table. If the table is not empty, all the data it contains will be lost.\n\n*/\n-- DropTable\nDROP TABLE IF EXISTS \"DynamicTrigger\" CASCADE;\n\n-- DropTable\nDROP TABLE IF EXISTS \"EventDispatcher\" CASCADE;\n\n-- DropTable\nDROP TABLE IF EXISTS \"EventRecord\" CASCADE;\n\n-- DropTable\nDROP TABLE IF EXISTS \"JobRun\" CASCADE;\n\n-- DropTable\nDROP TABLE IF EXISTS \"_DynamicTriggerToJob\" CASCADE;\n\n/*\n  Warnings:\n\n  - You are about to drop the `JobVersion` table. If the table is not empty, all the data it contains will be lost.\n  - You are about to drop the `TriggerHttpEndpoint` table. If the table is not empty, all the data it contains will be lost.\n\n*/\n-- DropTable\nDROP TABLE IF EXISTS \"JobVersion\" CASCADE;\n\n-- DropTable\nDROP TABLE IF EXISTS \"TriggerHttpEndpoint\" CASCADE;\n\n/*\n  Warnings:\n\n  - You are about to drop the `ConcurrencyLimitGroup` table. If the table is not empty, all the data it contains will be lost.\n  - You are about to drop the `Endpoint` table. If the table is not empty, all the data it contains will be lost.\n  - You are about to drop the `Job` table. If the table is not empty, all the data it contains will be lost.\n  - You are about to drop the `JobQueue` table. If the table is not empty, all the data it contains will be lost.\n\n*/\n-- DropTable\nDROP TABLE IF EXISTS \"ConcurrencyLimitGroup\" CASCADE;\n\n-- DropTable\nDROP TABLE IF EXISTS \"Endpoint\" CASCADE;\n\n-- DropTable\nDROP TABLE IF EXISTS \"Job\" CASCADE;\n\n-- DropTable\nDROP TABLE IF EXISTS \"JobQueue\" CASCADE;\n\n/*\n  Warnings:\n\n  - You are about to drop the `ExternalAccount` table. If the table is not empty, all the data it contains will be lost.\n  - You are about to drop the `Integration` table. If the table is not empty, all the data it contains will be lost.\n  - You are about to drop the `IntegrationAuthMethod` table. If the table is not empty, all the data it contains will be lost.\n  - You are about to drop the `IntegrationDefinition` table. If the table is not empty, all the data it contains will be lost.\n\n*/\n-- DropTable\nDROP TABLE IF EXISTS \"ExternalAccount\" CASCADE;\n\n-- DropTable\nDROP TABLE IF EXISTS \"Integration\" CASCADE;\n\n-- DropTable\nDROP TABLE IF EXISTS \"IntegrationAuthMethod\" CASCADE;\n\n-- DropTable\nDROP TABLE IF EXISTS \"IntegrationDefinition\" CASCADE;\n\n-- DropEnum\nDROP TYPE IF EXISTS \"ConnectionType\";\n\n-- DropEnum\nDROP TYPE IF EXISTS \"DynamicTriggerType\";\n\n-- DropEnum\nDROP TYPE IF EXISTS \"IntegrationAuthSource\";\n\n-- DropEnum\nDROP TYPE IF EXISTS \"IntegrationSetupStatus\";\n\n-- DropEnum\nDROP TYPE IF EXISTS \"JobRunExecutionReason\";\n\n-- DropEnum\nDROP TYPE IF EXISTS \"JobRunExecutionStatus\";\n\n-- DropEnum\nDROP TYPE IF EXISTS \"JobRunStatus\";\n\n-- DropEnum\nDROP TYPE IF EXISTS \"JobStartPosition\";\n\n-- DropEnum\nDROP TYPE IF EXISTS \"JobVersionStatus\";\n\n-- DropEnum\nDROP TYPE IF EXISTS \"PayloadType\";\n\n-- DropEnum\nDROP TYPE IF EXISTS \"TaskChildExecutionMode\";\n\n-- DropEnum\nDROP TYPE IF EXISTS \"TaskStatus\";\n\n-- DropEnum\nDROP TYPE IF EXISTS \"TriggerChannel\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "jobcounter",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526092407_remove_v2_tables_round_1/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* Warnings: - You are about to drop the `JobCounter` table. If the table is not empty, all the data it contains will be lost. - You are about to drop the `WebhookDeliveryCounter` ",
+            "extra": {
+              "table_sql": "JobCounter"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "jobcounter",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "internal-packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'jobcounter' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "webhookdeliverycounter",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526092407_remove_v2_tables_round_1/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE IF EXISTS \"WebhookDeliveryCounter\"",
+            "extra": {
+              "table_sql": "WebhookDeliveryCounter"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "webhookdeliverycounter",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "internal-packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'webhookdeliverycounter' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "apiintegrationvote",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526092407_remove_v2_tables_round_1/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE IF EXISTS \"ApiIntegrationVote\"",
+            "extra": {
+              "table_sql": "ApiIntegrationVote"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "apiintegrationvote",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "internal-packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'apiintegrationvote' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "connectionattempt",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526092407_remove_v2_tables_round_1/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE IF EXISTS \"ConnectionAttempt\"",
+            "extra": {
+              "table_sql": "ConnectionAttempt"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "connectionattempt",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "internal-packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'connectionattempt' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "deferredscheduledeventservice",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526092407_remove_v2_tables_round_1/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE IF EXISTS \"DeferredScheduledEventService\"",
+            "extra": {
+              "table_sql": "DeferredScheduledEventService"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "deferredscheduledeventservice",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "internal-packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'deferredscheduledeventservice' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "dynamictriggerregistration",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526092407_remove_v2_tables_round_1/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE IF EXISTS \"DynamicTriggerRegistration\"",
+            "extra": {
+              "table_sql": "DynamicTriggerRegistration"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "dynamictriggerregistration",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "internal-packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'dynamictriggerregistration' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "endpointindex",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526092407_remove_v2_tables_round_1/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE IF EXISTS \"EndpointIndex\"",
+            "extra": {
+              "table_sql": "EndpointIndex"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "endpointindex",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "internal-packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'endpointindex' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "eventexample",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526092407_remove_v2_tables_round_1/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE IF EXISTS \"EventExample\"",
+            "extra": {
+              "table_sql": "EventExample"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "eventexample",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "internal-packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'eventexample' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "httpsourcerequestdelivery",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526092407_remove_v2_tables_round_1/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE IF EXISTS \"HttpSourceRequestDelivery\"",
+            "extra": {
+              "table_sql": "HttpSourceRequestDelivery"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "httpsourcerequestdelivery",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "internal-packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'httpsourcerequestdelivery' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "jobalias",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526092407_remove_v2_tables_round_1/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE IF EXISTS \"JobAlias\"",
+            "extra": {
+              "table_sql": "JobAlias"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "jobalias",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "internal-packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'jobalias' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "jobintegration",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526092407_remove_v2_tables_round_1/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE IF EXISTS \"JobIntegration\"",
+            "extra": {
+              "table_sql": "JobIntegration"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "jobintegration",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "internal-packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'jobintegration' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "jobrunautoyieldexecution",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526092407_remove_v2_tables_round_1/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE IF EXISTS \"JobRunAutoYieldExecution\"",
+            "extra": {
+              "table_sql": "JobRunAutoYieldExecution"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "jobrunautoyieldexecution",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "internal-packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'jobrunautoyieldexecution' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "jobrunstatusrecord",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526092407_remove_v2_tables_round_1/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE IF EXISTS \"JobRunStatusRecord\"",
+            "extra": {
+              "table_sql": "JobRunStatusRecord"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "jobrunstatusrecord",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "internal-packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'jobrunstatusrecord' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "jobrunsubscription",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526092407_remove_v2_tables_round_1/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE IF EXISTS \"JobRunSubscription\"",
+            "extra": {
+              "table_sql": "JobRunSubscription"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "jobrunsubscription",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "internal-packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'jobrunsubscription' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "keyvalueitem",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526092407_remove_v2_tables_round_1/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE IF EXISTS \"KeyValueItem\"",
+            "extra": {
+              "table_sql": "KeyValueItem"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "keyvalueitem",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "internal-packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'keyvalueitem' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "missingconnection",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526092407_remove_v2_tables_round_1/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE IF EXISTS \"MissingConnection\" CASCADE",
+            "extra": {
+              "table_sql": "MissingConnection"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "missingconnection",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "internal-packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'missingconnection' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "taskattempt",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526092407_remove_v2_tables_round_1/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE IF EXISTS \"TaskAttempt\"",
+            "extra": {
+              "table_sql": "TaskAttempt"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "taskattempt",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "internal-packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'taskattempt' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "triggersourceoption",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526092407_remove_v2_tables_round_1/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE IF EXISTS \"TriggerSourceOption\"",
+            "extra": {
+              "table_sql": "TriggerSourceOption"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "triggersourceoption",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "internal-packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'triggersourceoption' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "webhookrequestdelivery",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526092407_remove_v2_tables_round_1/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE IF EXISTS \"WebhookRequestDelivery\"",
+            "extra": {
+              "table_sql": "WebhookRequestDelivery"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "webhookrequestdelivery",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "internal-packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'webhookrequestdelivery' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "_jobruntomissingconnection",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526092407_remove_v2_tables_round_1/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE IF EXISTS \"_JobRunToMissingConnection\"",
+            "extra": {
+              "table_sql": "_JobRunToMissingConnection"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "_jobruntomissingconnection",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table '_jobruntomissingconnection' not resolved in C_{t-1} ORM snapshot."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "endpointindexsource",
+            "column": "endpointindexsource",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526092407_remove_v2_tables_round_1/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropEnum */ DROP TYPE IF EXISTS \"EndpointIndexSource\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "EndpointIndexSource",
+              "column_sql": "EndpointIndexSource"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "endpointindexsource",
+            "column": "endpointindexsource",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'endpointindexsource' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "endpointindexstatus",
+            "column": "endpointindexstatus",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526092407_remove_v2_tables_round_1/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropEnum */ DROP TYPE IF EXISTS \"EndpointIndexStatus\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "EndpointIndexStatus",
+              "column_sql": "EndpointIndexStatus"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "endpointindexstatus",
+            "column": "endpointindexstatus",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'endpointindexstatus' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "jobrunsubscriptionevents",
+            "column": "jobrunsubscriptionevents",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526092407_remove_v2_tables_round_1/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropEnum */ DROP TYPE IF EXISTS \"JobRunSubscriptionEvents\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "JobRunSubscriptionEvents",
+              "column_sql": "JobRunSubscriptionEvents"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "jobrunsubscriptionevents",
+            "column": "jobrunsubscriptionevents",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'jobrunsubscriptionevents' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "jobrunsubscriptionrecipientmethod",
+            "column": "jobrunsubscriptionrecipientmethod",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526092407_remove_v2_tables_round_1/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropEnum */ DROP TYPE IF EXISTS \"JobRunSubscriptionRecipientMethod\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "JobRunSubscriptionRecipientMethod",
+              "column_sql": "JobRunSubscriptionRecipientMethod"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "jobrunsubscriptionrecipientmethod",
+            "column": "jobrunsubscriptionrecipientmethod",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'jobrunsubscriptionrecipientmethod' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "jobrunsubscriptionstatus",
+            "column": "jobrunsubscriptionstatus",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526092407_remove_v2_tables_round_1/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropEnum */ DROP TYPE IF EXISTS \"JobRunSubscriptionStatus\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "JobRunSubscriptionStatus",
+              "column_sql": "JobRunSubscriptionStatus"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "jobrunsubscriptionstatus",
+            "column": "jobrunsubscriptionstatus",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'jobrunsubscriptionstatus' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "taskattemptstatus",
+            "column": "taskattemptstatus",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526092407_remove_v2_tables_round_1/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropEnum */ DROP TYPE IF EXISTS \"TaskAttemptStatus\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "TaskAttemptStatus",
+              "column_sql": "TaskAttemptStatus"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "taskattemptstatus",
+            "column": "taskattemptstatus",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'taskattemptstatus' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "jobrunexecution",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526093738_remove_v2_round_2/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* Warnings: - You are about to drop the `JobRunExecution` table. If the table is not empty, all the data it contains will be lost. - You are about to drop the `ScheduleSource` tab",
+            "extra": {
+              "table_sql": "JobRunExecution"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "jobrunexecution",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "internal-packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'jobrunexecution' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "schedulesource",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526093738_remove_v2_round_2/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE IF EXISTS \"ScheduleSource\" CASCADE",
+            "extra": {
+              "table_sql": "ScheduleSource"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "schedulesource",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "internal-packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'schedulesource' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "webhookenvironment",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526093738_remove_v2_round_2/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE IF EXISTS \"WebhookEnvironment\" CASCADE",
+            "extra": {
+              "table_sql": "WebhookEnvironment"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "webhookenvironment",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "internal-packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'webhookenvironment' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "eventrecord",
+            "column": "httpendpointenvironmentid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526094044_remove_v2_trigger_http_endpoint_environment/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE eventrecord DROP COLUMN IF EXISTS \"httpEndpointEnvironmentId\" CASCADE",
+            "extra": {
+              "table_sql": "EventRecord",
+              "column_sql": "httpEndpointEnvironmentId"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "eventrecord",
+            "column": "httpendpointenvironmentid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "internal-packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'httpendpointenvironmentid' active in C_{t-1} ORM (internal-packages/database/prisma/schema.prisma); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "triggerhttpendpointenvironment",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526094044_remove_v2_trigger_http_endpoint_environment/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE IF EXISTS \"TriggerHttpEndpointEnvironment\" CASCADE",
+            "extra": {
+              "table_sql": "TriggerHttpEndpointEnvironment"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "triggerhttpendpointenvironment",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "internal-packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'triggerhttpendpointenvironment' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "task",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526094442_remove_v2_round_3/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* Warnings: - You are about to drop the `Task` table. If the table is not empty, all the data it contains will be lost. - You are about to drop the `Webhook` table. If the table i",
+            "extra": {
+              "table_sql": "Task"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "task",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "internal-packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'task' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "webhook",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526094442_remove_v2_round_3/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE IF EXISTS \"Webhook\" CASCADE",
+            "extra": {
+              "table_sql": "Webhook"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "webhook",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "internal-packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'webhook' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "runconnection",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526094729_remove_v2_round_4/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* Warnings: - You are about to drop the `RunConnection` table. If the table is not empty, all the data it contains will be lost. - You are about to drop the `TriggerSource` table.",
+            "extra": {
+              "table_sql": "RunConnection"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "runconnection",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "internal-packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'runconnection' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "triggersource",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526094729_remove_v2_round_4/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE IF EXISTS \"TriggerSource\" CASCADE",
+            "extra": {
+              "table_sql": "TriggerSource"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "triggersource",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "internal-packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'triggersource' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "integrationconnection",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526095040_remove_v2_round_5/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* Warnings: - You are about to drop the `IntegrationConnection` table. If the table is not empty, all the data it contains will be lost. */ /* DropTable */ DROP TABLE IF EXISTS \"I",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "integrationconnection",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "internal-packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'integrationconnection' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "dynamictrigger",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526095444_remove_v2_round_6/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* Warnings: - You are about to drop the `DynamicTrigger` table. If the table is not empty, all the data it contains will be lost. - You are about to drop the `EventDispatcher` tab",
+            "extra": {
+              "table_sql": "DynamicTrigger"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "dynamictrigger",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "internal-packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'dynamictrigger' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "eventdispatcher",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526095444_remove_v2_round_6/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE IF EXISTS \"EventDispatcher\" CASCADE",
+            "extra": {
+              "table_sql": "EventDispatcher"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "eventdispatcher",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "internal-packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'eventdispatcher' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "eventrecord",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526095444_remove_v2_round_6/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE IF EXISTS \"EventRecord\" CASCADE",
+            "extra": {
+              "table_sql": "EventRecord"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "eventrecord",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "internal-packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'eventrecord' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "jobrun",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526095444_remove_v2_round_6/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE IF EXISTS \"JobRun\" CASCADE",
+            "extra": {
+              "table_sql": "JobRun"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "jobrun",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "internal-packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'jobrun' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "_dynamictriggertojob",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526095444_remove_v2_round_6/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE IF EXISTS \"_DynamicTriggerToJob\" CASCADE",
+            "extra": {
+              "table_sql": "_DynamicTriggerToJob"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "_dynamictriggertojob",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table '_dynamictriggertojob' not resolved in C_{t-1} ORM snapshot."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "jobversion",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526095826_remove_v2_round_7/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* Warnings: - You are about to drop the `JobVersion` table. If the table is not empty, all the data it contains will be lost. - You are about to drop the `TriggerHttpEndpoint` tab",
+            "extra": {
+              "table_sql": "JobVersion"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "jobversion",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "internal-packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'jobversion' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "triggerhttpendpoint",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526095826_remove_v2_round_7/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE IF EXISTS \"TriggerHttpEndpoint\" CASCADE",
+            "extra": {
+              "table_sql": "TriggerHttpEndpoint"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "triggerhttpendpoint",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "internal-packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'triggerhttpendpoint' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "concurrencylimitgroup",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526100059_remove_v2_round_8/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* Warnings: - You are about to drop the `ConcurrencyLimitGroup` table. If the table is not empty, all the data it contains will be lost. - You are about to drop the `Endpoint` tab",
+            "extra": {
+              "table_sql": "ConcurrencyLimitGroup"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "concurrencylimitgroup",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "internal-packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'concurrencylimitgroup' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "endpoint",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526100059_remove_v2_round_8/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE IF EXISTS \"Endpoint\" CASCADE",
+            "extra": {
+              "table_sql": "Endpoint"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "endpoint",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "internal-packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'endpoint' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "job",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526100059_remove_v2_round_8/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE IF EXISTS \"Job\" CASCADE",
+            "extra": {
+              "table_sql": "Job"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "job",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "internal-packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'job' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "jobqueue",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526100059_remove_v2_round_8/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE IF EXISTS \"JobQueue\" CASCADE",
+            "extra": {
+              "table_sql": "JobQueue"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "jobqueue",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "internal-packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'jobqueue' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "externalaccount",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526100402_remove_v2_round_9/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* Warnings: - You are about to drop the `ExternalAccount` table. If the table is not empty, all the data it contains will be lost. - You are about to drop the `Integration` table.",
+            "extra": {
+              "table_sql": "ExternalAccount"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "externalaccount",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "internal-packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'externalaccount' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "integration",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526100402_remove_v2_round_9/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE IF EXISTS \"Integration\" CASCADE",
+            "extra": {
+              "table_sql": "Integration"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "integration",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "internal-packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'integration' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "integrationauthmethod",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526100402_remove_v2_round_9/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE IF EXISTS \"IntegrationAuthMethod\" CASCADE",
+            "extra": {
+              "table_sql": "IntegrationAuthMethod"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "integrationauthmethod",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "internal-packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'integrationauthmethod' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "integrationdefinition",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526100402_remove_v2_round_9/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE IF EXISTS \"IntegrationDefinition\" CASCADE",
+            "extra": {
+              "table_sql": "IntegrationDefinition"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "integrationdefinition",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "internal-packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'integrationdefinition' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "connectiontype",
+            "column": "connectiontype",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526100607_remove_v2_round_10/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropEnum */ DROP TYPE IF EXISTS \"ConnectionType\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "ConnectionType",
+              "column_sql": "ConnectionType"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "connectiontype",
+            "column": "connectiontype",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'connectiontype' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "dynamictriggertype",
+            "column": "dynamictriggertype",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526100607_remove_v2_round_10/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropEnum */ DROP TYPE IF EXISTS \"DynamicTriggerType\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "DynamicTriggerType",
+              "column_sql": "DynamicTriggerType"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "dynamictriggertype",
+            "column": "dynamictriggertype",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'dynamictriggertype' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "integrationauthsource",
+            "column": "integrationauthsource",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526100607_remove_v2_round_10/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropEnum */ DROP TYPE IF EXISTS \"IntegrationAuthSource\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "IntegrationAuthSource",
+              "column_sql": "IntegrationAuthSource"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "integrationauthsource",
+            "column": "integrationauthsource",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'integrationauthsource' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "integrationsetupstatus",
+            "column": "integrationsetupstatus",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526100607_remove_v2_round_10/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropEnum */ DROP TYPE IF EXISTS \"IntegrationSetupStatus\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "IntegrationSetupStatus",
+              "column_sql": "IntegrationSetupStatus"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "integrationsetupstatus",
+            "column": "integrationsetupstatus",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'integrationsetupstatus' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "jobrunexecutionreason",
+            "column": "jobrunexecutionreason",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526100607_remove_v2_round_10/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropEnum */ DROP TYPE IF EXISTS \"JobRunExecutionReason\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "JobRunExecutionReason",
+              "column_sql": "JobRunExecutionReason"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "jobrunexecutionreason",
+            "column": "jobrunexecutionreason",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'jobrunexecutionreason' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "jobrunexecutionstatus",
+            "column": "jobrunexecutionstatus",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526100607_remove_v2_round_10/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropEnum */ DROP TYPE IF EXISTS \"JobRunExecutionStatus\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "JobRunExecutionStatus",
+              "column_sql": "JobRunExecutionStatus"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "jobrunexecutionstatus",
+            "column": "jobrunexecutionstatus",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'jobrunexecutionstatus' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "jobrunstatus",
+            "column": "jobrunstatus",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526100607_remove_v2_round_10/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropEnum */ DROP TYPE IF EXISTS \"JobRunStatus\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "JobRunStatus",
+              "column_sql": "JobRunStatus"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "jobrunstatus",
+            "column": "jobrunstatus",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'jobrunstatus' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "jobstartposition",
+            "column": "jobstartposition",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526100607_remove_v2_round_10/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropEnum */ DROP TYPE IF EXISTS \"JobStartPosition\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "JobStartPosition",
+              "column_sql": "JobStartPosition"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "jobstartposition",
+            "column": "jobstartposition",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'jobstartposition' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "jobversionstatus",
+            "column": "jobversionstatus",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526100607_remove_v2_round_10/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropEnum */ DROP TYPE IF EXISTS \"JobVersionStatus\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "JobVersionStatus",
+              "column_sql": "JobVersionStatus"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "jobversionstatus",
+            "column": "jobversionstatus",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'jobversionstatus' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "payloadtype",
+            "column": "payloadtype",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526100607_remove_v2_round_10/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropEnum */ DROP TYPE IF EXISTS \"PayloadType\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "PayloadType",
+              "column_sql": "PayloadType"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "payloadtype",
+            "column": "payloadtype",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'payloadtype' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "taskchildexecutionmode",
+            "column": "taskchildexecutionmode",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526100607_remove_v2_round_10/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropEnum */ DROP TYPE IF EXISTS \"TaskChildExecutionMode\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "TaskChildExecutionMode",
+              "column_sql": "TaskChildExecutionMode"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "taskchildexecutionmode",
+            "column": "taskchildexecutionmode",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'taskchildexecutionmode' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "taskstatus",
+            "column": "taskstatus",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526100607_remove_v2_round_10/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropEnum */ DROP TYPE IF EXISTS \"TaskStatus\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "TaskStatus",
+              "column_sql": "TaskStatus"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "taskstatus",
+            "column": "taskstatus",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'taskstatus' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "triggerchannel",
+            "column": "triggerchannel",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "internal-packages/database/prisma/migrations/20250526100607_remove_v2_round_10/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropEnum */ DROP TYPE IF EXISTS \"TriggerChannel\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "TriggerChannel",
+              "column_sql": "TriggerChannel"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "triggerchannel",
+            "column": "triggerchannel",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'triggerchannel' affects active C_{t-1} enum definition/code."
+        }
+      ]
+    }
+  ]
+}

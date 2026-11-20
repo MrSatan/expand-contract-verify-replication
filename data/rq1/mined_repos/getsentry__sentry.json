@@ -1,0 +1,2809 @@
+{
+  "repo": "getsentry/sentry",
+  "ecosystem": "django",
+  "stars": 45799,
+  "has_k8s_helm": false,
+  "status": "ok",
+  "stats": {
+    "total_migration_commits_in_history": 2201,
+    "migration_commits_analyzed": 150,
+    "total_migration_files_parsed": 206,
+    "commits_with_any_destructive": 17,
+    "commits_with_forward_destructive": 17,
+    "commits_with_rollback_only_destructive": 0,
+    "total_ops_extracted": 130,
+    "destructive_ops_up": 58,
+    "destructive_ops_down": 0
+  },
+  "verdict_counts": {
+    "DUAL_VERSION_VIOLATION_BACKWARD": 3,
+    "SAFE_CONTRACT": 46,
+    "SQUASHED_REPLAY": 12
+  },
+  "destructive_commits": [
+    {
+      "sha": "df2e139327fb5458cd020ac3b6117e965e4e613d",
+      "parent": "2ad913cc6c11ee34e30438cd92a12df5e0750546",
+      "date": "2026-11-17T14:16:00-05:00",
+      "subject": "fix(inbox): Require event idempotency keys (#131401)",
+      "mig_files": [
+        "src/sentry/notifications/migrations/0019_require_inbox_event_idempotency_key.py"
+      ],
+      "app_files_touched_in_commit": [
+        "src/sentry/notifications/models/inboxitemevent.py"
+      ],
+      "orm_models_parsed_old": 18,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "SET_NOT_NULL",
+            "table": "notifications_inboxitemevent",
+            "column": "idempotency_key",
+            "new_name": null,
+            "old_type": "CharField",
+            "new_type": "CharField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/notifications/migrations/0019_require_inbox_event_idempotency_key.py",
+            "line": 28,
+            "raw_snippet": "migrations.AlterField( model_name=\"inboxitemevent\", name=\"idempotency_key\", field=models.CharField(max_length=64), )",
+            "extra": {
+              "model_name": "inboxitemevent",
+              "app_label": "notifications",
+              "field_info": {
+                "field_type": "CharField",
+                "null": false,
+                "has_default": false,
+                "has_db_default": false
+              }
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "notifications_inboxitemevent",
+            "column": "idempotency_key",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "src/sentry/notifications/models/inboxitemevent.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "SET_NOT_NULL on 'notifications_inboxitemevent.idempotency_key' which was nullable in C_{t-1} ORM (src/sentry/notifications/models/inboxitemevent.py)."
+        }
+      ]
+    },
+    {
+      "sha": "57fca1f0bcdccba2cd66b5c890d1df5d5cdb4c48",
+      "parent": "fa9dda091e812a4212d9bd4112c407996d49604d",
+      "date": "2026-11-16T14:37:03-05:00",
+      "subject": "ref(crons): Drop the check-in monitor_config column (#127451)",
+      "mig_files": [
+        "src/sentry/monitors/migrations/0025_drop_checkin_monitor_config.py"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 14,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "monitors_monitorcheckin",
+            "column": "monitor_config",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/monitors/migrations/0025_drop_checkin_monitor_config.py",
+            "line": 28,
+            "raw_snippet": "SafeRemoveField( model_name=\"monitorcheckin\", name=\"monitor_config\", deletion_action=DeletionAction.DELETE, )",
+            "extra": {
+              "model_name": "monitorcheckin",
+              "app_label": "monitors",
+              "staged": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "monitors_monitorcheckin",
+            "column": "monitor_config",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "src/sentry/monitors/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'monitor_config' already absent from C_{t-1} ORM and app code."
+        }
+      ]
+    },
+    {
+      "sha": "11700d444ea7e079ce1e6db747d555cfed0d6c46",
+      "parent": "be7ebf193d35d828ed4a1de266c3689e8a301233",
+      "date": "2026-10-30T10:39:21-07:00",
+      "subject": "ref(investigations): Drop the old notebook tables (#129264)",
+      "mig_files": [
+        "src/sentry/investigations/migrations/0017_delete_old_notebook_tables.py"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 8,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_TABLE",
+            "table": "investigations_investigationblockdependency",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/investigations/migrations/0017_delete_old_notebook_tables.py",
+            "line": 40,
+            "raw_snippet": "SafeDeleteModel(name=\"InvestigationBlockDependency\", deletion_action=DeletionAction.DELETE)",
+            "extra": {
+              "model_name": "investigationblockdependency",
+              "app_label": "investigations",
+              "staged": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "investigations_investigationblockdependency",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: staged drop; table 'investigations_investigationblockdependency' already absent from C_{t-1} ORM."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_TABLE",
+            "table": "investigations_investigationblockparameter",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/investigations/migrations/0017_delete_old_notebook_tables.py",
+            "line": 41,
+            "raw_snippet": "SafeDeleteModel(name=\"InvestigationBlockParameter\", deletion_action=DeletionAction.DELETE)",
+            "extra": {
+              "model_name": "investigationblockparameter",
+              "app_label": "investigations",
+              "staged": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "investigations_investigationblockparameter",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: staged drop; table 'investigations_investigationblockparameter' already absent from C_{t-1} ORM."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_TABLE",
+            "table": "investigations_investigationblockexecutionproject",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/investigations/migrations/0017_delete_old_notebook_tables.py",
+            "line": 42,
+            "raw_snippet": "SafeDeleteModel( name=\"InvestigationBlockExecutionProject\", deletion_action=DeletionAction.DELETE )",
+            "extra": {
+              "model_name": "investigationblockexecutionproject",
+              "app_label": "investigations",
+              "staged": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "investigations_investigationblockexecutionproject",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: staged drop; table 'investigations_investigationblockexecutionproject' already absent from C_{t-1} ORM."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_TABLE",
+            "table": "investigations_investigationcomment",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/investigations/migrations/0017_delete_old_notebook_tables.py",
+            "line": 45,
+            "raw_snippet": "SafeDeleteModel(name=\"InvestigationComment\", deletion_action=DeletionAction.DELETE)",
+            "extra": {
+              "model_name": "investigationcomment",
+              "app_label": "investigations",
+              "staged": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "investigations_investigationcomment",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: staged drop; table 'investigations_investigationcomment' already absent from C_{t-1} ORM."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_TABLE",
+            "table": "investigations_investigationseen",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/investigations/migrations/0017_delete_old_notebook_tables.py",
+            "line": 46,
+            "raw_snippet": "SafeDeleteModel(name=\"InvestigationSeen\", deletion_action=DeletionAction.DELETE)",
+            "extra": {
+              "model_name": "investigationseen",
+              "app_label": "investigations",
+              "staged": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "investigations_investigationseen",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: staged drop; table 'investigations_investigationseen' already absent from C_{t-1} ORM."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_TABLE",
+            "table": "investigations_investigationfavoriteuser",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/investigations/migrations/0017_delete_old_notebook_tables.py",
+            "line": 47,
+            "raw_snippet": "SafeDeleteModel(name=\"InvestigationFavoriteUser\", deletion_action=DeletionAction.DELETE)",
+            "extra": {
+              "model_name": "investigationfavoriteuser",
+              "app_label": "investigations",
+              "staged": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "investigations_investigationfavoriteuser",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: staged drop; table 'investigations_investigationfavoriteuser' already absent from C_{t-1} ORM."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_TABLE",
+            "table": "investigations_investigationactionrequest",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/investigations/migrations/0017_delete_old_notebook_tables.py",
+            "line": 48,
+            "raw_snippet": "SafeDeleteModel(name=\"InvestigationActionRequest\", deletion_action=DeletionAction.DELETE)",
+            "extra": {
+              "model_name": "investigationactionrequest",
+              "app_label": "investigations",
+              "staged": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "investigations_investigationactionrequest",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: staged drop; table 'investigations_investigationactionrequest' already absent from C_{t-1} ORM."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_TABLE",
+            "table": "investigations_investigationparameter",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/investigations/migrations/0017_delete_old_notebook_tables.py",
+            "line": 49,
+            "raw_snippet": "SafeDeleteModel(name=\"InvestigationParameter\", deletion_action=DeletionAction.DELETE)",
+            "extra": {
+              "model_name": "investigationparameter",
+              "app_label": "investigations",
+              "staged": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "investigations_investigationparameter",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: staged drop; table 'investigations_investigationparameter' already absent from C_{t-1} ORM."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_TABLE",
+            "table": "investigations_investigationproject",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/investigations/migrations/0017_delete_old_notebook_tables.py",
+            "line": 50,
+            "raw_snippet": "SafeDeleteModel(name=\"InvestigationProject\", deletion_action=DeletionAction.DELETE)",
+            "extra": {
+              "model_name": "investigationproject",
+              "app_label": "investigations",
+              "staged": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "investigations_investigationproject",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: staged drop; table 'investigations_investigationproject' already absent from C_{t-1} ORM."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_TABLE",
+            "table": "investigations_investigationblock",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/investigations/migrations/0017_delete_old_notebook_tables.py",
+            "line": 51,
+            "raw_snippet": "SafeDeleteModel(name=\"InvestigationBlock\", deletion_action=DeletionAction.DELETE)",
+            "extra": {
+              "model_name": "investigationblock",
+              "app_label": "investigations",
+              "staged": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "investigations_investigationblock",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: staged drop; table 'investigations_investigationblock' already absent from C_{t-1} ORM."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_TABLE",
+            "table": "investigations_investigationblockexecution",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/investigations/migrations/0017_delete_old_notebook_tables.py",
+            "line": 52,
+            "raw_snippet": "SafeDeleteModel(name=\"InvestigationBlockExecution\", deletion_action=DeletionAction.DELETE)",
+            "extra": {
+              "model_name": "investigationblockexecution",
+              "app_label": "investigations",
+              "staged": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "investigations_investigationblockexecution",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: staged drop; table 'investigations_investigationblockexecution' already absent from C_{t-1} ORM."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_TABLE",
+            "table": "investigations_investigation",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/investigations/migrations/0017_delete_old_notebook_tables.py",
+            "line": 53,
+            "raw_snippet": "SafeDeleteModel(name=\"Investigation\", deletion_action=DeletionAction.DELETE)",
+            "extra": {
+              "model_name": "investigation",
+              "app_label": "investigations",
+              "staged": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "investigations_investigation",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: staged drop; table 'investigations_investigation' already absent from C_{t-1} ORM."
+        }
+      ]
+    },
+    {
+      "sha": "5bf88c053e1adf2ea7cc1999aa2199afe12b7ff8",
+      "parent": "f8acb12888b4cb1e7a79e386b54b0f41c1b9303f",
+      "date": "2026-10-27T09:10:09-07:00",
+      "subject": "ref(investigations): Delete the precheck column (#128872)",
+      "mig_files": [
+        "src/sentry/investigations/migrations/0013_delete_precheck_from_action_request.py"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 29,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "investigations_investigationactionrequest",
+            "column": "precheck",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/investigations/migrations/0013_delete_precheck_from_action_request.py",
+            "line": 28,
+            "raw_snippet": "SafeRemoveField( model_name=\"investigationactionrequest\", name=\"precheck\", deletion_action=DeletionAction.DELETE, )",
+            "extra": {
+              "model_name": "investigationactionrequest",
+              "app_label": "investigations",
+              "staged": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "investigations_investigationactionrequest",
+            "column": "precheck",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "src/sentry/investigations/models/action_request.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'precheck' already absent from C_{t-1} ORM and app code."
+        }
+      ]
+    },
+    {
+      "sha": "af793692a5a679b0d45a894522af8d377de0bace",
+      "parent": "db3c61b34cedacaba2f32799649422b24730f780",
+      "date": "2026-10-23T14:40:20-07:00",
+      "subject": "ref(seer-settings): Drop SeerProjectRepository.enabled column (#128667)",
+      "mig_files": [
+        "src/sentry/seer/migrations/0043_drop_seerprojectrepository_enabled.py"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 76,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "seer_seerprojectrepository",
+            "column": "enabled",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/seer/migrations/0043_drop_seerprojectrepository_enabled.py",
+            "line": 28,
+            "raw_snippet": "SafeRemoveField( model_name=\"seerprojectrepository\", name=\"enabled\", deletion_action=DeletionAction.DELETE, )",
+            "extra": {
+              "model_name": "seerprojectrepository",
+              "app_label": "seer",
+              "staged": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "seer_seerprojectrepository",
+            "column": "enabled",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "src/sentry/seer/models/project_repository.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'enabled' already absent from C_{t-1} ORM and app code."
+        }
+      ]
+    },
+    {
+      "sha": "d9a01273d5459029eab5edc9e574c2e60d0920e2",
+      "parent": "e568f7f1ab856f8bb4c5bfddccc084de1da79743",
+      "date": "2026-10-19T11:31:28-04:00",
+      "subject": "ref(auth): Drop legacy scopes bitfield columns (#127761)",
+      "mig_files": [
+        "src/sentry/hybridcloud/migrations/0045_drop_scopes_bitfield_columns.py"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 19,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "hybridcloud_apikeyreplica",
+            "column": "scopes",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/hybridcloud/migrations/0045_drop_scopes_bitfield_columns.py",
+            "line": 29,
+            "raw_snippet": "SafeRemoveField( model_name=\"apikeyreplica\", name=\"scopes\", deletion_action=DeletionAction.DELETE, )",
+            "extra": {
+              "model_name": "apikeyreplica",
+              "app_label": "hybridcloud",
+              "staged": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "hybridcloud_apikeyreplica",
+            "column": "scopes",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "src/sentry/hybridcloud/models/apikeyreplica.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'scopes' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "hybridcloud_apitokenreplica",
+            "column": "scopes",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/hybridcloud/migrations/0045_drop_scopes_bitfield_columns.py",
+            "line": 34,
+            "raw_snippet": "SafeRemoveField( model_name=\"apitokenreplica\", name=\"scopes\", deletion_action=DeletionAction.DELETE, )",
+            "extra": {
+              "model_name": "apitokenreplica",
+              "app_label": "hybridcloud",
+              "staged": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "hybridcloud_apitokenreplica",
+            "column": "scopes",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "src/sentry/hybridcloud/models/apitokenreplica.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'scopes' already absent from C_{t-1} ORM and app code."
+        }
+      ]
+    },
+    {
+      "sha": "7cca1a23c575abb3a13f5695e09743aa0276edd9",
+      "parent": "9719c2cd4c107b99e25c19490be341570b8e66c4",
+      "date": "2026-10-16T09:37:59-07:00",
+      "subject": "ref(crons): Drop the check-in monitor_id column (#127648)",
+      "mig_files": [
+        "src/sentry/monitors/migrations/0023_drop_checkin_monitor.py"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 14,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "monitors_monitorcheckin",
+            "column": "monitor",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/monitors/migrations/0023_drop_checkin_monitor.py",
+            "line": 29,
+            "raw_snippet": "SafeRemoveField( model_name=\"monitorcheckin\", name=\"monitor\", deletion_action=DeletionAction.DELETE, )",
+            "extra": {
+              "model_name": "monitorcheckin",
+              "app_label": "monitors",
+              "staged": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "monitors_monitorcheckin",
+            "column": "monitor",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "src/sentry/monitors/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'monitor' already absent from C_{t-1} ORM and app code."
+        }
+      ]
+    },
+    {
+      "sha": "d4499678a0083e36a2c99e98150a0e87e48afd95",
+      "parent": "cb6fc9d003dc88b2c870a47efd229c632cbf2f24",
+      "date": "2026-10-15T13:13:52-07:00",
+      "subject": "ref(crons): Drop the check-in project_id column (#127409)",
+      "mig_files": [
+        "src/sentry/monitors/migrations/0019_drop_checkin_project_id.py"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 14,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "monitors_monitorcheckin",
+            "column": "project_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/monitors/migrations/0019_drop_checkin_project_id.py",
+            "line": 29,
+            "raw_snippet": "SafeRemoveField( model_name=\"monitorcheckin\", name=\"project_id\", deletion_action=DeletionAction.DELETE, )",
+            "extra": {
+              "model_name": "monitorcheckin",
+              "app_label": "monitors",
+              "staged": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "monitors_monitorcheckin",
+            "column": "project_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "src/sentry/monitors/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'project_id' already absent from C_{t-1} ORM and app code."
+        }
+      ]
+    },
+    {
+      "sha": "c456f8004c1a3f30d43a93145d305310ad96905b",
+      "parent": "142781482e7558b992aa156a92b5c851f306fad7",
+      "date": "2026-09-22T14:09:48-04:00",
+      "subject": "chore(hybridcloud) Drop cacheversion.key from schema (#125045)",
+      "mig_files": [
+        "src/sentry/hybridcloud/migrations/0042_cacheversion_key_drop.py"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 19,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "hybridcloud_cellcacheversion",
+            "column": "key",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/hybridcloud/migrations/0042_cacheversion_key_drop.py",
+            "line": 27,
+            "raw_snippet": "SafeRemoveField( model_name=\"cellcacheversion\", name=\"key\", deletion_action=DeletionAction.DELETE, )",
+            "extra": {
+              "model_name": "cellcacheversion",
+              "app_label": "hybridcloud",
+              "staged": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "hybridcloud_cellcacheversion",
+            "column": "key",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "src/sentry/hybridcloud/models/cacheversion.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'key' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "hybridcloud_controlcacheversion",
+            "column": "key",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/hybridcloud/migrations/0042_cacheversion_key_drop.py",
+            "line": 32,
+            "raw_snippet": "SafeRemoveField( model_name=\"controlcacheversion\", name=\"key\", deletion_action=DeletionAction.DELETE, )",
+            "extra": {
+              "model_name": "controlcacheversion",
+              "app_label": "hybridcloud",
+              "staged": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "hybridcloud_controlcacheversion",
+            "column": "key",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "src/sentry/hybridcloud/models/cacheversion.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'key' already absent from C_{t-1} ORM and app code."
+        }
+      ]
+    },
+    {
+      "sha": "cb95da92e529d4f3f67ab09c53273df50d063547",
+      "parent": "0aeffc3fab66d4893cfddaf772cd1586982bf611",
+      "date": "2026-09-21T13:07:51-07:00",
+      "subject": "feat(uptime): Encrypt sensitive header and body fields (#124969)",
+      "mig_files": [
+        "src/sentry/uptime/migrations/0056_encrypt_uptime_subscription_headers_body.py"
+      ],
+      "app_files_touched_in_commit": [
+        "src/sentry/uptime/models.py"
+      ],
+      "orm_models_parsed_old": 6,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "uptime_uptimesubscription",
+            "column": "body",
+            "new_name": null,
+            "old_type": "TextField",
+            "new_type": "EncryptedTextField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/uptime/migrations/0056_encrypt_uptime_subscription_headers_body.py",
+            "line": 30,
+            "raw_snippet": "migrations.AlterField( model_name=\"uptimesubscription\", name=\"body\", field=sentry.db.models.fields.encryption.encrypted_text_field.EncryptedTextField( null=True ), )",
+            "extra": {
+              "model_name": "uptimesubscription",
+              "app_label": "uptime",
+              "field_info": {
+                "field_type": "EncryptedTextField",
+                "null": true,
+                "has_default": false,
+                "has_db_default": false
+              }
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "uptime_uptimesubscription",
+            "column": "body",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "src/sentry/uptime/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'uptime_uptimesubscription.body' (TextField -> EncryptedTextField)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "uptime_uptimesubscription",
+            "column": "headers",
+            "new_name": null,
+            "old_type": "JSONField",
+            "new_type": "EncryptedJSONField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/uptime/migrations/0056_encrypt_uptime_subscription_headers_body.py",
+            "line": 37,
+            "raw_snippet": "migrations.AlterField( model_name=\"uptimesubscription\", name=\"headers\", field=sentry.db.models.fields.encryption.encrypted_json_field.EncryptedJSONField( db_default=models.Value([]",
+            "extra": {
+              "model_name": "uptimesubscription",
+              "app_label": "uptime",
+              "field_info": {
+                "field_type": "EncryptedJSONField",
+                "null": false,
+                "has_default": false,
+                "has_db_default": true
+              }
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "uptime_uptimesubscription",
+            "column": "headers",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "src/sentry/uptime/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'uptime_uptimesubscription.headers' (JSONField -> EncryptedJSONField)."
+        }
+      ]
+    },
+    {
+      "sha": "91a209fb2d02f29c787fa46661ba31bc9b46c99f",
+      "parent": "78405dabc7497eb73567272de31f83f3035cfc31",
+      "date": "2026-09-17T09:56:20-07:00",
+      "subject": "chore(investigations): Actually drop the unused cell tables (#124666)",
+      "mig_files": [
+        "src/sentry/investigations/migrations/0008_delete_investigation_cell_tables.py"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 23,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_TABLE",
+            "table": "investigations_investigationcelldependency",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/investigations/migrations/0008_delete_investigation_cell_tables.py",
+            "line": 28,
+            "raw_snippet": "SafeDeleteModel(name=\"InvestigationCellDependency\", deletion_action=DeletionAction.DELETE)",
+            "extra": {
+              "model_name": "investigationcelldependency",
+              "app_label": "investigations",
+              "staged": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "investigations_investigationcelldependency",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: staged drop; table 'investigations_investigationcelldependency' already absent from C_{t-1} ORM."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_TABLE",
+            "table": "investigations_investigationcellparameter",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/investigations/migrations/0008_delete_investigation_cell_tables.py",
+            "line": 29,
+            "raw_snippet": "SafeDeleteModel(name=\"InvestigationCellParameter\", deletion_action=DeletionAction.DELETE)",
+            "extra": {
+              "model_name": "investigationcellparameter",
+              "app_label": "investigations",
+              "staged": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "investigations_investigationcellparameter",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: staged drop; table 'investigations_investigationcellparameter' already absent from C_{t-1} ORM."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_TABLE",
+            "table": "investigations_investigationcellexecutionproject",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/investigations/migrations/0008_delete_investigation_cell_tables.py",
+            "line": 30,
+            "raw_snippet": "SafeDeleteModel( name=\"InvestigationCellExecutionProject\", deletion_action=DeletionAction.DELETE )",
+            "extra": {
+              "model_name": "investigationcellexecutionproject",
+              "app_label": "investigations",
+              "staged": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "investigations_investigationcellexecutionproject",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: staged drop; table 'investigations_investigationcellexecutionproject' already absent from C_{t-1} ORM."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_TABLE",
+            "table": "investigations_investigationcell",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/investigations/migrations/0008_delete_investigation_cell_tables.py",
+            "line": 33,
+            "raw_snippet": "SafeDeleteModel(name=\"InvestigationCell\", deletion_action=DeletionAction.DELETE)",
+            "extra": {
+              "model_name": "investigationcell",
+              "app_label": "investigations",
+              "staged": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "investigations_investigationcell",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: staged drop; table 'investigations_investigationcell' already absent from C_{t-1} ORM."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_TABLE",
+            "table": "investigations_investigationcellexecution",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/investigations/migrations/0008_delete_investigation_cell_tables.py",
+            "line": 34,
+            "raw_snippet": "SafeDeleteModel(name=\"InvestigationCellExecution\", deletion_action=DeletionAction.DELETE)",
+            "extra": {
+              "model_name": "investigationcellexecution",
+              "app_label": "investigations",
+              "staged": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "investigations_investigationcellexecution",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: staged drop; table 'investigations_investigationcellexecution' already absent from C_{t-1} ORM."
+        }
+      ]
+    },
+    {
+      "sha": "c5d0c060494889d230fc7f678c4d317f1dd3187a",
+      "parent": "9fbabcc88167ff1eb9c377d46e7c8cbdc128425e",
+      "date": "2026-08-26T09:49:12-04:00",
+      "subject": "ref(explore): Drop pending project column from metric context (#122638)",
+      "mig_files": [
+        "src/sentry/explore/migrations/0013_delete_project_column_from_metric_context.py"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 11,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "explore_traceitemattributevaluecontext",
+            "column": "project",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/explore/migrations/0013_delete_project_column_from_metric_context.py",
+            "line": 28,
+            "raw_snippet": "SafeRemoveField( model_name=\"traceitemattributevaluecontext\", name=\"project\", deletion_action=DeletionAction.DELETE, )",
+            "extra": {
+              "model_name": "traceitemattributevaluecontext",
+              "app_label": "explore",
+              "staged": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "explore_traceitemattributevaluecontext",
+            "column": "project",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "src/sentry/explore/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'project' already absent from C_{t-1} ORM and app code."
+        }
+      ]
+    },
+    {
+      "sha": "f41148a0f9222377486691e017b87016f346bb86",
+      "parent": "d6d7628eb5c578269c635a4297f30236b06a3420",
+      "date": "2026-08-05T11:33:22-07:00",
+      "subject": "fix(explore): Drop pending last_received columns from attribute tables (#121209)",
+      "mig_files": [
+        "src/sentry/explore/migrations/0011_delete_last_received_from_attribute_context.py"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 11,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "explore_traceitemattributecontext",
+            "column": "last_received",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/explore/migrations/0011_delete_last_received_from_attribute_context.py",
+            "line": 28,
+            "raw_snippet": "SafeRemoveField( model_name=\"traceitemattributecontext\", name=\"last_received\", deletion_action=DeletionAction.DELETE, )",
+            "extra": {
+              "model_name": "traceitemattributecontext",
+              "app_label": "explore",
+              "staged": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "explore_traceitemattributecontext",
+            "column": "last_received",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "src/sentry/explore/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'last_received' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "explore_traceitemattributevaluecontext",
+            "column": "last_received",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/explore/migrations/0011_delete_last_received_from_attribute_context.py",
+            "line": 33,
+            "raw_snippet": "SafeRemoveField( model_name=\"traceitemattributevaluecontext\", name=\"last_received\", deletion_action=DeletionAction.DELETE, )",
+            "extra": {
+              "model_name": "traceitemattributevaluecontext",
+              "app_label": "explore",
+              "staged": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "explore_traceitemattributevaluecontext",
+            "column": "last_received",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "src/sentry/explore/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'last_received' already absent from C_{t-1} ORM and app code."
+        }
+      ]
+    },
+    {
+      "sha": "de603fd9d41c515c834899aceb56c2283a147ccb",
+      "parent": "1b3604527919a8ded3c31e4ca85d8adfc4e749cc",
+      "date": "2026-07-14T11:35:21-07:00",
+      "subject": "chore(control): Actually DROP ExternalActorReplica (#119533)",
+      "mig_files": [
+        "src/sentry/hybridcloud/migrations/0032_delete_externalactorreplica.py"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 16,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_TABLE",
+            "table": "hybridcloud_externalactorreplica",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/hybridcloud/migrations/0032_delete_externalactorreplica.py",
+            "line": 28,
+            "raw_snippet": "SafeDeleteModel( name=\"ExternalActorReplica\", deletion_action=DeletionAction.DELETE, )",
+            "extra": {
+              "model_name": "externalactorreplica",
+              "app_label": "hybridcloud",
+              "staged": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "hybridcloud_externalactorreplica",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: staged drop; table 'hybridcloud_externalactorreplica' already absent from C_{t-1} ORM."
+        }
+      ]
+    },
+    {
+      "sha": "10e8a5c29b03c4dd90072d6d47df1b12bd302cf3",
+      "parent": "62ff8a991662bcda6b4c18b1f4f1afc97c3e65d8",
+      "date": "2026-06-30T17:38:45+02:00",
+      "subject": "ref(migrations): Squash migrations across all apps (#118135)",
+      "mig_files": [
+        "src/sentry/discover/migrations/0001_squashed_0003_discover_json_field.py",
+        "src/sentry/explore/migrations/0001_squashed_0004_add_explore_last_visited_table.py",
+        "src/sentry/explore/migrations/0001_squashed_0009_add_trace_item_attribute_value_context.py",
+        "src/sentry/hybridcloud/migrations/0001_squashed_0021_django_arrayfield_scope_list.py",
+        "src/sentry/hybridcloud/migrations/0001_squashed_0030_remove_orgslugreservationreplica_delete.py",
+        "src/sentry/insights/migrations/0001_squashed_0001_add_starred_transactions_model.py",
+        "src/sentry/insights/migrations/0001_squashed_0002_backfill_team_starred.py",
+        "src/sentry/migrations/0001_squashed_0904_onboarding_task_project_id_idx.py",
+        "src/sentry/migrations/0001_squashed_1118_add_group_derived_data.py",
+        "src/sentry/migrations/0905_fix_workflow_engine_cycle.py",
+        "src/sentry/monitors/migrations/0001_squashed_0005_record_date_in_progress_state.py",
+        "src/sentry/monitors/migrations/0001_squashed_0013_delete_monitor_is_muted_field.py",
+        "src/sentry/monitors/migrations/0010_delete_orphaned_detectors.py",
+        "src/sentry/notifications/migrations/0001_squashed_0012_drop_metric_alert_cols_notificationmessage.py",
+        "src/sentry/preprod/migrations/0001_squashed_0030_add_images_errored_to_snapshot_comparison.py",
+        "src/sentry/replays/migrations/0001_squashed_0005_drop_replay_index.py",
+        "src/sentry/replays/migrations/0001_squashed_0007_organizationmember_replay_access.py",
+        "src/sentry/seer/migrations/0001_squashed_0020_backfill_night_shift_run_shards.py",
+        "src/sentry/uptime/migrations/0001_squashed_0042_extra_uptime_indexes.py",
+        "src/sentry/uptime/migrations/0001_squashed_0055_backfill_2xx_status_assertion.py",
+        "src/sentry/workflow_engine/migrations/0001_squashed_0065_add_status_to_detector_and_workflow.py",
+        "src/sentry/workflow_engine/migrations/0001_squashed_0114_sanitize_dynamic_form_field_choices.py",
+        "src/sentry/workflow_engine/migrations/0084_crons_dedupe_workflows.py",
+        "src/sentry/workflow_engine/migrations/0085_crons_link_detectors_to_all_workflows.py",
+        "src/sentry/workflow_engine/migrations/0086_fix_cron_to_cron_workflow_links.py",
+        "src/sentry/workflow_engine/migrations/0087_relink_crons_to_compatible_issue_workflows.py",
+        "src/social_auth/migrations/0001_squashed_0002_default_auto_field.py",
+        "src/social_auth/migrations/0001_squashed_0003_social_auth_json_field.py"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 146,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "sentry_artifactbundle",
+            "column": "file",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "FlexibleForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/migrations/0001_squashed_0904_onboarding_task_project_id_idx.py",
+            "line": 2002,
+            "raw_snippet": "migrations.AddField( model_name=\"artifactbundle\", name=\"file\", field=sentry.db.models.fields.foreignkey.FlexibleForeignKey( on_delete=django.db.models.deletion.CASCADE, to=\"sentry.",
+            "extra": {
+              "model_name": "artifactbundle",
+              "app_label": "sentry",
+              "django_python_default_dropped_in_db": false,
+              "post_deploy": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "sentry_artifactbundle",
+            "column": "file",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": [
+              "post_deploy"
+            ]
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Post-deployment migration: runs after C_{t-1} has drained; C_t does not use the symbol."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "sentry_incident",
+            "column": "organization",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "FlexibleForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/migrations/0001_squashed_0904_onboarding_task_project_id_idx.py",
+            "line": 2754,
+            "raw_snippet": "migrations.AddField( model_name=\"incident\", name=\"organization\", field=sentry.db.models.fields.foreignkey.FlexibleForeignKey( on_delete=django.db.models.deletion.CASCADE, to=\"sentr",
+            "extra": {
+              "model_name": "incident",
+              "app_label": "sentry",
+              "django_python_default_dropped_in_db": false,
+              "post_deploy": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "sentry_incident",
+            "column": "organization",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": [
+              "post_deploy"
+            ]
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Post-deployment migration: runs after C_{t-1} has drained; C_t does not use the symbol."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "sentry_groupsearchview",
+            "column": "organization",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "FlexibleForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/migrations/0001_squashed_0904_onboarding_task_project_id_idx.py",
+            "line": 2831,
+            "raw_snippet": "migrations.AddField( model_name=\"groupsearchview\", name=\"organization\", field=sentry.db.models.fields.foreignkey.FlexibleForeignKey( on_delete=django.db.models.deletion.CASCADE, to",
+            "extra": {
+              "model_name": "groupsearchview",
+              "app_label": "sentry",
+              "django_python_default_dropped_in_db": false,
+              "post_deploy": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "sentry_groupsearchview",
+            "column": "organization",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": [
+              "post_deploy"
+            ]
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Post-deployment migration: runs after C_{t-1} has drained; C_t does not use the symbol."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "sentry_exporteddata",
+            "column": "organization",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "FlexibleForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/migrations/0001_squashed_0904_onboarding_task_project_id_idx.py",
+            "line": 2896,
+            "raw_snippet": "migrations.AddField( model_name=\"exporteddata\", name=\"organization\", field=sentry.db.models.fields.foreignkey.FlexibleForeignKey( on_delete=django.db.models.deletion.CASCADE, to=\"s",
+            "extra": {
+              "model_name": "exporteddata",
+              "app_label": "sentry",
+              "django_python_default_dropped_in_db": false,
+              "post_deploy": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "sentry_exporteddata",
+            "column": "organization",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": [
+              "post_deploy"
+            ]
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Post-deployment migration: runs after C_{t-1} has drained; C_t does not use the symbol."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "sentry_dashboard",
+            "column": "organization",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "FlexibleForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/migrations/0001_squashed_0904_onboarding_task_project_id_idx.py",
+            "line": 3010,
+            "raw_snippet": "migrations.AddField( model_name=\"dashboard\", name=\"organization\", field=sentry.db.models.fields.foreignkey.FlexibleForeignKey( on_delete=django.db.models.deletion.CASCADE, to=\"sent",
+            "extra": {
+              "model_name": "dashboard",
+              "app_label": "sentry",
+              "django_python_default_dropped_in_db": false,
+              "post_deploy": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "sentry_dashboard",
+            "column": "organization",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": [
+              "post_deploy"
+            ]
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Post-deployment migration: runs after C_{t-1} has drained; C_t does not use the symbol."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "sentry_alertrule",
+            "column": "organization",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "FlexibleForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/migrations/0001_squashed_0904_onboarding_task_project_id_idx.py",
+            "line": 3093,
+            "raw_snippet": "migrations.AddField( model_name=\"alertrule\", name=\"organization\", field=sentry.db.models.fields.foreignkey.FlexibleForeignKey( on_delete=django.db.models.deletion.CASCADE, to=\"sent",
+            "extra": {
+              "model_name": "alertrule",
+              "app_label": "sentry",
+              "django_python_default_dropped_in_db": false,
+              "post_deploy": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "sentry_alertrule",
+            "column": "organization",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": [
+              "post_deploy"
+            ]
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Post-deployment migration: runs after C_{t-1} has drained; C_t does not use the symbol."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "sentry_group",
+            "column": "project",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "FlexibleForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/migrations/0001_squashed_0904_onboarding_task_project_id_idx.py",
+            "line": 4098,
+            "raw_snippet": "migrations.AddField( model_name=\"group\", name=\"project\", field=sentry.db.models.fields.foreignkey.FlexibleForeignKey( on_delete=django.db.models.deletion.CASCADE, to=\"sentry.projec",
+            "extra": {
+              "model_name": "group",
+              "app_label": "sentry",
+              "django_python_default_dropped_in_db": false,
+              "post_deploy": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "sentry_group",
+            "column": "project",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": [
+              "post_deploy"
+            ]
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Post-deployment migration: runs after C_{t-1} has drained; C_t does not use the symbol."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "sentry_activity",
+            "column": "project",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "FlexibleForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/migrations/0001_squashed_0904_onboarding_task_project_id_idx.py",
+            "line": 4298,
+            "raw_snippet": "migrations.AddField( model_name=\"activity\", name=\"project\", field=sentry.db.models.fields.foreignkey.FlexibleForeignKey( on_delete=django.db.models.deletion.CASCADE, to=\"sentry.pro",
+            "extra": {
+              "model_name": "activity",
+              "app_label": "sentry",
+              "django_python_default_dropped_in_db": false,
+              "post_deploy": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "sentry_activity",
+            "column": "project",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": [
+              "post_deploy"
+            ]
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Post-deployment migration: runs after C_{t-1} has drained; C_t does not use the symbol."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "sentry_querysubscription",
+            "column": "snuba_query",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "FlexibleForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/migrations/0001_squashed_0904_onboarding_task_project_id_idx.py",
+            "line": 6713,
+            "raw_snippet": "migrations.AddField( model_name=\"querysubscription\", name=\"snuba_query\", field=sentry.db.models.fields.foreignkey.FlexibleForeignKey( on_delete=django.db.models.deletion.CASCADE, r",
+            "extra": {
+              "model_name": "querysubscription",
+              "app_label": "sentry",
+              "django_python_default_dropped_in_db": false,
+              "post_deploy": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "sentry_querysubscription",
+            "column": "snuba_query",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": [
+              "post_deploy"
+            ]
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Post-deployment migration: runs after C_{t-1} has drained; C_t does not use the symbol."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "sentry_alertrule",
+            "column": "snuba_query",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "FlexibleForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/migrations/0001_squashed_0904_onboarding_task_project_id_idx.py",
+            "line": 6722,
+            "raw_snippet": "migrations.AddField( model_name=\"alertrule\", name=\"snuba_query\", field=sentry.db.models.fields.foreignkey.FlexibleForeignKey( on_delete=django.db.models.deletion.CASCADE, to=\"sentr",
+            "extra": {
+              "model_name": "alertrule",
+              "app_label": "sentry",
+              "django_python_default_dropped_in_db": false,
+              "post_deploy": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "sentry_alertrule",
+            "column": "snuba_query",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": [
+              "post_deploy"
+            ]
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Post-deployment migration: runs after C_{t-1} has drained; C_t does not use the symbol."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "sentry_artifactbundle",
+            "column": "file",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "FlexibleForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/migrations/0001_squashed_1118_add_group_derived_data.py",
+            "line": 2866,
+            "raw_snippet": "migrations.AddField( model_name=\"artifactbundle\", name=\"file\", field=sentry.db.models.fields.foreignkey.FlexibleForeignKey( on_delete=django.db.models.deletion.CASCADE, to=\"sentry.",
+            "extra": {
+              "model_name": "artifactbundle",
+              "app_label": "sentry",
+              "django_python_default_dropped_in_db": false,
+              "post_deploy": true,
+              "squashed": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "sentry_artifactbundle",
+            "column": "file",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SQUASHED_REPLAY",
+          "reason": "Squashed migration (`replaces`): skipped on databases that already applied the replaced migrations."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "sentry_incident",
+            "column": "organization",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "FlexibleForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/migrations/0001_squashed_1118_add_group_derived_data.py",
+            "line": 3748,
+            "raw_snippet": "migrations.AddField( model_name=\"incident\", name=\"organization\", field=sentry.db.models.fields.foreignkey.FlexibleForeignKey( on_delete=django.db.models.deletion.CASCADE, to=\"sentr",
+            "extra": {
+              "model_name": "incident",
+              "app_label": "sentry",
+              "django_python_default_dropped_in_db": false,
+              "post_deploy": true,
+              "squashed": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "sentry_incident",
+            "column": "organization",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SQUASHED_REPLAY",
+          "reason": "Squashed migration (`replaces`): skipped on databases that already applied the replaced migrations."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "sentry_groupsearchview",
+            "column": "organization",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "FlexibleForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/migrations/0001_squashed_1118_add_group_derived_data.py",
+            "line": 3832,
+            "raw_snippet": "migrations.AddField( model_name=\"groupsearchview\", name=\"organization\", field=sentry.db.models.fields.foreignkey.FlexibleForeignKey( on_delete=django.db.models.deletion.CASCADE, to",
+            "extra": {
+              "model_name": "groupsearchview",
+              "app_label": "sentry",
+              "django_python_default_dropped_in_db": false,
+              "post_deploy": true,
+              "squashed": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "sentry_groupsearchview",
+            "column": "organization",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SQUASHED_REPLAY",
+          "reason": "Squashed migration (`replaces`): skipped on databases that already applied the replaced migrations."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "sentry_exporteddata",
+            "column": "organization",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "FlexibleForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/migrations/0001_squashed_1118_add_group_derived_data.py",
+            "line": 3907,
+            "raw_snippet": "migrations.AddField( model_name=\"exporteddata\", name=\"organization\", field=sentry.db.models.fields.foreignkey.FlexibleForeignKey( on_delete=django.db.models.deletion.CASCADE, to=\"s",
+            "extra": {
+              "model_name": "exporteddata",
+              "app_label": "sentry",
+              "django_python_default_dropped_in_db": false,
+              "post_deploy": true,
+              "squashed": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "sentry_exporteddata",
+            "column": "organization",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SQUASHED_REPLAY",
+          "reason": "Squashed migration (`replaces`): skipped on databases that already applied the replaced migrations."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "sentry_dashboard",
+            "column": "organization",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "FlexibleForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/migrations/0001_squashed_1118_add_group_derived_data.py",
+            "line": 3984,
+            "raw_snippet": "migrations.AddField( model_name=\"dashboard\", name=\"organization\", field=sentry.db.models.fields.foreignkey.FlexibleForeignKey( on_delete=django.db.models.deletion.CASCADE, to=\"sent",
+            "extra": {
+              "model_name": "dashboard",
+              "app_label": "sentry",
+              "django_python_default_dropped_in_db": false,
+              "post_deploy": true,
+              "squashed": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "sentry_dashboard",
+            "column": "organization",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SQUASHED_REPLAY",
+          "reason": "Squashed migration (`replaces`): skipped on databases that already applied the replaced migrations."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "sentry_alertrule",
+            "column": "organization",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "FlexibleForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/migrations/0001_squashed_1118_add_group_derived_data.py",
+            "line": 4032,
+            "raw_snippet": "migrations.AddField( model_name=\"alertrule\", name=\"organization\", field=sentry.db.models.fields.foreignkey.FlexibleForeignKey( on_delete=django.db.models.deletion.CASCADE, to=\"sent",
+            "extra": {
+              "model_name": "alertrule",
+              "app_label": "sentry",
+              "django_python_default_dropped_in_db": false,
+              "post_deploy": true,
+              "squashed": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "sentry_alertrule",
+            "column": "organization",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SQUASHED_REPLAY",
+          "reason": "Squashed migration (`replaces`): skipped on databases that already applied the replaced migrations."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "sentry_groupopenperiod",
+            "column": "project",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "FlexibleForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/migrations/0001_squashed_1118_add_group_derived_data.py",
+            "line": 5042,
+            "raw_snippet": "migrations.AddField( model_name=\"groupopenperiod\", name=\"project\", field=sentry.db.models.fields.foreignkey.FlexibleForeignKey( on_delete=django.db.models.deletion.CASCADE, to=\"sen",
+            "extra": {
+              "model_name": "groupopenperiod",
+              "app_label": "sentry",
+              "django_python_default_dropped_in_db": false,
+              "post_deploy": true,
+              "squashed": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "sentry_groupopenperiod",
+            "column": "project",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SQUASHED_REPLAY",
+          "reason": "Squashed migration (`replaces`): skipped on databases that already applied the replaced migrations."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "sentry_group",
+            "column": "project",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "FlexibleForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/migrations/0001_squashed_1118_add_group_derived_data.py",
+            "line": 5229,
+            "raw_snippet": "migrations.AddField( model_name=\"group\", name=\"project\", field=sentry.db.models.fields.foreignkey.FlexibleForeignKey( on_delete=django.db.models.deletion.CASCADE, to=\"sentry.projec",
+            "extra": {
+              "model_name": "group",
+              "app_label": "sentry",
+              "django_python_default_dropped_in_db": false,
+              "post_deploy": true,
+              "squashed": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "sentry_group",
+            "column": "project",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SQUASHED_REPLAY",
+          "reason": "Squashed migration (`replaces`): skipped on databases that already applied the replaced migrations."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "sentry_activity",
+            "column": "project",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "FlexibleForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/migrations/0001_squashed_1118_add_group_derived_data.py",
+            "line": 5435,
+            "raw_snippet": "migrations.AddField( model_name=\"activity\", name=\"project\", field=sentry.db.models.fields.foreignkey.FlexibleForeignKey( on_delete=django.db.models.deletion.CASCADE, to=\"sentry.pro",
+            "extra": {
+              "model_name": "activity",
+              "app_label": "sentry",
+              "django_python_default_dropped_in_db": false,
+              "post_deploy": true,
+              "squashed": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "sentry_activity",
+            "column": "project",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SQUASHED_REPLAY",
+          "reason": "Squashed migration (`replaces`): skipped on databases that already applied the replaced migrations."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "sentry_querysubscription",
+            "column": "snuba_query",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "FlexibleForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/migrations/0001_squashed_1118_add_group_derived_data.py",
+            "line": 8152,
+            "raw_snippet": "migrations.AddField( model_name=\"querysubscription\", name=\"snuba_query\", field=sentry.db.models.fields.foreignkey.FlexibleForeignKey( on_delete=django.db.models.deletion.CASCADE, r",
+            "extra": {
+              "model_name": "querysubscription",
+              "app_label": "sentry",
+              "django_python_default_dropped_in_db": false,
+              "post_deploy": true,
+              "squashed": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "sentry_querysubscription",
+            "column": "snuba_query",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SQUASHED_REPLAY",
+          "reason": "Squashed migration (`replaces`): skipped on databases that already applied the replaced migrations."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "sentry_alertrule",
+            "column": "snuba_query",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "FlexibleForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/migrations/0001_squashed_1118_add_group_derived_data.py",
+            "line": 8161,
+            "raw_snippet": "migrations.AddField( model_name=\"alertrule\", name=\"snuba_query\", field=sentry.db.models.fields.foreignkey.FlexibleForeignKey( on_delete=django.db.models.deletion.CASCADE, to=\"sentr",
+            "extra": {
+              "model_name": "alertrule",
+              "app_label": "sentry",
+              "django_python_default_dropped_in_db": false,
+              "post_deploy": true,
+              "squashed": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "sentry_alertrule",
+            "column": "snuba_query",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SQUASHED_REPLAY",
+          "reason": "Squashed migration (`replaces`): skipped on databases that already applied the replaced migrations."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "workflow_engine_datasourcedetector",
+            "column": "detector",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "FlexibleForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/workflow_engine/migrations/0001_squashed_0065_add_status_to_detector_and_workflow.py",
+            "line": 296,
+            "raw_snippet": "migrations.AddField( model_name=\"datasourcedetector\", name=\"detector\", field=sentry.db.models.fields.foreignkey.FlexibleForeignKey( on_delete=django.db.models.deletion.CASCADE, to=",
+            "extra": {
+              "model_name": "datasourcedetector",
+              "app_label": "workflow_engine",
+              "django_python_default_dropped_in_db": false,
+              "post_deploy": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "workflow_engine_datasourcedetector",
+            "column": "detector",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": [
+              "post_deploy"
+            ]
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Post-deployment migration: runs after C_{t-1} has drained; C_t does not use the symbol."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "workflow_engine_datasourcedetector",
+            "column": "detector",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "FlexibleForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/workflow_engine/migrations/0001_squashed_0114_sanitize_dynamic_form_field_choices.py",
+            "line": 337,
+            "raw_snippet": "migrations.AddField( model_name=\"datasourcedetector\", name=\"detector\", field=sentry.db.models.fields.foreignkey.FlexibleForeignKey( on_delete=django.db.models.deletion.CASCADE, to=",
+            "extra": {
+              "model_name": "datasourcedetector",
+              "app_label": "workflow_engine",
+              "django_python_default_dropped_in_db": false,
+              "post_deploy": true,
+              "squashed": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "workflow_engine_datasourcedetector",
+            "column": "detector",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SQUASHED_REPLAY",
+          "reason": "Squashed migration (`replaces`): skipped on databases that already applied the replaced migrations."
+        }
+      ]
+    },
+    {
+      "sha": "cf0d90976265dd45aa877c7b5b65a72cd6d33e20",
+      "parent": "a1589b3abd094c4bd75e75fe83c706b894458f1b",
+      "date": "2026-06-25T19:29:43-04:00",
+      "subject": "ref(seer): Drop the night shift run seer_run column (#118172)",
+      "mig_files": [
+        "src/sentry/seer/migrations/0022_drop_night_shift_run_seer_run_column.py"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 47,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "seer_seernightshiftrun",
+            "column": "seer_run",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/seer/migrations/0022_drop_night_shift_run_seer_run_column.py",
+            "line": 29,
+            "raw_snippet": "SafeRemoveField( model_name=\"seernightshiftrun\", name=\"seer_run\", deletion_action=DeletionAction.DELETE, )",
+            "extra": {
+              "model_name": "seernightshiftrun",
+              "app_label": "seer",
+              "staged": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "seer_seernightshiftrun",
+            "column": "seer_run",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "src/sentry/seer/models/night_shift.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'seer_run' already absent from C_{t-1} ORM and app code."
+        }
+      ]
+    },
+    {
+      "sha": "931ae81f78ca7300ed3a13fcf48508866c0f721e",
+      "parent": "f6643ecee7c1eaa95ba7195706ad98e9df01e50c",
+      "date": "2026-06-09T12:07:24-04:00",
+      "subject": "chore(cells) Drop the OrganizationSlugReservationReplica model v2 (#117175)",
+      "mig_files": [
+        "src/sentry/hybridcloud/migrations/0030_remove_orgslugreservationreplica_delete.py"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 17,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_TABLE",
+            "table": "hybridcloud_organizationslugreservationreplica",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/hybridcloud/migrations/0030_remove_orgslugreservationreplica_delete.py",
+            "line": 28,
+            "raw_snippet": "SafeDeleteModel( name=\"OrganizationSlugReservationReplica\", deletion_action=DeletionAction.DELETE, )",
+            "extra": {
+              "model_name": "organizationslugreservationreplica",
+              "app_label": "hybridcloud",
+              "staged": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "hybridcloud_organizationslugreservationreplica",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: staged drop; table 'hybridcloud_organizationslugreservationreplica' already absent from C_{t-1} ORM."
+        }
+      ]
+    },
+    {
+      "sha": "7ab2e46ae5e4c598694dee229eafb5378bda57bb",
+      "parent": "b2dd566128ce436eafa0e75583858872813f94b8",
+      "date": "2026-06-08T16:37:31-04:00",
+      "subject": "chore(cells) Drop the OrganizationSlugReservationReplica model (#117084)",
+      "mig_files": [
+        "src/sentry/hybridcloud/migrations/0030_remove_orgslugreservationreplica_delete.py"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 17,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_TABLE",
+            "table": "hybridcloud_organizationslugreservationreplica",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/hybridcloud/migrations/0030_remove_orgslugreservationreplica_delete.py",
+            "line": 28,
+            "raw_snippet": "SafeDeleteModel( name=\"OrganizationSlugReservationReplica\", deletion_action=DeletionAction.DELETE, )",
+            "extra": {
+              "model_name": "organizationslugreservationreplica",
+              "app_label": "hybridcloud",
+              "staged": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "hybridcloud_organizationslugreservationreplica",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: staged drop; table 'hybridcloud_organizationslugreservationreplica' already absent from C_{t-1} ORM."
+        }
+      ]
+    },
+    {
+      "sha": "ead5c53234f9eae4d248018f44be022a1f935d20",
+      "parent": "ea7186117f261031bdf3f0f614109e87b2714c2c",
+      "date": "2026-05-21T10:17:09-07:00",
+      "subject": "chore(alerts): Fully remove metric alert columns on NotificationMessage (#116025)",
+      "mig_files": [
+        "src/sentry/notifications/migrations/0012_drop_metric_alert_cols_notificationmessage.py"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 14,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "notifications_notificationmessage",
+            "column": "incident",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/notifications/migrations/0012_drop_metric_alert_cols_notificationmessage.py",
+            "line": 29,
+            "raw_snippet": "SafeRemoveField( model_name=\"notificationmessage\", name=\"incident\", deletion_action=DeletionAction.DELETE, )",
+            "extra": {
+              "model_name": "notificationmessage",
+              "app_label": "notifications",
+              "staged": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "notifications_notificationmessage",
+            "column": "incident",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "src/sentry/notifications/models/notificationmessage.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'incident' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "notifications_notificationmessage",
+            "column": "trigger_action",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/sentry/notifications/migrations/0012_drop_metric_alert_cols_notificationmessage.py",
+            "line": 34,
+            "raw_snippet": "SafeRemoveField( model_name=\"notificationmessage\", name=\"trigger_action\", deletion_action=DeletionAction.DELETE, )",
+            "extra": {
+              "model_name": "notificationmessage",
+              "app_label": "notifications",
+              "staged": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "notifications_notificationmessage",
+            "column": "trigger_action",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "src/sentry/notifications/models/notificationmessage.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'trigger_action' already absent from C_{t-1} ORM and app code."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,630 @@
+{
+  "repo": "BerriAI/litellm",
+  "ecosystem": "prisma",
+  "stars": 63555,
+  "has_k8s_helm": true,
+  "status": "ok",
+  "stats": {
+    "total_migration_commits_in_history": 291,
+    "migration_commits_analyzed": 150,
+    "total_migration_files_parsed": 164,
+    "commits_with_any_destructive": 4,
+    "commits_with_forward_destructive": 4,
+    "commits_with_rollback_only_destructive": 0,
+    "total_ops_extracted": 13,
+    "destructive_ops_up": 13,
+    "destructive_ops_down": 0
+  },
+  "verdict_counts": {
+    "DUAL_VERSION_VIOLATION_BACKWARD": 9,
+    "SAFE_CONTRACT": 2,
+    "DUAL_VERSION_VIOLATION_BOTH": 2
+  },
+  "destructive_commits": [
+    {
+      "sha": "ca4c6c0a6d5bc21b3931101fb2675f174dc35273",
+      "parent": "a7c8f6287f1b934fd4890dbab4f67d21721927c6",
+      "date": "2026-11-14T00:05:35+08:00",
+      "subject": "feat(proxy): customer budget rollup, reset on the budget row's window, named templates, team overrides, multi-window limits and pause_allow_",
+      "mig_files": [
+        "litellm/proxy-extras/litellm_proxy_extras/migrations/20261113120000_add_reusable_budget_limits/migration.sql",
+        "litellm/proxy-extras/litellm_proxy_extras/migrations/20261113120000_drop_customer_budget_reset_at/migration.sql",
+        "litellm/proxy-extras/litellm_proxy_extras/migrations/20261113130000_customer_hierarchy_schema_cleanup/migration.sql",
+        "litellm/proxy-extras/litellm_proxy_extras/migrations/20261113140000_customer_budget_increase_requests/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "litellm/proxy-extras/litellm_proxy_extras/schema.prisma",
+        "litellm/proxy/schema.prisma",
+        "litellm/schema.prisma",
+        "litellm/ui/litellm-dashboard/src/app/(dashboard)/budgets/_components/BudgetFormFields.tsx",
+        "litellm/ui/litellm-dashboard/src/app/(dashboard)/budgets/_components/BudgetModal.integration.test.tsx",
+        "litellm/ui/litellm-dashboard/src/app/(dashboard)/budgets/_components/BudgetModal.tsx",
+        "litellm/ui/litellm-dashboard/src/app/(dashboard)/budgets/_components/BudgetTable.test.tsx",
+        "litellm/ui/litellm-dashboard/src/app/(dashboard)/budgets/_components/BudgetTableColumns.tsx",
+        "litellm/ui/litellm-dashboard/src/app/(dashboard)/budgets/_components/EditBudgetModal.integration.test.tsx",
+        "litellm/ui/litellm-dashboard/src/app/(dashboard)/budgets/_components/EditBudgetModal.tsx",
+        "litellm/ui/litellm-dashboard/src/app/(dashboard)/budgets/_components/budgetLimits.test.ts",
+        "litellm/ui/litellm-dashboard/src/app/(dashboard)/budgets/_components/budgetLimits.ts"
+      ],
+      "orm_models_parsed_old": 115,
+      "raw_sql": "SET LOCAL lock_timeout = '10s';\n\nALTER TABLE \"LiteLLM_BudgetTable\" ADD COLUMN IF NOT EXISTS \"budget_limits\" JSONB;\n\nSET LOCAL lock_timeout = '10s';\n\nALTER TABLE \"LiteLLM_CustomerOrganizationTable\" DROP COLUMN IF EXISTS \"budget_reset_at\";\nALTER TABLE \"LiteLLM_CustomerTeamTable\" DROP COLUMN IF EXISTS \"budget_reset_at\";\nALTER TABLE \"LiteLLM_CustomerMemberTable\" DROP COLUMN IF EXISTS \"budget_reset_at\";\n\nSET LOCAL lock_timeout = '10s';\n\nALTER TABLE \"LiteLLM_BudgetTable\" ADD COLUMN IF NOT EXISTS \"name\" TEXT;\n\nDO $$\nBEGIN\n    IF EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name = 'LiteLLM_CustomerOrganizationTable' AND column_name = 'budget_ids') THEN\n        ALTER TABLE \"LiteLLM_CustomerOrganizationTable\" RENAME COLUMN \"budget_ids\" TO \"budget_template_ids\";\n    END IF;\n    IF EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name = 'LiteLLM_CustomerOrganizationTable' AND column_name = 'default_budget_id') THEN\n        ALTER TABLE \"LiteLLM_CustomerOrganizationTable\" RENAME COLUMN \"default_budget_id\" TO \"default_budget_template_id\";\n    END IF;\n    IF EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'LiteLLM_CustomerOrganizationTable_default_budget_id_fkey') THEN\n        ALTER TABLE \"LiteLLM_CustomerOrganizationTable\" RENAME CONSTRAINT \"LiteLLM_CustomerOrganizationTable_default_budget_id_fkey\" TO \"LiteLLM_CustomerOrganizationTable_default_budget_template_id_fkey\";\n    END IF;\nEND $$;\nALTER TABLE \"LiteLLM_CustomerOrganizationTable\" DROP COLUMN IF EXISTS \"budget_names\";\n\nALTER TABLE \"LiteLLM_CustomerTeamTable\" ADD COLUMN IF NOT EXISTS \"budget_override_id\" TEXT;\nALTER TABLE \"LiteLLM_CustomerTeamTable\" ADD COLUMN IF NOT EXISTS \"budget_override_expires_at\" TIMESTAMP(3);\nDO $$\nBEGIN\n    IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'LiteLLM_CustomerTeamTable_budget_override_id_fkey') THEN\n        ALTER TABLE \"LiteLLM_CustomerTeamTable\" ADD CONSTRAINT \"LiteLLM_CustomerTeamTable_budget_override_id_fkey\" FOREIGN KEY (\"budget_override_id\") REFERENCES \"LiteLLM_BudgetTable\"(\"budget_id\") ON DELETE RESTRICT ON UPDATE CASCADE;\n    END IF;\nEND $$;\n\nALTER TABLE \"LiteLLM_CustomerMemberTable\" ADD COLUMN IF NOT EXISTS \"parent_org_id\" TEXT;\nALTER TABLE \"LiteLLM_CustomerMemberTable\" ADD COLUMN IF NOT EXISTS \"parent_team_ids\" TEXT[] NOT NULL DEFAULT ARRAY[]::TEXT[];\nDO $$\nBEGIN\n    IF EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name = 'LiteLLM_CustomerMemberTable' AND column_name = 'parent_team_id') THEN\n        -- data-migration-ok: customer tables exist only on the v1.111.0 dev line and hold a handful of rows\n        UPDATE \"LiteLLM_CustomerMemberTable\" m SET \"parent_org_id\" = t.\"parent_org_id\", \"parent_team_ids\" = ARRAY[m.\"parent_team_id\"] FROM \"LiteLLM_CustomerTeamTable\" t WHERE m.\"parent_team_id\" = t.\"customer_team_id\" AND m.\"parent_org_id\" IS NULL;\n    END IF;\n    IF EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'LiteLLM_CustomerMemberTable_parent_team_id_fkey') THEN\n        ALTER TABLE \"LiteLLM_CustomerMemberTable\" DROP CONSTRAINT \"LiteLLM_CustomerMemberTable_parent_team_id_fkey\";\n    END IF;\n    IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'LiteLLM_CustomerMemberTable_parent_org_id_fkey') THEN\n        ALTER TABLE \"LiteLLM_CustomerMemberTable\" ADD CONSTRAINT \"LiteLLM_CustomerMemberTable_parent_org_id_fkey\" FOREIGN KEY (\"parent_org_id\") REFERENCES \"LiteLLM_CustomerOrganizationTable\"(\"customer_org_id\") ON DELETE RESTRICT ON UPDATE CASCADE;\n    END IF;\nEND $$;\nALTER TABLE \"LiteLLM_CustomerMemberTable\" ALTER COLUMN \"parent_org_id\" SET NOT NULL;\nDROP INDEX IF EXISTS \"LiteLLM_CustomerMemberTable_parent_team_id_idx\";\nDROP INDEX IF EXISTS \"LiteLLM_CustomerMemberTable_budget_id_idx\";\nALTER TABLE \"LiteLLM_CustomerMemberTable\" DROP COLUMN IF EXISTS \"parent_team_id\";\n\nCREATE INDEX IF NOT EXISTS \"LiteLLM_CustomerMemberTable_parent_org_id_idx\" ON \"LiteLLM_CustomerMemberTable\"(\"parent_org_id\");\nCREATE INDEX IF NOT EXISTS \"LiteLLM_CustomerOrganizationTable_spend_idx\" ON \"LiteLLM_CustomerOrganizationTable\"(\"spend\");\nCREATE INDEX IF NOT EXISTS \"LiteLLM_CustomerTeamTable_spend_idx\" ON \"LiteLLM_CustomerTeamTable\"(\"spend\");\nCREATE INDEX IF NOT EXISTS \"LiteLLM_CustomerMemberTable_spend_idx\" ON \"LiteLLM_CustomerMemberTable\"(\"spend\");\n\nSET LOCAL lock_timeout = '10s';\n\nALTER TABLE \"LiteLLM_BudgetTable\" ADD COLUMN IF NOT EXISTS \"cap_policy\" TEXT;\n\nCREATE TABLE IF NOT EXISTS \"LiteLLM_CustomerBudgetIncreaseRequest\" (\n    \"request_id\" TEXT NOT NULL,\n    \"customer_member_id\" TEXT NOT NULL,\n    \"requested_max_budget\" DOUBLE PRECISION NOT NULL,\n    \"expires_at\" TIMESTAMP(3),\n    \"reason\" TEXT,\n    \"status\" TEXT NOT NULL DEFAULT 'pending_review',\n    \"submitted_by\" TEXT NOT NULL,\n    \"submitted_at\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    \"reviewed_by\" TEXT,\n    \"reviewed_at\" TIMESTAMP(3),\n    \"review_notes\" TEXT,\n    CONSTRAINT \"LiteLLM_CustomerBudgetIncreaseRequest_pkey\" PRIMARY KEY (\"request_id\")\n);\n\nCREATE INDEX IF NOT EXISTS \"LiteLLM_CustomerBudgetIncreaseRequest_status_idx\" ON \"LiteLLM_CustomerBudgetIncreaseRequest\"(\"status\");\nCREATE INDEX IF NOT EXISTS \"LiteLLM_CustomerBudgetIncreaseRequest_customer_member_id_idx\" ON \"LiteLLM_CustomerBudgetIncreaseRequest\"(\"customer_member_id\");\n\nDO $$\nBEGIN\n    IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'LiteLLM_CustomerBudgetIncreaseRequest_customer_member_id_fkey') THEN\n        ALTER TABLE \"LiteLLM_CustomerBudgetIncreaseRequest\" ADD CONSTRAINT \"LiteLLM_CustomerBudgetIncreaseRequest_customer_member_id_fkey\" FOREIGN KEY (\"customer_member_id\") REFERENCES \"LiteLLM_CustomerMemberTable\"(\"customer_member_id\") ON DELETE CASCADE ON UPDATE CASCADE;\n    END IF;\nEND $$;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "litellm_customerorganizationtable",
+            "column": "budget_reset_at",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "litellm/proxy-extras/litellm_proxy_extras/migrations/20261113120000_drop_customer_budget_reset_at/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE litellm_customerorganizationtable DROP COLUMN IF EXISTS \"budget_reset_at\"",
+            "extra": {
+              "table_sql": "LiteLLM_CustomerOrganizationTable"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "litellm_customerorganizationtable",
+            "column": "budget_reset_at",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "litellm/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'budget_reset_at' active in C_{t-1} ORM (litellm/schema.prisma)"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "litellm_customerteamtable",
+            "column": "budget_reset_at",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "litellm/proxy-extras/litellm_proxy_extras/migrations/20261113120000_drop_customer_budget_reset_at/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE litellm_customerteamtable DROP COLUMN IF EXISTS \"budget_reset_at\"",
+            "extra": {
+              "table_sql": "LiteLLM_CustomerTeamTable"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "litellm_customerteamtable",
+            "column": "budget_reset_at",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "litellm/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'budget_reset_at' active in C_{t-1} ORM (litellm/schema.prisma)"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "litellm_customermembertable",
+            "column": "budget_reset_at",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "litellm/proxy-extras/litellm_proxy_extras/migrations/20261113120000_drop_customer_budget_reset_at/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE litellm_customermembertable DROP COLUMN IF EXISTS \"budget_reset_at\"",
+            "extra": {
+              "table_sql": "LiteLLM_CustomerMemberTable"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "litellm_customermembertable",
+            "column": "budget_reset_at",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "litellm/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'budget_reset_at' active in C_{t-1} ORM (litellm/schema.prisma)"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "litellm_customerorganizationtable",
+            "column": "budget_names",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "litellm/proxy-extras/litellm_proxy_extras/migrations/20261113130000_customer_hierarchy_schema_cleanup/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE litellm_customerorganizationtable DROP COLUMN IF EXISTS \"budget_names\"",
+            "extra": {
+              "table_sql": "LiteLLM_CustomerOrganizationTable"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "litellm_customerorganizationtable",
+            "column": "budget_names",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "litellm/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'budget_names' active in C_{t-1} ORM (litellm/schema.prisma); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "SET_NOT_NULL",
+            "table": "litellm_customermembertable",
+            "column": "parent_org_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "litellm/proxy-extras/litellm_proxy_extras/migrations/20261113130000_customer_hierarchy_schema_cleanup/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE litellm_customermembertable ALTER COLUMN \"parent_org_id\" SET NOT NULL",
+            "extra": {
+              "table_sql": "LiteLLM_CustomerMemberTable"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "litellm_customermembertable",
+            "column": "parent_org_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "litellm/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Column 'litellm_customermembertable.parent_org_id' not active in C_{t-1} ORM."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "litellm_customermembertable",
+            "column": "parent_team_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "litellm/proxy-extras/litellm_proxy_extras/migrations/20261113130000_customer_hierarchy_schema_cleanup/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE litellm_customermembertable DROP COLUMN IF EXISTS \"parent_team_id\"",
+            "extra": {
+              "table_sql": "LiteLLM_CustomerMemberTable"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "litellm_customermembertable",
+            "column": "parent_team_id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "litellm/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'parent_team_id' active in C_{t-1} ORM (litellm/schema.prisma); identifier removed in same commit diff"
+        }
+      ]
+    },
+    {
+      "sha": "49f56e8b23c30ca19cc570eb4d779bf53132ac2b",
+      "parent": "5a392b9e5f22b230be19f561d4e12e3f099781bc",
+      "date": "2026-11-04T20:23:30-08:00",
+      "subject": "refactor(proxy)!: drop the unused accounting event tables (#49923)",
+      "mig_files": [
+        "litellm-proxy-extras/litellm_proxy_extras/migrations/20261104010000_drop_accounting_event_tables/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "litellm-proxy-extras/litellm_proxy_extras/schema.prisma",
+        "litellm/proxy/schema.prisma",
+        "schema.prisma"
+      ],
+      "orm_models_parsed_old": 106,
+      "raw_sql": "SET LOCAL lock_timeout = '10s';\nDROP TABLE IF EXISTS \"LiteLLM_AccountingDelivery\";\nDROP TABLE IF EXISTS \"LiteLLM_AccountingEvent\";\nDROP TYPE IF EXISTS \"AccountingDeliveryTarget\";\nDROP TYPE IF EXISTS \"AccountingEventKind\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "litellm_accountingdelivery",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "litellm-proxy-extras/litellm_proxy_extras/migrations/20261104010000_drop_accounting_event_tables/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TABLE IF EXISTS \"LiteLLM_AccountingDelivery\"",
+            "extra": {
+              "table_sql": "LiteLLM_AccountingDelivery"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "litellm_accountingdelivery",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'litellm_accountingdelivery' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "litellm_accountingevent",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "litellm-proxy-extras/litellm_proxy_extras/migrations/20261104010000_drop_accounting_event_tables/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TABLE IF EXISTS \"LiteLLM_AccountingEvent\"",
+            "extra": {
+              "table_sql": "LiteLLM_AccountingEvent"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "litellm_accountingevent",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'litellm_accountingevent' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "accountingdeliverytarget",
+            "column": "accountingdeliverytarget",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "litellm-proxy-extras/litellm_proxy_extras/migrations/20261104010000_drop_accounting_event_tables/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TYPE IF EXISTS \"AccountingDeliveryTarget\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "AccountingDeliveryTarget",
+              "column_sql": "AccountingDeliveryTarget"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "accountingdeliverytarget",
+            "column": "accountingdeliverytarget",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'accountingdeliverytarget' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "accountingeventkind",
+            "column": "accountingeventkind",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "litellm-proxy-extras/litellm_proxy_extras/migrations/20261104010000_drop_accounting_event_tables/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TYPE IF EXISTS \"AccountingEventKind\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "AccountingEventKind",
+              "column_sql": "AccountingEventKind"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "accountingeventkind",
+            "column": "accountingeventkind",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'accountingeventkind' affects active C_{t-1} enum definition/code."
+        }
+      ]
+    },
+    {
+      "sha": "a613773fca0161df9ab879f12f02caaa7464af99",
+      "parent": "a1afc2f433edf0d4961512713cec94761d112c54",
+      "date": "2026-08-19T14:02:15-07:00",
+      "subject": "feat(auto-router)!: scope shadow eval jobs to multiple keys (#37251)",
+      "mig_files": [
+        "litellm-proxy-extras/litellm_proxy_extras/migrations/20260817000000_shadow_eval_multi_key/migration.sql",
+        "litellm-proxy-extras/litellm_proxy_extras/migrations/20260818224500_add_shadow_eval_stopped_by/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "litellm-proxy-extras/litellm_proxy_extras/schema.prisma",
+        "litellm/proxy/schema.prisma",
+        "schema.prisma",
+        "ui/litellm-dashboard/src/app/(dashboard)/cost-optimization/_components/ShadowEvalSection.test.tsx",
+        "ui/litellm-dashboard/src/app/(dashboard)/cost-optimization/_components/ShadowEvalSection.tsx",
+        "ui/litellm-dashboard/src/app/(dashboard)/cost-optimization/_components/useShadowEval.ts",
+        "ui/litellm-dashboard/src/lib/http/schema.d.ts"
+      ],
+      "orm_models_parsed_old": 73,
+      "raw_sql": "ALTER TABLE \"LiteLLM_ShadowEvalJob\" ADD COLUMN IF NOT EXISTS \"group_id\" TEXT;\n\nUPDATE \"LiteLLM_ShadowEvalJob\" SET \"group_id\" = \"id\" WHERE \"group_id\" IS NULL;\n\nALTER TABLE \"LiteLLM_ShadowEvalJob\" ALTER COLUMN \"group_id\" SET NOT NULL;\n\nCREATE INDEX IF NOT EXISTS \"LiteLLM_ShadowEvalJob_group_id_idx\" ON \"LiteLLM_ShadowEvalJob\"(\"group_id\");\n\n-- AlterTable\nALTER TABLE \"LiteLLM_ShadowEvalJob\" ADD COLUMN     \"stopped_by\" TEXT;\n\nUPDATE \"LiteLLM_ShadowEvalJob\" SET stopped_by = 'unknown'\nWHERE stopped_at IS NOT NULL AND ends_at > (NOW() AT TIME ZONE 'utc');\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "SET_NOT_NULL",
+            "table": "litellm_shadowevaljob",
+            "column": "group_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "litellm-proxy-extras/litellm_proxy_extras/migrations/20260817000000_shadow_eval_multi_key/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE litellm_shadowevaljob ALTER COLUMN \"group_id\" SET NOT NULL",
+            "extra": {
+              "table_sql": "LiteLLM_ShadowEvalJob"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "litellm_shadowevaljob",
+            "column": "group_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Column 'litellm_shadowevaljob.group_id' not active in C_{t-1} ORM."
+        }
+      ]
+    },
+    {
+      "sha": "4b03cb68a2f07650aaf66f51fc918888428b44ca",
+      "parent": "0543c59af61834237045526e31a44b12bae0f13c",
+      "date": "2026-04-29T12:29:20+05:30",
+      "subject": "feat(proxy): move search tool access to object permissions",
+      "mig_files": [
+        "litellm-proxy-extras/litellm_proxy_extras/migrations/20260429120000_search_tools_on_object_permission/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "litellm-proxy-extras/litellm_proxy_extras/schema.prisma",
+        "litellm/proxy/schema.prisma",
+        "schema.prisma",
+        "ui/litellm-dashboard/src/app/(dashboard)/teams/components/modals/CreateTeamModal.tsx",
+        "ui/litellm-dashboard/src/components/OldTeams.tsx",
+        "ui/litellm-dashboard/src/components/SearchTools/SearchToolSelector.tsx",
+        "ui/litellm-dashboard/src/components/molecules/filter.tsx",
+        "ui/litellm-dashboard/src/components/object_permissions_view.tsx",
+        "ui/litellm-dashboard/src/components/team/TeamInfo.tsx",
+        "ui/litellm-dashboard/src/components/view_logs/index.tsx",
+        "ui/litellm-dashboard/src/components/view_logs/log_filter_logic.test.tsx",
+        "ui/litellm-dashboard/src/components/view_logs/log_filter_logic.tsx"
+      ],
+      "orm_models_parsed_old": 61,
+      "raw_sql": "-- Search tool allowlists live on LiteLLM_ObjectPermissionTable (with agents, MCP, vector stores).\nALTER TABLE \"LiteLLM_ObjectPermissionTable\" ADD COLUMN IF NOT EXISTS \"search_tools\" TEXT[] DEFAULT ARRAY[]::TEXT[];\n\n-- Unshipped columns: drop if present (e.g. local DBs that had previous Prisma migrate).\nALTER TABLE \"LiteLLM_TeamTable\" DROP COLUMN IF EXISTS \"allowed_search_tools\";\nALTER TABLE \"LiteLLM_VerificationToken\" DROP COLUMN IF EXISTS \"allowed_search_tools\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "litellm_teamtable",
+            "column": "allowed_search_tools",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "litellm-proxy-extras/litellm_proxy_extras/migrations/20260429120000_search_tools_on_object_permission/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE litellm_teamtable DROP COLUMN IF EXISTS \"allowed_search_tools\"",
+            "extra": {
+              "table_sql": "LiteLLM_TeamTable"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "litellm_teamtable",
+            "column": "allowed_search_tools",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "litellm_verificationtoken",
+            "column": "allowed_search_tools",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "litellm-proxy-extras/litellm_proxy_extras/migrations/20260429120000_search_tools_on_object_permission/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE litellm_verificationtoken DROP COLUMN IF EXISTS \"allowed_search_tools\"",
+            "extra": {
+              "table_sql": "LiteLLM_VerificationToken"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "litellm_verificationtoken",
+            "column": "allowed_search_tools",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1243 @@
+{
+  "repo": "suitenumerique/meet",
+  "ecosystem": "django",
+  "stars": 2490,
+  "has_k8s_helm": true,
+  "status": "ok",
+  "stats": {
+    "total_migration_commits_in_history": 36,
+    "migration_commits_analyzed": 35,
+    "total_migration_files_parsed": 39,
+    "commits_with_any_destructive": 7,
+    "commits_with_forward_destructive": 7,
+    "commits_with_rollback_only_destructive": 0,
+    "total_ops_extracted": 42,
+    "destructive_ops_up": 28,
+    "destructive_ops_down": 0
+  },
+  "verdict_counts": {
+    "DUAL_VERSION_VIOLATION_BACKWARD": 8,
+    "DUAL_VERSION_VIOLATION_BOTH": 1,
+    "UNCERTAIN": 19
+  },
+  "destructive_commits": [
+    {
+      "sha": "2e509eff28537b6d616b608a6e9c4c33ef167470",
+      "parent": "ca56ae87c21819aa569c5fc32e159673453c08ef",
+      "date": "2026-08-03T11:32:27+02:00",
+      "subject": "\u2728(backend) persist user preferences for room defaults on the User model",
+      "mig_files": [
+        "src/backend/core/migrations/0022_user_default_room_access_level_and_more.py"
+      ],
+      "app_files_touched_in_commit": [
+        "src/backend/core/api/serializers.py",
+        "src/backend/core/models.py"
+      ],
+      "orm_models_parsed_old": 28,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "core_user",
+            "column": "default_room_configuration",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "JSONField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/backend/core/migrations/0022_user_default_room_access_level_and_more.py",
+            "line": 18,
+            "raw_snippet": "migrations.AddField( model_name='user', name='default_room_configuration', field=models.JSONField(blank=True, default=dict, help_text='Configurations applied by default to new room",
+            "extra": {
+              "model_name": "user",
+              "app_label": "core",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "core_user",
+            "column": "default_room_configuration",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "src/backend/core/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'core_user.default_room_configuration' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    },
+    {
+      "sha": "ca4494c09ecb1930591d9556f65545efcb8435f3",
+      "parent": "f57db0acc887dd1407cfe50227cab42a3751e258",
+      "date": "2026-03-11T16:01:43+01:00",
+      "subject": "\u267b\ufe0f(backend) align Application model field with `is_active` convention",
+      "mig_files": [
+        "src/backend/core/migrations/0018_rename_active_application_is_active.py"
+      ],
+      "app_files_touched_in_commit": [
+        "src/backend/core/external_api/authentication.py",
+        "src/backend/core/external_api/viewsets.py",
+        "src/backend/core/factories.py",
+        "src/backend/core/models.py"
+      ],
+      "orm_models_parsed_old": 19,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "RENAME_COLUMN",
+            "table": "core_application",
+            "column": "active",
+            "new_name": "is_active",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/backend/core/migrations/0018_rename_active_application_is_active.py",
+            "line": 13,
+            "raw_snippet": "migrations.RenameField( model_name='application', old_name='active', new_name='is_active', )",
+            "extra": {
+              "model_name": "application",
+              "app_label": "core"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "core_application",
+            "column": "active",
+            "orm_active_old": true,
+            "orm_active_new": true,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "src/backend/core/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_COLUMN 'active'->'is_active' breaks both C_{t-1} |= S_t and C_t |= S_{t-1}."
+        }
+      ]
+    },
+    {
+      "sha": "0d8c76cd035c8878ae861d2c590463e42bc65501",
+      "parent": "b19ac7f82b4db7216920f43313d2cfee608d7e29",
+      "date": "2025-12-29T16:32:05+01:00",
+      "subject": "\u2728(backend) add a flexible JSON field to store recording options",
+      "mig_files": [
+        "src/backend/core/migrations/0016_recording_options.py"
+      ],
+      "app_files_touched_in_commit": [
+        "src/backend/core/models.py"
+      ],
+      "orm_models_parsed_old": 16,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "core_recording",
+            "column": "options",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "JSONField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/backend/core/migrations/0016_recording_options.py",
+            "line": 13,
+            "raw_snippet": "migrations.AddField( model_name='recording', name='options', field=models.JSONField(blank=True, default=dict, help_text='Recording options', verbose_name='Recording options'), )",
+            "extra": {
+              "model_name": "recording",
+              "app_label": "core",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "core_recording",
+            "column": "options",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "src/backend/core/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'core_recording.options' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    },
+    {
+      "sha": "01f4d05d6bc86472d067e1c8bdee801673f681e8",
+      "parent": "7fad60d9a95249d67c88d897fb89bf8535c3c89a",
+      "date": "2025-02-15T14:08:40+01:00",
+      "subject": "\u267b\ufe0f(backend) replace is_public with access_level field",
+      "mig_files": [
+        "src/backend/core/migrations/0011_remove_resource_is_public_room_access_level.py"
+      ],
+      "app_files_touched_in_commit": [
+        "src/backend/core/api/serializers.py",
+        "src/backend/core/factories.py",
+        "src/backend/core/models.py",
+        "src/backend/meet/settings.py"
+      ],
+      "orm_models_parsed_old": 12,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "core_resource",
+            "column": "is_public",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/backend/core/migrations/0011_remove_resource_is_public_room_access_level.py",
+            "line": 13,
+            "raw_snippet": "migrations.RemoveField( model_name='resource', name='is_public', )",
+            "extra": {
+              "model_name": "resource",
+              "app_label": "core"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "core_resource",
+            "column": "is_public",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "src/backend/core/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'is_public' active in C_{t-1} ORM (src/backend/core/models.py); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "core_room",
+            "column": "access_level",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "CharField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/backend/core/migrations/0011_remove_resource_is_public_room_access_level.py",
+            "line": 17,
+            "raw_snippet": "migrations.AddField( model_name='room', name='access_level', field=models.CharField(choices=[('public', 'Public Access'), ('restricted', 'Restricted Access')], default='public', ma",
+            "extra": {
+              "model_name": "room",
+              "app_label": "core",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "core_room",
+            "column": "access_level",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "src/backend/core/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'core_room.access_level' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    },
+    {
+      "sha": "b84628ee9575f0484db1cfab5827bc8241be691a",
+      "parent": "f6f1222f470b0b2fbacb3cc28ecd729e730fa936",
+      "date": "2024-11-08T10:32:50+01:00",
+      "subject": "\u2728(backend) add two new endpoints to start and stop a recording",
+      "mig_files": [
+        "src/backend/core/migrations/0007_recording_mode.py"
+      ],
+      "app_files_touched_in_commit": [
+        "src/backend/core/api/permissions.py",
+        "src/backend/core/api/serializers.py",
+        "src/backend/core/api/viewsets.py",
+        "src/backend/core/factories.py",
+        "src/backend/core/models.py",
+        "src/backend/meet/settings.py"
+      ],
+      "orm_models_parsed_old": 11,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "core_recording",
+            "column": "mode",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "CharField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/backend/core/migrations/0007_recording_mode.py",
+            "line": 13,
+            "raw_snippet": "migrations.AddField( model_name='recording', name='mode', field=models.CharField(choices=[('screen_recording', 'SCREEN_RECORDING'), ('transcript', 'TRANSCRIPT')], default='screen_r",
+            "extra": {
+              "model_name": "recording",
+              "app_label": "core",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "core_recording",
+            "column": "mode",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "src/backend/core/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'core_recording.mode' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    },
+    {
+      "sha": "64efcc162361aa7d840aefcda95c208b0bd50ffc",
+      "parent": "78e6f26383c050aef294b89099940888fb4223be",
+      "date": "2024-07-01T18:10:40+02:00",
+      "subject": "\ud83d\ude9a(backend) rename Impress to Meet",
+      "mig_files": [
+        "src/backend/core/migrations/0001_initial.py",
+        "src/backend/core/migrations/0003_resource_remove_documentaccess_document_and_more.py"
+      ],
+      "app_files_touched_in_commit": [
+        "src/backend/core/api/__init__.py",
+        "src/backend/core/api/permissions.py",
+        "src/backend/core/api/serializers.py",
+        "src/backend/core/apps.py",
+        "src/backend/core/authentication/backends.py",
+        "src/backend/core/models.py",
+        "src/backend/demo/management/commands/create_demo.py",
+        "src/backend/impress/__init__.py",
+        "src/backend/impress/celery_app.py",
+        "src/backend/impress/settings.py",
+        "src/backend/impress/urls.py",
+        "src/backend/impress/wsgi.py"
+      ],
+      "orm_models_parsed_old": 6,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "core_documentaccess",
+            "column": "document",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/backend/core/migrations/0003_resource_remove_documentaccess_document_and_more.py",
+            "line": 30,
+            "raw_snippet": "migrations.RemoveField( model_name='documentaccess', name='document', )",
+            "extra": {
+              "model_name": "documentaccess",
+              "app_label": "core"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "core_documentaccess",
+            "column": "document",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'core_documentaccess' columns not resolved in C_{t-1} schema snapshot."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "core_invitation",
+            "column": "document",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/backend/core/migrations/0003_resource_remove_documentaccess_document_and_more.py",
+            "line": 34,
+            "raw_snippet": "migrations.RemoveField( model_name='invitation', name='document', )",
+            "extra": {
+              "model_name": "invitation",
+              "app_label": "core"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "core_invitation",
+            "column": "document",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'core_invitation' columns not resolved in C_{t-1} schema snapshot."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "core_documentaccess",
+            "column": "user",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/backend/core/migrations/0003_resource_remove_documentaccess_document_and_more.py",
+            "line": 38,
+            "raw_snippet": "migrations.RemoveField( model_name='documentaccess', name='user', )",
+            "extra": {
+              "model_name": "documentaccess",
+              "app_label": "core"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "core_documentaccess",
+            "column": "user",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "core_invitation",
+            "column": "issuer",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/backend/core/migrations/0003_resource_remove_documentaccess_document_and_more.py",
+            "line": 42,
+            "raw_snippet": "migrations.RemoveField( model_name='invitation', name='issuer', )",
+            "extra": {
+              "model_name": "invitation",
+              "app_label": "core"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "core_invitation",
+            "column": "issuer",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'core_invitation' columns not resolved in C_{t-1} schema snapshot."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "core_templateaccess",
+            "column": "template",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/backend/core/migrations/0003_resource_remove_documentaccess_document_and_more.py",
+            "line": 46,
+            "raw_snippet": "migrations.RemoveField( model_name='templateaccess', name='template', )",
+            "extra": {
+              "model_name": "templateaccess",
+              "app_label": "core"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "core_templateaccess",
+            "column": "template",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "core_templateaccess",
+            "column": "user",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/backend/core/migrations/0003_resource_remove_documentaccess_document_and_more.py",
+            "line": 50,
+            "raw_snippet": "migrations.RemoveField( model_name='templateaccess', name='user', )",
+            "extra": {
+              "model_name": "templateaccess",
+              "app_label": "core"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "core_templateaccess",
+            "column": "user",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_TABLE",
+            "table": "core_document",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/backend/core/migrations/0003_resource_remove_documentaccess_document_and_more.py",
+            "line": 96,
+            "raw_snippet": "migrations.DeleteModel( name='Document', )",
+            "extra": {
+              "model_name": "document",
+              "app_label": "core"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "core_document",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'core_document' not resolved in C_{t-1} ORM snapshot."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_TABLE",
+            "table": "core_documentaccess",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/backend/core/migrations/0003_resource_remove_documentaccess_document_and_more.py",
+            "line": 99,
+            "raw_snippet": "migrations.DeleteModel( name='DocumentAccess', )",
+            "extra": {
+              "model_name": "documentaccess",
+              "app_label": "core"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "core_documentaccess",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'core_documentaccess' not resolved in C_{t-1} ORM snapshot."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_TABLE",
+            "table": "core_invitation",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/backend/core/migrations/0003_resource_remove_documentaccess_document_and_more.py",
+            "line": 102,
+            "raw_snippet": "migrations.DeleteModel( name='Invitation', )",
+            "extra": {
+              "model_name": "invitation",
+              "app_label": "core"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "core_invitation",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'core_invitation' not resolved in C_{t-1} ORM snapshot."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_TABLE",
+            "table": "core_template",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/backend/core/migrations/0003_resource_remove_documentaccess_document_and_more.py",
+            "line": 105,
+            "raw_snippet": "migrations.DeleteModel( name='Template', )",
+            "extra": {
+              "model_name": "template",
+              "app_label": "core"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "core_template",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'core_template' not resolved in C_{t-1} ORM snapshot."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_TABLE",
+            "table": "core_templateaccess",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/backend/core/migrations/0003_resource_remove_documentaccess_document_and_more.py",
+            "line": 108,
+            "raw_snippet": "migrations.DeleteModel( name='TemplateAccess', )",
+            "extra": {
+              "model_name": "templateaccess",
+              "app_label": "core"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "core_templateaccess",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'core_templateaccess' not resolved in C_{t-1} ORM snapshot."
+        }
+      ]
+    },
+    {
+      "sha": "2e6feede31fb14b435f8d08e055e4ccaaf917152",
+      "parent": "fbe79b7b2b37f3e04d6e7a5ac5eaed564acb0486",
+      "date": "2024-06-24T19:14:27+02:00",
+      "subject": "\u2728(project) add Room, Ressource, Access models from Magnify",
+      "mig_files": [
+        "src/backend/core/migrations/0003_resource_remove_documentaccess_document_and_more.py"
+      ],
+      "app_files_touched_in_commit": [
+        "src/backend/core/factories.py",
+        "src/backend/core/models.py",
+        "src/backend/impress/settings.py"
+      ],
+      "orm_models_parsed_old": 2,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "core_documentaccess",
+            "column": "document",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/backend/core/migrations/0003_resource_remove_documentaccess_document_and_more.py",
+            "line": 30,
+            "raw_snippet": "migrations.RemoveField( model_name='documentaccess', name='document', )",
+            "extra": {
+              "model_name": "documentaccess",
+              "app_label": "core"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "core_documentaccess",
+            "column": "document",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'core_documentaccess' columns not resolved in C_{t-1} schema snapshot."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "core_invitation",
+            "column": "document",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/backend/core/migrations/0003_resource_remove_documentaccess_document_and_more.py",
+            "line": 34,
+            "raw_snippet": "migrations.RemoveField( model_name='invitation', name='document', )",
+            "extra": {
+              "model_name": "invitation",
+              "app_label": "core"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "core_invitation",
+            "column": "document",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'core_invitation' columns not resolved in C_{t-1} schema snapshot."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "core_documentaccess",
+            "column": "user",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/backend/core/migrations/0003_resource_remove_documentaccess_document_and_more.py",
+            "line": 38,
+            "raw_snippet": "migrations.RemoveField( model_name='documentaccess', name='user', )",
+            "extra": {
+              "model_name": "documentaccess",
+              "app_label": "core"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "core_documentaccess",
+            "column": "user",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'core_documentaccess' columns not resolved in C_{t-1} schema snapshot."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "core_invitation",
+            "column": "issuer",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/backend/core/migrations/0003_resource_remove_documentaccess_document_and_more.py",
+            "line": 42,
+            "raw_snippet": "migrations.RemoveField( model_name='invitation', name='issuer', )",
+            "extra": {
+              "model_name": "invitation",
+              "app_label": "core"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "core_invitation",
+            "column": "issuer",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'core_invitation' columns not resolved in C_{t-1} schema snapshot."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "core_templateaccess",
+            "column": "template",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/backend/core/migrations/0003_resource_remove_documentaccess_document_and_more.py",
+            "line": 46,
+            "raw_snippet": "migrations.RemoveField( model_name='templateaccess', name='template', )",
+            "extra": {
+              "model_name": "templateaccess",
+              "app_label": "core"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "core_templateaccess",
+            "column": "template",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'core_templateaccess' columns not resolved in C_{t-1} schema snapshot."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "core_templateaccess",
+            "column": "user",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/backend/core/migrations/0003_resource_remove_documentaccess_document_and_more.py",
+            "line": 50,
+            "raw_snippet": "migrations.RemoveField( model_name='templateaccess', name='user', )",
+            "extra": {
+              "model_name": "templateaccess",
+              "app_label": "core"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "core_templateaccess",
+            "column": "user",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'core_templateaccess' columns not resolved in C_{t-1} schema snapshot."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_TABLE",
+            "table": "core_document",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/backend/core/migrations/0003_resource_remove_documentaccess_document_and_more.py",
+            "line": 96,
+            "raw_snippet": "migrations.DeleteModel( name='Document', )",
+            "extra": {
+              "model_name": "document",
+              "app_label": "core"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "core_document",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'core_document' not resolved in C_{t-1} ORM snapshot."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_TABLE",
+            "table": "core_documentaccess",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/backend/core/migrations/0003_resource_remove_documentaccess_document_and_more.py",
+            "line": 99,
+            "raw_snippet": "migrations.DeleteModel( name='DocumentAccess', )",
+            "extra": {
+              "model_name": "documentaccess",
+              "app_label": "core"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "core_documentaccess",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'core_documentaccess' not resolved in C_{t-1} ORM snapshot."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_TABLE",
+            "table": "core_invitation",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/backend/core/migrations/0003_resource_remove_documentaccess_document_and_more.py",
+            "line": 102,
+            "raw_snippet": "migrations.DeleteModel( name='Invitation', )",
+            "extra": {
+              "model_name": "invitation",
+              "app_label": "core"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "core_invitation",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'core_invitation' not resolved in C_{t-1} ORM snapshot."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_TABLE",
+            "table": "core_template",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/backend/core/migrations/0003_resource_remove_documentaccess_document_and_more.py",
+            "line": 105,
+            "raw_snippet": "migrations.DeleteModel( name='Template', )",
+            "extra": {
+              "model_name": "template",
+              "app_label": "core"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "core_template",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'core_template' not resolved in C_{t-1} ORM snapshot."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_TABLE",
+            "table": "core_templateaccess",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "src/backend/core/migrations/0003_resource_remove_documentaccess_document_and_more.py",
+            "line": 108,
+            "raw_snippet": "migrations.DeleteModel( name='TemplateAccess', )",
+            "extra": {
+              "model_name": "templateaccess",
+              "app_label": "core"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "core_templateaccess",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'core_templateaccess' not resolved in C_{t-1} ORM snapshot."
+        }
+      ]
+    }
+  ]
+}

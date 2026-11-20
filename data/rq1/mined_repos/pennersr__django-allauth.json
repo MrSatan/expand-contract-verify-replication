@@ -1,0 +1,633 @@
+{
+  "repo": "pennersr/django-allauth",
+  "ecosystem": "django",
+  "stars": 10384,
+  "has_k8s_helm": false,
+  "status": "ok",
+  "stats": {
+    "total_migration_commits_in_history": 71,
+    "migration_commits_analyzed": 65,
+    "total_migration_files_parsed": 126,
+    "commits_with_any_destructive": 6,
+    "commits_with_forward_destructive": 6,
+    "commits_with_rollback_only_destructive": 0,
+    "total_ops_extracted": 57,
+    "destructive_ops_up": 8,
+    "destructive_ops_down": 0
+  },
+  "verdict_counts": {
+    "SAFE_ADDITIVE": 2,
+    "DUAL_VERSION_VIOLATION_BACKWARD": 8
+  },
+  "destructive_commits": [
+    {
+      "sha": "b56eb84e60e8870f7407a2f01442346dbe2b83cc",
+      "parent": "2b9f46c3dc29318097a45b247a7720f2cdc7ab13",
+      "date": "2026-10-13T20:23:08+02:00",
+      "subject": "refactor: use Python 3.11 constructs",
+      "mig_files": [
+        "allauth/idp/oidc/migrations/0001_initial.py",
+        "allauth/idp/oidc/migrations/0002_client_default_scopes.py",
+        "allauth/idp/oidc/migrations/0003_client_allow_uri_wildcards.py"
+      ],
+      "app_files_touched_in_commit": [
+        "allauth/account/internal/flows/email_verification_by_code.py",
+        "allauth/account/internal/flows/password_reset_by_code.py",
+        "allauth/account/internal/flows/phone_verification.py",
+        "allauth/core/ratelimit.py",
+        "allauth/headless/contrib/ninja/security.py",
+        "allauth/headless/contrib/rest_framework/authentication.py",
+        "allauth/idp/oidc/app_settings.py",
+        "allauth/idp/oidc/views.py",
+        "allauth/mfa/recovery_codes/internal/auth.py",
+        "allauth/mfa/totp/internal/auth.py",
+        "allauth/mfa/webauthn/internal/auth.py",
+        "allauth/socialaccount/models.py"
+      ],
+      "orm_models_parsed_old": 4,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "oidc_client",
+            "column": "default_scopes",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TextField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "allauth/idp/oidc/migrations/0002_client_default_scopes.py",
+            "line": 10,
+            "raw_snippet": "migrations.AddField( model_name=\"client\", name=\"default_scopes\", field=models.TextField( blank=True, default=\"\", help_text=\"In case the client does not specify any scope, these def",
+            "extra": {
+              "model_name": "client",
+              "app_label": "oidc",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "oidc_client",
+            "column": "default_scopes",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "allauth/idp/oidc/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'oidc_client' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "oidc_client",
+            "column": "allow_uri_wildcards",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "BooleanField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "allauth/idp/oidc/migrations/0003_client_allow_uri_wildcards.py",
+            "line": 10,
+            "raw_snippet": "migrations.AddField( model_name=\"client\", name=\"allow_uri_wildcards\", field=models.BooleanField( default=False, help_text=\"Allow wildcards (*) in redirect URIs and CORS origins. Wh",
+            "extra": {
+              "model_name": "client",
+              "app_label": "oidc",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "oidc_client",
+            "column": "allow_uri_wildcards",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "allauth/idp/oidc/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'oidc_client' was created in the same commit; C_{t-1} does not write to it."
+        }
+      ]
+    },
+    {
+      "sha": "eca57f6e43360242ebb9f03a8cb98eb428908f69",
+      "parent": "ead76f54e29e91d161a238ae1f570a69362ff418",
+      "date": "2025-09-11T14:49:15+02:00",
+      "subject": "feat(idp): support for wildcards in redirects URIs/CORS origins",
+      "mig_files": [
+        "allauth/idp/oidc/migrations/0003_client_allow_uri_wildcards.py"
+      ],
+      "app_files_touched_in_commit": [
+        "allauth/idp/oidc/admin.py",
+        "allauth/idp/oidc/internal/clientkit.py",
+        "allauth/idp/oidc/internal/oauthlib/request_validator.py",
+        "allauth/idp/oidc/models.py"
+      ],
+      "orm_models_parsed_old": 3,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "oidc_client",
+            "column": "allow_uri_wildcards",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "BooleanField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "allauth/idp/oidc/migrations/0003_client_allow_uri_wildcards.py",
+            "line": 11,
+            "raw_snippet": "migrations.AddField( model_name=\"client\", name=\"allow_uri_wildcards\", field=models.BooleanField( default=False, help_text=\"Allow wildcards (*) in redirect URIs and CORS origins. Wh",
+            "extra": {
+              "model_name": "client",
+              "app_label": "oidc",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "oidc_client",
+            "column": "allow_uri_wildcards",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "allauth/idp/oidc/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'oidc_client.allow_uri_wildcards' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    },
+    {
+      "sha": "5d578c22f7d4ce3e70c1a078ca42e711932f79cf",
+      "parent": "5208c8c70af9d65920906b64dee5ce867f646f67",
+      "date": "2025-05-18T11:52:19+02:00",
+      "subject": "feat(idp): device authorization flow",
+      "mig_files": [
+        "allauth/idp/oidc/migrations/0002_client_default_scopes.py"
+      ],
+      "app_files_touched_in_commit": [
+        "allauth/core/internal/ratelimit.py",
+        "allauth/idp/oidc/adapter.py",
+        "allauth/idp/oidc/app_settings.py",
+        "allauth/idp/oidc/conftest.py",
+        "allauth/idp/oidc/forms.py",
+        "allauth/idp/oidc/internal/oauthlib/device_codes.py",
+        "allauth/idp/oidc/internal/oauthlib/request_validator.py",
+        "allauth/idp/oidc/internal/oauthlib/server.py",
+        "allauth/idp/oidc/internal/oauthlib/utils.py",
+        "allauth/idp/oidc/models.py",
+        "allauth/idp/oidc/urls.py",
+        "allauth/idp/oidc/views.py"
+      ],
+      "orm_models_parsed_old": 3,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "oidc_client",
+            "column": "default_scopes",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TextField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "allauth/idp/oidc/migrations/0002_client_default_scopes.py",
+            "line": 11,
+            "raw_snippet": "migrations.AddField( model_name=\"client\", name=\"default_scopes\", field=models.TextField( blank=True, default=\"\", help_text=\"In case the client does not specify any scope, these def",
+            "extra": {
+              "model_name": "client",
+              "app_label": "oidc",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "oidc_client",
+            "column": "default_scopes",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "allauth/idp/oidc/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'oidc_client.default_scopes' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    },
+    {
+      "sha": "e4512e463fb1c556147c277c81535f5241716548",
+      "parent": "dfdf26ff309722d719ee8e13271b04831b63a299",
+      "date": "2024-06-20T08:21:24+03:00",
+      "subject": "chore: remove unnecessary coding/unicode_literals stanzas",
+      "mig_files": [
+        "allauth/account/migrations/0001_initial.py",
+        "allauth/account/migrations/0002_email_max_length.py",
+        "allauth/socialaccount/migrations/0001_initial.py",
+        "allauth/socialaccount/migrations/0002_token_max_lengths.py",
+        "allauth/socialaccount/migrations/0003_extra_data_default_dict.py",
+        "allauth/socialaccount/providers/openid/migrations/0001_initial.py"
+      ],
+      "app_files_touched_in_commit": [
+        "allauth/socialaccount/providers/auth0/urls.py",
+        "allauth/socialaccount/providers/feishu/__init__.py",
+        "allauth/socialaccount/providers/feishu/client.py",
+        "allauth/socialaccount/providers/feishu/urls.py",
+        "allauth/socialaccount/providers/gitlab/urls.py",
+        "allauth/socialaccount/providers/gumroad/urls.py",
+        "allauth/socialaccount/providers/lemonldap/urls.py",
+        "allauth/socialaccount/providers/netiq/urls.py"
+      ],
+      "orm_models_parsed_old": 12,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "socialaccount_socialaccount",
+            "column": "extra_data",
+            "new_name": null,
+            "old_type": "JSONField",
+            "new_type": "TextField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "allauth/socialaccount/migrations/0003_extra_data_default_dict.py",
+            "line": 10,
+            "raw_snippet": "migrations.AlterField( model_name=\"socialaccount\", name=\"extra_data\", field=models.TextField(default=\"{}\", verbose_name=\"extra data\"), preserve_default=True, )",
+            "extra": {
+              "model_name": "socialaccount",
+              "app_label": "socialaccount",
+              "field_info": {
+                "field_type": "TextField",
+                "null": false,
+                "has_default": true,
+                "has_db_default": false
+              }
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "socialaccount_socialaccount",
+            "column": "extra_data",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "allauth/socialaccount/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'socialaccount_socialaccount.extra_data' (JSONField -> TextField)."
+        }
+      ]
+    },
+    {
+      "sha": "3d0210fb2e0b432de129f6a90134f308752b8cbd",
+      "parent": "cd8a29e57052d802eceb47405715875cde315296",
+      "date": "2024-04-25T08:45:46+03:00",
+      "subject": "chore: apply black + flake8 + isort on everything",
+      "mig_files": [
+        "allauth/mfa/migrations/0002_authenticator_timestamps.py",
+        "allauth/usersessions/migrations/0001_initial.py"
+      ],
+      "app_files_touched_in_commit": [
+        "docs/conf.py",
+        "examples/react-spa/backend/backend/accounts/urls.py",
+        "examples/react-spa/backend/backend/asgi.py",
+        "examples/react-spa/backend/backend/wsgi.py",
+        "manage.py",
+        "tests/settings.py"
+      ],
+      "orm_models_parsed_old": 2,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "mfa_authenticator",
+            "column": "created_at",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "DateTimeField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "allauth/mfa/migrations/0002_authenticator_timestamps.py",
+            "line": 13,
+            "raw_snippet": "migrations.AddField( model_name=\"authenticator\", name=\"created_at\", field=models.DateTimeField(default=django.utils.timezone.now), )",
+            "extra": {
+              "model_name": "authenticator",
+              "app_label": "mfa",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "mfa_authenticator",
+            "column": "created_at",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "allauth/mfa/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'mfa_authenticator.created_at' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    },
+    {
+      "sha": "ed121b3e752e1fa7125fc3c1e474d97aa619e45e",
+      "parent": "6f045855218167e844ea4afcd0c984c0ede256d0",
+      "date": "2023-11-06T19:06:35+01:00",
+      "subject": "feat(mfa): Timestamps",
+      "mig_files": [
+        "allauth/mfa/migrations/0002_authenticator_timestamps.py"
+      ],
+      "app_files_touched_in_commit": [
+        "allauth/mfa/forms.py",
+        "allauth/mfa/models.py",
+        "allauth/mfa/views.py"
+      ],
+      "orm_models_parsed_old": 2,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "mfa_authenticator",
+            "column": "created_at",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "DateTimeField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "allauth/mfa/migrations/0002_authenticator_timestamps.py",
+            "line": 13,
+            "raw_snippet": "migrations.AddField( model_name=\"authenticator\", name=\"created_at\", field=models.DateTimeField(default=django.utils.timezone.now), )",
+            "extra": {
+              "model_name": "authenticator",
+              "app_label": "mfa",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "mfa_authenticator",
+            "column": "created_at",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "allauth/mfa/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'mfa_authenticator.created_at' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    },
+    {
+      "sha": "18f3c36dc26d01b81c3c6d19cf678bc75f366ce4",
+      "parent": "ba5c7658bffcb262ced4464bc3c8a87302295c4b",
+      "date": "2023-10-11T17:36:53+02:00",
+      "subject": "refactor(socialaccount/models): Drop custom JSONField",
+      "mig_files": [
+        "allauth/socialaccount/migrations/0001_initial.py",
+        "allauth/socialaccount/migrations/0003_extra_data_default_dict.py",
+        "allauth/socialaccount/migrations/0006_alter_socialaccount_extra_data.py"
+      ],
+      "app_files_touched_in_commit": [
+        "allauth/socialaccount/fields.py",
+        "allauth/socialaccount/models.py"
+      ],
+      "orm_models_parsed_old": 7,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "socialaccount_socialaccount",
+            "column": "extra_data",
+            "new_name": null,
+            "old_type": "JSONField",
+            "new_type": "TextField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "allauth/socialaccount/migrations/0003_extra_data_default_dict.py",
+            "line": 13,
+            "raw_snippet": "migrations.AlterField( model_name=\"socialaccount\", name=\"extra_data\", field=models.TextField(default=\"{}\", verbose_name=\"extra data\"), preserve_default=True, )",
+            "extra": {
+              "model_name": "socialaccount",
+              "app_label": "socialaccount",
+              "field_info": {
+                "field_type": "TextField",
+                "null": false,
+                "has_default": true,
+                "has_db_default": false
+              }
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "socialaccount_socialaccount",
+            "column": "extra_data",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "allauth/socialaccount/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'socialaccount_socialaccount.extra_data' (JSONField -> TextField)."
+        }
+      ]
+    },
+    {
+      "sha": "cc5279bb61dba9cf0fafb10f4ae175c018749f1f",
+      "parent": "75ab2611b1ec46c366244d8397d3322fb14f515b",
+      "date": "2023-06-29T11:35:06+02:00",
+      "subject": "refactor(socialaccount): Subproviders",
+      "mig_files": [
+        "allauth/socialaccount/migrations/0004_app_provider_id_settings.py"
+      ],
+      "app_files_touched_in_commit": [
+        "allauth/socialaccount/adapter.py",
+        "allauth/socialaccount/app_settings.py",
+        "allauth/socialaccount/models.py",
+        "allauth/socialaccount/providers/__init__.py",
+        "allauth/socialaccount/providers/apple/client.py",
+        "allauth/socialaccount/providers/base/provider.py",
+        "allauth/socialaccount/providers/clever/provider.py",
+        "allauth/socialaccount/providers/clever/views.py",
+        "allauth/socialaccount/providers/doximity/provider.py",
+        "allauth/socialaccount/providers/draugiem/views.py",
+        "allauth/socialaccount/providers/facebook/provider.py",
+        "allauth/socialaccount/providers/facebook/views.py"
+      ],
+      "orm_models_parsed_old": 7,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "socialaccount_socialapp",
+            "column": "provider_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "CharField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "allauth/socialaccount/migrations/0004_app_provider_id_settings.py",
+            "line": 12,
+            "raw_snippet": "migrations.AddField( model_name=\"socialapp\", name=\"provider_id\", field=models.CharField( blank=True, max_length=200, verbose_name=\"provider ID\" ), )",
+            "extra": {
+              "model_name": "socialapp",
+              "app_label": "socialaccount",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "socialaccount_socialapp",
+            "column": "provider_id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "allauth/socialaccount/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'socialaccount_socialapp.provider_id' breaks C_{t-1} INSERTs."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "socialaccount_socialapp",
+            "column": "settings",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "JSONField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "allauth/socialaccount/migrations/0004_app_provider_id_settings.py",
+            "line": 19,
+            "raw_snippet": "migrations.AddField( model_name=\"socialapp\", name=\"settings\", field=models.JSONField(blank=True, default=dict), )",
+            "extra": {
+              "model_name": "socialapp",
+              "app_label": "socialaccount",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "socialaccount_socialapp",
+            "column": "settings",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "allauth/socialaccount/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'socialaccount_socialapp.settings' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    }
+  ]
+}

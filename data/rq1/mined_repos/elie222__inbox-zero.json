@@ -1,0 +1,2318 @@
+{
+  "repo": "elie222/inbox-zero",
+  "ecosystem": "prisma",
+  "stars": 13070,
+  "has_k8s_helm": true,
+  "status": "ok",
+  "stats": {
+    "total_migration_commits_in_history": 358,
+    "migration_commits_analyzed": 150,
+    "total_migration_files_parsed": 165,
+    "commits_with_any_destructive": 21,
+    "commits_with_forward_destructive": 21,
+    "commits_with_rollback_only_destructive": 0,
+    "total_ops_extracted": 46,
+    "destructive_ops_up": 46,
+    "destructive_ops_down": 0
+  },
+  "verdict_counts": {
+    "DUAL_VERSION_VIOLATION_BACKWARD": 17,
+    "DUAL_VERSION_VIOLATION_BOTH": 4,
+    "UNCERTAIN": 8,
+    "SAFE_CONTRACT": 13,
+    "DATA_DEPENDENT": 4
+  },
+  "destructive_commits": [
+    {
+      "sha": "60f0dbb7e8a0c2f046436a6c0c861a20d7d99724",
+      "parent": "94c08af3438008a3dbb2c0c130597426e78dbe7f",
+      "date": "2026-10-09T15:03:15+03:00",
+      "subject": "mail: Drop the unused upload directory setting and send operation attachment column (#4104)",
+      "mig_files": [
+        "apps/web/prisma/migrations/20261010120000_drop_email_send_operation_attachment_ids/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/web/env.ts",
+        "apps/web/prisma/schema.prisma"
+      ],
+      "orm_models_parsed_old": 101,
+      "raw_sql": "-- AlterTable\nALTER TABLE \"EmailSendOperation\" DROP COLUMN \"attachmentIds\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "emailsendoperation",
+            "column": "attachmentids",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/web/prisma/migrations/20261010120000_drop_email_send_operation_attachment_ids/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE emailsendoperation DROP COLUMN \"attachmentIds\"",
+            "extra": {
+              "table_sql": "EmailSendOperation",
+              "column_sql": "attachmentIds"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "emailsendoperation",
+            "column": "attachmentids",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "apps/web/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff"
+        }
+      ]
+    },
+    {
+      "sha": "063caf0a61a29393655b797d27726cde2b1d01c7",
+      "parent": "23b8ecba2b166d97b75632e201ed8ee57c53c5d6",
+      "date": "2026-09-21T19:56:29-04:00",
+      "subject": "ai: Add optional JEV decision-model routing (#3806)",
+      "mig_files": [
+        "apps/web/prisma/migrations/20260919233000_rename_classifier_to_decision_model/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/web/__tests__/eval/decision-model/categorize-sender.test.ts",
+        "apps/web/__tests__/eval/decision-model/choose-rule.test.ts",
+        "apps/web/__tests__/eval/decision-model/cold-email.test.ts",
+        "apps/web/__tests__/eval/decision-model/helpers.ts",
+        "apps/web/__tests__/eval/decision-model/recurring-pattern.test.ts",
+        "apps/web/__tests__/eval/decision-model/reply-memory-selection.test.ts",
+        "apps/web/__tests__/eval/decision-model/thread-status.test.ts",
+        "apps/web/__tests__/eval/decision-model/unsubscribe-page.test.ts",
+        "apps/web/app/(app)/[emailAccountId]/settings/ClassifierSection.tsx",
+        "apps/web/app/(app)/[emailAccountId]/settings/DecisionModelSection.tsx",
+        "apps/web/app/(app)/settings/SettingsContent.tsx",
+        "apps/web/app/api/user/me/route.ts"
+      ],
+      "orm_models_parsed_old": 96,
+      "raw_sql": "ALTER TABLE \"User\" RENAME COLUMN \"classifierEnabled\" TO \"decisionModelEnabled\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_COLUMN",
+            "table": "user",
+            "column": "classifierenabled",
+            "new_name": "decisionmodelenabled",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/web/prisma/migrations/20260919233000_rename_classifier_to_decision_model/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE user RENAME COLUMN \"classifierEnabled\" TO \"decisionModelEnabled\"",
+            "extra": {
+              "table_sql": "User",
+              "column_sql": "classifierEnabled",
+              "new_name_sql": "decisionModelEnabled"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "user",
+            "column": "classifierenabled",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "apps/web/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_COLUMN 'classifierenabled'->'decisionmodelenabled' breaks both C_{t-1} |= S_t and C_t |= S_{t-1}."
+        }
+      ]
+    },
+    {
+      "sha": "e35165a0442397e32f4b1cff3e92d5a85949054b",
+      "parent": "69ba6dfa2a3e5c0f51b20d3376b00a50a74b7278",
+      "date": "2026-09-19T08:20:12-04:00",
+      "subject": "onboarding: Use PostHog as experiment assignment source (#3801)",
+      "mig_files": [
+        "apps/web/prisma/migrations/20260919121000_remove_onboarding_paywall_variant/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/web/app/(app)/[emailAccountId]/onboarding/page.tsx",
+        "apps/web/app/(app)/[emailAccountId]/onboarding/paywallFirst.test.ts",
+        "apps/web/app/(app)/[emailAccountId]/onboarding/paywallFirst.ts",
+        "apps/web/prisma/schema.prisma"
+      ],
+      "orm_models_parsed_old": 96,
+      "raw_sql": "-- AlterTable\nALTER TABLE \"User\" DROP COLUMN \"onboardingPaywallVariant\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "user",
+            "column": "onboardingpaywallvariant",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/web/prisma/migrations/20260919121000_remove_onboarding_paywall_variant/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE user DROP COLUMN \"onboardingPaywallVariant\"",
+            "extra": {
+              "table_sql": "User",
+              "column_sql": "onboardingPaywallVariant"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "user",
+            "column": "onboardingpaywallvariant",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "apps/web/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'onboardingpaywallvariant' active in C_{t-1} ORM (apps/web/prisma/schema.prisma); identifier removed in same commit diff"
+        }
+      ]
+    },
+    {
+      "sha": "6bef910e83a06e2823001102cb34bef61b360ebf",
+      "parent": "87ea79629935f04220fa4bcc4edd8bd001a1cbcd",
+      "date": "2026-09-16T08:15:24-04:00",
+      "subject": "mail: Remove server-side compose draft storage (#3737)",
+      "mig_files": [
+        "apps/web/prisma/migrations/20260916040000_remove_compose_drafts/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/web/__tests__/playwright/emulated/mail/compose-drafts.spec.ts",
+        "apps/web/app/(app)/[emailAccountId]/compose/ComposeEmailForm.tsx",
+        "apps/web/prisma/schema.prisma",
+        "apps/web/utils/actions/mail.ts",
+        "apps/web/utils/actions/mail.validation.ts",
+        "apps/web/utils/email-cache/reply-drafts.test.ts",
+        "apps/web/utils/email-cache/reply-drafts.ts",
+        "apps/web/utils/email/compose-draft.test.ts",
+        "apps/web/utils/email/compose-draft.ts",
+        "apps/web/utils/email/sent-message-open/sent-message-open.server.test.ts",
+        "apps/web/utils/email/sent-message-open/sent-message-open.server.ts",
+        "apps/web/utils/types/mail.ts"
+      ],
+      "orm_models_parsed_old": 97,
+      "raw_sql": "DROP TABLE \"ComposeDraft\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "composedraft",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/web/prisma/migrations/20260916040000_remove_compose_drafts/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TABLE \"ComposeDraft\"",
+            "extra": {
+              "table_sql": "ComposeDraft"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "composedraft",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "apps/web/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'composedraft' active in C_{t-1}."
+        }
+      ]
+    },
+    {
+      "sha": "274613af0637dfa62381fe8774e6a3a268a8c492",
+      "parent": "351ff328eb186d0e512d9cf4ccd92743dd3ab201",
+      "date": "2026-09-11T09:26:23-07:00",
+      "subject": "mcp: Add OAuth server with explicit consent and scoped access (#3661)",
+      "mig_files": [
+        "apps/web/prisma/migrations/20260911180000_add_mcp_oauth_server/migration.sql",
+        "apps/web/prisma/migrations/20260911190000_upgrade_better_auth_17/migration.sql",
+        "apps/web/prisma/migrations/20260911200000_complete_auth_17_schema/migration.sql",
+        "apps/web/prisma/migrations/20260911210000_validate_sso_provider_owner/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/web/__tests__/integration/google-emulator-oauth.test.ts",
+        "apps/web/__tests__/integration/scim-better-auth.test.ts",
+        "apps/web/__tests__/playwright/emulated/settings/mcp-access.spec.ts",
+        "apps/web/__tests__/playwright/emulated/settings/scim-credentials.spec.ts",
+        "apps/web/__tests__/playwright/emulated/setup/auth.setup.ts",
+        "apps/web/app/(app)/[emailAccountId]/settings/ApiKeysSection.tsx",
+        "apps/web/app/(app)/admin/AdminScimCredentials.tsx",
+        "apps/web/app/(app)/admin/page.tsx",
+        "apps/web/app/(landing)/login/LoginForm.test.tsx",
+        "apps/web/app/(landing)/login/LoginForm.tsx",
+        "apps/web/app/(landing)/mcp/consent/McpConsent.tsx",
+        "apps/web/app/(landing)/mcp/consent/page.tsx"
+      ],
+      "orm_models_parsed_old": 76,
+      "raw_sql": "-- AlterTable\nALTER TABLE \"User\" ADD COLUMN     \"mcpServerEnabled\" BOOLEAN NOT NULL DEFAULT false,\nADD COLUMN     \"mcpTokenVersion\" INTEGER NOT NULL DEFAULT 0;\n\n-- CreateTable\nCREATE TABLE \"OauthClient\" (\n    \"id\" TEXT NOT NULL,\n    \"clientId\" TEXT NOT NULL,\n    \"clientSecret\" TEXT,\n    \"disabled\" BOOLEAN DEFAULT false,\n    \"skipConsent\" BOOLEAN,\n    \"enableEndSession\" BOOLEAN,\n    \"subjectType\" TEXT,\n    \"scopes\" TEXT[],\n    \"userId\" TEXT,\n    \"createdAt\" TIMESTAMP(3),\n    \"updatedAt\" TIMESTAMP(3),\n    \"name\" TEXT,\n    \"uri\" TEXT,\n    \"icon\" TEXT,\n    \"contacts\" TEXT[],\n    \"tos\" TEXT,\n    \"policy\" TEXT,\n    \"softwareId\" TEXT,\n    \"softwareVersion\" TEXT,\n    \"softwareStatement\" TEXT,\n    \"redirectUris\" TEXT[],\n    \"postLogoutRedirectUris\" TEXT[],\n    \"tokenEndpointAuthMethod\" TEXT,\n    \"grantTypes\" TEXT[],\n    \"responseTypes\" TEXT[],\n    \"public\" BOOLEAN,\n    \"type\" TEXT,\n    \"requirePKCE\" BOOLEAN,\n    \"referenceId\" TEXT,\n    \"metadata\" JSONB,\n\n    CONSTRAINT \"OauthClient_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateTable\nCREATE TABLE \"OauthRefreshToken\" (\n    \"id\" TEXT NOT NULL,\n    \"token\" TEXT NOT NULL,\n    \"clientId\" TEXT NOT NULL,\n    \"sessionId\" TEXT,\n    \"userId\" TEXT NOT NULL,\n    \"referenceId\" TEXT,\n    \"expiresAt\" TIMESTAMP(3) NOT NULL,\n    \"createdAt\" TIMESTAMP(3) NOT NULL,\n    \"revoked\" TIMESTAMP(3),\n    \"authTime\" TIMESTAMP(3),\n    \"scopes\" TEXT[],\n\n    CONSTRAINT \"OauthRefreshToken_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateTable\nCREATE TABLE \"OauthAccessToken\" (\n    \"id\" TEXT NOT NULL,\n    \"token\" TEXT NOT NULL,\n    \"clientId\" TEXT NOT NULL,\n    \"sessionId\" TEXT,\n    \"userId\" TEXT,\n    \"referenceId\" TEXT,\n    \"refreshId\" TEXT,\n    \"expiresAt\" TIMESTAMP(3) NOT NULL,\n    \"createdAt\" TIMESTAMP(3) NOT NULL,\n    \"scopes\" TEXT[],\n\n    CONSTRAINT \"OauthAccessToken_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateTable\nCREATE TABLE \"OauthConsent\" (\n    \"id\" TEXT NOT NULL,\n    \"clientId\" TEXT NOT NULL,\n    \"userId\" TEXT,\n    \"referenceId\" TEXT,\n    \"scopes\" TEXT[],\n    \"createdAt\" TIMESTAMP(3) NOT NULL,\n    \"updatedAt\" TIMESTAMP(3) NOT NULL,\n\n    CONSTRAINT \"OauthConsent_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateTable\nCREATE TABLE \"Jwks\" (\n    \"id\" TEXT NOT NULL,\n    \"publicKey\" TEXT NOT NULL,\n    \"privateKey\" TEXT NOT NULL,\n    \"createdAt\" TIMESTAMP(3) NOT NULL,\n    \"expiresAt\" TIMESTAMP(3),\n\n    CONSTRAINT \"Jwks_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"OauthClient_clientId_key\" ON \"OauthClient\"(\"clientId\");\n\n-- CreateIndex\nCREATE INDEX \"OauthClient_userId_idx\" ON \"OauthClient\"(\"userId\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"OauthRefreshToken_token_key\" ON \"OauthRefreshToken\"(\"token\");\n\n-- CreateIndex\nCREATE INDEX \"OauthRefreshToken_clientId_idx\" ON \"OauthRefreshToken\"(\"clientId\");\n\n-- CreateIndex\nCREATE INDEX \"OauthRefreshToken_sessionId_idx\" ON \"OauthRefreshToken\"(\"sessionId\");\n\n-- CreateIndex\nCREATE INDEX \"OauthRefreshToken_userId_idx\" ON \"OauthRefreshToken\"(\"userId\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"OauthAccessToken_token_key\" ON \"OauthAccessToken\"(\"token\");\n\n-- CreateIndex\nCREATE INDEX \"OauthAccessToken_clientId_idx\" ON \"OauthAccessToken\"(\"clientId\");\n\n-- CreateIndex\nCREATE INDEX \"OauthAccessToken_sessionId_idx\" ON \"OauthAccessToken\"(\"sessionId\");\n\n-- CreateIndex\nCREATE INDEX \"OauthAccessToken_userId_idx\" ON \"OauthAccessToken\"(\"userId\");\n\n-- CreateIndex\nCREATE INDEX \"OauthAccessToken_refreshId_idx\" ON \"OauthAccessToken\"(\"refreshId\");\n\n-- CreateIndex\nCREATE INDEX \"OauthConsent_userId_idx\" ON \"OauthConsent\"(\"userId\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"OauthConsent_clientId_userId_key\" ON \"OauthConsent\"(\"clientId\", \"userId\");\n\n-- AddForeignKey\nALTER TABLE \"OauthClient\" ADD CONSTRAINT \"OauthClient_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"User\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"OauthRefreshToken\" ADD CONSTRAINT \"OauthRefreshToken_clientId_fkey\" FOREIGN KEY (\"clientId\") REFERENCES \"OauthClient\"(\"clientId\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"OauthRefreshToken\" ADD CONSTRAINT \"OauthRefreshToken_sessionId_fkey\" FOREIGN KEY (\"sessionId\") REFERENCES \"Session\"(\"id\") ON DELETE SET NULL ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"OauthRefreshToken\" ADD CONSTRAINT \"OauthRefreshToken_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"User\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"OauthAccessToken\" ADD CONSTRAINT \"OauthAccessToken_clientId_fkey\" FOREIGN KEY (\"clientId\") REFERENCES \"OauthClient\"(\"clientId\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"OauthAccessToken\" ADD CONSTRAINT \"OauthAccessToken_sessionId_fkey\" FOREIGN KEY (\"sessionId\") REFERENCES \"Session\"(\"id\") ON DELETE SET NULL ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"OauthAccessToken\" ADD CONSTRAINT \"OauthAccessToken_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"User\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"OauthAccessToken\" ADD CONSTRAINT \"OauthAccessToken_refreshId_fkey\" FOREIGN KEY (\"refreshId\") REFERENCES \"OauthRefreshToken\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"OauthConsent\" ADD CONSTRAINT \"OauthConsent_clientId_fkey\" FOREIGN KEY (\"clientId\") REFERENCES \"OauthClient\"(\"clientId\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"OauthConsent\" ADD CONSTRAINT \"OauthConsent_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"User\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- Legacy SCIM credentials and identities require an explicit operator cutover.\n-- Never silently drop an active provisioning connection.\nDO $$\nBEGIN\n  IF EXISTS (SELECT 1 FROM \"scimProvider\") THEN\n    RAISE EXCEPTION 'Migrate legacy SCIM connections before applying Better Auth 1.7; see docs/better-auth-1.7-upgrade.md';\n  END IF;\nEND $$;\n\n-- DropForeignKey\nALTER TABLE \"scimProvider\" DROP CONSTRAINT \"scimProvider_organizationId_fkey\";\n\n-- DropForeignKey\nALTER TABLE \"scimProvider\" DROP CONSTRAINT \"scimProvider_userId_fkey\";\n\n-- AlterTable\nALTER TABLE \"User\" ADD COLUMN     \"scimAccessDisabled\" BOOLEAN NOT NULL DEFAULT false;\n\n-- AlterTable\nALTER TABLE \"OauthClient\" DROP COLUMN \"public\",\nDROP COLUMN \"type\",\nADD COLUMN     \"applicationType\" TEXT,\nADD COLUMN     \"backchannelLogoutSessionRequired\" BOOLEAN,\nADD COLUMN     \"backchannelLogoutUri\" TEXT,\nADD COLUMN     \"clientCredentialsScopes\" TEXT[] DEFAULT ARRAY[]::TEXT[],\nADD COLUMN     \"clientDiscoveryId\" TEXT,\nADD COLUMN     \"dpopBoundAccessTokens\" BOOLEAN DEFAULT false,\nADD COLUMN     \"jwks\" TEXT,\nADD COLUMN     \"jwksUri\" TEXT;\n\n-- AlterTable\nALTER TABLE \"OauthRefreshToken\" ADD COLUMN     \"authorizationCodeId\" TEXT,\nADD COLUMN     \"confirmation\" JSONB,\nADD COLUMN     \"requestedUserInfoClaims\" TEXT[],\nADD COLUMN     \"resources\" TEXT[],\nADD COLUMN     \"rotatedAt\" TIMESTAMP(3),\nADD COLUMN     \"rotationReplayExpiresAt\" TIMESTAMP(3),\nADD COLUMN     \"rotationReplayResponse\" TEXT;\n\n-- AlterTable\nALTER TABLE \"OauthAccessToken\" ADD COLUMN     \"authorizationCodeId\" TEXT,\nADD COLUMN     \"confirmation\" JSONB,\nADD COLUMN     \"requestedUserInfoClaims\" TEXT[],\nADD COLUMN     \"resources\" TEXT[],\nADD COLUMN     \"revoked\" TIMESTAMP(3);\n\n-- AlterTable\nALTER TABLE \"OauthConsent\" ADD COLUMN     \"requestedUserInfoClaims\" TEXT[],\nADD COLUMN     \"resources\" TEXT[];\n\n-- AlterTable\nALTER TABLE \"Jwks\" ADD COLUMN     \"alg\" TEXT,\nADD COLUMN     \"crv\" TEXT;\n\n-- DropTable\nDROP TABLE \"scimProvider\";\n\n-- CreateTable\nCREATE TABLE \"OauthResource\" (\n    \"id\" TEXT NOT NULL,\n    \"identifier\" TEXT NOT NULL,\n    \"name\" TEXT NOT NULL,\n    \"accessTokenTtl\" INTEGER,\n    \"refreshTokenTtl\" INTEGER,\n    \"signingAlgorithm\" TEXT,\n    \"signingKeyId\" TEXT,\n    \"allowedScopes\" TEXT[],\n    \"customClaims\" JSONB,\n    \"dpopBoundAccessTokensRequired\" BOOLEAN DEFAULT false,\n    \"disabled\" BOOLEAN DEFAULT false,\n    \"createdAt\" TIMESTAMP(3),\n    \"updatedAt\" TIMESTAMP(3),\n    \"policyVersion\" INTEGER DEFAULT 1,\n    \"metadata\" JSONB,\n\n    CONSTRAINT \"OauthResource_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateTable\nCREATE TABLE \"OauthClientResource\" (\n    \"id\" TEXT NOT NULL,\n    \"clientId\" TEXT NOT NULL,\n    \"resourceId\" TEXT NOT NULL,\n    \"metadata\" JSONB,\n    \"createdAt\" TIMESTAMP(3),\n\n    CONSTRAINT \"OauthClientResource_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateTable\nCREATE TABLE \"OauthClientAssertion\" (\n    \"id\" TEXT NOT NULL,\n    \"expiresAt\" TIMESTAMP(3) NOT NULL,\n\n    CONSTRAINT \"OauthClientAssertion_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateTable\nCREATE TABLE \"scimManagedConnection\" (\n    \"id\" TEXT NOT NULL,\n    \"creationRequestId\" TEXT NOT NULL,\n    \"connectionId\" TEXT NOT NULL,\n    \"provisioningDomainId\" TEXT NOT NULL,\n    \"status\" TEXT NOT NULL,\n    \"revision\" INTEGER NOT NULL,\n    \"createdAt\" TIMESTAMP(3) NOT NULL,\n    \"createdBy\" TEXT NOT NULL,\n    \"decommissionStartedAt\" TIMESTAMP(3),\n    \"decommissionStartedBy\" TEXT,\n    \"decommissionedAt\" TIMESTAMP(3),\n    \"decommissionedBy\" TEXT,\n\n    CONSTRAINT \"scimManagedConnection_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateTable\nCREATE TABLE \"scimManagedCredential\" (\n    \"id\" TEXT NOT NULL,\n    \"connectionRecordId\" TEXT NOT NULL,\n    \"credentialId\" TEXT NOT NULL,\n    \"tokenDigest\" TEXT NOT NULL,\n    \"hashVersion\" TEXT NOT NULL,\n    \"activeSlotKey\" TEXT NOT NULL,\n    \"status\" TEXT NOT NULL,\n    \"serializedScopes\" TEXT NOT NULL,\n    \"expiresAt\" TIMESTAMP(3) NOT NULL,\n    \"createdAt\" TIMESTAMP(3) NOT NULL,\n    \"createdBy\" TEXT NOT NULL,\n    \"lastUsedAt\" TIMESTAMP(3),\n    \"revokedAt\" TIMESTAMP(3),\n    \"revokedBy\" TEXT,\n    \"decommissionedAt\" TIMESTAMP(3),\n\n    CONSTRAINT \"scimManagedCredential_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateTable\nCREATE TABLE \"scimManagedConnectionEvent\" (\n    \"id\" TEXT NOT NULL,\n    \"connectionRecordId\" TEXT NOT NULL,\n    \"eventKey\" TEXT NOT NULL,\n    \"sequence\" INTEGER NOT NULL,\n    \"type\" TEXT NOT NULL,\n    \"actorId\" TEXT NOT NULL,\n    \"credentialId\" TEXT,\n    \"createdAt\" TIMESTAMP(3) NOT NULL,\n\n    CONSTRAINT \"scimManagedConnectionEvent_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateTable\nCREATE TABLE \"scimConnectionBinding\" (\n    \"id\" TEXT NOT NULL,\n    \"connectionId\" TEXT NOT NULL,\n    \"connectionKey\" TEXT NOT NULL,\n    \"provisioningDomainId\" TEXT NOT NULL,\n    \"createdAt\" TIMESTAMP(3) NOT NULL,\n    \"decommissionedAt\" TIMESTAMP(3),\n    \"decommissionStatus\" TEXT NOT NULL DEFAULT 'active',\n    \"decommissionCursorUserId\" TEXT,\n    \"decommissionReconciledUserCount\" INTEGER NOT NULL DEFAULT 0,\n    \"decommissionBatchCount\" INTEGER NOT NULL DEFAULT 0,\n    \"decommissionRevision\" INTEGER NOT NULL DEFAULT 0,\n    \"decommissionCompletedAt\" TIMESTAMP(3),\n    \"decommissionLeaseId\" TEXT,\n    \"decommissionLeaseExpiresAt\" TIMESTAMP(3),\n\n    CONSTRAINT \"scimConnectionBinding_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateTable\nCREATE TABLE \"scimIdentityTombstone\" (\n    \"id\" TEXT NOT NULL,\n    \"connectionId\" TEXT NOT NULL,\n    \"provisioningDomainId\" TEXT NOT NULL,\n    \"externalId\" TEXT NOT NULL,\n    \"externalIdKey\" TEXT NOT NULL,\n    \"userId\" TEXT NOT NULL,\n    \"profile\" TEXT NOT NULL,\n    \"deletedAt\" TIMESTAMP(3) NOT NULL,\n\n    CONSTRAINT \"scimIdentityTombstone_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateTable\nCREATE TABLE \"scimSubject\" (\n    \"id\" TEXT NOT NULL,\n    \"userId\" TEXT NOT NULL,\n    \"profileSourceId\" TEXT,\n    \"revision\" INTEGER NOT NULL,\n    \"createdAt\" TIMESTAMP(3) NOT NULL,\n    \"updatedAt\" TIMESTAMP(3) NOT NULL,\n\n    CONSTRAINT \"scimSubject_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateTable\nCREATE TABLE \"scimUser\" (\n    \"id\" TEXT NOT NULL,\n    \"connectionId\" TEXT NOT NULL,\n    \"provisioningDomainId\" TEXT NOT NULL,\n    \"userId\" TEXT NOT NULL,\n    \"connectionUserKey\" TEXT NOT NULL,\n    \"userName\" TEXT NOT NULL,\n    \"userNameKey\" TEXT NOT NULL,\n    \"primaryEmail\" TEXT NOT NULL,\n    \"workEmailValueIndex\" TEXT NOT NULL,\n    \"emailValueIndex\" TEXT NOT NULL,\n    \"displayName\" TEXT NOT NULL,\n    \"formattedName\" TEXT NOT NULL,\n    \"givenName\" TEXT,\n    \"familyName\" TEXT,\n    \"serializedEmails\" TEXT NOT NULL,\n    \"serializedAttributes\" TEXT,\n    \"externalId\" TEXT,\n    \"externalIdKey\" TEXT,\n    \"active\" BOOLEAN NOT NULL,\n    \"orderKey\" TEXT NOT NULL,\n    \"createdAt\" TIMESTAMP(3) NOT NULL,\n    \"updatedAt\" TIMESTAMP(3) NOT NULL,\n\n    CONSTRAINT \"scimUser_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateTable\nCREATE TABLE \"scimProjectionGrant\" (\n    \"id\" TEXT NOT NULL,\n    \"connectionId\" TEXT NOT NULL,\n    \"provisioningDomainId\" TEXT NOT NULL,\n    \"scimUserId\" TEXT NOT NULL,\n    \"userId\" TEXT NOT NULL,\n    \"sourceKind\" TEXT NOT NULL,\n    \"sourceId\" TEXT NOT NULL,\n    \"sourceValue\" TEXT,\n    \"role\" TEXT NOT NULL,\n    \"grantKey\" TEXT NOT NULL,\n    \"createdAt\" TIMESTAMP(3) NOT NULL,\n    \"updatedAt\" TIMESTAMP(3) NOT NULL,\n\n    CONSTRAINT \"scimProjectionGrant_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateTable\nCREATE TABLE \"scimGroup\" (\n    \"id\" TEXT NOT NULL,\n    \"connectionId\" TEXT NOT NULL,\n    \"provisioningDomainId\" TEXT NOT NULL,\n    \"revision\" INTEGER NOT NULL DEFAULT 0,\n    \"displayName\" TEXT NOT NULL,\n    \"displayNameKey\" TEXT NOT NULL,\n    \"externalId\" TEXT,\n    \"externalIdKey\" TEXT,\n    \"orderKey\" TEXT NOT NULL,\n    \"createdAt\" TIMESTAMP(3) NOT NULL,\n    \"updatedAt\" TIMESTAMP(3) NOT NULL,\n\n    CONSTRAINT \"scimGroup_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateTable\nCREATE TABLE \"scimGroupMember\" (\n    \"id\" TEXT NOT NULL,\n    \"connectionId\" TEXT NOT NULL,\n    \"groupId\" TEXT NOT NULL,\n    \"scimUserId\" TEXT NOT NULL,\n    \"membershipKey\" TEXT NOT NULL,\n    \"createdAt\" TIMESTAMP(3) NOT NULL,\n\n    CONSTRAINT \"scimGroupMember_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateTable\nCREATE TABLE \"ScimIdentityLink\" (\n    \"id\" TEXT NOT NULL,\n    \"connectionId\" TEXT NOT NULL,\n    \"externalId\" TEXT NOT NULL,\n    \"userId\" TEXT NOT NULL,\n\n    CONSTRAINT \"ScimIdentityLink_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"OauthResource_identifier_key\" ON \"OauthResource\"(\"identifier\");\n\n-- CreateIndex\nCREATE INDEX \"OauthClientResource_clientId_idx\" ON \"OauthClientResource\"(\"clientId\");\n\n-- CreateIndex\nCREATE INDEX \"OauthClientResource_resourceId_idx\" ON \"OauthClientResource\"(\"resourceId\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"oauthClientResource_clientId_resourceId_uidx\" ON \"OauthClientResource\"(\"clientId\", \"resourceId\");\n\n-- CreateIndex\nCREATE INDEX \"scimManagedConnection_provisioningDomainId_idx\" ON \"scimManagedConnection\"(\"provisioningDomainId\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"scimManagedConnection_creationRequestId_key\" ON \"scimManagedConnection\"(\"creationRequestId\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"scimManagedConnection_connectionId_key\" ON \"scimManagedConnection\"(\"connectionId\");\n\n-- CreateIndex\nCREATE INDEX \"scimManagedCredential_connectionRecordId_idx\" ON \"scimManagedCredential\"(\"connectionRecordId\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"scimManagedCredential_credentialId_key\" ON \"scimManagedCredential\"(\"credentialId\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"scimManagedCredential_activeSlotKey_key\" ON \"scimManagedCredential\"(\"activeSlotKey\");\n\n-- CreateIndex\nCREATE INDEX \"scimManagedConnectionEvent_connectionRecordId_idx\" ON \"scimManagedConnectionEvent\"(\"connectionRecordId\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"scimManagedConnectionEvent_eventKey_key\" ON \"scimManagedConnectionEvent\"(\"eventKey\");\n\n-- CreateIndex\nCREATE INDEX \"scimConnectionBinding_connectionId_idx\" ON \"scimConnectionBinding\"(\"connectionId\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"scimConnectionBinding_connectionKey_key\" ON \"scimConnectionBinding\"(\"connectionKey\");\n\n-- CreateIndex\nCREATE INDEX \"scimIdentityTombstone_connectionId_idx\" ON \"scimIdentityTombstone\"(\"connectionId\");\n\n-- CreateIndex\nCREATE INDEX \"scimIdentityTombstone_provisioningDomainId_idx\" ON \"scimIdentityTombstone\"(\"provisioningDomainId\");\n\n-- CreateIndex\nCREATE INDEX \"scimIdentityTombstone_userId_idx\" ON \"scimIdentityTombstone\"(\"userId\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"scimIdentityTombstone_externalIdKey_key\" ON \"scimIdentityTombstone\"(\"externalIdKey\");\n\n-- CreateIndex\nCREATE INDEX \"scimSubject_profileSourceId_idx\" ON \"scimSubject\"(\"profileSourceId\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"scimSubject_userId_key\" ON \"scimSubject\"(\"userId\");\n\n-- CreateIndex\nCREATE INDEX \"scimUser_connectionId_idx\" ON \"scimUser\"(\"connectionId\");\n\n-- CreateIndex\nCREATE INDEX \"scimUser_provisioningDomainId_idx\" ON \"scimUser\"(\"provisioningDomainId\");\n\n-- CreateIndex\nCREATE INDEX \"scimUser_userId_idx\" ON \"scimUser\"(\"userId\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"scimUser_connectionUserKey_key\" ON \"scimUser\"(\"connectionUserKey\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"scimUser_userNameKey_key\" ON \"scimUser\"(\"userNameKey\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"scimUser_externalIdKey_key\" ON \"scimUser\"(\"externalIdKey\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"scimUser_orderKey_key\" ON \"scimUser\"(\"orderKey\");\n\n-- CreateIndex\nCREATE INDEX \"scimProjectionGrant_connectionId_idx\" ON \"scimProjectionGrant\"(\"connectionId\");\n\n-- CreateIndex\nCREATE INDEX \"scimProjectionGrant_provisioningDomainId_idx\" ON \"scimProjectionGrant\"(\"provisioningDomainId\");\n\n-- CreateIndex\nCREATE INDEX \"scimProjectionGrant_scimUserId_idx\" ON \"scimProjectionGrant\"(\"scimUserId\");\n\n-- CreateIndex\nCREATE INDEX \"scimProjectionGrant_userId_idx\" ON \"scimProjectionGrant\"(\"userId\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"scimProjectionGrant_grantKey_key\" ON \"scimProjectionGrant\"(\"grantKey\");\n\n-- CreateIndex\nCREATE INDEX \"scimGroup_connectionId_idx\" ON \"scimGroup\"(\"connectionId\");\n\n-- CreateIndex\nCREATE INDEX \"scimGroup_provisioningDomainId_idx\" ON \"scimGroup\"(\"provisioningDomainId\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"scimGroup_displayNameKey_key\" ON \"scimGroup\"(\"displayNameKey\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"scimGroup_externalIdKey_key\" ON \"scimGroup\"(\"externalIdKey\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"scimGroup_orderKey_key\" ON \"scimGroup\"(\"orderKey\");\n\n-- CreateIndex\nCREATE INDEX \"scimGroupMember_connectionId_idx\" ON \"scimGroupMember\"(\"connectionId\");\n\n-- CreateIndex\nCREATE INDEX \"scimGroupMember_groupId_idx\" ON \"scimGroupMember\"(\"groupId\");\n\n-- CreateIndex\nCREATE INDEX \"scimGroupMember_scimUserId_idx\" ON \"scimGroupMember\"(\"scimUserId\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"scimGroupMember_membershipKey_key\" ON \"scimGroupMember\"(\"membershipKey\");\n\n-- CreateIndex\nCREATE INDEX \"ScimIdentityLink_userId_idx\" ON \"ScimIdentityLink\"(\"userId\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"ScimIdentityLink_connectionId_externalId_key\" ON \"ScimIdentityLink\"(\"connectionId\", \"externalId\");\n\n-- CreateIndex\nCREATE INDEX \"OauthRefreshToken_authorizationCodeId_idx\" ON \"OauthRefreshToken\"(\"authorizationCodeId\");\n\n-- CreateIndex\nCREATE INDEX \"OauthAccessToken_authorizationCodeId_idx\" ON \"OauthAccessToken\"(\"authorizationCodeId\");\n\n-- AddForeignKey\nALTER TABLE \"OauthClientResource\" ADD CONSTRAINT \"OauthClientResource_clientId_fkey\" FOREIGN KEY (\"clientId\") REFERENCES \"OauthClient\"(\"clientId\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"OauthClientResource\" ADD CONSTRAINT \"OauthClientResource_resourceId_fkey\" FOREIGN KEY (\"resourceId\") REFERENCES \"OauthResource\"(\"identifier\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"scimManagedCredential\" ADD CONSTRAINT \"scimManagedCredential_connectionRecordId_fkey\" FOREIGN KEY (\"connectionRecordId\") REFERENCES \"scimManagedConnection\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"scimManagedConnectionEvent\" ADD CONSTRAINT \"scimManagedConnectionEvent_connectionRecordId_fkey\" FOREIGN KEY (\"connectionRecordId\") REFERENCES \"scimManagedConnection\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"scimIdentityTombstone\" ADD CONSTRAINT \"scimIdentityTombstone_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"User\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"scimSubject\" ADD CONSTRAINT \"scimSubject_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"User\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"scimUser\" ADD CONSTRAINT \"scimUser_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"User\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"scimProjectionGrant\" ADD CONSTRAINT \"scimProjectionGrant_scimUserId_fkey\" FOREIGN KEY (\"scimUserId\") REFERENCES \"scimUser\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"scimProjectionGrant\" ADD CONSTRAINT \"scimProjectionGrant_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"User\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"scimGroupMember\" ADD CONSTRAINT \"scimGroupMember_groupId_fkey\" FOREIGN KEY (\"groupId\") REFERENCES \"scimGroup\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"scimGroupMember\" ADD CONSTRAINT \"scimGroupMember_scimUserId_fkey\" FOREIGN KEY (\"scimUserId\") REFERENCES \"scimUser\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"ScimIdentityLink\" ADD CONSTRAINT \"ScimIdentityLink_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"User\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\nALTER TABLE \"Account\" ADD COLUMN \"password\" TEXT;\n\n-- AlterTable\nALTER TABLE \"ssoProvider\" ADD COLUMN     \"userId\" TEXT;\n\n-- AddForeignKey\nALTER TABLE \"ssoProvider\" ADD CONSTRAINT \"ssoProvider_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"User\"(\"id\") ON DELETE SET NULL ON UPDATE CASCADE NOT VALID;\n\n-- Recover ownership only from the existing linked inbox, never by email.\nUPDATE \"ssoProvider\" AS provider\nSET \"userId\" = account.\"userId\"\nFROM \"EmailAccount\" AS account\nWHERE provider.\"emailAccountId\" = account.id;\n\n-- Validate existing owners separately so the scan permits authentication writes.\nALTER TABLE \"ssoProvider\" VALIDATE CONSTRAINT \"ssoProvider_userId_fkey\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "oauthclient",
+            "column": "public",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/web/prisma/migrations/20260911190000_upgrade_better_auth_17/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE oauthclient DROP COLUMN \"public\"",
+            "extra": {
+              "table_sql": "OauthClient"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "oauthclient",
+            "column": "public",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'oauthclient' columns not resolved in C_{t-1} schema snapshot."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "oauthclient",
+            "column": "type",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/web/prisma/migrations/20260911190000_upgrade_better_auth_17/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE oauthclient DROP COLUMN \"type\"",
+            "extra": {
+              "table_sql": "OauthClient"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "oauthclient",
+            "column": "type",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'oauthclient' columns not resolved in C_{t-1} schema snapshot."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "scimprovider",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/web/prisma/migrations/20260911190000_upgrade_better_auth_17/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE \"scimProvider\"",
+            "extra": {
+              "table_sql": "scimProvider"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "scimprovider",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/web/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'scimprovider' active in C_{t-1}."
+        }
+      ]
+    },
+    {
+      "sha": "1521bae40d8db677f93e5114dba31502e89d7e1f",
+      "parent": "353df2c652a98cd314ba7479ffda88f511dd54f7",
+      "date": "2026-09-09T17:37:14-07:00",
+      "subject": "mail: Add split inbox library and condition builder (#3626)",
+      "mig_files": [
+        "apps/web/prisma/migrations/20260910000000_split_inbox_filters/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/web/__tests__/ai-regression/ai-prompt-to-split.test.ts",
+        "apps/web/__tests__/db/default-mail-splits.test.ts",
+        "apps/web/__tests__/db/mail-split-migration.test.ts",
+        "apps/web/__tests__/db/split-filter-migration.test.ts",
+        "apps/web/__tests__/playwright/emulated/mail/mail-test-helpers.ts",
+        "apps/web/__tests__/playwright/emulated/mail/split-tabs.spec.ts",
+        "apps/web/app/(app)/[emailAccountId]/mail/MailShell.tsx",
+        "apps/web/app/(app)/[emailAccountId]/mail/NewSplitDialog.tsx",
+        "apps/web/app/(app)/[emailAccountId]/mail/SplitTabs.tsx",
+        "apps/web/app/(app)/[emailAccountId]/mail/use-mail-threads.ts",
+        "apps/web/app/api/mail/settings/route.ts",
+        "apps/web/app/api/threads/route.ts"
+      ],
+      "orm_models_parsed_old": 75,
+      "raw_sql": "-- Splits become a named set of filter conditions instead of a single kind+value,\n-- so a split can combine a label with a sender, a category with an age, and so on.\n\nCREATE TYPE \"MailSplitFilterKind\" AS ENUM ('UNREAD', 'STARRED', 'LABEL', 'CATEGORY', 'FROM', 'OLDER_THAN');\n\nALTER TABLE \"MailSplit\" ADD COLUMN \"matchAll\" BOOLEAN NOT NULL DEFAULT true;\n\nCREATE TABLE \"MailSplitFilter\" (\n    \"id\" TEXT NOT NULL,\n    \"kind\" \"MailSplitFilterKind\" NOT NULL,\n    \"value\" TEXT,\n    \"order\" INTEGER NOT NULL,\n    \"mailSplitId\" TEXT NOT NULL,\n\n    CONSTRAINT \"MailSplitFilter_pkey\" PRIMARY KEY (\"id\")\n);\n\nCREATE UNIQUE INDEX \"MailSplitFilter_mailSplitId_order_key\" ON \"MailSplitFilter\"(\"mailSplitId\", \"order\");\nCREATE INDEX \"MailSplitFilter_mailSplitId_idx\" ON \"MailSplitFilter\"(\"mailSplitId\");\nCREATE INDEX \"MailSplitFilter_kind_value_idx\" ON \"MailSplitFilter\"(\"kind\", \"value\");\n\nALTER TABLE \"MailSplitFilter\" ADD CONSTRAINT \"MailSplitFilter_mailSplitId_fkey\"\n    FOREIGN KEY (\"mailSplitId\") REFERENCES \"MailSplit\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- Invalid legacy label/category rows had no usable definition; do not widen them into inbox views.\nDELETE FROM \"MailSplit\" WHERE \"kind\" IN ('LABEL', 'CATEGORY') AND cardinality(\"values\") = 0;\n\n-- Preserve existing label unions as \"match any\", and built-in inbox rows as\n-- filterless splits. Order and ids remain unchanged.\nUPDATE \"MailSplit\" SET \"matchAll\" = false WHERE \"kind\" = 'LABEL' AND cardinality(\"values\") > 1;\n\nINSERT INTO \"MailSplitFilter\" (\"id\", \"kind\", \"value\", \"order\", \"mailSplitId\")\nSELECT 'split-filter-' || s.\"id\" || '-' || value.ordinality,\n       s.\"kind\"::text::\"MailSplitFilterKind\", value.value, value.ordinality - 1, s.\"id\"\nFROM \"MailSplit\" s\nCROSS JOIN LATERAL unnest(s.\"values\") WITH ORDINALITY AS value(value, ordinality)\nWHERE s.\"kind\" IN ('LABEL', 'CATEGORY');\n\nINSERT INTO \"MailSplitFilter\" (\"id\", \"kind\", \"value\", \"order\", \"mailSplitId\")\nSELECT 'split-filter-' || \"id\", 'UNREAD'::\"MailSplitFilterKind\", NULL, 0, \"id\"\nFROM \"MailSplit\" WHERE \"kind\" = 'UNREAD';\n\nALTER TABLE \"MailSplit\" DROP COLUMN \"kind\";\nALTER TABLE \"MailSplit\" DROP COLUMN \"values\";\nDROP TYPE \"MailSplitKind\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "mailsplit",
+            "column": "kind",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/web/prisma/migrations/20260910000000_split_inbox_filters/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE mailsplit DROP COLUMN \"kind\"",
+            "extra": {
+              "table_sql": "MailSplit"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "mailsplit",
+            "column": "kind",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "apps/web/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'kind' active in C_{t-1} ORM (apps/web/prisma/schema.prisma); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "mailsplit",
+            "column": "values",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/web/prisma/migrations/20260910000000_split_inbox_filters/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE mailsplit DROP COLUMN \"values\"",
+            "extra": {
+              "table_sql": "MailSplit"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "mailsplit",
+            "column": "values",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "apps/web/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "mailsplitkind",
+            "column": "mailsplitkind",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/web/prisma/migrations/20260910000000_split_inbox_filters/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TYPE \"MailSplitKind\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "MailSplitKind",
+              "column_sql": "MailSplitKind"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "mailsplitkind",
+            "column": "mailsplitkind",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'mailsplitkind' affects active C_{t-1} enum definition/code."
+        }
+      ]
+    },
+    {
+      "sha": "b83e623a71de82957f6dd301ce47f5f3da271a39",
+      "parent": "4cc66f4214bbe68c45f8575156ff99b017bbdaa5",
+      "date": "2026-09-07T22:36:34-07:00",
+      "subject": "mail: Unify split storage and add management dialogs (#3606)",
+      "mig_files": [
+        "apps/web/prisma/migrations/20260908180000_unify_mail_splits/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/web/__tests__/db/default-mail-splits.test.ts",
+        "apps/web/__tests__/db/mail-split-migration.test.ts",
+        "apps/web/__tests__/playwright/emulated/mail/split-tabs.spec.ts",
+        "apps/web/app/(app)/[emailAccountId]/mail/MailShell.tsx",
+        "apps/web/app/(app)/[emailAccountId]/mail/ManageSplitsDialog.tsx",
+        "apps/web/app/(app)/[emailAccountId]/mail/NewSplitDialog.tsx",
+        "apps/web/app/(app)/[emailAccountId]/mail/NewSplitPopover.tsx",
+        "apps/web/app/(app)/[emailAccountId]/mail/SplitTabs.tsx",
+        "apps/web/app/(app)/[emailAccountId]/mail/mail-account-url.test.ts",
+        "apps/web/app/(app)/[emailAccountId]/mail/mail-account-url.ts",
+        "apps/web/app/api/mail/settings/route.ts",
+        "apps/web/prisma/schema.prisma"
+      ],
+      "orm_models_parsed_old": 75,
+      "raw_sql": "DROP INDEX \"MailSplit_emailAccountId_order_key\";\nCREATE INDEX \"MailSplit_emailAccountId_order_idx\" ON \"MailSplit\"(\"emailAccountId\", \"order\");\n\nUPDATE \"MailSplit\" SET \"order\" = \"order\" + 2;\n\nINSERT INTO \"MailSplit\" (\"id\", \"createdAt\", \"updatedAt\", \"name\", \"kind\", \"values\", \"order\", \"emailAccountId\")\nSELECT\n  gen_random_uuid()::text, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,\n  available_name.\"name\", defaults.\"kind\"::\"MailSplitKind\", ARRAY[]::TEXT[],\n  defaults.\"order\", account.\"id\"\nFROM \"EmailAccount\" account\nCROSS JOIN (VALUES ('all', 'All', 'INBOX', 0), ('unread', 'Unread', 'UNREAD', 1))\n  AS defaults(\"key\", \"name\", \"kind\", \"order\")\nCROSS JOIN LATERAL (\n  SELECT CASE WHEN suffix = 1 THEN defaults.\"name\"\n    ELSE defaults.\"name\" || ' (' || suffix || ')' END AS \"name\"\n  FROM generate_series(1, (SELECT COUNT(*)::integer + 1 FROM \"MailSplit\" WHERE \"emailAccountId\" = account.\"id\")) suffix\n  WHERE NOT EXISTS (\n    SELECT 1 FROM \"MailSplit\" existing\n    WHERE existing.\"emailAccountId\" = account.\"id\"\n      AND existing.\"name\" = CASE WHEN suffix = 1 THEN defaults.\"name\"\n        ELSE defaults.\"name\" || ' (' || suffix || ')' END\n  )\n  ORDER BY suffix LIMIT 1\n) available_name\nWHERE NOT (defaults.\"key\" = ANY(account.\"mailHiddenBuiltInSplits\"))\n  AND NOT EXISTS (\n    SELECT 1 FROM \"MailSplit\" existing\n    WHERE existing.\"emailAccountId\" = account.\"id\"\n      AND existing.\"kind\" = defaults.\"kind\"::\"MailSplitKind\"\n  );\n\nALTER TABLE \"EmailAccount\" DROP COLUMN \"mailHiddenBuiltInSplits\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "emailaccount",
+            "column": "mailhiddenbuiltinsplits",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/web/prisma/migrations/20260908180000_unify_mail_splits/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE emailaccount DROP COLUMN \"mailHiddenBuiltInSplits\"",
+            "extra": {
+              "table_sql": "EmailAccount",
+              "column_sql": "mailHiddenBuiltInSplits"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "emailaccount",
+            "column": "mailhiddenbuiltinsplits",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "apps/web/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff"
+        }
+      ]
+    },
+    {
+      "sha": "2f2d84b552d405c834cfe1bcd160de68eb122cfd",
+      "parent": "923a1ca6bc251c067a39cfedcf4ba9a75712e635",
+      "date": "2026-09-07T14:11:12-07:00",
+      "subject": "mail: Let a split cover several labels and split search from AI assist (#3593)",
+      "mig_files": [
+        "apps/web/prisma/migrations/20260907190000_mail_split_multi_value/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/web/__tests__/ai-regression/ai-prompt-to-split.test.ts",
+        "apps/web/__tests__/db/default-mail-splits.test.ts",
+        "apps/web/__tests__/playwright/emulated/mail/mail-test-helpers.ts",
+        "apps/web/__tests__/playwright/emulated/mail/split-tabs.spec.ts",
+        "apps/web/app/(app)/[emailAccountId]/mail/MailShell.tsx",
+        "apps/web/app/(app)/[emailAccountId]/mail/NewSplitPopover.tsx",
+        "apps/web/app/(app)/[emailAccountId]/mail/SplitTabs.tsx",
+        "apps/web/app/(app)/[emailAccountId]/mail/use-combined-mail-threads.test.tsx",
+        "apps/web/app/(app)/[emailAccountId]/mail/use-combined-mail-threads.ts",
+        "apps/web/app/api/mail/settings/route.ts",
+        "apps/web/app/api/threads/all/route.test.ts",
+        "apps/web/app/api/threads/all/route.ts"
+      ],
+      "orm_models_parsed_old": 75,
+      "raw_sql": "ALTER TABLE \"MailSplit\" ADD COLUMN \"values\" TEXT[] NOT NULL DEFAULT ARRAY[]::TEXT[];\n\nUPDATE \"MailSplit\" SET \"values\" = ARRAY[\"value\"] WHERE \"value\" IS NOT NULL;\n\nALTER TABLE \"MailSplit\" DROP COLUMN \"value\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "mailsplit",
+            "column": "value",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/web/prisma/migrations/20260907190000_mail_split_multi_value/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE mailsplit DROP COLUMN \"value\"",
+            "extra": {
+              "table_sql": "MailSplit"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "mailsplit",
+            "column": "value",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "apps/web/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'value' active in C_{t-1} ORM (apps/web/prisma/schema.prisma); identifier removed in same commit diff"
+        }
+      ]
+    },
+    {
+      "sha": "f06251cc2f4c0919fd61d2d4fe0c0aaf4d413a51",
+      "parent": "d1cac9c98de124ef3900211d0d090a4d6e019998",
+      "date": "2026-08-28T06:29:28-07:00",
+      "subject": "fix: recover meeting recording migration ownership (#3430)",
+      "mig_files": [
+        "apps/web/prisma/migrations/20260828013000_meeting_recording_account_ownership/migration.sql"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 74,
+      "raw_sql": "BEGIN;\n\nALTER TABLE \"MeetingRecording\" ADD COLUMN \"emailAccountId\" TEXT;\n\n-- Recording ownership is account-scoped in the application. Refuse to guess\n-- if historical data violates that invariant, because choosing either account\n-- would let one account deletion remove another account's transcript.\nDO $$\nBEGIN\n  IF EXISTS (\n    SELECT 1\n    FROM \"Meeting\"\n    WHERE \"recordingId\" IS NOT NULL\n    GROUP BY \"recordingId\"\n    HAVING COUNT(DISTINCT \"emailAccountId\") > 1\n  ) THEN\n    RAISE EXCEPTION 'MeetingRecording ownership is ambiguous across email accounts';\n  END IF;\nEND $$;\n\nUPDATE \"MeetingRecording\" AS recording\nSET \"emailAccountId\" = meeting.\"emailAccountId\"\nFROM \"Meeting\" AS meeting\nWHERE recording.id = meeting.\"recordingId\";\n\n-- The account-scoped active key retains ownership when a meeting is unlinked\n-- before its provider cancellation finishes.\nUPDATE \"MeetingRecording\" AS recording\nSET \"emailAccountId\" = account.id\nFROM \"EmailAccount\" AS account\nWHERE recording.\"emailAccountId\" IS NULL\n  AND account.id = split_part(recording.\"activeKey\", ':', 1);\n\n-- An unowned bot whose provider media has not been deleted still carries the\n-- only cancellation and cleanup handle. Abort without deleting it so provider\n-- reconciliation can finish before this migration is retried.\nDO $$\nBEGIN\n  IF EXISTS (\n    SELECT 1\n    FROM \"MeetingRecording\"\n    WHERE \"emailAccountId\" IS NULL\n      AND \"externalBotId\" IS NOT NULL\n      AND \"mediaDeletedAt\" IS NULL\n  ) THEN\n    RAISE EXCEPTION 'Unowned MeetingRecording rows require provider reconciliation';\n  END IF;\nEND $$;\n\n-- These rows are unreachable by any account. Removing them also clears any\n-- transcripts orphaned by earlier account deletions; provider media is already\n-- confirmed deleted or no provider bot was ever created.\nDELETE FROM \"MeetingRecording\" WHERE \"emailAccountId\" IS NULL;\n\nALTER TABLE \"MeetingRecording\" ALTER COLUMN \"emailAccountId\" SET NOT NULL;\n\nCREATE INDEX \"MeetingRecording_emailAccountId_idx\"\nON \"MeetingRecording\"(\"emailAccountId\");\n\nALTER TABLE \"MeetingRecording\"\nADD CONSTRAINT \"MeetingRecording_emailAccountId_fkey\"\nFOREIGN KEY (\"emailAccountId\") REFERENCES \"EmailAccount\"(\"id\")\nON DELETE CASCADE ON UPDATE CASCADE;\n\nALTER TABLE \"Meeting\" DROP CONSTRAINT \"Meeting_recordingId_fkey\";\nALTER TABLE \"Meeting\"\nADD CONSTRAINT \"Meeting_recordingId_fkey\"\nFOREIGN KEY (\"recordingId\") REFERENCES \"MeetingRecording\"(\"id\")\nON DELETE SET NULL ON UPDATE CASCADE;\n\nCOMMIT;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "SET_NOT_NULL",
+            "table": "meetingrecording",
+            "column": "emailaccountid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/web/prisma/migrations/20260828013000_meeting_recording_account_ownership/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE meetingrecording ALTER COLUMN \"emailAccountId\" SET NOT NULL",
+            "extra": {
+              "table_sql": "MeetingRecording",
+              "column_sql": "emailAccountId"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "meetingrecording",
+            "column": "emailaccountid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/web/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: 'meetingrecording.emailaccountid' was already non-nullable in C_{t-1} ORM."
+        }
+      ]
+    },
+    {
+      "sha": "640920ccd4f809e4136e4e8c277624a455c73fd6",
+      "parent": "ca80540a99e0d26b8721ca7c95dccd89728c4b5a",
+      "date": "2026-08-27T18:00:59-07:00",
+      "subject": "fix: add meeting notes deletion and retention cleanup (#3419)",
+      "mig_files": [
+        "apps/web/prisma/migrations/20260828013000_meeting_recording_account_ownership/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/web/__tests__/db/meeting-recorder-reconcile.test.ts",
+        "apps/web/__tests__/playwright/emulated/meetings/meeting-bot-test-helpers.ts",
+        "apps/web/app/(app)/[emailAccountId]/meetings/MeetingDetail.tsx",
+        "apps/web/prisma/schema.prisma",
+        "apps/web/utils/actions/meeting-recorder.test.ts",
+        "apps/web/utils/actions/meeting-recorder.ts",
+        "apps/web/utils/actions/meeting-recorder.validation.ts",
+        "apps/web/utils/meeting-recorder/reconcile.ts"
+      ],
+      "orm_models_parsed_old": 74,
+      "raw_sql": "BEGIN;\n\nALTER TABLE \"MeetingRecording\" ADD COLUMN \"emailAccountId\" TEXT;\n\n-- Recording ownership is account-scoped in the application. Refuse to guess\n-- if historical data violates that invariant, because choosing either account\n-- would let one account deletion remove another account's transcript.\nDO $$\nBEGIN\n  IF EXISTS (\n    SELECT 1\n    FROM \"Meeting\"\n    WHERE \"recordingId\" IS NOT NULL\n    GROUP BY \"recordingId\"\n    HAVING COUNT(DISTINCT \"emailAccountId\") > 1\n  ) THEN\n    RAISE EXCEPTION 'MeetingRecording ownership is ambiguous across email accounts';\n  END IF;\nEND $$;\n\nUPDATE \"MeetingRecording\" AS recording\nSET \"emailAccountId\" = meeting.\"emailAccountId\"\nFROM \"Meeting\" AS meeting\nWHERE recording.id = meeting.\"recordingId\";\n\n-- An unowned bot whose provider media has not been deleted still carries the\n-- only cancellation and cleanup handle. Abort without deleting it so provider\n-- reconciliation can finish before this migration is retried.\nDO $$\nBEGIN\n  IF EXISTS (\n    SELECT 1\n    FROM \"MeetingRecording\"\n    WHERE \"emailAccountId\" IS NULL\n      AND \"externalBotId\" IS NOT NULL\n      AND \"mediaDeletedAt\" IS NULL\n  ) THEN\n    RAISE EXCEPTION 'Unowned MeetingRecording rows require provider reconciliation';\n  END IF;\nEND $$;\n\n-- These rows are unreachable by any account. Removing them also clears any\n-- transcripts orphaned by earlier account deletions; provider media is already\n-- confirmed deleted or no provider bot was ever created.\nDELETE FROM \"MeetingRecording\" WHERE \"emailAccountId\" IS NULL;\n\nALTER TABLE \"MeetingRecording\" ALTER COLUMN \"emailAccountId\" SET NOT NULL;\n\nCREATE INDEX \"MeetingRecording_emailAccountId_idx\"\nON \"MeetingRecording\"(\"emailAccountId\");\n\nALTER TABLE \"MeetingRecording\"\nADD CONSTRAINT \"MeetingRecording_emailAccountId_fkey\"\nFOREIGN KEY (\"emailAccountId\") REFERENCES \"EmailAccount\"(\"id\")\nON DELETE CASCADE ON UPDATE CASCADE;\n\nALTER TABLE \"Meeting\" DROP CONSTRAINT \"Meeting_recordingId_fkey\";\nALTER TABLE \"Meeting\"\nADD CONSTRAINT \"Meeting_recordingId_fkey\"\nFOREIGN KEY (\"recordingId\") REFERENCES \"MeetingRecording\"(\"id\")\nON DELETE SET NULL ON UPDATE CASCADE;\n\nCOMMIT;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "SET_NOT_NULL",
+            "table": "meetingrecording",
+            "column": "emailaccountid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/web/prisma/migrations/20260828013000_meeting_recording_account_ownership/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE meetingrecording ALTER COLUMN \"emailAccountId\" SET NOT NULL",
+            "extra": {
+              "table_sql": "MeetingRecording",
+              "column_sql": "emailAccountId"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "meetingrecording",
+            "column": "emailaccountid",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "apps/web/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Column 'meetingrecording.emailaccountid' not active in C_{t-1} ORM."
+        }
+      ]
+    },
+    {
+      "sha": "4fa34810796441f8bea69d10d5a5538d9ec06489",
+      "parent": "8af13af6778c4ba0c605129b6213a5e92a636386",
+      "date": "2026-08-25T10:08:32-07:00",
+      "subject": "mail: make All Accounts instant and offline resilient (#3388)",
+      "mig_files": [
+        "apps/web/prisma/migrations/20260824110000_add_mail_mutation_receipts/migration.sql",
+        "apps/web/prisma/migrations/20260824110100_add_snooze_mutation_index/migration.sql",
+        "apps/web/prisma/migrations/20260825190000_rename_email_send_operations/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/web/__tests__/db/snoozed-thread-scheduler.test.ts",
+        "apps/web/__tests__/mocks/email-provider.mock.ts",
+        "apps/web/__tests__/playwright/emulated/mail/local-cache.spec.ts",
+        "apps/web/__tests__/playwright/emulated/mail/offline-outbox.spec.ts",
+        "apps/web/__tests__/playwright/emulated/setup/auth.setup.ts",
+        "apps/web/app/(app)/MailMutationOutboxManager.test.tsx",
+        "apps/web/app/(app)/MailMutationOutboxManager.tsx",
+        "apps/web/app/(app)/[emailAccountId]/compose/ComposeEmailForm.tsx",
+        "apps/web/app/(app)/[emailAccountId]/compose/queued-reply.test.ts",
+        "apps/web/app/(app)/[emailAccountId]/compose/queued-reply.ts",
+        "apps/web/app/(app)/[emailAccountId]/mail/MailAccountSwitcher.tsx",
+        "apps/web/app/(app)/[emailAccountId]/mail/MailShell.tsx"
+      ],
+      "orm_models_parsed_old": 73,
+      "raw_sql": "ALTER TABLE \"SnoozedThread\" ADD COLUMN \"clientMutationId\" TEXT;\nALTER TYPE \"SnoozedThreadStatus\" ADD VALUE 'PREPARING' BEFORE 'PENDING';\n\nCREATE TYPE \"MailMutationReceiptKind\" AS ENUM ('REPLY');\nCREATE TYPE \"MailMutationReceiptStatus\" AS ENUM ('PROCESSING', 'APPLIED', 'UNCERTAIN');\n\nCREATE TABLE \"MailMutationReceipt\" (\n    \"id\" TEXT NOT NULL,\n    \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    \"updatedAt\" TIMESTAMP(3) NOT NULL,\n    \"clientMutationId\" TEXT NOT NULL,\n    \"kind\" \"MailMutationReceiptKind\" NOT NULL,\n    \"payloadHash\" TEXT NOT NULL,\n    \"status\" \"MailMutationReceiptStatus\" NOT NULL DEFAULT 'PROCESSING',\n    \"processingStartedAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    \"result\" JSONB,\n    \"emailAccountId\" TEXT NOT NULL,\n    CONSTRAINT \"MailMutationReceipt_pkey\" PRIMARY KEY (\"id\")\n);\n\nCREATE UNIQUE INDEX \"MailMutationReceipt_emailAccountId_clientMutationId_key\" ON \"MailMutationReceipt\"(\"emailAccountId\", \"clientMutationId\");\nCREATE INDEX \"MailMutationReceipt_status_processingStartedAt_idx\" ON \"MailMutationReceipt\"(\"status\", \"processingStartedAt\");\nALTER TABLE \"MailMutationReceipt\" ADD CONSTRAINT \"MailMutationReceipt_emailAccountId_fkey\" FOREIGN KEY (\"emailAccountId\") REFERENCES \"EmailAccount\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\nCREATE UNIQUE INDEX CONCURRENTLY \"SnoozedThread_emailAccountId_clientMutationId_key\"\nON \"SnoozedThread\"(\"emailAccountId\", \"clientMutationId\");\n\nALTER TABLE \"MailMutationReceipt\" RENAME TO \"EmailSendOperation\";\nALTER TABLE \"EmailSendOperation\" RENAME CONSTRAINT \"MailMutationReceipt_pkey\" TO \"EmailSendOperation_pkey\";\nALTER TABLE \"EmailSendOperation\" RENAME CONSTRAINT \"MailMutationReceipt_emailAccountId_fkey\" TO \"EmailSendOperation_emailAccountId_fkey\";\n\nALTER INDEX \"MailMutationReceipt_emailAccountId_clientMutationId_key\" RENAME TO \"EmailSendOperation_emailAccountId_clientMutationId_key\";\nDROP INDEX \"MailMutationReceipt_status_processingStartedAt_idx\";\n\nALTER TYPE \"MailMutationReceiptStatus\" RENAME TO \"EmailSendOperationStatus\";\nALTER TYPE \"EmailSendOperationStatus\" RENAME VALUE 'APPLIED' TO 'SENT';\n\nALTER TABLE \"EmailSendOperation\" DROP COLUMN \"kind\";\nDROP TYPE \"MailMutationReceiptKind\";\n\nCREATE INDEX \"EmailSendOperation_status_updatedAt_idx\" ON \"EmailSendOperation\"(\"status\", \"updatedAt\");\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TABLE",
+            "table": "mailmutationreceipt",
+            "column": null,
+            "new_name": "emailsendoperation",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/web/prisma/migrations/20260825190000_rename_email_send_operations/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE mailmutationreceipt RENAME TO \"EmailSendOperation\"",
+            "extra": {
+              "table_sql": "MailMutationReceipt",
+              "new_name_sql": "EmailSendOperation"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "mailmutationreceipt",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": true,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "UNCERTAIN",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'mailmutationreceipt' not resolved in C_{t-1} ORM snapshot."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "mailmutationreceiptstatus",
+            "column": "mailmutationreceiptstatus",
+            "new_name": "emailsendoperationstatus",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/web/prisma/migrations/20260825190000_rename_email_send_operations/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TYPE \"MailMutationReceiptStatus\" RENAME TO \"EmailSendOperationStatus\"",
+            "extra": {
+              "table_sql": "MailMutationReceiptStatus",
+              "column_sql": "MailMutationReceiptStatus",
+              "new_name_sql": "EmailSendOperationStatus"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "mailmutationreceiptstatus",
+            "column": "mailmutationreceiptstatus",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "ENUM 'mailmutationreceiptstatus' not present in C_{t-1} schema."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "emailsendoperation",
+            "column": "kind",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/web/prisma/migrations/20260825190000_rename_email_send_operations/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE emailsendoperation DROP COLUMN \"kind\"",
+            "extra": {
+              "table_sql": "EmailSendOperation"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "emailsendoperation",
+            "column": "kind",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "mailmutationreceiptkind",
+            "column": "mailmutationreceiptkind",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/web/prisma/migrations/20260825190000_rename_email_send_operations/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TYPE \"MailMutationReceiptKind\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "MailMutationReceiptKind",
+              "column_sql": "MailMutationReceiptKind"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "mailmutationreceiptkind",
+            "column": "mailmutationreceiptkind",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "ENUM 'mailmutationreceiptkind' not present in C_{t-1} schema."
+        }
+      ]
+    },
+    {
+      "sha": "39ae142563ed4f641998332a359befe1d3bfab8e",
+      "parent": "f6ede346a37127c042ad3eeee830777fbfc107fe",
+      "date": "2026-08-12T00:47:51+03:00",
+      "subject": "fix(mail): tighten the mail screen chrome (#3211)",
+      "mig_files": [
+        "apps/web/prisma/migrations/20260811220000_drop_mail_hint_bar_dismissed/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/web/app/(app)/[emailAccountId]/mail/HintBar.tsx",
+        "apps/web/app/(app)/[emailAccountId]/mail/ListToolbar.tsx",
+        "apps/web/app/(app)/[emailAccountId]/mail/MailShell.tsx",
+        "apps/web/app/(app)/[emailAccountId]/mail/MailSidebar.tsx",
+        "apps/web/app/(app)/[emailAccountId]/mail/SplitTabs.tsx",
+        "apps/web/app/(app)/[emailAccountId]/mail/ThreadRow.tsx",
+        "apps/web/app/api/mail/settings/route.ts",
+        "apps/web/components/SideNavWithTopNav.tsx",
+        "apps/web/prisma/schema.prisma",
+        "apps/web/utils/actions/mail-split.ts",
+        "apps/web/utils/actions/mail-split.validation.ts"
+      ],
+      "orm_models_parsed_old": 71,
+      "raw_sql": "-- AlterTable\nALTER TABLE \"EmailAccount\" DROP COLUMN \"mailHintBarDismissed\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "emailaccount",
+            "column": "mailhintbardismissed",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/web/prisma/migrations/20260811220000_drop_mail_hint_bar_dismissed/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE emailaccount DROP COLUMN \"mailHintBarDismissed\"",
+            "extra": {
+              "table_sql": "EmailAccount",
+              "column_sql": "mailHintBarDismissed"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "emailaccount",
+            "column": "mailhintbardismissed",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "apps/web/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff"
+        }
+      ]
+    },
+    {
+      "sha": "c9a9fc4b2b37057b9ef3d0e4b99cb71f60de098a",
+      "parent": "01c04a37990e1397d6f425ee8710eb71f9794e0d",
+      "date": "2026-06-21T17:05:12+03:00",
+      "subject": "Keep booking availability migration temp table for session (#2882)",
+      "mig_files": [
+        "apps/web/prisma/migrations/20260621140000_booking_availability_schedules/migration.sql"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 64,
+      "raw_sql": "-- CreateTable\nCREATE TABLE \"AvailabilitySchedule\" (\n    \"id\" TEXT NOT NULL,\n    \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    \"updatedAt\" TIMESTAMP(3) NOT NULL,\n    \"name\" TEXT NOT NULL,\n    \"isDefault\" BOOLEAN NOT NULL DEFAULT false,\n    \"timezone\" TEXT NOT NULL,\n    \"emailAccountId\" TEXT NOT NULL,\n\n    CONSTRAINT \"AvailabilitySchedule_pkey\" PRIMARY KEY (\"id\")\n);\n\nCREATE TEMP TABLE \"BookingLinkAvailabilityScheduleMigration\" (\n    \"bookingLinkId\" TEXT NOT NULL,\n    \"availabilityScheduleId\" TEXT NOT NULL\n);\n\nINSERT INTO \"BookingLinkAvailabilityScheduleMigration\" (\n    \"bookingLinkId\",\n    \"availabilityScheduleId\"\n)\nSELECT\n    id,\n    gen_random_uuid()::text\nFROM \"BookingLink\";\n\n-- Copy existing booking link availability settings into reusable schedules.\nINSERT INTO \"AvailabilitySchedule\" (\n    \"id\",\n    \"createdAt\",\n    \"updatedAt\",\n    \"name\",\n    \"isDefault\",\n    \"timezone\",\n    \"emailAccountId\"\n)\nSELECT\n    mapping.\"availabilityScheduleId\",\n    booking_link.\"createdAt\",\n    booking_link.\"updatedAt\",\n    'Default availability',\n    true,\n    booking_link.\"timezone\",\n    booking_link.\"emailAccountId\"\nFROM \"BookingLink\" booking_link\nINNER JOIN \"BookingLinkAvailabilityScheduleMigration\" mapping\n    ON mapping.\"bookingLinkId\" = booking_link.id;\n\n-- Add the booking-link schedule pointer as nullable while existing rows are linked.\nALTER TABLE \"BookingLink\" ADD COLUMN \"availabilityScheduleId\" TEXT;\n\nUPDATE \"BookingLink\" bl\nSET \"availabilityScheduleId\" = mapping.\"availabilityScheduleId\"\nFROM \"BookingLinkAvailabilityScheduleMigration\" mapping\nWHERE mapping.\"bookingLinkId\" = bl.id;\n\n-- Existing booking links must now point to an account-owned availability schedule.\nALTER TABLE \"BookingLink\" ALTER COLUMN \"availabilityScheduleId\" SET NOT NULL;\n\n-- Rename booking windows to availability windows and attach each window to the\n-- schedule that replaced its booking-link parent.\nALTER TABLE \"BookingWindow\" RENAME TO \"AvailabilityWindow\";\nALTER TABLE \"AvailabilityWindow\" RENAME CONSTRAINT \"BookingWindow_pkey\" TO \"AvailabilityWindow_pkey\";\nALTER INDEX \"BookingWindow_bookingLinkId_idx\" RENAME TO \"AvailabilityWindow_bookingLinkId_idx\";\nALTER TABLE \"AvailabilityWindow\" DROP CONSTRAINT \"BookingWindow_bookingLinkId_fkey\";\nALTER TABLE \"AvailabilityWindow\" RENAME COLUMN \"bookingLinkId\" TO \"availabilityScheduleId\";\n\nUPDATE \"AvailabilityWindow\" availability_window\nSET \"availabilityScheduleId\" = bl.\"availabilityScheduleId\"\nFROM \"BookingLink\" bl\nWHERE availability_window.\"availabilityScheduleId\" = bl.id;\n\nALTER INDEX \"AvailabilityWindow_bookingLinkId_idx\" RENAME TO \"AvailabilityWindow_availabilityScheduleId_idx\";\n\n-- Drop old constraints/columns after data has moved.\nALTER TABLE \"BookingLink\" DROP COLUMN \"timezone\";\n\n-- CreateIndex\nCREATE INDEX \"AvailabilitySchedule_emailAccountId_idx\" ON \"AvailabilitySchedule\"(\"emailAccountId\");\n\n-- CreateIndex\nCREATE INDEX \"AvailabilitySchedule_emailAccountId_isDefault_idx\" ON \"AvailabilitySchedule\"(\"emailAccountId\", \"isDefault\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"AvailabilitySchedule_emailAccountId_default_key\" ON \"AvailabilitySchedule\"(\"emailAccountId\") WHERE \"isDefault\" = true;\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"AvailabilitySchedule_id_emailAccountId_key\" ON \"AvailabilitySchedule\"(\"id\", \"emailAccountId\");\n\n-- CreateIndex\nCREATE INDEX \"BookingLink_availabilityScheduleId_idx\" ON \"BookingLink\"(\"availabilityScheduleId\");\n\n-- AddForeignKey\nALTER TABLE \"AvailabilitySchedule\" ADD CONSTRAINT \"AvailabilitySchedule_emailAccountId_fkey\" FOREIGN KEY (\"emailAccountId\") REFERENCES \"EmailAccount\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"BookingLink\" ADD CONSTRAINT \"BookingLink_availabilityScheduleId_emailAccountId_fkey\" FOREIGN KEY (\"availabilityScheduleId\", \"emailAccountId\") REFERENCES \"AvailabilitySchedule\"(\"id\", \"emailAccountId\") ON DELETE NO ACTION ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"AvailabilityWindow\" ADD CONSTRAINT \"AvailabilityWindow_availabilityScheduleId_fkey\" FOREIGN KEY (\"availabilityScheduleId\") REFERENCES \"AvailabilitySchedule\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\nDROP TABLE \"BookingLinkAvailabilityScheduleMigration\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "SET_NOT_NULL",
+            "table": "bookinglink",
+            "column": "availabilityscheduleid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/web/prisma/migrations/20260621140000_booking_availability_schedules/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE bookinglink ALTER COLUMN \"availabilityScheduleId\" SET NOT NULL",
+            "extra": {
+              "table_sql": "BookingLink",
+              "column_sql": "availabilityScheduleId"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "bookinglink",
+            "column": "availabilityscheduleid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/web/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: 'bookinglink.availabilityscheduleid' was already non-nullable in C_{t-1} ORM."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TABLE",
+            "table": "bookingwindow",
+            "column": null,
+            "new_name": "availabilitywindow",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/web/prisma/migrations/20260621140000_booking_availability_schedules/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE bookingwindow RENAME TO \"AvailabilityWindow\"",
+            "extra": {
+              "table_sql": "BookingWindow",
+              "new_name_sql": "AvailabilityWindow"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "bookingwindow",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": true,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "UNCERTAIN",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'bookingwindow' not resolved in C_{t-1} ORM snapshot."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_COLUMN",
+            "table": "availabilitywindow",
+            "column": "bookinglinkid",
+            "new_name": "availabilityscheduleid",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/web/prisma/migrations/20260621140000_booking_availability_schedules/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE availabilitywindow RENAME COLUMN \"bookingLinkId\" TO \"availabilityScheduleId\"",
+            "extra": {
+              "table_sql": "AvailabilityWindow",
+              "column_sql": "bookingLinkId",
+              "new_name_sql": "availabilityScheduleId"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "availabilitywindow",
+            "column": "bookinglinkid",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/web/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Renamed column 'bookinglinkid' not referenced in C_{t-1} or C_t."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "bookinglink",
+            "column": "timezone",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/web/prisma/migrations/20260621140000_booking_availability_schedules/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE bookinglink DROP COLUMN \"timezone\"",
+            "extra": {
+              "table_sql": "BookingLink"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "bookinglink",
+            "column": "timezone",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/web/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'timezone' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "bookinglinkavailabilityschedulemigration",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/web/prisma/migrations/20260621140000_booking_availability_schedules/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TABLE \"BookingLinkAvailabilityScheduleMigration\"",
+            "extra": {
+              "table_sql": "BookingLinkAvailabilityScheduleMigration"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "bookinglinkavailabilityschedulemigration",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'bookinglinkavailabilityschedulemigration' not resolved in C_{t-1} ORM snapshot."
+        }
+      ]
+    },
+    {
+      "sha": "01c04a37990e1397d6f425ee8710eb71f9794e0d",
+      "parent": "3cba66066cc88bcfaf4b0f77841f6ee88f24740d",
+      "date": "2026-06-21T16:56:59+03:00",
+      "subject": "Recover booking availability migration (#2881)",
+      "mig_files": [
+        "apps/web/prisma/migrations/20260621140000_booking_availability_schedules/migration.sql"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 64,
+      "raw_sql": "-- CreateTable\nCREATE TABLE \"AvailabilitySchedule\" (\n    \"id\" TEXT NOT NULL,\n    \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    \"updatedAt\" TIMESTAMP(3) NOT NULL,\n    \"name\" TEXT NOT NULL,\n    \"isDefault\" BOOLEAN NOT NULL DEFAULT false,\n    \"timezone\" TEXT NOT NULL,\n    \"emailAccountId\" TEXT NOT NULL,\n\n    CONSTRAINT \"AvailabilitySchedule_pkey\" PRIMARY KEY (\"id\")\n);\n\nCREATE TEMP TABLE \"BookingLinkAvailabilityScheduleMigration\" (\n    \"bookingLinkId\" TEXT NOT NULL,\n    \"availabilityScheduleId\" TEXT NOT NULL\n) ON COMMIT DROP;\n\nINSERT INTO \"BookingLinkAvailabilityScheduleMigration\" (\n    \"bookingLinkId\",\n    \"availabilityScheduleId\"\n)\nSELECT\n    id,\n    gen_random_uuid()::text\nFROM \"BookingLink\";\n\n-- Copy existing booking link availability settings into reusable schedules.\nINSERT INTO \"AvailabilitySchedule\" (\n    \"id\",\n    \"createdAt\",\n    \"updatedAt\",\n    \"name\",\n    \"isDefault\",\n    \"timezone\",\n    \"emailAccountId\"\n)\nSELECT\n    mapping.\"availabilityScheduleId\",\n    booking_link.\"createdAt\",\n    booking_link.\"updatedAt\",\n    'Default availability',\n    true,\n    booking_link.\"timezone\",\n    booking_link.\"emailAccountId\"\nFROM \"BookingLink\" booking_link\nINNER JOIN \"BookingLinkAvailabilityScheduleMigration\" mapping\n    ON mapping.\"bookingLinkId\" = booking_link.id;\n\n-- Add the booking-link schedule pointer as nullable while existing rows are linked.\nALTER TABLE \"BookingLink\" ADD COLUMN \"availabilityScheduleId\" TEXT;\n\nUPDATE \"BookingLink\" bl\nSET \"availabilityScheduleId\" = mapping.\"availabilityScheduleId\"\nFROM \"BookingLinkAvailabilityScheduleMigration\" mapping\nWHERE mapping.\"bookingLinkId\" = bl.id;\n\n-- Existing booking links must now point to an account-owned availability schedule.\nALTER TABLE \"BookingLink\" ALTER COLUMN \"availabilityScheduleId\" SET NOT NULL;\n\n-- Rename booking windows to availability windows and attach each window to the\n-- schedule that replaced its booking-link parent.\nALTER TABLE \"BookingWindow\" RENAME TO \"AvailabilityWindow\";\nALTER TABLE \"AvailabilityWindow\" RENAME CONSTRAINT \"BookingWindow_pkey\" TO \"AvailabilityWindow_pkey\";\nALTER INDEX \"BookingWindow_bookingLinkId_idx\" RENAME TO \"AvailabilityWindow_bookingLinkId_idx\";\nALTER TABLE \"AvailabilityWindow\" DROP CONSTRAINT \"BookingWindow_bookingLinkId_fkey\";\nALTER TABLE \"AvailabilityWindow\" RENAME COLUMN \"bookingLinkId\" TO \"availabilityScheduleId\";\n\nUPDATE \"AvailabilityWindow\" availability_window\nSET \"availabilityScheduleId\" = bl.\"availabilityScheduleId\"\nFROM \"BookingLink\" bl\nWHERE availability_window.\"availabilityScheduleId\" = bl.id;\n\nALTER INDEX \"AvailabilityWindow_bookingLinkId_idx\" RENAME TO \"AvailabilityWindow_availabilityScheduleId_idx\";\n\n-- Drop old constraints/columns after data has moved.\nALTER TABLE \"BookingLink\" DROP COLUMN \"timezone\";\n\n-- CreateIndex\nCREATE INDEX \"AvailabilitySchedule_emailAccountId_idx\" ON \"AvailabilitySchedule\"(\"emailAccountId\");\n\n-- CreateIndex\nCREATE INDEX \"AvailabilitySchedule_emailAccountId_isDefault_idx\" ON \"AvailabilitySchedule\"(\"emailAccountId\", \"isDefault\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"AvailabilitySchedule_emailAccountId_default_key\" ON \"AvailabilitySchedule\"(\"emailAccountId\") WHERE \"isDefault\" = true;\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"AvailabilitySchedule_id_emailAccountId_key\" ON \"AvailabilitySchedule\"(\"id\", \"emailAccountId\");\n\n-- CreateIndex\nCREATE INDEX \"BookingLink_availabilityScheduleId_idx\" ON \"BookingLink\"(\"availabilityScheduleId\");\n\n-- AddForeignKey\nALTER TABLE \"AvailabilitySchedule\" ADD CONSTRAINT \"AvailabilitySchedule_emailAccountId_fkey\" FOREIGN KEY (\"emailAccountId\") REFERENCES \"EmailAccount\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"BookingLink\" ADD CONSTRAINT \"BookingLink_availabilityScheduleId_emailAccountId_fkey\" FOREIGN KEY (\"availabilityScheduleId\", \"emailAccountId\") REFERENCES \"AvailabilitySchedule\"(\"id\", \"emailAccountId\") ON DELETE NO ACTION ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"AvailabilityWindow\" ADD CONSTRAINT \"AvailabilityWindow_availabilityScheduleId_fkey\" FOREIGN KEY (\"availabilityScheduleId\") REFERENCES \"AvailabilitySchedule\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "SET_NOT_NULL",
+            "table": "bookinglink",
+            "column": "availabilityscheduleid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/web/prisma/migrations/20260621140000_booking_availability_schedules/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE bookinglink ALTER COLUMN \"availabilityScheduleId\" SET NOT NULL",
+            "extra": {
+              "table_sql": "BookingLink",
+              "column_sql": "availabilityScheduleId"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "bookinglink",
+            "column": "availabilityscheduleid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/web/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: 'bookinglink.availabilityscheduleid' was already non-nullable in C_{t-1} ORM."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TABLE",
+            "table": "bookingwindow",
+            "column": null,
+            "new_name": "availabilitywindow",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/web/prisma/migrations/20260621140000_booking_availability_schedules/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE bookingwindow RENAME TO \"AvailabilityWindow\"",
+            "extra": {
+              "table_sql": "BookingWindow",
+              "new_name_sql": "AvailabilityWindow"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "bookingwindow",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": true,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "UNCERTAIN",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'bookingwindow' not resolved in C_{t-1} ORM snapshot."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_COLUMN",
+            "table": "availabilitywindow",
+            "column": "bookinglinkid",
+            "new_name": "availabilityscheduleid",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/web/prisma/migrations/20260621140000_booking_availability_schedules/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE availabilitywindow RENAME COLUMN \"bookingLinkId\" TO \"availabilityScheduleId\"",
+            "extra": {
+              "table_sql": "AvailabilityWindow",
+              "column_sql": "bookingLinkId",
+              "new_name_sql": "availabilityScheduleId"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "availabilitywindow",
+            "column": "bookinglinkid",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/web/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Renamed column 'bookinglinkid' not referenced in C_{t-1} or C_t."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "bookinglink",
+            "column": "timezone",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/web/prisma/migrations/20260621140000_booking_availability_schedules/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE bookinglink DROP COLUMN \"timezone\"",
+            "extra": {
+              "table_sql": "BookingLink"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "bookinglink",
+            "column": "timezone",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/web/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'timezone' already absent from C_{t-1} ORM and app code."
+        }
+      ]
+    },
+    {
+      "sha": "bd5823ad22ed5895fa44ccb0683873996d2e0f9a",
+      "parent": "93e2abf6e5e730a91425b64567846ba0f80e111f",
+      "date": "2026-06-21T15:45:16+03:00",
+      "subject": "Update scheduling availability data model (#2877)",
+      "mig_files": [
+        "apps/web/prisma/migrations/20260621140000_booking_availability_schedules/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/web/app/api/user/booking-links/route.ts",
+        "apps/web/prisma/schema.prisma",
+        "apps/web/utils/actions/booking.test.ts",
+        "apps/web/utils/actions/booking.ts",
+        "apps/web/utils/actions/booking.validation.ts",
+        "apps/web/utils/ai/calendar/availability.test.ts",
+        "apps/web/utils/ai/calendar/availability.ts",
+        "apps/web/utils/booking/emails.test.ts",
+        "apps/web/utils/booking/emails.ts",
+        "apps/web/utils/booking/public.test.ts",
+        "apps/web/utils/booking/public.ts"
+      ],
+      "orm_models_parsed_old": 63,
+      "raw_sql": "-- CreateTable\nCREATE TABLE \"AvailabilitySchedule\" (\n    \"id\" TEXT NOT NULL,\n    \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    \"updatedAt\" TIMESTAMP(3) NOT NULL,\n    \"name\" TEXT NOT NULL,\n    \"isDefault\" BOOLEAN NOT NULL DEFAULT false,\n    \"timezone\" TEXT NOT NULL,\n    \"emailAccountId\" TEXT NOT NULL,\n\n    CONSTRAINT \"AvailabilitySchedule_pkey\" PRIMARY KEY (\"id\")\n);\n\nCREATE TEMP TABLE \"BookingLinkAvailabilityScheduleMigration\" (\n    \"bookingLinkId\" TEXT NOT NULL,\n    \"availabilityScheduleId\" TEXT NOT NULL\n) ON COMMIT DROP;\n\nINSERT INTO \"BookingLinkAvailabilityScheduleMigration\" (\n    \"bookingLinkId\",\n    \"availabilityScheduleId\"\n)\nSELECT\n    id,\n    gen_random_uuid()::text\nFROM \"BookingLink\";\n\n-- Copy existing booking link availability settings into reusable schedules.\nINSERT INTO \"AvailabilitySchedule\" (\n    \"id\",\n    \"createdAt\",\n    \"updatedAt\",\n    \"name\",\n    \"isDefault\",\n    \"timezone\",\n    \"emailAccountId\"\n)\nSELECT\n    mapping.\"availabilityScheduleId\",\n    booking_link.\"createdAt\",\n    booking_link.\"updatedAt\",\n    'Default availability',\n    true,\n    booking_link.\"timezone\",\n    booking_link.\"emailAccountId\"\nFROM \"BookingLink\" booking_link\nINNER JOIN \"BookingLinkAvailabilityScheduleMigration\" mapping\n    ON mapping.\"bookingLinkId\" = booking_link.id;\n\n-- Add the booking-link schedule pointer as nullable while existing rows are linked.\nALTER TABLE \"BookingLink\" ADD COLUMN \"availabilityScheduleId\" TEXT;\n\nUPDATE \"BookingLink\" bl\nSET \"availabilityScheduleId\" = mapping.\"availabilityScheduleId\"\nFROM \"BookingLinkAvailabilityScheduleMigration\" mapping\nWHERE mapping.\"bookingLinkId\" = bl.id;\n\n-- Existing booking links must now point to an account-owned availability schedule.\nALTER TABLE \"BookingLink\" ALTER COLUMN \"availabilityScheduleId\" SET NOT NULL;\n\n-- Rename booking windows to availability windows and attach each window to the\n-- schedule that replaced its booking-link parent.\nALTER TABLE \"BookingWindow\" RENAME TO \"AvailabilityWindow\";\nALTER TABLE \"AvailabilityWindow\" RENAME CONSTRAINT \"BookingWindow_pkey\" TO \"AvailabilityWindow_pkey\";\nALTER INDEX \"BookingWindow_bookingLinkId_idx\" RENAME TO \"AvailabilityWindow_bookingLinkId_idx\";\nALTER TABLE \"AvailabilityWindow\" DROP CONSTRAINT \"BookingWindow_bookingLinkId_fkey\";\nALTER TABLE \"AvailabilityWindow\" RENAME COLUMN \"bookingLinkId\" TO \"availabilityScheduleId\";\n\nUPDATE \"AvailabilityWindow\" window\nSET \"availabilityScheduleId\" = bl.\"availabilityScheduleId\"\nFROM \"BookingLink\" bl\nWHERE window.\"availabilityScheduleId\" = bl.id;\n\nALTER INDEX \"AvailabilityWindow_bookingLinkId_idx\" RENAME TO \"AvailabilityWindow_availabilityScheduleId_idx\";\n\n-- Drop old constraints/columns after data has moved.\nALTER TABLE \"BookingLink\" DROP COLUMN \"timezone\";\n\n-- CreateIndex\nCREATE INDEX \"AvailabilitySchedule_emailAccountId_idx\" ON \"AvailabilitySchedule\"(\"emailAccountId\");\n\n-- CreateIndex\nCREATE INDEX \"AvailabilitySchedule_emailAccountId_isDefault_idx\" ON \"AvailabilitySchedule\"(\"emailAccountId\", \"isDefault\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"AvailabilitySchedule_emailAccountId_default_key\" ON \"AvailabilitySchedule\"(\"emailAccountId\") WHERE \"isDefault\" = true;\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"AvailabilitySchedule_id_emailAccountId_key\" ON \"AvailabilitySchedule\"(\"id\", \"emailAccountId\");\n\n-- CreateIndex\nCREATE INDEX \"BookingLink_availabilityScheduleId_idx\" ON \"BookingLink\"(\"availabilityScheduleId\");\n\n-- AddForeignKey\nALTER TABLE \"AvailabilitySchedule\" ADD CONSTRAINT \"AvailabilitySchedule_emailAccountId_fkey\" FOREIGN KEY (\"emailAccountId\") REFERENCES \"EmailAccount\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"BookingLink\" ADD CONSTRAINT \"BookingLink_availabilityScheduleId_emailAccountId_fkey\" FOREIGN KEY (\"availabilityScheduleId\", \"emailAccountId\") REFERENCES \"AvailabilitySchedule\"(\"id\", \"emailAccountId\") ON DELETE NO ACTION ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"AvailabilityWindow\" ADD CONSTRAINT \"AvailabilityWindow_availabilityScheduleId_fkey\" FOREIGN KEY (\"availabilityScheduleId\") REFERENCES \"AvailabilitySchedule\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "SET_NOT_NULL",
+            "table": "bookinglink",
+            "column": "availabilityscheduleid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/web/prisma/migrations/20260621140000_booking_availability_schedules/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE bookinglink ALTER COLUMN \"availabilityScheduleId\" SET NOT NULL",
+            "extra": {
+              "table_sql": "BookingLink",
+              "column_sql": "availabilityScheduleId"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "bookinglink",
+            "column": "availabilityscheduleid",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/web/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Column 'bookinglink.availabilityscheduleid' not active in C_{t-1} ORM."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TABLE",
+            "table": "bookingwindow",
+            "column": null,
+            "new_name": "availabilitywindow",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/web/prisma/migrations/20260621140000_booking_availability_schedules/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE bookingwindow RENAME TO \"AvailabilityWindow\"",
+            "extra": {
+              "table_sql": "BookingWindow",
+              "new_name_sql": "AvailabilityWindow"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "bookingwindow",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": true,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "apps/web/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_TABLE 'bookingwindow'->'availabilitywindow' breaks both directions."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_COLUMN",
+            "table": "availabilitywindow",
+            "column": "bookinglinkid",
+            "new_name": "availabilityscheduleid",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/web/prisma/migrations/20260621140000_booking_availability_schedules/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE availabilitywindow RENAME COLUMN \"bookingLinkId\" TO \"availabilityScheduleId\"",
+            "extra": {
+              "table_sql": "AvailabilityWindow",
+              "column_sql": "bookingLinkId",
+              "new_name_sql": "availabilityScheduleId"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "availabilitywindow",
+            "column": "bookinglinkid",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_COLUMN 'bookinglinkid'->'availabilityscheduleid' breaks both C_{t-1} |= S_t and C_t |= S_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "bookinglink",
+            "column": "timezone",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/web/prisma/migrations/20260621140000_booking_availability_schedules/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE bookinglink DROP COLUMN \"timezone\"",
+            "extra": {
+              "table_sql": "BookingLink"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "bookinglink",
+            "column": "timezone",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "apps/web/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'timezone' active in C_{t-1} ORM (apps/web/prisma/schema.prisma); identifier removed in same commit diff"
+        }
+      ]
+    },
+    {
+      "sha": "f15becbbf211e4c443dc1999f297437e05854e91",
+      "parent": "dde052dd49aaa15bdc852a0d68161d77230e78f0",
+      "date": "2026-05-05T15:05:59+03:00",
+      "subject": "Add AI content controls (#2513)",
+      "mig_files": [
+        "apps/web/prisma/migrations/20260505120000_add_sensitive_data_policy/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/web/__tests__/ai-regression/ai-persona.test.ts",
+        "apps/web/__tests__/helpers.ts",
+        "apps/web/app/(app)/[emailAccountId]/assistant/settings/SensitiveDataPolicySetting.tsx",
+        "apps/web/app/(app)/[emailAccountId]/assistant/settings/SettingsTab.tsx",
+        "apps/web/app/api/ai/analyze-sender-pattern/route.ts",
+        "apps/web/app/api/ai/compose-autocomplete/route.ts",
+        "apps/web/app/api/ai/summarise/controller.ts",
+        "apps/web/app/api/follow-up-reminders/process.ts",
+        "apps/web/app/api/user/drive/preview/route.ts",
+        "apps/web/app/api/user/email-account/route.ts",
+        "apps/web/env.ts",
+        "apps/web/prisma/schema.prisma"
+      ],
+      "orm_models_parsed_old": 59,
+      "raw_sql": "ALTER TABLE \"EmailAccount\"\nADD COLUMN \"sensitiveDataPolicy\" TEXT;\n\nALTER TABLE \"EmailAccount\"\nADD CONSTRAINT \"EmailAccount_sensitiveDataPolicy_check\"\nCHECK (\"sensitiveDataPolicy\" IS NULL OR \"sensitiveDataPolicy\" IN ('ALLOW', 'REDACT', 'BLOCK'));\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ADD_UNIQUE_OR_CHECK",
+            "table": "emailaccount",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/web/prisma/migrations/20260505120000_add_sensitive_data_policy/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE emailaccount ADD CONSTRAINT \"EmailAccount_sensitiveDataPolicy_check\" CHECK (\"sensitiveDataPolicy\" IS NULL OR \"sensitiveDataPolicy\" IN ('ALLOW', 'REDACT', 'BLOCK'))",
+            "extra": {
+              "table_sql": "EmailAccount"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "emailaccount",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/web/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "DATA_DEPENDENT",
+          "compat_forward": "SAFE",
+          "classification": "DATA_DEPENDENT",
+          "reason": "CHECK/UNIQUE constraint added on active C_{t-1} table 'emailaccount'; safety depends on C_{t-1} write values."
+        }
+      ]
+    },
+    {
+      "sha": "375ebc888a9e6c1e55d57eb5289dcadec71c522a",
+      "parent": "f9a11c76492d83764f07a8848f6483a18c286dbb",
+      "date": "2026-04-19T15:01:10+03:00",
+      "subject": "analytics: track first-time activation events; drop unused onboarding column (#2310)",
+      "mig_files": [
+        "apps/web/prisma/migrations/20260419120000_drop_completed_app_onboarding_at/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/web/app/api/chat/route.ts",
+        "apps/web/prisma/schema.prisma",
+        "apps/web/utils/ai/choose-rule/run-rules.ts",
+        "apps/web/utils/posthog.ts",
+        "apps/web/utils/reply-tracker/draft-tracking.ts"
+      ],
+      "orm_models_parsed_old": 59,
+      "raw_sql": "ALTER TABLE \"User\" DROP COLUMN \"completedAppOnboardingAt\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "user",
+            "column": "completedapponboardingat",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/web/prisma/migrations/20260419120000_drop_completed_app_onboarding_at/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE user DROP COLUMN \"completedAppOnboardingAt\"",
+            "extra": {
+              "table_sql": "User",
+              "column_sql": "completedAppOnboardingAt"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "user",
+            "column": "completedapponboardingat",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "apps/web/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'completedapponboardingat' active in C_{t-1} ORM (apps/web/prisma/schema.prisma); identifier removed in same commit diff"
+        }
+      ]
+    },
+    {
+      "sha": "b51f16b713ad3121027dae10db785016e8a73dac",
+      "parent": "4c0cf8a247bb4058388a8cb0e89e40f3df1945ac",
+      "date": "2026-04-06T20:10:24+03:00",
+      "subject": "messaging: refactor notification routes (#2176)",
+      "mig_files": [
+        "apps/web/prisma/migrations/20260405123000_add_messaging_routes/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/web/__tests__/integration/slack-notifications.test.ts",
+        "apps/web/app/(app)/[emailAccountId]/assistant/ActionSteps.tsx",
+        "apps/web/app/(app)/[emailAccountId]/assistant/RuleForm.tsx",
+        "apps/web/app/(app)/[emailAccountId]/assistant/settings/ProactiveUpdatesSetting.tsx",
+        "apps/web/app/(app)/[emailAccountId]/briefs/DeliveryChannelsSetting.tsx",
+        "apps/web/app/(app)/[emailAccountId]/channels/Channels.tsx",
+        "apps/web/app/(app)/[emailAccountId]/drive/page.tsx",
+        "apps/web/app/(app)/[emailAccountId]/settings/ConnectedAppsSection.tsx",
+        "apps/web/app/api/cron/automation-jobs/route.ts",
+        "apps/web/app/api/user/messaging-channels/route.test.ts",
+        "apps/web/app/api/user/messaging-channels/route.ts",
+        "apps/web/components/SlackNotificationTargetSelect.tsx"
+      ],
+      "orm_models_parsed_old": 58,
+      "raw_sql": "-- CreateEnum\nCREATE TYPE \"MessagingRoutePurpose\" AS ENUM (\n  'RULE_NOTIFICATIONS',\n  'MEETING_BRIEFS',\n  'DOCUMENT_FILINGS'\n);\n\n-- CreateEnum\nCREATE TYPE \"MessagingRouteTargetType\" AS ENUM (\n  'CHANNEL',\n  'DIRECT_MESSAGE'\n);\n\n-- CreateTable\nCREATE TABLE \"MessagingRoute\" (\n    \"id\" TEXT NOT NULL,\n    \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    \"updatedAt\" TIMESTAMP(3) NOT NULL,\n    \"purpose\" \"MessagingRoutePurpose\" NOT NULL,\n    \"targetType\" \"MessagingRouteTargetType\" NOT NULL,\n    \"targetId\" TEXT NOT NULL,\n    \"messagingChannelId\" TEXT NOT NULL,\n\n    CONSTRAINT \"MessagingRoute_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- Backfill the current per-channel destination as the rules route.\nINSERT INTO \"MessagingRoute\" (\n    \"id\",\n    \"createdAt\",\n    \"updatedAt\",\n    \"purpose\",\n    \"targetType\",\n    \"targetId\",\n    \"messagingChannelId\"\n)\nSELECT\n    'mr_' || md5(mc.id || ':RULE_NOTIFICATIONS'),\n    CURRENT_TIMESTAMP,\n    CURRENT_TIMESTAMP,\n    'RULE_NOTIFICATIONS'::\"MessagingRoutePurpose\",\n    CASE\n      WHEN mc.provider = 'SLACK' AND mc.\"channelId\" = 'DM' THEN 'DIRECT_MESSAGE'::\"MessagingRouteTargetType\"\n      WHEN mc.provider = 'SLACK' THEN 'CHANNEL'::\"MessagingRouteTargetType\"\n      ELSE 'DIRECT_MESSAGE'::\"MessagingRouteTargetType\"\n    END,\n    CASE\n      WHEN mc.provider = 'SLACK' AND mc.\"channelId\" = 'DM' THEN mc.\"providerUserId\"\n      WHEN mc.provider = 'SLACK' THEN mc.\"channelId\"\n      WHEN mc.provider = 'TEAMS' THEN mc.\"providerUserId\"\n      ELSE COALESCE(NULLIF(mc.\"teamId\", ''), mc.\"providerUserId\")\n    END,\n    mc.id\nFROM \"MessagingChannel\" AS mc\nWHERE (\n    mc.provider = 'SLACK'\n    AND mc.\"channelId\" IS NOT NULL\n    AND (\n      mc.\"channelId\" <> 'DM'\n      OR mc.\"providerUserId\" IS NOT NULL\n    )\n  )\n  OR (\n    mc.provider = 'TEAMS'\n    AND mc.\"providerUserId\" IS NOT NULL\n  )\n  OR (\n    mc.provider = 'TELEGRAM'\n    AND COALESCE(NULLIF(mc.\"teamId\", ''), mc.\"providerUserId\") IS NOT NULL\n  );\n\n-- Backfill meeting brief routes from the currently enabled channels.\nINSERT INTO \"MessagingRoute\" (\n    \"id\",\n    \"createdAt\",\n    \"updatedAt\",\n    \"purpose\",\n    \"targetType\",\n    \"targetId\",\n    \"messagingChannelId\"\n)\nSELECT\n    'mr_' || md5(mc.id || ':MEETING_BRIEFS'),\n    CURRENT_TIMESTAMP,\n    CURRENT_TIMESTAMP,\n    'MEETING_BRIEFS'::\"MessagingRoutePurpose\",\n    CASE\n      WHEN mc.provider = 'SLACK' AND mc.\"channelId\" = 'DM' THEN 'DIRECT_MESSAGE'::\"MessagingRouteTargetType\"\n      WHEN mc.provider = 'SLACK' THEN 'CHANNEL'::\"MessagingRouteTargetType\"\n      ELSE 'DIRECT_MESSAGE'::\"MessagingRouteTargetType\"\n    END,\n    CASE\n      WHEN mc.provider = 'SLACK' AND mc.\"channelId\" = 'DM' THEN mc.\"providerUserId\"\n      WHEN mc.provider = 'SLACK' THEN mc.\"channelId\"\n      WHEN mc.provider = 'TEAMS' THEN mc.\"providerUserId\"\n      ELSE COALESCE(NULLIF(mc.\"teamId\", ''), mc.\"providerUserId\")\n    END,\n    mc.id\nFROM \"MessagingChannel\" AS mc\nWHERE mc.\"sendMeetingBriefs\" = true\n  AND (\n    (\n      mc.provider = 'SLACK'\n      AND mc.\"channelId\" IS NOT NULL\n      AND (\n        mc.\"channelId\" <> 'DM'\n        OR mc.\"providerUserId\" IS NOT NULL\n      )\n    )\n    OR (\n      mc.provider = 'TEAMS'\n      AND mc.\"providerUserId\" IS NOT NULL\n    )\n    OR (\n      mc.provider = 'TELEGRAM'\n      AND COALESCE(NULLIF(mc.\"teamId\", ''), mc.\"providerUserId\") IS NOT NULL\n    )\n  );\n\n-- Backfill document filing routes from the currently enabled channels.\nINSERT INTO \"MessagingRoute\" (\n    \"id\",\n    \"createdAt\",\n    \"updatedAt\",\n    \"purpose\",\n    \"targetType\",\n    \"targetId\",\n    \"messagingChannelId\"\n)\nSELECT\n    'mr_' || md5(mc.id || ':DOCUMENT_FILINGS'),\n    CURRENT_TIMESTAMP,\n    CURRENT_TIMESTAMP,\n    'DOCUMENT_FILINGS'::\"MessagingRoutePurpose\",\n    CASE\n      WHEN mc.provider = 'SLACK' AND mc.\"channelId\" = 'DM' THEN 'DIRECT_MESSAGE'::\"MessagingRouteTargetType\"\n      WHEN mc.provider = 'SLACK' THEN 'CHANNEL'::\"MessagingRouteTargetType\"\n      ELSE 'DIRECT_MESSAGE'::\"MessagingRouteTargetType\"\n    END,\n    CASE\n      WHEN mc.provider = 'SLACK' AND mc.\"channelId\" = 'DM' THEN mc.\"providerUserId\"\n      WHEN mc.provider = 'SLACK' THEN mc.\"channelId\"\n      WHEN mc.provider = 'TEAMS' THEN mc.\"providerUserId\"\n      ELSE COALESCE(NULLIF(mc.\"teamId\", ''), mc.\"providerUserId\")\n    END,\n    mc.id\nFROM \"MessagingChannel\" AS mc\nWHERE mc.\"sendDocumentFilings\" = true\n  AND (\n    (\n      mc.provider = 'SLACK'\n      AND mc.\"channelId\" IS NOT NULL\n      AND (\n        mc.\"channelId\" <> 'DM'\n        OR mc.\"providerUserId\" IS NOT NULL\n      )\n    )\n    OR (\n      mc.provider = 'TEAMS'\n      AND mc.\"providerUserId\" IS NOT NULL\n    )\n    OR (\n      mc.provider = 'TELEGRAM'\n      AND COALESCE(NULLIF(mc.\"teamId\", ''), mc.\"providerUserId\") IS NOT NULL\n    )\n  );\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"MessagingRoute_messagingChannelId_purpose_key\"\nON \"MessagingRoute\"(\"messagingChannelId\", \"purpose\");\n\n-- AddForeignKey\nALTER TABLE \"MessagingRoute\"\nADD CONSTRAINT \"MessagingRoute_messagingChannelId_fkey\"\nFOREIGN KEY (\"messagingChannelId\") REFERENCES \"MessagingChannel\"(\"id\")\nON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AlterTable\nALTER TABLE \"MessagingChannel\"\nDROP COLUMN \"channelId\",\nDROP COLUMN \"channelName\",\nDROP COLUMN \"sendMeetingBriefs\",\nDROP COLUMN \"sendDocumentFilings\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "messagingchannel",
+            "column": "channelid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/web/prisma/migrations/20260405123000_add_messaging_routes/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE messagingchannel DROP COLUMN \"channelId\"",
+            "extra": {
+              "table_sql": "MessagingChannel",
+              "column_sql": "channelId"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "messagingchannel",
+            "column": "channelid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "apps/web/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'channelid' active in C_{t-1} ORM (apps/web/prisma/schema.prisma); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "messagingchannel",
+            "column": "channelname",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/web/prisma/migrations/20260405123000_add_messaging_routes/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE messagingchannel DROP COLUMN \"channelName\"",
+            "extra": {
+              "table_sql": "MessagingChannel",
+              "column_sql": "channelName"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "messagingchannel",
+            "column": "channelname",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "apps/web/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'channelname' active in C_{t-1} ORM (apps/web/prisma/schema.prisma); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "messagingchannel",
+            "column": "sendmeetingbriefs",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/web/prisma/migrations/20260405123000_add_messaging_routes/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE messagingchannel DROP COLUMN \"sendMeetingBriefs\"",
+            "extra": {
+              "table_sql": "MessagingChannel",
+              "column_sql": "sendMeetingBriefs"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "messagingchannel",
+            "column": "sendmeetingbriefs",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "apps/web/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'sendmeetingbriefs' active in C_{t-1} ORM (apps/web/prisma/schema.prisma); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "messagingchannel",
+            "column": "senddocumentfilings",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/web/prisma/migrations/20260405123000_add_messaging_routes/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE messagingchannel DROP COLUMN \"sendDocumentFilings\"",
+            "extra": {
+              "table_sql": "MessagingChannel",
+              "column_sql": "sendDocumentFilings"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "messagingchannel",
+            "column": "senddocumentfilings",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "apps/web/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'senddocumentfilings' active in C_{t-1} ORM (apps/web/prisma/schema.prisma); identifier removed in same commit diff"
+        }
+      ]
+    },
+    {
+      "sha": "2f729a31c405998dc40c4a581574ec13b013bdaa",
+      "parent": "376ac42c2dcc0e960521f962b8d957a6bf67c267",
+      "date": "2026-04-05T01:32:59+03:00",
+      "subject": "rules: enforce action channel ownership (#2163)",
+      "mig_files": [
+        "apps/web/prisma/migrations/20260404103000_enforce_messaging_channel_ownership/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/web/app/(app)/[emailAccountId]/assistant/Rules.tsx",
+        "apps/web/app/(app)/[emailAccountId]/assistant/settings/DraftReplies.tsx",
+        "apps/web/components/email-list/EmailContents.test.tsx",
+        "apps/web/prisma/schema.prisma",
+        "apps/web/utils/actions/automation-jobs.ts",
+        "apps/web/utils/actions/messaging-channels.test.ts",
+        "apps/web/utils/actions/messaging-channels.ts",
+        "apps/web/utils/actions/rule.test.ts",
+        "apps/web/utils/actions/rule.ts",
+        "apps/web/utils/actions/settings.ts",
+        "apps/web/utils/rule/rule.test.ts",
+        "apps/web/utils/rule/rule.ts"
+      ],
+      "orm_models_parsed_old": 58,
+      "raw_sql": "ALTER TABLE \"Action\"\nADD COLUMN \"emailAccountId\" TEXT,\nADD COLUMN \"messagingChannelEmailAccountId\" TEXT;\n\nUPDATE \"Action\" AS a\nSET\n  \"emailAccountId\" = r.\"emailAccountId\",\n  \"messagingChannelEmailAccountId\" = CASE\n    WHEN a.\"messagingChannelId\" IS NULL THEN NULL\n    ELSE r.\"emailAccountId\"\n  END\nFROM \"Rule\" AS r\nWHERE a.\"ruleId\" = r.id;\n\nUPDATE \"Action\" AS a\nSET\n  \"messagingChannelId\" = NULL,\n  \"messagingChannelEmailAccountId\" = NULL\nWHERE a.\"messagingChannelId\" IS NOT NULL\n  AND NOT EXISTS (\n    SELECT 1\n    FROM \"MessagingChannel\" AS mc\n    WHERE mc.id = a.\"messagingChannelId\"\n      AND mc.\"emailAccountId\" = a.\"emailAccountId\"\n  );\n\nALTER TABLE \"Action\"\nALTER COLUMN \"emailAccountId\" SET NOT NULL;\n\nCREATE UNIQUE INDEX \"Rule_id_emailAccountId_key\" ON \"Rule\"(\"id\", \"emailAccountId\");\n\nCREATE INDEX \"Action_emailAccountId_idx\" ON \"Action\"(\"emailAccountId\");\nCREATE INDEX \"Action_messagingChannelId_messagingChannelEmailAccountId_idx\"\nON \"Action\"(\"messagingChannelId\", \"messagingChannelEmailAccountId\");\n\nALTER TABLE \"Action\"\nDROP CONSTRAINT \"Action_ruleId_fkey\",\nDROP CONSTRAINT \"Action_messagingChannelId_fkey\";\n\nALTER TABLE \"Action\"\nADD CONSTRAINT \"Action_messagingChannel_owner_check\"\nCHECK (\n  (\n    \"messagingChannelId\" IS NULL\n    AND \"messagingChannelEmailAccountId\" IS NULL\n  )\n  OR (\n    \"messagingChannelId\" IS NOT NULL\n    AND \"messagingChannelEmailAccountId\" = \"emailAccountId\"\n  )\n),\nADD CONSTRAINT \"Action_ruleId_emailAccountId_fkey\"\nFOREIGN KEY (\"ruleId\", \"emailAccountId\") REFERENCES \"Rule\"(\"id\", \"emailAccountId\")\nON DELETE CASCADE ON UPDATE CASCADE,\nADD CONSTRAINT \"Action_emailAccountId_fkey\"\nFOREIGN KEY (\"emailAccountId\") REFERENCES \"EmailAccount\"(\"id\")\nON DELETE CASCADE ON UPDATE CASCADE,\nADD CONSTRAINT \"Action_messagingChannelId_messagingChannelEmailAccountId_fkey\"\nFOREIGN KEY (\"messagingChannelId\", \"messagingChannelEmailAccountId\")\nREFERENCES \"MessagingChannel\"(\"id\", \"emailAccountId\")\nON DELETE SET NULL ON UPDATE CASCADE;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "SET_NOT_NULL",
+            "table": "action",
+            "column": "emailaccountid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/web/prisma/migrations/20260404103000_enforce_messaging_channel_ownership/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE action ALTER COLUMN \"emailAccountId\" SET NOT NULL",
+            "extra": {
+              "table_sql": "Action",
+              "column_sql": "emailAccountId"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "action",
+            "column": "emailaccountid",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "apps/web/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Column 'action.emailaccountid' not active in C_{t-1} ORM."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ADD_UNIQUE_OR_CHECK",
+            "table": "action",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/web/prisma/migrations/20260404103000_enforce_messaging_channel_ownership/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE action ADD CONSTRAINT \"Action_messagingChannel_owner_check\" CHECK ((\"messagingChannelId\" IS NULL AND \"messagingChannelEmailAccountId\" IS NULL) OR (\"messagingChannelId\" ",
+            "extra": {
+              "table_sql": "Action"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "action",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/web/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "DATA_DEPENDENT",
+          "compat_forward": "SAFE",
+          "classification": "DATA_DEPENDENT",
+          "reason": "CHECK/UNIQUE constraint added on active C_{t-1} table 'action'; safety depends on C_{t-1} write values."
+        }
+      ]
+    },
+    {
+      "sha": "88df0e2e784de448be77c6c239bf372271e110de",
+      "parent": "2bbba84545e305e9bac10d7a5c2cbcda2b50e09c",
+      "date": "2026-03-22T15:01:33+02:00",
+      "subject": "Fix reply memory migration index drop (#1990)",
+      "mig_files": [
+        "apps/web/prisma/migrations/20260319090000_reply_memory_learning_rework/migration.sql"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 57,
+      "raw_sql": "ALTER TABLE \"EmailAccount\" ADD COLUMN \"learnedWritingStyle\" TEXT;\n\nALTER TABLE \"ReplyMemorySource\"\nADD COLUMN \"learnedWritingStyleAnalyzedAt\" TIMESTAMP(3);\n\n-- Drop the title/content split for reply memories and keep a single canonical\n-- memory payload in content.\nCREATE TEMP TABLE \"_ReplyMemoryDedup\" AS\nWITH ranked_memories AS (\n  SELECT\n    id,\n    FIRST_VALUE(id) OVER (\n      PARTITION BY \"emailAccountId\", \"kind\", \"scopeType\", \"scopeValue\", \"content\"\n      ORDER BY \"updatedAt\" DESC, \"createdAt\" DESC, id DESC\n    ) AS \"keeperId\",\n    ROW_NUMBER() OVER (\n      PARTITION BY \"emailAccountId\", \"kind\", \"scopeType\", \"scopeValue\", \"content\"\n      ORDER BY \"updatedAt\" DESC, \"createdAt\" DESC, id DESC\n    ) AS row_num\n  FROM \"ReplyMemory\"\n)\nSELECT id, \"keeperId\"\nFROM ranked_memories\nWHERE row_num > 1;\n\nINSERT INTO \"ReplyMemorySource\" (\n  \"replyMemoryId\",\n  \"draftSendLogId\",\n  \"createdAt\",\n  \"learnedWritingStyleAnalyzedAt\"\n)\nSELECT\n  dedup.\"keeperId\",\n  source.\"draftSendLogId\",\n  source.\"createdAt\",\n  source.\"learnedWritingStyleAnalyzedAt\"\nFROM \"_ReplyMemoryDedup\" dedup\nJOIN \"ReplyMemorySource\" source ON source.\"replyMemoryId\" = dedup.id\nON CONFLICT (\"replyMemoryId\", \"draftSendLogId\") DO UPDATE\nSET\n  \"createdAt\" = LEAST(\"ReplyMemorySource\".\"createdAt\", EXCLUDED.\"createdAt\"),\n  \"learnedWritingStyleAnalyzedAt\" = CASE\n    WHEN \"ReplyMemorySource\".\"learnedWritingStyleAnalyzedAt\" IS NULL\n      THEN EXCLUDED.\"learnedWritingStyleAnalyzedAt\"\n    WHEN EXCLUDED.\"learnedWritingStyleAnalyzedAt\" IS NULL\n      THEN \"ReplyMemorySource\".\"learnedWritingStyleAnalyzedAt\"\n    ELSE LEAST(\n      \"ReplyMemorySource\".\"learnedWritingStyleAnalyzedAt\",\n      EXCLUDED.\"learnedWritingStyleAnalyzedAt\"\n    )\n  END;\n\nDELETE FROM \"ReplyMemory\"\nWHERE id IN (SELECT id FROM \"_ReplyMemoryDedup\");\n\nALTER TABLE \"ReplyMemory\"\nDROP COLUMN \"title\";\n\nALTER TYPE \"ReplyMemoryKind\" RENAME VALUE 'STYLE' TO 'PREFERENCE';\n\nALTER TYPE \"ReplyMemoryKind\" ADD VALUE 'PROCEDURE';\n\nALTER TABLE \"ReplyMemory\"\nADD COLUMN \"isLearnedStyleEvidence\" BOOLEAN NOT NULL DEFAULT false;\n\nALTER TABLE \"ReplyMemory\"\nADD CONSTRAINT \"ReplyMemory_emailAccountId_kind_scopeType_scopeValue_content_key\"\nUNIQUE (\"emailAccountId\", \"kind\", \"scopeType\", \"scopeValue\", \"content\");\n\nCREATE INDEX \"ReplyMemorySource_replyMemoryId_learnedWritingStyleAnalyzedAt_createdAt_idx\"\nON \"ReplyMemorySource\"(\"replyMemoryId\", \"learnedWritingStyleAnalyzedAt\", \"createdAt\");\n\nDROP TABLE \"_ReplyMemoryDedup\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "replymemory",
+            "column": "title",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/web/prisma/migrations/20260319090000_reply_memory_learning_rework/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE replymemory DROP COLUMN \"title\"",
+            "extra": {
+              "table_sql": "ReplyMemory"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "replymemory",
+            "column": "title",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/web/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'title' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ADD_UNIQUE_OR_CHECK",
+            "table": "replymemory",
+            "column": "emailaccountid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/web/prisma/migrations/20260319090000_reply_memory_learning_rework/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE replymemory ADD CONSTRAINT \"ReplyMemory_emailAccountId_kind_scopeType_scopeValue_content_key\" UNIQUE (\"emailAccountId\", \"kind\", \"scopeType\", \"scopeValue\", \"content\")",
+            "extra": {
+              "table_sql": "ReplyMemory",
+              "column_sql": "emailAccountId"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "replymemory",
+            "column": "emailaccountid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/web/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "DATA_DEPENDENT",
+          "compat_forward": "SAFE",
+          "classification": "DATA_DEPENDENT",
+          "reason": "CHECK/UNIQUE constraint added on active C_{t-1} table 'replymemory'; safety depends on C_{t-1} write values."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "_replymemorydedup",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/web/prisma/migrations/20260319090000_reply_memory_learning_rework/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TABLE \"_ReplyMemoryDedup\"",
+            "extra": {
+              "table_sql": "_ReplyMemoryDedup"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "_replymemorydedup",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table '_replymemorydedup' not resolved in C_{t-1} ORM snapshot."
+        }
+      ]
+    },
+    {
+      "sha": "2bbba84545e305e9bac10d7a5c2cbcda2b50e09c",
+      "parent": "f61c06c1f89bcdb55c77b94ec07ef55822d181d4",
+      "date": "2026-03-22T04:13:21+02:00",
+      "subject": "Improve learned writing style aggregation (#1975)",
+      "mig_files": [
+        "apps/web/prisma/migrations/20260319090000_reply_memory_learning_rework/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/web/__tests__/eval/reply-memory.test.ts",
+        "apps/web/prisma/schema.prisma",
+        "apps/web/utils/ai/reply/draft-attribution.ts",
+        "apps/web/utils/ai/reply/draft-reply.ts",
+        "apps/web/utils/ai/reply/extract-reply-memories.ts",
+        "apps/web/utils/ai/reply/reply-memory.test.ts",
+        "apps/web/utils/ai/reply/reply-memory.ts",
+        "apps/web/utils/ai/reply/summarize-learned-writing-style.ts",
+        "apps/web/utils/llms/retry.ts",
+        "apps/web/utils/reply-tracker/draft-tracking.ts",
+        "apps/web/utils/reply-tracker/generate-draft.ts"
+      ],
+      "orm_models_parsed_old": 57,
+      "raw_sql": "ALTER TABLE \"EmailAccount\" ADD COLUMN \"learnedWritingStyle\" TEXT;\n\nALTER TABLE \"ReplyMemorySource\"\nADD COLUMN \"learnedWritingStyleAnalyzedAt\" TIMESTAMP(3);\n\n-- Drop the title/content split for reply memories and keep a single canonical\n-- memory payload in content.\nCREATE TEMP TABLE \"_ReplyMemoryDedup\" AS\nWITH ranked_memories AS (\n  SELECT\n    id,\n    FIRST_VALUE(id) OVER (\n      PARTITION BY \"emailAccountId\", \"kind\", \"scopeType\", \"scopeValue\", \"content\"\n      ORDER BY \"updatedAt\" DESC, \"createdAt\" DESC, id DESC\n    ) AS \"keeperId\",\n    ROW_NUMBER() OVER (\n      PARTITION BY \"emailAccountId\", \"kind\", \"scopeType\", \"scopeValue\", \"content\"\n      ORDER BY \"updatedAt\" DESC, \"createdAt\" DESC, id DESC\n    ) AS row_num\n  FROM \"ReplyMemory\"\n)\nSELECT id, \"keeperId\"\nFROM ranked_memories\nWHERE row_num > 1;\n\nINSERT INTO \"ReplyMemorySource\" (\n  \"replyMemoryId\",\n  \"draftSendLogId\",\n  \"createdAt\",\n  \"learnedWritingStyleAnalyzedAt\"\n)\nSELECT\n  dedup.\"keeperId\",\n  source.\"draftSendLogId\",\n  source.\"createdAt\",\n  source.\"learnedWritingStyleAnalyzedAt\"\nFROM \"_ReplyMemoryDedup\" dedup\nJOIN \"ReplyMemorySource\" source ON source.\"replyMemoryId\" = dedup.id\nON CONFLICT (\"replyMemoryId\", \"draftSendLogId\") DO UPDATE\nSET\n  \"createdAt\" = LEAST(\"ReplyMemorySource\".\"createdAt\", EXCLUDED.\"createdAt\"),\n  \"learnedWritingStyleAnalyzedAt\" = CASE\n    WHEN \"ReplyMemorySource\".\"learnedWritingStyleAnalyzedAt\" IS NULL\n      THEN EXCLUDED.\"learnedWritingStyleAnalyzedAt\"\n    WHEN EXCLUDED.\"learnedWritingStyleAnalyzedAt\" IS NULL\n      THEN \"ReplyMemorySource\".\"learnedWritingStyleAnalyzedAt\"\n    ELSE LEAST(\n      \"ReplyMemorySource\".\"learnedWritingStyleAnalyzedAt\",\n      EXCLUDED.\"learnedWritingStyleAnalyzedAt\"\n    )\n  END;\n\nDELETE FROM \"ReplyMemory\"\nWHERE id IN (SELECT id FROM \"_ReplyMemoryDedup\");\n\nALTER TABLE \"ReplyMemory\"\nDROP CONSTRAINT \"ReplyMemory_emailAccountId_kind_scopeType_scopeValue_title_key\";\n\nALTER TABLE \"ReplyMemory\"\nDROP COLUMN \"title\";\n\nALTER TYPE \"ReplyMemoryKind\" RENAME VALUE 'STYLE' TO 'PREFERENCE';\n\nALTER TYPE \"ReplyMemoryKind\" ADD VALUE 'PROCEDURE';\n\nALTER TABLE \"ReplyMemory\"\nADD COLUMN \"isLearnedStyleEvidence\" BOOLEAN NOT NULL DEFAULT false;\n\nALTER TABLE \"ReplyMemory\"\nADD CONSTRAINT \"ReplyMemory_emailAccountId_kind_scopeType_scopeValue_content_key\"\nUNIQUE (\"emailAccountId\", \"kind\", \"scopeType\", \"scopeValue\", \"content\");\n\nCREATE INDEX \"ReplyMemorySource_replyMemoryId_learnedWritingStyleAnalyzedAt_createdAt_idx\"\nON \"ReplyMemorySource\"(\"replyMemoryId\", \"learnedWritingStyleAnalyzedAt\", \"createdAt\");\n\nDROP TABLE \"_ReplyMemoryDedup\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "replymemory",
+            "column": "title",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/web/prisma/migrations/20260319090000_reply_memory_learning_rework/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE replymemory DROP COLUMN \"title\"",
+            "extra": {
+              "table_sql": "ReplyMemory"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "replymemory",
+            "column": "title",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "apps/web/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'title' active in C_{t-1} ORM (apps/web/prisma/schema.prisma); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ADD_UNIQUE_OR_CHECK",
+            "table": "replymemory",
+            "column": "emailaccountid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/web/prisma/migrations/20260319090000_reply_memory_learning_rework/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE replymemory ADD CONSTRAINT \"ReplyMemory_emailAccountId_kind_scopeType_scopeValue_content_key\" UNIQUE (\"emailAccountId\", \"kind\", \"scopeType\", \"scopeValue\", \"content\")",
+            "extra": {
+              "table_sql": "ReplyMemory",
+              "column_sql": "emailAccountId"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "replymemory",
+            "column": "emailaccountid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "apps/web/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "DATA_DEPENDENT",
+          "compat_forward": "SAFE",
+          "classification": "DATA_DEPENDENT",
+          "reason": "CHECK/UNIQUE constraint added on active C_{t-1} table 'replymemory'; safety depends on C_{t-1} write values."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "_replymemorydedup",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/web/prisma/migrations/20260319090000_reply_memory_learning_rework/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TABLE \"_ReplyMemoryDedup\"",
+            "extra": {
+              "table_sql": "_ReplyMemoryDedup"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "_replymemorydedup",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table '_replymemorydedup' not resolved in C_{t-1} ORM snapshot."
+        }
+      ]
+    }
+  ]
+}

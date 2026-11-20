@@ -1,0 +1,1817 @@
+{
+  "repo": "liangliangyy/DjangoBlog",
+  "ecosystem": "django",
+  "stars": 7426,
+  "has_k8s_helm": true,
+  "status": "ok",
+  "stats": {
+    "total_migration_commits_in_history": 13,
+    "migration_commits_analyzed": 11,
+    "total_migration_files_parsed": 26,
+    "commits_with_any_destructive": 4,
+    "commits_with_forward_destructive": 4,
+    "commits_with_rollback_only_destructive": 0,
+    "total_ops_extracted": 93,
+    "destructive_ops_up": 42,
+    "destructive_ops_down": 0
+  },
+  "verdict_counts": {
+    "DUAL_VERSION_VIOLATION_BACKWARD": 34,
+    "DUAL_VERSION_VIOLATION_BOTH": 7,
+    "SAFE_ADDITIVE": 1
+  },
+  "destructive_commits": [
+    {
+      "sha": "3367a86c2619c5e1c7239cebfb357ea00d934a24",
+      "parent": "f5931773ce6f56518955b1bae76f1a64b2a261bc",
+      "date": "2025-12-31T15:32:01+08:00",
+      "subject": "\u6dfb\u52a0\u914d\u8272\u65b9\u6848\u8bbe\u7f6e\uff0c\u4f18\u5316\u6587\u7ae0\u6458\u8981\u751f\u6210\u548c\u9ad8\u4eae\u529f\u80fd\uff1b\u5f15\u5165\u56fe\u7247\u706f\u7bb1\u7ec4\u4ef6\uff0c\u589e\u5f3a\u7528\u6237\u4f53\u9a8c",
+      "mig_files": [
+        "blog/migrations/0008_blogsettings_color_scheme.py"
+      ],
+      "app_files_touched_in_commit": [
+        "blog/admin.py",
+        "blog/context_processors.py",
+        "blog/models.py",
+        "blog/templatetags/blog_tags.py"
+      ],
+      "orm_models_parsed_old": 8,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "blog_blogsettings",
+            "column": "color_scheme",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "CharField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "blog/migrations/0008_blogsettings_color_scheme.py",
+            "line": 13,
+            "raw_snippet": "migrations.AddField( model_name='blogsettings', name='color_scheme', field=models.CharField(choices=[('purple', '\u7d2b\u8272\u4e3b\u9898 - Purple Dream'), ('blue', '\u84dd\u8272\u4e3b\u9898 - Ocean Blue'), ('green', '\u7eff\u8272",
+            "extra": {
+              "model_name": "blogsettings",
+              "app_label": "blog",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "blog_blogsettings",
+            "column": "color_scheme",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "blog/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'blog_blogsettings.color_scheme' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    },
+    {
+      "sha": "442a03ffdc1beaff8909823f070635b9a6021c5f",
+      "parent": "c582f44ba04c79d64dc19f55dce7a42a298eddfc",
+      "date": "2023-09-08T00:24:28+08:00",
+      "subject": "\u589e\u52a0\u591a\u8bed\u8a00\u652f\u6301",
+      "mig_files": [
+        "accounts/migrations/0002_alter_bloguser_options_remove_bloguser_created_time_and_more.py",
+        "blog/migrations/0005_alter_article_options_alter_category_options_and_more.py",
+        "comments/migrations/0003_alter_comment_options_remove_comment_created_time_and_more.py",
+        "oauth/migrations/0002_alter_oauthconfig_options_alter_oauthuser_options_and_more.py",
+        "owntracks/migrations/0002_alter_owntracklog_options_and_more.py",
+        "servermanager/migrations/0002_alter_emailsendlog_options_and_more.py"
+      ],
+      "app_files_touched_in_commit": [
+        "accounts/admin.py",
+        "accounts/forms.py",
+        "accounts/models.py",
+        "accounts/urls.py",
+        "accounts/utils.py",
+        "accounts/views.py",
+        "blog/admin.py",
+        "blog/models.py",
+        "blog/templatetags/blog_tags.py",
+        "blog/views.py",
+        "comments/admin.py",
+        "comments/models.py"
+      ],
+      "orm_models_parsed_old": 15,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "accounts_bloguser",
+            "column": "created_time",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "accounts/migrations/0002_alter_bloguser_options_remove_bloguser_created_time_and_more.py",
+            "line": 18,
+            "raw_snippet": "migrations.RemoveField( model_name='bloguser', name='created_time', )",
+            "extra": {
+              "model_name": "bloguser",
+              "app_label": "accounts"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "accounts_bloguser",
+            "column": "created_time",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "accounts/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'created_time' active in C_{t-1} ORM (accounts/models.py); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "accounts_bloguser",
+            "column": "last_mod_time",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "accounts/migrations/0002_alter_bloguser_options_remove_bloguser_created_time_and_more.py",
+            "line": 22,
+            "raw_snippet": "migrations.RemoveField( model_name='bloguser', name='last_mod_time', )",
+            "extra": {
+              "model_name": "bloguser",
+              "app_label": "accounts"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "accounts_bloguser",
+            "column": "last_mod_time",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "accounts/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'last_mod_time' active in C_{t-1} ORM (accounts/models.py); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "accounts_bloguser",
+            "column": "creation_time",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "DateTimeField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "accounts/migrations/0002_alter_bloguser_options_remove_bloguser_created_time_and_more.py",
+            "line": 26,
+            "raw_snippet": "migrations.AddField( model_name='bloguser', name='creation_time', field=models.DateTimeField(default=django.utils.timezone.now, verbose_name='creation time'), )",
+            "extra": {
+              "model_name": "bloguser",
+              "app_label": "accounts",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "accounts_bloguser",
+            "column": "creation_time",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "accounts/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'accounts_bloguser.creation_time' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "accounts_bloguser",
+            "column": "last_modify_time",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "DateTimeField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "accounts/migrations/0002_alter_bloguser_options_remove_bloguser_created_time_and_more.py",
+            "line": 31,
+            "raw_snippet": "migrations.AddField( model_name='bloguser', name='last_modify_time', field=models.DateTimeField(default=django.utils.timezone.now, verbose_name='last modify time'), )",
+            "extra": {
+              "model_name": "bloguser",
+              "app_label": "accounts",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "accounts_bloguser",
+            "column": "last_modify_time",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "accounts/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'accounts_bloguser.last_modify_time' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "blog_article",
+            "column": "created_time",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "blog/migrations/0005_alter_article_options_alter_category_options_and_more.py",
+            "line": 38,
+            "raw_snippet": "migrations.RemoveField( model_name='article', name='created_time', )",
+            "extra": {
+              "model_name": "article",
+              "app_label": "blog"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "blog_article",
+            "column": "created_time",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "blog/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "blog_article",
+            "column": "last_mod_time",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "blog/migrations/0005_alter_article_options_alter_category_options_and_more.py",
+            "line": 42,
+            "raw_snippet": "migrations.RemoveField( model_name='article', name='last_mod_time', )",
+            "extra": {
+              "model_name": "article",
+              "app_label": "blog"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "blog_article",
+            "column": "last_mod_time",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "blog/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "blog_category",
+            "column": "created_time",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "blog/migrations/0005_alter_article_options_alter_category_options_and_more.py",
+            "line": 46,
+            "raw_snippet": "migrations.RemoveField( model_name='category', name='created_time', )",
+            "extra": {
+              "model_name": "category",
+              "app_label": "blog"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "blog_category",
+            "column": "created_time",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "blog/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "blog_category",
+            "column": "last_mod_time",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "blog/migrations/0005_alter_article_options_alter_category_options_and_more.py",
+            "line": 50,
+            "raw_snippet": "migrations.RemoveField( model_name='category', name='last_mod_time', )",
+            "extra": {
+              "model_name": "category",
+              "app_label": "blog"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "blog_category",
+            "column": "last_mod_time",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "blog/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "blog_links",
+            "column": "created_time",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "blog/migrations/0005_alter_article_options_alter_category_options_and_more.py",
+            "line": 54,
+            "raw_snippet": "migrations.RemoveField( model_name='links', name='created_time', )",
+            "extra": {
+              "model_name": "links",
+              "app_label": "blog"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "blog_links",
+            "column": "created_time",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "blog/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'created_time' active in C_{t-1} ORM (blog/models.py); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "blog_sidebar",
+            "column": "created_time",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "blog/migrations/0005_alter_article_options_alter_category_options_and_more.py",
+            "line": 58,
+            "raw_snippet": "migrations.RemoveField( model_name='sidebar', name='created_time', )",
+            "extra": {
+              "model_name": "sidebar",
+              "app_label": "blog"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "blog_sidebar",
+            "column": "created_time",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "blog/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'created_time' active in C_{t-1} ORM (blog/models.py); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "blog_tag",
+            "column": "created_time",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "blog/migrations/0005_alter_article_options_alter_category_options_and_more.py",
+            "line": 62,
+            "raw_snippet": "migrations.RemoveField( model_name='tag', name='created_time', )",
+            "extra": {
+              "model_name": "tag",
+              "app_label": "blog"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "blog_tag",
+            "column": "created_time",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "blog/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "blog_tag",
+            "column": "last_mod_time",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "blog/migrations/0005_alter_article_options_alter_category_options_and_more.py",
+            "line": 66,
+            "raw_snippet": "migrations.RemoveField( model_name='tag', name='last_mod_time', )",
+            "extra": {
+              "model_name": "tag",
+              "app_label": "blog"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "blog_tag",
+            "column": "last_mod_time",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "blog/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "blog_article",
+            "column": "creation_time",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "DateTimeField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "blog/migrations/0005_alter_article_options_alter_category_options_and_more.py",
+            "line": 70,
+            "raw_snippet": "migrations.AddField( model_name='article', name='creation_time', field=models.DateTimeField(default=django.utils.timezone.now, verbose_name='creation time'), )",
+            "extra": {
+              "model_name": "article",
+              "app_label": "blog",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "blog_article",
+            "column": "creation_time",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "blog/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'blog_article.creation_time' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "blog_article",
+            "column": "last_modify_time",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "DateTimeField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "blog/migrations/0005_alter_article_options_alter_category_options_and_more.py",
+            "line": 75,
+            "raw_snippet": "migrations.AddField( model_name='article', name='last_modify_time', field=models.DateTimeField(default=django.utils.timezone.now, verbose_name='modify time'), )",
+            "extra": {
+              "model_name": "article",
+              "app_label": "blog",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "blog_article",
+            "column": "last_modify_time",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "blog/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'blog_article.last_modify_time' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "blog_category",
+            "column": "creation_time",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "DateTimeField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "blog/migrations/0005_alter_article_options_alter_category_options_and_more.py",
+            "line": 80,
+            "raw_snippet": "migrations.AddField( model_name='category', name='creation_time', field=models.DateTimeField(default=django.utils.timezone.now, verbose_name='creation time'), )",
+            "extra": {
+              "model_name": "category",
+              "app_label": "blog",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "blog_category",
+            "column": "creation_time",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "blog/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'blog_category.creation_time' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "blog_category",
+            "column": "last_modify_time",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "DateTimeField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "blog/migrations/0005_alter_article_options_alter_category_options_and_more.py",
+            "line": 85,
+            "raw_snippet": "migrations.AddField( model_name='category', name='last_modify_time', field=models.DateTimeField(default=django.utils.timezone.now, verbose_name='modify time'), )",
+            "extra": {
+              "model_name": "category",
+              "app_label": "blog",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "blog_category",
+            "column": "last_modify_time",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "blog/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'blog_category.last_modify_time' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "blog_links",
+            "column": "creation_time",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "DateTimeField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "blog/migrations/0005_alter_article_options_alter_category_options_and_more.py",
+            "line": 90,
+            "raw_snippet": "migrations.AddField( model_name='links', name='creation_time', field=models.DateTimeField(default=django.utils.timezone.now, verbose_name='creation time'), )",
+            "extra": {
+              "model_name": "links",
+              "app_label": "blog",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "blog_links",
+            "column": "creation_time",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "blog/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'blog_links.creation_time' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "blog_sidebar",
+            "column": "creation_time",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "DateTimeField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "blog/migrations/0005_alter_article_options_alter_category_options_and_more.py",
+            "line": 95,
+            "raw_snippet": "migrations.AddField( model_name='sidebar', name='creation_time', field=models.DateTimeField(default=django.utils.timezone.now, verbose_name='creation time'), )",
+            "extra": {
+              "model_name": "sidebar",
+              "app_label": "blog",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "blog_sidebar",
+            "column": "creation_time",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "blog/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'blog_sidebar.creation_time' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "blog_tag",
+            "column": "creation_time",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "DateTimeField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "blog/migrations/0005_alter_article_options_alter_category_options_and_more.py",
+            "line": 100,
+            "raw_snippet": "migrations.AddField( model_name='tag', name='creation_time', field=models.DateTimeField(default=django.utils.timezone.now, verbose_name='creation time'), )",
+            "extra": {
+              "model_name": "tag",
+              "app_label": "blog",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "blog_tag",
+            "column": "creation_time",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "blog/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'blog_tag.creation_time' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "blog_tag",
+            "column": "last_modify_time",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "DateTimeField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "blog/migrations/0005_alter_article_options_alter_category_options_and_more.py",
+            "line": 105,
+            "raw_snippet": "migrations.AddField( model_name='tag', name='last_modify_time', field=models.DateTimeField(default=django.utils.timezone.now, verbose_name='modify time'), )",
+            "extra": {
+              "model_name": "tag",
+              "app_label": "blog",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "blog_tag",
+            "column": "last_modify_time",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "blog/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'blog_tag.last_modify_time' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "comments_comment",
+            "column": "created_time",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "comments/migrations/0003_alter_comment_options_remove_comment_created_time_and_more.py",
+            "line": 22,
+            "raw_snippet": "migrations.RemoveField( model_name='comment', name='created_time', )",
+            "extra": {
+              "model_name": "comment",
+              "app_label": "comments"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "comments_comment",
+            "column": "created_time",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "comments/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'created_time' active in C_{t-1} ORM (comments/models.py); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "comments_comment",
+            "column": "last_mod_time",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "comments/migrations/0003_alter_comment_options_remove_comment_created_time_and_more.py",
+            "line": 26,
+            "raw_snippet": "migrations.RemoveField( model_name='comment', name='last_mod_time', )",
+            "extra": {
+              "model_name": "comment",
+              "app_label": "comments"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "comments_comment",
+            "column": "last_mod_time",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "comments/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'last_mod_time' active in C_{t-1} ORM (comments/models.py); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "comments_comment",
+            "column": "creation_time",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "DateTimeField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "comments/migrations/0003_alter_comment_options_remove_comment_created_time_and_more.py",
+            "line": 30,
+            "raw_snippet": "migrations.AddField( model_name='comment', name='creation_time', field=models.DateTimeField(default=django.utils.timezone.now, verbose_name='creation time'), )",
+            "extra": {
+              "model_name": "comment",
+              "app_label": "comments",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "comments_comment",
+            "column": "creation_time",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "comments/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'comments_comment.creation_time' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "comments_comment",
+            "column": "last_modify_time",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "DateTimeField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "comments/migrations/0003_alter_comment_options_remove_comment_created_time_and_more.py",
+            "line": 35,
+            "raw_snippet": "migrations.AddField( model_name='comment', name='last_modify_time', field=models.DateTimeField(default=django.utils.timezone.now, verbose_name='last modify time'), )",
+            "extra": {
+              "model_name": "comment",
+              "app_label": "comments",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "comments_comment",
+            "column": "last_modify_time",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "comments/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'comments_comment.last_modify_time' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "oauth_oauthconfig",
+            "column": "created_time",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "oauth/migrations/0002_alter_oauthconfig_options_alter_oauthuser_options_and_more.py",
+            "line": 25,
+            "raw_snippet": "migrations.RemoveField( model_name='oauthconfig', name='created_time', )",
+            "extra": {
+              "model_name": "oauthconfig",
+              "app_label": "oauth"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "oauth_oauthconfig",
+            "column": "created_time",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "oauth/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'created_time' active in C_{t-1} ORM (oauth/models.py); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "oauth_oauthconfig",
+            "column": "last_mod_time",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "oauth/migrations/0002_alter_oauthconfig_options_alter_oauthuser_options_and_more.py",
+            "line": 29,
+            "raw_snippet": "migrations.RemoveField( model_name='oauthconfig', name='last_mod_time', )",
+            "extra": {
+              "model_name": "oauthconfig",
+              "app_label": "oauth"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "oauth_oauthconfig",
+            "column": "last_mod_time",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "oauth/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'last_mod_time' active in C_{t-1} ORM (oauth/models.py); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "oauth_oauthuser",
+            "column": "created_time",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "oauth/migrations/0002_alter_oauthconfig_options_alter_oauthuser_options_and_more.py",
+            "line": 33,
+            "raw_snippet": "migrations.RemoveField( model_name='oauthuser', name='created_time', )",
+            "extra": {
+              "model_name": "oauthuser",
+              "app_label": "oauth"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "oauth_oauthuser",
+            "column": "created_time",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "oauth/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'created_time' active in C_{t-1} ORM (oauth/models.py); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "oauth_oauthuser",
+            "column": "last_mod_time",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "oauth/migrations/0002_alter_oauthconfig_options_alter_oauthuser_options_and_more.py",
+            "line": 37,
+            "raw_snippet": "migrations.RemoveField( model_name='oauthuser', name='last_mod_time', )",
+            "extra": {
+              "model_name": "oauthuser",
+              "app_label": "oauth"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "oauth_oauthuser",
+            "column": "last_mod_time",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "oauth/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'last_mod_time' active in C_{t-1} ORM (oauth/models.py); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "oauth_oauthconfig",
+            "column": "creation_time",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "DateTimeField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "oauth/migrations/0002_alter_oauthconfig_options_alter_oauthuser_options_and_more.py",
+            "line": 41,
+            "raw_snippet": "migrations.AddField( model_name='oauthconfig', name='creation_time', field=models.DateTimeField(default=django.utils.timezone.now, verbose_name='creation time'), )",
+            "extra": {
+              "model_name": "oauthconfig",
+              "app_label": "oauth",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "oauth_oauthconfig",
+            "column": "creation_time",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "oauth/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'oauth_oauthconfig.creation_time' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "oauth_oauthconfig",
+            "column": "last_modify_time",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "DateTimeField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "oauth/migrations/0002_alter_oauthconfig_options_alter_oauthuser_options_and_more.py",
+            "line": 46,
+            "raw_snippet": "migrations.AddField( model_name='oauthconfig', name='last_modify_time', field=models.DateTimeField(default=django.utils.timezone.now, verbose_name='last modify time'), )",
+            "extra": {
+              "model_name": "oauthconfig",
+              "app_label": "oauth",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "oauth_oauthconfig",
+            "column": "last_modify_time",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "oauth/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'oauth_oauthconfig.last_modify_time' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "oauth_oauthuser",
+            "column": "creation_time",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "DateTimeField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "oauth/migrations/0002_alter_oauthconfig_options_alter_oauthuser_options_and_more.py",
+            "line": 51,
+            "raw_snippet": "migrations.AddField( model_name='oauthuser', name='creation_time', field=models.DateTimeField(default=django.utils.timezone.now, verbose_name='creation time'), )",
+            "extra": {
+              "model_name": "oauthuser",
+              "app_label": "oauth",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "oauth_oauthuser",
+            "column": "creation_time",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "oauth/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'oauth_oauthuser.creation_time' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "oauth_oauthuser",
+            "column": "last_modify_time",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "DateTimeField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "oauth/migrations/0002_alter_oauthconfig_options_alter_oauthuser_options_and_more.py",
+            "line": 56,
+            "raw_snippet": "migrations.AddField( model_name='oauthuser', name='last_modify_time', field=models.DateTimeField(default=django.utils.timezone.now, verbose_name='last modify time'), )",
+            "extra": {
+              "model_name": "oauthuser",
+              "app_label": "oauth",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "oauth_oauthuser",
+            "column": "last_modify_time",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "oauth/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'oauth_oauthuser.last_modify_time' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "RENAME_COLUMN",
+            "table": "owntracks_owntracklog",
+            "column": "created_time",
+            "new_name": "creation_time",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "owntracks/migrations/0002_alter_owntracklog_options_and_more.py",
+            "line": 17,
+            "raw_snippet": "migrations.RenameField( model_name='owntracklog', old_name='created_time', new_name='creation_time', )",
+            "extra": {
+              "model_name": "owntracklog",
+              "app_label": "owntracks"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "owntracks_owntracklog",
+            "column": "created_time",
+            "orm_active_old": true,
+            "orm_active_new": true,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "owntracks/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_COLUMN 'created_time'->'creation_time' breaks both C_{t-1} |= S_t and C_t |= S_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "RENAME_COLUMN",
+            "table": "servermanager_commands",
+            "column": "created_time",
+            "new_name": "creation_time",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "servermanager/migrations/0002_alter_emailsendlog_options_and_more.py",
+            "line": 17,
+            "raw_snippet": "migrations.RenameField( model_name='commands', old_name='created_time', new_name='creation_time', )",
+            "extra": {
+              "model_name": "commands",
+              "app_label": "servermanager"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "servermanager_commands",
+            "column": "created_time",
+            "orm_active_old": true,
+            "orm_active_new": true,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "servermanager/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_COLUMN 'created_time'->'creation_time' breaks both C_{t-1} |= S_t and C_t |= S_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "RENAME_COLUMN",
+            "table": "servermanager_commands",
+            "column": "last_mod_time",
+            "new_name": "last_modify_time",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "servermanager/migrations/0002_alter_emailsendlog_options_and_more.py",
+            "line": 22,
+            "raw_snippet": "migrations.RenameField( model_name='commands', old_name='last_mod_time', new_name='last_modify_time', )",
+            "extra": {
+              "model_name": "commands",
+              "app_label": "servermanager"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "servermanager_commands",
+            "column": "last_mod_time",
+            "orm_active_old": true,
+            "orm_active_new": true,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "servermanager/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_COLUMN 'last_mod_time'->'last_modify_time' breaks both C_{t-1} |= S_t and C_t |= S_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "RENAME_COLUMN",
+            "table": "servermanager_emailsendlog",
+            "column": "created_time",
+            "new_name": "creation_time",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "servermanager/migrations/0002_alter_emailsendlog_options_and_more.py",
+            "line": 27,
+            "raw_snippet": "migrations.RenameField( model_name='emailsendlog', old_name='created_time', new_name='creation_time', )",
+            "extra": {
+              "model_name": "emailsendlog",
+              "app_label": "servermanager"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "servermanager_emailsendlog",
+            "column": "created_time",
+            "orm_active_old": true,
+            "orm_active_new": true,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "servermanager/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_COLUMN 'created_time'->'creation_time' breaks both C_{t-1} |= S_t and C_t |= S_{t-1}."
+        }
+      ]
+    },
+    {
+      "sha": "e2e5b29a4b47212d01fc1df12ad4f1b3c97a3b4d",
+      "parent": "a450de8b02babd29508317ef482a536ab0535e32",
+      "date": "2023-05-09T16:05:56+08:00",
+      "subject": "\u589e\u52a0\u8bc4\u8bba\u5ba1\u6838\u5f00\u5173",
+      "mig_files": [
+        "blog/migrations/0003_blogsettings_comment_need_review.py",
+        "blog/migrations/0004_rename_analyticscode_blogsettings_analytics_code_and_more.py"
+      ],
+      "app_files_touched_in_commit": [
+        "blog/context_processors.py",
+        "blog/models.py",
+        "blog/templatetags/blog_tags.py",
+        "comments/views.py",
+        "djangoblog/blog_signals.py",
+        "djangoblog/utils.py"
+      ],
+      "orm_models_parsed_old": 8,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "blog_blogsettings",
+            "column": "comment_need_review",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "BooleanField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "blog/migrations/0003_blogsettings_comment_need_review.py",
+            "line": 12,
+            "raw_snippet": "migrations.AddField( model_name='blogsettings', name='comment_need_review', field=models.BooleanField(default=False, verbose_name='\u8bc4\u8bba\u662f\u5426\u9700\u8981\u5ba1\u6838'), )",
+            "extra": {
+              "model_name": "blogsettings",
+              "app_label": "blog",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "blog_blogsettings",
+            "column": "comment_need_review",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "blog/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'blog_blogsettings.comment_need_review' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "RENAME_COLUMN",
+            "table": "blog_blogsettings",
+            "column": "analyticscode",
+            "new_name": "analytics_code",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "blog/migrations/0004_rename_analyticscode_blogsettings_analytics_code_and_more.py",
+            "line": 12,
+            "raw_snippet": "migrations.RenameField( model_name='blogsettings', old_name='analyticscode', new_name='analytics_code', )",
+            "extra": {
+              "model_name": "blogsettings",
+              "app_label": "blog"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "blog_blogsettings",
+            "column": "analyticscode",
+            "orm_active_old": true,
+            "orm_active_new": true,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "blog/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_COLUMN 'analyticscode'->'analytics_code' breaks both C_{t-1} |= S_t and C_t |= S_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "RENAME_COLUMN",
+            "table": "blog_blogsettings",
+            "column": "beiancode",
+            "new_name": "beian_code",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "blog/migrations/0004_rename_analyticscode_blogsettings_analytics_code_and_more.py",
+            "line": 17,
+            "raw_snippet": "migrations.RenameField( model_name='blogsettings', old_name='beiancode', new_name='beian_code', )",
+            "extra": {
+              "model_name": "blogsettings",
+              "app_label": "blog"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "blog_blogsettings",
+            "column": "beiancode",
+            "orm_active_old": true,
+            "orm_active_new": true,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "blog/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_COLUMN 'beiancode'->'beian_code' breaks both C_{t-1} |= S_t and C_t |= S_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "RENAME_COLUMN",
+            "table": "blog_blogsettings",
+            "column": "sitename",
+            "new_name": "site_name",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "blog/migrations/0004_rename_analyticscode_blogsettings_analytics_code_and_more.py",
+            "line": 22,
+            "raw_snippet": "migrations.RenameField( model_name='blogsettings', old_name='sitename', new_name='site_name', )",
+            "extra": {
+              "model_name": "blogsettings",
+              "app_label": "blog"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "blog_blogsettings",
+            "column": "sitename",
+            "orm_active_old": true,
+            "orm_active_new": true,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "blog/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_COLUMN 'sitename'->'site_name' breaks both C_{t-1} |= S_t and C_t |= S_{t-1}."
+        }
+      ]
+    },
+    {
+      "sha": "d6d6fcd5b7af2aa14bf37110c846960b207d09b1",
+      "parent": "a0e6783dfd8e8672800fbcbe3b7f1d9c362b3e70",
+      "date": "2016-11-01T23:19:35+08:00",
+      "subject": "\u521b\u5efablog app.\u521b\u5efamodel",
+      "mig_files": [
+        "blog/migrations/0001_initial.py"
+      ],
+      "app_files_touched_in_commit": [
+        "DjangoBlog/__init__.py",
+        "DjangoBlog/settings.py",
+        "blog/__init__.py",
+        "blog/admin.py",
+        "blog/apps.py",
+        "blog/models.py",
+        "blog/views.py"
+      ],
+      "orm_models_parsed_old": 0,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "blog_article",
+            "column": "category",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "blog/migrations/0001_initial.py",
+            "line": 67,
+            "raw_snippet": "migrations.AddField( model_name='article', name='category', field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='blog.Category', verbose_name='\u5206\u7c7b'), )",
+            "extra": {
+              "model_name": "article",
+              "app_label": "blog",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "blog_article",
+            "column": "category",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'blog_article' was created in the same commit; C_{t-1} does not write to it."
+        }
+      ]
+    }
+  ]
+}

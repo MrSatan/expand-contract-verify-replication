@@ -1,0 +1,3028 @@
+{
+  "repo": "linkwarden/linkwarden",
+  "ecosystem": "prisma",
+  "stars": 20480,
+  "has_k8s_helm": false,
+  "status": "ok",
+  "stats": {
+    "total_migration_commits_in_history": 126,
+    "migration_commits_analyzed": 102,
+    "total_migration_files_parsed": 122,
+    "commits_with_any_destructive": 30,
+    "commits_with_forward_destructive": 30,
+    "commits_with_rollback_only_destructive": 0,
+    "total_ops_extracted": 59,
+    "destructive_ops_up": 59,
+    "destructive_ops_down": 0
+  },
+  "verdict_counts": {
+    "DUAL_VERSION_VIOLATION_BACKWARD": 29,
+    "DUAL_VERSION_VIOLATION_BOTH": 16,
+    "SAFE_CONTRACT": 12,
+    "UNCERTAIN": 2
+  },
+  "destructive_commits": [
+    {
+      "sha": "46303b321a43b6a8227c4dfdfcccce01ab37e55f",
+      "parent": "ab45293b7f3ebd69acdfe9a9b5f5485865d2e209",
+      "date": "2026-09-10T14:14:07-04:00",
+      "subject": "update prisma schema",
+      "mig_files": [
+        "packages/prisma/migrations/20260910181143_remove_unused_fields/migration.sql",
+        "packages/prisma/migrations/20260910181329_add_field_to_user/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/web/pages/settings/account.tsx",
+        "packages/lib/schemaValidation.ts",
+        "packages/prisma/schema.prisma"
+      ],
+      "orm_models_parsed_old": 15,
+      "raw_sql": "/*\n  Warnings:\n\n  - You are about to drop the column `isPrivate` on the `User` table. All the data in the column will be lost.\n  - You are about to drop the `WhitelistedUser` table. If the table is not empty, all the data it contains will be lost.\n\n*/\n-- DropForeignKey\nALTER TABLE \"WhitelistedUser\" DROP CONSTRAINT \"WhitelistedUser_userId_fkey\";\n\n-- AlterTable\nALTER TABLE \"User\" DROP COLUMN \"isPrivate\";\n\n-- DropTable\nDROP TABLE \"WhitelistedUser\";\n\n-- CreateEnum\nCREATE TYPE \"Layout\" AS ENUM ('V1', 'V2');\n\n-- AlterTable\nALTER TABLE \"User\" ADD COLUMN     \"layoutPreference\" \"Layout\"[];\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "user",
+            "column": "isprivate",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260910181143_remove_unused_fields/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE user DROP COLUMN \"isPrivate\"",
+            "extra": {
+              "table_sql": "User",
+              "column_sql": "isPrivate"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "user",
+            "column": "isprivate",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'isprivate' active in C_{t-1} ORM (packages/prisma/schema.prisma); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "whitelisteduser",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260910181143_remove_unused_fields/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE \"WhitelistedUser\"",
+            "extra": {
+              "table_sql": "WhitelistedUser"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "whitelisteduser",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'whitelisteduser' active in C_{t-1}."
+        }
+      ]
+    },
+    {
+      "sha": "7889e8d0bdd5b7be8fd42d5ffb7e960589ca7e89",
+      "parent": "2a3e54221bffc1b59a4413ad3670cc0e0ab71c80",
+      "date": "2026-07-06T13:58:20-04:00",
+      "subject": "replace revenuecat with apple and google webhooks",
+      "mig_files": [
+        "packages/prisma/migrations/20260703143543_replace_revenuecat_with_store_billing/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/mobile/app.config.ts",
+        "apps/mobile/app/_layout.tsx",
+        "apps/mobile/app/subscribe.tsx",
+        "apps/mobile/lib/iap.ts",
+        "apps/web/lib/api/billing/appStore.ts",
+        "apps/web/lib/api/billing/checkRevenuecatSubscription.ts",
+        "apps/web/lib/api/billing/googlePlay.ts",
+        "apps/web/lib/api/billing/mapStore.ts",
+        "apps/web/lib/api/billing/stripeStoreReset.ts",
+        "apps/web/lib/api/billing/syncRevenuecatSubscription.ts",
+        "apps/web/lib/api/billing/syncStoreSubscription.ts",
+        "apps/web/lib/api/billing/updateRevenuecatCustomerEmail.ts"
+      ],
+      "orm_models_parsed_old": 15,
+      "raw_sql": "/*\n  Warnings:\n\n  - The values [REVENUECAT] on the enum `SubscriptionProvider` will be removed. If these variants are still used in the database, this will fail.\n  - You are about to drop the column `revenueCatAppUserId` on the `Subscription` table. All the data in the column will be lost.\n  - You are about to drop the column `revenuecatMetadata` on the `Subscription` table. All the data in the column will be lost.\n  - You are about to drop the column `store` on the `Subscription` table. All the data in the column will be lost.\n\n*/\n-- AlterEnum\nBEGIN;\nCREATE TYPE \"SubscriptionProvider_new\" AS ENUM ('STRIPE', 'APPLE', 'GOOGLE');\nALTER TABLE \"Subscription\" ALTER COLUMN \"provider\" TYPE \"SubscriptionProvider_new\" USING (\"provider\"::text::\"SubscriptionProvider_new\");\nALTER TYPE \"SubscriptionProvider\" RENAME TO \"SubscriptionProvider_old\";\nALTER TYPE \"SubscriptionProvider_new\" RENAME TO \"SubscriptionProvider\";\nDROP TYPE \"SubscriptionProvider_old\";\nCOMMIT;\n\n-- DropIndex\nDROP INDEX \"Subscription_revenueCatAppUserId_key\";\n\n-- AlterTable\nALTER TABLE \"Subscription\" DROP COLUMN \"revenueCatAppUserId\",\nDROP COLUMN \"revenuecatMetadata\",\nDROP COLUMN \"store\",\nADD COLUMN     \"storeMetadata\" JSONB;\n\n-- DropEnum\nDROP TYPE \"SubscriptionStore\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "subscription",
+            "column": "provider",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "\"SubscriptionProvider_new\"",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260703143543_replace_revenuecat_with_store_billing/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE subscription ALTER COLUMN \"provider\" SET DATA TYPE \"SubscriptionProvider_new\" USING (CAST(CAST(\"provider\" AS TEXT) AS \"SubscriptionProvider_new\"))",
+            "extra": {
+              "table_sql": "Subscription"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "subscription",
+            "column": "provider",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'subscription.provider' (SubscriptionProvider -> \"SubscriptionProvider_new\")."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "subscriptionprovider",
+            "column": "subscriptionprovider",
+            "new_name": "subscriptionprovider_old",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260703143543_replace_revenuecat_with_store_billing/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TYPE \"SubscriptionProvider\" RENAME TO \"SubscriptionProvider_old\"",
+            "extra": {
+              "table_sql": "SubscriptionProvider",
+              "column_sql": "SubscriptionProvider",
+              "new_name_sql": "SubscriptionProvider_old"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "subscriptionprovider",
+            "column": "subscriptionprovider",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'subscriptionprovider' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "subscriptionprovider_new",
+            "column": "subscriptionprovider_new",
+            "new_name": "subscriptionprovider",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260703143543_replace_revenuecat_with_store_billing/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TYPE \"SubscriptionProvider_new\" RENAME TO \"SubscriptionProvider\"",
+            "extra": {
+              "table_sql": "SubscriptionProvider_new",
+              "column_sql": "SubscriptionProvider_new",
+              "new_name_sql": "SubscriptionProvider"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "subscriptionprovider_new",
+            "column": "subscriptionprovider_new",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'subscriptionprovider_new' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "subscriptionprovider_old",
+            "column": "subscriptionprovider_old",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260703143543_replace_revenuecat_with_store_billing/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TYPE \"SubscriptionProvider_old\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "SubscriptionProvider_old",
+              "column_sql": "SubscriptionProvider_old"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "subscriptionprovider_old",
+            "column": "subscriptionprovider_old",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "ENUM 'subscriptionprovider_old' not present in C_{t-1} schema."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "subscription",
+            "column": "revenuecatappuserid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260703143543_replace_revenuecat_with_store_billing/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE subscription DROP COLUMN \"revenueCatAppUserId\"",
+            "extra": {
+              "table_sql": "Subscription",
+              "column_sql": "revenueCatAppUserId"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "subscription",
+            "column": "revenuecatappuserid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'revenuecatappuserid' active in C_{t-1} ORM (packages/prisma/schema.prisma); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "subscription",
+            "column": "revenuecatmetadata",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260703143543_replace_revenuecat_with_store_billing/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE subscription DROP COLUMN \"revenuecatMetadata\"",
+            "extra": {
+              "table_sql": "Subscription",
+              "column_sql": "revenuecatMetadata"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "subscription",
+            "column": "revenuecatmetadata",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'revenuecatmetadata' active in C_{t-1} ORM (packages/prisma/schema.prisma); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "subscription",
+            "column": "store",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260703143543_replace_revenuecat_with_store_billing/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE subscription DROP COLUMN \"store\"",
+            "extra": {
+              "table_sql": "Subscription"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "subscription",
+            "column": "store",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'store' active in C_{t-1} ORM (packages/prisma/schema.prisma); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "subscriptionstore",
+            "column": "subscriptionstore",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260703143543_replace_revenuecat_with_store_billing/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropEnum */ DROP TYPE \"SubscriptionStore\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "SubscriptionStore",
+              "column_sql": "SubscriptionStore"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "subscriptionstore",
+            "column": "subscriptionstore",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'subscriptionstore' affects active C_{t-1} enum definition/code."
+        }
+      ]
+    },
+    {
+      "sha": "116753fcdae9639d4fdc0e46419751d434f14789",
+      "parent": "4cac137572c8b133c6a57523f1060570701ac43c",
+      "date": "2026-06-18T14:06:04-04:00",
+      "subject": "bug fix",
+      "mig_files": [
+        "packages/prisma/migrations/20260618175031_replace_store_environment_with_google_purchase_token/migration.sql"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 15,
+      "raw_sql": "/*\n  Warnings:\n\n  - You are about to drop the column `storeEnvironment` on the `Subscription` table. All the data in the column will be lost.\n  - A unique constraint covering the columns `[googlePurchaseToken]` on the table `Subscription` will be added. If there are existing duplicate values, this will fail.\n\n*/\n-- AlterTable\nALTER TABLE \"Subscription\" DROP COLUMN \"storeEnvironment\",\nADD COLUMN     \"googlePurchaseToken\" TEXT;\n\n-- DropEnum\nDROP TYPE \"SubscriptionEnvironment\";\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"Subscription_googlePurchaseToken_key\" ON \"Subscription\"(\"googlePurchaseToken\");\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "subscription",
+            "column": "storeenvironment",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260618175031_replace_store_environment_with_google_purchase_token/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE subscription DROP COLUMN \"storeEnvironment\"",
+            "extra": {
+              "table_sql": "Subscription",
+              "column_sql": "storeEnvironment"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "subscription",
+            "column": "storeenvironment",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'storeenvironment' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "subscriptionenvironment",
+            "column": "subscriptionenvironment",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260618175031_replace_store_environment_with_google_purchase_token/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropEnum */ DROP TYPE \"SubscriptionEnvironment\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "SubscriptionEnvironment",
+              "column_sql": "SubscriptionEnvironment"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "subscriptionenvironment",
+            "column": "subscriptionenvironment",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "ENUM 'subscriptionenvironment' not present in C_{t-1} schema."
+        }
+      ]
+    },
+    {
+      "sha": "4cac137572c8b133c6a57523f1060570701ac43c",
+      "parent": "899f97679b74b762856075eed3c10394c335ae31",
+      "date": "2026-06-18T13:14:57-04:00",
+      "subject": "store Google Play purchase token & reset store fields on provider/store switch",
+      "mig_files": [
+        "packages/prisma/migrations/20260617150934_replace_store_environment_with_google_purchase_token/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/mobile/app/subscribe.tsx",
+        "apps/web/lib/api/billing/handleStripeSubscription.ts",
+        "apps/web/lib/api/billing/stripeStoreReset.ts",
+        "apps/web/lib/api/billing/syncRevenuecatSubscription.ts",
+        "apps/web/lib/api/billing/verifySubscription.ts",
+        "apps/web/pages/api/v1/billing/google-purchase-token.ts",
+        "apps/web/pages/api/v1/webhooks/revenuecat.ts",
+        "packages/prisma/schema.prisma"
+      ],
+      "orm_models_parsed_old": 15,
+      "raw_sql": "-- AlterTable\nALTER TABLE \"Subscription\" DROP COLUMN \"storeEnvironment\",\nADD COLUMN     \"googlePurchaseToken\" TEXT;\n\n-- DropEnum\nDROP TYPE \"SubscriptionEnvironment\";\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"Subscription_googlePurchaseToken_key\" ON \"Subscription\"(\"googlePurchaseToken\");\n\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "subscription",
+            "column": "storeenvironment",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260617150934_replace_store_environment_with_google_purchase_token/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE subscription DROP COLUMN \"storeEnvironment\"",
+            "extra": {
+              "table_sql": "Subscription",
+              "column_sql": "storeEnvironment"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "subscription",
+            "column": "storeenvironment",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'storeenvironment' active in C_{t-1} ORM (packages/prisma/schema.prisma); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "subscriptionenvironment",
+            "column": "subscriptionenvironment",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260617150934_replace_store_environment_with_google_purchase_token/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropEnum */ DROP TYPE \"SubscriptionEnvironment\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "SubscriptionEnvironment",
+              "column_sql": "SubscriptionEnvironment"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "subscriptionenvironment",
+            "column": "subscriptionenvironment",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'subscriptionenvironment' affects active C_{t-1} enum definition/code."
+        }
+      ]
+    },
+    {
+      "sha": "52f7916bd59690da546928cc65928649702e4b31",
+      "parent": "2b638fb07eaa722e2fe510e66c4a420d5b5daacc",
+      "date": "2026-06-03T14:40:16-04:00",
+      "subject": "harden revenuecat logic throughout the codebase",
+      "mig_files": [
+        "packages/prisma/migrations/20260603151955_add_revenuecat_support_for_the_database/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/web/lib/api/controllers/users/postUser.ts",
+        "apps/web/lib/api/controllers/users/userId/deleteUserById.ts",
+        "apps/web/lib/api/stripe/checkRevenuecatSubscription.ts",
+        "apps/web/lib/api/stripe/checkStripeSubscriptionByEmail.ts",
+        "apps/web/lib/api/stripe/checkSubscriptionByEmail.ts",
+        "apps/web/lib/api/stripe/handleSubscription.ts",
+        "apps/web/lib/api/stripe/verifySubscription.ts",
+        "apps/web/pages/api/v1/auth/[...nextauth].ts",
+        "apps/web/pages/api/v1/webhooks/revenuecat.ts",
+        "packages/prisma/schema.prisma"
+      ],
+      "orm_models_parsed_old": 15,
+      "raw_sql": "/*\n  Warnings:\n\n  - A unique constraint covering the columns `[revenueCatAppUserId]` on the table `Subscription` will be added. If there are existing duplicate values, this will fail.\n  - Added the required column `provider` to the `Subscription` table without a default value. This is not possible if the table is not empty.\n\n*/\n-- CreateEnum\nCREATE TYPE \"SubscriptionProvider\" AS ENUM ('STRIPE', 'REVENUECAT');\n\n-- AlterTable: add provider as NULLABLE first so existing rows aren't rejected\nALTER TABLE \"Subscription\" ADD COLUMN     \"provider\" \"SubscriptionProvider\",\nADD COLUMN     \"revenueCatAppUserId\" UUID,\nALTER COLUMN \"stripeSubscriptionId\" DROP NOT NULL;\n\n-- Backfill: every existing row with a Stripe subscription ID is a Stripe subscription\nUPDATE \"Subscription\" SET \"provider\" = 'STRIPE' WHERE \"stripeSubscriptionId\" IS NOT NULL;\n\n-- Now enforce NOT NULL to match the schema\nALTER TABLE \"Subscription\" ALTER COLUMN \"provider\" SET NOT NULL;\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"Subscription_revenueCatAppUserId_key\" ON \"Subscription\"(\"revenueCatAppUserId\");",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "SET_NOT_NULL",
+            "table": "subscription",
+            "column": "provider",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260603151955_add_revenuecat_support_for_the_database/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE subscription ALTER COLUMN \"provider\" SET NOT NULL",
+            "extra": {
+              "table_sql": "Subscription"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "subscription",
+            "column": "provider",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Column 'subscription.provider' not active in C_{t-1} ORM."
+        }
+      ]
+    },
+    {
+      "sha": "8ca0e214d6ef3e7521d00bc9b6542dc0e0d60c31",
+      "parent": "9159c496df187de2e4257c8abe33d8b2155d2965",
+      "date": "2026-06-02T19:10:52-04:00",
+      "subject": "revenuecat init",
+      "mig_files": [
+        "packages/prisma/migrations/20260602155952_add_uuid_to_user_model/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/mobile/app/_layout.tsx",
+        "apps/mobile/app/subscribe.tsx",
+        "apps/web/pages/api/v1/webhook/index.ts",
+        "apps/web/pages/api/v1/webhooks/stripe.ts",
+        "packages/prisma/schema.prisma"
+      ],
+      "orm_models_parsed_old": 15,
+      "raw_sql": "/*\n  Warnings:\n\n  - A unique constraint covering the columns `[uuid]` on the table `User` will be added. If there are existing duplicate values, this will fail.\n  - The required column `uuid` was added to the `User` table with a prisma-level default value. This is not possible if the table is not empty. Please add this column as optional, then populate it before making it required.\n\n*/\n-- AlterTable\n\nALTER TABLE \"User\" ADD COLUMN \"uuid\" UUID;\n\n-- Backfill existing users\n\nUPDATE \"User\" SET \"uuid\" = gen_random_uuid() WHERE \"uuid\" IS NULL;\n\n-- Make it required after backfill\n\nALTER TABLE \"User\" ALTER COLUMN \"uuid\" SET NOT NULL;\n\n-- CreateIndex\n\nCREATE UNIQUE INDEX \"User_uuid_key\" ON \"User\"(\"uuid\");",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "SET_NOT_NULL",
+            "table": "user",
+            "column": "uuid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260602155952_add_uuid_to_user_model/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE user ALTER COLUMN \"uuid\" SET NOT NULL",
+            "extra": {
+              "table_sql": "User"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "user",
+            "column": "uuid",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Column 'user.uuid' not active in C_{t-1} ORM."
+        }
+      ]
+    },
+    {
+      "sha": "9b0c3bf405d878cf94a9d7ef1c9918599aba3a0f",
+      "parent": "e08684328ace8ab1dfe777a35866bf69249f13d9",
+      "date": "2025-06-27T16:07:34-04:00",
+      "subject": "bug fix",
+      "mig_files": [
+        "packages/prisma/migrations/20250627200522_make_themes_lowercase_fix/migration.sql"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 14,
+      "raw_sql": "BEGIN;\n\nCREATE TYPE \"Theme_new\" AS ENUM ('dark', 'light', 'auto');\n\nALTER TABLE \"User\" ALTER COLUMN \"theme\" DROP DEFAULT;\n\nUPDATE \"User\"\nSET \"theme\" = lower(\"theme\"::text);\n\nALTER TABLE \"User\"\nALTER COLUMN \"theme\" TYPE \"Theme_new\"\nUSING (\"theme\"::text::\"Theme_new\");\n\nDROP TYPE \"Theme\";\n\nALTER TYPE \"Theme_new\" RENAME TO \"Theme\";\n\nALTER TABLE \"User\" ALTER COLUMN \"theme\" SET DEFAULT 'dark';\n\nCOMMIT;",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "user",
+            "column": "theme",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "\"Theme_new\"",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20250627200522_make_themes_lowercase_fix/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE user ALTER COLUMN \"theme\" SET DATA TYPE \"Theme_new\" USING (CAST(CAST(\"theme\" AS TEXT) AS \"Theme_new\"))",
+            "extra": {
+              "table_sql": "User"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "user",
+            "column": "theme",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'user.theme' (Theme -> \"Theme_new\")."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "theme",
+            "column": "theme",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20250627200522_make_themes_lowercase_fix/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TYPE \"Theme\"",
+            "extra": {
+              "subtype": "DROP_TYPE"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "theme",
+            "column": "theme",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'theme' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "theme_new",
+            "column": "theme_new",
+            "new_name": "theme",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20250627200522_make_themes_lowercase_fix/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TYPE \"Theme_new\" RENAME TO \"Theme\"",
+            "extra": {
+              "table_sql": "Theme_new",
+              "column_sql": "Theme_new"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "theme_new",
+            "column": "theme_new",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'theme_new' affects active C_{t-1} enum definition/code."
+        }
+      ]
+    },
+    {
+      "sha": "47c711fea659dd1e3dae8b66f7f48358236da5de",
+      "parent": "ae099dce4f93c74d68d8a1cab580b3d7f0032e6d",
+      "date": "2025-06-03T15:57:32-04:00",
+      "subject": "feat(web): finished readable dropdown",
+      "mig_files": [
+        "packages/prisma/migrations/20250602104316_add_fields_to_user_model/migration.sql",
+        "packages/prisma/migrations/20250602110152_change_default_theme/migration.sql",
+        "packages/prisma/migrations/20250602110328_make_themes_lowercase/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/web/components/IconPopover.tsx",
+        "apps/web/components/Preservation/PreservationContent.tsx",
+        "apps/web/components/Preservation/PreservationNavbar.tsx",
+        "apps/web/components/Preservation/PreservationPageContent.tsx",
+        "apps/web/components/Preservation/ReadableView.tsx",
+        "apps/web/components/SearchBar.tsx",
+        "apps/web/components/ToggleDarkMode.tsx",
+        "apps/web/components/ui/separator.tsx",
+        "apps/web/lib/api/controllers/users/userId/getUserById.ts",
+        "apps/web/lib/api/controllers/users/userId/updateUserPreference.ts",
+        "apps/web/pages/_document.tsx",
+        "apps/web/pages/api/v1/users/[id].ts"
+      ],
+      "orm_models_parsed_old": 13,
+      "raw_sql": "-- CreateEnum\nCREATE TYPE \"Theme\" AS ENUM ('DARK', 'LIGHT', 'AUTO');\n\n-- AlterTable\nALTER TABLE \"User\" ADD COLUMN     \"readableFontFamily\" TEXT,\nADD COLUMN     \"readableFontSize\" TEXT,\nADD COLUMN     \"readableLineHeight\" TEXT,\nADD COLUMN     \"readableLineWidth\" TEXT,\nADD COLUMN     \"theme\" \"Theme\" NOT NULL DEFAULT 'AUTO';\n\n-- AlterTable\nALTER TABLE \"User\" ALTER COLUMN \"theme\" SET DEFAULT 'DARK';\n\n/*\n  Warnings:\n\n  - The values [DARK,LIGHT,AUTO] on the enum `Theme` will be removed. If these variants are still used in the database, this will fail.\n\n*/\n-- AlterEnum\nBEGIN;\nCREATE TYPE \"Theme_new\" AS ENUM ('dark', 'light', 'auto');\nALTER TABLE \"User\" ALTER COLUMN \"theme\" DROP DEFAULT;\nALTER TABLE \"User\" ALTER COLUMN \"theme\" TYPE \"Theme_new\" USING (\"theme\"::text::\"Theme_new\");\nALTER TYPE \"Theme\" RENAME TO \"Theme_old\";\nALTER TYPE \"Theme_new\" RENAME TO \"Theme\";\nDROP TYPE \"Theme_old\";\nALTER TABLE \"User\" ALTER COLUMN \"theme\" SET DEFAULT 'dark';\nCOMMIT;\n\n-- AlterTable\nALTER TABLE \"User\" ALTER COLUMN \"theme\" SET DEFAULT 'dark';\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "user",
+            "column": "theme",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "\"Theme_new\"",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20250602110328_make_themes_lowercase/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE user ALTER COLUMN \"theme\" SET DATA TYPE \"Theme_new\" USING (CAST(CAST(\"theme\" AS TEXT) AS \"Theme_new\"))",
+            "extra": {
+              "table_sql": "User"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "user",
+            "column": "theme",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'user.theme' (None -> \"Theme_new\")."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "theme",
+            "column": "theme",
+            "new_name": "theme_old",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20250602110328_make_themes_lowercase/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TYPE \"Theme\" RENAME TO \"Theme_old\"",
+            "extra": {
+              "new_name_sql": "Theme_old"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "theme",
+            "column": "theme",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'theme' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "theme_new",
+            "column": "theme_new",
+            "new_name": "theme",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20250602110328_make_themes_lowercase/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TYPE \"Theme_new\" RENAME TO \"Theme\"",
+            "extra": {
+              "table_sql": "Theme_new",
+              "column_sql": "Theme_new"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "theme_new",
+            "column": "theme_new",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "ENUM 'theme_new' not present in C_{t-1} schema."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "theme_old",
+            "column": "theme_old",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20250602110328_make_themes_lowercase/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TYPE \"Theme_old\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "Theme_old",
+              "column_sql": "Theme_old"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "theme_old",
+            "column": "theme_old",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "ENUM 'theme_old' not present in C_{t-1} schema."
+        }
+      ]
+    },
+    {
+      "sha": "3959a42a30f41f9e5c6356c10c4b2ca1941407ad",
+      "parent": "759cb151485ca291af0c7a9188d7d63380149534",
+      "date": "2025-05-29T23:19:22-05:00",
+      "subject": "database",
+      "mig_files": [
+        "packages/prisma/migrations/20250530041916_add_dashboard_sections_for_users/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "packages/prisma/schema.prisma"
+      ],
+      "orm_models_parsed_old": 13,
+      "raw_sql": "/*\n  Warnings:\n\n  - You are about to drop the column `dashboardPinnedLinks` on the `User` table. All the data in the column will be lost.\n  - You are about to drop the column `dashboardRecentLinks` on the `User` table. All the data in the column will be lost.\n\n*/\n-- CreateEnum\nCREATE TYPE \"DashboardSectionType\" AS ENUM ('STATS', 'RECENT_LINKS', 'PINNED_LINKS', 'COLLECTION');\n\n-- AlterTable\nALTER TABLE \"User\" DROP COLUMN \"dashboardPinnedLinks\",\nDROP COLUMN \"dashboardRecentLinks\";\n\n-- CreateTable\nCREATE TABLE \"DashboardSection\" (\n    \"id\" SERIAL NOT NULL,\n    \"userId\" INTEGER NOT NULL,\n    \"type\" \"DashboardSectionType\" NOT NULL,\n    \"collectionId\" INTEGER,\n    \"order\" INTEGER NOT NULL,\n    \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    \"updatedAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n\n    CONSTRAINT \"DashboardSection_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"DashboardSection_userId_order_key\" ON \"DashboardSection\"(\"userId\", \"order\");\n\n-- AddForeignKey\nALTER TABLE \"DashboardSection\" ADD CONSTRAINT \"DashboardSection_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"User\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "user",
+            "column": "dashboardpinnedlinks",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20250530041916_add_dashboard_sections_for_users/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE user DROP COLUMN \"dashboardPinnedLinks\"",
+            "extra": {
+              "table_sql": "User",
+              "column_sql": "dashboardPinnedLinks"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "user",
+            "column": "dashboardpinnedlinks",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'dashboardpinnedlinks' active in C_{t-1} ORM (packages/prisma/schema.prisma); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "user",
+            "column": "dashboardrecentlinks",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20250530041916_add_dashboard_sections_for_users/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE user DROP COLUMN \"dashboardRecentLinks\"",
+            "extra": {
+              "table_sql": "User",
+              "column_sql": "dashboardRecentLinks"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "user",
+            "column": "dashboardrecentlinks",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'dashboardrecentlinks' active in C_{t-1} ORM (packages/prisma/schema.prisma); identifier removed in same commit diff"
+        }
+      ]
+    },
+    {
+      "sha": "0e5e3ea00ea4f0c881f1fc4d6820c66565512860",
+      "parent": "6599fd7f5ae05f0854f0ba5553377debe715c2a0",
+      "date": "2025-04-04T13:39:54-04:00",
+      "subject": "finished highlight feature implementation",
+      "mig_files": [
+        "prisma/migrations/20250404153610_remove_fields/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "components/Preservation/ReadableView.tsx",
+        "lib/api/controllers/highlights/postOrUpdateHighlight.ts",
+        "lib/shared/schemaValidation.ts",
+        "prisma/schema.prisma"
+      ],
+      "orm_models_parsed_old": 13,
+      "raw_sql": "/*\n  Warnings:\n\n  - You are about to drop the column `endXPath` on the `Highlight` table. All the data in the column will be lost.\n  - You are about to drop the column `startXPath` on the `Highlight` table. All the data in the column will be lost.\n\n*/\n-- AlterTable\nALTER TABLE \"Highlight\" DROP COLUMN \"endXPath\",\nDROP COLUMN \"startXPath\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "highlight",
+            "column": "endxpath",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20250404153610_remove_fields/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE highlight DROP COLUMN \"endXPath\"",
+            "extra": {
+              "table_sql": "Highlight",
+              "column_sql": "endXPath"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "highlight",
+            "column": "endxpath",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'endxpath' active in C_{t-1} ORM (prisma/schema.prisma); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "highlight",
+            "column": "startxpath",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20250404153610_remove_fields/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE highlight DROP COLUMN \"startXPath\"",
+            "extra": {
+              "table_sql": "Highlight",
+              "column_sql": "startXPath"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "highlight",
+            "column": "startxpath",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'startxpath' active in C_{t-1} ORM (prisma/schema.prisma); identifier removed in same commit diff"
+        }
+      ]
+    },
+    {
+      "sha": "44ae6d0dbf1d269d8d356706d226bf613be99ad8",
+      "parent": "5d17b628cc186914498e6282915258009db88109",
+      "date": "2025-04-01T02:17:00-04:00",
+      "subject": "WIP",
+      "mig_files": [
+        "prisma/migrations/20250329032742_add_field/migration.sql",
+        "prisma/migrations/20250330105338_add_field/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "components/Preservation/ReadableView.tsx",
+        "lib/api/controllers/highlights/postOrUpdateHighlight.ts",
+        "lib/shared/schemaValidation.ts",
+        "prisma/schema.prisma"
+      ],
+      "orm_models_parsed_old": 13,
+      "raw_sql": "-- AlterTable\nALTER TABLE \"Highlight\" ADD COLUMN     \"xPath\" TEXT NOT NULL DEFAULT '';\n\n/*\n  Warnings:\n\n  - You are about to drop the column `xPath` on the `Highlight` table. All the data in the column will be lost.\n\n*/\n-- AlterTable\nALTER TABLE \"Highlight\" DROP COLUMN \"xPath\",\nADD COLUMN     \"endXPath\" TEXT NOT NULL DEFAULT '',\nADD COLUMN     \"startXPath\" TEXT NOT NULL DEFAULT '';\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "highlight",
+            "column": "xpath",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20250330105338_add_field/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE highlight DROP COLUMN \"xPath\"",
+            "extra": {
+              "table_sql": "Highlight",
+              "column_sql": "xPath"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "highlight",
+            "column": "xpath",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'xpath' already absent from C_{t-1} ORM and app code."
+        }
+      ]
+    },
+    {
+      "sha": "1360a03eb5669175d8ce04895da6499ecf737280",
+      "parent": "902c724f39b1b6b009b74c17ad41985bd1112d76",
+      "date": "2025-03-03T18:01:02-05:00",
+      "subject": "revert modal",
+      "mig_files": [
+        "prisma/migrations/20250303224623_remove_field/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "components/Drawer.tsx",
+        "components/LinkDetails.tsx",
+        "components/Modal.tsx",
+        "components/ModalContent/LinkModal.tsx",
+        "pages/api/v1/archives/[linkId].ts",
+        "pages/links/[id].tsx",
+        "pages/public/links/[id].tsx",
+        "prisma/schema.prisma"
+      ],
+      "orm_models_parsed_old": 12,
+      "raw_sql": "/*\n  Warnings:\n\n  - You are about to drop the column `contentEdited` on the `Link` table. All the data in the column will be lost.\n\n*/\n-- AlterTable\nALTER TABLE \"Link\" DROP COLUMN \"contentEdited\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "link",
+            "column": "contentedited",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20250303224623_remove_field/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE link DROP COLUMN \"contentEdited\"",
+            "extra": {
+              "table_sql": "Link",
+              "column_sql": "contentEdited"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "link",
+            "column": "contentedited",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'contentedited' active in C_{t-1} ORM (prisma/schema.prisma); identifier removed in same commit diff"
+        }
+      ]
+    },
+    {
+      "sha": "9bd821baa9ce6780a76f0d847a07fc83b48e45e4",
+      "parent": "b69b535155ac09c4440c4567e12cacc6ff52a6f7",
+      "date": "2025-02-15T17:14:26-05:00",
+      "subject": "refactored search",
+      "mig_files": [
+        "prisma/migrations/20250211134725_add_field_to_links/migration.sql",
+        "prisma/migrations/20250215181757_add_version_to_index/migration.sql",
+        "prisma/migrations/20250215182023_change_field_type/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "components/LinkViews/LinkComponents/LinkCard.tsx",
+        "hooks/store/links.tsx",
+        "lib/api/controllers/dashboard/getDashboardDataV2.ts",
+        "lib/api/controllers/links/bulk/deleteLinksById.ts",
+        "lib/api/controllers/links/linkId/deleteLinkById.ts",
+        "lib/api/controllers/links/linkId/updateLinkById.ts",
+        "lib/api/controllers/search/searchLinks.ts",
+        "lib/api/getLinkBatch.ts",
+        "lib/api/meilisearchClient.ts",
+        "lib/api/preservationScheme/handleReadability.ts",
+        "lib/api/searchQueryBuilder.ts",
+        "pages/api/v1/archives/[linkId].ts"
+      ],
+      "orm_models_parsed_old": 12,
+      "raw_sql": "-- AlterTable\nALTER TABLE \"Link\" ADD COLUMN     \"indexed\" BOOLEAN NOT NULL DEFAULT false;\n\n/*\n  Warnings:\n\n  - You are about to drop the column `indexed` on the `Link` table. All the data in the column will be lost.\n\n*/\n-- AlterTable\nALTER TABLE \"Link\" DROP COLUMN \"indexed\",\nADD COLUMN     \"indexVersion\" TEXT;\n\n/*\n  Warnings:\n\n  - The `indexVersion` column on the `Link` table would be dropped and recreated. This will lead to data loss if there is data in the column.\n\n*/\n-- AlterTable\nALTER TABLE \"Link\" DROP COLUMN \"indexVersion\",\nADD COLUMN     \"indexVersion\" INTEGER;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "link",
+            "column": "indexed",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20250215181757_add_version_to_index/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE link DROP COLUMN \"indexed\"",
+            "extra": {
+              "table_sql": "Link"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "link",
+            "column": "indexed",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'indexed' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "link",
+            "column": "indexversion",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20250215182023_change_field_type/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE link DROP COLUMN \"indexVersion\"",
+            "extra": {
+              "table_sql": "Link",
+              "column_sql": "indexVersion"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "link",
+            "column": "indexversion",
+            "orm_active_old": false,
+            "orm_active_new": true,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'indexversion' already absent from C_{t-1} ORM and app code."
+        }
+      ]
+    },
+    {
+      "sha": "665019dc59c680a9928e9fd52962fa703ab2e78a",
+      "parent": "b09de5a8af873706216bd9fd6a7e7e85004a8492",
+      "date": "2024-10-29T18:08:47-04:00",
+      "subject": "finalizing team support",
+      "mig_files": [
+        "prisma/migrations/20241027093300_remove_field/migration.sql",
+        "prisma/migrations/20241027104510_remove_field/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "components/ModalContent/DeleteUserModal.tsx",
+        "components/ModalContent/EditCollectionSharingModal.tsx",
+        "components/ModalContent/InviteModal.tsx",
+        "components/ProfileDropdown.tsx",
+        "components/ui/Divider.tsx",
+        "layouts/AuthRedirect.tsx",
+        "lib/api/controllers/collections/collectionId/updateCollectionById.ts",
+        "lib/api/controllers/public/users/getPublicUser.ts",
+        "lib/api/controllers/users/getUsers.ts",
+        "lib/api/controllers/users/userId/deleteUserById.ts",
+        "lib/api/controllers/users/userId/getUserById.ts",
+        "lib/api/controllers/users/userId/updateUserById.ts"
+      ],
+      "orm_models_parsed_old": 11,
+      "raw_sql": "/*\n  Warnings:\n\n  - You are about to drop the column `teamRole` on the `User` table. All the data in the column will be lost.\n\n*/\n-- AlterTable\nALTER TABLE \"User\" DROP COLUMN \"teamRole\";\n\n-- DropEnum\nDROP TYPE \"TeamRole\";\n\n/*\n  Warnings:\n\n  - You are about to drop the column `teamId` on the `Collection` table. All the data in the column will be lost.\n\n*/\n-- AlterTable\nALTER TABLE \"Collection\" DROP COLUMN \"teamId\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "user",
+            "column": "teamrole",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20241027093300_remove_field/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE user DROP COLUMN \"teamRole\"",
+            "extra": {
+              "table_sql": "User",
+              "column_sql": "TeamRole"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "user",
+            "column": "teamrole",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'teamrole' active in C_{t-1} ORM (prisma/schema.prisma)"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "teamrole",
+            "column": "teamrole",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20241027093300_remove_field/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropEnum */ DROP TYPE \"TeamRole\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "TeamRole",
+              "column_sql": "TeamRole"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "teamrole",
+            "column": "teamrole",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'teamrole' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "collection",
+            "column": "teamid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20241027104510_remove_field/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE collection DROP COLUMN \"teamId\"",
+            "extra": {
+              "table_sql": "Collection",
+              "column_sql": "teamId"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "collection",
+            "column": "teamid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'teamid' active in C_{t-1} ORM (prisma/schema.prisma)"
+        }
+      ]
+    },
+    {
+      "sha": "b09de5a8af873706216bd9fd6a7e7e85004a8492",
+      "parent": "cfd33e9bd1d01dab2bdd8edbd32e9e6b814d2fa9",
+      "date": "2024-10-26T13:44:52-04:00",
+      "subject": "updated verify max link logic",
+      "mig_files": [
+        "prisma/migrations/20241026161909_assign_createdby_to_collection_owners_and_make_field_required/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "lib/api/controllers/collections/postCollection.ts",
+        "lib/api/controllers/links/postLink.ts",
+        "lib/api/controllers/migration/importFromHTMLFile.ts",
+        "lib/api/controllers/migration/importFromLinkwarden.ts",
+        "lib/api/controllers/migration/importFromWallabag.ts",
+        "lib/api/setLinkCollection.ts",
+        "lib/api/verifyCapacity.ts",
+        "prisma/schema.prisma"
+      ],
+      "orm_models_parsed_old": 11,
+      "raw_sql": "/*\n  Warnings:\n\n  - Made the column `createdById` on table `Collection` required. This step will fail if there are existing NULL values in that column.\n  - Made the column `createdById` on table `Link` required. This step will fail if there are existing NULL values in that column.\n\n*/\n\n-- Update the Link table to set the createdBy based on the Collection's ownerId.\nUPDATE \"Link\"\nSET \"createdById\" = (\n  SELECT \"ownerId\"\n  FROM \"Collection\"\n  WHERE \"Collection\".\"id\" = \"Link\".\"collectionId\"\n);\n\n-- Set createdBy to ownerId for existing records\nUPDATE \"Collection\"\nSET \"createdById\" = \"ownerId\";\n\n-- DropForeignKey\nALTER TABLE \"Collection\" DROP CONSTRAINT \"Collection_createdById_fkey\";\n\n-- DropForeignKey\nALTER TABLE \"Link\" DROP CONSTRAINT \"Link_createdById_fkey\";\n\n-- AlterTable\nALTER TABLE \"Collection\" ALTER COLUMN \"createdById\" SET NOT NULL;\n\n-- AlterTable\nALTER TABLE \"Link\" ALTER COLUMN \"createdById\" SET NOT NULL;\n\n-- AddForeignKey\nALTER TABLE \"Collection\" ADD CONSTRAINT \"Collection_createdById_fkey\" FOREIGN KEY (\"createdById\") REFERENCES \"User\"(\"id\") ON DELETE RESTRICT ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"Link\" ADD CONSTRAINT \"Link_createdById_fkey\" FOREIGN KEY (\"createdById\") REFERENCES \"User\"(\"id\") ON DELETE RESTRICT ON UPDATE CASCADE;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "SET_NOT_NULL",
+            "table": "collection",
+            "column": "createdbyid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20241026161909_assign_createdby_to_collection_owners_and_make_field_required/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE collection ALTER COLUMN \"createdById\" SET NOT NULL",
+            "extra": {
+              "table_sql": "Collection",
+              "column_sql": "createdById"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "collection",
+            "column": "createdbyid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "SET_NOT_NULL on 'collection.createdbyid' which was nullable in C_{t-1} ORM (prisma/schema.prisma)."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "SET_NOT_NULL",
+            "table": "link",
+            "column": "createdbyid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20241026161909_assign_createdby_to_collection_owners_and_make_field_required/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE link ALTER COLUMN \"createdById\" SET NOT NULL",
+            "extra": {
+              "table_sql": "Link",
+              "column_sql": "createdById"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "link",
+            "column": "createdbyid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "SET_NOT_NULL on 'link.createdbyid' which was nullable in C_{t-1} ORM (prisma/schema.prisma)."
+        }
+      ]
+    },
+    {
+      "sha": "cffc74caa484416b37988bc8616a91e8b780c80a",
+      "parent": "d146ec296cd9b5d9aff290adff53c682673cc40f",
+      "date": "2024-10-21T13:59:05-04:00",
+      "subject": "add team invitation functionality [WIP]",
+      "mig_files": [
+        "prisma/migrations/20241021175802_add_child_subscription_support/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "components/ModalContent/InviteModal.tsx",
+        "components/ModalContent/NewUserModal.tsx",
+        "components/ProfileDropdown.tsx",
+        "components/ProfilePhoto.tsx",
+        "hooks/store/admin/users.tsx",
+        "layouts/AuthRedirect.tsx",
+        "lib/api/checkSubscriptionByEmail.ts",
+        "lib/api/controllers/users/postUser.ts",
+        "lib/api/controllers/users/userId/updateUserById.ts",
+        "lib/api/handleSubscription.ts",
+        "lib/api/isAuthenticatedRequest.ts",
+        "lib/api/isServerAdmin.ts"
+      ],
+      "orm_models_parsed_old": 11,
+      "raw_sql": "/*\n  Warnings:\n\n  - You are about to drop the `_LinkToUser` table. If the table is not empty, all the data it contains will be lost.\n\n*/\n-- CreateEnum\nCREATE TYPE \"TeamRole\" AS ENUM ('MEMBER', 'ADMIN');\n\n-- DropForeignKey\nALTER TABLE \"_LinkToUser\" DROP CONSTRAINT \"_LinkToUser_A_fkey\";\n\n-- DropForeignKey\nALTER TABLE \"_LinkToUser\" DROP CONSTRAINT \"_LinkToUser_B_fkey\";\n\n-- AlterTable\nALTER TABLE \"Collection\" ADD COLUMN     \"createdById\" INTEGER,\nADD COLUMN     \"teamId\" INTEGER;\n\n-- AlterTable\nALTER TABLE \"Link\" ADD COLUMN     \"createdById\" INTEGER;\n\n-- AlterTable\nALTER TABLE \"User\" ADD COLUMN     \"parentSubscriptionId\" INTEGER,\nADD COLUMN     \"teamRole\" \"TeamRole\" NOT NULL DEFAULT 'ADMIN',\nALTER COLUMN \"name\" DROP NOT NULL;\n\n-- DropTable\nDROP TABLE \"_LinkToUser\";\n\n-- CreateTable\nCREATE TABLE \"_PinnedLinks\" (\n    \"A\" INTEGER NOT NULL,\n    \"B\" INTEGER NOT NULL\n);\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"_PinnedLinks_AB_unique\" ON \"_PinnedLinks\"(\"A\", \"B\");\n\n-- CreateIndex\nCREATE INDEX \"_PinnedLinks_B_index\" ON \"_PinnedLinks\"(\"B\");\n\n-- AddForeignKey\nALTER TABLE \"User\" ADD CONSTRAINT \"User_parentSubscriptionId_fkey\" FOREIGN KEY (\"parentSubscriptionId\") REFERENCES \"Subscription\"(\"id\") ON DELETE SET NULL ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"Collection\" ADD CONSTRAINT \"Collection_createdById_fkey\" FOREIGN KEY (\"createdById\") REFERENCES \"User\"(\"id\") ON DELETE SET NULL ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"Link\" ADD CONSTRAINT \"Link_createdById_fkey\" FOREIGN KEY (\"createdById\") REFERENCES \"User\"(\"id\") ON DELETE SET NULL ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"_PinnedLinks\" ADD CONSTRAINT \"_PinnedLinks_A_fkey\" FOREIGN KEY (\"A\") REFERENCES \"Link\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"_PinnedLinks\" ADD CONSTRAINT \"_PinnedLinks_B_fkey\" FOREIGN KEY (\"B\") REFERENCES \"User\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "_linktouser",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20241021175802_add_child_subscription_support/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE \"_LinkToUser\"",
+            "extra": {
+              "table_sql": "_LinkToUser"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "_linktouser",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table '_linktouser' not resolved in C_{t-1} ORM snapshot."
+        }
+      ]
+    },
+    {
+      "sha": "bf1a6efd2e20887241c1174a1cca4538b71e179b",
+      "parent": "6df2e44213ce028026d9b0c1266999e79bc51daf",
+      "date": "2024-08-20T19:25:35-04:00",
+      "subject": "custom icons fully implemented for collections",
+      "mig_files": [
+        "prisma/migrations/20240820230618_add_default_value_for_collection_color/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "components/CollectionListing.tsx",
+        "components/LinkDetails.tsx",
+        "components/LinkViews/LinkComponents/LinkCollection.tsx",
+        "components/ModalContent/EditCollectionModal.tsx",
+        "components/ModalContent/NewCollectionModal.tsx",
+        "components/ReadableView.tsx",
+        "lib/api/controllers/collections/collectionId/updateCollectionById.ts",
+        "lib/api/controllers/collections/postCollection.ts",
+        "pages/collections/[id].tsx",
+        "prisma/schema.prisma"
+      ],
+      "orm_models_parsed_old": 11,
+      "raw_sql": "/*\n  Warnings:\n\n  - Made the column `color` on table `Collection` required. This step will fail if there are existing NULL values in that column.\n\n*/\n-- AlterTable\nALTER TABLE \"Collection\" ALTER COLUMN \"color\" SET NOT NULL,\nALTER COLUMN \"color\" SET DEFAULT '#0ea5e9';\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "SET_NOT_NULL",
+            "table": "collection",
+            "column": "color",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20240820230618_add_default_value_for_collection_color/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE collection ALTER COLUMN \"color\" SET NOT NULL",
+            "extra": {
+              "table_sql": "Collection"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "collection",
+            "column": "color",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "SET_NOT_NULL on 'collection.color' which was nullable in C_{t-1} ORM (prisma/schema.prisma)."
+        }
+      ]
+    },
+    {
+      "sha": "a71f42af6eb103a439996549a230e083c881dbdb",
+      "parent": "5b8e1d53ccc22ea0714976d4b7aa5b4a85bd27f1",
+      "date": "2024-06-27T21:58:07-04:00",
+      "subject": "use monolith instead of singlefile",
+      "mig_files": [
+        "prisma/migrations/20240628014129_rename_field/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "components/CollectionCard.tsx",
+        "components/LinkViews/LinkComponents/LinkIcon.tsx",
+        "components/ModalContent/EditCollectionSharingModal.tsx",
+        "components/ModalContent/NewLinkModal.tsx",
+        "components/ModalContent/PreservedFormatsModal.tsx",
+        "components/ModalContent/UploadFileModal.tsx",
+        "components/PreserverdFormatRow.tsx",
+        "components/ReadableView.tsx",
+        "lib/api/archiveHandler.ts",
+        "lib/api/controllers/public/users/getPublicUser.ts",
+        "lib/api/controllers/users/userId/updateUserById.ts",
+        "lib/api/preservationScheme/handleMonolith.ts"
+      ],
+      "orm_models_parsed_old": 11,
+      "raw_sql": "/*\n  Warnings:\n\n  - You are about to drop the column `singlefile` on the `Link` table. All the data in the column will be lost.\n\n*/\n-- AlterTable\nALTER TABLE \"Link\" DROP COLUMN \"singlefile\",\nADD COLUMN     \"monolith\" TEXT;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "link",
+            "column": "singlefile",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20240628014129_rename_field/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE link DROP COLUMN \"singlefile\"",
+            "extra": {
+              "table_sql": "Link"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "link",
+            "column": "singlefile",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'singlefile' active in C_{t-1} ORM (prisma/schema.prisma); identifier removed in same commit diff"
+        }
+      ]
+    },
+    {
+      "sha": "5b8e1d53ccc22ea0714976d4b7aa5b4a85bd27f1",
+      "parent": "52f7cbb10b2d15d42681ecb893fe2969841d4005",
+      "date": "2024-06-27T21:39:15-04:00",
+      "subject": "small changes",
+      "mig_files": [
+        "prisma/migrations/20240628013747_rename_fields/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "lib/api/controllers/session/createSession.ts",
+        "prisma/schema.prisma"
+      ],
+      "orm_models_parsed_old": 11,
+      "raw_sql": "/*\n  Warnings:\n\n  - The values [SINGLEFILE] on the enum `LinksRouteTo` will be removed. If these variants are still used in the database, this will fail.\n  - You are about to drop the column `archiveAsSinglefile` on the `User` table. All the data in the column will be lost.\n\n*/\n-- AlterEnum\nBEGIN;\nCREATE TYPE \"LinksRouteTo_new\" AS ENUM ('ORIGINAL', 'PDF', 'READABLE', 'MONOLITH', 'SCREENSHOT');\nALTER TABLE \"User\" ALTER COLUMN \"linksRouteTo\" DROP DEFAULT;\nALTER TABLE \"User\" ALTER COLUMN \"linksRouteTo\" TYPE \"LinksRouteTo_new\" USING (\"linksRouteTo\"::text::\"LinksRouteTo_new\");\nALTER TYPE \"LinksRouteTo\" RENAME TO \"LinksRouteTo_old\";\nALTER TYPE \"LinksRouteTo_new\" RENAME TO \"LinksRouteTo\";\nDROP TYPE \"LinksRouteTo_old\";\nALTER TABLE \"User\" ALTER COLUMN \"linksRouteTo\" SET DEFAULT 'ORIGINAL';\nCOMMIT;\n\n-- AlterTable\nALTER TABLE \"User\" DROP COLUMN \"archiveAsSinglefile\",\nADD COLUMN     \"archiveAsMonolith\" BOOLEAN NOT NULL DEFAULT true;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "user",
+            "column": "linksrouteto",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "\"LinksRouteTo_new\"",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20240628013747_rename_fields/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE user ALTER COLUMN \"linksRouteTo\" SET DATA TYPE \"LinksRouteTo_new\" USING (CAST(CAST(\"linksRouteTo\" AS TEXT) AS \"LinksRouteTo_new\"))",
+            "extra": {
+              "table_sql": "User",
+              "column_sql": "linksRouteTo"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "user",
+            "column": "linksrouteto",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'user.linksrouteto' (LinksRouteTo -> \"LinksRouteTo_new\")."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "linksrouteto",
+            "column": "linksrouteto",
+            "new_name": "linksrouteto_old",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20240628013747_rename_fields/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TYPE \"LinksRouteTo\" RENAME TO \"LinksRouteTo_old\"",
+            "extra": {
+              "table_sql": "linksRouteTo",
+              "column_sql": "linksRouteTo",
+              "new_name_sql": "LinksRouteTo_old"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "linksrouteto",
+            "column": "linksrouteto",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'linksrouteto' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "linksrouteto_new",
+            "column": "linksrouteto_new",
+            "new_name": "linksrouteto",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20240628013747_rename_fields/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TYPE \"LinksRouteTo_new\" RENAME TO \"LinksRouteTo\"",
+            "extra": {
+              "table_sql": "LinksRouteTo_new",
+              "column_sql": "LinksRouteTo_new",
+              "new_name_sql": "linksRouteTo"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "linksrouteto_new",
+            "column": "linksrouteto_new",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'linksrouteto_new' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "linksrouteto_old",
+            "column": "linksrouteto_old",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20240628013747_rename_fields/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TYPE \"LinksRouteTo_old\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "LinksRouteTo_old",
+              "column_sql": "LinksRouteTo_old"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "linksrouteto_old",
+            "column": "linksrouteto_old",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "ENUM 'linksrouteto_old' not present in C_{t-1} schema."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "user",
+            "column": "archiveassinglefile",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20240628013747_rename_fields/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE user DROP COLUMN \"archiveAsSinglefile\"",
+            "extra": {
+              "table_sql": "User",
+              "column_sql": "archiveAsSinglefile"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "user",
+            "column": "archiveassinglefile",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'archiveassinglefile' active in C_{t-1} ORM (prisma/schema.prisma); identifier removed in same commit diff"
+        }
+      ]
+    },
+    {
+      "sha": "5be194235c34c1a24b6c413a7dedbdbe6aa934af",
+      "parent": "05563134b4b793f7feed76aca37db6aef310d835",
+      "date": "2024-01-24T15:48:40-05:00",
+      "subject": "finalized adding support for access tokens",
+      "mig_files": [
+        "prisma/migrations/20240124192212_added_revoke_field/migration.sql",
+        "prisma/migrations/20240124201018_removed_name_unique_constraint/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "components/ModalContent/NewKeyModal.tsx",
+        "components/ModalContent/NewTokenModal.tsx",
+        "components/ModalContent/RevokeTokenModal.tsx",
+        "components/SettingsSidebar.tsx",
+        "lib/api/controllers/tokens/getTokens.ts",
+        "lib/api/controllers/tokens/postToken.ts",
+        "lib/api/controllers/tokens/tokenId/deleteTokenById.ts",
+        "lib/api/verifyToken.ts",
+        "lib/api/verifyUser.ts",
+        "pages/api/v1/archives/[linkId].ts",
+        "pages/api/v1/avatar/[id].ts",
+        "pages/api/v1/public/users/[id].ts"
+      ],
+      "orm_models_parsed_old": 10,
+      "raw_sql": "/*\n  Warnings:\n\n  - You are about to drop the `ApiKey` table. If the table is not empty, all the data it contains will be lost.\n\n*/\n-- DropForeignKey\nALTER TABLE \"ApiKey\" DROP CONSTRAINT \"ApiKey_userId_fkey\";\n\n-- DropTable\nDROP TABLE \"ApiKey\";\n\n-- CreateTable\nCREATE TABLE \"AccessToken\" (\n    \"id\" SERIAL NOT NULL,\n    \"name\" TEXT NOT NULL,\n    \"userId\" INTEGER NOT NULL,\n    \"token\" TEXT NOT NULL,\n    \"revoked\" BOOLEAN NOT NULL DEFAULT false,\n    \"expires\" TIMESTAMP(3) NOT NULL,\n    \"lastUsedAt\" TIMESTAMP(3),\n    \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    \"updatedAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n\n    CONSTRAINT \"AccessToken_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"AccessToken_token_key\" ON \"AccessToken\"(\"token\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"AccessToken_name_userId_key\" ON \"AccessToken\"(\"name\", \"userId\");\n\n-- AddForeignKey\nALTER TABLE \"AccessToken\" ADD CONSTRAINT \"AccessToken_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"User\"(\"id\") ON DELETE RESTRICT ON UPDATE CASCADE;\n\n-- DropIndex\nDROP INDEX \"AccessToken_name_userId_key\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "apikey",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20240124192212_added_revoke_field/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE \"ApiKey\"",
+            "extra": {
+              "table_sql": "ApiKey"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "apikey",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'apikey' active in C_{t-1}."
+        }
+      ]
+    },
+    {
+      "sha": "98106b9f25da2babd3f33a1262a8a9d1767c106f",
+      "parent": "385bdc2343e77d056fab146f0faed17022a75597",
+      "date": "2023-12-22T13:13:43-05:00",
+      "subject": "added seed script + renamed table fields + added field",
+      "mig_files": [
+        "prisma/migrations/20231221174844_rename_fields_and_add_preview/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "components/ModalContent/NewLinkModal.tsx",
+        "components/ModalContent/PreservedFormatsModal.tsx",
+        "components/ModalContent/UploadFileModal.tsx",
+        "components/PreserverdFormatRow.tsx",
+        "components/ReadableView.tsx",
+        "lib/api/archiveHandler.ts",
+        "lib/shared/getArchiveValidity.ts",
+        "pages/api/v1/archives/[linkId].ts",
+        "pages/api/v1/auth/[...nextauth].ts",
+        "pages/api/v1/links/[id]/archive/index.ts",
+        "prisma/schema.prisma",
+        "prisma/seed.js"
+      ],
+      "orm_models_parsed_old": 10,
+      "raw_sql": "/*\n  Warnings:\n\n  - You are about to drop the column `pdf` on the `Link` table. All the data in the column will be lost.\n  - You are about to drop the column `readable` on the `Link` table. All the data in the column will be lost.\n  - You are about to drop the column `screenshotPath` on the `Link` table. All the data in the column will be lost.\n\n*/\n-- AlterTable\nALTER TABLE \"Link\" RENAME COLUMN \"screenshotPath\" TO \"image\";\nALTER TABLE \"Link\" RENAME COLUMN \"pdfPath\" TO \"pdf\";\nALTER TABLE \"Link\" RENAME COLUMN \"readabilityPath\" TO \"readable\";\nALTER TABLE \"Link\" ADD COLUMN \"preview\" TEXT;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_COLUMN",
+            "table": "link",
+            "column": "screenshotpath",
+            "new_name": "image",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20231221174844_rename_fields_and_add_preview/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE link RENAME COLUMN \"screenshotPath\" TO \"image\"",
+            "extra": {
+              "table_sql": "Link",
+              "column_sql": "screenshotPath"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "link",
+            "column": "screenshotpath",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_COLUMN 'screenshotpath'->'image' breaks both C_{t-1} |= S_t and C_t |= S_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_COLUMN",
+            "table": "link",
+            "column": "pdfpath",
+            "new_name": "pdf",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20231221174844_rename_fields_and_add_preview/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE link RENAME COLUMN \"pdfPath\" TO \"pdf\"",
+            "extra": {
+              "table_sql": "Link",
+              "column_sql": "pdfPath"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "link",
+            "column": "pdfpath",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_COLUMN 'pdfpath'->'pdf' breaks both C_{t-1} |= S_t and C_t |= S_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_COLUMN",
+            "table": "link",
+            "column": "readabilitypath",
+            "new_name": "readable",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20231221174844_rename_fields_and_add_preview/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE link RENAME COLUMN \"readabilityPath\" TO \"readable\"",
+            "extra": {
+              "table_sql": "Link",
+              "column_sql": "readabilityPath"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "link",
+            "column": "readabilitypath",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_COLUMN 'readabilitypath'->'readable' breaks both C_{t-1} |= S_t and C_t |= S_{t-1}."
+        }
+      ]
+    },
+    {
+      "sha": "18e0b8b010655b8efd490b2e1bc4c8dea50f4535",
+      "parent": "2042b946800ae39d52c8a592d955e5a4024ffe18",
+      "date": "2023-12-02T13:33:07-05:00",
+      "subject": "removed extra fields",
+      "mig_files": [
+        "prisma/migrations/20231202183159_remove_extra_fields/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "pages/settings/appearance.tsx",
+        "prisma/schema.prisma"
+      ],
+      "orm_models_parsed_old": 10,
+      "raw_sql": "/*\n  Warnings:\n\n  - You are about to drop the column `blurredFavicons` on the `User` table. All the data in the column will be lost.\n  - You are about to drop the column `displayLinkIcons` on the `User` table. All the data in the column will be lost.\n\n*/\n-- AlterTable\nALTER TABLE \"User\" DROP COLUMN \"blurredFavicons\",\nDROP COLUMN \"displayLinkIcons\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "user",
+            "column": "blurredfavicons",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20231202183159_remove_extra_fields/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE user DROP COLUMN \"blurredFavicons\"",
+            "extra": {
+              "table_sql": "User",
+              "column_sql": "blurredFavicons"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "user",
+            "column": "blurredfavicons",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'blurredfavicons' active in C_{t-1} ORM (prisma/schema.prisma); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "user",
+            "column": "displaylinkicons",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20231202183159_remove_extra_fields/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE user DROP COLUMN \"displayLinkIcons\"",
+            "extra": {
+              "table_sql": "User",
+              "column_sql": "displayLinkIcons"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "user",
+            "column": "displaylinkicons",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'displaylinkicons' active in C_{t-1} ORM (prisma/schema.prisma); identifier removed in same commit diff"
+        }
+      ]
+    },
+    {
+      "sha": "cf7b18e0123005080d2aead8fe2c2ddd2898a239",
+      "parent": "9ad277c784046033226f6f304fea37d1b1a9287f",
+      "date": "2023-11-20T12:48:41-05:00",
+      "subject": "added apikey model",
+      "mig_files": [
+        "prisma/migrations/20231120135053_add_apikeys_table/migration.sql",
+        "prisma/migrations/20231120135140_rename_apikeys_to_apikey/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "components/SettingsSidebar.tsx",
+        "layouts/SettingsLayout.tsx",
+        "pages/settings/account.tsx",
+        "pages/settings/api.tsx",
+        "pages/settings/appearance.tsx",
+        "pages/settings/archive.tsx",
+        "pages/settings/billing.tsx",
+        "pages/settings/password.tsx",
+        "prisma/schema.prisma",
+        "tailwind.config.js"
+      ],
+      "orm_models_parsed_old": 9,
+      "raw_sql": "-- CreateTable\nCREATE TABLE \"ApiKeys\" (\n    \"id\" SERIAL NOT NULL,\n    \"name\" TEXT NOT NULL,\n    \"userId\" INTEGER NOT NULL,\n    \"token\" TEXT NOT NULL,\n    \"expires\" TIMESTAMP(3) NOT NULL,\n    \"lastUsedAt\" TIMESTAMP(3),\n    \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    \"updatedAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n\n    CONSTRAINT \"ApiKeys_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"ApiKeys_token_key\" ON \"ApiKeys\"(\"token\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"ApiKeys_token_userId_key\" ON \"ApiKeys\"(\"token\", \"userId\");\n\n-- AddForeignKey\nALTER TABLE \"ApiKeys\" ADD CONSTRAINT \"ApiKeys_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"User\"(\"id\") ON DELETE RESTRICT ON UPDATE CASCADE;\n\n/*\n  Warnings:\n\n  - You are about to drop the `ApiKeys` table. If the table is not empty, all the data it contains will be lost.\n\n*/\n-- DropForeignKey\nALTER TABLE \"ApiKeys\" DROP CONSTRAINT \"ApiKeys_userId_fkey\";\n\n-- DropTable\nDROP TABLE \"ApiKeys\";\n\n-- CreateTable\nCREATE TABLE \"ApiKey\" (\n    \"id\" SERIAL NOT NULL,\n    \"name\" TEXT NOT NULL,\n    \"userId\" INTEGER NOT NULL,\n    \"token\" TEXT NOT NULL,\n    \"expires\" TIMESTAMP(3) NOT NULL,\n    \"lastUsedAt\" TIMESTAMP(3),\n    \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    \"updatedAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n\n    CONSTRAINT \"ApiKey_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"ApiKey_token_key\" ON \"ApiKey\"(\"token\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"ApiKey_token_userId_key\" ON \"ApiKey\"(\"token\", \"userId\");\n\n-- AddForeignKey\nALTER TABLE \"ApiKey\" ADD CONSTRAINT \"ApiKey_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"User\"(\"id\") ON DELETE RESTRICT ON UPDATE CASCADE;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "apikeys",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20231120135140_rename_apikeys_to_apikey/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE \"ApiKeys\"",
+            "extra": {
+              "table_sql": "ApiKeys"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "apikeys",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'apikeys' not resolved in C_{t-1} ORM snapshot."
+        }
+      ]
+    },
+    {
+      "sha": "cdcfabec0b2d70e365609e31064b837808d1cc71",
+      "parent": "f9eedadb9f083e3c4b19a4263f6567829b6699f0",
+      "date": "2023-10-28T00:45:14-04:00",
+      "subject": "refactored how avatars are being handled",
+      "mig_files": [
+        "prisma/migrations/20231028041930_rename_image_path_to_image/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "components/CollectionCard.tsx",
+        "components/Modal/Collection/TeamManagement.tsx",
+        "components/Navbar.tsx",
+        "components/ProfilePhoto.tsx",
+        "lib/api/controllers/collections/getCollections.ts",
+        "lib/api/controllers/users/userId/getPublicUserById.ts",
+        "lib/api/controllers/users/userId/updateUserById.ts",
+        "lib/api/migration/migrateToV2.js",
+        "lib/api/storage/readFile.ts",
+        "lib/client/addMemberToCollection.ts",
+        "lib/client/avatarExists.ts",
+        "lib/client/getPublicUserData.ts"
+      ],
+      "orm_models_parsed_old": 7,
+      "raw_sql": "ALTER TABLE \"User\" RENAME COLUMN \"imagePath\" TO \"image\";",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_COLUMN",
+            "table": "user",
+            "column": "imagepath",
+            "new_name": "image",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20231028041930_rename_image_path_to_image/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE user RENAME COLUMN \"imagePath\" TO \"image\"",
+            "extra": {
+              "table_sql": "User",
+              "column_sql": "imagePath"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "user",
+            "column": "imagepath",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_COLUMN 'imagepath'->'image' breaks both C_{t-1} |= S_t and C_t |= S_{t-1}."
+        }
+      ]
+    },
+    {
+      "sha": "c08e7d45803a5f841f671c580ccf2d54779f490d",
+      "parent": "ea8673783503dff0f0a74e71568bc51f41c38fde",
+      "date": "2023-10-27T16:06:42-04:00",
+      "subject": "updated prisma schema",
+      "mig_files": [
+        "prisma/migrations/20231027194841_add_updated_at_fields_to_tables/migration.sql",
+        "prisma/migrations/20231027195438_remove_unnecessary_tables/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "lib/api/migration/migrateToV2.js",
+        "prisma/schema.prisma"
+      ],
+      "orm_models_parsed_old": 9,
+      "raw_sql": "-- AlterTable\nALTER TABLE \"Collection\" ADD COLUMN     \"updatedAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP;\n\n-- AlterTable\nALTER TABLE \"Link\" ADD COLUMN     \"updatedAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP;\n\n-- AlterTable\nALTER TABLE \"Tag\" ADD COLUMN     \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\nADD COLUMN     \"updatedAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP;\n\n-- AlterTable\nALTER TABLE \"User\" ADD COLUMN     \"updatedAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP;\n\n-- AlterTable\nALTER TABLE \"UsersAndCollections\" ADD COLUMN     \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\nADD COLUMN     \"updatedAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP;\n\n-- AlterTable\nALTER TABLE \"VerificationToken\" ADD COLUMN     \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\nADD COLUMN     \"updatedAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP;\n\n-- AlterTable\nALTER TABLE \"WhitelistedUser\" ADD COLUMN     \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\nADD COLUMN     \"updatedAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP;\n\n/*\n  Warnings:\n\n  - You are about to drop the `Account` table. If the table is not empty, all the data it contains will be lost.\n  - You are about to drop the `Session` table. If the table is not empty, all the data it contains will be lost.\n\n*/\n-- DropForeignKey\nALTER TABLE \"Account\" DROP CONSTRAINT \"Account_userId_fkey\";\n\n-- DropForeignKey\nALTER TABLE \"Session\" DROP CONSTRAINT \"Session_userId_fkey\";\n\n-- DropTable\nDROP TABLE \"Account\";\n\n-- DropTable\nDROP TABLE \"Session\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "account",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20231027195438_remove_unnecessary_tables/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE \"Account\"",
+            "extra": {
+              "table_sql": "Account"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "account",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'account' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "session",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20231027195438_remove_unnecessary_tables/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE \"Session\"",
+            "extra": {
+              "table_sql": "Session"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "session",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'session' active in C_{t-1}."
+        }
+      ]
+    },
+    {
+      "sha": "966136dab6a1ab7c27f1532d6a01d481ccf92fe9",
+      "parent": "2be2a83c62fdb9cede4c7353adaf75c459b4f809",
+      "date": "2023-10-25T15:42:36-04:00",
+      "subject": "created migration script [WIP]",
+      "mig_files": [
+        "prisma/migrations/20231025123038_added_pathname_to_files/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "lib/api/controllers/users/userId/deleteUserById.ts",
+        "lib/api/migration/migrateToV2.js",
+        "prisma/schema.prisma"
+      ],
+      "orm_models_parsed_old": 9,
+      "raw_sql": "/*\n  Warnings:\n\n  - You are about to drop the column `image` on the `User` table. All the data in the column will be lost.\n\n*/\n-- AlterTable\nALTER TABLE \"Link\" ADD COLUMN     \"pdfPath\" TEXT,\nADD COLUMN     \"screenshotPath\" TEXT;\n\n-- AlterTable\nALTER TABLE \"User\" DROP COLUMN \"image\",\nADD COLUMN     \"imagePath\" TEXT;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "user",
+            "column": "image",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20231025123038_added_pathname_to_files/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE user DROP COLUMN \"image\"",
+            "extra": {
+              "table_sql": "User"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "user",
+            "column": "image",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'image' active in C_{t-1} ORM (prisma/schema.prisma); identifier removed in same commit diff"
+        }
+      ]
+    },
+    {
+      "sha": "a56b8e24daa81179de3a6b9e69f23352b3f6eb06",
+      "parent": "2177f12b9b26b19f38a1f502a278a335d9c0baa4",
+      "date": "2023-08-04T19:26:57-04:00",
+      "subject": "updated migration file",
+      "mig_files": [
+        "prisma/migrations/20230804230549_created_whitelisted_users_table/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "lib/api/controllers/links/getLinks.ts"
+      ],
+      "orm_models_parsed_old": 9,
+      "raw_sql": "/*\n  Warnings:\n\n  - You are about to drop the column `whitelistedUsers` on the `User` table. All the data in the column will be lost.\n\n*/\n-- AlterTable\nALTER TABLE \"User\" DROP COLUMN \"whitelistedUsers\";\n\n-- CreateTable\nCREATE TABLE \"WhitelistedUser\" (\n    \"id\" SERIAL NOT NULL,\n    \"username\" TEXT NOT NULL DEFAULT '',\n    \"userId\" INTEGER,\n\n    CONSTRAINT \"WhitelistedUser_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- AddForeignKey\nALTER TABLE \"WhitelistedUser\" ADD CONSTRAINT \"WhitelistedUser_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"User\"(\"id\") ON DELETE SET NULL ON UPDATE CASCADE;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "user",
+            "column": "whitelistedusers",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20230804230549_created_whitelisted_users_table/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE user DROP COLUMN \"whitelistedUsers\"",
+            "extra": {
+              "table_sql": "User",
+              "column_sql": "whitelistedUsers"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "user",
+            "column": "whitelistedusers",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'whitelistedusers' already absent from C_{t-1} ORM and app code."
+        }
+      ]
+    },
+    {
+      "sha": "97ca682c0a0459734506b0baf279d62dbe52b84c",
+      "parent": "399361507160a7bf9c3b50f3485573ae50bd5f4a",
+      "date": "2023-07-08T14:05:43+03:30",
+      "subject": "replaced email with username",
+      "mig_files": [
+        "prisma/migrations/20230704065656_renamed_email_to_username/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "components/Modal/Collection/TeamManagement.tsx",
+        "components/Modal/User/ChangePassword.tsx",
+        "components/Modal/User/PrivacySettings.tsx",
+        "components/Modal/User/ProfileSettings.tsx",
+        "hooks/useInitialData.tsx",
+        "layouts/AuthRedirect.tsx",
+        "lib/api/controllers/collections/getCollections.ts",
+        "lib/api/controllers/collections/postCollection.ts",
+        "lib/api/controllers/collections/updateCollection.ts",
+        "lib/api/controllers/users/getUsers.ts",
+        "lib/api/controllers/users/updateUser.ts",
+        "lib/client/addMemberToCollection.ts"
+      ],
+      "orm_models_parsed_old": 5,
+      "raw_sql": "/*\n  Warnings:\n\n  - You are about to drop the column `email` on the `User` table. All the data in the column will be lost.\n  - A unique constraint covering the columns `[username]` on the table `User` will be added. If there are existing duplicate values, this will fail.\n  - Added the required column `username` to the `User` table without a default value. This is not possible if the table is not empty.\n\n*/\n-- DropIndex\nDROP INDEX \"User_email_key\";\n\nALTER TABLE \"User\" RENAME COLUMN \"email\" TO \"username\";\n\n-- AlterTable\nALTER TABLE \"User\" ADD COLUMN \"emailVerified\" TIMESTAMP(3),\nADD COLUMN     \"image\" TEXT;\n\n-- CreateTable\nCREATE TABLE \"VerificationToken\" (\n    \"identifier\" TEXT NOT NULL,\n    \"token\" TEXT NOT NULL,\n    \"expires\" TIMESTAMP(3) NOT NULL\n);\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"VerificationToken_token_key\" ON \"VerificationToken\"(\"token\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"VerificationToken_identifier_token_key\" ON \"VerificationToken\"(\"identifier\", \"token\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"User_username_key\" ON \"User\"(\"username\");\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_COLUMN",
+            "table": "user",
+            "column": "email",
+            "new_name": "username",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20230704065656_renamed_email_to_username/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE user RENAME COLUMN \"email\" TO \"username\"",
+            "extra": {
+              "table_sql": "User"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "user",
+            "column": "email",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_COLUMN 'email'->'username' breaks both C_{t-1} |= S_t and C_t |= S_{t-1}."
+        }
+      ]
+    },
+    {
+      "sha": "b9567ca3c27dea7e507ea27d62e7b10a98e2ee53",
+      "parent": "3a5ae28f869d4096717f82fc17580f83fcfc4742",
+      "date": "2023-03-28T11:01:50+03:30",
+      "subject": "many breaking changes/fixes",
+      "mig_files": [
+        "prisma/migrations/20230328031049_init/migration.sql",
+        "prisma/migrations/20230328072406_/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "components/AddLinkModal.tsx",
+        "components/CollectionCard.tsx",
+        "components/InputSelect/CollectionSelection.tsx",
+        "components/InputSelect/TagSelection.tsx",
+        "components/LinkList.tsx",
+        "components/Modal/AddLink.tsx",
+        "components/Modal/EditLink.tsx",
+        "components/Modal/index.tsx",
+        "components/Navbar.tsx",
+        "components/Sidebar/index.tsx",
+        "layouts/MainLayout.tsx",
+        "lib/api/archive.ts"
+      ],
+      "orm_models_parsed_old": 5,
+      "raw_sql": "-- DropIndex\nDROP INDEX \"Tag_name_collectionId_key\";\n\n/*\n  Warnings:\n\n  - You are about to drop the column `collectionId` on the `Tag` table. All the data in the column will be lost.\n\n*/\n-- DropForeignKey\nALTER TABLE \"Tag\" DROP CONSTRAINT \"Tag_collectionId_fkey\";\n\n-- AlterTable\nALTER TABLE \"Tag\" DROP COLUMN \"collectionId\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "tag",
+            "column": "collectionid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20230328072406_/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE tag DROP COLUMN \"collectionId\"",
+            "extra": {
+              "table_sql": "Tag",
+              "column_sql": "collectionId"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "tag",
+            "column": "collectionid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'collectionid' active in C_{t-1} ORM (prisma/schema.prisma); identifier removed in same commit diff"
+        }
+      ]
+    },
+    {
+      "sha": "f80113c487c8b4256b2937d686c62bbd2f79f5e5",
+      "parent": "e5e2a615fcae98e397538ac0601d408b36c9b0a3",
+      "date": "2023-03-23T02:41:54+03:30",
+      "subject": "feat: added dropdown component",
+      "mig_files": [
+        "prisma/migrations/20230322214726_renamed_is_favorite_to_starred/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "components/AddLinkModal.tsx",
+        "components/ClickAwayHandler.tsx",
+        "components/Dropdown.tsx",
+        "components/InputSelect/CollectionSelection.tsx",
+        "components/InputSelect/TagSelection.tsx",
+        "components/LinkList.tsx",
+        "components/Navbar.tsx",
+        "components/Sidebar/index.tsx",
+        "lib/api/controllers/links/postLink.ts",
+        "lib/client/getInitialData.ts",
+        "pages/collections/[id].tsx",
+        "pages/collections/index.tsx"
+      ],
+      "orm_models_parsed_old": 5,
+      "raw_sql": "-- AlterTable\nALTER TABLE \"Link\" RENAME COLUMN \"isFavorites\" TO \"starred\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_COLUMN",
+            "table": "link",
+            "column": "isfavorites",
+            "new_name": "starred",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20230322214726_renamed_is_favorite_to_starred/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE link RENAME COLUMN \"isFavorites\" TO \"starred\"",
+            "extra": {
+              "table_sql": "Link",
+              "column_sql": "isFavorites"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "link",
+            "column": "isfavorites",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_COLUMN 'isfavorites'->'starred' breaks both C_{t-1} |= S_t and C_t |= S_{t-1}."
+        }
+      ]
+    }
+  ]
+}

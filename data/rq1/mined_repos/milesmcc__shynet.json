@@ -1,0 +1,1889 @@
+{
+  "repo": "milesmcc/shynet",
+  "ecosystem": "django",
+  "stars": 3156,
+  "has_k8s_helm": true,
+  "status": "ok",
+  "stats": {
+    "total_migration_commits_in_history": 32,
+    "migration_commits_analyzed": 31,
+    "total_migration_files_parsed": 59,
+    "commits_with_any_destructive": 19,
+    "commits_with_forward_destructive": 19,
+    "commits_with_rollback_only_destructive": 0,
+    "total_ops_extracted": 130,
+    "destructive_ops_up": 36,
+    "destructive_ops_down": 0
+  },
+  "verdict_counts": {
+    "DUAL_VERSION_VIOLATION_BACKWARD": 25,
+    "SAFE_ADDITIVE": 3,
+    "SAFE_CONTRACT": 3,
+    "DUAL_VERSION_VIOLATION_FORWARD": 2,
+    "DUAL_VERSION_VIOLATION_BOTH": 3
+  },
+  "destructive_commits": [
+    {
+      "sha": "787ce1775f5bd56991a47eb6218e29afcd93d813",
+      "parent": "d62d48c7b402cf80f4c1cb85baa1dd9d6ad4fece",
+      "date": "2021-11-17T11:00:52+01:00",
+      "subject": "Move token to User model + add API setting view",
+      "mig_files": [
+        "shynet/core/migrations/0009_auto_20211117_0217.py"
+      ],
+      "app_files_touched_in_commit": [
+        "shynet/api/admin.py",
+        "shynet/api/mixins.py",
+        "shynet/api/models.py",
+        "shynet/core/models.py",
+        "shynet/dashboard/urls.py",
+        "shynet/dashboard/views.py"
+      ],
+      "orm_models_parsed_old": 2,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "core_user",
+            "column": "api_token",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TextField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "shynet/core/migrations/0009_auto_20211117_0217.py",
+            "line": 14,
+            "raw_snippet": "migrations.AddField( model_name='user', name='api_token', field=models.TextField(default=core.models._default_api_token, unique=True), )",
+            "extra": {
+              "model_name": "user",
+              "app_label": "core",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "core_user",
+            "column": "api_token",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "shynet/core/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'core_user.api_token' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    },
+    {
+      "sha": "8bab14cc8abba63f3559718ce8847c7bef423c8a",
+      "parent": "fe8e7666700468445f53cf7efaff5fc7e17b70b4",
+      "date": "2021-03-29T15:04:36Z",
+      "subject": "Separate bounce migration into two",
+      "mig_files": [
+        "shynet/analytics/migrations/0008_session_is_bounce.py",
+        "shynet/analytics/migrations/0009_auto_20210329_1100.py"
+      ],
+      "app_files_touched_in_commit": [
+        "shynet/shynet/settings.py"
+      ],
+      "orm_models_parsed_old": 2,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "analytics_session",
+            "column": "is_bounce",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "BooleanField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "shynet/analytics/migrations/0008_session_is_bounce.py",
+            "line": 13,
+            "raw_snippet": "migrations.AddField( model_name=\"session\", name=\"is_bounce\", field=models.BooleanField(db_index=True, default=True), )",
+            "extra": {
+              "model_name": "session",
+              "app_label": "analytics",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "analytics_session",
+            "column": "is_bounce",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "shynet/analytics/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'analytics_session.is_bounce' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    },
+    {
+      "sha": "fe8e7666700468445f53cf7efaff5fc7e17b70b4",
+      "parent": "b63863e2838ee48866108b6e7672f57c45ec6660",
+      "date": "2021-03-29T14:37:59Z",
+      "subject": "Format",
+      "mig_files": [
+        "shynet/analytics/migrations/0001_initial.py",
+        "shynet/analytics/migrations/0004_auto_20210328_1514.py",
+        "shynet/analytics/migrations/0005_auto_20210328_1518.py",
+        "shynet/analytics/migrations/0006_hit_service.py",
+        "shynet/analytics/migrations/0007_auto_20210328_1634.py",
+        "shynet/analytics/migrations/0008_session_is_bounce.py",
+        "shynet/core/migrations/0001_initial.py",
+        "shynet/core/migrations/0002_auto_20200415_1742.py"
+      ],
+      "app_files_touched_in_commit": [
+        "shynet/a17t/templatetags/pagination.py",
+        "shynet/analytics/tasks.py",
+        "shynet/analytics/views/ingress.py",
+        "shynet/core/management/commands/demo.py",
+        "shynet/core/management/commands/hostname.py",
+        "shynet/core/management/commands/registeradmin.py",
+        "shynet/core/management/commands/whitelabel.py",
+        "shynet/core/models.py",
+        "shynet/dashboard/templatetags/helpers.py",
+        "shynet/dashboard/views.py",
+        "shynet/shynet/settings.py",
+        "shynet/shynet/urls.py"
+      ],
+      "orm_models_parsed_old": 2,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "analytics_session",
+            "column": "is_bounce",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "BooleanField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "shynet/analytics/migrations/0008_session_is_bounce.py",
+            "line": 22,
+            "raw_snippet": "migrations.AddField( model_name=\"session\", name=\"is_bounce\", field=models.BooleanField(db_index=True, default=True), )",
+            "extra": {
+              "model_name": "session",
+              "app_label": "analytics",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "analytics_session",
+            "column": "is_bounce",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "shynet/analytics/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'analytics_session' was created in the same commit; C_{t-1} does not write to it."
+        }
+      ]
+    },
+    {
+      "sha": "02cbee5c8c13ba036635898f4ecf8dbeb014fc3b",
+      "parent": "518436ffd2a3a96b8993222f0371509490d18c1b",
+      "date": "2021-03-28T21:55:38Z",
+      "subject": "Cache bounce",
+      "mig_files": [
+        "shynet/analytics/migrations/0008_session_is_bounce.py"
+      ],
+      "app_files_touched_in_commit": [
+        "shynet/analytics/models.py",
+        "shynet/analytics/tasks.py",
+        "shynet/core/models.py"
+      ],
+      "orm_models_parsed_old": 2,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "analytics_session",
+            "column": "is_bounce",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "BooleanField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "shynet/analytics/migrations/0008_session_is_bounce.py",
+            "line": 18,
+            "raw_snippet": "migrations.AddField( model_name='session', name='is_bounce', field=models.BooleanField(db_index=True, default=True), )",
+            "extra": {
+              "model_name": "session",
+              "app_label": "analytics",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "analytics_session",
+            "column": "is_bounce",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "shynet/analytics/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'analytics_session.is_bounce' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    },
+    {
+      "sha": "ede06900e5dd29ec5e470975997be2119f61fd6f",
+      "parent": "a42455c9dcd755f91e2bafeb4763a93920dc865d",
+      "date": "2020-11-26T20:09:55Z",
+      "subject": "Format code",
+      "mig_files": [
+        "shynet/core/migrations/0008_auto_20200628_1403.py"
+      ],
+      "app_files_touched_in_commit": [
+        "shynet/analytics/views/ingress.py",
+        "shynet/core/management/commands/demo.py",
+        "shynet/dashboard/forms.py",
+        "shynet/dashboard/templatetags/helpers.py",
+        "shynet/shynet/settings.py"
+      ],
+      "orm_models_parsed_old": 2,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "core_service",
+            "column": "script_inject",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TextField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "shynet/core/migrations/0008_auto_20200628_1403.py",
+            "line": 13,
+            "raw_snippet": "migrations.AddField( model_name=\"service\", name=\"script_inject\", field=models.TextField(blank=True, default=\"\"), )",
+            "extra": {
+              "model_name": "service",
+              "app_label": "core",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "core_service",
+            "column": "script_inject",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "shynet/core/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'core_service.script_inject' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    },
+    {
+      "sha": "510df192d8bdc989ac763896a4ce159fc4e109de",
+      "parent": "2e7620f1ebff41d0fbcc2786b9cbe645d9e1103d",
+      "date": "2020-06-28T18:59:05Z",
+      "subject": "Add script injection option",
+      "mig_files": [
+        "shynet/core/migrations/0008_auto_20200628_1403.py"
+      ],
+      "app_files_touched_in_commit": [
+        "shynet/a17t/templatetags/a17t_tags.py",
+        "shynet/analytics/views/ingress.py",
+        "shynet/core/models.py",
+        "shynet/dashboard/forms.py",
+        "shynet/dashboard/views.py"
+      ],
+      "orm_models_parsed_old": 2,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "core_service",
+            "column": "script_inject",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TextField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "shynet/core/migrations/0008_auto_20200628_1403.py",
+            "line": 13,
+            "raw_snippet": "migrations.AddField( model_name='service', name='script_inject', field=models.TextField(blank=True, default=''), )",
+            "extra": {
+              "model_name": "service",
+              "app_label": "core",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "core_service",
+            "column": "script_inject",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "shynet/core/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'core_service.script_inject' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    },
+    {
+      "sha": "a1cd3d4609e834061430410de2fddbca98c9c373",
+      "parent": "358fb234a77bf970d5cc306fdd09a610d84cd905",
+      "date": "2020-06-28T17:36:20Z",
+      "subject": "Code cleanup",
+      "mig_files": [
+        "shynet/core/migrations/0007_service_ignore_robots.py"
+      ],
+      "app_files_touched_in_commit": [
+        "shynet/shynet/settings.py",
+        "shynet/shynet/urls.py"
+      ],
+      "orm_models_parsed_old": 2,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "core_service",
+            "column": "ignore_robots",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "BooleanField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "shynet/core/migrations/0007_service_ignore_robots.py",
+            "line": 13,
+            "raw_snippet": "migrations.AddField( model_name=\"service\", name=\"ignore_robots\", field=models.BooleanField(default=False), )",
+            "extra": {
+              "model_name": "service",
+              "app_label": "core",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "core_service",
+            "column": "ignore_robots",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "shynet/core/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'core_service.ignore_robots' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    },
+    {
+      "sha": "dcdbb7cd4594dfaddd4bcd1b79d666bbf79acfec",
+      "parent": "b3102f5f326b511fad9e3a7d7fb6729b35fc4803",
+      "date": "2020-06-15T19:07:13+02:00",
+      "subject": "Add option to ignore robots",
+      "mig_files": [
+        "shynet/core/migrations/0007_service_ignore_robots.py"
+      ],
+      "app_files_touched_in_commit": [
+        "shynet/analytics/tasks.py",
+        "shynet/core/models.py",
+        "shynet/dashboard/forms.py"
+      ],
+      "orm_models_parsed_old": 2,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "core_service",
+            "column": "ignore_robots",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "BooleanField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "shynet/core/migrations/0007_service_ignore_robots.py",
+            "line": 13,
+            "raw_snippet": "migrations.AddField( model_name='service', name='ignore_robots', field=models.BooleanField(default=False), )",
+            "extra": {
+              "model_name": "service",
+              "app_label": "core",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "core_service",
+            "column": "ignore_robots",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "shynet/core/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'core_service.ignore_robots' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    },
+    {
+      "sha": "6978bbd03e68525f50ecf35ffc84126e4007bef8",
+      "parent": "d88f61b281e1f992b1623ffe1ea08bda90ac20b0",
+      "date": "2020-05-07T17:49:18-04:00",
+      "subject": "Bump version, cleanup",
+      "mig_files": [
+        "shynet/core/migrations/0006_service_hide_referrer_regex.py"
+      ],
+      "app_files_touched_in_commit": [
+        "shynet/core/models.py",
+        "shynet/dashboard/views.py",
+        "shynet/shynet/settings.py"
+      ],
+      "orm_models_parsed_old": 2,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "core_service",
+            "column": "hide_referrer_regex",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TextField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "shynet/core/migrations/0006_service_hide_referrer_regex.py",
+            "line": 15,
+            "raw_snippet": "migrations.AddField( model_name=\"service\", name=\"hide_referrer_regex\", field=models.TextField( blank=True, default=\"\", validators=[core.models._validate_regex] ), )",
+            "extra": {
+              "model_name": "service",
+              "app_label": "core",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "core_service",
+            "column": "hide_referrer_regex",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "shynet/core/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'core_service.hide_referrer_regex' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    },
+    {
+      "sha": "c84dac6b01adca2f2a4038437457ac744091c01b",
+      "parent": "abe37800ec312be0493673aadbaf19909edef09f",
+      "date": "2020-05-07T17:44:39-04:00",
+      "subject": "Add referrer hiding support (closes #26)",
+      "mig_files": [
+        "shynet/core/migrations/0006_service_hide_referrer_regex.py"
+      ],
+      "app_files_touched_in_commit": [
+        "shynet/core/models.py",
+        "shynet/dashboard/forms.py"
+      ],
+      "orm_models_parsed_old": 2,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "core_service",
+            "column": "hide_referrer_regex",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TextField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "shynet/core/migrations/0006_service_hide_referrer_regex.py",
+            "line": 14,
+            "raw_snippet": "migrations.AddField( model_name='service', name='hide_referrer_regex', field=models.TextField(blank=True, default='', validators=[core.models._validate_regex]), )",
+            "extra": {
+              "model_name": "service",
+              "app_label": "core",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "core_service",
+            "column": "hide_referrer_regex",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "shynet/core/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'core_service.hide_referrer_regex' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    },
+    {
+      "sha": "a766c1eaa261abf0c2e203cf455d798348035446",
+      "parent": "bd88617dc5da2225d37eb51ff24181209258ff59",
+      "date": "2020-05-07T16:53:03-04:00",
+      "subject": "Add ip address exclusion support (closes #22)",
+      "mig_files": [
+        "shynet/analytics/migrations/0003_auto_20200502_1227.py",
+        "shynet/core/migrations/0004_service_collect_ips.py",
+        "shynet/core/migrations/0005_service_ignored_ips.py"
+      ],
+      "app_files_touched_in_commit": [
+        "shynet/analytics/tasks.py",
+        "shynet/analytics/views/ingress.py",
+        "shynet/core/management/commands/startup_checks.py",
+        "shynet/core/models.py",
+        "shynet/dashboard/forms.py",
+        "shynet/dashboard/templatetags/helpers.py"
+      ],
+      "orm_models_parsed_old": 4,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "core_service",
+            "column": "collect_ips",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "BooleanField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "shynet/core/migrations/0004_service_collect_ips.py",
+            "line": 13,
+            "raw_snippet": "migrations.AddField( model_name=\"service\", name=\"collect_ips\", field=models.BooleanField(default=True), )",
+            "extra": {
+              "model_name": "service",
+              "app_label": "core",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "core_service",
+            "column": "collect_ips",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "shynet/core/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'core_service.collect_ips' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "core_service",
+            "column": "ignored_ips",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TextField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "shynet/core/migrations/0005_service_ignored_ips.py",
+            "line": 15,
+            "raw_snippet": "migrations.AddField( model_name=\"service\", name=\"ignored_ips\", field=models.TextField( blank=True, default=\"\", validators=[core.models._validate_network_list] ), )",
+            "extra": {
+              "model_name": "service",
+              "app_label": "core",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "core_service",
+            "column": "ignored_ips",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "shynet/core/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'core_service.ignored_ips' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    },
+    {
+      "sha": "26778f0219e0575390e749a448d765d0a6d96092",
+      "parent": "a210e23bb37ed3f5d50780f0d5101021f039fbf8",
+      "date": "2020-05-02T12:35:47-04:00",
+      "subject": "Add option to not collect IP addresses (closes #18)",
+      "mig_files": [
+        "shynet/analytics/migrations/0003_auto_20200502_1227.py",
+        "shynet/core/migrations/0004_service_collect_ips.py"
+      ],
+      "app_files_touched_in_commit": [
+        "shynet/analytics/models.py",
+        "shynet/analytics/tasks.py",
+        "shynet/core/models.py",
+        "shynet/dashboard/forms.py"
+      ],
+      "orm_models_parsed_old": 4,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "core_service",
+            "column": "collect_ips",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "BooleanField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "shynet/core/migrations/0004_service_collect_ips.py",
+            "line": 13,
+            "raw_snippet": "migrations.AddField( model_name='service', name='collect_ips', field=models.BooleanField(default=True), )",
+            "extra": {
+              "model_name": "service",
+              "app_label": "core",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "core_service",
+            "column": "collect_ips",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "shynet/core/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'core_service.collect_ips' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    },
+    {
+      "sha": "62844db6bf107e1f4d3c26af3c06670d887ab1ed",
+      "parent": "3a63f6f850c0dbfd36316a0d3cdce874b91f027b",
+      "date": "2020-04-24T16:29:23-04:00",
+      "subject": "Reformatting & cleanup",
+      "mig_files": [
+        "shynet/core/migrations/0003_service_respect_dnt.py"
+      ],
+      "app_files_touched_in_commit": [
+        "shynet/analytics/tasks.py",
+        "shynet/analytics/views/ingress.py",
+        "shynet/core/management/commands/hostname.py",
+        "shynet/core/management/commands/registeradmin.py",
+        "shynet/core/management/commands/whitelabel.py",
+        "shynet/dashboard/forms.py",
+        "shynet/dashboard/mixins.py",
+        "shynet/dashboard/templatetags/helpers.py",
+        "shynet/dashboard/views.py"
+      ],
+      "orm_models_parsed_old": 2,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "core_service",
+            "column": "respect_dnt",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "BooleanField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "shynet/core/migrations/0003_service_respect_dnt.py",
+            "line": 13,
+            "raw_snippet": "migrations.AddField( model_name=\"service\", name=\"respect_dnt\", field=models.BooleanField(default=True), )",
+            "extra": {
+              "model_name": "service",
+              "app_label": "core",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "core_service",
+            "column": "respect_dnt",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "shynet/core/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'core_service.respect_dnt' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    },
+    {
+      "sha": "c2f4724b1120b681fa7efc0d625d77bb4e5e3942",
+      "parent": "3d10ddf7119cfb6e47195c6a355d30d8f6388d98",
+      "date": "2020-04-22T13:18:25-04:00",
+      "subject": "Add Do Not Track support",
+      "mig_files": [
+        "shynet/core/migrations/0003_service_respect_dnt.py"
+      ],
+      "app_files_touched_in_commit": [
+        "shynet/analytics/tasks.py",
+        "shynet/analytics/views/ingress.py",
+        "shynet/core/models.py",
+        "shynet/dashboard/forms.py"
+      ],
+      "orm_models_parsed_old": 2,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "core_service",
+            "column": "respect_dnt",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "BooleanField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "shynet/core/migrations/0003_service_respect_dnt.py",
+            "line": 13,
+            "raw_snippet": "migrations.AddField( model_name='service', name='respect_dnt', field=models.BooleanField(default=True), )",
+            "extra": {
+              "model_name": "service",
+              "app_label": "core",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "core_service",
+            "column": "respect_dnt",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "shynet/core/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'core_service.respect_dnt' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    },
+    {
+      "sha": "565cba18e26fef82f723f6f80896d8bcd609a51f",
+      "parent": "170a8ec00bb422f20db005f237627f363393930a",
+      "date": "2020-04-12T01:46:28-04:00",
+      "subject": "Add base dashboard view",
+      "mig_files": [
+        "shynet/analytics/migrations/0003_auto_20200410_1325.py",
+        "shynet/analytics/migrations/0004_auto_20200411_1541.py",
+        "shynet/analytics/migrations/0005_hit_initial.py",
+        "shynet/analytics/migrations/0006_auto_20200412_0003.py",
+        "shynet/analytics/migrations/0007_auto_20200412_0010.py",
+        "shynet/analytics/migrations/0008_auto_20200412_0015.py",
+        "shynet/core/migrations/0002_service_anonymize_ips.py",
+        "shynet/core/migrations/0003_remove_service_anonymize_ips.py"
+      ],
+      "app_files_touched_in_commit": [
+        "shynet/a17t/apps.py",
+        "shynet/a17t/templatetags/a17t_tags.py",
+        "shynet/analytics/models.py",
+        "shynet/analytics/tasks.py",
+        "shynet/core/forms.py",
+        "shynet/core/mixins.py",
+        "shynet/core/models.py",
+        "shynet/core/templatetags/__init__.py",
+        "shynet/core/templatetags/helpers.py",
+        "shynet/core/urls.py",
+        "shynet/core/views.py",
+        "shynet/shynet/settings.py"
+      ],
+      "orm_models_parsed_old": 4,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "analytics_hit",
+            "column": "metadata_raw",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "shynet/analytics/migrations/0003_auto_20200410_1325.py",
+            "line": 13,
+            "raw_snippet": "migrations.RemoveField(model_name=\"hit\", name=\"metadata_raw\",)",
+            "extra": {
+              "model_name": "hit",
+              "app_label": "analytics"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "analytics_hit",
+            "column": "metadata_raw",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "shynet/analytics/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'metadata_raw' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "analytics_session",
+            "column": "metadata_raw",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "shynet/analytics/migrations/0003_auto_20200410_1325.py",
+            "line": 14,
+            "raw_snippet": "migrations.RemoveField(model_name=\"session\", name=\"metadata_raw\",)",
+            "extra": {
+              "model_name": "session",
+              "app_label": "analytics"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "analytics_session",
+            "column": "metadata_raw",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "shynet/analytics/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'metadata_raw' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "RENAME_COLUMN",
+            "table": "analytics_hit",
+            "column": "start",
+            "new_name": "start_time",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "shynet/analytics/migrations/0004_auto_20200411_1541.py",
+            "line": 14,
+            "raw_snippet": "migrations.RenameField( model_name=\"hit\", old_name=\"start\", new_name=\"start_time\", )",
+            "extra": {
+              "model_name": "hit",
+              "app_label": "analytics"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "analytics_hit",
+            "column": "start",
+            "orm_active_old": false,
+            "orm_active_new": true,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "shynet/analytics/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_FORWARD",
+          "reason": "RENAME_COLUMN 'start'->'start_time' breaks C_t |= S_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "RENAME_COLUMN",
+            "table": "analytics_session",
+            "column": "first_seen",
+            "new_name": "start_time",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "shynet/analytics/migrations/0004_auto_20200411_1541.py",
+            "line": 17,
+            "raw_snippet": "migrations.RenameField( model_name=\"session\", old_name=\"first_seen\", new_name=\"start_time\", )",
+            "extra": {
+              "model_name": "session",
+              "app_label": "analytics"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "analytics_session",
+            "column": "first_seen",
+            "orm_active_old": false,
+            "orm_active_new": true,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "shynet/analytics/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_FORWARD",
+          "reason": "RENAME_COLUMN 'first_seen'->'start_time' breaks C_t |= S_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "analytics_hit",
+            "column": "duration",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "shynet/analytics/migrations/0004_auto_20200411_1541.py",
+            "line": 20,
+            "raw_snippet": "migrations.RemoveField(model_name=\"hit\", name=\"duration\",)",
+            "extra": {
+              "model_name": "hit",
+              "app_label": "analytics"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "analytics_hit",
+            "column": "duration",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "shynet/analytics/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'duration' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "analytics_hit",
+            "column": "last_seen",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "DateTimeField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "shynet/analytics/migrations/0004_auto_20200411_1541.py",
+            "line": 21,
+            "raw_snippet": "migrations.AddField( model_name=\"hit\", name=\"last_seen\", field=models.DateTimeField( auto_now_add=True, default=django.utils.timezone.now ), preserve_default=False, )",
+            "extra": {
+              "model_name": "hit",
+              "app_label": "analytics",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "analytics_hit",
+            "column": "last_seen",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "shynet/analytics/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'analytics_hit.last_seen' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "analytics_hit",
+            "column": "initial",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "BooleanField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "shynet/analytics/migrations/0005_hit_initial.py",
+            "line": 13,
+            "raw_snippet": "migrations.AddField( model_name=\"hit\", name=\"initial\", field=models.BooleanField(default=True), )",
+            "extra": {
+              "model_name": "hit",
+              "app_label": "analytics",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "analytics_hit",
+            "column": "initial",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "shynet/analytics/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'analytics_hit.initial' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "analytics_hit",
+            "column": "httpstatus",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "shynet/analytics/migrations/0006_auto_20200412_0003.py",
+            "line": 13,
+            "raw_snippet": "migrations.RemoveField(model_name=\"hit\", name=\"httpStatus\",)",
+            "extra": {
+              "model_name": "hit",
+              "app_label": "analytics",
+              "column_sql": "httpStatus"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "analytics_hit",
+            "column": "httpstatus",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "shynet/analytics/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'httpstatus' active in C_{t-1} ORM (shynet/analytics/models.py); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "analytics_session",
+            "column": "device_type",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "CharField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "shynet/analytics/migrations/0006_auto_20200412_0003.py",
+            "line": 14,
+            "raw_snippet": "migrations.AddField( model_name=\"session\", name=\"device_type\", field=models.CharField( choices=[ (\"PHONE\", \"Phone\"), (\"TABLET\", \"Tablet\"), (\"DESK\", \"Desktop / Laptop\"), (\"ROBOT\", \"",
+            "extra": {
+              "model_name": "session",
+              "app_label": "analytics",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "analytics_session",
+            "column": "device_type",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "shynet/analytics/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'analytics_session.device_type' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "RENAME_COLUMN",
+            "table": "analytics_hit",
+            "column": "loadtime",
+            "new_name": "load_time",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "shynet/analytics/migrations/0008_auto_20200412_0015.py",
+            "line": 13,
+            "raw_snippet": "migrations.RenameField( model_name=\"hit\", old_name=\"loadTime\", new_name=\"load_time\", )",
+            "extra": {
+              "model_name": "hit",
+              "app_label": "analytics",
+              "column_sql": "loadTime"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "analytics_hit",
+            "column": "loadtime",
+            "orm_active_old": true,
+            "orm_active_new": true,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "shynet/analytics/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_COLUMN 'loadtime'->'load_time' breaks both C_{t-1} |= S_t and C_t |= S_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "core_service",
+            "column": "anonymize_ips",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "BooleanField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "shynet/core/migrations/0002_service_anonymize_ips.py",
+            "line": 13,
+            "raw_snippet": "migrations.AddField( model_name=\"service\", name=\"anonymize_ips\", field=models.BooleanField(default=False), )",
+            "extra": {
+              "model_name": "service",
+              "app_label": "core",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "core_service",
+            "column": "anonymize_ips",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "shynet/core/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'core_service.anonymize_ips' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "core_service",
+            "column": "anonymize_ips",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "shynet/core/migrations/0003_remove_service_anonymize_ips.py",
+            "line": 13,
+            "raw_snippet": "migrations.RemoveField(model_name=\"service\", name=\"anonymize_ips\",)",
+            "extra": {
+              "model_name": "service",
+              "app_label": "core"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "core_service",
+            "column": "anonymize_ips",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "shynet/core/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'anonymize_ips' active in C_{t-1} ORM (shynet/core/models.py); identifier removed in same commit diff"
+        }
+      ]
+    },
+    {
+      "sha": "170a8ec00bb422f20db005f237627f363393930a",
+      "parent": "74c87bcc7af8c8b705644b6dd6beaf9e223a753e",
+      "date": "2020-04-11T18:56:40-04:00",
+      "subject": "Add migrations",
+      "mig_files": [
+        "shynet/core/migrations/0002_service_anonymize_ips.py"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 2,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "core_service",
+            "column": "anonymize_ips",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "BooleanField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "shynet/core/migrations/0002_service_anonymize_ips.py",
+            "line": 13,
+            "raw_snippet": "migrations.AddField( model_name='service', name='anonymize_ips', field=models.BooleanField(default=False), )",
+            "extra": {
+              "model_name": "service",
+              "app_label": "core",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "core_service",
+            "column": "anonymize_ips",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "shynet/core/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'core_service.anonymize_ips' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    },
+    {
+      "sha": "15fa8226e029467fd3b969f14fde93f8fad329b9",
+      "parent": "6c3064f3ea8c358db1567196baa89462f58c0b05",
+      "date": "2020-04-11T16:42:14-04:00",
+      "subject": "Add basic stats list",
+      "mig_files": [
+        "shynet/analytics/migrations/0004_auto_20200411_1541.py"
+      ],
+      "app_files_touched_in_commit": [
+        "shynet/analytics/models.py",
+        "shynet/analytics/tasks.py",
+        "shynet/core/models.py",
+        "shynet/core/urls.py",
+        "shynet/core/views.py",
+        "shynet/shynet/settings.py"
+      ],
+      "orm_models_parsed_old": 2,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "RENAME_COLUMN",
+            "table": "analytics_hit",
+            "column": "start",
+            "new_name": "start_time",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "shynet/analytics/migrations/0004_auto_20200411_1541.py",
+            "line": 14,
+            "raw_snippet": "migrations.RenameField( model_name='hit', old_name='start', new_name='start_time', )",
+            "extra": {
+              "model_name": "hit",
+              "app_label": "analytics"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "analytics_hit",
+            "column": "start",
+            "orm_active_old": true,
+            "orm_active_new": true,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "shynet/analytics/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_COLUMN 'start'->'start_time' breaks both C_{t-1} |= S_t and C_t |= S_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "RENAME_COLUMN",
+            "table": "analytics_session",
+            "column": "first_seen",
+            "new_name": "start_time",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "shynet/analytics/migrations/0004_auto_20200411_1541.py",
+            "line": 19,
+            "raw_snippet": "migrations.RenameField( model_name='session', old_name='first_seen', new_name='start_time', )",
+            "extra": {
+              "model_name": "session",
+              "app_label": "analytics"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "analytics_session",
+            "column": "first_seen",
+            "orm_active_old": true,
+            "orm_active_new": true,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "shynet/analytics/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_COLUMN 'first_seen'->'start_time' breaks both C_{t-1} |= S_t and C_t |= S_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "analytics_hit",
+            "column": "duration",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "shynet/analytics/migrations/0004_auto_20200411_1541.py",
+            "line": 24,
+            "raw_snippet": "migrations.RemoveField( model_name='hit', name='duration', )",
+            "extra": {
+              "model_name": "hit",
+              "app_label": "analytics"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "analytics_hit",
+            "column": "duration",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "shynet/analytics/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'duration' active in C_{t-1} ORM (shynet/analytics/models.py); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "analytics_hit",
+            "column": "last_seen",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "DateTimeField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "shynet/analytics/migrations/0004_auto_20200411_1541.py",
+            "line": 28,
+            "raw_snippet": "migrations.AddField( model_name='hit', name='last_seen', field=models.DateTimeField(auto_now_add=True, default=django.utils.timezone.now), preserve_default=False, )",
+            "extra": {
+              "model_name": "hit",
+              "app_label": "analytics",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "analytics_hit",
+            "column": "last_seen",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "shynet/analytics/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'analytics_hit.last_seen' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    },
+    {
+      "sha": "8cb867f11bcf09870be505408ff94c914051d6dd",
+      "parent": "844c44ae6cd753a9b35734419ba2760773a34718",
+      "date": "2020-04-10T13:30:32-04:00",
+      "subject": "Remove metadata",
+      "mig_files": [
+        "shynet/analytics/migrations/0003_auto_20200410_1325.py"
+      ],
+      "app_files_touched_in_commit": [
+        "shynet/analytics/models.py",
+        "shynet/analytics/tasks.py"
+      ],
+      "orm_models_parsed_old": 2,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "analytics_hit",
+            "column": "metadata_raw",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "shynet/analytics/migrations/0003_auto_20200410_1325.py",
+            "line": 13,
+            "raw_snippet": "migrations.RemoveField( model_name='hit', name='metadata_raw', )",
+            "extra": {
+              "model_name": "hit",
+              "app_label": "analytics"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "analytics_hit",
+            "column": "metadata_raw",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "shynet/analytics/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'metadata_raw' active in C_{t-1} ORM (shynet/analytics/models.py); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "analytics_session",
+            "column": "metadata_raw",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "shynet/analytics/migrations/0003_auto_20200410_1325.py",
+            "line": 17,
+            "raw_snippet": "migrations.RemoveField( model_name='session', name='metadata_raw', )",
+            "extra": {
+              "model_name": "session",
+              "app_label": "analytics"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "analytics_session",
+            "column": "metadata_raw",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "shynet/analytics/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'metadata_raw' active in C_{t-1} ORM (shynet/analytics/models.py); identifier removed in same commit diff"
+        }
+      ]
+    },
+    {
+      "sha": "844c44ae6cd753a9b35734419ba2760773a34718",
+      "parent": "aab7fbb86a51c7dc202defacda36fc77465f3ea3",
+      "date": "2020-04-10T03:25:32-04:00",
+      "subject": "Preliminary monitoring",
+      "mig_files": [
+        "shynet/analytics/migrations/0001_initial.py",
+        "shynet/analytics/migrations/0002_auto_20200410_0258.py",
+        "shynet/core/migrations/0001_initial.py"
+      ],
+      "app_files_touched_in_commit": [
+        "shynet/analytics/__init__.py",
+        "shynet/analytics/admin.py",
+        "shynet/analytics/apps.py",
+        "shynet/analytics/ingress_urls.py",
+        "shynet/analytics/models.py",
+        "shynet/analytics/tasks.py",
+        "shynet/analytics/views/__init__.py",
+        "shynet/analytics/views/ingress.py",
+        "shynet/core/admin.py",
+        "shynet/core/apps.py",
+        "shynet/core/models.py",
+        "shynet/core/urls.py"
+      ],
+      "orm_models_parsed_old": 0,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "analytics_session",
+            "column": "service",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "shynet/analytics/migrations/0002_auto_20200410_0258.py",
+            "line": 17,
+            "raw_snippet": "migrations.AddField( model_name=\"session\", name=\"service\", field=models.ForeignKey( on_delete=django.db.models.deletion.CASCADE, to=\"core.Service\" ), )",
+            "extra": {
+              "model_name": "session",
+              "app_label": "analytics",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "analytics_session",
+            "column": "service",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'analytics_session' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "analytics_hit",
+            "column": "session",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "shynet/analytics/migrations/0002_auto_20200410_0258.py",
+            "line": 24,
+            "raw_snippet": "migrations.AddField( model_name=\"hit\", name=\"session\", field=models.ForeignKey( on_delete=django.db.models.deletion.CASCADE, to=\"analytics.Session\" ), )",
+            "extra": {
+              "model_name": "hit",
+              "app_label": "analytics",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "analytics_hit",
+            "column": "session",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'analytics_hit' was created in the same commit; C_{t-1} does not write to it."
+        }
+      ]
+    }
+  ]
+}

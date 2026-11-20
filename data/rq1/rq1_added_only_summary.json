@@ -1,0 +1,324 @@
+{
+  "repos_mined_total": 110,
+  "commits_analyzed_total": 12517,
+  "added_fwd_destructive_commits_total": 2347,
+  "modified_only_ops_excluded": {
+    "ops_total": 13886,
+    "SAFE_CONTRACT": 3245,
+    "UNCERTAIN": 2743,
+    "DUAL_VERSION_VIOLATION_BOTH": 77,
+    "DUAL_VERSION_VIOLATION_BACKWARD": 3245,
+    "DUAL_VERSION_VIOLATION_FORWARD": 136,
+    "SAFE_ADDITIVE": 2977,
+    "DATA_DEPENDENT": 12,
+    "ROLLBACK_ONLY_FALSE_ALARM": 1451
+  },
+  "post_deploy_audit": {
+    "post_deploy_ops_added": {
+      "mastodon/mastodon|SAFE_CONTRACT": 16,
+      "gitlabhq/gitlabhq|SAFE_CONTRACT": 8,
+      "getsentry/sentry|SAFE_CONTRACT": 12
+    },
+    "data_dependent_added": {
+      "prisma": 45,
+      "rails": 13
+    }
+  },
+  "pooled_total": {
+    "viol": 5248,
+    "safe": 1171,
+    "resolved": 6419,
+    "uncert": 518,
+    "down": 708,
+    "safe_add": 689,
+    "total_extracted_added": 8334,
+    "viol_rate_pct": 81.8,
+    "viol_ci95_pct": [
+      80.8,
+      82.7
+    ],
+    "resolution_coverage_pct": 92.5,
+    "repos_with_viol": 104
+  },
+  "pooled_by_ecosystem": {
+    "prisma": {
+      "repos_ok": 30,
+      "repos_with_viol": 27,
+      "commits_analyzed": 3067,
+      "added_fwd_destructive_commits": 445,
+      "viol": 1293,
+      "viol_b": 1079,
+      "viol_both": 205,
+      "viol_f": 9,
+      "safe": 394,
+      "resolved": 1687,
+      "uncert": 94,
+      "down": 0,
+      "safe_add": 75,
+      "viol_rate_pct": 76.6,
+      "viol_ci95_pct": [
+        74.6,
+        78.6
+      ],
+      "resolution_coverage_pct": 94.7,
+      "safety_assured_viol": 0,
+      "ignored_safe": 0
+    },
+    "rails": {
+      "repos_ok": 40,
+      "repos_with_viol": 37,
+      "commits_analyzed": 4674,
+      "added_fwd_destructive_commits": 704,
+      "viol": 1123,
+      "viol_b": 919,
+      "viol_both": 181,
+      "viol_f": 23,
+      "safe": 404,
+      "resolved": 1527,
+      "uncert": 343,
+      "down": 705,
+      "safe_add": 240,
+      "viol_rate_pct": 73.5,
+      "viol_ci95_pct": [
+        71.3,
+        75.7
+      ],
+      "resolution_coverage_pct": 81.7,
+      "safety_assured_viol": 26,
+      "ignored_safe": 16
+    },
+    "django": {
+      "repos_ok": 40,
+      "repos_with_viol": 40,
+      "commits_analyzed": 4776,
+      "added_fwd_destructive_commits": 1198,
+      "viol": 2832,
+      "viol_b": 2637,
+      "viol_both": 167,
+      "viol_f": 28,
+      "safe": 373,
+      "resolved": 3205,
+      "uncert": 81,
+      "down": 3,
+      "safe_add": 374,
+      "viol_rate_pct": 88.4,
+      "viol_ci95_pct": [
+        87.2,
+        89.4
+      ],
+      "resolution_coverage_pct": 97.5,
+      "safety_assured_viol": 0,
+      "ignored_safe": 0
+    }
+  },
+  "chi2_ecosystems": {
+    "chi2": 192.38,
+    "p": 1.677109222672938e-42,
+    "dof": 2
+  },
+  "repo_level_ecosystem": {
+    "prisma": {
+      "n_repos_total": 30,
+      "n_repos_active": 28,
+      "median_pct": 79.7,
+      "iqr_pct": [
+        74.8,
+        91.3
+      ],
+      "mean_pct": 77.5
+    },
+    "rails": {
+      "n_repos_total": 40,
+      "n_repos_active": 39,
+      "median_pct": 78.3,
+      "iqr_pct": [
+        57.9,
+        92.4
+      ],
+      "mean_pct": 71.9
+    },
+    "django": {
+      "n_repos_total": 40,
+      "n_repos_active": 40,
+      "median_pct": 96.1,
+      "iqr_pct": [
+        86.3,
+        100.0
+      ],
+      "mean_pct": 88.5
+    }
+  },
+  "kruskal_wallis": {
+    "H": 13.99,
+    "p": 0.0009169077095931927
+  },
+  "pairwise_mwu": {
+    "prisma_vs_rails": {
+      "u": 603.0,
+      "p": 0.4712931158517646,
+      "cliffs_delta": 0.1044,
+      "magnitude": "negligible"
+    },
+    "django_vs_rails": {
+      "u": 1120.5,
+      "p": 0.0007631856162130177,
+      "cliffs_delta": 0.4365,
+      "magnitude": "medium"
+    },
+    "prisma_vs_django": {
+      "u": 329.5,
+      "p": 0.003758091194210086,
+      "cliffs_delta": -0.4116,
+      "magnitude": "medium"
+    }
+  },
+  "k8s_vs_non_k8s_added_only": {
+    "k8s_active_n": 14,
+    "non_k8s_active_n": 93,
+    "k8s_ops": {
+      "viol": 628,
+      "safe": 106,
+      "rate_pct": 85.6
+    },
+    "non_k8s_ops": {
+      "viol": 4620,
+      "safe": 1065,
+      "rate_pct": 81.3
+    },
+    "op_fisher_p": 0.004412684156487273,
+    "k8s_repo_median_pct": 88.2,
+    "k8s_repo_iqr_pct": [
+      77.4,
+      99.5
+    ],
+    "non_k8s_repo_median_pct": 86.1,
+    "non_k8s_repo_iqr_pct": [
+      69.7,
+      99.1
+    ],
+    "repo_mwu_u": 720.0,
+    "repo_mwu_p": 0.5238648774318913,
+    "cliffs_delta": 0.106,
+    "magnitude": "negligible",
+    "median_diff_pct_bootstrap_ci95": [
+      -8.3,
+      14.9
+    ],
+    "stratified": {
+      "prisma": {
+        "k8s_active_n": 6,
+        "non_k8s_active_n": 22,
+        "k8s_ops_rate_pct": 85.7,
+        "non_k8s_ops_rate_pct": 75.5,
+        "k8s_repo_median_pct": 87.4,
+        "non_k8s_repo_median_pct": 76.4,
+        "repo_mwu_p": 0.10958113821640551
+      },
+      "rails": {
+        "k8s_active_n": 1,
+        "non_k8s_active_n": 38,
+        "k8s_ops_rate_pct": 0.0,
+        "non_k8s_ops_rate_pct": 73.9,
+        "k8s_repo_median_pct": 0.0,
+        "non_k8s_repo_median_pct": 79.1,
+        "repo_mwu_p": 0.10862945975847146
+      },
+      "django": {
+        "k8s_active_n": 7,
+        "non_k8s_active_n": 33,
+        "k8s_ops_rate_pct": 86.8,
+        "non_k8s_ops_rate_pct": 88.7,
+        "k8s_repo_median_pct": 95.8,
+        "non_k8s_repo_median_pct": 96.2,
+        "repo_mwu_p": 0.636254348570731
+      }
+    }
+  },
+  "by_operator_added_only": {
+    "DROP_COLUMN": {
+      "viol": 1602,
+      "safe": 402,
+      "uncert": 276,
+      "rollback_only": 283,
+      "data_dependent": 0,
+      "viol_rate_pct": 79.9
+    },
+    "ADD_NOT_NULL_NO_DEFAULT": {
+      "viol": 1667,
+      "safe": 52,
+      "uncert": 21,
+      "rollback_only": 5,
+      "data_dependent": 0,
+      "viol_rate_pct": 97.0
+    },
+    "DROP_TABLE": {
+      "viol": 542,
+      "safe": 266,
+      "uncert": 20,
+      "rollback_only": 206,
+      "data_dependent": 0,
+      "viol_rate_pct": 67.1
+    },
+    "ALTER_COLUMN_TYPE": {
+      "viol": 467,
+      "safe": 68,
+      "uncert": 83,
+      "rollback_only": 137,
+      "data_dependent": 0,
+      "viol_rate_pct": 87.3
+    },
+    "RENAME_COLUMN": {
+      "viol": 489,
+      "safe": 30,
+      "uncert": 59,
+      "rollback_only": 39,
+      "data_dependent": 0,
+      "viol_rate_pct": 94.2
+    },
+    "SET_NOT_NULL": {
+      "viol": 286,
+      "safe": 158,
+      "uncert": 46,
+      "rollback_only": 20,
+      "data_dependent": 0,
+      "viol_rate_pct": 64.4
+    },
+    "RENAME_TYPE_ENUM": {
+      "viol": 145,
+      "safe": 83,
+      "uncert": 0,
+      "rollback_only": 0,
+      "data_dependent": 0,
+      "viol_rate_pct": 63.6
+    },
+    "RENAME_TABLE": {
+      "viol": 50,
+      "safe": 112,
+      "uncert": 3,
+      "rollback_only": 15,
+      "data_dependent": 0,
+      "viol_rate_pct": 30.9
+    },
+    "ADD_UNIQUE_OR_CHECK": {
+      "viol": 0,
+      "safe": 0,
+      "uncert": 10,
+      "rollback_only": 3,
+      "data_dependent": 58,
+      "viol_rate_pct": 0.0
+    }
+  },
+  "gitlab_summary": {
+    "repo": "gitlabhq/gitlabhq",
+    "ecosystem": "rails",
+    "has_k8s_helm": true,
+    "stars": 24570,
+    "viol": 0,
+    "safe": 8,
+    "uncert": 0,
+    "down": 31,
+    "safe_add": 1,
+    "resolved": 8,
+    "viol_rate": 0.0
+  }
+}

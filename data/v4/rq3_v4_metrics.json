@@ -1,0 +1,1355 @@
+{
+  "n_cases": 167,
+  "excluded": {
+    "django_122": {
+      "reason": "rewritten_history",
+      "label": true,
+      "v4_cls": "DUAL_VERSION_VIOLATION_BACKWARD"
+    },
+    "django_123": {
+      "reason": "squashed_migration",
+      "label": false,
+      "v4_cls": "SQUASHED_REPLAY"
+    },
+    "django_126": {
+      "reason": "squashed_migration",
+      "label": true,
+      "v4_cls": "SQUASHED_REPLAY"
+    },
+    "django_131": {
+      "reason": "squashed_migration",
+      "label": false,
+      "v4_cls": "SQUASHED_REPLAY"
+    },
+    "django_134": {
+      "reason": "rewritten_history",
+      "label": true,
+      "v4_cls": "SAFE_CONTRACT"
+    },
+    "django_135": {
+      "reason": "rewritten_history",
+      "label": false,
+      "v4_cls": "UNCERTAIN"
+    },
+    "django_143": {
+      "reason": "rewritten_history",
+      "label": false,
+      "v4_cls": "UNCERTAIN"
+    },
+    "django_144": {
+      "reason": "squashed_migration",
+      "label": false,
+      "v4_cls": "SQUASHED_REPLAY"
+    },
+    "django_146": {
+      "reason": "rewritten_history",
+      "label": false,
+      "v4_cls": "SAFE_CONTRACT"
+    },
+    "django_149": {
+      "reason": "rewritten_history",
+      "label": true,
+      "v4_cls": "DUAL_VERSION_VIOLATION_BACKWARD"
+    },
+    "django_150": {
+      "reason": "squashed_migration",
+      "label": false,
+      "v4_cls": "SQUASHED_REPLAY"
+    },
+    "rails_091": {
+      "reason": "readded_file",
+      "label": true,
+      "v4_cls": "DUAL_VERSION_VIOLATION_BACKWARD"
+    },
+    "rails_095": {
+      "reason": "readded_file",
+      "label": false,
+      "v4_cls": "UNCERTAIN"
+    }
+  },
+  "unmatched_kept_previous_verdict": [
+    "rails_100"
+  ],
+  "label_changes_v4": [
+    [
+      "django_124",
+      true,
+      false
+    ],
+    [
+      "django_138",
+      true,
+      false
+    ],
+    [
+      "django_139",
+      true,
+      false
+    ],
+    [
+      "django_142",
+      true,
+      false
+    ],
+    [
+      "django_146",
+      true,
+      false
+    ],
+    [
+      "django_147",
+      true,
+      false
+    ],
+    [
+      "django_152",
+      false,
+      true
+    ],
+    [
+      "prisma_002",
+      false,
+      true
+    ],
+    [
+      "prisma_012",
+      true,
+      false
+    ],
+    [
+      "prisma_020",
+      true,
+      false
+    ],
+    [
+      "prisma_021",
+      true,
+      false
+    ],
+    [
+      "prisma_030",
+      true,
+      false
+    ],
+    [
+      "prisma_036",
+      true,
+      false
+    ],
+    [
+      "prisma_038",
+      false,
+      true
+    ],
+    [
+      "prisma_039",
+      false,
+      true
+    ],
+    [
+      "prisma_052",
+      true,
+      false
+    ],
+    [
+      "prisma_057",
+      false,
+      true
+    ],
+    [
+      "rails_066",
+      false,
+      true
+    ],
+    [
+      "rails_078",
+      false,
+      true
+    ],
+    [
+      "rails_081",
+      false,
+      true
+    ],
+    [
+      "rails_084",
+      false,
+      true
+    ],
+    [
+      "rails_087",
+      true,
+      false
+    ],
+    [
+      "rails_088",
+      true,
+      false
+    ],
+    [
+      "rails_093",
+      true,
+      false
+    ]
+  ],
+  "labels": {
+    "viol": 106,
+    "safe": 61
+  },
+  "metrics": {
+    "all": {
+      "ecv_fast": {
+        "tp": 92,
+        "fp": 12,
+        "fn": 14,
+        "tn": 49,
+        "precision_pct": 88.5,
+        "recall_pct": 86.8,
+        "f1_pct": 87.6,
+        "fpr_pct": 19.7,
+        "specificity_pct": 80.3,
+        "balanced_acc_pct": 83.6,
+        "accuracy_pct": 84.4,
+        "mcc": 0.667,
+        "precision_ci95_pct": [
+          80.9,
+          93.3
+        ],
+        "recall_ci95_pct": [
+          79.0,
+          92.0
+        ],
+        "fpr_ci95_pct": [
+          11.6,
+          31.3
+        ],
+        "coverage_pct": 81.4
+      },
+      "ecv_deep": {
+        "tp": 95,
+        "fp": 24,
+        "fn": 11,
+        "tn": 37,
+        "precision_pct": 79.8,
+        "recall_pct": 89.6,
+        "f1_pct": 84.4,
+        "fpr_pct": 39.3,
+        "specificity_pct": 60.7,
+        "balanced_acc_pct": 75.1,
+        "accuracy_pct": 79.0,
+        "mcc": 0.535,
+        "precision_ci95_pct": [
+          71.7,
+          86.1
+        ],
+        "recall_ci95_pct": [
+          82.4,
+          94.1
+        ],
+        "fpr_ci95_pct": [
+          28.1,
+          51.9
+        ]
+      },
+      "ecv_schema_only": {
+        "tp": 84,
+        "fp": 10,
+        "fn": 22,
+        "tn": 51,
+        "precision_pct": 89.4,
+        "recall_pct": 79.2,
+        "f1_pct": 84.0,
+        "fpr_pct": 16.4,
+        "specificity_pct": 83.6,
+        "balanced_acc_pct": 81.4,
+        "accuracy_pct": 80.8,
+        "mcc": 0.61,
+        "precision_ci95_pct": [
+          81.5,
+          94.1
+        ],
+        "recall_ci95_pct": [
+          70.6,
+          85.9
+        ],
+        "fpr_ci95_pct": [
+          9.2,
+          27.6
+        ]
+      },
+      "ecv_diff_only": {
+        "tp": 38,
+        "fp": 8,
+        "fn": 68,
+        "tn": 53,
+        "precision_pct": 82.6,
+        "recall_pct": 35.8,
+        "f1_pct": 50.0,
+        "fpr_pct": 13.1,
+        "specificity_pct": 86.9,
+        "balanced_acc_pct": 61.4,
+        "accuracy_pct": 54.5,
+        "mcc": 0.245,
+        "precision_ci95_pct": [
+          69.3,
+          90.9
+        ],
+        "recall_ci95_pct": [
+          27.4,
+          45.3
+        ],
+        "fpr_ci95_pct": [
+          6.8,
+          23.8
+        ]
+      },
+      "squawk_compat": {
+        "tp": 86,
+        "fp": 54,
+        "fn": 20,
+        "tn": 7,
+        "precision_pct": 61.4,
+        "recall_pct": 81.1,
+        "f1_pct": 69.9,
+        "fpr_pct": 88.5,
+        "specificity_pct": 11.5,
+        "balanced_acc_pct": 46.3,
+        "accuracy_pct": 55.7,
+        "mcc": -0.097,
+        "precision_ci95_pct": [
+          53.2,
+          69.1
+        ],
+        "recall_ci95_pct": [
+          72.6,
+          87.4
+        ],
+        "fpr_ci95_pct": [
+          78.2,
+          94.3
+        ]
+      },
+      "squawk_default": {
+        "tp": 106,
+        "fp": 58,
+        "fn": 0,
+        "tn": 3,
+        "precision_pct": 64.6,
+        "recall_pct": 100.0,
+        "f1_pct": 78.5,
+        "fpr_pct": 95.1,
+        "specificity_pct": 4.9,
+        "balanced_acc_pct": 52.5,
+        "accuracy_pct": 65.3,
+        "mcc": 0.178,
+        "precision_ci95_pct": [
+          57.1,
+          71.5
+        ],
+        "recall_ci95_pct": [
+          96.5,
+          100.0
+        ],
+        "fpr_ci95_pct": [
+          86.5,
+          98.3
+        ]
+      },
+      "always_flag": {
+        "tp": 106,
+        "fp": 61,
+        "fn": 0,
+        "tn": 0,
+        "precision_pct": 63.5,
+        "recall_pct": 100.0,
+        "f1_pct": 77.7,
+        "fpr_pct": 100.0,
+        "specificity_pct": 0.0,
+        "balanced_acc_pct": 50.0,
+        "accuracy_pct": 63.5,
+        "mcc": 0.0,
+        "precision_ci95_pct": [
+          55.9,
+          70.4
+        ],
+        "recall_ci95_pct": [
+          96.5,
+          100.0
+        ],
+        "fpr_ci95_pct": [
+          94.1,
+          100.0
+        ]
+      }
+    },
+    "resolved_only": {
+      "ecv_fast": {
+        "tp": 92,
+        "fp": 12,
+        "fn": 4,
+        "tn": 28,
+        "precision_pct": 88.5,
+        "recall_pct": 95.8,
+        "f1_pct": 92.0,
+        "fpr_pct": 30.0,
+        "specificity_pct": 70.0,
+        "balanced_acc_pct": 82.9,
+        "accuracy_pct": 88.2,
+        "mcc": 0.707,
+        "precision_ci95_pct": [
+          80.9,
+          93.3
+        ],
+        "recall_ci95_pct": [
+          89.8,
+          98.4
+        ],
+        "fpr_ci95_pct": [
+          18.1,
+          45.4
+        ]
+      },
+      "ecv_deep": {
+        "tp": 92,
+        "fp": 21,
+        "fn": 4,
+        "tn": 19,
+        "precision_pct": 81.4,
+        "recall_pct": 95.8,
+        "f1_pct": 88.0,
+        "fpr_pct": 52.5,
+        "specificity_pct": 47.5,
+        "balanced_acc_pct": 71.7,
+        "accuracy_pct": 81.6,
+        "mcc": 0.527,
+        "precision_ci95_pct": [
+          73.3,
+          87.5
+        ],
+        "recall_ci95_pct": [
+          89.8,
+          98.4
+        ],
+        "fpr_ci95_pct": [
+          37.5,
+          67.1
+        ]
+      },
+      "n": 136
+    },
+    "all_excl_constraints": {
+      "ecv_fast": {
+        "tp": 84,
+        "fp": 12,
+        "fn": 13,
+        "tn": 47,
+        "precision_pct": 87.5,
+        "recall_pct": 86.6,
+        "f1_pct": 87.0,
+        "fpr_pct": 20.3,
+        "specificity_pct": 79.7,
+        "balanced_acc_pct": 83.1,
+        "accuracy_pct": 84.0,
+        "mcc": 0.66,
+        "precision_ci95_pct": [
+          79.4,
+          92.7
+        ],
+        "recall_ci95_pct": [
+          78.4,
+          92.0
+        ],
+        "fpr_ci95_pct": [
+          12.0,
+          32.3
+        ]
+      }
+    },
+    "prisma": {
+      "ecv_fast": {
+        "tp": 29,
+        "fp": 7,
+        "fn": 3,
+        "tn": 21,
+        "precision_pct": 80.6,
+        "recall_pct": 90.6,
+        "f1_pct": 85.3,
+        "fpr_pct": 25.0,
+        "specificity_pct": 75.0,
+        "balanced_acc_pct": 82.8,
+        "accuracy_pct": 83.3,
+        "mcc": 0.668,
+        "precision_ci95_pct": [
+          65.0,
+          90.2
+        ],
+        "recall_ci95_pct": [
+          75.8,
+          96.8
+        ],
+        "fpr_ci95_pct": [
+          12.7,
+          43.4
+        ],
+        "coverage_pct": 91.7
+      },
+      "ecv_fast_resolved": {
+        "tp": 29,
+        "fp": 7,
+        "fn": 2,
+        "tn": 17,
+        "precision_pct": 80.6,
+        "recall_pct": 93.5,
+        "f1_pct": 86.6,
+        "fpr_pct": 29.2,
+        "specificity_pct": 70.8,
+        "balanced_acc_pct": 82.2,
+        "accuracy_pct": 83.6,
+        "mcc": 0.671,
+        "precision_ci95_pct": [
+          65.0,
+          90.2
+        ],
+        "recall_ci95_pct": [
+          79.3,
+          98.2
+        ],
+        "fpr_ci95_pct": [
+          14.9,
+          49.2
+        ]
+      },
+      "squawk_compat_native": {
+        "tp": 27,
+        "fp": 25,
+        "fn": 5,
+        "tn": 3,
+        "precision_pct": 51.9,
+        "recall_pct": 84.4,
+        "f1_pct": 64.3,
+        "fpr_pct": 89.3,
+        "specificity_pct": 10.7,
+        "balanced_acc_pct": 47.5,
+        "accuracy_pct": 50.0,
+        "mcc": -0.072,
+        "precision_ci95_pct": [
+          38.7,
+          64.9
+        ],
+        "recall_ci95_pct": [
+          68.2,
+          93.1
+        ],
+        "fpr_ci95_pct": [
+          72.8,
+          96.3
+        ]
+      }
+    },
+    "rails": {
+      "ecv_fast": {
+        "tp": 31,
+        "fp": 3,
+        "fn": 9,
+        "tn": 15,
+        "precision_pct": 91.2,
+        "recall_pct": 77.5,
+        "f1_pct": 83.8,
+        "fpr_pct": 16.7,
+        "specificity_pct": 83.3,
+        "balanced_acc_pct": 80.4,
+        "accuracy_pct": 79.3,
+        "mcc": 0.571,
+        "precision_ci95_pct": [
+          77.0,
+          97.0
+        ],
+        "recall_ci95_pct": [
+          62.5,
+          87.7
+        ],
+        "fpr_ci95_pct": [
+          5.8,
+          39.2
+        ],
+        "coverage_pct": 69.0
+      },
+      "ecv_fast_resolved": {
+        "tp": 31,
+        "fp": 3,
+        "fn": 1,
+        "tn": 5,
+        "precision_pct": 91.2,
+        "recall_pct": 96.9,
+        "f1_pct": 93.9,
+        "fpr_pct": 37.5,
+        "specificity_pct": 62.5,
+        "balanced_acc_pct": 79.7,
+        "accuracy_pct": 90.0,
+        "mcc": 0.665,
+        "precision_ci95_pct": [
+          77.0,
+          97.0
+        ],
+        "recall_ci95_pct": [
+          84.3,
+          99.4
+        ],
+        "fpr_ci95_pct": [
+          13.7,
+          69.4
+        ]
+      },
+      "strong_migrations_all": {
+        "tp": 28,
+        "fp": 10,
+        "fn": 12,
+        "tn": 8,
+        "precision_pct": 73.7,
+        "recall_pct": 70.0,
+        "f1_pct": 71.8,
+        "fpr_pct": 55.6,
+        "specificity_pct": 44.4,
+        "balanced_acc_pct": 57.2,
+        "accuracy_pct": 62.1,
+        "mcc": 0.141,
+        "precision_ci95_pct": [
+          58.0,
+          85.0
+        ],
+        "recall_ci95_pct": [
+          54.6,
+          81.9
+        ],
+        "fpr_ci95_pct": [
+          33.7,
+          75.4
+        ]
+      }
+    },
+    "django": {
+      "ecv_fast": {
+        "tp": 32,
+        "fp": 2,
+        "fn": 2,
+        "tn": 13,
+        "precision_pct": 94.1,
+        "recall_pct": 94.1,
+        "f1_pct": 94.1,
+        "fpr_pct": 13.3,
+        "specificity_pct": 86.7,
+        "balanced_acc_pct": 90.4,
+        "accuracy_pct": 91.8,
+        "mcc": 0.808,
+        "precision_ci95_pct": [
+          80.9,
+          98.4
+        ],
+        "recall_ci95_pct": [
+          80.9,
+          98.4
+        ],
+        "fpr_ci95_pct": [
+          3.7,
+          37.9
+        ],
+        "coverage_pct": 83.7
+      },
+      "ecv_fast_resolved": {
+        "tp": 32,
+        "fp": 2,
+        "fn": 1,
+        "tn": 6,
+        "precision_pct": 94.1,
+        "recall_pct": 97.0,
+        "f1_pct": 95.5,
+        "fpr_pct": 25.0,
+        "specificity_pct": 75.0,
+        "balanced_acc_pct": 86.0,
+        "accuracy_pct": 92.7,
+        "mcc": 0.758,
+        "precision_ci95_pct": [
+          80.9,
+          98.4
+        ],
+        "recall_ci95_pct": [
+          84.7,
+          99.5
+        ],
+        "fpr_ci95_pct": [
+          7.1,
+          59.1
+        ]
+      },
+      "dml": {
+        "tp": 34,
+        "fp": 12,
+        "fn": 0,
+        "tn": 3,
+        "precision_pct": 73.9,
+        "recall_pct": 100.0,
+        "f1_pct": 85.0,
+        "fpr_pct": 80.0,
+        "specificity_pct": 20.0,
+        "balanced_acc_pct": 60.0,
+        "accuracy_pct": 75.5,
+        "mcc": 0.384,
+        "precision_ci95_pct": [
+          59.7,
+          84.4
+        ],
+        "recall_ci95_pct": [
+          89.8,
+          100.0
+        ],
+        "fpr_ci95_pct": [
+          54.8,
+          93.0
+        ]
+      }
+    },
+    "rails_exec": {
+      "n": 50,
+      "ecv_fast": {
+        "tp": 29,
+        "fp": 2,
+        "fn": 7,
+        "tn": 12,
+        "precision_pct": 93.5,
+        "recall_pct": 80.6,
+        "f1_pct": 86.6,
+        "fpr_pct": 14.3,
+        "specificity_pct": 85.7,
+        "balanced_acc_pct": 83.1,
+        "accuracy_pct": 82.0,
+        "mcc": 0.613,
+        "precision_ci95_pct": [
+          79.3,
+          98.2
+        ],
+        "recall_ci95_pct": [
+          65.0,
+          90.2
+        ],
+        "fpr_ci95_pct": [
+          4.0,
+          39.9
+        ]
+      },
+      "strong_migrations": {
+        "tp": 28,
+        "fp": 10,
+        "fn": 8,
+        "tn": 4,
+        "precision_pct": 73.7,
+        "recall_pct": 77.8,
+        "f1_pct": 75.7,
+        "fpr_pct": 71.4,
+        "specificity_pct": 28.6,
+        "balanced_acc_pct": 53.2,
+        "accuracy_pct": 64.0,
+        "mcc": 0.067,
+        "precision_ci95_pct": [
+          58.0,
+          85.0
+        ],
+        "recall_ci95_pct": [
+          61.9,
+          88.3
+        ],
+        "fpr_ci95_pct": [
+          45.4,
+          88.3
+        ]
+      }
+    }
+  },
+  "mcnemar": {
+    "fast_vs_always_overall": {
+      "b_a_right_b_wrong": 49,
+      "c_b_right_a_wrong": 14,
+      "p_value": 1.1123023000449022e-05
+    },
+    "fast_vs_squawk_compat_overall": {
+      "b_a_right_b_wrong": 62,
+      "c_b_right_a_wrong": 14,
+      "p_value": 2.3236524454068507e-08
+    },
+    "fast_vs_squawk_compat_safe": {
+      "b_a_right_b_wrong": 43,
+      "c_b_right_a_wrong": 1,
+      "p_value": 5.115907697472721e-12
+    },
+    "fast_vs_deep_overall": {
+      "b_a_right_b_wrong": 12,
+      "c_b_right_a_wrong": 3,
+      "p_value": 0.03515625
+    },
+    "prisma_fast_vs_squawk_overall": {
+      "b_a_right_b_wrong": 23,
+      "c_b_right_a_wrong": 3,
+      "p_value": 8.797645568847656e-05
+    },
+    "prisma_fast_vs_squawk_safe": {
+      "b_a_right_b_wrong": 18,
+      "c_b_right_a_wrong": 0,
+      "p_value": 7.62939453125e-06
+    },
+    "rails_exec_fast_vs_sm_overall": {
+      "b_a_right_b_wrong": 17,
+      "c_b_right_a_wrong": 8,
+      "p_value": 0.10775214433670044
+    },
+    "rails_exec_fast_vs_sm_safe": {
+      "b_a_right_b_wrong": 9,
+      "c_b_right_a_wrong": 1,
+      "p_value": 0.021484375
+    },
+    "django_fast_vs_dml_overall": {
+      "b_a_right_b_wrong": 11,
+      "c_b_right_a_wrong": 3,
+      "p_value": 0.057373046875
+    },
+    "django_fast_vs_dml_safe": {
+      "b_a_right_b_wrong": 11,
+      "c_b_right_a_wrong": 1,
+      "p_value": 0.00634765625
+    }
+  },
+  "ipw": {
+    "estimates": {
+      "ecv_fast": {
+        "precision": {
+          "point": 88.8,
+          "ci95": [
+            83.3,
+            93.4
+          ]
+        },
+        "recall": {
+          "point": 95.2,
+          "ci95": [
+            92.9,
+            97.6
+          ]
+        },
+        "f1": {
+          "point": 91.9,
+          "ci95": [
+            88.6,
+            94.8
+          ]
+        },
+        "fpr": {
+          "point": 38.1,
+          "ci95": [
+            22.9,
+            56.0
+          ]
+        },
+        "mcc": {
+          "point": 0.629,
+          "ci95": [
+            0.469,
+            0.758
+          ]
+        },
+        "prevalence": {
+          "point": 76.1,
+          "ci95": [
+            70.9,
+            81.9
+          ]
+        }
+      },
+      "ecv_deep": {
+        "precision": {
+          "point": 86.0,
+          "ci95": [
+            80.9,
+            90.6
+          ]
+        },
+        "recall": {
+          "point": 95.8,
+          "ci95": [
+            93.7,
+            98.3
+          ]
+        },
+        "f1": {
+          "point": 90.7,
+          "ci95": [
+            87.4,
+            93.6
+          ]
+        },
+        "fpr": {
+          "point": 49.7,
+          "ci95": [
+            33.2,
+            66.9
+          ]
+        },
+        "mcc": {
+          "point": 0.549,
+          "ci95": [
+            0.38,
+            0.688
+          ]
+        },
+        "prevalence": {
+          "point": 76.1,
+          "ci95": [
+            70.8,
+            81.6
+          ]
+        }
+      },
+      "squawk_compat": {
+        "precision": {
+          "point": 68.8,
+          "ci95": [
+            62.5,
+            75.4
+          ]
+        },
+        "recall": {
+          "point": 65.1,
+          "ci95": [
+            61.1,
+            68.5
+          ]
+        },
+        "f1": {
+          "point": 66.9,
+          "ci95": [
+            63.4,
+            70.1
+          ]
+        },
+        "fpr": {
+          "point": 94.1,
+          "ci95": [
+            89.0,
+            98.4
+          ]
+        },
+        "mcc": {
+          "point": -0.275,
+          "ci95": [
+            -0.33,
+            -0.217
+          ]
+        },
+        "prevalence": {
+          "point": 76.1,
+          "ci95": [
+            70.7,
+            81.7
+          ]
+        }
+      },
+      "always_flag": {
+        "precision": {
+          "point": 76.1,
+          "ci95": [
+            70.7,
+            81.8
+          ]
+        },
+        "recall": {
+          "point": 100.0,
+          "ci95": [
+            100.0,
+            100.0
+          ]
+        },
+        "f1": {
+          "point": 86.4,
+          "ci95": [
+            82.9,
+            90.0
+          ]
+        },
+        "fpr": {
+          "point": 100.0,
+          "ci95": [
+            100.0,
+            100.0
+          ]
+        },
+        "mcc": {
+          "point": 0,
+          "ci95": [
+            0.0,
+            0.0
+          ]
+        },
+        "prevalence": {
+          "point": 76.1,
+          "ci95": [
+            70.7,
+            81.8
+          ]
+        }
+      }
+    },
+    "population_frame_ops": 6323,
+    "uncovered_cells_ops": 0,
+    "uncovered_cells": {}
+  },
+  "pre_initial_rule_based": {
+    "n_label_changes_in_167": 33,
+    "moved_toward_ecv_fast": 17,
+    "moved_away_from_ecv_fast": 16,
+    "ecv_fast_metrics": {
+      "tp": 98,
+      "fp": 6,
+      "fn": 21,
+      "tn": 42,
+      "precision_pct": 94.2,
+      "recall_pct": 82.4,
+      "f1_pct": 87.9,
+      "fpr_pct": 12.5,
+      "specificity_pct": 87.5,
+      "balanced_acc_pct": 84.9,
+      "accuracy_pct": 83.8,
+      "mcc": 0.652,
+      "precision_ci95_pct": [
+        88.0,
+        97.3
+      ],
+      "recall_ci95_pct": [
+        74.5,
+        88.2
+      ],
+      "fpr_ci95_pct": [
+        5.9,
+        24.7
+      ]
+    }
+  },
+  "pre_v4_adjudication": {
+    "n_label_changes_in_167": 23,
+    "moved_toward_ecv_fast": 15,
+    "moved_away_from_ecv_fast": 8,
+    "ecv_fast_metrics": {
+      "tp": 91,
+      "fp": 13,
+      "fn": 20,
+      "tn": 43,
+      "precision_pct": 87.5,
+      "recall_pct": 82.0,
+      "f1_pct": 84.7,
+      "fpr_pct": 23.2,
+      "specificity_pct": 76.8,
+      "balanced_acc_pct": 79.4,
+      "accuracy_pct": 80.2,
+      "mcc": 0.572,
+      "precision_ci95_pct": [
+        79.8,
+        92.5
+      ],
+      "recall_ci95_pct": [
+        73.8,
+        88.0
+      ],
+      "fpr_ci95_pct": [
+        14.1,
+        35.8
+      ]
+    }
+  },
+  "dmmf_oracle": {
+    "executable": 34,
+    "agree_v3_labels": 26,
+    "agree_v4_labels": 34
+  },
+  "ecv_fast_errors": [
+    {
+      "id": "django_140",
+      "kind": "FN",
+      "op": "RENAME_COLUMN",
+      "v4_cls": "DUAL_VERSION_VIOLATION_FORWARD",
+      "rationale": "VIOL: C_{t-1} app code directly references `script_versions` at `wooey/admin.py:31`."
+    },
+    {
+      "id": "django_152",
+      "kind": "FN",
+      "op": "ADD_UNIQUE_OR_CHECK",
+      "v4_cls": "UNCERTAIN",
+      "rationale": "VIOL (v4): auth_user is Django's built-in User table active in C_{t-1} with non-unique email; RunSQL adds validated UNIQUE(email) constraint."
+    },
+    {
+      "id": "django_153",
+      "kind": "FP",
+      "op": "ALTER_COLUMN_TYPE",
+      "v4_cls": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "rationale": "SAFE (verified): Python subclass rename `CoreFormulaModelField -> FormulaField`; both map to PG TEXT."
+    },
+    {
+      "id": "django_165",
+      "kind": "FP",
+      "op": "SET_NOT_NULL",
+      "v4_cls": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "rationale": "SAFE (v4): C_{t-1} Domain.validation_process_start (readthedocs/projects/models.py:1836) sets auto_now_add=True with '# TODO: remove after deploy' and django-safemigrate Safe.always (staged contract)."
+    },
+    {
+      "id": "prisma_017",
+      "kind": "FP",
+      "op": "ALTER_COLUMN_TYPE",
+      "v4_cls": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "rationale": "SAFE (verified): `Decimal -> DECIMAL(18,2)` currency precision normalization; compatible with standard C_{t-1} values."
+    },
+    {
+      "id": "prisma_024",
+      "kind": "FP",
+      "op": "ALTER_COLUMN_TYPE",
+      "v4_cls": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "rationale": "SAFE (verified): `Decimal -> DECIMAL(18,2)` currency precision normalization; compatible with standard C_{t-1} values."
+    },
+    {
+      "id": "prisma_033",
+      "kind": "FP",
+      "op": "ALTER_COLUMN_TYPE",
+      "v4_cls": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "rationale": "SAFE (verified): `TIMESTAMPTZ(6) -> TIMESTAMP(3)`; PG accepts Prisma ISO datetime strings without crash."
+    },
+    {
+      "id": "prisma_039",
+      "kind": "FN",
+      "op": "SET_NOT_NULL",
+      "v4_cls": "SAFE_CONTRACT",
+      "rationale": "VIOL (v4): column added and set NOT NULL without default in the same migration; C_{t-1} inserts fail (oracle: 23502)."
+    },
+    {
+      "id": "prisma_042",
+      "kind": "FP",
+      "op": "ALTER_COLUMN_TYPE",
+      "v4_cls": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "rationale": "SAFE (verified): `TIMESTAMP(3) -> TIMESTAMPTZ(3)`; PG accepts Prisma ISO datetime strings without crash."
+    },
+    {
+      "id": "prisma_046",
+      "kind": "FN",
+      "op": "RENAME_TABLE",
+      "v4_cls": "UNCERTAIN",
+      "rationale": "VIOL (verified): bulk table/FK rename migration in active `amplication` schema without dual-version view."
+    },
+    {
+      "id": "prisma_051",
+      "kind": "FP",
+      "op": "ALTER_COLUMN_TYPE",
+      "v4_cls": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "rationale": "SAFE: value-compatible type widening (String -> TEXT); lock hazard only, no C_{t-1} value crash."
+    },
+    {
+      "id": "prisma_052",
+      "kind": "FP",
+      "op": "DROP_COLUMN",
+      "v4_cls": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "rationale": "SAFE (v4): C_{t-1} User model of this example app has no `email`; grep hit is in a different example app."
+    },
+    {
+      "id": "prisma_057",
+      "kind": "FN",
+      "op": "SET_NOT_NULL",
+      "v4_cls": "SAFE_CONTRACT",
+      "rationale": "VIOL (v4): column added and set NOT NULL without default in the same migration; C_{t-1} inserts fail (oracle: 23502)."
+    },
+    {
+      "id": "prisma_060",
+      "kind": "FP",
+      "op": "ALTER_COLUMN_TYPE",
+      "v4_cls": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "rationale": "SAFE (verified): `TIMESTAMP(3) -> TIMESTAMPTZ(3)`; PG accepts Prisma ISO datetime strings without crash."
+    },
+    {
+      "id": "rails_066",
+      "kind": "FN",
+      "op": "RENAME_TABLE",
+      "v4_cls": "UNCERTAIN",
+      "rationale": "VIOL (v4): Spree::StockItem (spree/core/app/models/spree/stock_item.rb) uses spree_stock_items in C_{t-1}."
+    },
+    {
+      "id": "rails_073",
+      "kind": "FN",
+      "op": "SET_NOT_NULL",
+      "v4_cls": "UNCERTAIN",
+      "rationale": "VIOL: tightens nullable/active C_{t-1} column `alchemy_contents.essence_type` to NOT NULL without prior presence guarantee."
+    },
+    {
+      "id": "rails_074",
+      "kind": "FN",
+      "op": "ALTER_COLUMN_TYPE",
+      "v4_cls": "UNCERTAIN",
+      "rationale": "VIOL (verified): changes `checklists.sorted_item_ids` to PostgreSQL `varchar[]` array type."
+    },
+    {
+      "id": "rails_078",
+      "kind": "FN",
+      "op": "RENAME_TABLE",
+      "v4_cls": "UNCERTAIN",
+      "rationale": "VIOL (v4): app/models/federails/quote_authorization.rb in C_{t-1} maps to the renamed table."
+    },
+    {
+      "id": "rails_079",
+      "kind": "FN",
+      "op": "SET_NOT_NULL",
+      "v4_cls": "UNCERTAIN",
+      "rationale": "VIOL: tightens nullable/active C_{t-1} column `hosts.comment` to NOT NULL without prior presence guarantee."
+    },
+    {
+      "id": "rails_081",
+      "kind": "FN",
+      "op": "DROP_COLUMN",
+      "v4_cls": "UNCERTAIN",
+      "rationale": "VIOL (v4): Decidim::Comments::Comment (ApplicationRecord) loads all columns of decidim_comments_comments; column not ignored."
+    },
+    {
+      "id": "rails_084",
+      "kind": "FN",
+      "op": "RENAME_TABLE",
+      "v4_cls": "UNCERTAIN",
+      "rationale": "VIOL (v4): the federails engine loaded by C_{t-1} (with app overrides under app/models/federails) uses federails_hosts."
+    },
+    {
+      "id": "rails_085",
+      "kind": "FN",
+      "op": "SET_NOT_NULL",
+      "v4_cls": "UNCERTAIN",
+      "rationale": "VIOL: tightens nullable/active C_{t-1} column `communities.currency` to NOT NULL without prior presence guarantee."
+    },
+    {
+      "id": "rails_086",
+      "kind": "FP",
+      "op": "ALTER_COLUMN_TYPE",
+      "v4_cls": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "rationale": "SAFE: value-compatible type widening (string -> text); lock hazard only, no C_{t-1} value crash."
+    },
+    {
+      "id": "rails_089",
+      "kind": "FN",
+      "op": "RENAME_COLUMN",
+      "v4_cls": "SAFE_CONTRACT",
+      "rationale": "VIOL: C_{t-1} app code directly references `roles` at `devise/app/controllers/alchemy/admin/users_controller.rb:71`."
+    },
+    {
+      "id": "rails_101",
+      "kind": "FP",
+      "op": "ALTER_COLUMN_TYPE",
+      "v4_cls": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "rationale": "SAFE (verified): PostgreSQL `text -> character varying` (unbounded); binary-coercible identical value domain."
+    },
+    {
+      "id": "rails_120",
+      "kind": "FP",
+      "op": "RENAME_COLUMN",
+      "v4_cls": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "rationale": "SAFE: transient column `ignore_types` was added and modified/dropped within the same migration; absent from C_{t-1}."
+    }
+  ],
+  "rq4_minimal": {
+    "total_violations": 106,
+    "executable_attempted": 94,
+    "executable_pass": 89,
+    "advisory_only": 12,
+    "attempted": 94,
+    "pass": 89,
+    "by_op": {
+      "ADD_NOT_NULL_NO_DEFAULT": {
+        "attempted": 21,
+        "advisory_only": 0,
+        "executable_attempted": 21,
+        "pass": 21
+      },
+      "SET_NOT_NULL": {
+        "attempted": 14,
+        "advisory_only": 0,
+        "executable_attempted": 14,
+        "pass": 14
+      },
+      "RENAME_COLUMN": {
+        "attempted": 12,
+        "advisory_only": 0,
+        "executable_attempted": 12,
+        "pass": 12
+      },
+      "ADD_UNIQUE_OR_CHECK": {
+        "attempted": 9,
+        "advisory_only": 9
+      },
+      "DROP_COLUMN": {
+        "attempted": 14,
+        "advisory_only": 0,
+        "executable_attempted": 14,
+        "pass": 14
+      },
+      "DROP_TABLE": {
+        "attempted": 14,
+        "advisory_only": 0,
+        "executable_attempted": 14,
+        "pass": 14
+      },
+      "RENAME_TABLE": {
+        "attempted": 12,
+        "advisory_only": 0,
+        "executable_attempted": 12,
+        "pass": 12
+      },
+      "ALTER_COLUMN_TYPE": {
+        "attempted": 7,
+        "advisory_only": 0,
+        "executable_attempted": 7,
+        "pass": 2
+      },
+      "RENAME_TYPE_ENUM": {
+        "attempted": 3,
+        "advisory_only": 3
+      }
+    },
+    "failures": [
+      {
+        "id": "django_160",
+        "op": "ALTER_COLUMN_TYPE",
+        "phase1_ok": true,
+        "phase1_err": null,
+        "phase3_err": null,
+        "schema_equiv": false
+      },
+      {
+        "id": "django_167",
+        "op": "ALTER_COLUMN_TYPE",
+        "phase1_ok": true,
+        "phase1_err": null,
+        "phase3_err": null,
+        "schema_equiv": false
+      },
+      {
+        "id": "django_174",
+        "op": "ALTER_COLUMN_TYPE",
+        "phase1_ok": true,
+        "phase1_err": null,
+        "phase3_err": null,
+        "schema_equiv": false
+      },
+      {
+        "id": "prisma_003",
+        "op": "ALTER_COLUMN_TYPE",
+        "phase1_ok": true,
+        "phase1_err": null,
+        "phase3_err": null,
+        "schema_equiv": false
+      },
+      {
+        "id": "rails_074",
+        "op": "ALTER_COLUMN_TYPE",
+        "phase1_ok": true,
+        "phase1_err": null,
+        "phase3_err": null,
+        "schema_equiv": false
+      }
+    ]
+  }
+}

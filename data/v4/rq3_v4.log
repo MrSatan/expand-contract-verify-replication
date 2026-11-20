@@ -1,0 +1,259 @@
+[PROGRESS] v4-rq3-benchmark  0/180  0.0%  started 14:17:12
+[PROGRESS] v4-rq3-benchmark  1/180  0.6%  elapsed 00:00  ETA 01:34  | last: django_121 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  2/180  1.1%  elapsed 00:00  ETA 00:53  | last: django_122 excluded rewritten_history
+[PROGRESS] v4-rq3-benchmark  3/180  1.7%  elapsed 00:00  ETA 00:35  | last: django_123 excluded squashed_migration
+[PROGRESS] v4-rq3-benchmark  4/180  2.2%  elapsed 00:01  ETA 00:45  | last: django_124 UNCERTAIN
+[PROGRESS] v4-rq3-benchmark  5/180  2.8%  elapsed 00:01  ETA 00:46  | last: django_125 UNCERTAIN
+[PROGRESS] v4-rq3-benchmark  6/180  3.3%  elapsed 00:01  ETA 00:38  | last: django_126 excluded squashed_migration
+[PROGRESS] v4-rq3-benchmark  7/180  3.9%  elapsed 00:01  ETA 00:44  | last: django_127 SAFE_CONTRACT
+[PROGRESS] v4-rq3-benchmark  8/180  4.4%  elapsed 00:02  ETA 00:44  | last: django_128 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  9/180  5.0%  elapsed 00:02  ETA 00:44  | last: django_129 SAFE_CONTRACT
+[PROGRESS] v4-rq3-benchmark  10/180  5.6%  elapsed 00:03  ETA 00:54  | last: django_130 UNCERTAIN
+[PROGRESS] v4-rq3-benchmark  11/180  6.1%  elapsed 00:03  ETA 00:49  | last: django_131 excluded squashed_migration
+[PROGRESS] v4-rq3-benchmark  12/180  6.7%  elapsed 00:03  ETA 00:53  | last: django_132 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  13/180  7.2%  elapsed 00:04  ETA 00:55  | last: django_133 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  14/180  7.8%  elapsed 00:04  ETA 00:52  | last: django_134 excluded rewritten_history
+[PROGRESS] v4-rq3-benchmark  15/180  8.3%  elapsed 00:04  ETA 00:49  | last: django_135 excluded rewritten_history
+[PROGRESS] v4-rq3-benchmark  16/180  8.9%  elapsed 00:05  ETA 00:53  | last: django_136 SAFE_CONTRACT
+[PROGRESS] v4-rq3-benchmark  17/180  9.4%  elapsed 00:05  ETA 00:51  | last: django_137 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  18/180  10.0%  elapsed 00:05  ETA 00:52  | last: django_138 SAFE_CONTRACT
+[PROGRESS] v4-rq3-benchmark  19/180  10.6%  elapsed 00:06  ETA 00:52  | last: django_139 UNCERTAIN
+[PROGRESS] v4-rq3-benchmark  20/180  11.1%  elapsed 00:06  ETA 00:51  | last: django_140 DUAL_VERSION_VIOLATION_FORWARD
+[PROGRESS] v4-rq3-benchmark  21/180  11.7%  elapsed 00:06  ETA 00:51  | last: django_141 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  22/180  12.2%  elapsed 00:08  ETA 00:57  | last: django_142 SAFE_CONTRACT
+[PROGRESS] v4-rq3-benchmark  23/180  12.8%  elapsed 00:08  ETA 00:55  | last: django_143 excluded rewritten_history
+[PROGRESS] v4-rq3-benchmark  24/180  13.3%  elapsed 00:08  ETA 00:52  | last: django_144 excluded squashed_migration
+[PROGRESS] v4-rq3-benchmark  25/180  13.9%  elapsed 00:08  ETA 00:53  | last: django_145 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  26/180  14.4%  elapsed 00:08  ETA 00:51  | last: django_146 excluded rewritten_history
+[PROGRESS] v4-rq3-benchmark  27/180  15.0%  elapsed 00:09  ETA 00:51  | last: django_147 UNCERTAIN
+[PROGRESS] v4-rq3-benchmark  28/180  15.6%  elapsed 00:09  ETA 00:51  | last: django_148 UNCERTAIN
+[PROGRESS] v4-rq3-benchmark  29/180  16.1%  elapsed 00:09  ETA 00:49  | last: django_149 excluded rewritten_history
+[PROGRESS] v4-rq3-benchmark  30/180  16.7%  elapsed 00:09  ETA 00:47  | last: django_150 excluded squashed_migration
+[PROGRESS] v4-rq3-benchmark  31/180  17.2%  elapsed 00:10  ETA 00:49  | last: django_151 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  32/180  17.8%  elapsed 00:10  ETA 00:48  | last: django_152 UNCERTAIN
+[PROGRESS] v4-rq3-benchmark  33/180  18.3%  elapsed 00:12  ETA 00:53  | last: django_153 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  34/180  18.9%  elapsed 00:12  ETA 00:54  | last: django_154 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  35/180  19.4%  elapsed 00:13  ETA 00:54  | last: django_155 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  36/180  20.0%  elapsed 00:15  ETA 01:02  | last: django_156 DUAL_VERSION_VIOLATION_BOTH
+[PROGRESS] v4-rq3-benchmark  37/180  20.6%  elapsed 00:15  ETA 01:01  | last: django_157 DUAL_VERSION_VIOLATION_BOTH
+[PROGRESS] v4-rq3-benchmark  38/180  21.1%  elapsed 00:16  ETA 01:01  | last: django_158 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  39/180  21.7%  elapsed 00:17  ETA 01:03  | last: django_159 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  40/180  22.2%  elapsed 00:18  ETA 01:05  | last: django_160 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  41/180  22.8%  elapsed 00:19  ETA 01:05  | last: django_161 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  42/180  23.3%  elapsed 00:19  ETA 01:05  | last: django_162 UNCERTAIN
+[PROGRESS] v4-rq3-benchmark  43/180  23.9%  elapsed 00:20  ETA 01:04  | last: django_163 DUAL_VERSION_VIOLATION_FORWARD
+[PROGRESS] v4-rq3-benchmark  44/180  24.4%  elapsed 00:20  ETA 01:03  | last: django_164 DUAL_VERSION_VIOLATION_BOTH
+[PROGRESS] v4-rq3-benchmark  45/180  25.0%  elapsed 00:21  ETA 01:04  | last: django_165 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  46/180  25.6%  elapsed 00:21  ETA 01:03  | last: django_166 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  47/180  26.1%  elapsed 00:22  ETA 01:02  | last: django_167 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  48/180  26.7%  elapsed 00:22  ETA 01:02  | last: django_168 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  49/180  27.2%  elapsed 00:23  ETA 01:01  | last: django_169 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  50/180  27.8%  elapsed 00:23  ETA 01:01  | last: django_170 DUAL_VERSION_VIOLATION_BOTH
+[PROGRESS] v4-rq3-benchmark  51/180  28.3%  elapsed 00:24  ETA 01:01  | last: django_171 DUAL_VERSION_VIOLATION_BOTH
+[PROGRESS] v4-rq3-benchmark  52/180  28.9%  elapsed 00:30  ETA 01:14  | last: django_172 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  53/180  29.4%  elapsed 00:35  ETA 01:25  | last: django_173 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  54/180  30.0%  elapsed 00:36  ETA 01:24  | last: django_174 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  55/180  30.6%  elapsed 00:36  ETA 01:23  | last: django_175 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  56/180  31.1%  elapsed 00:37  ETA 01:24  | last: django_176 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  57/180  31.7%  elapsed 00:38  ETA 01:23  | last: django_177 DUAL_VERSION_VIOLATION_BOTH
+[PROGRESS] v4-rq3-benchmark  58/180  32.2%  elapsed 00:40  ETA 01:24  | last: django_178 DUAL_VERSION_VIOLATION_BOTH
+[PROGRESS] v4-rq3-benchmark  59/180  32.8%  elapsed 00:40  ETA 01:23  | last: django_179 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  60/180  33.3%  elapsed 00:41  ETA 01:23  | last: django_180 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  61/180  33.9%  elapsed 00:42  ETA 01:23  | last: prisma_001 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  62/180  34.4%  elapsed 00:43  ETA 01:22  | last: prisma_002 DATA_DEPENDENT
+[PROGRESS] v4-rq3-benchmark  63/180  35.0%  elapsed 00:43  ETA 01:20  | last: prisma_003 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  64/180  35.6%  elapsed 00:43  ETA 01:19  | last: prisma_004 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  65/180  36.1%  elapsed 00:44  ETA 01:18  | last: prisma_005 UNCERTAIN
+[PROGRESS] v4-rq3-benchmark  66/180  36.7%  elapsed 00:44  ETA 01:17  | last: prisma_006 UNCERTAIN
+[PROGRESS] v4-rq3-benchmark  67/180  37.2%  elapsed 00:45  ETA 01:15  | last: prisma_007 SAFE_CONTRACT
+[PROGRESS] v4-rq3-benchmark  68/180  37.8%  elapsed 00:45  ETA 01:14  | last: prisma_008 SAFE_CONTRACT
+[PROGRESS] v4-rq3-benchmark  69/180  38.3%  elapsed 00:46  ETA 01:14  | last: prisma_009 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  70/180  38.9%  elapsed 00:46  ETA 01:13  | last: prisma_010 DATA_DEPENDENT
+[PROGRESS] v4-rq3-benchmark  71/180  39.4%  elapsed 00:47  ETA 01:12  | last: prisma_011 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  72/180  40.0%  elapsed 00:47  ETA 01:11  | last: prisma_012 SAFE_CONTRACT
+[PROGRESS] v4-rq3-benchmark  73/180  40.6%  elapsed 00:48  ETA 01:10  | last: prisma_013 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  74/180  41.1%  elapsed 00:49  ETA 01:10  | last: prisma_014 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  75/180  41.7%  elapsed 00:49  ETA 01:09  | last: prisma_015 SAFE_CONTRACT
+[PROGRESS] v4-rq3-benchmark  76/180  42.2%  elapsed 00:50  ETA 01:08  | last: prisma_016 SAFE_CONTRACT
+[PROGRESS] v4-rq3-benchmark  77/180  42.8%  elapsed 00:50  ETA 01:07  | last: prisma_017 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  78/180  43.3%  elapsed 00:51  ETA 01:06  | last: prisma_018 SAFE_CONTRACT
+[PROGRESS] v4-rq3-benchmark  79/180  43.9%  elapsed 00:51  ETA 01:05  | last: prisma_019 SAFE_CONTRACT
+[PROGRESS] v4-rq3-benchmark  80/180  44.4%  elapsed 00:51  ETA 01:04  | last: prisma_020 SAFE_CONTRACT
+[PROGRESS] v4-rq3-benchmark  81/180  45.0%  elapsed 00:52  ETA 01:03  | last: prisma_021 SAFE_CONTRACT
+[PROGRESS] v4-rq3-benchmark  82/180  45.6%  elapsed 00:52  ETA 01:03  | last: prisma_022 SAFE_CONTRACT
+[PROGRESS] v4-rq3-benchmark  83/180  46.1%  elapsed 00:53  ETA 01:01  | last: prisma_023 SAFE_CONTRACT
+[PROGRESS] v4-rq3-benchmark  84/180  46.7%  elapsed 00:53  ETA 01:00  | last: prisma_024 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  85/180  47.2%  elapsed 00:53  ETA 00:59  | last: prisma_025 SAFE_CONTRACT
+[PROGRESS] v4-rq3-benchmark  86/180  47.8%  elapsed 00:53  ETA 00:58  | last: prisma_026 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  87/180  48.3%  elapsed 00:54  ETA 00:57  | last: prisma_027 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  88/180  48.9%  elapsed 00:54  ETA 00:56  | last: prisma_028 SAFE_CONTRACT
+[PROGRESS] v4-rq3-benchmark  89/180  49.4%  elapsed 00:55  ETA 00:56  | last: prisma_029 DUAL_VERSION_VIOLATION_BOTH
+[PROGRESS] v4-rq3-benchmark  90/180  50.0%  elapsed 00:55  ETA 00:55  | last: prisma_030 SAFE_CONTRACT
+[PROGRESS] v4-rq3-benchmark  91/180  50.6%  elapsed 00:56  ETA 00:54  | last: prisma_031 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  92/180  51.1%  elapsed 00:56  ETA 00:53  | last: prisma_032 DATA_DEPENDENT
+[PROGRESS] v4-rq3-benchmark  93/180  51.7%  elapsed 00:57  ETA 00:53  | last: prisma_033 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  94/180  52.2%  elapsed 00:57  ETA 00:52  | last: prisma_034 SAFE_CONTRACT
+[PROGRESS] v4-rq3-benchmark  95/180  52.8%  elapsed 00:58  ETA 00:52  | last: prisma_035 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  96/180  53.3%  elapsed 00:58  ETA 00:51  | last: prisma_036 DUAL_VERSION_VIOLATION_FORWARD
+[PROGRESS] v4-rq3-benchmark  97/180  53.9%  elapsed 00:59  ETA 00:51  | last: prisma_037 UNCERTAIN
+[PROGRESS] v4-rq3-benchmark  98/180  54.4%  elapsed 01:00  ETA 00:50  | last: prisma_038 DUAL_VERSION_VIOLATION_BOTH
+[PROGRESS] v4-rq3-benchmark  99/180  55.0%  elapsed 01:04  ETA 00:52  | last: prisma_039 SAFE_CONTRACT
+[PROGRESS] v4-rq3-benchmark  100/180  55.6%  elapsed 01:04  ETA 00:51  | last: prisma_040 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  101/180  56.1%  elapsed 01:05  ETA 00:50  | last: prisma_041 UNCERTAIN
+[PROGRESS] v4-rq3-benchmark  102/180  56.7%  elapsed 01:05  ETA 00:50  | last: prisma_042 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  103/180  57.2%  elapsed 01:06  ETA 00:49  | last: prisma_043 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  104/180  57.8%  elapsed 01:08  ETA 00:49  | last: prisma_044 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  105/180  58.3%  elapsed 01:08  ETA 00:48  | last: prisma_045 DUAL_VERSION_VIOLATION_BOTH
+[PROGRESS] v4-rq3-benchmark  106/180  58.9%  elapsed 01:09  ETA 00:48  | last: prisma_046 UNCERTAIN
+[PROGRESS] v4-rq3-benchmark  107/180  59.4%  elapsed 01:10  ETA 00:47  | last: prisma_047 DUAL_VERSION_VIOLATION_BOTH
+[PROGRESS] v4-rq3-benchmark  108/180  60.0%  elapsed 01:10  ETA 00:47  | last: prisma_048 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  109/180  60.6%  elapsed 01:10  ETA 00:46  | last: prisma_049 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  110/180  61.1%  elapsed 01:12  ETA 00:45  | last: prisma_050 DATA_DEPENDENT
+[PROGRESS] v4-rq3-benchmark  111/180  61.7%  elapsed 01:12  ETA 00:45  | last: prisma_051 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  112/180  62.2%  elapsed 01:12  ETA 00:44  | last: prisma_052 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  113/180  62.8%  elapsed 01:13  ETA 00:43  | last: prisma_053 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  114/180  63.3%  elapsed 01:14  ETA 00:42  | last: prisma_054 DUAL_VERSION_VIOLATION_BOTH
+[PROGRESS] v4-rq3-benchmark  115/180  63.9%  elapsed 01:14  ETA 00:42  | last: prisma_055 DUAL_VERSION_VIOLATION_BOTH
+[PROGRESS] v4-rq3-benchmark  116/180  64.4%  elapsed 01:15  ETA 00:41  | last: prisma_056 SAFE_CONTRACT
+[PROGRESS] v4-rq3-benchmark  117/180  65.0%  elapsed 01:15  ETA 00:40  | last: prisma_057 SAFE_CONTRACT
+[PROGRESS] v4-rq3-benchmark  118/180  65.6%  elapsed 01:16  ETA 00:39  | last: prisma_058 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  119/180  66.1%  elapsed 01:17  ETA 00:39  | last: prisma_059 DATA_DEPENDENT
+[PROGRESS] v4-rq3-benchmark  120/180  66.7%  elapsed 01:18  ETA 00:39  | last: prisma_060 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  121/180  67.2%  elapsed 01:18  ETA 00:38  | last: rails_061 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  122/180  67.8%  elapsed 01:20  ETA 00:38  | last: rails_062 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  123/180  68.3%  elapsed 01:21  ETA 00:37  | last: rails_063 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  124/180  68.9%  elapsed 01:21  ETA 00:36  | last: rails_064 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  125/180  69.4%  elapsed 01:23  ETA 00:36  | last: rails_065 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  126/180  70.0%  elapsed 01:26  ETA 00:37  | last: rails_066 UNCERTAIN
+[PROGRESS] v4-rq3-benchmark  127/180  70.6%  elapsed 01:27  ETA 00:36  | last: rails_067 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  128/180  71.1%  elapsed 01:35  ETA 00:38  | last: rails_068 UNCERTAIN
+[PROGRESS] v4-rq3-benchmark  129/180  71.7%  elapsed 01:36  ETA 00:38  | last: rails_069 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  130/180  72.2%  elapsed 01:37  ETA 00:37  | last: rails_070 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  131/180  72.8%  elapsed 01:38  ETA 00:36  | last: rails_071 DUAL_VERSION_VIOLATION_BOTH
+[PROGRESS] v4-rq3-benchmark  132/180  73.3%  elapsed 01:38  ETA 00:35  | last: rails_072 DUAL_VERSION_VIOLATION_BOTH
+[PROGRESS] v4-rq3-benchmark  133/180  73.9%  elapsed 01:39  ETA 00:35  | last: rails_073 UNCERTAIN
+[PROGRESS] v4-rq3-benchmark  134/180  74.4%  elapsed 01:42  ETA 00:35  | last: rails_074 UNCERTAIN
+[PROGRESS] v4-rq3-benchmark  135/180  75.0%  elapsed 01:44  ETA 00:34  | last: rails_075 UNCERTAIN
+[PROGRESS] v4-rq3-benchmark  136/180  75.6%  elapsed 01:45  ETA 00:34  | last: rails_076 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  137/180  76.1%  elapsed 01:45  ETA 00:33  | last: rails_077 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  138/180  76.7%  elapsed 01:46  ETA 00:32  | last: rails_078 UNCERTAIN
+[PROGRESS] v4-rq3-benchmark  139/180  77.2%  elapsed 01:47  ETA 00:31  | last: rails_079 UNCERTAIN
+[PROGRESS] v4-rq3-benchmark  140/180  77.8%  elapsed 01:49  ETA 00:31  | last: rails_080 UNCERTAIN
+[PROGRESS] v4-rq3-benchmark  141/180  78.3%  elapsed 01:51  ETA 00:30  | last: rails_081 UNCERTAIN
+[PROGRESS] v4-rq3-benchmark  142/180  78.9%  elapsed 01:52  ETA 00:30  | last: rails_082 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  143/180  79.4%  elapsed 01:52  ETA 00:29  | last: rails_083 SAFE_CONTRACT
+[PROGRESS] v4-rq3-benchmark  144/180  80.0%  elapsed 01:53  ETA 00:28  | last: rails_084 UNCERTAIN
+[PROGRESS] v4-rq3-benchmark  145/180  80.6%  elapsed 01:54  ETA 00:27  | last: rails_085 UNCERTAIN
+[PROGRESS] v4-rq3-benchmark  146/180  81.1%  elapsed 01:55  ETA 00:26  | last: rails_086 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  147/180  81.7%  elapsed 01:56  ETA 00:26  | last: rails_087 SAFE_CONTRACT
+[PROGRESS] v4-rq3-benchmark  148/180  82.2%  elapsed 02:11  ETA 00:28  | last: rails_088 UNCERTAIN
+[PROGRESS] v4-rq3-benchmark  149/180  82.8%  elapsed 02:11  ETA 00:27  | last: rails_089 SAFE_CONTRACT
+[PROGRESS] v4-rq3-benchmark  150/180  83.3%  elapsed 02:12  ETA 00:26  | last: rails_090 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  151/180  83.9%  elapsed 02:13  ETA 00:25  | last: rails_091 excluded readded_file
+[PROGRESS] v4-rq3-benchmark  152/180  84.4%  elapsed 02:21  ETA 00:25  | last: rails_092 DATA_DEPENDENT
+[PROGRESS] v4-rq3-benchmark  153/180  85.0%  elapsed 02:23  ETA 00:25  | last: rails_093 UNCERTAIN
+[PROGRESS] v4-rq3-benchmark  154/180  85.6%  elapsed 02:25  ETA 00:24  | last: rails_094 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  155/180  86.1%  elapsed 02:26  ETA 00:23  | last: rails_095 excluded readded_file
+[PROGRESS] v4-rq3-benchmark  156/180  86.7%  elapsed 02:29  ETA 00:22  | last: rails_096 DUAL_VERSION_VIOLATION_BOTH
+[PROGRESS] v4-rq3-benchmark  157/180  87.2%  elapsed 02:30  ETA 00:22  | last: rails_097 DUAL_VERSION_VIOLATION_BOTH
+[PROGRESS] v4-rq3-benchmark  158/180  87.8%  elapsed 02:32  ETA 00:21  | last: rails_098 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  159/180  88.3%  elapsed 02:33  ETA 00:20  | last: rails_099 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  160/180  88.9%  elapsed 03:26  ETA 00:25  | last: rails_100 UNCERTAIN
+[PROGRESS] v4-rq3-benchmark  161/180  89.4%  elapsed 03:28  ETA 00:24  | last: rails_101 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  162/180  90.0%  elapsed 03:29  ETA 00:23  | last: rails_102 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  163/180  90.6%  elapsed 03:31  ETA 00:22  | last: rails_103 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  164/180  91.1%  elapsed 03:31  ETA 00:20  | last: rails_104 DUAL_VERSION_VIOLATION_BOTH
+[PROGRESS] v4-rq3-benchmark  165/180  91.7%  elapsed 03:32  ETA 00:19  | last: rails_105 UNCERTAIN
+[PROGRESS] v4-rq3-benchmark  166/180  92.2%  elapsed 03:33  ETA 00:17  | last: rails_106 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  167/180  92.8%  elapsed 03:33  ETA 00:16  | last: rails_107 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  168/180  93.3%  elapsed 03:33  ETA 00:15  | last: rails_108 DATA_DEPENDENT
+[PROGRESS] v4-rq3-benchmark  169/180  93.9%  elapsed 03:34  ETA 00:13  | last: rails_109 SAFE_CONTRACT
+[PROGRESS] v4-rq3-benchmark  170/180  94.4%  elapsed 03:35  ETA 00:12  | last: rails_110 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  171/180  95.0%  elapsed 03:36  ETA 00:11  | last: rails_111 UNCERTAIN
+[PROGRESS] v4-rq3-benchmark  172/180  95.6%  elapsed 03:36  ETA 00:10  | last: rails_112 DUAL_VERSION_VIOLATION_FORWARD
+[PROGRESS] v4-rq3-benchmark  173/180  96.1%  elapsed 03:36  ETA 00:08  | last: rails_113 UNCERTAIN
+[PROGRESS] v4-rq3-benchmark  174/180  96.7%  elapsed 03:37  ETA 00:07  | last: rails_114 SAFE_CONTRACT
+[PROGRESS] v4-rq3-benchmark  175/180  97.2%  elapsed 03:37  ETA 00:06  | last: rails_115 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  176/180  97.8%  elapsed 03:51  ETA 00:05  | last: rails_116 DATA_DEPENDENT
+[PROGRESS] v4-rq3-benchmark  177/180  98.3%  elapsed 03:52  ETA 00:03  | last: rails_117 UNCERTAIN
+[PROGRESS] v4-rq3-benchmark  178/180  98.9%  elapsed 03:52  ETA 00:02  | last: rails_118 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  179/180  99.4%  elapsed 03:54  ETA 00:01  | last: rails_119 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  180/180  100.0%  elapsed 03:55  ETA 00:00  | last: rails_120 DUAL_VERSION_VIOLATION_BACKWARD
+[PROGRESS] v4-rq3-benchmark  DONE 180/180  total time 03:55
+{
+  "n_cases": 167,
+  "labels": {
+    "viol": 106,
+    "safe": 61
+  },
+  "excluded": {
+    "django_122": {
+      "reason": "rewritten_history",
+      "label": true,
+      "v4_cls": "DUAL_VERSION_VIOLATION_BACKWARD"
+    },
+    "django_123": {
+      "reason": "squashed_migration",
+      "label": false,
+      "v4_cls": "SQUASHED_REPLAY"
+    },
+    "django_126": {
+      "reason": "squashed_migration",
+      "label": true,
+      "v4_cls": "SQUASHED_REPLAY"
+    },
+    "django_131": {
+      "reason": "squashed_migration",
+      "label": false,
+      "v4_cls": "SQUASHED_REPLAY"
+    },
+    "django_134": {
+      "reason": "rewritten_history",
+      "label": true,
+      "v4_cls": "SAFE_CONTRACT"
+    },
+    "django_135": {
+      "reason": "rewritten_history",
+      "label": false,
+      "v4_cls": "UNCERTAIN"
+    },
+    "django_143": {
+      "reason": "rewritten_history",
+      "label": false,
+      "v4_cls": "UNCERTAIN"
+    },
+    "django_144": {
+      "reason": "squashed_migration",
+      "label": false,
+      "v4_cls": "SQUASHED_REPLAY"
+    },
+    "django_146": {
+      "reason": "rewritten_history",
+      "label": false,
+      "v4_cls": "SAFE_CONTRACT"
+    },
+    "django_149": {
+      "reason": "rewritten_history",
+      "label": true,
+      "v4_cls": "DUAL_VERSION_VIOLATION_BACKWARD"
+    },
+    "django_150": {
+      "reason": "squashed_migration",
+      "label": false,
+      "v4_cls": "SQUASHED_REPLAY"
+    },
+    "rails_091": {
+      "reason": "readded_file",
+      "label": true,
+      "v4_cls": "DUAL_VERSION_VIOLATION_BACKWARD"
+    },
+    "rails_095": {
+      "reason": "readded_file",
+      "label": false,
+      "v4_cls": "UNCERTAIN"
+    }
+  },
+  "unmatched_kept_previous_verdict": [
+    "rails_100"
+  ]
+}

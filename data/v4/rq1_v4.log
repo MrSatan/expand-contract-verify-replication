@@ -1,0 +1,514 @@
+[PROGRESS] v4-rq1-recompute  0/110  0.0%  started 12:55:47
+[PROGRESS] v4-rq1-recompute  1/110  0.9%  elapsed 00:01  ETA 02:07  | last: hoppscotch/hoppscotch v=31 s=1 u=0
+[PROGRESS] v4-rq1-recompute  2/110  1.8%  elapsed 00:04  ETA 04:08  | last: toeverything/AFFiNE v=182 s=5 u=5
+[PROGRESS] v4-rq1-recompute  3/110  2.7%  elapsed 00:05  ETA 03:06  | last: Mintplex-Labs/anything-llm v=1 s=0 u=0
+[PROGRESS] v4-rq1-recompute  4/110  3.6%  elapsed 00:10  ETA 04:45  | last: BerriAI/litellm v=11 s=2 u=0
+[PROGRESS] v4-rq1-recompute  5/110  4.5%  elapsed 00:15  ETA 05:28  | last: calcom/cal.diy v=58 s=15 u=0
+[PROGRESS] v4-rq1-recompute  6/110  5.5%  elapsed 00:17  ETA 05:07  | last: umami-software/umami v=44 s=6 u=1
+[PROGRESS] v4-rq1-recompute  7/110  6.4%  elapsed 00:20  ETA 05:02  | last: langfuse/langfuse v=25 s=8 u=0
+[PROGRESS] v4-rq1-recompute  8/110  7.3%  elapsed 00:22  ETA 04:44  | last: super-productivity/super-productivity v=2 s=0 u=0
+[PROGRESS] v4-rq1-recompute  9/110  8.2%  elapsed 00:26  ETA 04:53  | last: teableio/teable v=90 s=11 u=51
+[PROGRESS] v4-rq1-recompute  10/110  9.1%  elapsed 00:29  ETA 04:51  | last: linkwarden/linkwarden v=45 s=12 u=2
+[PROGRESS] v4-rq1-recompute  11/110  10.0%  elapsed 00:30  ETA 04:36  | last: wasp-lang/wasp v=22 s=3 u=19
+[PROGRESS] v4-rq1-recompute  12/110  10.9%  elapsed 00:34  ETA 04:40  | last: triggerdotdev/trigger.dev v=70 s=4 u=7
+[PROGRESS] v4-rq1-recompute  13/110  11.8%  elapsed 00:38  ETA 04:45  | last: amplication/amplication v=39 s=20 u=31
+[PROGRESS] v4-rq1-recompute  14/110  12.7%  elapsed 00:41  ETA 04:44  | last: documenso/documenso v=68 s=33 u=20
+[PROGRESS] v4-rq1-recompute  15/110  13.6%  elapsed 00:44  ETA 04:41  | last: elie222/inbox-zero v=21 s=5 u=4
+[PROGRESS] v4-rq1-recompute  16/110  14.5%  elapsed 00:46  ETA 04:35  | last: ghostfolio/ghostfolio v=41 s=6 u=0
+[PROGRESS] v4-rq1-recompute  17/110  15.5%  elapsed 00:48  ETA 04:23  | last: papermark/papermark v=11 s=0 u=0
+[PROGRESS] v4-rq1-recompute  18/110  16.4%  elapsed 00:50  ETA 04:20  | last: Openpanel-dev/openpanel v=71 s=10 u=22
+[PROGRESS] v4-rq1-recompute  19/110  17.3%  elapsed 00:51  ETA 04:06  | last: useplunk/plunk v=0 s=0 u=1
+[PROGRESS] v4-rq1-recompute  20/110  18.2%  elapsed 00:56  ETA 04:12  | last: lukevella/rallly v=107 s=24 u=3
+[PROGRESS] v4-rq1-recompute  21/110  19.1%  elapsed 00:58  ETA 04:06  | last: Shelf-nu/shelf.nu v=13 s=3 u=1
+[PROGRESS] v4-rq1-recompute  22/110  20.0%  elapsed 01:01  ETA 04:06  | last: trycompai/comp v=29 s=10 u=7
+[PROGRESS] v4-rq1-recompute  23/110  20.9%  elapsed 01:05  ETA 04:06  | last: captableinc/captable v=126 s=37 u=10
+[PROGRESS] v4-rq1-recompute  24/110  21.8%  elapsed 01:06  ETA 03:58  | last: pdovhomilja/nextcrm-app v=14 s=8 u=2
+[PROGRESS] v4-rq1-recompute  25/110  22.7%  elapsed 01:08  ETA 03:52  | last: invoicerr-app/invoicerr v=63 s=11 u=0
+[PROGRESS] v4-rq1-recompute  26/110  23.6%  elapsed 01:08  ETA 03:41  | last: crawlseo/crawlseo v=0 s=0 u=0
+[PROGRESS] v4-rq1-recompute  27/110  24.5%  elapsed 01:08  ETA 03:30  | last: velobase/velobase-harness v=0 s=0 u=0
+[PROGRESS] v4-rq1-recompute  28/110  25.5%  elapsed 01:11  ETA 03:29  | last: stackernews/stacker.news v=96 s=9 u=30
+[PROGRESS] v4-rq1-recompute  29/110  26.4%  elapsed 01:12  ETA 03:21  | last: quenti-io/quenti v=9 s=0 u=0
+[PROGRESS] v4-rq1-recompute  30/110  27.3%  elapsed 01:12  ETA 03:13  | last: Raktim94/nodedr-restaurant-pos v=3 s=0 u=0
+[PROGRESS] v4-rq1-recompute  31/110  28.2%  elapsed 01:18  ETA 03:19  | last: mastodon/mastodon v=35 s=16 u=0
+[PROGRESS] v4-rq1-recompute  32/110  29.1%  elapsed 01:20  ETA 03:16  | last: huginn/huginn v=6 s=1 u=2
+[PROGRESS] v4-rq1-recompute  33/110  30.0%  elapsed 01:24  ETA 03:17  | last: chatwoot/chatwoot v=17 s=0 u=0
+[PROGRESS] v4-rq1-recompute  34/110  30.9%  elapsed 02:59  ETA 06:40  | last: gitlabhq/gitlabhq v=0 s=8 u=0
+[PROGRESS] v4-rq1-recompute  35/110  31.8%  elapsed 03:05  ETA 06:36  | last: forem/forem v=9 s=0 u=75
+[PROGRESS] v4-rq1-recompute  36/110  32.7%  elapsed 03:06  ETA 06:24  | last: docusealco/docuseal v=7 s=14 u=0
+[PROGRESS] v4-rq1-recompute  37/110  33.6%  elapsed 03:25  ETA 06:44  | last: opf/openproject v=15 s=0 u=25
+[PROGRESS] v4-rq1-recompute  38/110  34.5%  elapsed 03:25  ETA 06:29  | last: postalserver/postal v=1 s=0 u=0
+[PROGRESS] v4-rq1-recompute  39/110  35.5%  elapsed 03:32  ETA 06:26  | last: spree/spree v=22 s=0 u=29
+[PROGRESS] v4-rq1-recompute  40/110  36.4%  elapsed 03:37  ETA 06:20  | last: diaspora/diaspora v=56 s=1 u=18
+[PROGRESS] v4-rq1-recompute  41/110  37.3%  elapsed 03:41  ETA 06:13  | last: basecamp/fizzy v=42 s=6 u=17
+[PROGRESS] v4-rq1-recompute  42/110  38.2%  elapsed 04:08  ETA 06:42  | last: instructure/canvas-lms v=4 s=0 u=5
+[PROGRESS] v4-rq1-recompute  43/110  39.1%  elapsed 04:13  ETA 06:34  | last: zammad/zammad v=3 s=0 u=17
+[PROGRESS] v4-rq1-recompute  44/110  40.0%  elapsed 04:17  ETA 06:25  | last: solidusio/solidus v=8 s=0 u=28
+[PROGRESS] v4-rq1-recompute  45/110  40.9%  elapsed 04:20  ETA 06:16  | last: lobsters/lobsters v=40 s=30 u=0
+[PROGRESS] v4-rq1-recompute  46/110  41.8%  elapsed 04:21  ETA 06:03  | last: basecamp/once-campfire v=1 s=0 u=1
+[PROGRESS] v4-rq1-recompute  47/110  42.7%  elapsed 04:26  ETA 05:57  | last: TheOdinProject/theodinproject v=81 s=7 u=13
+[PROGRESS] v4-rq1-recompute  48/110  43.6%  elapsed 04:27  ETA 05:45  | last: octobox/octobox v=3 s=0 u=0
+[PROGRESS] v4-rq1-recompute  49/110  44.5%  elapsed 04:28  ETA 05:34  | last: blackcandy-org/blackcandy v=32 s=0 u=4
+[PROGRESS] v4-rq1-recompute  50/110  45.5%  elapsed 04:30  ETA 05:24  | last: ruby-china/homeland v=26 s=1 u=4
+[PROGRESS] v4-rq1-recompute  51/110  46.4%  elapsed 04:34  ETA 05:17  | last: theforeman/foreman v=13 s=0 u=5
+[PROGRESS] v4-rq1-recompute  52/110  47.3%  elapsed 04:35  ETA 05:06  | last: bensheldon/good_job v=0 s=0 u=0
+[PROGRESS] v4-rq1-recompute  53/110  48.2%  elapsed 04:39  ETA 05:00  | last: danbooru/danbooru v=114 s=16 u=3
+[PROGRESS] v4-rq1-recompute  54/110  49.1%  elapsed 04:41  ETA 04:51  | last: openstreetmap/openstreetmap-website v=11 s=4 u=2
+[PROGRESS] v4-rq1-recompute  55/110  50.0%  elapsed 04:42  ETA 04:42  | last: helpyio/helpy v=0 s=0 u=2
+[PROGRESS] v4-rq1-recompute  56/110  50.9%  elapsed 04:47  ETA 04:37  | last: sharetribe/sharetribe v=36 s=0 u=13
+[PROGRESS] v4-rq1-recompute  57/110  51.8%  elapsed 04:50  ETA 04:29  | last: rubygems/rubygems.org v=16 s=0 u=1
+[PROGRESS] v4-rq1-recompute  58/110  52.7%  elapsed 04:52  ETA 04:22  | last: manyfold3d/manyfold v=19 s=0 u=16
+[PROGRESS] v4-rq1-recompute  59/110  53.6%  elapsed 04:53  ETA 04:13  | last: adamcooke/staytus v=3 s=0 u=1
+[PROGRESS] v4-rq1-recompute  60/110  54.5%  elapsed 04:55  ETA 04:05  | last: bullet-train-co/bullet_train v=16 s=4 u=11
+[PROGRESS] v4-rq1-recompute  61/110  55.5%  elapsed 05:06  ETA 04:06  | last: decidim/decidim v=54 s=0 u=69
+[PROGRESS] v4-rq1-recompute  62/110  56.4%  elapsed 05:07  ETA 03:58  | last: avo-hq/avo v=2 s=0 u=2
+[PROGRESS] v4-rq1-recompute  63/110  57.3%  elapsed 05:08  ETA 03:50  | last: 24pullrequests/24pullrequests v=8 s=1 u=0
+[PROGRESS] v4-rq1-recompute  64/110  58.2%  elapsed 05:11  ETA 03:43  | last: ifmeorg/ifme v=40 s=8 u=2
+[PROGRESS] v4-rq1-recompute  65/110  59.1%  elapsed 05:18  ETA 03:40  | last: consuldemocracy/consuldemocracy v=101 s=0 u=1
+[PROGRESS] v4-rq1-recompute  66/110  60.0%  elapsed 05:24  ETA 03:36  | last: TracksApp/tracks v=36 s=22 u=64
+[PROGRESS] v4-rq1-recompute  67/110  60.9%  elapsed 05:27  ETA 03:30  | last: AlchemyCMS/alchemy_cms v=56 s=5 u=17
+[PROGRESS] v4-rq1-recompute  68/110  61.8%  elapsed 05:31  ETA 03:24  | last: inaturalist/inaturalist v=23 s=6 u=8
+[PROGRESS] v4-rq1-recompute  69/110  62.7%  elapsed 05:33  ETA 03:18  | last: Growstuff/growstuff v=24 s=1 u=1
+[PROGRESS] v4-rq1-recompute  70/110  63.6%  elapsed 05:37  ETA 03:12  | last: mysociety/alaveteli v=11 s=0 u=13
+[PROGRESS] v4-rq1-recompute  71/110  64.5%  elapsed 05:40  ETA 03:07  | last: paperless-ngx/paperless-ngx v=47 s=12 u=3
+[PROGRESS] v4-rq1-recompute  72/110  65.5%  elapsed 06:06  ETA 03:13  | last: getsentry/sentry v=3 s=34 u=0
+[PROGRESS] v4-rq1-recompute  73/110  66.4%  elapsed 06:10  ETA 03:07  | last: jumpserver/jumpserver v=71 s=0 u=0
+[PROGRESS] v4-rq1-recompute  74/110  67.3%  elapsed 06:12  ETA 03:01  | last: HumanSignal/label-studio v=33 s=0 u=0
+[PROGRESS] v4-rq1-recompute  75/110  68.2%  elapsed 06:18  ETA 02:56  | last: goauthentik/authentik v=100 s=1 u=0
+[PROGRESS] v4-rq1-recompute  76/110  69.1%  elapsed 06:28  ETA 02:54  | last: zulip/zulip v=34 s=0 u=0
+[PROGRESS] v4-rq1-recompute  77/110  70.0%  elapsed 06:34  ETA 02:49  | last: wagtail/wagtail v=40 s=0 u=0
+[PROGRESS] v4-rq1-recompute  78/110  70.9%  elapsed 06:39  ETA 02:44  | last: cvat-ai/cvat v=152 s=13 u=11
+[PROGRESS] v4-rq1-recompute  79/110  71.8%  elapsed 06:43  ETA 02:38  | last: ansible/awx v=41 s=0 u=3
+[PROGRESS] v4-rq1-recompute  80/110  72.7%  elapsed 06:49  ETA 02:33  | last: healthchecks/healthchecks v=83 s=1 u=0
+[PROGRESS] v4-rq1-recompute  81/110  73.6%  elapsed 06:50  ETA 02:27  | last: pennersr/django-allauth v=5 s=0 u=0
+[PROGRESS] v4-rq1-recompute  82/110  74.5%  elapsed 06:56  ETA 02:22  | last: TandoorRecipes/recipes v=91 s=1 u=0
+[PROGRESS] v4-rq1-recompute  83/110  75.5%  elapsed 07:00  ETA 02:16  | last: readthedocs/readthedocs.org v=66 s=0 u=10
+[PROGRESS] v4-rq1-recompute  84/110  76.4%  elapsed 07:04  ETA 02:11  | last: LibrePhotos/librephotos v=109 s=16 u=29
+[PROGRESS] v4-rq1-recompute  85/110  77.3%  elapsed 07:12  ETA 02:07  | last: inventree/InvenTree v=138 s=1 u=0
+[PROGRESS] v4-rq1-recompute  86/110  78.2%  elapsed 07:13  ETA 02:00  | last: liangliangyy/DjangoBlog v=41 s=0 u=0
+[PROGRESS] v4-rq1-recompute  87/110  79.1%  elapsed 07:15  ETA 01:55  | last: wger-project/wger v=42 s=4 u=0
+[PROGRESS] v4-rq1-recompute  88/110  80.0%  elapsed 07:18  ETA 01:49  | last: django-oscar/django-oscar v=9 s=0 u=23
+[PROGRESS] v4-rq1-recompute  89/110  80.9%  elapsed 07:23  ETA 01:44  | last: QingdaoU/OnlineJudge v=110 s=13 u=9
+[PROGRESS] v4-rq1-recompute  90/110  81.8%  elapsed 07:26  ETA 01:39  | last: baserow/baserow v=23 s=1 u=0
+[PROGRESS] v4-rq1-recompute  91/110  82.7%  elapsed 07:37  ETA 01:35  | last: WeblateOrg/weblate v=111 s=0 u=2
+[PROGRESS] v4-rq1-recompute  92/110  83.6%  elapsed 07:38  ETA 01:29  | last: mediacms-io/mediacms v=7 s=0 u=0
+[PROGRESS] v4-rq1-recompute  93/110  84.5%  elapsed 07:44  ETA 01:24  | last: amidaware/tacticalrmm v=152 s=7 u=4
+[PROGRESS] v4-rq1-recompute  94/110  85.5%  elapsed 07:48  ETA 01:19  | last: FuzzyGrim/Yamtrack v=171 s=2 u=10
+[PROGRESS] v4-rq1-recompute  95/110  86.4%  elapsed 07:52  ETA 01:14  | last: modoboa/modoboa v=57 s=0 u=4
+[PROGRESS] v4-rq1-recompute  96/110  87.3%  elapsed 07:54  ETA 01:09  | last: django-oauth/django-oauth-toolkit v=30 s=0 u=0
+[PROGRESS] v4-rq1-recompute  97/110  88.2%  elapsed 07:55  ETA 01:03  | last: milesmcc/shynet v=20 s=0 u=0
+[PROGRESS] v4-rq1-recompute  98/110  89.1%  elapsed 07:55  ETA 00:58  | last: opencve/opencve v=5 s=0 u=0
+[PROGRESS] v4-rq1-recompute  99/110  90.0%  elapsed 07:59  ETA 00:53  | last: rafalp/Misago v=109 s=1 u=0
+[PROGRESS] v4-rq1-recompute  100/110  90.9%  elapsed 08:00  ETA 00:48  | last: brightbeanxyz/brightbean-studio v=42 s=0 u=0
+[PROGRESS] v4-rq1-recompute  101/110  91.8%  elapsed 08:06  ETA 00:43  | last: pretix/pretix v=124 s=5 u=0
+[PROGRESS] v4-rq1-recompute  102/110  92.7%  elapsed 08:09  ETA 00:38  | last: allegro/ralph v=49 s=2 u=3
+[PROGRESS] v4-rq1-recompute  103/110  93.6%  elapsed 08:10  ETA 00:33  | last: suitenumerique/meet v=6 s=0 u=11
+[PROGRESS] v4-rq1-recompute  104/110  94.5%  elapsed 08:16  ETA 00:28  | last: Django-CRM/Django-CRM v=297 s=11 u=2
+[PROGRESS] v4-rq1-recompute  105/110  95.5%  elapsed 08:19  ETA 00:23  | last: shuup/shuup v=49 s=1 u=4
+[PROGRESS] v4-rq1-recompute  106/110  96.4%  elapsed 08:21  ETA 00:18  | last: wooey/Wooey v=26 s=7 u=0
+[PROGRESS] v4-rq1-recompute  107/110  97.3%  elapsed 08:23  ETA 00:14  | last: anzhihe/learning v=1 s=0 u=11
+[PROGRESS] v4-rq1-recompute  108/110  98.2%  elapsed 08:24  ETA 00:09  | last: python-social-auth/social-app-django v=11 s=0 u=0
+[PROGRESS] v4-rq1-recompute  109/110  99.1%  elapsed 08:25  ETA 00:04  | last: evennia/evennia v=13 s=1 u=34
+[PROGRESS] v4-rq1-recompute  110/110  100.0%  elapsed 08:31  ETA 00:00  | last: Cloud-CV/EvalAI v=77 s=0 u=1
+[PROGRESS] v4-rq1-recompute  DONE 110/110  total time 08:31
+{
+  "repos_mined": 110,
+  "repos_with_resolved_ops": 105,
+  "commits_analyzed": 12517,
+  "added_fwd_destructive_commits": 2302,
+  "excluded_ops": {
+    "edited_existing_file": 13886,
+    "copied_or_moved_file": 97,
+    "readded_file": 177,
+    "rewritten_history": 506,
+    "squashed_migration": 312
+  },
+  "excluded_by_verdict": {
+    "edited_existing_file": {
+      "SAFE_CONTRACT": 1885,
+      "UNCERTAIN": 3969,
+      "DUAL_VERSION_VIOLATION_BOTH": 75,
+      "DUAL_VERSION_VIOLATION_BACKWARD": 3171,
+      "DUAL_VERSION_VIOLATION_FORWARD": 128,
+      "SAFE_ADDITIVE": 2420,
+      "DATA_DEPENDENT": 12,
+      "ROLLBACK_ONLY_FALSE_ALARM": 1451,
+      "SQUASHED_REPLAY": 775
+    },
+    "copied_or_moved_file": {
+      "SAFE_CONTRACT": 30,
+      "UNCERTAIN": 6,
+      "SAFE_ADDITIVE": 15,
+      "DUAL_VERSION_VIOLATION_BACKWARD": 41,
+      "DUAL_VERSION_VIOLATION_BOTH": 3,
+      "DUAL_VERSION_VIOLATION_FORWARD": 2
+    },
+    "readded_file": {
+      "DUAL_VERSION_VIOLATION_BACKWARD": 53,
+      "SAFE_CONTRACT": 2,
+      "ROLLBACK_ONLY_FALSE_ALARM": 11,
+      "UNCERTAIN": 49,
+      "DUAL_VERSION_VIOLATION_BOTH": 9,
+      "DUAL_VERSION_VIOLATION_FORWARD": 4,
+      "SAFE_ADDITIVE": 49
+    },
+    "rewritten_history": {
+      "UNCERTAIN": 22,
+      "ROLLBACK_ONLY_FALSE_ALARM": 136,
+      "DUAL_VERSION_VIOLATION_BOTH": 10,
+      "SAFE_ADDITIVE": 107,
+      "SAFE_CONTRACT": 119,
+      "DUAL_VERSION_VIOLATION_BACKWARD": 106,
+      "DUAL_VERSION_VIOLATION_FORWARD": 6
+    },
+    "squashed_migration": {
+      "SQUASHED_REPLAY": 312
+    }
+  },
+  "excluded_examples": {
+    "copied_or_moved_file": [
+      "wasp-lang/wasp@342f3a87 waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/.wasp/out/db/migrations/20231124161208_remove_extras/migration.sql (Modernize `e2e-tests` (#3114))",
+      "wasp-lang/wasp@342f3a87 waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/.wasp/out/db/migrations/20231124161208_remove_extras/migration.sql (Modernize `e2e-tests` (#3114))",
+      "wasp-lang/wasp@342f3a87 waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/.wasp/out/db/migrations/20231124161208_remove_extras/migration.sql (Modernize `e2e-tests` (#3114))",
+      "wasp-lang/wasp@342f3a87 waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/.wasp/out/db/migrations/20231124161208_remove_extras/migration.sql (Modernize `e2e-tests` (#3114))",
+      "wasp-lang/wasp@342f3a87 waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/.wasp/out/db/migrations/20231124161208_remove_extras/migration.sql (Modernize `e2e-tests` (#3114))",
+      "wasp-lang/wasp@342f3a87 waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/.wasp/out/db/migrations/20231124161208_remove_extras/migration.sql (Modernize `e2e-tests` (#3114))",
+      "wasp-lang/wasp@342f3a87 waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/.wasp/out/db/migrations/20231212135316_next/migration.sql (Modernize `e2e-tests` (#3114))",
+      "wasp-lang/wasp@342f3a87 waspc/e2e-tests/snapshots/kitchen-sink-golden/wasp-app/.wasp/out/db/migrations/20231212135316_next/migration.sql (Modernize `e2e-tests` (#3114))"
+    ],
+    "readded_file": [
+      "amplication/amplication@c907ed15 packages/amplication-prisma-db/prisma/migrations/20230716100941_remove_paddle_subscription_data/migration.sql (chore: partial revert of previous commit - remove the subscr)",
+      "documenso/documenso@32633f96 packages/prisma/migrations/20231214081915_remove_template_token_column/migration.sql (feat: dateformat and timezone customization (#506))",
+      "chatwoot/chatwoot@a61ce89e db/migrate/20261104104833_add_callback_auth_to_channel_sms.rb (fix(webhooks): authenticate bandwidth sms callbacks (#16620))",
+      "chatwoot/chatwoot@a61ce89e db/migrate/20261104104833_add_callback_auth_to_channel_sms.rb (fix(webhooks): authenticate bandwidth sms callbacks (#16620))",
+      "diaspora/diaspora@7011f296 db/migrate/20160225232049_link_share_visibilities_with_user.rb (Revert \"Back out #6723 due to Postgres breakage\")",
+      "diaspora/diaspora@7011f296 db/migrate/20160225232049_link_share_visibilities_with_user.rb (Revert \"Back out #6723 due to Postgres breakage\")",
+      "diaspora/diaspora@7011f296 db/migrate/20160225232049_link_share_visibilities_with_user.rb (Revert \"Back out #6723 due to Postgres breakage\")",
+      "diaspora/diaspora@7011f296 db/migrate/20160225232049_link_share_visibilities_with_user.rb (Revert \"Back out #6723 due to Postgres breakage\")"
+    ],
+    "rewritten_history": [
+      "spree/spree@a28434f9 spree/core/db/migrate/20260902000002_replace_order_cancellation_tables_with_cancel_columns.rb (Replace the unused cancellation tables with a merchant-owned)",
+      "spree/spree@a28434f9 spree/core/db/migrate/20260902000002_replace_order_cancellation_tables_with_cancel_columns.rb (Replace the unused cancellation tables with a merchant-owned)",
+      "spree/spree@a28434f9 spree/core/db/migrate/20260902000002_replace_order_cancellation_tables_with_cancel_columns.rb (Replace the unused cancellation tables with a merchant-owned)",
+      "spree/spree@a28434f9 spree/core/db/migrate/20260902000002_replace_order_cancellation_tables_with_cancel_columns.rb (Replace the unused cancellation tables with a merchant-owned)",
+      "spree/spree@a28434f9 spree/core/db/migrate/20260902000002_replace_order_cancellation_tables_with_cancel_columns.rb (Replace the unused cancellation tables with a merchant-owned)",
+      "diaspora/diaspora@88c7c156 db/migrate/20160807212443_participation_counter.rb (Rewrite migration for participation counter)",
+      "basecamp/fizzy@19ae555c db/migrate/20251223000001_rename_account_exports_to_exports.rb (Convert Account::SingleUserExport to User::DataExport)",
+      "zammad/zammad@d1fdad97 spec/db/migrate/create_ai_provider_connections_spec.rb (Fixes #6257 - Allow AI provider configurations per feature)"
+    ],
+    "squashed_migration": [
+      "paperless-ngx/paperless-ngx@b93c9706 src/documents/migrations/0004_auto_20160114_1844_squashed_0011_auto_20160303_1929.py (Chore: Squash older automatic migrations (#7267))",
+      "paperless-ngx/paperless-ngx@b93c9706 src/documents/migrations/0004_auto_20160114_1844_squashed_0011_auto_20160303_1929.py (Chore: Squash older automatic migrations (#7267))",
+      "paperless-ngx/paperless-ngx@b93c9706 src/documents/migrations/0004_auto_20160114_1844_squashed_0011_auto_20160303_1929.py (Chore: Squash older automatic migrations (#7267))",
+      "paperless-ngx/paperless-ngx@b93c9706 src/documents/migrations/0015_add_insensitive_to_match_squashed_0018_auto_20170715_1712.py (Chore: Squash older automatic migrations (#7267))",
+      "paperless-ngx/paperless-ngx@b93c9706 src/documents/migrations/0015_add_insensitive_to_match_squashed_0018_auto_20170715_1712.py (Chore: Squash older automatic migrations (#7267))",
+      "paperless-ngx/paperless-ngx@b93c9706 src/paperless_mail/migrations/0001_initial_squashed_0009_mailrule_assign_tags.py (Chore: Squash older automatic migrations (#7267))",
+      "paperless-ngx/paperless-ngx@b93c9706 src/paperless_mail/migrations/0001_initial_squashed_0009_mailrule_assign_tags.py (Chore: Squash older automatic migrations (#7267))",
+      "paperless-ngx/paperless-ngx@b93c9706 src/paperless_mail/migrations/0001_initial_squashed_0009_mailrule_assign_tags.py (Chore: Squash older automatic migrations (#7267))"
+    ]
+  },
+  "post_deploy_ops": {
+    "mastodon/mastodon|SAFE_CONTRACT": 16,
+    "gitlabhq/gitlabhq|SAFE_CONTRACT": 8
+  },
+  "pooled_total": {
+    "viol": 4878,
+    "viol_backward": 4311,
+    "viol_both": 527,
+    "viol_forward": 40,
+    "safe": 528,
+    "resolved": 5406,
+    "uncert": 859,
+    "down": 561,
+    "safe_add": 416,
+    "data_dependent": 58,
+    "destructive_ops_in_added_files": 7300,
+    "viol_rate_pct": 90.2,
+    "wilson_ci95_pct": [
+      89.4,
+      91.0
+    ],
+    "cluster_boot_ci95_pct": [
+      87.3,
+      92.8
+    ],
+    "coverage_pct": 86.3,
+    "bounds_if_uncertain_all_safe_pct": 77.9,
+    "bounds_if_uncertain_all_viol_pct": 91.6,
+    "reverse_order_rate_pct": 10.5,
+    "repos_with_viol": 104,
+    "safety_assured_viol": 26,
+    "ignored_safe": 16
+  },
+  "pooled_by_ecosystem": {
+    "prisma": {
+      "repos_ok": 30,
+      "repos_with_viol": 27,
+      "commits_analyzed": 3067,
+      "added_fwd_destructive_commits": 463,
+      "viol": 1292,
+      "viol_backward": 1078,
+      "viol_both": 205,
+      "viol_forward": 9,
+      "safe": 243,
+      "resolved": 1535,
+      "uncert": 216,
+      "down": 0,
+      "safe_add": 72,
+      "data_dependent": 45,
+      "viol_rate_pct": 84.2,
+      "wilson_ci95_pct": [
+        82.3,
+        85.9
+      ],
+      "cluster_boot_ci95_pct": [
+        79.5,
+        88.8
+      ],
+      "coverage_pct": 87.7,
+      "bounds_if_uncertain_all_safe_pct": 73.8,
+      "bounds_if_uncertain_all_viol_pct": 86.1,
+      "reverse_order_rate_pct": 13.9,
+      "safety_assured_viol": 0,
+      "ignored_safe": 0
+    },
+    "rails": {
+      "repos_ok": 40,
+      "repos_with_viol": 37,
+      "commits_analyzed": 4674,
+      "added_fwd_destructive_commits": 692,
+      "viol": 991,
+      "viol_backward": 810,
+      "viol_both": 166,
+      "viol_forward": 15,
+      "safe": 151,
+      "resolved": 1142,
+      "uncert": 469,
+      "down": 558,
+      "safe_add": 153,
+      "data_dependent": 13,
+      "viol_rate_pct": 86.8,
+      "wilson_ci95_pct": [
+        84.7,
+        88.6
+      ],
+      "cluster_boot_ci95_pct": [
+        79.9,
+        92.6
+      ],
+      "coverage_pct": 70.9,
+      "bounds_if_uncertain_all_safe_pct": 61.5,
+      "bounds_if_uncertain_all_viol_pct": 90.6,
+      "reverse_order_rate_pct": 15.8,
+      "safety_assured_viol": 26,
+      "ignored_safe": 16
+    },
+    "django": {
+      "repos_ok": 40,
+      "repos_with_viol": 40,
+      "commits_analyzed": 4776,
+      "added_fwd_destructive_commits": 1147,
+      "viol": 2595,
+      "viol_backward": 2423,
+      "viol_both": 156,
+      "viol_forward": 16,
+      "safe": 134,
+      "resolved": 2729,
+      "uncert": 174,
+      "down": 3,
+      "safe_add": 191,
+      "data_dependent": 0,
+      "viol_rate_pct": 95.1,
+      "wilson_ci95_pct": [
+        94.2,
+        95.8
+      ],
+      "cluster_boot_ci95_pct": [
+        91.7,
+        97.6
+      ],
+      "coverage_pct": 94.0,
+      "bounds_if_uncertain_all_safe_pct": 89.4,
+      "bounds_if_uncertain_all_viol_pct": 95.4,
+      "reverse_order_rate_pct": 6.3,
+      "safety_assured_viol": 0,
+      "ignored_safe": 0
+    }
+  },
+  "repo_level": {
+    "prisma": {
+      "n_active": 27,
+      "median_pct": 87.2,
+      "iqr_pct": [
+        79.2,
+        95.7
+      ]
+    },
+    "rails": {
+      "n_active": 38,
+      "median_pct": 100.0,
+      "iqr_pct": [
+        86.2,
+        100.0
+      ]
+    },
+    "django": {
+      "n_active": 40,
+      "median_pct": 99.6,
+      "iqr_pct": [
+        96.0,
+        100.0
+      ]
+    }
+  },
+  "kruskal_wallis": {
+    "H": 14.34,
+    "p": 0.0007687685044758544
+  },
+  "pairwise_mwu": {
+    "django_vs_rails": {
+      "p": 0.3695078085686535,
+      "cliffs_delta": 0.111,
+      "magnitude": "negligible"
+    },
+    "django_vs_prisma": {
+      "p": 6.402507754504486e-05,
+      "cliffs_delta": 0.565,
+      "magnitude": "large"
+    },
+    "prisma_vs_rails": {
+      "p": 0.02167732520269441,
+      "cliffs_delta": -0.327,
+      "magnitude": "small"
+    }
+  },
+  "k8s": {
+    "k8s_n": 14,
+    "non_k8s_n": 91,
+    "k8s_pooled_pct": 90.9,
+    "non_k8s_pooled_pct": 90.1,
+    "pooled_diff_cluster_boot_ci95_pp": [
+      -4.9,
+      5.9
+    ],
+    "k8s_repo_median_pct": 95.2,
+    "non_k8s_repo_median_pct": 98.2,
+    "repo_mwu_p": 0.6692277511369269,
+    "cliffs_delta": -0.069,
+    "magnitude": "negligible",
+    "median_diff_boot_ci95_pp": [
+      -12.8,
+      3.7
+    ],
+    "stratified": {
+      "prisma": {
+        "k8s_n": 6,
+        "non_k8s_n": 21,
+        "k8s_pooled_pct": 88.4,
+        "non_k8s_pooled_pct": 83.6,
+        "k8s_repo_median_pct": 89.9,
+        "non_k8s_repo_median_pct": 87.2,
+        "repo_mwu_p": 0.2539008071775998
+      },
+      "rails": {
+        "k8s_n": 1,
+        "non_k8s_n": 37,
+        "k8s_pooled_pct": 0.0,
+        "non_k8s_pooled_pct": 87.4,
+        "k8s_repo_median_pct": 0.0,
+        "non_k8s_repo_median_pct": 100.0,
+        "repo_mwu_p": 0.0757742896426344
+      },
+      "django": {
+        "k8s_n": 7,
+        "non_k8s_n": 33,
+        "k8s_pooled_pct": 93.4,
+        "non_k8s_pooled_pct": 95.4,
+        "k8s_repo_median_pct": 98.9,
+        "non_k8s_repo_median_pct": 100.0,
+        "repo_mwu_p": 0.6074992285286016
+      }
+    }
+  },
+  "by_operator": {
+    "DROP_COLUMN": {
+      "viol": 1496,
+      "safe": 249,
+      "uncert": 254,
+      "rollback_only": 248,
+      "viol_rate_pct": 85.7
+    },
+    "ADD_NOT_NULL_NO_DEFAULT": {
+      "viol": 1516,
+      "uncert": 60,
+      "rollback_only": 4,
+      "viol_rate_pct": 100.0
+    },
+    "DROP_TABLE": {
+      "uncert": 216,
+      "viol": 511,
+      "rollback_only": 119,
+      "safe": 19,
+      "viol_rate_pct": 96.4
+    },
+    "ALTER_COLUMN_TYPE": {
+      "viol": 454,
+      "safe": 38,
+      "uncert": 92,
+      "rollback_only": 115,
+      "viol_rate_pct": 92.3
+    },
+    "RENAME_COLUMN": {
+      "safe": 18,
+      "viol": 444,
+      "uncert": 58,
+      "rollback_only": 38,
+      "viol_rate_pct": 96.1
+    },
+    "SET_NOT_NULL": {
+      "safe": 118,
+      "viol": 265,
+      "uncert": 56,
+      "rollback_only": 19,
+      "viol_rate_pct": 69.2
+    },
+    "RENAME_TYPE_ENUM": {
+      "viol": 145,
+      "safe": 83,
+      "viol_rate_pct": 63.6
+    },
+    "RENAME_TABLE": {
+      "uncert": 113,
+      "viol": 47,
+      "safe": 3,
+      "rollback_only": 15,
+      "viol_rate_pct": 94.0
+    },
+    "ADD_UNIQUE_OR_CHECK": {
+      "data_dependent": 58,
+      "uncert": 10,
+      "rollback_only": 3,
+      "viol_rate_pct": null
+    }
+  },
+  "added_migration_files_per_destructive_commit_hist_capped20": {
+    "0": 947,
+    "1": 1907,
+    "2": 388,
+    "3": 147,
+    "4": 92,
+    "5": 34,
+    "6": 25,
+    "7": 15,
+    "8": 12,
+    "9": 12,
+    "10": 6,
+    "11": 9,
+    "12": 5,
+    "13": 6,
+    "14": 3,
+    "15": 1,
+    "16": 4,
+    "17": 1,
+    "20": 13
+  }
+}

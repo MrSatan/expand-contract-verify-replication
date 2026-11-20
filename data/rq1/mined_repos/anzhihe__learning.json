@@ -1,0 +1,1911 @@
+{
+  "repo": "anzhihe/learning",
+  "ecosystem": "django",
+  "stars": 2171,
+  "has_k8s_helm": false,
+  "status": "ok",
+  "stats": {
+    "total_migration_commits_in_history": 8,
+    "migration_commits_analyzed": 8,
+    "total_migration_files_parsed": 110,
+    "commits_with_any_destructive": 5,
+    "commits_with_forward_destructive": 5,
+    "commits_with_rollback_only_destructive": 0,
+    "total_ops_extracted": 84,
+    "destructive_ops_up": 44,
+    "destructive_ops_down": 0
+  },
+  "verdict_counts": {
+    "SAFE_ADDITIVE": 32,
+    "UNCERTAIN": 11,
+    "DUAL_VERSION_VIOLATION_BACKWARD": 1
+  },
+  "destructive_commits": [
+    {
+      "sha": "b0c1f20530015534330a4f3d3651fe78066a5c8f",
+      "parent": "809654514c266c47742077eba05a682a0c362238",
+      "date": "2024-03-27T22:52:09+08:00",
+      "subject": "add Python\u524d\u540e\u7aef\u5206\u79bb\u5f00\u53d1Vue+DRF\u5b9e\u6218",
+      "mig_files": [
+        "\"python/practise/Python\\345\\211\\215\\345\\220\\216\\347\\253\\257\\345\\210\\206\\347\\246\\273\\345\\274\\200\\345\\217\\221Vue+DRF\\345\\256\\236\\346\\210\\230/MxShop/apps/goods/migrations/0001_initial.py\"",
+        "\"python/practise/Python\\345\\211\\215\\345\\220\\216\\347\\253\\257\\345\\210\\206\\347\\246\\273\\345\\274\\200\\345\\217\\221Vue+DRF\\345\\256\\236\\346\\210\\230/MxShop/apps/goods/migrations/0002_auto_20170726_0033.py\"",
+        "\"python/practise/Python\\345\\211\\215\\345\\220\\216\\347\\253\\257\\345\\210\\206\\347\\246\\273\\345\\274\\200\\345\\217\\221Vue+DRF\\345\\256\\236\\346\\210\\230/MxShop/apps/goods/migrations/0003_goodscategorybrand_cagetory.py\"",
+        "\"python/practise/Python\\345\\211\\215\\345\\220\\216\\347\\253\\257\\345\\210\\206\\347\\246\\273\\345\\274\\200\\345\\217\\221Vue+DRF\\345\\256\\236\\346\\210\\230/MxShop/apps/goods/migrations/0004_auto_20170726_2244.py\"",
+        "\"python/practise/Python\\345\\211\\215\\345\\220\\216\\347\\253\\257\\345\\210\\206\\347\\246\\273\\345\\274\\200\\345\\217\\221Vue+DRF\\345\\256\\236\\346\\210\\230/MxShop/apps/goods/migrations/0005_auto_20170802_2328.py\"",
+        "\"python/practise/Python\\345\\211\\215\\345\\220\\216\\347\\253\\257\\345\\210\\206\\347\\246\\273\\345\\274\\200\\345\\217\\221Vue+DRF\\345\\256\\236\\346\\210\\230/MxShop/apps/goods/migrations/0006_hotsearchwords.py\"",
+        "\"python/practise/Python\\345\\211\\215\\345\\220\\216\\347\\253\\257\\345\\210\\206\\347\\246\\273\\345\\274\\200\\345\\217\\221Vue+DRF\\345\\256\\236\\346\\210\\230/MxShop/apps/goods/migrations/0007_auto_20170804_2159.py\"",
+        "\"python/practise/Python\\345\\211\\215\\345\\220\\216\\347\\253\\257\\345\\210\\206\\347\\246\\273\\345\\274\\200\\345\\217\\221Vue+DRF\\345\\256\\236\\346\\210\\230/MxShop/apps/goods/migrations/0008_auto_20170826_1201.py\"",
+        "\"python/practise/Python\\345\\211\\215\\345\\220\\216\\347\\253\\257\\345\\210\\206\\347\\246\\273\\345\\274\\200\\345\\217\\221Vue+DRF\\345\\256\\236\\346\\210\\230/MxShop/apps/trade/migrations/0001_initial.py\"",
+        "\"python/practise/Python\\345\\211\\215\\345\\220\\216\\347\\253\\257\\345\\210\\206\\347\\246\\273\\345\\274\\200\\345\\217\\221Vue+DRF\\345\\256\\236\\346\\210\\230/MxShop/apps/trade/migrations/0002_auto_20170726_0027.py\"",
+        "\"python/practise/Python\\345\\211\\215\\345\\220\\216\\347\\253\\257\\345\\210\\206\\347\\246\\273\\345\\274\\200\\345\\217\\221Vue+DRF\\345\\256\\236\\346\\210\\230/MxShop/apps/trade/migrations/0003_auto_20170826_1201.py\"",
+        "\"python/practise/Python\\345\\211\\215\\345\\220\\216\\347\\253\\257\\345\\210\\206\\347\\246\\273\\345\\274\\200\\345\\217\\221Vue+DRF\\345\\256\\236\\346\\210\\230/MxShop/apps/user_operation/migrations/0001_initial.py\"",
+        "\"python/practise/Python\\345\\211\\215\\345\\220\\216\\347\\253\\257\\345\\210\\206\\347\\246\\273\\345\\274\\200\\345\\217\\221Vue+DRF\\345\\256\\236\\346\\210\\230/MxShop/apps/user_operation/migrations/0002_auto_20170726_0027.py\"",
+        "\"python/practise/Python\\345\\211\\215\\345\\220\\216\\347\\253\\257\\345\\210\\206\\347\\246\\273\\345\\274\\200\\345\\217\\221Vue+DRF\\345\\256\\236\\346\\210\\230/MxShop/apps/user_operation/migrations/0003_auto_20170805_2352.py\"",
+        "\"python/practise/Python\\345\\211\\215\\345\\220\\216\\347\\253\\257\\345\\210\\206\\347\\246\\273\\345\\274\\200\\345\\217\\221Vue+DRF\\345\\256\\236\\346\\210\\230/MxShop/apps/user_operation/migrations/0004_auto_20170807_2331.py\"",
+        "\"python/practise/Python\\345\\211\\215\\345\\220\\216\\347\\253\\257\\345\\210\\206\\347\\246\\273\\345\\274\\200\\345\\217\\221Vue+DRF\\345\\256\\236\\346\\210\\230/MxShop/apps/users/migrations/0001_initial.py\"",
+        "\"python/practise/Python\\345\\211\\215\\345\\220\\216\\347\\253\\257\\345\\210\\206\\347\\246\\273\\345\\274\\200\\345\\217\\221Vue+DRF\\345\\256\\236\\346\\210\\230/MxShop/apps/users/migrations/0002_auto_20170805_1207.py\"",
+        "\"python/practise/Python\\345\\211\\215\\345\\220\\216\\347\\253\\257\\345\\210\\206\\347\\246\\273\\345\\274\\200\\345\\217\\221Vue+DRF\\345\\256\\236\\346\\210\\230/MxShop/extra_apps/social_django/migrations/0001_initial.py\"",
+        "\"python/practise/Python\\345\\211\\215\\345\\220\\216\\347\\253\\257\\345\\210\\206\\347\\246\\273\\345\\274\\200\\345\\217\\221Vue+DRF\\345\\256\\236\\346\\210\\230/MxShop/extra_apps/social_django/migrations/0002_add_related_name.py\"",
+        "\"python/practise/Python\\345\\211\\215\\345\\220\\216\\347\\253\\257\\345\\210\\206\\347\\246\\273\\345\\274\\200\\345\\217\\221Vue+DRF\\345\\256\\236\\346\\210\\230/MxShop/extra_apps/social_django/migrations/0003_alter_email_max_length.py\"",
+        "\"python/practise/Python\\345\\211\\215\\345\\220\\216\\347\\253\\257\\345\\210\\206\\347\\246\\273\\345\\274\\200\\345\\217\\221Vue+DRF\\345\\256\\236\\346\\210\\230/MxShop/extra_apps/social_django/migrations/0004_auto_20160423_0400.py\"",
+        "\"python/practise/Python\\345\\211\\215\\345\\220\\216\\347\\253\\257\\345\\210\\206\\347\\246\\273\\345\\274\\200\\345\\217\\221Vue+DRF\\345\\256\\236\\346\\210\\230/MxShop/extra_apps/social_django/migrations/0005_auto_20160727_2333.py\"",
+        "\"python/practise/Python\\345\\211\\215\\345\\220\\216\\347\\253\\257\\345\\210\\206\\347\\246\\273\\345\\274\\200\\345\\217\\221Vue+DRF\\345\\256\\236\\346\\210\\230/MxShop/extra_apps/social_django/migrations/0006_partial.py\"",
+        "\"python/practise/Python\\345\\211\\215\\345\\220\\216\\347\\253\\257\\345\\210\\206\\347\\246\\273\\345\\274\\200\\345\\217\\221Vue+DRF\\345\\256\\236\\346\\210\\230/MxShop/extra_apps/social_django/migrations/0007_auto_20170614_2343.py\"",
+        "\"python/practise/Python\\345\\211\\215\\345\\220\\216\\347\\253\\257\\345\\210\\206\\347\\246\\273\\345\\274\\200\\345\\217\\221Vue+DRF\\345\\256\\236\\346\\210\\230/MxShop/extra_apps/xadmin/migrations/0001_initial.py\"",
+        "\"python/practise/Python\\345\\211\\215\\345\\220\\216\\347\\253\\257\\345\\210\\206\\347\\246\\273\\345\\274\\200\\345\\217\\221Vue+DRF\\345\\256\\236\\346\\210\\230/MxShop/extra_apps/xadmin/migrations/0002_log.py\"",
+        "\"python/practise/Python\\345\\211\\215\\345\\220\\216\\347\\253\\257\\345\\210\\206\\347\\246\\273\\345\\274\\200\\345\\217\\221Vue+DRF\\345\\256\\236\\346\\210\\230/MxShop/extra_apps/xadmin/migrations/0003_auto_20160715_0100.py\""
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 0,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "goods_goods",
+            "column": "category",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "\"python/practise/Python\\345\\211\\215\\345\\220\\216\\347\\253\\257\\345\\210\\206\\347\\246\\273\\345\\274\\200\\345\\217\\221Vue+DRF\\345\\256\\236\\346\\210\\230/MxShop/apps/goods/migrations/0001_initial.py\"",
+            "line": 102,
+            "raw_snippet": "migrations.AddField( model_name='goods', name='category', field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='goods.GoodsCategory', verbose_name='\u5546\u54c1\u7c7b\u76ee'), )",
+            "extra": {
+              "model_name": "goods",
+              "app_label": "goods",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "goods_goods",
+            "column": "category",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'goods_goods' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "goods_banner",
+            "column": "goods",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "\"python/practise/Python\\345\\211\\215\\345\\220\\216\\347\\253\\257\\345\\210\\206\\347\\246\\273\\345\\274\\200\\345\\217\\221Vue+DRF\\345\\256\\236\\346\\210\\230/MxShop/apps/goods/migrations/0001_initial.py\"",
+            "line": 107,
+            "raw_snippet": "migrations.AddField( model_name='banner', name='goods', field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='goods.Goods', verbose_name='\u5546\u54c1'), )",
+            "extra": {
+              "model_name": "banner",
+              "app_label": "goods",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "goods_banner",
+            "column": "goods",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'goods_banner' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "RENAME_COLUMN",
+            "table": "goods_goodscategorybrand",
+            "column": "cagetory",
+            "new_name": "category",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "\"python/practise/Python\\345\\211\\215\\345\\220\\216\\347\\253\\257\\345\\210\\206\\347\\246\\273\\345\\274\\200\\345\\217\\221Vue+DRF\\345\\256\\236\\346\\210\\230/MxShop/apps/goods/migrations/0004_auto_20170726_2244.py\"",
+            "line": 15,
+            "raw_snippet": "migrations.RenameField( model_name='goodscategorybrand', old_name='cagetory', new_name='category', )",
+            "extra": {
+              "model_name": "goodscategorybrand",
+              "app_label": "goods"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "goods_goodscategorybrand",
+            "column": "cagetory",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "UNCERTAIN",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'goods_goodscategorybrand' columns not resolved in C_{t-1} schema snapshot."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "goods_goodsimage",
+            "column": "image_url",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "\"python/practise/Python\\345\\211\\215\\345\\220\\216\\347\\253\\257\\345\\210\\206\\347\\246\\273\\345\\274\\200\\345\\217\\221Vue+DRF\\345\\256\\236\\346\\210\\230/MxShop/apps/goods/migrations/0005_auto_20170802_2328.py\"",
+            "line": 15,
+            "raw_snippet": "migrations.RemoveField( model_name='goodsimage', name='image_url', )",
+            "extra": {
+              "model_name": "goodsimage",
+              "app_label": "goods"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "goods_goodsimage",
+            "column": "image_url",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'goods_goodsimage' columns not resolved in C_{t-1} schema snapshot."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "RENAME_COLUMN",
+            "table": "goods_hotsearchwords",
+            "column": "add",
+            "new_name": "add_time",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "\"python/practise/Python\\345\\211\\215\\345\\220\\216\\347\\253\\257\\345\\210\\206\\347\\246\\273\\345\\274\\200\\345\\217\\221Vue+DRF\\345\\256\\236\\346\\210\\230/MxShop/apps/goods/migrations/0007_auto_20170804_2159.py\"",
+            "line": 15,
+            "raw_snippet": "migrations.RenameField( model_name='hotsearchwords', old_name='add', new_name='add_time', )",
+            "extra": {
+              "model_name": "hotsearchwords",
+              "app_label": "goods"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "goods_hotsearchwords",
+            "column": "add",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "UNCERTAIN",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'goods_hotsearchwords' columns not resolved in C_{t-1} schema snapshot."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "trade_shoppingcart",
+            "column": "user",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "\"python/practise/Python\\345\\211\\215\\345\\220\\216\\347\\253\\257\\345\\210\\206\\347\\246\\273\\345\\274\\200\\345\\217\\221Vue+DRF\\345\\256\\236\\346\\210\\230/MxShop/apps/trade/migrations/0002_auto_20170726_0027.py\"",
+            "line": 21,
+            "raw_snippet": "migrations.AddField( model_name='shoppingcart', name='user', field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, verbose_name='\u7528\u6237'), )",
+            "extra": {
+              "model_name": "shoppingcart",
+              "app_label": "trade",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "trade_shoppingcart",
+            "column": "user",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'trade_shoppingcart' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "trade_orderinfo",
+            "column": "user",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "\"python/practise/Python\\345\\211\\215\\345\\220\\216\\347\\253\\257\\345\\210\\206\\347\\246\\273\\345\\274\\200\\345\\217\\221Vue+DRF\\345\\256\\236\\346\\210\\230/MxShop/apps/trade/migrations/0002_auto_20170726_0027.py\"",
+            "line": 26,
+            "raw_snippet": "migrations.AddField( model_name='orderinfo', name='user', field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, verbose_name='\u7528\u6237'), )",
+            "extra": {
+              "model_name": "orderinfo",
+              "app_label": "trade",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "trade_orderinfo",
+            "column": "user",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'trade_orderinfo' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "trade_ordergoods",
+            "column": "goods",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "\"python/practise/Python\\345\\211\\215\\345\\220\\216\\347\\253\\257\\345\\210\\206\\347\\246\\273\\345\\274\\200\\345\\217\\221Vue+DRF\\345\\256\\236\\346\\210\\230/MxShop/apps/trade/migrations/0002_auto_20170726_0027.py\"",
+            "line": 31,
+            "raw_snippet": "migrations.AddField( model_name='ordergoods', name='goods', field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='goods.Goods', verbose_name='\u5546\u54c1'), )",
+            "extra": {
+              "model_name": "ordergoods",
+              "app_label": "trade",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "trade_ordergoods",
+            "column": "goods",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'trade_ordergoods' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "trade_ordergoods",
+            "column": "order",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "\"python/practise/Python\\345\\211\\215\\345\\220\\216\\347\\253\\257\\345\\210\\206\\347\\246\\273\\345\\274\\200\\345\\217\\221Vue+DRF\\345\\256\\236\\346\\210\\230/MxShop/apps/trade/migrations/0002_auto_20170726_0027.py\"",
+            "line": 36,
+            "raw_snippet": "migrations.AddField( model_name='ordergoods', name='order', field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='trade.OrderInfo', verbose_name='\u8ba2\u5355\u4fe1\u606f'), )",
+            "extra": {
+              "model_name": "ordergoods",
+              "app_label": "trade",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "trade_ordergoods",
+            "column": "order",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'trade_ordergoods' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "user_operation_userleavingmessage",
+            "column": "user",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "\"python/practise/Python\\345\\211\\215\\345\\220\\216\\347\\253\\257\\345\\210\\206\\347\\246\\273\\345\\274\\200\\345\\217\\221Vue+DRF\\345\\256\\236\\346\\210\\230/MxShop/apps/user_operation/migrations/0002_auto_20170726_0027.py\"",
+            "line": 21,
+            "raw_snippet": "migrations.AddField( model_name='userleavingmessage', name='user', field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, verbose_name='\u7528",
+            "extra": {
+              "model_name": "userleavingmessage",
+              "app_label": "user_operation",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "user_operation_userleavingmessage",
+            "column": "user",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'user_operation_userleavingmessage' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "user_operation_userfav",
+            "column": "goods",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "\"python/practise/Python\\345\\211\\215\\345\\220\\216\\347\\253\\257\\345\\210\\206\\347\\246\\273\\345\\274\\200\\345\\217\\221Vue+DRF\\345\\256\\236\\346\\210\\230/MxShop/apps/user_operation/migrations/0002_auto_20170726_0027.py\"",
+            "line": 26,
+            "raw_snippet": "migrations.AddField( model_name='userfav', name='goods', field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='goods.Goods', verbose_name='\u5546\u54c1'), )",
+            "extra": {
+              "model_name": "userfav",
+              "app_label": "user_operation",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "user_operation_userfav",
+            "column": "goods",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'user_operation_userfav' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "user_operation_userfav",
+            "column": "user",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "\"python/practise/Python\\345\\211\\215\\345\\220\\216\\347\\253\\257\\345\\210\\206\\347\\246\\273\\345\\274\\200\\345\\217\\221Vue+DRF\\345\\256\\236\\346\\210\\230/MxShop/apps/user_operation/migrations/0002_auto_20170726_0027.py\"",
+            "line": 31,
+            "raw_snippet": "migrations.AddField( model_name='userfav', name='user', field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, verbose_name='\u7528\u6237'), )",
+            "extra": {
+              "model_name": "userfav",
+              "app_label": "user_operation",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "user_operation_userfav",
+            "column": "user",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'user_operation_userfav' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "user_operation_useraddress",
+            "column": "user",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "\"python/practise/Python\\345\\211\\215\\345\\220\\216\\347\\253\\257\\345\\210\\206\\347\\246\\273\\345\\274\\200\\345\\217\\221Vue+DRF\\345\\256\\236\\346\\210\\230/MxShop/apps/user_operation/migrations/0002_auto_20170726_0027.py\"",
+            "line": 36,
+            "raw_snippet": "migrations.AddField( model_name='useraddress', name='user', field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, verbose_name='\u7528\u6237'), )",
+            "extra": {
+              "model_name": "useraddress",
+              "app_label": "user_operation",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "user_operation_useraddress",
+            "column": "user",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'user_operation_useraddress' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "user_operation_useraddress",
+            "column": "city",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "CharField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "\"python/practise/Python\\345\\211\\215\\345\\220\\216\\347\\253\\257\\345\\210\\206\\347\\246\\273\\345\\274\\200\\345\\217\\221Vue+DRF\\345\\256\\236\\346\\210\\230/MxShop/apps/user_operation/migrations/0004_auto_20170807_2331.py\"",
+            "line": 16,
+            "raw_snippet": "migrations.AddField( model_name='useraddress', name='city', field=models.CharField(default='', max_length=100, verbose_name='\u57ce\u5e02'), )",
+            "extra": {
+              "model_name": "useraddress",
+              "app_label": "user_operation",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "user_operation_useraddress",
+            "column": "city",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'user_operation_useraddress' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "user_operation_useraddress",
+            "column": "province",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "CharField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "\"python/practise/Python\\345\\211\\215\\345\\220\\216\\347\\253\\257\\345\\210\\206\\347\\246\\273\\345\\274\\200\\345\\217\\221Vue+DRF\\345\\256\\236\\346\\210\\230/MxShop/apps/user_operation/migrations/0004_auto_20170807_2331.py\"",
+            "line": 21,
+            "raw_snippet": "migrations.AddField( model_name='useraddress', name='province', field=models.CharField(default='', max_length=100, verbose_name='\u7701\u4efd'), )",
+            "extra": {
+              "model_name": "useraddress",
+              "app_label": "user_operation",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "user_operation_useraddress",
+            "column": "province",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'user_operation_useraddress' was created in the same commit; C_{t-1} does not write to it."
+        }
+      ]
+    },
+    {
+      "sha": "057291bcaee8c8326cd0c482343c848ac86e63c7",
+      "parent": "660d1add1bda3294695a5042fe719d8226617a36",
+      "date": "2022-08-29T00:50:47+08:00",
+      "subject": "add Python\u4e4bDjango\u7bc7\u7b2c\u516d\u3001\u4e03\u5b63\uff1aWeb\u5f00\u53d1\u5b9e\u6218+\u7528\u6237\u767b\u5f55\u6a21\u5757",
+      "mig_files": [
+        "\"python/practise/Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\205\\255\\343\\200\\201\\344\\270\\203\\345\\255\\243\\357\\274\\232Web\\345\\274\\200\\345\\217\\221\\345\\256\\236\\346\\210\\230+\\347\\224\\250\\346\\210\\267\\347\\231\\273\\345\\275\\225\\346\\250\\241\\345\\235\\227/Django\\347\\254\\254\\344\\270\\203\\345\\255\\243\\345\\256\\214\\346\\225\\264\\351\\241\\271\\347\\233\\256\\346\\272\\220\\347\\240\\201-01/StudentMgr/apps/web/basicweb/migrations/0001_initial.py\"",
+        "\"python/practise/Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\205\\255\\343\\200\\201\\344\\270\\203\\345\\255\\243\\357\\274\\232Web\\345\\274\\200\\345\\217\\221\\345\\256\\236\\346\\210\\230+\\347\\224\\250\\346\\210\\267\\347\\231\\273\\345\\275\\225\\346\\250\\241\\345\\235\\227/Django\\347\\254\\254\\344\\270\\203\\345\\255\\243\\345\\256\\214\\346\\225\\264\\351\\241\\271\\347\\233\\256\\346\\272\\220\\347\\240\\201-01/StudentMgr/apps/web/studentweb/migrations/0001_initial.py\"",
+        "\"python/practise/Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\205\\255\\343\\200\\201\\344\\270\\203\\345\\255\\243\\357\\274\\232Web\\345\\274\\200\\345\\217\\221\\345\\256\\236\\346\\210\\230+\\347\\224\\250\\346\\210\\267\\347\\231\\273\\345\\275\\225\\346\\250\\241\\345\\235\\227/Django\\347\\254\\254\\344\\270\\203\\345\\255\\243\\345\\256\\214\\346\\225\\264\\351\\241\\271\\347\\233\\256\\346\\272\\220\\347\\240\\201-01/StudentMgr/apps/web/studentweb/migrations/0002_studentimage.py\"",
+        "\"python/practise/Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\205\\255\\343\\200\\201\\344\\270\\203\\345\\255\\243\\357\\274\\232Web\\345\\274\\200\\345\\217\\221\\345\\256\\236\\346\\210\\230+\\347\\224\\250\\346\\210\\267\\347\\231\\273\\345\\275\\225\\346\\250\\241\\345\\235\\227/Django\\347\\254\\254\\344\\270\\203\\345\\255\\243\\345\\256\\214\\346\\225\\264\\351\\241\\271\\347\\233\\256\\346\\272\\220\\347\\240\\201-01/StudentMgr/apps/web/userweb/migrations/0001_initial.py\"",
+        "\"python/practise/Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\205\\255\\343\\200\\201\\344\\270\\203\\345\\255\\243\\357\\274\\232Web\\345\\274\\200\\345\\217\\221\\345\\256\\236\\346\\210\\230+\\347\\224\\250\\346\\210\\267\\347\\231\\273\\345\\275\\225\\346\\250\\241\\345\\235\\227/Django\\347\\254\\254\\344\\270\\203\\345\\255\\243\\345\\256\\214\\346\\225\\264\\351\\241\\271\\347\\233\\256\\346\\272\\220\\347\\240\\201-01/StudentMgr/venv/Lib/site-packages/django/contrib/admin/migrations/0001_initial.py\"",
+        "\"python/practise/Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\205\\255\\343\\200\\201\\344\\270\\203\\345\\255\\243\\357\\274\\232Web\\345\\274\\200\\345\\217\\221\\345\\256\\236\\346\\210\\230+\\347\\224\\250\\346\\210\\267\\347\\231\\273\\345\\275\\225\\346\\250\\241\\345\\235\\227/Django\\347\\254\\254\\344\\270\\203\\345\\255\\243\\345\\256\\214\\346\\225\\264\\351\\241\\271\\347\\233\\256\\346\\272\\220\\347\\240\\201-01/StudentMgr/venv/Lib/site-packages/django/contrib/admin/migrations/0002_logentry_remove_auto_add.py\"",
+        "\"python/practise/Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\205\\255\\343\\200\\201\\344\\270\\203\\345\\255\\243\\357\\274\\232Web\\345\\274\\200\\345\\217\\221\\345\\256\\236\\346\\210\\230+\\347\\224\\250\\346\\210\\267\\347\\231\\273\\345\\275\\225\\346\\250\\241\\345\\235\\227/Django\\347\\254\\254\\344\\270\\203\\345\\255\\243\\345\\256\\214\\346\\225\\264\\351\\241\\271\\347\\233\\256\\346\\272\\220\\347\\240\\201-01/StudentMgr/venv/Lib/site-packages/django/contrib/admin/migrations/0003_logentry_add_action_flag_choices.py\"",
+        "\"python/practise/Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\205\\255\\343\\200\\201\\344\\270\\203\\345\\255\\243\\357\\274\\232Web\\345\\274\\200\\345\\217\\221\\345\\256\\236\\346\\210\\230+\\347\\224\\250\\346\\210\\267\\347\\231\\273\\345\\275\\225\\346\\250\\241\\345\\235\\227/Django\\347\\254\\254\\344\\270\\203\\345\\255\\243\\345\\256\\214\\346\\225\\264\\351\\241\\271\\347\\233\\256\\346\\272\\220\\347\\240\\201-01/StudentMgr/venv/Lib/site-packages/django/contrib/auth/migrations/0001_initial.py\"",
+        "\"python/practise/Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\205\\255\\343\\200\\201\\344\\270\\203\\345\\255\\243\\357\\274\\232Web\\345\\274\\200\\345\\217\\221\\345\\256\\236\\346\\210\\230+\\347\\224\\250\\346\\210\\267\\347\\231\\273\\345\\275\\225\\346\\250\\241\\345\\235\\227/Django\\347\\254\\254\\344\\270\\203\\345\\255\\243\\345\\256\\214\\346\\225\\264\\351\\241\\271\\347\\233\\256\\346\\272\\220\\347\\240\\201-01/StudentMgr/venv/Lib/site-packages/django/contrib/auth/migrations/0002_alter_permission_name_max_length.py\"",
+        "\"python/practise/Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\205\\255\\343\\200\\201\\344\\270\\203\\345\\255\\243\\357\\274\\232Web\\345\\274\\200\\345\\217\\221\\345\\256\\236\\346\\210\\230+\\347\\224\\250\\346\\210\\267\\347\\231\\273\\345\\275\\225\\346\\250\\241\\345\\235\\227/Django\\347\\254\\254\\344\\270\\203\\345\\255\\243\\345\\256\\214\\346\\225\\264\\351\\241\\271\\347\\233\\256\\346\\272\\220\\347\\240\\201-01/StudentMgr/venv/Lib/site-packages/django/contrib/auth/migrations/0003_alter_user_email_max_length.py\"",
+        "\"python/practise/Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\205\\255\\343\\200\\201\\344\\270\\203\\345\\255\\243\\357\\274\\232Web\\345\\274\\200\\345\\217\\221\\345\\256\\236\\346\\210\\230+\\347\\224\\250\\346\\210\\267\\347\\231\\273\\345\\275\\225\\346\\250\\241\\345\\235\\227/Django\\347\\254\\254\\344\\270\\203\\345\\255\\243\\345\\256\\214\\346\\225\\264\\351\\241\\271\\347\\233\\256\\346\\272\\220\\347\\240\\201-01/StudentMgr/venv/Lib/site-packages/django/contrib/auth/migrations/0004_alter_user_username_opts.py\"",
+        "\"python/practise/Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\205\\255\\343\\200\\201\\344\\270\\203\\345\\255\\243\\357\\274\\232Web\\345\\274\\200\\345\\217\\221\\345\\256\\236\\346\\210\\230+\\347\\224\\250\\346\\210\\267\\347\\231\\273\\345\\275\\225\\346\\250\\241\\345\\235\\227/Django\\347\\254\\254\\344\\270\\203\\345\\255\\243\\345\\256\\214\\346\\225\\264\\351\\241\\271\\347\\233\\256\\346\\272\\220\\347\\240\\201-01/StudentMgr/venv/Lib/site-packages/django/contrib/auth/migrations/0005_alter_user_last_login_null.py\"",
+        "\"python/practise/Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\205\\255\\343\\200\\201\\344\\270\\203\\345\\255\\243\\357\\274\\232Web\\345\\274\\200\\345\\217\\221\\345\\256\\236\\346\\210\\230+\\347\\224\\250\\346\\210\\267\\347\\231\\273\\345\\275\\225\\346\\250\\241\\345\\235\\227/Django\\347\\254\\254\\344\\270\\203\\345\\255\\243\\345\\256\\214\\346\\225\\264\\351\\241\\271\\347\\233\\256\\346\\272\\220\\347\\240\\201-01/StudentMgr/venv/Lib/site-packages/django/contrib/auth/migrations/0006_require_contenttypes_0002.py\"",
+        "\"python/practise/Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\205\\255\\343\\200\\201\\344\\270\\203\\345\\255\\243\\357\\274\\232Web\\345\\274\\200\\345\\217\\221\\345\\256\\236\\346\\210\\230+\\347\\224\\250\\346\\210\\267\\347\\231\\273\\345\\275\\225\\346\\250\\241\\345\\235\\227/Django\\347\\254\\254\\344\\270\\203\\345\\255\\243\\345\\256\\214\\346\\225\\264\\351\\241\\271\\347\\233\\256\\346\\272\\220\\347\\240\\201-01/StudentMgr/venv/Lib/site-packages/django/contrib/auth/migrations/0007_alter_validators_add_error_messages.py\"",
+        "\"python/practise/Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\205\\255\\343\\200\\201\\344\\270\\203\\345\\255\\243\\357\\274\\232Web\\345\\274\\200\\345\\217\\221\\345\\256\\236\\346\\210\\230+\\347\\224\\250\\346\\210\\267\\347\\231\\273\\345\\275\\225\\346\\250\\241\\345\\235\\227/Django\\347\\254\\254\\344\\270\\203\\345\\255\\243\\345\\256\\214\\346\\225\\264\\351\\241\\271\\347\\233\\256\\346\\272\\220\\347\\240\\201-01/StudentMgr/venv/Lib/site-packages/django/contrib/auth/migrations/0008_alter_user_username_max_length.py\"",
+        "\"python/practise/Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\205\\255\\343\\200\\201\\344\\270\\203\\345\\255\\243\\357\\274\\232Web\\345\\274\\200\\345\\217\\221\\345\\256\\236\\346\\210\\230+\\347\\224\\250\\346\\210\\267\\347\\231\\273\\345\\275\\225\\346\\250\\241\\345\\235\\227/Django\\347\\254\\254\\344\\270\\203\\345\\255\\243\\345\\256\\214\\346\\225\\264\\351\\241\\271\\347\\233\\256\\346\\272\\220\\347\\240\\201-01/StudentMgr/venv/Lib/site-packages/django/contrib/auth/migrations/0009_alter_user_last_name_max_length.py\"",
+        "\"python/practise/Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\205\\255\\343\\200\\201\\344\\270\\203\\345\\255\\243\\357\\274\\232Web\\345\\274\\200\\345\\217\\221\\345\\256\\236\\346\\210\\230+\\347\\224\\250\\346\\210\\267\\347\\231\\273\\345\\275\\225\\346\\250\\241\\345\\235\\227/Django\\347\\254\\254\\344\\270\\203\\345\\255\\243\\345\\256\\214\\346\\225\\264\\351\\241\\271\\347\\233\\256\\346\\272\\220\\347\\240\\201-01/StudentMgr/venv/Lib/site-packages/django/contrib/auth/migrations/0010_alter_group_name_max_length.py\"",
+        "\"python/practise/Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\205\\255\\343\\200\\201\\344\\270\\203\\345\\255\\243\\357\\274\\232Web\\345\\274\\200\\345\\217\\221\\345\\256\\236\\346\\210\\230+\\347\\224\\250\\346\\210\\267\\347\\231\\273\\345\\275\\225\\346\\250\\241\\345\\235\\227/Django\\347\\254\\254\\344\\270\\203\\345\\255\\243\\345\\256\\214\\346\\225\\264\\351\\241\\271\\347\\233\\256\\346\\272\\220\\347\\240\\201-01/StudentMgr/venv/Lib/site-packages/django/contrib/auth/migrations/0011_update_proxy_permissions.py\"",
+        "\"python/practise/Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\205\\255\\343\\200\\201\\344\\270\\203\\345\\255\\243\\357\\274\\232Web\\345\\274\\200\\345\\217\\221\\345\\256\\236\\346\\210\\230+\\347\\224\\250\\346\\210\\267\\347\\231\\273\\345\\275\\225\\346\\250\\241\\345\\235\\227/Django\\347\\254\\254\\344\\270\\203\\345\\255\\243\\345\\256\\214\\346\\225\\264\\351\\241\\271\\347\\233\\256\\346\\272\\220\\347\\240\\201-01/StudentMgr/venv/Lib/site-packages/django/contrib/auth/migrations/0012_alter_user_first_name_max_length.py\"",
+        "\"python/practise/Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\205\\255\\343\\200\\201\\344\\270\\203\\345\\255\\243\\357\\274\\232Web\\345\\274\\200\\345\\217\\221\\345\\256\\236\\346\\210\\230+\\347\\224\\250\\346\\210\\267\\347\\231\\273\\345\\275\\225\\346\\250\\241\\345\\235\\227/Django\\347\\254\\254\\344\\270\\203\\345\\255\\243\\345\\256\\214\\346\\225\\264\\351\\241\\271\\347\\233\\256\\346\\272\\220\\347\\240\\201-01/StudentMgr/venv/Lib/site-packages/django/contrib/contenttypes/migrations/0001_initial.py\"",
+        "\"python/practise/Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\205\\255\\343\\200\\201\\344\\270\\203\\345\\255\\243\\357\\274\\232Web\\345\\274\\200\\345\\217\\221\\345\\256\\236\\346\\210\\230+\\347\\224\\250\\346\\210\\267\\347\\231\\273\\345\\275\\225\\346\\250\\241\\345\\235\\227/Django\\347\\254\\254\\344\\270\\203\\345\\255\\243\\345\\256\\214\\346\\225\\264\\351\\241\\271\\347\\233\\256\\346\\272\\220\\347\\240\\201-01/StudentMgr/venv/Lib/site-packages/django/contrib/contenttypes/migrations/0002_remove_content_type_name.py\"",
+        "\"python/practise/Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\205\\255\\343\\200\\201\\344\\270\\203\\345\\255\\243\\357\\274\\232Web\\345\\274\\200\\345\\217\\221\\345\\256\\236\\346\\210\\230+\\347\\224\\250\\346\\210\\267\\347\\231\\273\\345\\275\\225\\346\\250\\241\\345\\235\\227/Django\\347\\254\\254\\344\\270\\203\\345\\255\\243\\345\\256\\214\\346\\225\\264\\351\\241\\271\\347\\233\\256\\346\\272\\220\\347\\240\\201-01/StudentMgr/venv/Lib/site-packages/django/contrib/flatpages/migrations/0001_initial.py\"",
+        "\"python/practise/Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\205\\255\\343\\200\\201\\344\\270\\203\\345\\255\\243\\357\\274\\232Web\\345\\274\\200\\345\\217\\221\\345\\256\\236\\346\\210\\230+\\347\\224\\250\\346\\210\\267\\347\\231\\273\\345\\275\\225\\346\\250\\241\\345\\235\\227/Django\\347\\254\\254\\344\\270\\203\\345\\255\\243\\345\\256\\214\\346\\225\\264\\351\\241\\271\\347\\233\\256\\346\\272\\220\\347\\240\\201-01/StudentMgr/venv/Lib/site-packages/django/contrib/redirects/migrations/0001_initial.py\"",
+        "\"python/practise/Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\205\\255\\343\\200\\201\\344\\270\\203\\345\\255\\243\\357\\274\\232Web\\345\\274\\200\\345\\217\\221\\345\\256\\236\\346\\210\\230+\\347\\224\\250\\346\\210\\267\\347\\231\\273\\345\\275\\225\\346\\250\\241\\345\\235\\227/Django\\347\\254\\254\\344\\270\\203\\345\\255\\243\\345\\256\\214\\346\\225\\264\\351\\241\\271\\347\\233\\256\\346\\272\\220\\347\\240\\201-01/StudentMgr/venv/Lib/site-packages/django/contrib/sessions/migrations/0001_initial.py\"",
+        "\"python/practise/Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\205\\255\\343\\200\\201\\344\\270\\203\\345\\255\\243\\357\\274\\232Web\\345\\274\\200\\345\\217\\221\\345\\256\\236\\346\\210\\230+\\347\\224\\250\\346\\210\\267\\347\\231\\273\\345\\275\\225\\346\\250\\241\\345\\235\\227/Django\\347\\254\\254\\344\\270\\203\\345\\255\\243\\345\\256\\214\\346\\225\\264\\351\\241\\271\\347\\233\\256\\346\\272\\220\\347\\240\\201-01/StudentMgr/venv/Lib/site-packages/django/contrib/sites/migrations/0001_initial.py\"",
+        "\"python/practise/Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\205\\255\\343\\200\\201\\344\\270\\203\\345\\255\\243\\357\\274\\232Web\\345\\274\\200\\345\\217\\221\\345\\256\\236\\346\\210\\230+\\347\\224\\250\\346\\210\\267\\347\\231\\273\\345\\275\\225\\346\\250\\241\\345\\235\\227/Django\\347\\254\\254\\344\\270\\203\\345\\255\\243\\345\\256\\214\\346\\225\\264\\351\\241\\271\\347\\233\\256\\346\\272\\220\\347\\240\\201-01/StudentMgr/venv/Lib/site-packages/django/contrib/sites/migrations/0002_alter_domain_unique.py\"",
+        "\"python/practise/Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\205\\255\\343\\200\\201\\344\\270\\203\\345\\255\\243\\357\\274\\232Web\\345\\274\\200\\345\\217\\221\\345\\256\\236\\346\\210\\230+\\347\\224\\250\\346\\210\\267\\347\\231\\273\\345\\275\\225\\346\\250\\241\\345\\235\\227/Django\\347\\254\\254\\345\\205\\255\\345\\255\\243\\345\\256\\214\\346\\225\\264\\351\\241\\271\\347\\233\\256\\346\\272\\220\\347\\240\\201/StudentMgr/apps/basicweb/migrations/0001_initial.py\"",
+        "\"python/practise/Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\205\\255\\343\\200\\201\\344\\270\\203\\345\\255\\243\\357\\274\\232Web\\345\\274\\200\\345\\217\\221\\345\\256\\236\\346\\210\\230+\\347\\224\\250\\346\\210\\267\\347\\231\\273\\345\\275\\225\\346\\250\\241\\345\\235\\227/Django\\347\\254\\254\\345\\205\\255\\345\\255\\243\\345\\256\\214\\346\\225\\264\\351\\241\\271\\347\\233\\256\\346\\272\\220\\347\\240\\201/StudentMgr/apps/studentweb/migrations/0001_initial.py\""
+      ],
+      "app_files_touched_in_commit": [
+        "python/practise/basic/__init__.py",
+        "python/practise/basic/con_server.py",
+        "python/practise/basic/dict_p.py",
+        "python/practise/basic/fun_p.py",
+        "python/practise/basic/hanoi.py",
+        "python/practise/basic/json_pickle.py",
+        "python/practise/basic/list_p.py",
+        "python/practise/basic/logging_p.py",
+        "python/practise/basic/random_p.py",
+        "python/practise/basic/re_p.py",
+        "python/practise/basic/set_p.py",
+        "python/practise/basic/str_p.py"
+      ],
+      "orm_models_parsed_old": 0,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "contenttypes_contenttype",
+            "column": "name",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "\"python/practise/Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\205\\255\\343\\200\\201\\344\\270\\203\\345\\255\\243\\357\\274\\232Web\\345\\274\\200\\345\\217\\221\\345\\256\\236\\346\\210\\230+\\347\\224\\250\\346\\210\\267\\347\\231\\273\\345\\275\\225\\346\\250\\241\\345\\235\\227/Django\\347\\254\\254\\344\\270\\203\\345\\255\\243\\345\\256\\214\\346\\225\\264\\351\\241\\271\\347\\233\\256\\346\\272\\220\\347\\240\\201-01/StudentMgr/venv/Lib/site-packages/django/contrib/contenttypes/migrations/0002_remove_content_type_name.py\"",
+            "line": 35,
+            "raw_snippet": "migrations.RemoveField( model_name='contenttype', name='name', )",
+            "extra": {
+              "model_name": "contenttype",
+              "app_label": "contenttypes"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "contenttypes_contenttype",
+            "column": "name",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff"
+        }
+      ]
+    },
+    {
+      "sha": "ca389fffb74b4ae55d938538bae1c05e6e9d2c15",
+      "parent": "070b78e9a7f5955a4f73899a7ffd6d57f5154082",
+      "date": "2022-06-16T10:47:41+08:00",
+      "subject": "add \u5e26\u4f60\u5b66Django REST Framework",
+      "mig_files": [
+        "\"python/practise/\\345\\270\\246\\344\\275\\240\\345\\255\\246DjangoRESTframework/DRF/my_drf/app01/migrations/0001_initial.py\"",
+        "\"python/practise/\\345\\270\\246\\344\\275\\240\\345\\255\\246DjangoRESTframework/DRF/my_drf/app02/migrations/0001_initial.py\"",
+        "\"python/practise/\\345\\270\\246\\344\\275\\240\\345\\255\\246DjangoRESTframework/DRF/my_drf/app02/migrations/0002_auto_20200213_1331.py\"",
+        "\"python/practise/\\345\\270\\246\\344\\275\\240\\345\\255\\246DjangoRESTframework/DRF/my_drf/app02/migrations/0003_auto_20200213_1520.py\"",
+        "\"python/practise/\\345\\270\\246\\344\\275\\240\\345\\255\\246DjangoRESTframework/DRF/my_drf/app03/migrations/0001_initial.py\"",
+        "\"python/practise/\\345\\270\\246\\344\\275\\240\\345\\255\\246DjangoRESTframework/DRF/my_drf/app04/migrations/0001_initial.py\"",
+        "\"python/practise/\\345\\270\\246\\344\\275\\240\\345\\255\\246DjangoRESTframework/DRF/my_drf/app05/migrations/0001_initial.py\"",
+        "\"python/practise/\\345\\270\\246\\344\\275\\240\\345\\255\\246DjangoRESTframework/DRF/my_drf/app06/migrations/0001_initial.py\""
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 0,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "app02_article",
+            "column": "category",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "\"python/practise/\\345\\270\\246\\344\\275\\240\\345\\255\\246DjangoRESTframework/DRF/my_drf/app02/migrations/0002_auto_20200213_1331.py\"",
+            "line": 21,
+            "raw_snippet": "migrations.AddField( model_name='article', name='category', field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, related_name='articles', to='app02.Categ",
+            "extra": {
+              "model_name": "article",
+              "app_label": "app02",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "app02_article",
+            "column": "category",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'app02_article' was created in the same commit; C_{t-1} does not write to it."
+        }
+      ]
+    },
+    {
+      "sha": "070b78e9a7f5955a4f73899a7ffd6d57f5154082",
+      "parent": "58e512b5ab1b349e87195e6c2eb48311b2cc5ed1",
+      "date": "2022-06-10T14:42:42+08:00",
+      "subject": "add \u5e26\u4f60\u5b66Django\u8d44\u6599\u53ca\u6e90\u7801",
+      "mig_files": [
+        "\"python/practise/\\345\\270\\246\\344\\275\\240\\345\\255\\246Django\\350\\265\\204\\346\\226\\231\\345\\217\\212\\346\\272\\220\\347\\240\\201/\\350\\257\\276\\345\\240\\202\\344\\270\\216\\345\\215\\232\\345\\256\\242\\344\\273\\243\\347\\240\\201/peace_blog/blog/migrations/0001_initial.py\"",
+        "\"python/practise/\\345\\270\\246\\344\\275\\240\\345\\255\\246Django\\350\\265\\204\\346\\226\\231\\345\\217\\212\\346\\272\\220\\347\\240\\201/\\350\\257\\276\\345\\240\\202\\344\\270\\216\\345\\215\\232\\345\\256\\242\\344\\273\\243\\347\\240\\201/peace_blog/blog/migrations/0002_auto_20191230_0857.py\"",
+        "\"python/practise/\\345\\270\\246\\344\\275\\240\\345\\255\\246Django\\350\\265\\204\\346\\226\\231\\345\\217\\212\\346\\272\\220\\347\\240\\201/\\350\\257\\276\\345\\240\\202\\344\\270\\216\\345\\215\\232\\345\\256\\242\\344\\273\\243\\347\\240\\201/\\345\\205\\266\\344\\273\\226/my_common/app02/migrations/0001_initial.py\"",
+        "\"python/practise/\\345\\270\\246\\344\\275\\240\\345\\255\\246Django\\350\\265\\204\\346\\226\\231\\345\\217\\212\\346\\272\\220\\347\\240\\201/\\350\\257\\276\\345\\240\\202\\344\\270\\216\\345\\215\\232\\345\\256\\242\\344\\273\\243\\347\\240\\201/\\345\\205\\266\\344\\273\\226/my_common/app03/migrations/0001_initial.py\"",
+        "\"python/practise/\\345\\270\\246\\344\\275\\240\\345\\255\\246Django\\350\\265\\204\\346\\226\\231\\345\\217\\212\\346\\272\\220\\347\\240\\201/\\350\\257\\276\\345\\240\\202\\344\\270\\216\\345\\215\\232\\345\\256\\242\\344\\273\\243\\347\\240\\201/\\345\\205\\266\\344\\273\\226/my_common/app03/migrations/0002_auto_20191225_0640.py\"",
+        "\"python/practise/\\345\\270\\246\\344\\275\\240\\345\\255\\246Django\\350\\265\\204\\346\\226\\231\\345\\217\\212\\346\\272\\220\\347\\240\\201/\\350\\257\\276\\345\\240\\202\\344\\270\\216\\345\\215\\232\\345\\256\\242\\344\\273\\243\\347\\240\\201/\\345\\205\\266\\344\\273\\226/my_common/app05/migrations/0001_initial.py\"",
+        "\"python/practise/\\345\\270\\246\\344\\275\\240\\345\\255\\246Django\\350\\265\\204\\346\\226\\231\\345\\217\\212\\346\\272\\220\\347\\240\\201/\\350\\257\\276\\345\\240\\202\\344\\270\\216\\345\\215\\232\\345\\256\\242\\344\\273\\243\\347\\240\\201/\\345\\205\\266\\344\\273\\226/my_common/app05/migrations/0002_auto_20191225_1445.py\"",
+        "\"python/practise/\\345\\270\\246\\344\\275\\240\\345\\255\\246Django\\350\\265\\204\\346\\226\\231\\345\\217\\212\\346\\272\\220\\347\\240\\201/\\350\\257\\276\\345\\240\\202\\344\\270\\216\\345\\215\\232\\345\\256\\242\\344\\273\\243\\347\\240\\201/\\345\\205\\266\\344\\273\\226/my_common/app08/migrations/0001_initial.py\"",
+        "\"python/practise/\\345\\270\\246\\344\\275\\240\\345\\255\\246Django\\350\\265\\204\\346\\226\\231\\345\\217\\212\\346\\272\\220\\347\\240\\201/\\350\\257\\276\\345\\240\\202\\344\\270\\216\\345\\215\\232\\345\\256\\242\\344\\273\\243\\347\\240\\201/\\345\\205\\266\\344\\273\\226/other_common/app01/migrations/0001_initial.py\"",
+        "\"python/practise/\\345\\270\\246\\344\\275\\240\\345\\255\\246Django\\350\\265\\204\\346\\226\\231\\345\\217\\212\\346\\272\\220\\347\\240\\201/\\350\\257\\276\\345\\240\\202\\344\\270\\216\\345\\215\\232\\345\\256\\242\\344\\273\\243\\347\\240\\201/\\345\\256\\211\\345\\205\\250/my_safe/app02/migrations/0001_initial.py\"",
+        "\"python/practise/\\345\\270\\246\\344\\275\\240\\345\\255\\246Django\\350\\265\\204\\346\\226\\231\\345\\217\\212\\346\\272\\220\\347\\240\\201/\\350\\257\\276\\345\\240\\202\\344\\270\\216\\345\\215\\232\\345\\256\\242\\344\\273\\243\\347\\240\\201/\\345\\256\\211\\345\\205\\250/my_safe/app03/migrations/0001_initial.py\"",
+        "\"python/practise/\\345\\270\\246\\344\\275\\240\\345\\255\\246Django\\350\\265\\204\\346\\226\\231\\345\\217\\212\\346\\272\\220\\347\\240\\201/\\350\\257\\276\\345\\240\\202\\344\\270\\216\\345\\215\\232\\345\\256\\242\\344\\273\\243\\347\\240\\201/\\346\\225\\264\\344\\275\\223/top_news/news/migrations/0001_initial.py\"",
+        "\"python/practise/\\345\\270\\246\\344\\275\\240\\345\\255\\246Django\\350\\265\\204\\346\\226\\231\\345\\217\\212\\346\\272\\220\\347\\240\\201/\\350\\257\\276\\345\\240\\202\\344\\270\\216\\345\\215\\232\\345\\256\\242\\344\\273\\243\\347\\240\\201/\\346\\225\\264\\344\\275\\223/wangzhe/app/migrations/0001_initial.py\"",
+        "\"python/practise/\\345\\270\\246\\344\\275\\240\\345\\255\\246Django\\350\\265\\204\\346\\226\\231\\345\\217\\212\\346\\272\\220\\347\\240\\201/\\350\\257\\276\\345\\240\\202\\344\\270\\216\\345\\215\\232\\345\\256\\242\\344\\273\\243\\347\\240\\201/\\346\\225\\264\\344\\275\\223/wangzhe/app/migrations/0002_kill.py\"",
+        "\"python/practise/\\345\\270\\246\\344\\275\\240\\345\\255\\246Django\\350\\265\\204\\346\\226\\231\\345\\217\\212\\346\\272\\220\\347\\240\\201/\\350\\257\\276\\345\\240\\202\\344\\270\\216\\345\\215\\232\\345\\256\\242\\344\\273\\243\\347\\240\\201/\\346\\250\\241\\345\\236\\213/home_work/app01/migrations/0001_initial.py\"",
+        "\"python/practise/\\345\\270\\246\\344\\275\\240\\345\\255\\246Django\\350\\265\\204\\346\\226\\231\\345\\217\\212\\346\\272\\220\\347\\240\\201/\\350\\257\\276\\345\\240\\202\\344\\270\\216\\345\\215\\232\\345\\256\\242\\344\\273\\243\\347\\240\\201/\\346\\250\\241\\345\\236\\213/home_work/app01/migrations/0002_auto_20191216_1017.py\"",
+        "\"python/practise/\\345\\270\\246\\344\\275\\240\\345\\255\\246Django\\350\\265\\204\\346\\226\\231\\345\\217\\212\\346\\272\\220\\347\\240\\201/\\350\\257\\276\\345\\240\\202\\344\\270\\216\\345\\215\\232\\345\\256\\242\\344\\273\\243\\347\\240\\201/\\346\\250\\241\\345\\236\\213/home_work/app2/migrations/0001_initial.py\"",
+        "\"python/practise/\\345\\270\\246\\344\\275\\240\\345\\255\\246Django\\350\\265\\204\\346\\226\\231\\345\\217\\212\\346\\272\\220\\347\\240\\201/\\350\\257\\276\\345\\240\\202\\344\\270\\216\\345\\215\\232\\345\\256\\242\\344\\273\\243\\347\\240\\201/\\346\\250\\241\\345\\236\\213/my_blog/blog/migrations/0001_initial.py\"",
+        "\"python/practise/\\345\\270\\246\\344\\275\\240\\345\\255\\246Django\\350\\265\\204\\346\\226\\231\\345\\217\\212\\346\\272\\220\\347\\240\\201/\\350\\257\\276\\345\\240\\202\\344\\270\\216\\345\\215\\232\\345\\256\\242\\344\\273\\243\\347\\240\\201/\\346\\250\\241\\345\\236\\213/my_blog/blog/migrations/0002_auto_20191217_0139.py\"",
+        "\"python/practise/\\345\\270\\246\\344\\275\\240\\345\\255\\246Django\\350\\265\\204\\346\\226\\231\\345\\217\\212\\346\\272\\220\\347\\240\\201/\\350\\257\\276\\345\\240\\202\\344\\270\\216\\345\\215\\232\\345\\256\\242\\344\\273\\243\\347\\240\\201/\\346\\250\\241\\345\\236\\213/my_blog/blog/migrations/0003_auto_20191217_0143.py\"",
+        "\"python/practise/\\345\\270\\246\\344\\275\\240\\345\\255\\246Django\\350\\265\\204\\346\\226\\231\\345\\217\\212\\346\\272\\220\\347\\240\\201/\\350\\257\\276\\345\\240\\202\\344\\270\\216\\345\\215\\232\\345\\256\\242\\344\\273\\243\\347\\240\\201/\\346\\250\\241\\345\\236\\213/my_blog/blog/migrations/0004_auto_20191217_0256.py\"",
+        "\"python/practise/\\345\\270\\246\\344\\275\\240\\345\\255\\246Django\\350\\265\\204\\346\\226\\231\\345\\217\\212\\346\\272\\220\\347\\240\\201/\\350\\257\\276\\345\\240\\202\\344\\270\\216\\345\\215\\232\\345\\256\\242\\344\\273\\243\\347\\240\\201/\\346\\250\\241\\345\\236\\213/stu_manager/stu/migrations/0001_initial.py\"",
+        "\"python/practise/\\345\\270\\246\\344\\275\\240\\345\\255\\246Django\\350\\265\\204\\346\\226\\231\\345\\217\\212\\346\\272\\220\\347\\240\\201/\\350\\257\\276\\345\\240\\202\\344\\270\\216\\345\\215\\232\\345\\256\\242\\344\\273\\243\\347\\240\\201/\\346\\250\\241\\345\\236\\213/stu_manager/stu/migrations/0002_student_grades.py\"",
+        "\"python/practise/\\345\\270\\246\\344\\275\\240\\345\\255\\246Django\\350\\265\\204\\346\\226\\231\\345\\217\\212\\346\\272\\220\\347\\240\\201/\\350\\257\\276\\345\\240\\202\\344\\270\\216\\345\\215\\232\\345\\256\\242\\344\\273\\243\\347\\240\\201/\\346\\250\\241\\346\\235\\277/my_templates/app/migrations/0001_initial.py\"",
+        "\"python/practise/\\345\\270\\246\\344\\275\\240\\345\\255\\246Django\\350\\265\\204\\346\\226\\231\\345\\217\\212\\346\\272\\220\\347\\240\\201/\\350\\257\\276\\345\\240\\202\\344\\270\\216\\345\\215\\232\\345\\256\\242\\344\\273\\243\\347\\240\\201/\\350\\247\\206\\345\\233\\276/blind/app/migrations/0001_initial.py\"",
+        "\"python/practise/\\345\\270\\246\\344\\275\\240\\345\\255\\246Django\\350\\265\\204\\346\\226\\231\\345\\217\\212\\346\\272\\220\\347\\240\\201/\\350\\257\\276\\345\\240\\202\\344\\270\\216\\345\\215\\232\\345\\256\\242\\344\\273\\243\\347\\240\\201/\\350\\247\\206\\345\\233\\276/my_views/myupload/migrations/0001_initial.py\"",
+        "\"python/practise/\\345\\270\\246\\344\\275\\240\\345\\255\\246Django\\350\\265\\204\\346\\226\\231\\345\\217\\212\\346\\272\\220\\347\\240\\201/\\350\\257\\276\\345\\240\\202\\344\\270\\216\\345\\215\\232\\345\\256\\242\\344\\273\\243\\347\\240\\201/\\350\\247\\206\\345\\233\\276/my_views/reqapp/migrations/0001_initial.py\""
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 2,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "blog_article",
+            "column": "category",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "\"python/practise/\\345\\270\\246\\344\\275\\240\\345\\255\\246Django\\350\\265\\204\\346\\226\\231\\345\\217\\212\\346\\272\\220\\347\\240\\201/\\350\\257\\276\\345\\240\\202\\344\\270\\216\\345\\215\\232\\345\\256\\242\\344\\273\\243\\347\\240\\201/peace_blog/blog/migrations/0002_auto_20191230_0857.py\"",
+            "line": 108,
+            "raw_snippet": "migrations.AddField( model_name='article', name='category', field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='blog.Category'), )",
+            "extra": {
+              "model_name": "article",
+              "app_label": "blog",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "blog_article",
+            "column": "category",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'blog_article' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "blog_article",
+            "column": "user",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "\"python/practise/\\345\\270\\246\\344\\275\\240\\345\\255\\246Django\\350\\265\\204\\346\\226\\231\\345\\217\\212\\346\\272\\220\\347\\240\\201/\\350\\257\\276\\345\\240\\202\\344\\270\\216\\345\\215\\232\\345\\256\\242\\344\\273\\243\\347\\240\\201/peace_blog/blog/migrations/0002_auto_20191230_0857.py\"",
+            "line": 118,
+            "raw_snippet": "migrations.AddField( model_name='article', name='user', field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL), )",
+            "extra": {
+              "model_name": "article",
+              "app_label": "blog",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "blog_article",
+            "column": "user",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'blog_article' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "app05_gun",
+            "column": "gt",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "\"python/practise/\\345\\270\\246\\344\\275\\240\\345\\255\\246Django\\350\\265\\204\\346\\226\\231\\345\\217\\212\\346\\272\\220\\347\\240\\201/\\350\\257\\276\\345\\240\\202\\344\\270\\216\\345\\215\\232\\345\\256\\242\\344\\273\\243\\347\\240\\201/\\345\\205\\266\\344\\273\\226/my_common/app05/migrations/0002_auto_20191225_1445.py\"",
+            "line": 14,
+            "raw_snippet": "migrations.AddField( model_name='gun', name='gt', field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='app05.GunType', verbose_name='\u5c5e\u4e8e\u79cd\u7c7b'), preserve",
+            "extra": {
+              "model_name": "gun",
+              "app_label": "app05",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "app05_gun",
+            "column": "gt",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'app05_gun' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "app_hero",
+            "column": "ht",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "\"python/practise/\\345\\270\\246\\344\\275\\240\\345\\255\\246Django\\350\\265\\204\\346\\226\\231\\345\\217\\212\\346\\272\\220\\347\\240\\201/\\350\\257\\276\\345\\240\\202\\344\\270\\216\\345\\215\\232\\345\\256\\242\\344\\273\\243\\347\\240\\201/\\346\\225\\264\\344\\275\\223/wangzhe/app/migrations/0001_initial.py\"",
+            "line": 31,
+            "raw_snippet": "migrations.AddField( model_name='hero', name='ht', field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='app.HeroType'), )",
+            "extra": {
+              "model_name": "hero",
+              "app_label": "app",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "app_hero",
+            "column": "ht",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'app_hero' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "app2_nav",
+            "column": "nav_cat",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "\"python/practise/\\345\\270\\246\\344\\275\\240\\345\\255\\246Django\\350\\265\\204\\346\\226\\231\\345\\217\\212\\346\\272\\220\\347\\240\\201/\\350\\257\\276\\345\\240\\202\\344\\270\\216\\345\\215\\232\\345\\256\\242\\344\\273\\243\\347\\240\\201/\\346\\250\\241\\345\\236\\213/home_work/app2/migrations/0001_initial.py\"",
+            "line": 49,
+            "raw_snippet": "migrations.AddField( model_name='nav', name='nav_cat', field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='app2.NavCategory'), )",
+            "extra": {
+              "model_name": "nav",
+              "app_label": "app2",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "app2_nav",
+            "column": "nav_cat",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'app2_nav' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "blog_artcile",
+            "column": "cat",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "\"python/practise/\\345\\270\\246\\344\\275\\240\\345\\255\\246Django\\350\\265\\204\\346\\226\\231\\345\\217\\212\\346\\272\\220\\347\\240\\201/\\350\\257\\276\\345\\240\\202\\344\\270\\216\\345\\215\\232\\345\\256\\242\\344\\273\\243\\347\\240\\201/\\346\\250\\241\\345\\236\\213/my_blog/blog/migrations/0001_initial.py\"",
+            "line": 31,
+            "raw_snippet": "migrations.AddField( model_name='artcile', name='cat', field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='blog.Category', verbose_name='\u5c5e\u4e8e\u54ea\u4e2a\u5206\u7c7b'), )",
+            "extra": {
+              "model_name": "artcile",
+              "app_label": "blog",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "blog_artcile",
+            "column": "cat",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'blog_artcile' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "blog_artcile",
+            "column": "created_time",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "DateTimeField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "\"python/practise/\\345\\270\\246\\344\\275\\240\\345\\255\\246Django\\350\\265\\204\\346\\226\\231\\345\\217\\212\\346\\272\\220\\347\\240\\201/\\350\\257\\276\\345\\240\\202\\344\\270\\216\\345\\215\\232\\345\\256\\242\\344\\273\\243\\347\\240\\201/\\346\\250\\241\\345\\236\\213/my_blog/blog/migrations/0002_auto_20191217_0139.py\"",
+            "line": 22,
+            "raw_snippet": "migrations.AddField( model_name='artcile', name='created_time', field=models.DateTimeField(default=datetime.datetime(2019, 12, 17, 1, 39, 55, 26555), verbose_name='\u521b\u5efa\u65e5\u671f'), )",
+            "extra": {
+              "model_name": "artcile",
+              "app_label": "blog",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "blog_artcile",
+            "column": "created_time",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'blog_artcile' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "blog_artcile",
+            "column": "cnum",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "IntegerField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "\"python/practise/\\345\\270\\246\\344\\275\\240\\345\\255\\246Django\\350\\265\\204\\346\\226\\231\\345\\217\\212\\346\\272\\220\\347\\240\\201/\\350\\257\\276\\345\\240\\202\\344\\270\\216\\345\\215\\232\\345\\256\\242\\344\\273\\243\\347\\240\\201/\\346\\250\\241\\345\\236\\213/my_blog/blog/migrations/0003_auto_20191217_0143.py\"",
+            "line": 14,
+            "raw_snippet": "migrations.AddField( model_name='artcile', name='cnum', field=models.IntegerField(default=0, verbose_name='\u8bc4\u8bba\u91cf'), )",
+            "extra": {
+              "model_name": "artcile",
+              "app_label": "blog",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "blog_artcile",
+            "column": "cnum",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'blog_artcile' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "stu_student",
+            "column": "grades",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "\"python/practise/\\345\\270\\246\\344\\275\\240\\345\\255\\246Django\\350\\265\\204\\346\\226\\231\\345\\217\\212\\346\\272\\220\\347\\240\\201/\\350\\257\\276\\345\\240\\202\\344\\270\\216\\345\\215\\232\\345\\256\\242\\344\\273\\243\\347\\240\\201/\\346\\250\\241\\345\\236\\213/stu_manager/stu/migrations/0002_student_grades.py\"",
+            "line": 14,
+            "raw_snippet": "migrations.AddField( model_name='student', name='grades', field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='stu.Grades'), preserve_default=False, ",
+            "extra": {
+              "model_name": "student",
+              "app_label": "stu",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "stu_student",
+            "column": "grades",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'stu_student' was created in the same commit; C_{t-1} does not write to it."
+        }
+      ]
+    },
+    {
+      "sha": "58e512b5ab1b349e87195e6c2eb48311b2cc5ed1",
+      "parent": "42eeecbc0f5e8e53e594e5cecf29fca6daadc91e",
+      "date": "2022-06-03T17:46:25+08:00",
+      "subject": "add \u8ddf\u7740\u738b\u8fdb\u8001\u5e08\u5b66Python\u4e4bDjango\u7bc7\u7b2c\u56db\u5b63\uff1a\u6570\u636e\u5e93\u5f00\u53d1\u4e4bORM",
+      "mig_files": [
+        "\"python/practise/\\350\\267\\237\\347\\235\\200\\347\\216\\213\\350\\277\\233\\350\\200\\201\\345\\270\\210\\345\\255\\246Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\233\\233\\345\\255\\243\\357\\274\\232\\346\\225\\260\\346\\215\\256\\345\\272\\223\\345\\274\\200\\345\\217\\221\\344\\271\\213ORM/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201-01/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201/Dj040101/app01/migrations/0001_initial.py\"",
+        "\"python/practise/\\350\\267\\237\\347\\235\\200\\347\\216\\213\\350\\277\\233\\350\\200\\201\\345\\270\\210\\345\\255\\246Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\233\\233\\345\\255\\243\\357\\274\\232\\346\\225\\260\\346\\215\\256\\345\\272\\223\\345\\274\\200\\345\\217\\221\\344\\271\\213ORM/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201-01/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201/Dj040101/app01/migrations/0002_auto_20190224_1402.py\"",
+        "\"python/practise/\\350\\267\\237\\347\\235\\200\\347\\216\\213\\350\\277\\233\\350\\200\\201\\345\\270\\210\\345\\255\\246Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\233\\233\\345\\255\\243\\357\\274\\232\\346\\225\\260\\346\\215\\256\\345\\272\\223\\345\\274\\200\\345\\217\\221\\344\\271\\213ORM/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201-01/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201/Dj040101/app01/migrations/0003_auto_20190224_1407.py\"",
+        "\"python/practise/\\350\\267\\237\\347\\235\\200\\347\\216\\213\\350\\277\\233\\350\\200\\201\\345\\270\\210\\345\\255\\246Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\233\\233\\345\\255\\243\\357\\274\\232\\346\\225\\260\\346\\215\\256\\345\\272\\223\\345\\274\\200\\345\\217\\221\\344\\271\\213ORM/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201-01/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201/Dj040201/student/migrations/0001_initial.py\"",
+        "\"python/practise/\\350\\267\\237\\347\\235\\200\\347\\216\\213\\350\\277\\233\\350\\200\\201\\345\\270\\210\\345\\255\\246Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\233\\233\\345\\255\\243\\357\\274\\232\\346\\225\\260\\346\\215\\256\\345\\272\\223\\345\\274\\200\\345\\217\\221\\344\\271\\213ORM/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201-01/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201/Dj040201/student/migrations/0002_table01.py\"",
+        "\"python/practise/\\350\\267\\237\\347\\235\\200\\347\\216\\213\\350\\277\\233\\350\\200\\201\\345\\270\\210\\345\\255\\246Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\233\\233\\345\\255\\243\\357\\274\\232\\346\\225\\260\\346\\215\\256\\345\\272\\223\\345\\274\\200\\345\\217\\221\\344\\271\\213ORM/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201-01/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201/Dj040201/student/migrations/0003_table02.py\"",
+        "\"python/practise/\\350\\267\\237\\347\\235\\200\\347\\216\\213\\350\\277\\233\\350\\200\\201\\345\\270\\210\\345\\255\\246Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\233\\233\\345\\255\\243\\357\\274\\232\\346\\225\\260\\346\\215\\256\\345\\272\\223\\345\\274\\200\\345\\217\\221\\344\\271\\213ORM/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201-01/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201/Dj040201/student/migrations/0004_delete_table02.py\"",
+        "\"python/practise/\\350\\267\\237\\347\\235\\200\\347\\216\\213\\350\\277\\233\\350\\200\\201\\345\\270\\210\\345\\255\\246Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\233\\233\\345\\255\\243\\357\\274\\232\\346\\225\\260\\346\\215\\256\\345\\272\\223\\345\\274\\200\\345\\217\\221\\344\\271\\213ORM/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201-01/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201/Dj040201/student/migrations/0005_classes_studentes_table02.py\"",
+        "\"python/practise/\\350\\267\\237\\347\\235\\200\\347\\216\\213\\350\\277\\233\\350\\200\\201\\345\\270\\210\\345\\255\\246Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\233\\233\\345\\255\\243\\357\\274\\232\\346\\225\\260\\346\\215\\256\\345\\272\\223\\345\\274\\200\\345\\217\\221\\344\\271\\213ORM/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201-01/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201/Dj040301/librarydb/migrations/0001_initial.py\"",
+        "\"python/practise/\\350\\267\\237\\347\\235\\200\\347\\216\\213\\350\\277\\233\\350\\200\\201\\345\\270\\210\\345\\255\\246Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\233\\233\\345\\255\\243\\357\\274\\232\\346\\225\\260\\346\\215\\256\\345\\272\\223\\345\\274\\200\\345\\217\\221\\344\\271\\213ORM/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201-01/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201/Dj040301/librarydb/migrations/0002_auto_20190227_1329.py\"",
+        "\"python/practise/\\350\\267\\237\\347\\235\\200\\347\\216\\213\\350\\277\\233\\350\\200\\201\\345\\270\\210\\345\\255\\246Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\233\\233\\345\\255\\243\\357\\274\\232\\346\\225\\260\\346\\215\\256\\345\\272\\223\\345\\274\\200\\345\\217\\221\\344\\271\\213ORM/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201-01/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201/Dj040301/librarydb/migrations/0003_book_price.py\"",
+        "\"python/practise/\\350\\267\\237\\347\\235\\200\\347\\216\\213\\350\\277\\233\\350\\200\\201\\345\\270\\210\\345\\255\\246Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\233\\233\\345\\255\\243\\357\\274\\232\\346\\225\\260\\346\\215\\256\\345\\272\\223\\345\\274\\200\\345\\217\\221\\344\\271\\213ORM/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201-01/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201/Dj040302/shop/migrations/0001_initial.py\"",
+        "\"python/practise/\\350\\267\\237\\347\\235\\200\\347\\216\\213\\350\\277\\233\\350\\200\\201\\345\\270\\210\\345\\255\\246Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\233\\233\\345\\255\\243\\357\\274\\232\\346\\225\\260\\346\\215\\256\\345\\272\\223\\345\\274\\200\\345\\217\\221\\344\\271\\213ORM/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201-01/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201/Dj040401/librarydb/migrations/0001_initial.py\"",
+        "\"python/practise/\\350\\267\\237\\347\\235\\200\\347\\216\\213\\350\\277\\233\\350\\200\\201\\345\\270\\210\\345\\255\\246Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\233\\233\\345\\255\\243\\357\\274\\232\\346\\225\\260\\346\\215\\256\\345\\272\\223\\345\\274\\200\\345\\217\\221\\344\\271\\213ORM/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201-01/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201/Dj040501/library/migrations/0001_initial.py\""
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 0,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "RENAME_COLUMN",
+            "table": "app01_student",
+            "column": "\u5bb6\u5ead\u4f4f\u5740",
+            "new_name": "address",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "\"python/practise/\\350\\267\\237\\347\\235\\200\\347\\216\\213\\350\\277\\233\\350\\200\\201\\345\\270\\210\\345\\255\\246Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\233\\233\\345\\255\\243\\357\\274\\232\\346\\225\\260\\346\\215\\256\\345\\272\\223\\345\\274\\200\\345\\217\\221\\344\\271\\213ORM/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201-01/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201/Dj040101/app01/migrations/0002_auto_20190224_1402.py\"",
+            "line": 13,
+            "raw_snippet": "migrations.RenameField( model_name='student', old_name='\u5bb6\u5ead\u4f4f\u5740', new_name='address', )",
+            "extra": {
+              "model_name": "student",
+              "app_label": "app01"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "app01_student",
+            "column": "\u5bb6\u5ead\u4f4f\u5740",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "UNCERTAIN",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'app01_student' columns not resolved in C_{t-1} schema snapshot."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "RENAME_COLUMN",
+            "table": "app01_student",
+            "column": "\u51fa\u751f\u65e5\u671f",
+            "new_name": "birthday",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "\"python/practise/\\350\\267\\237\\347\\235\\200\\347\\216\\213\\350\\277\\233\\350\\200\\201\\345\\270\\210\\345\\255\\246Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\233\\233\\345\\255\\243\\357\\274\\232\\346\\225\\260\\346\\215\\256\\345\\272\\223\\345\\274\\200\\345\\217\\221\\344\\271\\213ORM/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201-01/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201/Dj040101/app01/migrations/0002_auto_20190224_1402.py\"",
+            "line": 18,
+            "raw_snippet": "migrations.RenameField( model_name='student', old_name='\u51fa\u751f\u65e5\u671f', new_name='birthday', )",
+            "extra": {
+              "model_name": "student",
+              "app_label": "app01"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "app01_student",
+            "column": "\u51fa\u751f\u65e5\u671f",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "UNCERTAIN",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'app01_student' columns not resolved in C_{t-1} schema snapshot."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "RENAME_COLUMN",
+            "table": "app01_student",
+            "column": "\u59d3\u540d",
+            "new_name": "email",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "\"python/practise/\\350\\267\\237\\347\\235\\200\\347\\216\\213\\350\\277\\233\\350\\200\\201\\345\\270\\210\\345\\255\\246Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\233\\233\\345\\255\\243\\357\\274\\232\\346\\225\\260\\346\\215\\256\\345\\272\\223\\345\\274\\200\\345\\217\\221\\344\\271\\213ORM/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201-01/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201/Dj040101/app01/migrations/0002_auto_20190224_1402.py\"",
+            "line": 23,
+            "raw_snippet": "migrations.RenameField( model_name='student', old_name='\u59d3\u540d', new_name='email', )",
+            "extra": {
+              "model_name": "student",
+              "app_label": "app01"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "app01_student",
+            "column": "\u59d3\u540d",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "UNCERTAIN",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'app01_student' columns not resolved in C_{t-1} schema snapshot."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "RENAME_COLUMN",
+            "table": "app01_student",
+            "column": "\u6027\u522b",
+            "new_name": "gender",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "\"python/practise/\\350\\267\\237\\347\\235\\200\\347\\216\\213\\350\\277\\233\\350\\200\\201\\345\\270\\210\\345\\255\\246Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\233\\233\\345\\255\\243\\357\\274\\232\\346\\225\\260\\346\\215\\256\\345\\272\\223\\345\\274\\200\\345\\217\\221\\344\\271\\213ORM/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201-01/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201/Dj040101/app01/migrations/0002_auto_20190224_1402.py\"",
+            "line": 28,
+            "raw_snippet": "migrations.RenameField( model_name='student', old_name='\u6027\u522b', new_name='gender', )",
+            "extra": {
+              "model_name": "student",
+              "app_label": "app01"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "app01_student",
+            "column": "\u6027\u522b",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "UNCERTAIN",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'app01_student' columns not resolved in C_{t-1} schema snapshot."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "RENAME_COLUMN",
+            "table": "app01_student",
+            "column": "\u624b\u673a\u53f7\u7801",
+            "new_name": "mobile",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "\"python/practise/\\350\\267\\237\\347\\235\\200\\347\\216\\213\\350\\277\\233\\350\\200\\201\\345\\270\\210\\345\\255\\246Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\233\\233\\345\\255\\243\\357\\274\\232\\346\\225\\260\\346\\215\\256\\345\\272\\223\\345\\274\\200\\345\\217\\221\\344\\271\\213ORM/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201-01/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201/Dj040101/app01/migrations/0002_auto_20190224_1402.py\"",
+            "line": 33,
+            "raw_snippet": "migrations.RenameField( model_name='student', old_name='\u624b\u673a\u53f7\u7801', new_name='mobile', )",
+            "extra": {
+              "model_name": "student",
+              "app_label": "app01"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "app01_student",
+            "column": "\u624b\u673a\u53f7\u7801",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "UNCERTAIN",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'app01_student' columns not resolved in C_{t-1} schema snapshot."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "RENAME_COLUMN",
+            "table": "app01_student",
+            "column": "\u90ae\u7bb1\u5730\u5740",
+            "new_name": "name",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "\"python/practise/\\350\\267\\237\\347\\235\\200\\347\\216\\213\\350\\277\\233\\350\\200\\201\\345\\270\\210\\345\\255\\246Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\233\\233\\345\\255\\243\\357\\274\\232\\346\\225\\260\\346\\215\\256\\345\\272\\223\\345\\274\\200\\345\\217\\221\\344\\271\\213ORM/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201-01/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201/Dj040101/app01/migrations/0002_auto_20190224_1402.py\"",
+            "line": 38,
+            "raw_snippet": "migrations.RenameField( model_name='student', old_name='\u90ae\u7bb1\u5730\u5740', new_name='name', )",
+            "extra": {
+              "model_name": "student",
+              "app_label": "app01"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "app01_student",
+            "column": "\u90ae\u7bb1\u5730\u5740",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "UNCERTAIN",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'app01_student' columns not resolved in C_{t-1} schema snapshot."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "RENAME_COLUMN",
+            "table": "app01_student",
+            "column": "\u5b66\u53f7",
+            "new_name": "sno",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "\"python/practise/\\350\\267\\237\\347\\235\\200\\347\\216\\213\\350\\277\\233\\350\\200\\201\\345\\270\\210\\345\\255\\246Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\233\\233\\345\\255\\243\\357\\274\\232\\346\\225\\260\\346\\215\\256\\345\\272\\223\\345\\274\\200\\345\\217\\221\\344\\271\\213ORM/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201-01/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201/Dj040101/app01/migrations/0002_auto_20190224_1402.py\"",
+            "line": 43,
+            "raw_snippet": "migrations.RenameField( model_name='student', old_name='\u5b66\u53f7', new_name='sno', )",
+            "extra": {
+              "model_name": "student",
+              "app_label": "app01"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "app01_student",
+            "column": "\u5b66\u53f7",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "UNCERTAIN",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'app01_student' columns not resolved in C_{t-1} schema snapshot."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_TABLE",
+            "table": "student_table02",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "\"python/practise/\\350\\267\\237\\347\\235\\200\\347\\216\\213\\350\\277\\233\\350\\200\\201\\345\\270\\210\\345\\255\\246Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\233\\233\\345\\255\\243\\357\\274\\232\\346\\225\\260\\346\\215\\256\\345\\272\\223\\345\\274\\200\\345\\217\\221\\344\\271\\213ORM/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201-01/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201/Dj040201/student/migrations/0004_delete_table02.py\"",
+            "line": 13,
+            "raw_snippet": "migrations.DeleteModel( name='Table02', )",
+            "extra": {
+              "model_name": "table02",
+              "app_label": "student"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "student_table02",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "C_{t-1} ORM snapshot unavailable."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "librarydb_book",
+            "column": "booktype",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "\"python/practise/\\350\\267\\237\\347\\235\\200\\347\\216\\213\\350\\277\\233\\350\\200\\201\\345\\270\\210\\345\\255\\246Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\233\\233\\345\\255\\243\\357\\274\\232\\346\\225\\260\\346\\215\\256\\345\\272\\223\\345\\274\\200\\345\\217\\221\\344\\271\\213ORM/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201-01/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201/Dj040301/librarydb/migrations/0002_auto_20190227_1329.py\"",
+            "line": 78,
+            "raw_snippet": "migrations.AddField( model_name='book', name='booktype', field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='librarydb.BookType'), )",
+            "extra": {
+              "model_name": "book",
+              "app_label": "librarydb",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "librarydb_book",
+            "column": "booktype",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'librarydb_book' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "librarydb_book",
+            "column": "press",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "\"python/practise/\\350\\267\\237\\347\\235\\200\\347\\216\\213\\350\\277\\233\\350\\200\\201\\345\\270\\210\\345\\255\\246Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\233\\233\\345\\255\\243\\357\\274\\232\\346\\225\\260\\346\\215\\256\\345\\272\\223\\345\\274\\200\\345\\217\\221\\344\\271\\213ORM/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201-01/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201/Dj040301/librarydb/migrations/0002_auto_20190227_1329.py\"",
+            "line": 83,
+            "raw_snippet": "migrations.AddField( model_name='book', name='press', field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='librarydb.Press'), )",
+            "extra": {
+              "model_name": "book",
+              "app_label": "librarydb",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "librarydb_book",
+            "column": "press",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'librarydb_book' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "librarydb_book",
+            "column": "price",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "FloatField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "\"python/practise/\\350\\267\\237\\347\\235\\200\\347\\216\\213\\350\\277\\233\\350\\200\\201\\345\\270\\210\\345\\255\\246Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\233\\233\\345\\255\\243\\357\\274\\232\\346\\225\\260\\346\\215\\256\\345\\272\\223\\345\\274\\200\\345\\217\\221\\344\\271\\213ORM/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201-01/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201/Dj040301/librarydb/migrations/0003_book_price.py\"",
+            "line": 13,
+            "raw_snippet": "migrations.AddField( model_name='book', name='price', field=models.FloatField(default=0.0, verbose_name='\u4ef7\u683c'), preserve_default=False, )",
+            "extra": {
+              "model_name": "book",
+              "app_label": "librarydb",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "librarydb_book",
+            "column": "price",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'librarydb_book' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "shop_login",
+            "column": "positionid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "\"python/practise/\\350\\267\\237\\347\\235\\200\\347\\216\\213\\350\\277\\233\\350\\200\\201\\345\\270\\210\\345\\255\\246Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\233\\233\\345\\255\\243\\357\\274\\232\\346\\225\\260\\346\\215\\256\\345\\272\\223\\345\\274\\200\\345\\217\\221\\344\\271\\213ORM/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201-01/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201/Dj040302/shop/migrations/0001_initial.py\"",
+            "line": 121,
+            "raw_snippet": "migrations.AddField( model_name='login', name='positionid', field=models.ForeignKey(db_column='PositionId', on_delete=django.db.models.deletion.DO_NOTHING, to='shop.Position'), )",
+            "extra": {
+              "model_name": "login",
+              "app_label": "shop",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "shop_login",
+            "column": "positionid",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'shop_login' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "librarydb_borrowbook",
+            "column": "sno",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "\"python/practise/\\350\\267\\237\\347\\235\\200\\347\\216\\213\\350\\277\\233\\350\\200\\201\\345\\270\\210\\345\\255\\246Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\233\\233\\345\\255\\243\\357\\274\\232\\346\\225\\260\\346\\215\\256\\345\\272\\223\\345\\274\\200\\345\\217\\221\\344\\271\\213ORM/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201-01/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201/Dj040401/librarydb/migrations/0001_initial.py\"",
+            "line": 99,
+            "raw_snippet": "migrations.AddField( model_name='borrowbook', name='sno', field=models.ForeignKey(db_column='SNO', on_delete=django.db.models.deletion.DO_NOTHING, to='librarydb.Student'), )",
+            "extra": {
+              "model_name": "borrowbook",
+              "app_label": "librarydb",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "librarydb_borrowbook",
+            "column": "sno",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'librarydb_borrowbook' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "librarydb_book",
+            "column": "bookpress",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "\"python/practise/\\350\\267\\237\\347\\235\\200\\347\\216\\213\\350\\277\\233\\350\\200\\201\\345\\270\\210\\345\\255\\246Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\233\\233\\345\\255\\243\\357\\274\\232\\346\\225\\260\\346\\215\\256\\345\\272\\223\\345\\274\\200\\345\\217\\221\\344\\271\\213ORM/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201-01/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201/Dj040401/librarydb/migrations/0001_initial.py\"",
+            "line": 104,
+            "raw_snippet": "migrations.AddField( model_name='book', name='bookpress', field=models.ForeignKey(db_column='BookPressID', on_delete=django.db.models.deletion.DO_NOTHING, to='librarydb.Press'), )",
+            "extra": {
+              "model_name": "book",
+              "app_label": "librarydb",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "librarydb_book",
+            "column": "bookpress",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'librarydb_book' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "librarydb_book",
+            "column": "booktype",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "\"python/practise/\\350\\267\\237\\347\\235\\200\\347\\216\\213\\350\\277\\233\\350\\200\\201\\345\\270\\210\\345\\255\\246Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\233\\233\\345\\255\\243\\357\\274\\232\\346\\225\\260\\346\\215\\256\\345\\272\\223\\345\\274\\200\\345\\217\\221\\344\\271\\213ORM/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201-01/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201/Dj040401/librarydb/migrations/0001_initial.py\"",
+            "line": 109,
+            "raw_snippet": "migrations.AddField( model_name='book', name='booktype', field=models.ForeignKey(db_column='BookTypeID', on_delete=django.db.models.deletion.DO_NOTHING, to='librarydb.Booktype'), )",
+            "extra": {
+              "model_name": "book",
+              "app_label": "librarydb",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "librarydb_book",
+            "column": "booktype",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'librarydb_book' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "library_borrowbook",
+            "column": "sno",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "\"python/practise/\\350\\267\\237\\347\\235\\200\\347\\216\\213\\350\\277\\233\\350\\200\\201\\345\\270\\210\\345\\255\\246Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\233\\233\\345\\255\\243\\357\\274\\232\\346\\225\\260\\346\\215\\256\\345\\272\\223\\345\\274\\200\\345\\217\\221\\344\\271\\213ORM/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201-01/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201/Dj040501/library/migrations/0001_initial.py\"",
+            "line": 99,
+            "raw_snippet": "migrations.AddField( model_name='borrowbook', name='sno', field=models.ForeignKey(db_column='SNO', on_delete=django.db.models.deletion.DO_NOTHING, to='library.Student'), )",
+            "extra": {
+              "model_name": "borrowbook",
+              "app_label": "library",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "library_borrowbook",
+            "column": "sno",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'library_borrowbook' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "library_book",
+            "column": "bookpress",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "\"python/practise/\\350\\267\\237\\347\\235\\200\\347\\216\\213\\350\\277\\233\\350\\200\\201\\345\\270\\210\\345\\255\\246Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\233\\233\\345\\255\\243\\357\\274\\232\\346\\225\\260\\346\\215\\256\\345\\272\\223\\345\\274\\200\\345\\217\\221\\344\\271\\213ORM/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201-01/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201/Dj040501/library/migrations/0001_initial.py\"",
+            "line": 104,
+            "raw_snippet": "migrations.AddField( model_name='book', name='bookpress', field=models.ForeignKey(db_column='BookPressID', on_delete=django.db.models.deletion.DO_NOTHING, to='library.Press'), )",
+            "extra": {
+              "model_name": "book",
+              "app_label": "library",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "library_book",
+            "column": "bookpress",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'library_book' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "library_book",
+            "column": "booktype",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "\"python/practise/\\350\\267\\237\\347\\235\\200\\347\\216\\213\\350\\277\\233\\350\\200\\201\\345\\270\\210\\345\\255\\246Python\\344\\271\\213Django\\347\\257\\207\\347\\254\\254\\345\\233\\233\\345\\255\\243\\357\\274\\232\\346\\225\\260\\346\\215\\256\\345\\272\\223\\345\\274\\200\\345\\217\\221\\344\\271\\213ORM/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201-01/Django\\347\\254\\254\\345\\233\\233\\345\\255\\243\\346\\272\\220\\347\\240\\201/Dj040501/library/migrations/0001_initial.py\"",
+            "line": 109,
+            "raw_snippet": "migrations.AddField( model_name='book', name='booktype', field=models.ForeignKey(db_column='BookTypeID', on_delete=django.db.models.deletion.DO_NOTHING, to='library.Booktype'), )",
+            "extra": {
+              "model_name": "book",
+              "app_label": "library",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "library_book",
+            "column": "booktype",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'library_book' was created in the same commit; C_{t-1} does not write to it."
+        }
+      ]
+    }
+  ]
+}

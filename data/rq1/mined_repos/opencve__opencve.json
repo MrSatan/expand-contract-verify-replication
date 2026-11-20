@@ -1,0 +1,779 @@
+{
+  "repo": "opencve/opencve",
+  "ecosystem": "django",
+  "stars": 2968,
+  "has_k8s_helm": false,
+  "status": "ok",
+  "stats": {
+    "total_migration_commits_in_history": 32,
+    "migration_commits_analyzed": 31,
+    "total_migration_files_parsed": 54,
+    "commits_with_any_destructive": 6,
+    "commits_with_forward_destructive": 6,
+    "commits_with_rollback_only_destructive": 0,
+    "total_ops_extracted": 24,
+    "destructive_ops_up": 15,
+    "destructive_ops_down": 0
+  },
+  "verdict_counts": {
+    "DUAL_VERSION_VIOLATION_BACKWARD": 7,
+    "SAFE_ADDITIVE": 8
+  },
+  "destructive_commits": [
+    {
+      "sha": "1ddf7df70cfb9b621567c51aef0d9827b81cd5ab",
+      "parent": "6a90fa5a8263c080242475bb747e1e8f899fd5a6",
+      "date": "2026-07-08T14:37:44+02:00",
+      "subject": "feat: add access mode and scopes to organization API tokens",
+      "mig_files": [
+        "web/organizations/migrations/0011_organizationapitoken_access_mode_scopes.py"
+      ],
+      "app_files_touched_in_commit": [
+        "web/organizations/models.py"
+      ],
+      "orm_models_parsed_old": 3,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "organizations_organizationapitoken",
+            "column": "access_mode",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "CharField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "web/organizations/migrations/0011_organizationapitoken_access_mode_scopes.py",
+            "line": 11,
+            "raw_snippet": "migrations.AddField( model_name=\"organizationapitoken\", name=\"access_mode\", field=models.CharField( choices=[(\"read\", \"Read-only\"), (\"write\", \"Read-write\")], default=\"read\", max_le",
+            "extra": {
+              "model_name": "organizationapitoken",
+              "app_label": "organizations",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "organizations_organizationapitoken",
+            "column": "access_mode",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "web/organizations/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'organizations_organizationapitoken.access_mode' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "organizations_organizationapitoken",
+            "column": "scopes",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "JSONField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "web/organizations/migrations/0011_organizationapitoken_access_mode_scopes.py",
+            "line": 20,
+            "raw_snippet": "migrations.AddField( model_name=\"organizationapitoken\", name=\"scopes\", field=models.JSONField(blank=True, default=list), )",
+            "extra": {
+              "model_name": "organizationapitoken",
+              "app_label": "organizations",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "organizations_organizationapitoken",
+            "column": "scopes",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "web/organizations/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'organizations_organizationapitoken.scopes' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    },
+    {
+      "sha": "7c60e28e4d9a0a3cd0711e8f64b22f8e33370c55",
+      "parent": "4089343608f119c1e58f4c120d0404f75609a835",
+      "date": "2026-05-18T12:08:28+02:00",
+      "subject": "feat: add Automation, AutomationExecution and AutomationRunResult models",
+      "mig_files": [
+        "web/changes/migrations/0005_report_automation_period.py",
+        "web/projects/migrations/0008_automation_automationexecution_automationrunresult.py",
+        "web/projects/migrations/0009_migrate_notification_rules_to_automations.py"
+      ],
+      "app_files_touched_in_commit": [
+        "web/changes/models.py",
+        "web/cves/models.py",
+        "web/cves/utils.py",
+        "web/projects/models.py"
+      ],
+      "orm_models_parsed_old": 2,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "changes_report",
+            "column": "period_type",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "CharField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "web/changes/migrations/0005_report_automation_period.py",
+            "line": 117,
+            "raw_snippet": "migrations.AddField( model_name=\"report\", name=\"period_type\", field=models.CharField( choices=[(\"daily\", \"Daily\"), (\"weekly\", \"Weekly\")], default=\"daily\", max_length=20, ), )",
+            "extra": {
+              "model_name": "report",
+              "app_label": "changes",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "changes_report",
+            "column": "period_type",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "web/changes/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'changes_report.period_type' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "changes_report",
+            "column": "period_timezone",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "CharField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "web/changes/migrations/0005_report_automation_period.py",
+            "line": 126,
+            "raw_snippet": "migrations.AddField( model_name=\"report\", name=\"period_timezone\", field=models.CharField(default=\"UTC\", max_length=64), )",
+            "extra": {
+              "model_name": "report",
+              "app_label": "changes",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "changes_report",
+            "column": "period_timezone",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "web/changes/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'changes_report.period_timezone' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    },
+    {
+      "sha": "57da34e6c33bd2c3406678410592d59087bc10e4",
+      "parent": "4b4953ac45fae66d8569fae205ac32d11f640b01",
+      "date": "2024-08-09T16:23:55+02:00",
+      "subject": "chore: use black",
+      "mig_files": [
+        "web/changes/migrations/0001_initial.py",
+        "web/changes/migrations/0002_add_project_cve.py",
+        "web/cves/migrations/0001_initial.py",
+        "web/organizations/migrations/0001_initial.py",
+        "web/organizations/migrations/0002_add_members.py",
+        "web/organizations/migrations/0003_alter_organization_name.py",
+        "web/projects/migrations/0001_initial.py",
+        "web/projects/migrations/0002_alter_project_name.py",
+        "web/users/migrations/0001_initial.py"
+      ],
+      "app_files_touched_in_commit": [
+        "scheduler/dags/includes/handler.py",
+        "scheduler/dags/includes/operators/__init__.py",
+        "scheduler/dags/includes/operators/process_kb_operator.py",
+        "scheduler/dags/includes/tasks/notifications.py",
+        "web/cves/constants.py",
+        "web/cves/models.py",
+        "web/cves/resources.py",
+        "web/cves/templatetags/opencve_extras.py",
+        "web/cves/urls.py",
+        "web/cves/views.py",
+        "web/opencve/urls.py",
+        "web/organizations/resources.py"
+      ],
+      "orm_models_parsed_old": 6,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "changes_report",
+            "column": "project",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "web/changes/migrations/0002_add_project_cve.py",
+            "line": 18,
+            "raw_snippet": "migrations.AddField( model_name=\"report\", name=\"project\", field=models.ForeignKey( on_delete=django.db.models.deletion.CASCADE, related_name=\"reports\", to=\"projects.project\", ), )",
+            "extra": {
+              "model_name": "report",
+              "app_label": "changes",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "changes_report",
+            "column": "project",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "web/changes/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'changes_report' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "changes_change",
+            "column": "cve",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "web/changes/migrations/0002_add_project_cve.py",
+            "line": 27,
+            "raw_snippet": "migrations.AddField( model_name=\"change\", name=\"cve\", field=models.ForeignKey( on_delete=django.db.models.deletion.CASCADE, related_name=\"changes\", to=\"cves.cve\", ), )",
+            "extra": {
+              "model_name": "change",
+              "app_label": "changes",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "changes_change",
+            "column": "cve",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "web/changes/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'changes_change' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "organizations_membership",
+            "column": "organization",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "web/organizations/migrations/0002_add_members.py",
+            "line": 25,
+            "raw_snippet": "migrations.AddField( model_name=\"membership\", name=\"organization\", field=models.ForeignKey( on_delete=django.db.models.deletion.CASCADE, to=\"organizations.organization\", ), )",
+            "extra": {
+              "model_name": "membership",
+              "app_label": "organizations",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "organizations_membership",
+            "column": "organization",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "web/organizations/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'organizations_membership' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "organizations_membership",
+            "column": "user",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "web/organizations/migrations/0002_add_members.py",
+            "line": 33,
+            "raw_snippet": "migrations.AddField( model_name=\"membership\", name=\"user\", field=models.ForeignKey( on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL ), )",
+            "extra": {
+              "model_name": "membership",
+              "app_label": "organizations",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "organizations_membership",
+            "column": "user",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "web/organizations/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'organizations_membership' was created in the same commit; C_{t-1} does not write to it."
+        }
+      ]
+    },
+    {
+      "sha": "bba265e8367cf86c21f7010edfc34e55e7a512a2",
+      "parent": "d7e844994fca71090f199f4ff661ef42ccd60791",
+      "date": "2024-08-04T19:52:14+02:00",
+      "subject": "refactor: better git commit handling in changes",
+      "mig_files": [
+        "web/changes/migrations/0002_add_project_cve.py",
+        "web/cves/migrations/0002_add_cve_upsert_procedure.py"
+      ],
+      "app_files_touched_in_commit": [
+        "scheduler/dags/includes/handler.py",
+        "scheduler/dags/includes/operators/insert_operator.py",
+        "scheduler/dags/includes/operators/process_kb_operator.py",
+        "scheduler/dags/opencve_dag.py",
+        "web/changes/models.py"
+      ],
+      "orm_models_parsed_old": 2,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "changes_report",
+            "column": "project",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "web/changes/migrations/0002_add_project_cve.py",
+            "line": 18,
+            "raw_snippet": "migrations.AddField( model_name='report', name='project', field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='reports', to='projects.project'), )",
+            "extra": {
+              "model_name": "report",
+              "app_label": "changes",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "changes_report",
+            "column": "project",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "web/changes/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'changes_report.project' breaks C_{t-1} INSERTs."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "changes_change",
+            "column": "cve",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "web/changes/migrations/0002_add_project_cve.py",
+            "line": 23,
+            "raw_snippet": "migrations.AddField( model_name='change', name='cve', field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='changes', to='cves.cve'), )",
+            "extra": {
+              "model_name": "change",
+              "app_label": "changes",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "changes_change",
+            "column": "cve",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "web/changes/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'changes_change.cve' breaks C_{t-1} INSERTs."
+        }
+      ]
+    },
+    {
+      "sha": "a5788906f10b0980b1c0f8fbd24c4cdc978c0ad5",
+      "parent": "981f6c998350b178c8618c7d0752b6a0de097587",
+      "date": "2024-03-31T12:03:55+02:00",
+      "subject": "feat: allow the user to enable or disable a project",
+      "mig_files": [
+        "web/projects/migrations/0003_project_active.py"
+      ],
+      "app_files_touched_in_commit": [
+        "scheduler/dags/includes/constants.py",
+        "web/projects/forms.py",
+        "web/projects/mixins.py",
+        "web/projects/models.py",
+        "web/projects/views.py"
+      ],
+      "orm_models_parsed_old": 2,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "projects_project",
+            "column": "active",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "BooleanField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "web/projects/migrations/0003_project_active.py",
+            "line": 13,
+            "raw_snippet": "migrations.AddField( model_name=\"project\", name=\"active\", field=models.BooleanField(default=True), )",
+            "extra": {
+              "model_name": "project",
+              "app_label": "projects",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "projects_project",
+            "column": "active",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "web/projects/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'projects_project.active' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    },
+    {
+      "sha": "d43d82101622cdedc9f263744abb34e001b0b709",
+      "parent": "e9d1e11f77287e39ee607e7dbfb39bc3e6433e5c",
+      "date": "2024-02-26T23:52:58+01:00",
+      "subject": "feat: welcome to OpenCVE v2",
+      "mig_files": [
+        "web/changes/migrations/0001_initial.py",
+        "web/changes/migrations/0002_add_project_cve.py",
+        "web/changes/migrations/0003_add_change_report_upsert_procedures.py",
+        "web/cves/migrations/0001_initial.py",
+        "web/cves/migrations/0002_add_cve_upsert_procedures.py",
+        "web/organizations/migrations/0001_initial.py",
+        "web/organizations/migrations/0002_add_members.py",
+        "web/projects/migrations/0001_initial.py",
+        "web/users/migrations/0001_initial.py"
+      ],
+      "app_files_touched_in_commit": [
+        "opencve/__init__.py",
+        "opencve/admin.py",
+        "opencve/api/__init__.py",
+        "opencve/api/alerts.py",
+        "opencve/api/base.py",
+        "opencve/api/cves.py",
+        "opencve/api/cwes.py",
+        "opencve/api/fields.py",
+        "opencve/api/products.py",
+        "opencve/api/reports.py",
+        "opencve/api/subscriptions.py",
+        "opencve/api/vendors.py"
+      ],
+      "orm_models_parsed_old": 0,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "changes_report",
+            "column": "project",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "web/changes/migrations/0002_add_project_cve.py",
+            "line": 18,
+            "raw_snippet": "migrations.AddField( model_name='report', name='project', field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='reports', to='projects.project'), )",
+            "extra": {
+              "model_name": "report",
+              "app_label": "changes",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "changes_report",
+            "column": "project",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'changes_report' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "changes_change",
+            "column": "cve",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "web/changes/migrations/0002_add_project_cve.py",
+            "line": 23,
+            "raw_snippet": "migrations.AddField( model_name='change', name='cve', field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='changes', to='cves.cve'), )",
+            "extra": {
+              "model_name": "change",
+              "app_label": "changes",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "changes_change",
+            "column": "cve",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'changes_change' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "organizations_membership",
+            "column": "organization",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "web/organizations/migrations/0002_add_members.py",
+            "line": 23,
+            "raw_snippet": "migrations.AddField( model_name='membership', name='organization', field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='organizations.organization'), )",
+            "extra": {
+              "model_name": "membership",
+              "app_label": "organizations",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "organizations_membership",
+            "column": "organization",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'organizations_membership' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "organizations_membership",
+            "column": "user",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "web/organizations/migrations/0002_add_members.py",
+            "line": 28,
+            "raw_snippet": "migrations.AddField( model_name='membership', name='user', field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL), )",
+            "extra": {
+              "model_name": "membership",
+              "app_label": "organizations",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "organizations_membership",
+            "column": "user",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'organizations_membership' was created in the same commit; C_{t-1} does not write to it."
+        }
+      ]
+    }
+  ]
+}

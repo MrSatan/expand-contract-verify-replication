@@ -1,0 +1,482 @@
+[
+  {
+    "id": "rails_061",
+    "executed_ok": true,
+    "flagged": true,
+    "error_kind": "UnsafeMigration",
+    "message": "=== Dangerous operation detected #strong_migrations === | Adding an index non-concurrently blocks writes. Instead, use: | class #<Module:0x0000022161d27b28>::AddUsernameToUsers < ActiveRecord::Migration[8.1]",
+    "elapsed_ms": 180.55
+  },
+  {
+    "id": "rails_062",
+    "executed_ok": true,
+    "flagged": true,
+    "error_kind": "UnsafeMigration",
+    "message": "=== Dangerous operation detected #strong_migrations === | Changing the type of an existing column blocks reads and writes | while the entire table is rewritten. A safer approach is to:",
+    "elapsed_ms": 2.63
+  },
+  {
+    "id": "rails_063",
+    "executed_ok": false,
+    "flagged": false,
+    "error_kind": "NameError",
+    "message": "uninitialized constant #<Module:0x0000022162689428>::LinkShareVisibilitiesWithUser::ShareVisibility",
+    "elapsed_ms": 0.8
+  },
+  {
+    "id": "rails_064",
+    "executed_ok": true,
+    "flagged": false,
+    "error_kind": null,
+    "message": null,
+    "elapsed_ms": 1.07
+  },
+  {
+    "id": "rails_065",
+    "executed_ok": true,
+    "flagged": true,
+    "error_kind": "UnsafeMigration",
+    "message": "=== Dangerous operation detected #strong_migrations === | Renaming a column that's in use will cause errors | in your application. A safer approach is to:",
+    "elapsed_ms": 0.52
+  },
+  {
+    "id": "rails_066",
+    "executed_ok": true,
+    "flagged": true,
+    "error_kind": "UnsafeMigration",
+    "message": "=== Dangerous operation detected #strong_migrations === | Renaming a table that's in use will cause errors | in your application. A safer approach is to:",
+    "elapsed_ms": 0.65
+  },
+  {
+    "id": "rails_067",
+    "executed_ok": true,
+    "flagged": true,
+    "error_kind": "UnsafeMigration",
+    "message": "=== Dangerous operation detected #strong_migrations === | Setting NOT NULL on an existing column blocks reads and writes while every row is checked. | Instead, add a check constraint and validate it in a separate migration.",
+    "elapsed_ms": 0.75
+  },
+  {
+    "id": "rails_068",
+    "executed_ok": true,
+    "flagged": true,
+    "error_kind": "UnsafeMigration",
+    "message": "=== Dangerous operation detected #strong_migrations === | Changing the type of an existing column blocks reads and writes | while the entire table is rewritten. A safer approach is to:",
+    "elapsed_ms": 0.59
+  },
+  {
+    "id": "rails_069",
+    "executed_ok": true,
+    "flagged": true,
+    "error_kind": "UnsafeMigration",
+    "message": "=== Dangerous operation detected #strong_migrations === | Active Record caches attributes, which causes problems | when removing columns. Be sure to ignore the column:",
+    "elapsed_ms": 0.99
+  },
+  {
+    "id": "rails_070",
+    "executed_ok": true,
+    "flagged": false,
+    "error_kind": null,
+    "message": null,
+    "elapsed_ms": 0.43
+  },
+  {
+    "id": "rails_071",
+    "executed_ok": true,
+    "flagged": true,
+    "error_kind": "UnsafeMigration",
+    "message": "=== Dangerous operation detected #strong_migrations === | Renaming a column that's in use will cause errors | in your application. A safer approach is to:",
+    "elapsed_ms": 0.47
+  },
+  {
+    "id": "rails_072",
+    "executed_ok": true,
+    "flagged": true,
+    "error_kind": "UnsafeMigration",
+    "message": "=== Dangerous operation detected #strong_migrations === | Renaming a table that's in use will cause errors | in your application. A safer approach is to:",
+    "elapsed_ms": 0.64
+  },
+  {
+    "id": "rails_073",
+    "executed_ok": true,
+    "flagged": true,
+    "error_kind": "UnsafeMigration",
+    "message": "=== Dangerous operation detected #strong_migrations === | Setting NOT NULL on an existing column blocks reads and writes while every row is checked. | Instead, add a check constraint and validate it in a separate migration.",
+    "elapsed_ms": 0.7
+  },
+  {
+    "id": "rails_074",
+    "executed_ok": false,
+    "flagged": false,
+    "error_kind": "NameError",
+    "message": "uninitialized constant #<Module:0x00000221626e3cc0>::ChecklistTablesWrongColumnType::Setting",
+    "elapsed_ms": 0.47
+  },
+  {
+    "id": "rails_075",
+    "executed_ok": true,
+    "flagged": true,
+    "error_kind": "UnsafeMigration",
+    "message": "=== Dangerous operation detected #strong_migrations === | Active Record caches attributes, which causes problems | when removing columns. Be sure to ignore the column:",
+    "elapsed_ms": 0.5
+  },
+  {
+    "id": "rails_076",
+    "executed_ok": true,
+    "flagged": false,
+    "error_kind": null,
+    "message": null,
+    "elapsed_ms": 0.41
+  },
+  {
+    "id": "rails_077",
+    "executed_ok": true,
+    "flagged": true,
+    "error_kind": "UnsafeMigration",
+    "message": "=== Dangerous operation detected #strong_migrations === | Renaming a column that's in use will cause errors | in your application. A safer approach is to:",
+    "elapsed_ms": 0.46
+  },
+  {
+    "id": "rails_078",
+    "executed_ok": true,
+    "flagged": true,
+    "error_kind": "UnsafeMigration",
+    "message": "=== Dangerous operation detected #strong_migrations === | Renaming a column that's in use will cause errors | in your application. A safer approach is to:",
+    "elapsed_ms": 0.35
+  },
+  {
+    "id": "rails_079",
+    "executed_ok": false,
+    "flagged": false,
+    "error_kind": "NameError",
+    "message": "uninitialized constant Host",
+    "elapsed_ms": 0.18
+  },
+  {
+    "id": "rails_080",
+    "executed_ok": true,
+    "flagged": true,
+    "error_kind": "UnsafeMigration",
+    "message": "=== Dangerous operation detected #strong_migrations === | Changing the type of an existing column blocks reads and writes | while the entire table is rewritten. A safer approach is to:",
+    "elapsed_ms": 0.5
+  },
+  {
+    "id": "rails_081",
+    "executed_ok": true,
+    "flagged": true,
+    "error_kind": "UnsafeMigration",
+    "message": "=== Dangerous operation detected #strong_migrations === | Active Record caches attributes, which causes problems | when removing columns. Be sure to ignore the column:",
+    "elapsed_ms": 0.61
+  },
+  {
+    "id": "rails_082",
+    "executed_ok": true,
+    "flagged": false,
+    "error_kind": null,
+    "message": null,
+    "elapsed_ms": 0.44
+  },
+  {
+    "id": "rails_083",
+    "executed_ok": true,
+    "flagged": true,
+    "error_kind": "UnsafeMigration",
+    "message": "=== Dangerous operation detected #strong_migrations === | Renaming a column that's in use will cause errors | in your application. A safer approach is to:",
+    "elapsed_ms": 0.36
+  },
+  {
+    "id": "rails_084",
+    "executed_ok": true,
+    "flagged": true,
+    "error_kind": "UnsafeMigration",
+    "message": "=== Dangerous operation detected #strong_migrations === | Renaming a table that's in use will cause errors | in your application. A safer approach is to:",
+    "elapsed_ms": 0.55
+  },
+  {
+    "id": "rails_085",
+    "executed_ok": true,
+    "flagged": true,
+    "error_kind": "UnsafeMigration",
+    "message": "=== Dangerous operation detected #strong_migrations === | Setting NOT NULL on an existing column blocks reads and writes while every row is checked. | Instead, add a check constraint and validate it in a separate migration.",
+    "elapsed_ms": 0.55
+  },
+  {
+    "id": "rails_086",
+    "executed_ok": true,
+    "flagged": false,
+    "error_kind": null,
+    "message": null,
+    "elapsed_ms": 0.61
+  },
+  {
+    "id": "rails_087",
+    "executed_ok": true,
+    "flagged": false,
+    "error_kind": null,
+    "message": null,
+    "elapsed_ms": 0.61
+  },
+  {
+    "id": "rails_088",
+    "executed_ok": true,
+    "flagged": false,
+    "error_kind": null,
+    "message": null,
+    "elapsed_ms": 2.94
+  },
+  {
+    "id": "rails_089",
+    "executed_ok": true,
+    "flagged": true,
+    "error_kind": "UnsafeMigration",
+    "message": "=== Dangerous operation detected #strong_migrations === | Renaming a column that's in use will cause errors | in your application. A safer approach is to:",
+    "elapsed_ms": 0.87
+  },
+  {
+    "id": "rails_090",
+    "executed_ok": true,
+    "flagged": true,
+    "error_kind": "UnsafeMigration",
+    "message": "=== Dangerous operation detected #strong_migrations === | Setting NOT NULL on an existing column blocks reads and writes while every row is checked. | Instead, add a check constraint and validate it in a separate migration.",
+    "elapsed_ms": 0.58
+  },
+  {
+    "id": "rails_091",
+    "executed_ok": true,
+    "flagged": false,
+    "error_kind": null,
+    "message": null,
+    "elapsed_ms": 0.6
+  },
+  {
+    "id": "rails_092",
+    "executed_ok": true,
+    "flagged": true,
+    "error_kind": "UnsafeMigration",
+    "message": "=== Dangerous operation detected #strong_migrations === | Adding an index non-concurrently blocks writes. Instead, use: | class #<Module:0x0000022162847d00>::AddStatusToProjectPhases < ActiveRecord::Migration[8.1]",
+    "elapsed_ms": 0.75
+  },
+  {
+    "id": "rails_093",
+    "executed_ok": false,
+    "flagged": false,
+    "error_kind": "NoMethodError",
+    "message": "undefined method 'map' for nil",
+    "elapsed_ms": 10.56
+  },
+  {
+    "id": "rails_094",
+    "executed_ok": true,
+    "flagged": true,
+    "error_kind": "UnsafeMigration",
+    "message": "=== Dangerous operation detected #strong_migrations === | Active Record caches attributes, which causes problems | when removing columns. Be sure to ignore the column:",
+    "elapsed_ms": 1.02
+  },
+  {
+    "id": "rails_095",
+    "executed_ok": true,
+    "flagged": true,
+    "error_kind": "UnsafeMigration",
+    "message": "=== Dangerous operation detected #strong_migrations === | The force option will destroy existing tables. | If this is intended, drop the existing table first.",
+    "elapsed_ms": 0.71
+  },
+  {
+    "id": "rails_096",
+    "executed_ok": false,
+    "flagged": false,
+    "error_kind": "NoMethodError",
+    "message": "private method 'select' called for nil",
+    "elapsed_ms": 1.07
+  },
+  {
+    "id": "rails_097",
+    "executed_ok": true,
+    "flagged": true,
+    "error_kind": "UnsafeMigration",
+    "message": "=== Dangerous operation detected #strong_migrations === | Renaming a table that's in use will cause errors | in your application. A safer approach is to:",
+    "elapsed_ms": 0.47
+  },
+  {
+    "id": "rails_098",
+    "executed_ok": true,
+    "flagged": true,
+    "error_kind": "UnsafeMigration",
+    "message": "=== Dangerous operation detected #strong_migrations === | Validating a check constraint while writes are blocked is dangerous. | Use disable_ddl_transaction! or a separate migration.",
+    "elapsed_ms": 0.51
+  },
+  {
+    "id": "rails_099",
+    "executed_ok": true,
+    "flagged": true,
+    "error_kind": "UnsafeMigration",
+    "message": "=== Dangerous operation detected #strong_migrations === | Adding an index non-concurrently blocks writes. Instead, use: | class #<Module:0x00000221627f1f40>::AddNumberToCards < ActiveRecord::Migration[8.1]",
+    "elapsed_ms": 0.73
+  },
+  {
+    "id": "rails_100",
+    "executed_ok": false,
+    "flagged": false,
+    "error_kind": "NoMethodError",
+    "message": "undefined method '[]' for nil",
+    "elapsed_ms": 2.52
+  },
+  {
+    "id": "rails_101",
+    "executed_ok": true,
+    "flagged": true,
+    "error_kind": "UnsafeMigration",
+    "message": "=== Dangerous operation detected #strong_migrations === | Changing the type of an existing column blocks reads and writes | while the entire table is rewritten. A safer approach is to:",
+    "elapsed_ms": 0.61
+  },
+  {
+    "id": "rails_102",
+    "executed_ok": true,
+    "flagged": true,
+    "error_kind": "UnsafeMigration",
+    "message": "=== Dangerous operation detected #strong_migrations === | Active Record caches attributes, which causes problems | when removing columns. Be sure to ignore the column:",
+    "elapsed_ms": 0.66
+  },
+  {
+    "id": "rails_103",
+    "executed_ok": true,
+    "flagged": false,
+    "error_kind": null,
+    "message": null,
+    "elapsed_ms": 0.48
+  },
+  {
+    "id": "rails_104",
+    "executed_ok": true,
+    "flagged": true,
+    "error_kind": "UnsafeMigration",
+    "message": "=== Dangerous operation detected #strong_migrations === | Renaming a table that's in use will cause errors | in your application. A safer approach is to:",
+    "elapsed_ms": 0.45
+  },
+  {
+    "id": "rails_105",
+    "executed_ok": true,
+    "flagged": true,
+    "error_kind": "UnsafeMigration",
+    "message": "=== Dangerous operation detected #strong_migrations === | Renaming a table that's in use will cause errors | in your application. A safer approach is to:",
+    "elapsed_ms": 1.48
+  },
+  {
+    "id": "rails_106",
+    "executed_ok": true,
+    "flagged": true,
+    "error_kind": "UnsafeMigration",
+    "message": "=== Dangerous operation detected #strong_migrations === | Active Record caches attributes, which causes problems | when removing columns. Be sure to ignore the column:",
+    "elapsed_ms": 1.36
+  },
+  {
+    "id": "rails_107",
+    "executed_ok": true,
+    "flagged": false,
+    "error_kind": null,
+    "message": null,
+    "elapsed_ms": 0.79
+  },
+  {
+    "id": "rails_108",
+    "executed_ok": true,
+    "flagged": true,
+    "error_kind": "UnsafeMigration",
+    "message": "=== Dangerous operation detected #strong_migrations === | Adding an index non-concurrently blocks writes. Instead, use: | class #<Module:0x00000221626e43a0>::AddRatingToProducts < ActiveRecord::Migration[8.1]",
+    "elapsed_ms": 0.56
+  },
+  {
+    "id": "rails_109",
+    "executed_ok": true,
+    "flagged": true,
+    "error_kind": "UnsafeMigration",
+    "message": "=== Dangerous operation detected #strong_migrations === | Changing the type of an existing column blocks reads and writes | while the entire table is rewritten. A safer approach is to:",
+    "elapsed_ms": 1.48
+  },
+  {
+    "id": "rails_110",
+    "executed_ok": true,
+    "flagged": true,
+    "error_kind": "UnsafeMigration",
+    "message": "=== Dangerous operation detected #strong_migrations === | Adding a foreign key blocks writes on both tables. Instead, | add the foreign key without validating existing rows,",
+    "elapsed_ms": 1.13
+  },
+  {
+    "id": "rails_111",
+    "executed_ok": true,
+    "flagged": false,
+    "error_kind": null,
+    "message": null,
+    "elapsed_ms": 0.59
+  },
+  {
+    "id": "rails_112",
+    "executed_ok": true,
+    "flagged": true,
+    "error_kind": "UnsafeMigration",
+    "message": "=== Dangerous operation detected #strong_migrations === | Renaming a column that's in use will cause errors | in your application. A safer approach is to:",
+    "elapsed_ms": 0.32
+  },
+  {
+    "id": "rails_113",
+    "executed_ok": true,
+    "flagged": true,
+    "error_kind": "UnsafeMigration",
+    "message": "=== Dangerous operation detected #strong_migrations === | Renaming a table that's in use will cause errors | in your application. A safer approach is to:",
+    "elapsed_ms": 0.3
+  },
+  {
+    "id": "rails_114",
+    "executed_ok": false,
+    "flagged": false,
+    "error_kind": "NameError",
+    "message": "uninitialized constant #<Module:0x0000022162683208>::AddUuidToUsers::ApplicationRecord",
+    "elapsed_ms": 0.32
+  },
+  {
+    "id": "rails_115",
+    "executed_ok": true,
+    "flagged": false,
+    "error_kind": null,
+    "message": null,
+    "elapsed_ms": 0.43
+  },
+  {
+    "id": "rails_116",
+    "executed_ok": true,
+    "flagged": true,
+    "error_kind": "UnsafeMigration",
+    "message": "=== Possibly dangerous operation #strong_migrations === | Strong Migrations does not support inspecting what happens inside a | change_table block, so cannot help you here. Please make really sure that what",
+    "elapsed_ms": 0.83
+  },
+  {
+    "id": "rails_117",
+    "executed_ok": true,
+    "flagged": true,
+    "error_kind": "UnsafeMigration",
+    "message": "=== Dangerous operation detected #strong_migrations === | Partial writes are enabled, which can cause incorrect values | to be inserted when changing the default value of a column.",
+    "elapsed_ms": 2926.89
+  },
+  {
+    "id": "rails_118",
+    "executed_ok": true,
+    "flagged": true,
+    "error_kind": "UnsafeMigration",
+    "message": "=== Dangerous operation detected #strong_migrations === | Active Record caches attributes, which causes problems | when removing columns. Be sure to ignore the column:",
+    "elapsed_ms": 0.86
+  },
+  {
+    "id": "rails_119",
+    "executed_ok": true,
+    "flagged": false,
+    "error_kind": null,
+    "message": null,
+    "elapsed_ms": 1.49
+  },
+  {
+    "id": "rails_120",
+    "executed_ok": false,
+    "flagged": false,
+    "error_kind": "NameError",
+    "message": "uninitialized constant #<Module:0x00000221637f4f78>::MigrateTaxonomiesIgnoreTypesToJsonb::ApplicationRecord",
+    "elapsed_ms": 0.53
+  }
+]

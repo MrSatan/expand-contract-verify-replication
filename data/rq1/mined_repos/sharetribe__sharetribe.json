@@ -1,0 +1,4035 @@
+{
+  "repo": "sharetribe/sharetribe",
+  "ecosystem": "rails",
+  "stars": 2450,
+  "has_k8s_helm": false,
+  "status": "ok",
+  "stats": {
+    "total_migration_commits_in_history": 966,
+    "migration_commits_analyzed": 150,
+    "total_migration_files_parsed": 200,
+    "commits_with_any_destructive": 39,
+    "commits_with_forward_destructive": 28,
+    "commits_with_rollback_only_destructive": 11,
+    "total_ops_extracted": 79,
+    "destructive_ops_up": 58,
+    "destructive_ops_down": 21
+  },
+  "verdict_counts": {
+    "UNCERTAIN": 18,
+    "ROLLBACK_ONLY_FALSE_ALARM": 21,
+    "DUAL_VERSION_VIOLATION_BACKWARD": 40
+  },
+  "destructive_commits": [
+    {
+      "sha": "290e938e8be874709c15463422152d57624f0df0",
+      "parent": "28f6d62a18193f40d2b13da8e971edb74429e7e8",
+      "date": "2023-01-31T11:57:46+02:00",
+      "subject": "Revert \"Revert \"[Maintenance] Rails upgrade to v6.x (#153)\"\"",
+      "mig_files": [
+        "db/migrate/20220414125846_add_service_name_to_active_storage_blobs.active_storage.rb",
+        "db/migrate/20220414125847_create_active_storage_variant_records.active_storage.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/admin/landing_page_versions_controller.rb",
+        "app/controllers/admin2/design/landing_page_versions_controller.rb",
+        "app/controllers/admin2/emails/outgoing_emails_controller.rb",
+        "app/controllers/admin2/listings/categories_controller.rb",
+        "app/controllers/admin2/listings/order_types_controller.rb",
+        "app/controllers/admin2/transactions_reviews/config_transactions_controller.rb",
+        "app/controllers/admin2/users/manage_users_controller.rb",
+        "app/controllers/int_api/listings_controller.rb",
+        "app/controllers/listing_images_controller.rb",
+        "app/controllers/omniauth_controller.rb",
+        "app/controllers/payment_settings_controller.rb",
+        "app/controllers/people_controller.rb"
+      ],
+      "orm_models_parsed_old": 0,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "active_storage_blobs",
+            "column": "service_name",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "string",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20220414125846_add_service_name_to_active_storage_blobs.active_storage.rb",
+            "line": 11,
+            "raw_snippet": "change_column :active_storage_blobs, :service_name, :string, null: false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "active_storage_blobs",
+            "column": "service_name",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'active_storage_blobs' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "active_storage_blobs",
+            "column": "service_name",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20220414125846_add_service_name_to_active_storage_blobs.active_storage.rb",
+            "line": 16,
+            "raw_snippet": "remove_column :active_storage_blobs, :service_name",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "active_storage_blobs",
+            "column": "service_name",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "122ac50332cde54bfadcd2c42576766ddadbfebe",
+      "parent": "cfc995cd2473b5d799543cb93e1a957859ced20a",
+      "date": "2022-09-13T12:26:29+02:00",
+      "subject": "[Maintenance] Rails upgrade to v6.x (#153)",
+      "mig_files": [
+        "db/migrate/20220414125846_add_service_name_to_active_storage_blobs.active_storage.rb",
+        "db/migrate/20220414125847_create_active_storage_variant_records.active_storage.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/admin/landing_page_versions_controller.rb",
+        "app/controllers/admin2/design/landing_page_versions_controller.rb",
+        "app/controllers/admin2/emails/outgoing_emails_controller.rb",
+        "app/controllers/admin2/listings/categories_controller.rb",
+        "app/controllers/admin2/listings/order_types_controller.rb",
+        "app/controllers/admin2/transactions_reviews/config_transactions_controller.rb",
+        "app/controllers/admin2/users/manage_users_controller.rb",
+        "app/controllers/int_api/listings_controller.rb",
+        "app/controllers/listing_images_controller.rb",
+        "app/controllers/omniauth_controller.rb",
+        "app/controllers/payment_settings_controller.rb",
+        "app/controllers/people_controller.rb"
+      ],
+      "orm_models_parsed_old": 0,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "active_storage_blobs",
+            "column": "service_name",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "string",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20220414125846_add_service_name_to_active_storage_blobs.active_storage.rb",
+            "line": 11,
+            "raw_snippet": "change_column :active_storage_blobs, :service_name, :string, null: false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "active_storage_blobs",
+            "column": "service_name",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'active_storage_blobs' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "active_storage_blobs",
+            "column": "service_name",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20220414125846_add_service_name_to_active_storage_blobs.active_storage.rb",
+            "line": 16,
+            "raw_snippet": "remove_column :active_storage_blobs, :service_name",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "active_storage_blobs",
+            "column": "service_name",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "8bc621beee7c818fe02b1c2236573a1c9515da9e",
+      "parent": "f8cba1b8f005f9748301d73b3da285eb9c969c3d",
+      "date": "2021-11-24T09:03:03+02:00",
+      "subject": "Stop using the Facebook Connect Sharetribe app",
+      "mig_files": [
+        "db/migrate/20211124070123_change_fb_connect_default_to_false.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/community.rb",
+        "spec/controllers/communities_controller_spec.rb",
+        "spec/models/community_spec.rb"
+      ],
+      "orm_models_parsed_old": 0,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "communities",
+            "column": "facebook_connect_enabled",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "boolean",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20211124070123_change_fb_connect_default_to_false.rb",
+            "line": 3,
+            "raw_snippet": "change_column :communities, :facebook_connect_enabled, :boolean, default: false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "communities",
+            "column": "facebook_connect_enabled",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'communities.facebook_connect_enabled' (None -> boolean).",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "f88ade820676aa9660efdf4af88a3c7e096d755b",
+      "parent": "b4d7cc5c6dc6ad0e88e5c23b67928b115d103668",
+      "date": "2020-12-18T17:21:18+02:00",
+      "subject": "Change domain_setup.error to text column",
+      "mig_files": [
+        "db/migrate/20201218151444_alter_domain_setups_modify_error_type.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/domain_setup.rb"
+      ],
+      "orm_models_parsed_old": 1,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "domain_setups",
+            "column": "error",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20201218151444_alter_domain_setups_modify_error_type.rb",
+            "line": 3,
+            "raw_snippet": "change_column :domain_setups, :error, :text, default: nil",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "domain_setups",
+            "column": "error",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/domain_setup.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'domain_setups.error' (None -> text).",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "domain_setups",
+            "column": "error",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "string",
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20201218151444_alter_domain_setups_modify_error_type.rb",
+            "line": 7,
+            "raw_snippet": "change_column :domain_setups, :error, :string, limit: 255, default: nil",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "domain_setups",
+            "column": "error",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "48c859f80d11eeefecff1ffe8a1032ee481d4131",
+      "parent": "2a850aa5246fdba2a6b578a241acf88eaff9d4a8",
+      "date": "2019-07-05T13:44:58+03:00",
+      "subject": "[CLP Editor] using ActiveStorage instead of Paperclip",
+      "mig_files": [
+        "db/migrate/20190705083608_create_active_storage_tables.active_storage.rb",
+        "db/migrate/20190705100256_drop_landing_page_assets.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/community.rb",
+        "app/models/landing_page_asset.rb",
+        "app/models/landing_page_version/section/hero.rb",
+        "app/services/custom_landing_page/section_service.rb",
+        "config/routes.rb"
+      ],
+      "orm_models_parsed_old": 2,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_TABLE",
+            "table": "landing_page_assets",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20190705100256_drop_landing_page_assets.rb",
+            "line": 3,
+            "raw_snippet": "drop_table :landing_page_assets",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "landing_page_assets",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/landing_page_asset.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'landing_page_assets' active in C_{t-1}.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_TABLE",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "c3a6e93a15acca87d1d3021f9edcca12e0b631c8",
+      "parent": "de2d69c4085c150ca259a1c2a8fd6e4f4022387c",
+      "date": "2019-02-28T10:51:37+02:00",
+      "subject": "Add buyer commission delfault value to stripe payments",
+      "mig_files": [
+        "db/migrate/20190228084827_add_buyer_commision_default_to_stripe_payments.rb"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 1,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "stripe_payments",
+            "column": "buyer_commission_cents",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "integer",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20190228084827_add_buyer_commision_default_to_stripe_payments.rb",
+            "line": 3,
+            "raw_snippet": "change_column :stripe_payments, :buyer_commission_cents, :integer, default: 0",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "stripe_payments",
+            "column": "buyer_commission_cents",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/stripe_payment.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'stripe_payments' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "4133fcb6806141c9a0d5d4a9fc4fc16c63595ed8",
+      "parent": "e6685afb6cb3a71f5b1821b09d986b5ee20dfafa",
+      "date": "2018-12-10T15:38:40+02:00",
+      "subject": "Drop prospect_emails table",
+      "mig_files": [
+        "db/migrate/20190208032229_drop_prospect_emails_table.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/int_api/marketplaces_controller.rb",
+        "app/models/prospect_email.rb",
+        "config/routes.rb",
+        "spec/controllers/int_api/marketplaces_controller_spec.rb",
+        "spec/requests/http_basic_auth_spec.rb"
+      ],
+      "orm_models_parsed_old": 2,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_TABLE",
+            "table": "prospect_emails",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20190208032229_drop_prospect_emails_table.rb",
+            "line": 3,
+            "raw_snippet": "drop_table :prospect_emails",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "prospect_emails",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/prospect_email.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'prospect_emails' active in C_{t-1}.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_TABLE",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "f6851a9c33b945b9ce84d6be69a597e22ca7fccc",
+      "parent": "eb89adefd6348a643809cd49f6a4243d09fc0c50",
+      "date": "2018-01-08T08:39:04+02:00",
+      "subject": "Remove confirmation days x after end time",
+      "mig_files": [
+        "db/migrate/20180108061342_remove_confirmation_ater_end_time.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/admin/communities_controller.rb",
+        "app/models/community.rb",
+        "app/models/payment_settings.rb",
+        "app/services/transaction_service/gateway/paypal_settings_adapter.rb",
+        "app/services/transaction_service/gateway/stripe_settings_adapter.rb",
+        "app/services/transaction_service/store/payment_settings.rb",
+        "app/services/transaction_service/store/transaction.rb",
+        "app/state_machines/transaction_process_state_machine.rb",
+        "spec/models/community_spec.rb",
+        "spec/services/transaction_service/store/payment_settings_spec.rb"
+      ],
+      "orm_models_parsed_old": 1,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "communities",
+            "column": "automatic_confirmation_after_days_after_end_time",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20180108061342_remove_confirmation_ater_end_time.rb",
+            "line": 3,
+            "raw_snippet": "remove_column :communities, :automatic_confirmation_after_days_after_end_time, :integer, default: 2",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "communities",
+            "column": "automatic_confirmation_after_days_after_end_time",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "payment_settings",
+            "column": "confirmation_after_days_after_end_time",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20180108061342_remove_confirmation_ater_end_time.rb",
+            "line": 4,
+            "raw_snippet": "remove_column :payment_settings, :confirmation_after_days_after_end_time, :integer, default: 2",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "payment_settings",
+            "column": "confirmation_after_days_after_end_time",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "5523a74bbb4011b76cb688493c8c49ab6534801e",
+      "parent": "a3d0f2ebd34855556a357827bb0999518bd2eaf4",
+      "date": "2017-09-18T12:50:45+03:00",
+      "subject": "added \"View conversations\" section in admin",
+      "mig_files": [
+        "db/migrate/20171129152027_add_starting_page_to_conversations.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/admin/community_conversations_controller.rb",
+        "app/controllers/free_transactions_controller.rb",
+        "app/controllers/person_messages_controller.rb",
+        "app/controllers/transactions_controller.rb",
+        "app/helpers/application_helper.rb",
+        "app/models/conversation.rb",
+        "app/services/marketplace_service/conversation.rb",
+        "app/services/marketplace_service/transaction.rb",
+        "app/services/transaction_service/store/transaction.rb",
+        "config/routes.rb",
+        "features/step_definitions/admin_conversation_steps.rb",
+        "features/support/paths.rb"
+      ],
+      "orm_models_parsed_old": 1,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "conversations",
+            "column": "starting_page",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20171129152027_add_starting_page_to_conversations.rb",
+            "line": 12,
+            "raw_snippet": "remove_column :conversations, :starting_page",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "conversations",
+            "column": "starting_page",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "e274ab74a2f3250580560e0747284cb87216e4ba",
+      "parent": "b579a5a94244e123632c71b90c5a8b6c9feeafa0",
+      "date": "2017-11-28T14:28:24+02:00",
+      "subject": "Fixed: Feedbacks data too long for url",
+      "mig_files": [
+        "db/migrate/20171128122539_change_feedbacks_url.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/feedback.rb"
+      ],
+      "orm_models_parsed_old": 1,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "feedbacks",
+            "column": "url",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "string",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20171128122539_change_feedbacks_url.rb",
+            "line": 3,
+            "raw_snippet": "change_column :feedbacks, :url, :string, limit: 2048",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "feedbacks",
+            "column": "url",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/feedback.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'feedbacks.url' (None -> string).",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "feedbacks",
+            "column": "url",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "string",
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20171128122539_change_feedbacks_url.rb",
+            "line": 7,
+            "raw_snippet": "change_column :feedbacks, :url, :string, limit: 255",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "feedbacks",
+            "column": "url",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "4d02584fe1424dd793b3efe53d3966049a915b1a",
+      "parent": "e1f29801ba727e37c2bcaffcc59ae371eb1644d5",
+      "date": "2017-08-14T19:01:50+03:00",
+      "subject": "stripe integration: avoid storing personal info in database, retrieve it directly using stripe api",
+      "mig_files": [
+        "db/migrate/20170814125622_do_not_store_personal_data_in_stripe_accounts.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/payment_settings_controller.rb",
+        "app/models/stripe_account.rb",
+        "app/services/stripe_service/api/accounts.rb",
+        "app/services/stripe_service/api/payments.rb",
+        "app/services/stripe_service/api/stripe_api_wrapper.rb",
+        "app/services/stripe_service/store/stripe_account.rb"
+      ],
+      "orm_models_parsed_old": 1,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "stripe_accounts",
+            "column": "first_name",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20170814125622_do_not_store_personal_data_in_stripe_accounts.rb",
+            "line": 3,
+            "raw_snippet": "remove_column :stripe_accounts, :first_name",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "stripe_accounts",
+            "column": "first_name",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/stripe_account.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "stripe_accounts",
+            "column": "last_name",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20170814125622_do_not_store_personal_data_in_stripe_accounts.rb",
+            "line": 4,
+            "raw_snippet": "remove_column :stripe_accounts, :last_name",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "stripe_accounts",
+            "column": "last_name",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/stripe_account.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "stripe_accounts",
+            "column": "address_country",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20170814125622_do_not_store_personal_data_in_stripe_accounts.rb",
+            "line": 5,
+            "raw_snippet": "remove_column :stripe_accounts, :address_country",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "stripe_accounts",
+            "column": "address_country",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/stripe_account.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "stripe_accounts",
+            "column": "address_city",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20170814125622_do_not_store_personal_data_in_stripe_accounts.rb",
+            "line": 6,
+            "raw_snippet": "remove_column :stripe_accounts, :address_city",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "stripe_accounts",
+            "column": "address_city",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/stripe_account.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "stripe_accounts",
+            "column": "address_line1",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20170814125622_do_not_store_personal_data_in_stripe_accounts.rb",
+            "line": 7,
+            "raw_snippet": "remove_column :stripe_accounts, :address_line1",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "stripe_accounts",
+            "column": "address_line1",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/stripe_account.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "stripe_accounts",
+            "column": "address_postal_code",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20170814125622_do_not_store_personal_data_in_stripe_accounts.rb",
+            "line": 8,
+            "raw_snippet": "remove_column :stripe_accounts, :address_postal_code",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "stripe_accounts",
+            "column": "address_postal_code",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/stripe_account.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "stripe_accounts",
+            "column": "address_state",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20170814125622_do_not_store_personal_data_in_stripe_accounts.rb",
+            "line": 9,
+            "raw_snippet": "remove_column :stripe_accounts, :address_state",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "stripe_accounts",
+            "column": "address_state",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/stripe_account.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "stripe_accounts",
+            "column": "birth_date",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20170814125622_do_not_store_personal_data_in_stripe_accounts.rb",
+            "line": 10,
+            "raw_snippet": "remove_column :stripe_accounts, :birth_date",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "stripe_accounts",
+            "column": "birth_date",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/stripe_account.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "stripe_accounts",
+            "column": "bank_account_last_4",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20170814125622_do_not_store_personal_data_in_stripe_accounts.rb",
+            "line": 11,
+            "raw_snippet": "remove_column :stripe_accounts, :bank_account_last_4",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "stripe_accounts",
+            "column": "bank_account_last_4",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/stripe_account.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "stripe_accounts",
+            "column": "stripe_source_info",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20170814125622_do_not_store_personal_data_in_stripe_accounts.rb",
+            "line": 12,
+            "raw_snippet": "remove_column :stripe_accounts, :stripe_source_info",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "stripe_accounts",
+            "column": "stripe_source_info",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/stripe_account.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "stripe_accounts",
+            "column": "tos_date",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20170814125622_do_not_store_personal_data_in_stripe_accounts.rb",
+            "line": 13,
+            "raw_snippet": "remove_column :stripe_accounts, :tos_date",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "stripe_accounts",
+            "column": "tos_date",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/stripe_account.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "stripe_accounts",
+            "column": "tos_ip",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20170814125622_do_not_store_personal_data_in_stripe_accounts.rb",
+            "line": 14,
+            "raw_snippet": "remove_column :stripe_accounts, :tos_ip",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "stripe_accounts",
+            "column": "tos_ip",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/stripe_account.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "0ab8bc09bc4286ac03978a7d432c9f42d17e7fb0",
+      "parent": "3acbade886b55f7b34243aee0d213e46d56595b0",
+      "date": "2017-08-02T16:16:27+03:00",
+      "subject": "stripe integration: implement destination charges, not storing bank account number",
+      "mig_files": [
+        "db/migrate/20170801125553_create_stripe_tables_and_fields.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/payment_settings_controller.rb",
+        "app/jobs/transaction_confirmed_job.rb",
+        "app/models/stripe_account.rb",
+        "app/services/stripe_service/api/payments.rb",
+        "app/services/stripe_service/api/stripe_api_wrapper.rb",
+        "app/services/stripe_service/store/stripe_account.rb"
+      ],
+      "orm_models_parsed_old": 2,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_TABLE",
+            "table": "stripe_accounts",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20170801125553_create_stripe_tables_and_fields.rb",
+            "line": 13,
+            "raw_snippet": "drop_table :stripe_accounts",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "stripe_accounts",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/stripe_account.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'stripe_accounts' active in C_{t-1}.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_TABLE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_TABLE",
+            "table": "stripe_payments",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20170801125553_create_stripe_tables_and_fields.rb",
+            "line": 14,
+            "raw_snippet": "drop_table :stripe_payments",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "stripe_payments",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/stripe_payment.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'stripe_payments' active in C_{t-1}.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_TABLE",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "0c9fc847bea2aa434de6e300b259c25cdc455dd6",
+      "parent": "2536647dedec8a16f43f46f2f357090da9973a9d",
+      "date": "2017-08-01T16:23:54+03:00",
+      "subject": "stripe integration: squash migrations",
+      "mig_files": [
+        "db/migrate/20170801125553_create_stripe_tables_and_fields.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/marketplace_setup_steps.rb",
+        "app/models/stripe_account.rb"
+      ],
+      "orm_models_parsed_old": 2,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_TABLE",
+            "table": "stripe_accounts",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20170801125553_create_stripe_tables_and_fields.rb",
+            "line": 13,
+            "raw_snippet": "drop_table :stripe_accounts",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "stripe_accounts",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/stripe_account.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'stripe_accounts' active in C_{t-1}.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_TABLE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_TABLE",
+            "table": "stripe_payments",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20170801125553_create_stripe_tables_and_fields.rb",
+            "line": 14,
+            "raw_snippet": "drop_table :stripe_payments",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "stripe_payments",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/stripe_payment.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'stripe_payments' active in C_{t-1}.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_TABLE",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "843c75b3aa6fae6b184976dd61d90c7eaa31e82d",
+      "parent": "63da8bbcbcd43321d38a9fddf70edc700c619106",
+      "date": "2017-07-28T10:38:37+03:00",
+      "subject": "stripe integration: remove unused fields from stripe_accounts table",
+      "mig_files": [
+        "db/migrate/20170728065012_remove_unused_fields_from_stripe_accounts.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/stripe_account.rb",
+        "app/services/stripe_service/store/stripe_account.rb"
+      ],
+      "orm_models_parsed_old": 1,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "stripe_accounts",
+            "column": "account_type",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20170728065012_remove_unused_fields_from_stripe_accounts.rb",
+            "line": 3,
+            "raw_snippet": "remove_column :stripe_accounts, :account_type",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "stripe_accounts",
+            "column": "account_type",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/stripe_account.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "stripe_accounts",
+            "column": "ssn_last_4",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20170728065012_remove_unused_fields_from_stripe_accounts.rb",
+            "line": 5,
+            "raw_snippet": "remove_column :stripe_accounts, :ssn_last_4",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "stripe_accounts",
+            "column": "ssn_last_4",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/stripe_account.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "stripe_accounts",
+            "column": "personal_id_number",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20170728065012_remove_unused_fields_from_stripe_accounts.rb",
+            "line": 6,
+            "raw_snippet": "remove_column :stripe_accounts, :personal_id_number",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "stripe_accounts",
+            "column": "personal_id_number",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/stripe_account.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "stripe_accounts",
+            "column": "verification_document",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20170728065012_remove_unused_fields_from_stripe_accounts.rb",
+            "line": 7,
+            "raw_snippet": "remove_column :stripe_accounts, :verification_document",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "stripe_accounts",
+            "column": "verification_document",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/stripe_account.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "stripe_accounts",
+            "column": "charges_enabled",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20170728065012_remove_unused_fields_from_stripe_accounts.rb",
+            "line": 9,
+            "raw_snippet": "remove_column :stripe_accounts, :charges_enabled",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "stripe_accounts",
+            "column": "charges_enabled",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/stripe_account.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "stripe_accounts",
+            "column": "transfers_enabled",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20170728065012_remove_unused_fields_from_stripe_accounts.rb",
+            "line": 10,
+            "raw_snippet": "remove_column :stripe_accounts, :transfers_enabled",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "stripe_accounts",
+            "column": "transfers_enabled",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/stripe_account.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "stripe_accounts",
+            "column": "stripe_debit_card_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20170728065012_remove_unused_fields_from_stripe_accounts.rb",
+            "line": 12,
+            "raw_snippet": "remove_column :stripe_accounts, :stripe_debit_card_id",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "stripe_accounts",
+            "column": "stripe_debit_card_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/stripe_account.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "stripe_accounts",
+            "column": "stripe_debit_card_source",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20170728065012_remove_unused_fields_from_stripe_accounts.rb",
+            "line": 13,
+            "raw_snippet": "remove_column :stripe_accounts, :stripe_debit_card_source",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "stripe_accounts",
+            "column": "stripe_debit_card_source",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/stripe_account.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "stripe_accounts",
+            "column": "stripe_source_country",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20170728065012_remove_unused_fields_from_stripe_accounts.rb",
+            "line": 14,
+            "raw_snippet": "remove_column :stripe_accounts, :stripe_source_country",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "stripe_accounts",
+            "column": "stripe_source_country",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/stripe_account.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "stripe_accounts",
+            "column": "access_token",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20170728065012_remove_unused_fields_from_stripe_accounts.rb",
+            "line": 16,
+            "raw_snippet": "remove_column :stripe_accounts, :access_token",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "stripe_accounts",
+            "column": "access_token",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/stripe_account.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "stripe_accounts",
+            "column": "refresh_token",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20170728065012_remove_unused_fields_from_stripe_accounts.rb",
+            "line": 17,
+            "raw_snippet": "remove_column :stripe_accounts, :refresh_token",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "stripe_accounts",
+            "column": "refresh_token",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/stripe_account.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "91b3997ae4b81ee0b41a2e3fa9f6aadc09bbbaa1",
+      "parent": "835994b0934b4e574357c8751cf8f5e917d67743",
+      "date": "2017-07-19T12:56:18+03:00",
+      "subject": "stripe integration: using managed accounts",
+      "mig_files": [
+        "db/migrate/20170629113013_add_api_keys_to_payment_settings.rb",
+        "db/migrate/20170630085303_create_stripe_accounts.rb",
+        "db/migrate/20170703123959_change_person_id_stripe_accounts.rb",
+        "db/migrate/20170704120024_create_stripe_payments.rb",
+        "db/migrate/20170704121638_add_fee_to_stripe_payments.rb",
+        "db/migrate/20170705132856_add_stripe_source_country_to_stripe_accounts.rb",
+        "db/migrate/20170706020608_add_api_country_to_payment_settings.rb",
+        "db/migrate/20170707053914_add_stripe_to_marketplace_setup_steps.rb",
+        "db/migrate/20170707053915_add_real_fee_cents_to_stripe_payments.rb",
+        "db/migrate/20170707104010_add_subtotal_to_stripe_payments.rb",
+        "db/migrate/20170707130931_add_available_on_to_stripe_payments.rb",
+        "db/migrate/20170710081759_add_payment_field_to_marketplace_setup_steps.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/accept_preauthorized_conversations_controller.rb",
+        "app/controllers/admin/communities_controller.rb",
+        "app/controllers/admin/getting_started_guide_controller.rb",
+        "app/controllers/admin/payment_preferences_controller.rb",
+        "app/controllers/admin/stripe_preferences_controller.rb",
+        "app/controllers/application_controller.rb",
+        "app/controllers/int_api/marketplaces_controller.rb",
+        "app/controllers/listings_controller.rb",
+        "app/controllers/paypal_accounts_controller.rb",
+        "app/controllers/preauthorize_transactions_controller.rb",
+        "app/controllers/settings_controller.rb",
+        "app/controllers/stripe_accounts_controller.rb"
+      ],
+      "orm_models_parsed_old": 1,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "stripe_accounts",
+            "column": "person_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "string",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20170703123959_change_person_id_stripe_accounts.rb",
+            "line": 3,
+            "raw_snippet": "change_column :stripe_accounts, :person_id, :string, :null => false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "stripe_accounts",
+            "column": "person_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'stripe_accounts' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "marketplace_setup_steps",
+            "column": "payment",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20170710081759_add_payment_field_to_marketplace_setup_steps.rb",
+            "line": 8,
+            "raw_snippet": "remove_column :marketplace_setup_steps, :payment",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "marketplace_setup_steps",
+            "column": "payment",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "29d884e6a23b8ee3857e066d93ba71374742459b",
+      "parent": "defa44f5d1cfa068029a050ec5cc07dd3f7c7a1d",
+      "date": "2017-06-07T14:57:37+03:00",
+      "subject": "rails5 upgrade - use ApplicationRecord instead of ActiveRecord::Base",
+      "mig_files": [
+        "db/migrate/20100922081110_copy_favors_and_items_as_listings.rb",
+        "db/migrate/20100922122740_change_settings_to_new_format.rb",
+        "db/migrate/20100923074241_migrate_conversations_to_new_format.rb",
+        "db/migrate/20100927150547_migrate_listing_comments_for_kassi2.rb",
+        "db/migrate/20101116105410_fix_item_and_favor_related_testimonials.rb",
+        "db/migrate/20131214143004_rename_payment_gateway_id_to_type.rb",
+        "db/migrate/20131220104805_copy_small_cover_photo_from_cover_photo.rb",
+        "db/migrate/20140223202734_fix_price_quantity_placeholders.rb",
+        "db/migrate/20140224151953_copy_account_number_to_hidden_account_number.rb",
+        "db/migrate/20150519124846_remove_unstandardized_custom_languages.rb",
+        "db/migrate/20150520104604_handle_removed_person_locales.rb",
+        "db/migrate/20150520130243_remove_more_unstandard_locales.rb",
+        "db/migrate/20150520131057_handle_more_removed_person_locales.rb",
+        "db/migrate/20150528120717_populate_listing_unit_kind.rb",
+        "db/migrate/20150804114651_populate_marketplace_sender_emails.rb",
+        "db/migrate/20160420200100_copy_profile_pictures_for_cloned_users.rb",
+        "db/migrate/20160831054910_old_night_unit_to_custom_unit.rb",
+        "db/migrate/20161018090517_populate_people_uuid.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/jobs/create_square_images_job.rb",
+        "app/models/application_record.rb",
+        "app/models/auth_token.rb",
+        "app/models/billing_agreement.rb",
+        "app/models/booking.rb",
+        "app/models/category.rb",
+        "app/models/category_custom_field.rb",
+        "app/models/category_listing_shape.rb",
+        "app/models/category_translation.rb",
+        "app/models/comment.rb",
+        "app/models/community.rb",
+        "app/models/community_customization.rb"
+      ],
+      "orm_models_parsed_old": 2,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "people",
+            "column": "preferences",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20100922122740_change_settings_to_new_format.rb",
+            "line": 5,
+            "raw_snippet": "change_column :people, :preferences, :text",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "people",
+            "column": "preferences",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'people' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "people",
+            "column": "preferences",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "string",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20100922122740_change_settings_to_new_format.rb",
+            "line": 24,
+            "raw_snippet": "change_column :people, :preferences, :string",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "people",
+            "column": "preferences",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'people' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "conversations",
+            "column": "type",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20100923074241_migrate_conversations_to_new_format.rb",
+            "line": 172,
+            "raw_snippet": "remove_column :conversations, :type",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "conversations",
+            "column": "type",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/conversation.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'conversations' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "community_payment_gateways",
+            "column": "payment_gateway_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20131214143004_rename_payment_gateway_id_to_type.rb",
+            "line": 27,
+            "raw_snippet": "remove_column :community_payment_gateways, :payment_gateway_id",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "community_payment_gateways",
+            "column": "payment_gateway_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'community_payment_gateways' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "community_payment_gateways",
+            "column": "type",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20131214143004_rename_payment_gateway_id_to_type.rb",
+            "line": 38,
+            "raw_snippet": "remove_column :community_payment_gateways, :type",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "community_payment_gateways",
+            "column": "type",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "99244799f80f314738f2503d31f161fdae89b9e9",
+      "parent": "f66df364d00e1755c685495423306a3698c52c43",
+      "date": "2017-04-18T17:55:33+03:00",
+      "subject": "Change migrations: Person and community to not null",
+      "mig_files": [
+        "db/migrate/20170613153959_add_active_sessions_table.rb"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 0,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_TABLE",
+            "table": "active_sessions",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20170613153959_add_active_sessions_table.rb",
+            "line": 19,
+            "raw_snippet": "drop_table :active_sessions",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "active_sessions",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "7259a3a571f9ffa3b128c370e3cb1371aac97ed5",
+      "parent": "529880f362b3f4432087cd8686f002f59ce600a9",
+      "date": "2017-06-13T19:16:56+03:00",
+      "subject": "Migration: Add active_sessions table",
+      "mig_files": [
+        "db/migrate/20170613153959_add_active_sessions_table.rb"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 0,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_TABLE",
+            "table": "active_sessions",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20170613153959_add_active_sessions_table.rb",
+            "line": 24,
+            "raw_snippet": "drop_table :active_sessions",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "active_sessions",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "4f9abb400ce08a831d5d898549385361c58dafb0",
+      "parent": "0a46d37bac312e1794c117a7e7cc03a7153f53ea",
+      "date": "2017-02-16T15:50:49+02:00",
+      "subject": "Remove storefront_label from customizations as unnecessary",
+      "mig_files": [
+        "db/migrate/20170216134444_remove_storefront_label.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/community_customization.rb"
+      ],
+      "orm_models_parsed_old": 2,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "community_customizations",
+            "column": "storefront_label",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20170216134444_remove_storefront_label.rb",
+            "line": 3,
+            "raw_snippet": "remove_column :community_customizations, :storefront_label",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "community_customizations",
+            "column": "storefront_label",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/community_customization.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "823239d4edce9e5687626a41cb4b2d1cbc3bf394",
+      "parent": "772f20144a19857d2f069e485d816c2f72d6595a",
+      "date": "2016-11-07T16:18:02+02:00",
+      "subject": "Add min price and min tx fee currencies to payment settings",
+      "mig_files": [
+        "db/migrate/20161107141257_add_currency_column_to_payment_settings.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/payment_settings.rb"
+      ],
+      "orm_models_parsed_old": 1,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "payment_settings",
+            "column": "minimum_price_currency",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20161107141257_add_currency_column_to_payment_settings.rb",
+            "line": 13,
+            "raw_snippet": "remove_column :payment_settings, :minimum_price_currency",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "payment_settings",
+            "column": "minimum_price_currency",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "payment_settings",
+            "column": "minimum_transaction_fee_currency",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20161107141257_add_currency_column_to_payment_settings.rb",
+            "line": 14,
+            "raw_snippet": "remove_column :payment_settings, :minimum_transaction_fee_currency",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "payment_settings",
+            "column": "minimum_transaction_fee_currency",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "36cc5d14a1fd42a26d5cc83d08b6a3221820e90f",
+      "parent": "464b7ba62f4e8b2fd20ff92cc790f11f4cb95693",
+      "date": "2016-11-07T15:26:39+02:00",
+      "subject": "Disallow NULL in communities.currency",
+      "mig_files": [
+        "db/migrate/20161107132513_change_community_currency_not_to_be_null.rb"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 0,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "communities",
+            "column": "currency",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20161107132513_change_community_currency_not_to_be_null.rb",
+            "line": 3,
+            "raw_snippet": "change_column_null :communities, :currency, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "communities",
+            "column": "currency",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'communities' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "SET_NOT_NULL",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "91f9ab7fccc0e45bdbc5815911b66ced5e896c99",
+      "parent": "f3f3a3480c5ecf75b16711407ffa8ce4fde04e54",
+      "date": "2016-11-07T15:14:13+02:00",
+      "subject": "Remove communities.available_currencies column",
+      "mig_files": [
+        "db/migrate/20161107112025_remove_available_currencies_column_from_communities.rb"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 0,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "communities",
+            "column": "available_currencies",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20161107112025_remove_available_currencies_column_from_communities.rb",
+            "line": 3,
+            "raw_snippet": "remove_column :communities, :available_currencies, :text, after: :service_logo_style",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "communities",
+            "column": "available_currencies",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'communities' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "bfda6e725fd6dda1f998222c28bf69197e57c710",
+      "parent": "1bce392b5476bd2968ac9daf1bbeb3a11a296de1",
+      "date": "2016-11-07T11:28:47+02:00",
+      "subject": "Add currency column to communities",
+      "mig_files": [
+        "db/migrate/20161107092030_add_currency_column_to_communities.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/community.rb",
+        "spec/models/community_spec.rb"
+      ],
+      "orm_models_parsed_old": 0,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "communities",
+            "column": "currency",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20161107092030_add_currency_column_to_communities.rb",
+            "line": 7,
+            "raw_snippet": "remove_column :communities, :currency",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "communities",
+            "column": "currency",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "9be43752de42a95b9769908fec49792b4563b730",
+      "parent": "0a85fa9ffc06f4f15f171c1ec0867af232d0f1a1",
+      "date": "2016-11-03T08:34:46+02:00",
+      "subject": "Remove end_on_exclusive",
+      "mig_files": [
+        "db/migrate/20161103063652_remove_end_on_exclusive_column.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/mailers/transaction_mailer.rb",
+        "app/models/booking.rb",
+        "app/services/transaction_service/store/transaction.rb",
+        "app/state_machines/transaction_process_state_machine.rb",
+        "spec/factories.rb"
+      ],
+      "orm_models_parsed_old": 1,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "bookings",
+            "column": "end_on_exclusive",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20161103063652_remove_end_on_exclusive_column.rb",
+            "line": 3,
+            "raw_snippet": "remove_column :bookings, :end_on_exclusive, :date, after: :end_on",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "bookings",
+            "column": "end_on_exclusive",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/booking.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "59883b89320102106fc60368493b4a698041747e",
+      "parent": "20abb4ee7d2746c36a405d932c9e12c60cafa953",
+      "date": "2016-10-18T14:02:07+03:00",
+      "subject": "Add not null to starter_uuid and listing_author_uuid",
+      "mig_files": [
+        "db/migrate/20161018105521_add_not_null_index_to_starter_uuid_and_listing_author_uuid.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/transaction.rb"
+      ],
+      "orm_models_parsed_old": 1,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "transactions",
+            "column": "starter_uuid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20161018105521_add_not_null_index_to_starter_uuid_and_listing_author_uuid.rb",
+            "line": 3,
+            "raw_snippet": "change_column_null :transactions, :starter_uuid, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "transactions",
+            "column": "starter_uuid",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/transaction.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'transactions' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "SET_NOT_NULL",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "transactions",
+            "column": "listing_author_uuid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20161018105521_add_not_null_index_to_starter_uuid_and_listing_author_uuid.rb",
+            "line": 4,
+            "raw_snippet": "change_column_null :transactions, :listing_author_uuid, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "transactions",
+            "column": "listing_author_uuid",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/transaction.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'transactions' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "SET_NOT_NULL",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "b3db54c582d5b8aa23976e7555a3c1c7f4fd8b5c",
+      "parent": "180724b869b2971477592113b49ece75cf941160",
+      "date": "2016-10-18T13:46:20+03:00",
+      "subject": "Add starter_uuid and listing_author_uuid columns to transactions table",
+      "mig_files": [
+        "db/migrate/20161018100657_add_starter_and_listing_author_uuids_to_transactions.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/transaction.rb"
+      ],
+      "orm_models_parsed_old": 1,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "transactions",
+            "column": "starter_uuid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20161018100657_add_starter_and_listing_author_uuids_to_transactions.rb",
+            "line": 14,
+            "raw_snippet": "remove_column :transactions, :starter_uuid",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "transactions",
+            "column": "starter_uuid",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "transactions",
+            "column": "listing_author_uuid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20161018100657_add_starter_and_listing_author_uuids_to_transactions.rb",
+            "line": 15,
+            "raw_snippet": "remove_column :transactions, :listing_author_uuid",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "transactions",
+            "column": "listing_author_uuid",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "483d45a5c6d907820b79a6c75130219fbeeb61d9",
+      "parent": "23d060a337e600edbfb3a743756e7f257cbf528a",
+      "date": "2016-10-18T12:36:15+03:00",
+      "subject": "Add unique not null index to people uuid",
+      "mig_files": [
+        "db/migrate/20161018093208_add_unique_index_and_not_null_to_people_uuids.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/person.rb",
+        "spec/models/person_spec.rb"
+      ],
+      "orm_models_parsed_old": 0,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "people",
+            "column": "uuid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20161018093208_add_unique_index_and_not_null_to_people_uuids.rb",
+            "line": 3,
+            "raw_snippet": "change_column_null :people, :uuid, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "people",
+            "column": "uuid",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'people' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "SET_NOT_NULL",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "17f5801bbd09e563f67e8501c3ca4dfcc38dcef0",
+      "parent": "b6778c672e4ed254785a406cd4d26d7066adf41d",
+      "date": "2016-10-18T12:28:48+03:00",
+      "subject": "Add uuid column to people",
+      "mig_files": [
+        "db/migrate/20161018090314_add_uuid_to_people.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/person.rb",
+        "spec/models/person_spec.rb"
+      ],
+      "orm_models_parsed_old": 0,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "people",
+            "column": "uuid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20161018090314_add_uuid_to_people.rb",
+            "line": 12,
+            "raw_snippet": "remove_column :people, :uuid",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "people",
+            "column": "uuid",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "7baf1c8d55eade245183611463e18f6cddf5ebd0",
+      "parent": "2a9749de6fd97e4975e9761d1a595980b3e7b8e1",
+      "date": "2016-10-18T14:06:14+03:00",
+      "subject": "Change transactions.listing_author_id to not null",
+      "mig_files": [
+        "db/migrate/20161018090313_change_listing_author_id_not_null.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/transaction.rb"
+      ],
+      "orm_models_parsed_old": 1,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "transactions",
+            "column": "listing_author_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20161018090313_change_listing_author_id_not_null.rb",
+            "line": 3,
+            "raw_snippet": "change_column_null :transactions, :listing_author_id, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "transactions",
+            "column": "listing_author_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/transaction.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'transactions' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "SET_NOT_NULL",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "bfad6d286e8958815e4bb6f20d771cea341b8ec4",
+      "parent": "90423f884f20ca1e32974dd73f4b245285c4f2c8",
+      "date": "2016-10-04T17:20:52+03:00",
+      "subject": "Save booking_uuid after booking is initialized",
+      "mig_files": [
+        "db/migrate/20161004141208_add_booking_uuid_to_transactions.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/transaction.rb",
+        "app/services/transaction_service/process/preauthorize.rb",
+        "app/services/transaction_service/store/transaction.rb"
+      ],
+      "orm_models_parsed_old": 1,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "transactions",
+            "column": "booking_uuid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20161004141208_add_booking_uuid_to_transactions.rb",
+            "line": 10,
+            "raw_snippet": "remove_column :transactions, :booking_uuid",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "transactions",
+            "column": "booking_uuid",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "3bf8ed9c160dcc5fc2af38a1e756dbe484d6d2aa",
+      "parent": "46d3c943cd5d37524618f27c1a1a995940a273ba",
+      "date": "2016-09-23T17:52:11+03:00",
+      "subject": "Change process_token in TransactionProcessToken to binary UUID",
+      "mig_files": [
+        "db/migrate/20160921130544_create_transaction_process_tokens.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/transactions_controller.rb",
+        "app/models/transaction_process_token.rb",
+        "app/services/transaction_service/data_types/process_status.rb",
+        "app/services/transaction_service/jobs/process_preauthorize_command.rb",
+        "app/services/transaction_service/store/process_token.rb",
+        "app/services/transaction_service/worker.rb"
+      ],
+      "orm_models_parsed_old": 3,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_TABLE",
+            "table": "transaction_process_tokens",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160921130544_create_transaction_process_tokens.rb",
+            "line": 22,
+            "raw_snippet": "drop_table :transaction_process_tokens",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "transaction_process_tokens",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "9bdd6d820d613ade4aabf41fbde21f59349b3d26",
+      "parent": "1fd6d8d4eeadab200f8541c3a2c15da5c0c593fa",
+      "date": "2016-09-20T15:53:05+03:00",
+      "subject": "Add community_uuid and listing_uuid to transactions table",
+      "mig_files": [
+        "db/migrate/20160920102506_add_uuids_to_transactions.rb",
+        "db/migrate/20160920102507_copy_uuids_to_transactions.rb",
+        "db/migrate/20160920103321_add_not_null_to_transaction_uuids.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/free_transactions_controller.rb",
+        "app/controllers/preauthorize_transactions_controller.rb",
+        "app/controllers/transactions_controller.rb",
+        "app/models/transaction.rb",
+        "app/services/transaction_service/data_types/transaction.rb",
+        "app/services/transaction_service/store/transaction.rb",
+        "app/services/transaction_service/transaction.rb",
+        "app/utils/entity_utils.rb",
+        "spec/factories.rb",
+        "spec/services/transaction_service/paypal_events_spec.rb",
+        "spec/services/transaction_service/store/transaction_spec.rb"
+      ],
+      "orm_models_parsed_old": 1,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "transactions",
+            "column": "listing_uuid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160920102506_add_uuids_to_transactions.rb",
+            "line": 13,
+            "raw_snippet": "remove_column :transactions, :listing_uuid",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "transactions",
+            "column": "listing_uuid",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "transactions",
+            "column": "community_uuid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160920102506_add_uuids_to_transactions.rb",
+            "line": 14,
+            "raw_snippet": "remove_column :transactions, :community_uuid",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "transactions",
+            "column": "community_uuid",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "transactions",
+            "column": "listing_uuid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160920103321_add_not_null_to_transaction_uuids.rb",
+            "line": 3,
+            "raw_snippet": "change_column_null :transactions, :listing_uuid, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "transactions",
+            "column": "listing_uuid",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/transaction.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'transactions' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "SET_NOT_NULL",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "transactions",
+            "column": "community_uuid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160920103321_add_not_null_to_transaction_uuids.rb",
+            "line": 4,
+            "raw_snippet": "change_column_null :transactions, :community_uuid, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "transactions",
+            "column": "community_uuid",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/transaction.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'transactions' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "SET_NOT_NULL",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "33e03f5e792f4aeedb8867d9d016043fcd8dca74",
+      "parent": "26fe0dfc65a5b40e13bca183271b92785e19e91a",
+      "date": "2016-09-14T10:27:31+03:00",
+      "subject": "Remove unused columns",
+      "mig_files": [
+        "db/migrate/20160914071634_drop_old_unused_columns.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/community.rb",
+        "app/models/listing.rb",
+        "app/models/listing_shape.rb",
+        "app/models/listing_unit.rb"
+      ],
+      "orm_models_parsed_old": 0,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "communities",
+            "column": "dv_test_file",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160914071634_drop_old_unused_columns.rb",
+            "line": 3,
+            "raw_snippet": "remove_column :communities, :dv_test_file, :string, limit: 64, after: :dv_test_file_name",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "communities",
+            "column": "dv_test_file",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "communities",
+            "column": "dv_test_file_name",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160914071634_drop_old_unused_columns.rb",
+            "line": 4,
+            "raw_snippet": "remove_column :communities, :dv_test_file_name, :string, limit: 64, after: :favicon_processing",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "communities",
+            "column": "dv_test_file_name",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "9bc1a6868651924ef41ca15df87ad43afc7d7df4",
+      "parent": "74fa98d87fdb3e55b9906d9d509c2cb5ef6169a6",
+      "date": "2016-09-14T10:29:18+03:00",
+      "subject": "Add uuid to all communities",
+      "mig_files": [
+        "db/migrate/20160914072428_add_uuid_to_existing_communities.rb",
+        "db/migrate/20160914072601_add_unique_index_and_not_null_to_community_uuids.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/community.rb",
+        "spec/models/community_spec.rb"
+      ],
+      "orm_models_parsed_old": 0,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "communities",
+            "column": "uuid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160914072601_add_unique_index_and_not_null_to_community_uuids.rb",
+            "line": 3,
+            "raw_snippet": "change_column_null :communities, :uuid, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "communities",
+            "column": "uuid",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'communities' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "SET_NOT_NULL",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "c8a624911120cf027b1f2279e08e0ce551067a24",
+      "parent": "c4f2c68b1f71d458ea7981c0eeda9081276960f0",
+      "date": "2016-09-14T10:21:31+03:00",
+      "subject": "Add uuid column to communities",
+      "mig_files": [
+        "db/migrate/20160914070509_add_uuid_column_to_communities.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/community.rb",
+        "spec/models/community_spec.rb"
+      ],
+      "orm_models_parsed_old": 0,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "communities",
+            "column": "uuid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160914070509_add_uuid_column_to_communities.rb",
+            "line": 7,
+            "raw_snippet": "remove_column :communities, :uuid",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "communities",
+            "column": "uuid",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "c21743e1f59b6b73b3c6a56e23dea233edb16e1f",
+      "parent": "f4a00426b5c5392c3f5acfa98cea23c32ef5a184",
+      "date": "2016-09-13T14:42:05+03:00",
+      "subject": "Add unique and not null constraints to uuids",
+      "mig_files": [
+        "db/migrate/20160913112734_add_unique_index_and_not_null_to_listing_uuids.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/listing.rb",
+        "spec/models/listing_spec.rb"
+      ],
+      "orm_models_parsed_old": 1,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "listings",
+            "column": "uuid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160913112734_add_unique_index_and_not_null_to_listing_uuids.rb",
+            "line": 3,
+            "raw_snippet": "change_column_null :listings, :uuid, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "listings",
+            "column": "uuid",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/listing.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'listings' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "SET_NOT_NULL",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "ae4595ee168ce01cf1fe96ccf7e205a276092c3f",
+      "parent": "01ab55963ad9f14b1360ea13915e1b0d025c093c",
+      "date": "2016-09-13T13:51:37+03:00",
+      "subject": "Add migration to add UUID column to listings",
+      "mig_files": [
+        "db/migrate/20160908091353_add_uuid_column_to_listings.rb"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 1,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "listings",
+            "column": "uuid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160908091353_add_uuid_column_to_listings.rb",
+            "line": 12,
+            "raw_snippet": "remove_column :listings, :uuid",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "listings",
+            "column": "uuid",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "f0c24d8e9ec7630881e837fb2b06487bdf907e6a",
+      "parent": "87494841c61153018d412d3638d6f63c0706f1cf",
+      "date": "2016-09-02T13:51:13+03:00",
+      "subject": "Remove old_unit_type column from transactions",
+      "mig_files": [
+        "db/migrate/20160902104733_remove_old_unit_type_column_from_transactions.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/transaction.rb",
+        "db/schema.rb"
+      ],
+      "orm_models_parsed_old": 61,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "transactions",
+            "column": "old_unit_type",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160902104733_remove_old_unit_type_column_from_transactions.rb",
+            "line": 3,
+            "raw_snippet": "remove_column :transactions, :old_unit_type, :string, limit: 32, after: :unit_type",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "transactions",
+            "column": "old_unit_type",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/transaction.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'old_unit_type' active in C_{t-1} ORM (app/models/transaction.rb); identifier removed in same commit diff",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "87494841c61153018d412d3638d6f63c0706f1cf",
+      "parent": "6965308b5b65ff135f714818bffee56ef6f263ba",
+      "date": "2016-09-02T13:42:30+03:00",
+      "subject": "Remove old_process col from transaction_processes",
+      "mig_files": [
+        "db/migrate/20160902103712_remove_old_process_column_from_transaction_processes.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/transaction_process.rb",
+        "db/schema.rb"
+      ],
+      "orm_models_parsed_old": 61,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "transaction_processes",
+            "column": "old_process",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160902103712_remove_old_process_column_from_transaction_processes.rb",
+            "line": 3,
+            "raw_snippet": "remove_column :transaction_processes, :old_process, :string, limit: 32, after: :updated_at",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "transaction_processes",
+            "column": "old_process",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/transaction_process.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'old_process' active in C_{t-1} ORM (app/models/transaction_process.rb); identifier removed in same commit diff",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        }
+      ]
+    }
+  ]
+}

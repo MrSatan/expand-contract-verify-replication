@@ -1,0 +1,126 @@
+{
+  "repo": "useplunk/plunk",
+  "ecosystem": "prisma",
+  "stars": 5615,
+  "has_k8s_helm": false,
+  "status": "ok",
+  "stats": {
+    "total_migration_commits_in_history": 34,
+    "migration_commits_analyzed": 27,
+    "total_migration_files_parsed": 28,
+    "commits_with_any_destructive": 2,
+    "commits_with_forward_destructive": 2,
+    "commits_with_rollback_only_destructive": 0,
+    "total_ops_extracted": 2,
+    "destructive_ops_up": 2,
+    "destructive_ops_down": 0
+  },
+  "verdict_counts": {
+    "UNCERTAIN": 2
+  },
+  "destructive_commits": [
+    {
+      "sha": "55a5e4d31b666bcef65c6de118ad7564d624f2cd",
+      "parent": "4b752a527b1c4da1cd211869ac33ba124bf8aa66",
+      "date": "2026-06-15T21:17:17+02:00",
+      "subject": "fix: safeguard JSON data handling in contacts migration to ensure proper object types",
+      "mig_files": [
+        "packages/db/prisma/migrations/20260615120000_normalize_contact_emails/migration.sql"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 27,
+      "raw_sql": "-- Normalize contact emails to lowercase + trimmed, collapsing case/whitespace\n-- variant duplicates within each project into a single contact.\n--\n-- Background: the find-or-create path used a case-sensitive equality, so the\n-- same address arriving in different casing (User@x.com vs user@x.com) created\n-- two separate contacts with split subscription state and event history. From\n-- now on emails are normalized on write; this migration repairs existing rows\n-- so the `(projectId, email)` unique constraint can be enforced on the\n-- normalized value.\n--\n-- Strategy per (projectId, lower(btrim(email))) group with more than one row:\n--   * survivor = oldest row (createdAt asc, id asc as tiebreak)\n--   * reassign emails / workflow executions / events / segment memberships to it\n--   * merge custom data (survivor's keys win)\n--   * subscribed = AND of all rows (a single unsubscribe wins)\n--   * delete the now-empty duplicate rows\n-- Finally, lowercase + trim every remaining email.\n\n-- 1. Map each duplicate contact to its survivor.\nCREATE TEMPORARY TABLE _contact_merge_map AS\nSELECT id AS dup_id, survivor_id\nFROM (\n  SELECT\n    id,\n    FIRST_VALUE(id) OVER (\n      PARTITION BY \"projectId\", lower(btrim(email))\n      ORDER BY \"createdAt\" ASC, id ASC\n    ) AS survivor_id\n  FROM contacts\n) ranked\nWHERE id <> survivor_id;\n\n-- 2. A single unsubscribe among the duplicates wins for the survivor.\nUPDATE contacts s\nSET subscribed = false\nFROM _contact_merge_map m\nJOIN contacts d ON d.id = m.dup_id\nWHERE s.id = m.survivor_id\n  AND d.subscribed = false;\n\n-- 3. Merge custom data: union the duplicates' keys, then let the survivor's\n--    own keys override. NULLIF keeps an all-empty result as NULL.\n--    data is a free-form Json? column, so some rows hold non-object values\n--    (scalars/arrays/null). jsonb_each and the || merge operator only behave\n--    correctly on objects, so guard every read with jsonb_typeof = 'object'\n--    and treat anything else as an empty object.\nUPDATE contacts s\nSET data = NULLIF(\n  COALESCE(agg.dup_data, '{}'::jsonb)\n  || CASE WHEN jsonb_typeof(s.data) = 'object' THEN s.data ELSE '{}'::jsonb END,\n  '{}'::jsonb)\nFROM (\n  SELECT m.survivor_id, jsonb_object_agg(kv.key, kv.value) AS dup_data\n  FROM _contact_merge_map m\n  JOIN contacts d ON d.id = m.dup_id\n  CROSS JOIN LATERAL jsonb_each(d.data) AS kv(key, value)\n  WHERE jsonb_typeof(d.data) = 'object'\n  GROUP BY m.survivor_id\n) agg\nWHERE s.id = agg.survivor_id;\n\n-- 4. Reassign child rows from duplicates to the survivor.\nUPDATE emails e\nSET \"contactId\" = m.survivor_id\nFROM _contact_merge_map m\nWHERE e.\"contactId\" = m.dup_id;\n\nUPDATE workflow_executions w\nSET \"contactId\" = m.survivor_id\nFROM _contact_merge_map m\nWHERE w.\"contactId\" = m.dup_id;\n\nUPDATE events ev\nSET \"contactId\" = m.survivor_id\nFROM _contact_merge_map m\nWHERE ev.\"contactId\" = m.dup_id;\n\n-- segment_memberships has a composite PK (contactId, segmentId). Drop any\n-- duplicate membership the survivor already holds for the same segment, then\n-- reassign the rest.\nDELETE FROM segment_memberships dsm\nUSING _contact_merge_map m\nWHERE dsm.\"contactId\" = m.dup_id\n  AND EXISTS (\n    SELECT 1 FROM segment_memberships ssm\n    WHERE ssm.\"contactId\" = m.survivor_id\n      AND ssm.\"segmentId\" = dsm.\"segmentId\"\n  );\n\nUPDATE segment_memberships dsm\nSET \"contactId\" = m.survivor_id\nFROM _contact_merge_map m\nWHERE dsm.\"contactId\" = m.dup_id;\n\n-- 5. Delete the merged-away duplicate contacts.\nDELETE FROM contacts c\nUSING _contact_merge_map m\nWHERE c.id = m.dup_id;\n\n-- 6. Normalize every remaining email. Groups are now unique on the normalized\n--    value, so this cannot violate the unique constraint.\nUPDATE contacts\nSET email = lower(btrim(email))\nWHERE email <> lower(btrim(email));\n\nDROP TABLE _contact_merge_map;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "_contact_merge_map",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/db/prisma/migrations/20260615120000_normalize_contact_emails/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TABLE _contact_merge_map",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "_contact_merge_map",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table '_contact_merge_map' not resolved in C_{t-1} ORM snapshot."
+        }
+      ]
+    },
+    {
+      "sha": "05c8041a312aaf1328d09ee5b31fb4dbc9ed6e6b",
+      "parent": "ad1219a058c4060f5a6f2a40699c1f83af294991",
+      "date": "2026-06-15T20:48:53+02:00",
+      "subject": "feat: normalize email addresses for contacts to handle case-variants and whitespace",
+      "mig_files": [
+        "packages/db/prisma/migrations/20260615120000_normalize_contact_emails/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/api/src/services/ContactService.ts",
+        "apps/api/src/services/SegmentService.ts",
+        "apps/api/src/services/__tests__/ContactService.test.ts",
+        "apps/api/src/services/__tests__/SegmentService.test.ts"
+      ],
+      "orm_models_parsed_old": 27,
+      "raw_sql": "-- Normalize contact emails to lowercase + trimmed, collapsing case/whitespace\n-- variant duplicates within each project into a single contact.\n--\n-- Background: the find-or-create path used a case-sensitive equality, so the\n-- same address arriving in different casing (User@x.com vs user@x.com) created\n-- two separate contacts with split subscription state and event history. From\n-- now on emails are normalized on write; this migration repairs existing rows\n-- so the `(projectId, email)` unique constraint can be enforced on the\n-- normalized value.\n--\n-- Strategy per (projectId, lower(btrim(email))) group with more than one row:\n--   * survivor = oldest row (createdAt asc, id asc as tiebreak)\n--   * reassign emails / workflow executions / events / segment memberships to it\n--   * merge custom data (survivor's keys win)\n--   * subscribed = AND of all rows (a single unsubscribe wins)\n--   * delete the now-empty duplicate rows\n-- Finally, lowercase + trim every remaining email.\n\n-- 1. Map each duplicate contact to its survivor.\nCREATE TEMPORARY TABLE _contact_merge_map AS\nSELECT id AS dup_id, survivor_id\nFROM (\n  SELECT\n    id,\n    FIRST_VALUE(id) OVER (\n      PARTITION BY \"projectId\", lower(btrim(email))\n      ORDER BY \"createdAt\" ASC, id ASC\n    ) AS survivor_id\n  FROM contacts\n) ranked\nWHERE id <> survivor_id;\n\n-- 2. A single unsubscribe among the duplicates wins for the survivor.\nUPDATE contacts s\nSET subscribed = false\nFROM _contact_merge_map m\nJOIN contacts d ON d.id = m.dup_id\nWHERE s.id = m.survivor_id\n  AND d.subscribed = false;\n\n-- 3. Merge custom data: union the duplicates' keys, then let the survivor's\n--    own keys override. NULLIF keeps an all-empty result as NULL.\nUPDATE contacts s\nSET data = NULLIF(COALESCE(agg.dup_data, '{}'::jsonb) || COALESCE(s.data, '{}'::jsonb), '{}'::jsonb)\nFROM (\n  SELECT m.survivor_id, jsonb_object_agg(kv.key, kv.value) AS dup_data\n  FROM _contact_merge_map m\n  JOIN contacts d ON d.id = m.dup_id\n  CROSS JOIN LATERAL jsonb_each(COALESCE(d.data, '{}'::jsonb)) AS kv(key, value)\n  GROUP BY m.survivor_id\n) agg\nWHERE s.id = agg.survivor_id;\n\n-- 4. Reassign child rows from duplicates to the survivor.\nUPDATE emails e\nSET \"contactId\" = m.survivor_id\nFROM _contact_merge_map m\nWHERE e.\"contactId\" = m.dup_id;\n\nUPDATE workflow_executions w\nSET \"contactId\" = m.survivor_id\nFROM _contact_merge_map m\nWHERE w.\"contactId\" = m.dup_id;\n\nUPDATE events ev\nSET \"contactId\" = m.survivor_id\nFROM _contact_merge_map m\nWHERE ev.\"contactId\" = m.dup_id;\n\n-- segment_memberships has a composite PK (contactId, segmentId). Drop any\n-- duplicate membership the survivor already holds for the same segment, then\n-- reassign the rest.\nDELETE FROM segment_memberships dsm\nUSING _contact_merge_map m\nWHERE dsm.\"contactId\" = m.dup_id\n  AND EXISTS (\n    SELECT 1 FROM segment_memberships ssm\n    WHERE ssm.\"contactId\" = m.survivor_id\n      AND ssm.\"segmentId\" = dsm.\"segmentId\"\n  );\n\nUPDATE segment_memberships dsm\nSET \"contactId\" = m.survivor_id\nFROM _contact_merge_map m\nWHERE dsm.\"contactId\" = m.dup_id;\n\n-- 5. Delete the merged-away duplicate contacts.\nDELETE FROM contacts c\nUSING _contact_merge_map m\nWHERE c.id = m.dup_id;\n\n-- 6. Normalize every remaining email. Groups are now unique on the normalized\n--    value, so this cannot violate the unique constraint.\nUPDATE contacts\nSET email = lower(btrim(email))\nWHERE email <> lower(btrim(email));\n\nDROP TABLE _contact_merge_map;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "_contact_merge_map",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/db/prisma/migrations/20260615120000_normalize_contact_emails/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TABLE _contact_merge_map",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "_contact_merge_map",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table '_contact_merge_map' not resolved in C_{t-1} ORM snapshot."
+        }
+      ]
+    }
+  ]
+}

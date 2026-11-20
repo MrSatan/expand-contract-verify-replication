@@ -1,0 +1,1558 @@
+{
+  "repo": "python-social-auth/social-app-django",
+  "ecosystem": "django",
+  "stars": 2150,
+  "has_k8s_helm": false,
+  "status": "ok",
+  "stats": {
+    "total_migration_commits_in_history": 65,
+    "migration_commits_analyzed": 61,
+    "total_migration_files_parsed": 115,
+    "commits_with_any_destructive": 12,
+    "commits_with_forward_destructive": 12,
+    "commits_with_rollback_only_destructive": 0,
+    "total_ops_extracted": 89,
+    "destructive_ops_up": 31,
+    "destructive_ops_down": 0
+  },
+  "verdict_counts": {
+    "DUAL_VERSION_VIOLATION_BACKWARD": 16,
+    "SAFE_ADDITIVE": 13,
+    "DUAL_VERSION_VIOLATION_FORWARD": 2
+  },
+  "destructive_commits": [
+    {
+      "sha": "622f8bad37e7bfb09d22e5663b4f4eefe414cd36",
+      "parent": "a7db67515f3da9970e7a0ff5e0edc14f39c447e5",
+      "date": "2026-10-01T16:10:21+02:00",
+      "subject": "fix(storage): support stable identifier migration",
+      "mig_files": [
+        "social_django/migrations/0018_usersocialauth_id_key.py"
+      ],
+      "app_files_touched_in_commit": [
+        "social_django/managers.py",
+        "social_django/models.py",
+        "social_django/storage.py"
+      ],
+      "orm_models_parsed_old": 7,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "social_django_usersocialauth",
+            "column": "id_key",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "CharField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "social_django/migrations/0018_usersocialauth_id_key.py",
+            "line": 8,
+            "raw_snippet": "migrations.AddField( model_name=\"usersocialauth\", name=\"id_key\", field=models.CharField(blank=True, default=\"\", max_length=255), )",
+            "extra": {
+              "model_name": "usersocialauth",
+              "app_label": "social_django",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "social_django_usersocialauth",
+            "column": "id_key",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "social_django/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'social_django_usersocialauth.id_key' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    },
+    {
+      "sha": "14ff043ade0bd78103a386cf32b1d5e4f2cc5b6f",
+      "parent": "6ca8027218780bc7d07ae80edabeb5fd301178c0",
+      "date": "2025-04-01T14:14:11+02:00",
+      "subject": "fix(migrations): add default to modified timestamp",
+      "mig_files": [
+        "social_django/migrations/0009_auto_20191118_0520.py"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 7,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "social_django_usersocialauth",
+            "column": "created",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "DateTimeField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "social_django/migrations/0009_auto_20191118_0520.py",
+            "line": 13,
+            "raw_snippet": "migrations.AddField( model_name=\"usersocialauth\", name=\"created\", field=models.DateTimeField(auto_now_add=True, default=django.utils.timezone.now), preserve_default=False, )",
+            "extra": {
+              "model_name": "usersocialauth",
+              "app_label": "social_django",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "social_django_usersocialauth",
+            "column": "created",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "social_django/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'social_django_usersocialauth.created' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "social_django_usersocialauth",
+            "column": "modified",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "DateTimeField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "social_django/migrations/0009_auto_20191118_0520.py",
+            "line": 19,
+            "raw_snippet": "migrations.AddField( model_name=\"usersocialauth\", name=\"modified\", field=models.DateTimeField(auto_now=True, default=django.utils.timezone.now), preserve_default=False, )",
+            "extra": {
+              "model_name": "usersocialauth",
+              "app_label": "social_django",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "social_django_usersocialauth",
+            "column": "modified",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "social_django/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'social_django_usersocialauth.modified' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    },
+    {
+      "sha": "860382d651252fa650645d67c80691ee900da1e8",
+      "parent": "c41fcc1738f02b5a7aaad8bac0ac575737d96489",
+      "date": "2025-01-10T10:44:51+01:00",
+      "subject": "chore: apply code formatting",
+      "mig_files": [
+        "social_django/migrations/0001_initial.py",
+        "social_django/migrations/0002_add_related_name.py",
+        "social_django/migrations/0007_code_timestamp.py",
+        "social_django/migrations/0008_partial_timestamp.py",
+        "social_django/migrations/0009_auto_20191118_0520.py",
+        "social_django/migrations/0011_alter_id_fields.py",
+        "social_django/migrations/0013_migrate_extra_data.py",
+        "social_django/migrations/0016_alter_usersocialauth_extra_data.py"
+      ],
+      "app_files_touched_in_commit": [
+        "social_django/admin.py",
+        "social_django/context_processors.py",
+        "social_django/middleware.py",
+        "social_django/models.py",
+        "social_django/storage.py",
+        "social_django/utils.py",
+        "social_django/views.py"
+      ],
+      "orm_models_parsed_old": 7,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "social_django_code",
+            "column": "timestamp",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "DateTimeField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "social_django/migrations/0007_code_timestamp.py",
+            "line": 13,
+            "raw_snippet": "migrations.AddField( model_name=\"code\", name=\"timestamp\", field=models.DateTimeField(auto_now_add=True, db_index=True, default=timezone.now), preserve_default=False, )",
+            "extra": {
+              "model_name": "code",
+              "app_label": "social_django",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "social_django_code",
+            "column": "timestamp",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "social_django/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'social_django_code' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "social_django_partial",
+            "column": "timestamp",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "DateTimeField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "social_django/migrations/0008_partial_timestamp.py",
+            "line": 13,
+            "raw_snippet": "migrations.AddField( model_name=\"partial\", name=\"timestamp\", field=models.DateTimeField(auto_now_add=True, db_index=True, default=timezone.now), preserve_default=False, )",
+            "extra": {
+              "model_name": "partial",
+              "app_label": "social_django",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "social_django_partial",
+            "column": "timestamp",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "social_django/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'social_django_partial.timestamp' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "social_django_usersocialauth",
+            "column": "created",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "DateTimeField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "social_django/migrations/0009_auto_20191118_0520.py",
+            "line": 13,
+            "raw_snippet": "migrations.AddField( model_name=\"usersocialauth\", name=\"created\", field=models.DateTimeField(auto_now_add=True, default=django.utils.timezone.now), preserve_default=False, )",
+            "extra": {
+              "model_name": "usersocialauth",
+              "app_label": "social_django",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "social_django_usersocialauth",
+            "column": "created",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "social_django/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'social_django_usersocialauth' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "social_django_usersocialauth",
+            "column": "modified",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "DateTimeField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "social_django/migrations/0009_auto_20191118_0520.py",
+            "line": 19,
+            "raw_snippet": "migrations.AddField( model_name=\"usersocialauth\", name=\"modified\", field=models.DateTimeField(auto_now=True), )",
+            "extra": {
+              "model_name": "usersocialauth",
+              "app_label": "social_django",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "social_django_usersocialauth",
+            "column": "modified",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "social_django/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'social_django_usersocialauth' was created in the same commit; C_{t-1} does not write to it."
+        }
+      ]
+    },
+    {
+      "sha": "6ee061be97eeee413e15955b2ac13c70d545fa19",
+      "parent": "b3fb3550160febc0bca111faff6a2169f89d7f47",
+      "date": "2023-06-10T09:18:33+02:00",
+      "subject": "models: Use Django native JSONField",
+      "mig_files": [
+        "social_django/migrations/0012_usersocialauth_extra_data_new.py",
+        "social_django/migrations/0013_migrate_extra_data.py",
+        "social_django/migrations/0014_remove_usersocialauth_extra_data.py",
+        "social_django/migrations/0015_rename_extra_data_new_usersocialauth_extra_data.py"
+      ],
+      "app_files_touched_in_commit": [
+        "social_django/fields.py",
+        "social_django/models.py"
+      ],
+      "orm_models_parsed_old": 7,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "social_django_usersocialauth",
+            "column": "extra_data_new",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "JSONField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "social_django/migrations/0012_usersocialauth_extra_data_new.py",
+            "line": 12,
+            "raw_snippet": "migrations.AddField( model_name=\"usersocialauth\", name=\"extra_data_new\", field=models.JSONField(default=dict), )",
+            "extra": {
+              "model_name": "usersocialauth",
+              "app_label": "social_django",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "social_django_usersocialauth",
+            "column": "extra_data_new",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "social_django/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'social_django_usersocialauth.extra_data_new' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "social_django_partial",
+            "column": "data_new",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "JSONField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "social_django/migrations/0012_usersocialauth_extra_data_new.py",
+            "line": 17,
+            "raw_snippet": "migrations.AddField( model_name=\"partial\", name=\"data_new\", field=models.JSONField(default=dict), )",
+            "extra": {
+              "model_name": "partial",
+              "app_label": "social_django",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "social_django_partial",
+            "column": "data_new",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "social_django/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'social_django_partial.data_new' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "social_django_usersocialauth",
+            "column": "extra_data",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "social_django/migrations/0014_remove_usersocialauth_extra_data.py",
+            "line": 12,
+            "raw_snippet": "migrations.RemoveField( model_name=\"usersocialauth\", name=\"extra_data\", )",
+            "extra": {
+              "model_name": "usersocialauth",
+              "app_label": "social_django"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "social_django_usersocialauth",
+            "column": "extra_data",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "social_django/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "social_django_partial",
+            "column": "data",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "social_django/migrations/0014_remove_usersocialauth_extra_data.py",
+            "line": 16,
+            "raw_snippet": "migrations.RemoveField( model_name=\"partial\", name=\"data\", )",
+            "extra": {
+              "model_name": "partial",
+              "app_label": "social_django"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "social_django_partial",
+            "column": "data",
+            "orm_active_old": true,
+            "orm_active_new": true,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "social_django/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'data' active in C_{t-1} ORM (social_django/models.py); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "RENAME_COLUMN",
+            "table": "social_django_usersocialauth",
+            "column": "extra_data_new",
+            "new_name": "extra_data",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "social_django/migrations/0015_rename_extra_data_new_usersocialauth_extra_data.py",
+            "line": 12,
+            "raw_snippet": "migrations.RenameField( model_name=\"usersocialauth\", old_name=\"extra_data_new\", new_name=\"extra_data\", )",
+            "extra": {
+              "model_name": "usersocialauth",
+              "app_label": "social_django"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "social_django_usersocialauth",
+            "column": "extra_data_new",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "social_django/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_FORWARD",
+          "reason": "RENAME_COLUMN 'extra_data_new'->'extra_data' breaks C_t |= S_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "RENAME_COLUMN",
+            "table": "social_django_partial",
+            "column": "data_new",
+            "new_name": "data",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "social_django/migrations/0015_rename_extra_data_new_usersocialauth_extra_data.py",
+            "line": 17,
+            "raw_snippet": "migrations.RenameField( model_name=\"partial\", old_name=\"data_new\", new_name=\"data\", )",
+            "extra": {
+              "model_name": "partial",
+              "app_label": "social_django"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "social_django_partial",
+            "column": "data_new",
+            "orm_active_old": false,
+            "orm_active_new": true,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "social_django/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_FORWARD",
+          "reason": "RENAME_COLUMN 'data_new'->'data' breaks C_t |= S_{t-1}."
+        }
+      ]
+    },
+    {
+      "sha": "bc48ad1d8f5638cc20e5d6ecf28a2072adbbccf3",
+      "parent": "3c69483d709501740de0705e92436054a71494d3",
+      "date": "2023-02-06T23:17:09Z",
+      "subject": "[pre-commit.ci] auto fixes from pre-commit.com hooks",
+      "mig_files": [
+        "social_django/migrations/0006_partial.py",
+        "social_django/migrations/0009_auto_20191118_0520.py",
+        "social_django/migrations/0011_alter_id_fields.py"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 7,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "social_django_usersocialauth",
+            "column": "created",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "DateTimeField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "social_django/migrations/0009_auto_20191118_0520.py",
+            "line": 13,
+            "raw_snippet": "migrations.AddField( model_name=\"usersocialauth\", name=\"created\", field=models.DateTimeField( auto_now_add=True, default=django.utils.timezone.now ), preserve_default=False, )",
+            "extra": {
+              "model_name": "usersocialauth",
+              "app_label": "social_django",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "social_django_usersocialauth",
+            "column": "created",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "social_django/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'social_django_usersocialauth.created' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "social_django_usersocialauth",
+            "column": "modified",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "DateTimeField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "social_django/migrations/0009_auto_20191118_0520.py",
+            "line": 21,
+            "raw_snippet": "migrations.AddField( model_name=\"usersocialauth\", name=\"modified\", field=models.DateTimeField(auto_now=True), )",
+            "extra": {
+              "model_name": "usersocialauth",
+              "app_label": "social_django",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "social_django_usersocialauth",
+            "column": "modified",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "social_django/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'social_django_usersocialauth.modified' breaks C_{t-1} INSERTs."
+        }
+      ]
+    },
+    {
+      "sha": "dd3b56d8edacd4f7adbc85ad1b0c26e4b8f2d9f8",
+      "parent": "cbb8c489386fac01cd469c0bc41d7ffe6cba25d1",
+      "date": "2022-11-09T11:09:19+01:00",
+      "subject": "Move to Black (#394)",
+      "mig_files": [
+        "social_django/migrations/0001_initial.py",
+        "social_django/migrations/0002_add_related_name.py",
+        "social_django/migrations/0003_alter_email_max_length.py",
+        "social_django/migrations/0004_auto_20160423_0400.py",
+        "social_django/migrations/0005_auto_20160727_2333.py",
+        "social_django/migrations/0006_partial.py",
+        "social_django/migrations/0007_code_timestamp.py",
+        "social_django/migrations/0008_partial_timestamp.py",
+        "social_django/migrations/0009_auto_20191118_0520.py",
+        "social_django/migrations/0010_uid_db_index.py",
+        "social_django/migrations/0011_alter_id_fields.py"
+      ],
+      "app_files_touched_in_commit": [
+        "setup.py",
+        "social_django/__init__.py",
+        "social_django/admin.py",
+        "social_django/apps.py",
+        "social_django/context_processors.py",
+        "social_django/fields.py",
+        "social_django/management/commands/clearsocial.py",
+        "social_django/managers.py",
+        "social_django/middleware.py",
+        "social_django/models.py",
+        "social_django/storage.py",
+        "social_django/strategy.py"
+      ],
+      "orm_models_parsed_old": 7,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "social_django_code",
+            "column": "timestamp",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "DateTimeField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "social_django/migrations/0007_code_timestamp.py",
+            "line": 13,
+            "raw_snippet": "migrations.AddField( model_name=\"code\", name=\"timestamp\", field=models.DateTimeField( auto_now_add=True, db_index=True, default=timezone.now ), preserve_default=False, )",
+            "extra": {
+              "model_name": "code",
+              "app_label": "social_django",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "social_django_code",
+            "column": "timestamp",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "social_django/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'social_django_code' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "social_django_partial",
+            "column": "timestamp",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "DateTimeField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "social_django/migrations/0008_partial_timestamp.py",
+            "line": 13,
+            "raw_snippet": "migrations.AddField( model_name=\"partial\", name=\"timestamp\", field=models.DateTimeField( auto_now_add=True, db_index=True, default=timezone.now ), preserve_default=False, )",
+            "extra": {
+              "model_name": "partial",
+              "app_label": "social_django",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "social_django_partial",
+            "column": "timestamp",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "social_django/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'social_django_partial' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "social_django_usersocialauth",
+            "column": "created",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "DateTimeField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "social_django/migrations/0009_auto_20191118_0520.py",
+            "line": 14,
+            "raw_snippet": "migrations.AddField( model_name=\"usersocialauth\", name=\"created\", field=models.DateTimeField( auto_now_add=True, default=django.utils.timezone.now ), preserve_default=False, )",
+            "extra": {
+              "model_name": "usersocialauth",
+              "app_label": "social_django",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "social_django_usersocialauth",
+            "column": "created",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "social_django/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'social_django_usersocialauth' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "social_django_usersocialauth",
+            "column": "modified",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "DateTimeField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "social_django/migrations/0009_auto_20191118_0520.py",
+            "line": 22,
+            "raw_snippet": "migrations.AddField( model_name=\"usersocialauth\", name=\"modified\", field=models.DateTimeField(auto_now=True), )",
+            "extra": {
+              "model_name": "usersocialauth",
+              "app_label": "social_django",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "social_django_usersocialauth",
+            "column": "modified",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "social_django/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'social_django_usersocialauth' was created in the same commit; C_{t-1} does not write to it."
+        }
+      ]
+    },
+    {
+      "sha": "a71b7e4d88db93d5c603df5417bfa8bd5aeee6e5",
+      "parent": "20fabcd7bd9a8a41910bc5c8ed1bd6ef2263b328",
+      "date": "2022-08-23T16:31:16+02:00",
+      "subject": "code: Apply isort",
+      "mig_files": [
+        "social_django/migrations/0001_initial.py",
+        "social_django/migrations/0002_add_related_name.py",
+        "social_django/migrations/0003_alter_email_max_length.py",
+        "social_django/migrations/0006_partial.py",
+        "social_django/migrations/0007_code_timestamp.py",
+        "social_django/migrations/0008_partial_timestamp.py",
+        "social_django/migrations/0009_auto_20191118_0520.py",
+        "social_django/migrations/0010_uid_db_index.py"
+      ],
+      "app_files_touched_in_commit": [
+        "setup.py",
+        "social_django/admin.py",
+        "social_django/context_processors.py",
+        "social_django/fields.py",
+        "social_django/middleware.py",
+        "social_django/models.py",
+        "social_django/storage.py",
+        "social_django/strategy.py",
+        "social_django/urls.py",
+        "social_django/utils.py",
+        "social_django/views.py",
+        "tests/urls.py"
+      ],
+      "orm_models_parsed_old": 7,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "social_django_code",
+            "column": "timestamp",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "DateTimeField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "social_django/migrations/0007_code_timestamp.py",
+            "line": 13,
+            "raw_snippet": "migrations.AddField( model_name='code', name='timestamp', field=models.DateTimeField(auto_now_add=True, db_index=True, default=timezone.now), preserve_default=False )",
+            "extra": {
+              "model_name": "code",
+              "app_label": "social_django",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "social_django_code",
+            "column": "timestamp",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "social_django/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'social_django_code' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "social_django_partial",
+            "column": "timestamp",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "DateTimeField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "social_django/migrations/0008_partial_timestamp.py",
+            "line": 13,
+            "raw_snippet": "migrations.AddField( model_name='partial', name='timestamp', field=models.DateTimeField(auto_now_add=True, db_index=True, default=timezone.now), preserve_default=False, )",
+            "extra": {
+              "model_name": "partial",
+              "app_label": "social_django",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "social_django_partial",
+            "column": "timestamp",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "social_django/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'social_django_partial' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "social_django_usersocialauth",
+            "column": "created",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "DateTimeField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "social_django/migrations/0009_auto_20191118_0520.py",
+            "line": 14,
+            "raw_snippet": "migrations.AddField( model_name='usersocialauth', name='created', field=models.DateTimeField(auto_now_add=True, default=django.utils.timezone.now), preserve_default=False, )",
+            "extra": {
+              "model_name": "usersocialauth",
+              "app_label": "social_django",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "social_django_usersocialauth",
+            "column": "created",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "social_django/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'social_django_usersocialauth' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "social_django_usersocialauth",
+            "column": "modified",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "DateTimeField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "social_django/migrations/0009_auto_20191118_0520.py",
+            "line": 20,
+            "raw_snippet": "migrations.AddField( model_name='usersocialauth', name='modified', field=models.DateTimeField(auto_now=True), )",
+            "extra": {
+              "model_name": "usersocialauth",
+              "app_label": "social_django",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "social_django_usersocialauth",
+            "column": "modified",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "social_django/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'social_django_usersocialauth' was created in the same commit; C_{t-1} does not write to it."
+        }
+      ]
+    },
+    {
+      "sha": "11b32b43b9bf3cd4b18fa95e62d2b000e8cc596f",
+      "parent": "08d2380956715461df54aedadf1d647275f80c1e",
+      "date": "2021-01-15T14:10:34+01:00",
+      "subject": "Upgrade code to Python 3",
+      "mig_files": [
+        "social_django/migrations/0001_initial.py",
+        "social_django/migrations/0002_add_related_name.py",
+        "social_django/migrations/0003_alter_email_max_length.py",
+        "social_django/migrations/0004_auto_20160423_0400.py",
+        "social_django/migrations/0005_auto_20160727_2333.py",
+        "social_django/migrations/0006_partial.py",
+        "social_django/migrations/0007_code_timestamp.py",
+        "social_django/migrations/0008_partial_timestamp.py",
+        "social_django/migrations/0010_uid_db_index.py"
+      ],
+      "app_files_touched_in_commit": [
+        "manage.py",
+        "setup.py",
+        "social_django/fields.py",
+        "social_django/management/commands/clearsocial.py",
+        "social_django/middleware.py",
+        "social_django/storage.py",
+        "social_django/strategy.py",
+        "social_django/urls.py",
+        "social_django/utils.py",
+        "social_django/views.py",
+        "tests/settings.py",
+        "tests/urls.py"
+      ],
+      "orm_models_parsed_old": 7,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "social_django_code",
+            "column": "timestamp",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "DateTimeField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "social_django/migrations/0007_code_timestamp.py",
+            "line": 14,
+            "raw_snippet": "migrations.AddField( model_name='code', name='timestamp', field=models.DateTimeField(auto_now_add=True, db_index=True, default=timezone.now), preserve_default=False )",
+            "extra": {
+              "model_name": "code",
+              "app_label": "social_django",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "social_django_code",
+            "column": "timestamp",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "social_django/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'social_django_code' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "social_django_partial",
+            "column": "timestamp",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "DateTimeField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "social_django/migrations/0008_partial_timestamp.py",
+            "line": 14,
+            "raw_snippet": "migrations.AddField( model_name='partial', name='timestamp', field=models.DateTimeField(auto_now_add=True, db_index=True, default=timezone.now), preserve_default=False, )",
+            "extra": {
+              "model_name": "partial",
+              "app_label": "social_django",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "social_django_partial",
+            "column": "timestamp",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "social_django/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'social_django_partial' was created in the same commit; C_{t-1} does not write to it."
+        }
+      ]
+    },
+    {
+      "sha": "b5baf55648d9d1c6896f6b7f43f70093f7ba118c",
+      "parent": "c00d23c2b45c3317bd35b15ad1b959338689cef8",
+      "date": "2019-11-17T22:31:46-07:00",
+      "subject": "added created and modified timestamps",
+      "mig_files": [
+        "social_django/migrations/0009_auto_20191118_0520.py"
+      ],
+      "app_files_touched_in_commit": [
+        "social_django/models.py"
+      ],
+      "orm_models_parsed_old": 7,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "social_django_usersocialauth",
+            "column": "created",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "DateTimeField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "social_django/migrations/0009_auto_20191118_0520.py",
+            "line": 14,
+            "raw_snippet": "migrations.AddField( model_name='usersocialauth', name='created', field=models.DateTimeField(auto_now_add=True, default=django.utils.timezone.now), preserve_default=False, )",
+            "extra": {
+              "model_name": "usersocialauth",
+              "app_label": "social_django",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "social_django_usersocialauth",
+            "column": "created",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "social_django/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'social_django_usersocialauth.created' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "social_django_usersocialauth",
+            "column": "modified",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "DateTimeField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "social_django/migrations/0009_auto_20191118_0520.py",
+            "line": 20,
+            "raw_snippet": "migrations.AddField( model_name='usersocialauth', name='modified', field=models.DateTimeField(auto_now=True), )",
+            "extra": {
+              "model_name": "usersocialauth",
+              "app_label": "social_django",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "social_django_usersocialauth",
+            "column": "modified",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "social_django/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'social_django_usersocialauth.modified' breaks C_{t-1} INSERTs."
+        }
+      ]
+    },
+    {
+      "sha": "9e72c241ef09ea197d44bc31326c6f0813f7ad01",
+      "parent": "c83c9be9f914a76430d40d55fc610d9f30f9d746",
+      "date": "2017-10-20T20:03:50-03:00",
+      "subject": "PEP8",
+      "mig_files": [
+        "social_django/migrations/0007_code_timestamp.py",
+        "social_django/migrations/0008_partial_timestamp.py"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 7,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "social_django_code",
+            "column": "timestamp",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "DateTimeField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "social_django/migrations/0007_code_timestamp.py",
+            "line": 16,
+            "raw_snippet": "migrations.AddField( model_name='code', name='timestamp', field=models.DateTimeField(auto_now_add=True, db_index=True, default=timezone.now), preserve_default=False )",
+            "extra": {
+              "model_name": "code",
+              "app_label": "social_django",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "social_django_code",
+            "column": "timestamp",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "social_django/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'social_django_code.timestamp' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "social_django_partial",
+            "column": "timestamp",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "DateTimeField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "social_django/migrations/0008_partial_timestamp.py",
+            "line": 16,
+            "raw_snippet": "migrations.AddField( model_name='partial', name='timestamp', field=models.DateTimeField(auto_now_add=True, db_index=True, default=timezone.now), preserve_default=False, )",
+            "extra": {
+              "model_name": "partial",
+              "app_label": "social_django",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "social_django_partial",
+            "column": "timestamp",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "social_django/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'social_django_partial.timestamp' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    },
+    {
+      "sha": "9372b87b5af6f715ecf95d0386902f70df44f1e9",
+      "parent": "863a3e217b5597c82e7c98ffb0a128e5170a2a86",
+      "date": "2017-06-08T08:58:24+02:00",
+      "subject": "Add timestamp to Partial model",
+      "mig_files": [
+        "social_django/migrations/0008_partial_timestamp.py"
+      ],
+      "app_files_touched_in_commit": [
+        "social_django/models.py"
+      ],
+      "orm_models_parsed_old": 7,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "social_django_partial",
+            "column": "timestamp",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "DateTimeField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "social_django/migrations/0008_partial_timestamp.py",
+            "line": 16,
+            "raw_snippet": "migrations.AddField( model_name='partial', name='timestamp', field=models.DateTimeField(auto_now_add=True, db_index=True, default=django.utils.timezone.now), preserve_default=False",
+            "extra": {
+              "model_name": "partial",
+              "app_label": "social_django",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "social_django_partial",
+            "column": "timestamp",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "social_django/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'social_django_partial.timestamp' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    },
+    {
+      "sha": "863a3e217b5597c82e7c98ffb0a128e5170a2a86",
+      "parent": "a3d9572d067587c3a53a1ae3f0e6f816c8986b88",
+      "date": "2017-06-08T08:55:29+02:00",
+      "subject": "Add timestamp to Code model",
+      "mig_files": [
+        "social_django/migrations/0007_code_timestamp.py"
+      ],
+      "app_files_touched_in_commit": [
+        "social_django/models.py"
+      ],
+      "orm_models_parsed_old": 7,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "social_django_code",
+            "column": "timestamp",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "DateTimeField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "social_django/migrations/0007_code_timestamp.py",
+            "line": 16,
+            "raw_snippet": "migrations.AddField( model_name='code', name='timestamp', field=models.DateTimeField(auto_now_add=True, db_index=True, default=django.utils.timezone.now), preserve_default=False, )",
+            "extra": {
+              "model_name": "code",
+              "app_label": "social_django",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "social_django_code",
+            "column": "timestamp",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "social_django/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'social_django_code.timestamp' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    }
+  ]
+}

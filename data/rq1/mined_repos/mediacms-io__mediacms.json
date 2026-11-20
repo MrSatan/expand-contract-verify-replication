@@ -1,0 +1,2286 @@
+{
+  "repo": "mediacms-io/mediacms",
+  "ecosystem": "django",
+  "stars": 5196,
+  "has_k8s_helm": false,
+  "status": "ok",
+  "stats": {
+    "total_migration_commits_in_history": 21,
+    "migration_commits_analyzed": 20,
+    "total_migration_files_parsed": 45,
+    "commits_with_any_destructive": 6,
+    "commits_with_forward_destructive": 6,
+    "commits_with_rollback_only_destructive": 0,
+    "total_ops_extracted": 65,
+    "destructive_ops_up": 50,
+    "destructive_ops_down": 0
+  },
+  "verdict_counts": {
+    "DUAL_VERSION_VIOLATION_BACKWARD": 22,
+    "SAFE_ADDITIVE": 29
+  },
+  "destructive_commits": [
+    {
+      "sha": "55ab7ff34fcd05806b845cf958f07841a7cdfc78",
+      "parent": "b7427869b6c07700f99b7d3fbe963c455b1ad5e4",
+      "date": "2026-05-11T12:47:09+03:00",
+      "subject": "feat: LTI support and Moodle plugin",
+      "mig_files": [
+        "files/migrations/0015_category_is_lms_course_category_lti_context_id.py",
+        "files/migrations/0016_category_lti_platform.py",
+        "files/migrations/0017_mediapermission_source.py",
+        "files/migrations/0018_embedmediacourse.py",
+        "lti/migrations/0001_initial.py"
+      ],
+      "app_files_touched_in_commit": [
+        "cms/dev_settings.py",
+        "cms/settings.py",
+        "cms/urls.py",
+        "cms/version.py",
+        "files/admin.py",
+        "files/context_processors.py",
+        "files/forms.py",
+        "files/frontend_translations/__init__.py",
+        "files/frontend_translations/ar.py",
+        "files/frontend_translations/bn.py",
+        "files/frontend_translations/da.py",
+        "files/frontend_translations/de.py"
+      ],
+      "orm_models_parsed_old": 19,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "files_category",
+            "column": "is_lms_course",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "BooleanField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "files/migrations/0015_category_is_lms_course_category_lti_context_id.py",
+            "line": 12,
+            "raw_snippet": "migrations.AddField( model_name='category', name='is_lms_course', field=models.BooleanField(db_index=True, default=False, help_text='Whether this category represents an LMS course'",
+            "extra": {
+              "model_name": "category",
+              "app_label": "files",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "files_category",
+            "column": "is_lms_course",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "files/models/category.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'files_category.is_lms_course' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "files_category",
+            "column": "lti_context_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "CharField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "files/migrations/0015_category_is_lms_course_category_lti_context_id.py",
+            "line": 17,
+            "raw_snippet": "migrations.AddField( model_name='category', name='lti_context_id', field=models.CharField(blank=True, db_index=True, help_text='LTI context ID from platform', max_length=255), )",
+            "extra": {
+              "model_name": "category",
+              "app_label": "files",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "files_category",
+            "column": "lti_context_id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "files/models/category.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'files_category.lti_context_id' breaks C_{t-1} INSERTs."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "files_mediapermission",
+            "column": "source",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "CharField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "files/migrations/0017_mediapermission_source.py",
+            "line": 13,
+            "raw_snippet": "migrations.AddField( model_name='mediapermission', name='source', field=models.CharField(choices=[('lti_embed', 'LTI Embed'), ('explicit', 'Explicit')], default='explicit', max_len",
+            "extra": {
+              "model_name": "mediapermission",
+              "app_label": "files",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "files_mediapermission",
+            "column": "source",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "files/models/media.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'files_mediapermission.source' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    },
+    {
+      "sha": "817e16ac60fdc24b8f3aa27c77455f47a7c19551",
+      "parent": "8cbeb72dd24d41951d27e425819e17b9e498a267",
+      "date": "2025-09-01T15:11:38+03:00",
+      "subject": "feat: whisper STT and record screen (#1363)",
+      "mig_files": [
+        "files/migrations/0012_media_allow_whisper_transcribe_and_more.py"
+      ],
+      "app_files_touched_in_commit": [
+        "cms/settings.py",
+        "files/admin.py",
+        "files/forms.py",
+        "files/frontend_translations/ar.py",
+        "files/frontend_translations/bn.py",
+        "files/frontend_translations/da.py",
+        "files/frontend_translations/de.py",
+        "files/frontend_translations/el.py",
+        "files/frontend_translations/en.py",
+        "files/frontend_translations/es.py",
+        "files/frontend_translations/fr.py",
+        "files/frontend_translations/he.py"
+      ],
+      "orm_models_parsed_old": 16,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "files_media",
+            "column": "allow_whisper_transcribe",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "BooleanField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "files/migrations/0012_media_allow_whisper_transcribe_and_more.py",
+            "line": 18,
+            "raw_snippet": "migrations.AddField( model_name='media', name='allow_whisper_transcribe', field=models.BooleanField(default=False, verbose_name='Transcribe auto-detected language'), )",
+            "extra": {
+              "model_name": "media",
+              "app_label": "files",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "files_media",
+            "column": "allow_whisper_transcribe",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "files/models/media.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'files_media.allow_whisper_transcribe' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "files_media",
+            "column": "allow_whisper_transcribe_and_translate",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "BooleanField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "files/migrations/0012_media_allow_whisper_transcribe_and_more.py",
+            "line": 23,
+            "raw_snippet": "migrations.AddField( model_name='media', name='allow_whisper_transcribe_and_translate', field=models.BooleanField(default=False, verbose_name='Transcribe auto-detected language and",
+            "extra": {
+              "model_name": "media",
+              "app_label": "files",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "files_media",
+            "column": "allow_whisper_transcribe_and_translate",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "files/models/media.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'files_media.allow_whisper_transcribe_and_translate' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    },
+    {
+      "sha": "05414f66c78839b3afd3c40a04d1ecd5450793a1",
+      "parent": "8fecccce1c939d6c7fcaac1e37b27e12b1dc0318",
+      "date": "2025-04-05T12:44:21+03:00",
+      "subject": "feat: RBAC + SAML support",
+      "mig_files": [
+        "files/migrations/0004_alter_subtitle_options_category_identity_provider_and_more.py",
+        "files/migrations/0005_alter_category_uid.py",
+        "files/migrations/0006_alter_category_title.py",
+        "identity_providers/migrations/0001_initial.py",
+        "identity_providers/migrations/0002_loginoption.py",
+        "identity_providers/migrations/0003_alter_identityprovidercategorymapping_unique_together.py",
+        "identity_providers/migrations/0004_alter_identityprovidercategorymapping_map_to.py",
+        "rbac/migrations/0001_initial.py",
+        "rbac/migrations/0002_alter_rbacgroup_uid.py",
+        "saml_auth/migrations/0001_initial.py"
+      ],
+      "app_files_touched_in_commit": [
+        "admin_customizations/__init__.py",
+        "admin_customizations/admin.py",
+        "admin_customizations/apps.py",
+        "admin_customizations/models.py",
+        "admin_customizations/views.py",
+        "cms/dev_settings.py",
+        "cms/settings.py",
+        "cms/urls.py",
+        "cms/version.py",
+        "conftest.py",
+        "files/admin.py",
+        "files/context_processors.py"
+      ],
+      "orm_models_parsed_old": 13,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "files_category",
+            "column": "is_rbac_category",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "BooleanField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "files/migrations/0004_alter_subtitle_options_category_identity_provider_and_more.py",
+            "line": 31,
+            "raw_snippet": "migrations.AddField( model_name='category', name='is_rbac_category', field=models.BooleanField(db_index=True, default=False, help_text='If access to Category is controlled by role ",
+            "extra": {
+              "model_name": "category",
+              "app_label": "files",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "files_category",
+            "column": "is_rbac_category",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "files/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'files_category.is_rbac_category' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "files_category",
+            "column": "uid",
+            "new_name": null,
+            "old_type": "UUIDField",
+            "new_type": "CharField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "files/migrations/0005_alter_category_uid.py",
+            "line": 14,
+            "raw_snippet": "migrations.AlterField( model_name='category', name='uid', field=models.CharField(default=files.models.generate_uid, max_length=36, unique=True), )",
+            "extra": {
+              "model_name": "category",
+              "app_label": "files",
+              "field_info": {
+                "field_type": "CharField",
+                "null": false,
+                "has_default": true,
+                "has_db_default": false
+              }
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "files_category",
+            "column": "uid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "files/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'files_category.uid' (UUIDField -> CharField)."
+        }
+      ]
+    },
+    {
+      "sha": "a3997bfb1cc6cc7d275e9954f58b643baa9ff9ce",
+      "parent": "4b0718c43fa3e3a6825b54d44e392550dad406c1",
+      "date": "2023-03-14T14:09:52+02:00",
+      "subject": "update versions for pre-commit (#741)",
+      "mig_files": [
+        "actions/migrations/0001_initial.py",
+        "actions/migrations/0002_mediaaction_media.py",
+        "actions/migrations/0003_auto_20201201_0712.py",
+        "files/migrations/0001_initial.py",
+        "files/migrations/0002_auto_20201201_0712.py",
+        "files/migrations/0003_auto_20210927_1245.py",
+        "users/migrations/0001_initial.py"
+      ],
+      "app_files_touched_in_commit": [
+        "cms/custom_pagination.py",
+        "files/feeds.py",
+        "files/methods.py",
+        "files/models.py",
+        "files/tasks.py",
+        "users/views.py"
+      ],
+      "orm_models_parsed_old": 14,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "actions_mediaaction",
+            "column": "media",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "actions/migrations/0002_mediaaction_media.py",
+            "line": 16,
+            "raw_snippet": "migrations.AddField( model_name=\"mediaaction\", name=\"media\", field=models.ForeignKey( on_delete=django.db.models.deletion.CASCADE, related_name=\"mediaactions\", to=\"files.media\", ),",
+            "extra": {
+              "model_name": "mediaaction",
+              "app_label": "actions",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "actions_mediaaction",
+            "column": "media",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "actions/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'actions_mediaaction' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "files_subtitle",
+            "column": "language",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "files/migrations/0002_auto_20201201_0712.py",
+            "line": 30,
+            "raw_snippet": "migrations.AddField( model_name=\"subtitle\", name=\"language\", field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=\"files.language\"), )",
+            "extra": {
+              "model_name": "subtitle",
+              "app_label": "files",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "files_subtitle",
+            "column": "language",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "files/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'files_subtitle' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "files_subtitle",
+            "column": "media",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "files/migrations/0002_auto_20201201_0712.py",
+            "line": 35,
+            "raw_snippet": "migrations.AddField( model_name=\"subtitle\", name=\"media\", field=models.ForeignKey( on_delete=django.db.models.deletion.CASCADE, related_name=\"subtitles\", to=\"files.media\", ), )",
+            "extra": {
+              "model_name": "subtitle",
+              "app_label": "files",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "files_subtitle",
+            "column": "media",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "files/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'files_subtitle' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "files_subtitle",
+            "column": "user",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "files/migrations/0002_auto_20201201_0712.py",
+            "line": 44,
+            "raw_snippet": "migrations.AddField( model_name=\"subtitle\", name=\"user\", field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL), )",
+            "extra": {
+              "model_name": "subtitle",
+              "app_label": "files",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "files_subtitle",
+            "column": "user",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "files/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'files_subtitle' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "files_rating",
+            "column": "media",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "files/migrations/0002_auto_20201201_0712.py",
+            "line": 49,
+            "raw_snippet": "migrations.AddField( model_name=\"rating\", name=\"media\", field=models.ForeignKey( on_delete=django.db.models.deletion.CASCADE, related_name=\"ratings\", to=\"files.media\", ), )",
+            "extra": {
+              "model_name": "rating",
+              "app_label": "files",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "files_rating",
+            "column": "media",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "files/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'files_rating' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "files_rating",
+            "column": "rating_category",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "files/migrations/0002_auto_20201201_0712.py",
+            "line": 58,
+            "raw_snippet": "migrations.AddField( model_name=\"rating\", name=\"rating_category\", field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=\"files.ratingcategory\"), )",
+            "extra": {
+              "model_name": "rating",
+              "app_label": "files",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "files_rating",
+            "column": "rating_category",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "files/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'files_rating' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "files_rating",
+            "column": "user",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "files/migrations/0002_auto_20201201_0712.py",
+            "line": 63,
+            "raw_snippet": "migrations.AddField( model_name=\"rating\", name=\"user\", field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL), )",
+            "extra": {
+              "model_name": "rating",
+              "app_label": "files",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "files_rating",
+            "column": "user",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "files/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'files_rating' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "files_playlistmedia",
+            "column": "media",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "files/migrations/0002_auto_20201201_0712.py",
+            "line": 68,
+            "raw_snippet": "migrations.AddField( model_name=\"playlistmedia\", name=\"media\", field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=\"files.media\"), )",
+            "extra": {
+              "model_name": "playlistmedia",
+              "app_label": "files",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "files_playlistmedia",
+            "column": "media",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "files/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'files_playlistmedia' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "files_playlistmedia",
+            "column": "playlist",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "files/migrations/0002_auto_20201201_0712.py",
+            "line": 73,
+            "raw_snippet": "migrations.AddField( model_name=\"playlistmedia\", name=\"playlist\", field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=\"files.playlist\"), )",
+            "extra": {
+              "model_name": "playlistmedia",
+              "app_label": "files",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "files_playlistmedia",
+            "column": "playlist",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "files/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'files_playlistmedia' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "files_playlist",
+            "column": "user",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "files/migrations/0002_auto_20201201_0712.py",
+            "line": 83,
+            "raw_snippet": "migrations.AddField( model_name=\"playlist\", name=\"user\", field=models.ForeignKey( on_delete=django.db.models.deletion.CASCADE, related_name=\"playlists\", to=settings.AUTH_USER_MODEL",
+            "extra": {
+              "model_name": "playlist",
+              "app_label": "files",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "files_playlist",
+            "column": "user",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "files/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'files_playlist' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "files_media",
+            "column": "user",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "files/migrations/0002_auto_20201201_0712.py",
+            "line": 140,
+            "raw_snippet": "migrations.AddField( model_name=\"media\", name=\"user\", field=models.ForeignKey( help_text=\"user that uploads the media\", on_delete=django.db.models.deletion.CASCADE, to=settings.AUT",
+            "extra": {
+              "model_name": "media",
+              "app_label": "files",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "files_media",
+            "column": "user",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "files/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'files_media' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "files_encoding",
+            "column": "media",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "files/migrations/0002_auto_20201201_0712.py",
+            "line": 149,
+            "raw_snippet": "migrations.AddField( model_name=\"encoding\", name=\"media\", field=models.ForeignKey( on_delete=django.db.models.deletion.CASCADE, related_name=\"encodings\", to=\"files.media\", ), )",
+            "extra": {
+              "model_name": "encoding",
+              "app_label": "files",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "files_encoding",
+            "column": "media",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "files/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'files_encoding' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "files_encoding",
+            "column": "profile",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "files/migrations/0002_auto_20201201_0712.py",
+            "line": 158,
+            "raw_snippet": "migrations.AddField( model_name=\"encoding\", name=\"profile\", field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=\"files.encodeprofile\"), )",
+            "extra": {
+              "model_name": "encoding",
+              "app_label": "files",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "files_encoding",
+            "column": "profile",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "files/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'files_encoding' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "files_comment",
+            "column": "media",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "files/migrations/0002_auto_20201201_0712.py",
+            "line": 163,
+            "raw_snippet": "migrations.AddField( model_name=\"comment\", name=\"media\", field=models.ForeignKey( on_delete=django.db.models.deletion.CASCADE, related_name=\"comments\", to=\"files.media\", ), )",
+            "extra": {
+              "model_name": "comment",
+              "app_label": "files",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "files_comment",
+            "column": "media",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "files/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'files_comment' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "files_comment",
+            "column": "user",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "files/migrations/0002_auto_20201201_0712.py",
+            "line": 183,
+            "raw_snippet": "migrations.AddField( model_name=\"comment\", name=\"user\", field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL), )",
+            "extra": {
+              "model_name": "comment",
+              "app_label": "files",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "files_comment",
+            "column": "user",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "files/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'files_comment' was created in the same commit; C_{t-1} does not write to it."
+        }
+      ]
+    },
+    {
+      "sha": "6df942ac4ee82b4825900f3f1c8e5e88da088af5",
+      "parent": "2d49b1df29ee4d0204a9faa0141bac45c18adcb8",
+      "date": "2021-05-26T18:35:21+03:00",
+      "subject": "format content (#198)",
+      "mig_files": [
+        "actions/migrations/0002_mediaaction_media.py",
+        "actions/migrations/0003_auto_20201201_0712.py",
+        "files/migrations/0001_initial.py",
+        "files/migrations/0002_auto_20201201_0712.py",
+        "users/migrations/0001_initial.py"
+      ],
+      "app_files_touched_in_commit": [
+        "actions/models.py",
+        "cms/__init__.py",
+        "cms/celery.py",
+        "cms/custom_pagination.py",
+        "cms/permissions.py",
+        "cms/settings.py",
+        "cms/urls.py",
+        "deploy/docker/local_settings.py",
+        "files/admin.py",
+        "files/backends.py",
+        "files/context_processors.py",
+        "files/feeds.py"
+      ],
+      "orm_models_parsed_old": 14,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "actions_mediaaction",
+            "column": "media",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "actions/migrations/0002_mediaaction_media.py",
+            "line": 17,
+            "raw_snippet": "migrations.AddField( model_name=\"mediaaction\", name=\"media\", field=models.ForeignKey( on_delete=django.db.models.deletion.CASCADE, related_name=\"mediaactions\", to=\"files.media\", ),",
+            "extra": {
+              "model_name": "mediaaction",
+              "app_label": "actions",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "actions_mediaaction",
+            "column": "media",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "actions/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'actions_mediaaction.media' breaks C_{t-1} INSERTs."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "files_subtitle",
+            "column": "language",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "files/migrations/0002_auto_20201201_0712.py",
+            "line": 31,
+            "raw_snippet": "migrations.AddField( model_name=\"subtitle\", name=\"language\", field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=\"files.language\"), )",
+            "extra": {
+              "model_name": "subtitle",
+              "app_label": "files",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "files_subtitle",
+            "column": "language",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "files/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'files_subtitle' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "files_subtitle",
+            "column": "media",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "files/migrations/0002_auto_20201201_0712.py",
+            "line": 36,
+            "raw_snippet": "migrations.AddField( model_name=\"subtitle\", name=\"media\", field=models.ForeignKey( on_delete=django.db.models.deletion.CASCADE, related_name=\"subtitles\", to=\"files.media\", ), )",
+            "extra": {
+              "model_name": "subtitle",
+              "app_label": "files",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "files_subtitle",
+            "column": "media",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "files/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'files_subtitle' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "files_subtitle",
+            "column": "user",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "files/migrations/0002_auto_20201201_0712.py",
+            "line": 45,
+            "raw_snippet": "migrations.AddField( model_name=\"subtitle\", name=\"user\", field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL), )",
+            "extra": {
+              "model_name": "subtitle",
+              "app_label": "files",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "files_subtitle",
+            "column": "user",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "files/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'files_subtitle' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "files_rating",
+            "column": "media",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "files/migrations/0002_auto_20201201_0712.py",
+            "line": 50,
+            "raw_snippet": "migrations.AddField( model_name=\"rating\", name=\"media\", field=models.ForeignKey( on_delete=django.db.models.deletion.CASCADE, related_name=\"ratings\", to=\"files.media\", ), )",
+            "extra": {
+              "model_name": "rating",
+              "app_label": "files",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "files_rating",
+            "column": "media",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "files/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'files_rating' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "files_rating",
+            "column": "rating_category",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "files/migrations/0002_auto_20201201_0712.py",
+            "line": 59,
+            "raw_snippet": "migrations.AddField( model_name=\"rating\", name=\"rating_category\", field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=\"files.ratingcategory\"), )",
+            "extra": {
+              "model_name": "rating",
+              "app_label": "files",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "files_rating",
+            "column": "rating_category",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "files/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'files_rating' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "files_rating",
+            "column": "user",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "files/migrations/0002_auto_20201201_0712.py",
+            "line": 64,
+            "raw_snippet": "migrations.AddField( model_name=\"rating\", name=\"user\", field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL), )",
+            "extra": {
+              "model_name": "rating",
+              "app_label": "files",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "files_rating",
+            "column": "user",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "files/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'files_rating' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "files_playlistmedia",
+            "column": "media",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "files/migrations/0002_auto_20201201_0712.py",
+            "line": 69,
+            "raw_snippet": "migrations.AddField( model_name=\"playlistmedia\", name=\"media\", field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=\"files.media\"), )",
+            "extra": {
+              "model_name": "playlistmedia",
+              "app_label": "files",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "files_playlistmedia",
+            "column": "media",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "files/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'files_playlistmedia' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "files_playlistmedia",
+            "column": "playlist",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "files/migrations/0002_auto_20201201_0712.py",
+            "line": 74,
+            "raw_snippet": "migrations.AddField( model_name=\"playlistmedia\", name=\"playlist\", field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=\"files.playlist\"), )",
+            "extra": {
+              "model_name": "playlistmedia",
+              "app_label": "files",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "files_playlistmedia",
+            "column": "playlist",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "files/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'files_playlistmedia' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "files_playlist",
+            "column": "user",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "files/migrations/0002_auto_20201201_0712.py",
+            "line": 84,
+            "raw_snippet": "migrations.AddField( model_name=\"playlist\", name=\"user\", field=models.ForeignKey( on_delete=django.db.models.deletion.CASCADE, related_name=\"playlists\", to=settings.AUTH_USER_MODEL",
+            "extra": {
+              "model_name": "playlist",
+              "app_label": "files",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "files_playlist",
+            "column": "user",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "files/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'files_playlist' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "files_media",
+            "column": "user",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "files/migrations/0002_auto_20201201_0712.py",
+            "line": 141,
+            "raw_snippet": "migrations.AddField( model_name=\"media\", name=\"user\", field=models.ForeignKey( help_text=\"user that uploads the media\", on_delete=django.db.models.deletion.CASCADE, to=settings.AUT",
+            "extra": {
+              "model_name": "media",
+              "app_label": "files",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "files_media",
+            "column": "user",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "files/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'files_media' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "files_encoding",
+            "column": "media",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "files/migrations/0002_auto_20201201_0712.py",
+            "line": 150,
+            "raw_snippet": "migrations.AddField( model_name=\"encoding\", name=\"media\", field=models.ForeignKey( on_delete=django.db.models.deletion.CASCADE, related_name=\"encodings\", to=\"files.media\", ), )",
+            "extra": {
+              "model_name": "encoding",
+              "app_label": "files",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "files_encoding",
+            "column": "media",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "files/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'files_encoding' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "files_encoding",
+            "column": "profile",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "files/migrations/0002_auto_20201201_0712.py",
+            "line": 159,
+            "raw_snippet": "migrations.AddField( model_name=\"encoding\", name=\"profile\", field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=\"files.encodeprofile\"), )",
+            "extra": {
+              "model_name": "encoding",
+              "app_label": "files",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "files_encoding",
+            "column": "profile",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "files/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'files_encoding' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "files_comment",
+            "column": "media",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "files/migrations/0002_auto_20201201_0712.py",
+            "line": 164,
+            "raw_snippet": "migrations.AddField( model_name=\"comment\", name=\"media\", field=models.ForeignKey( on_delete=django.db.models.deletion.CASCADE, related_name=\"comments\", to=\"files.media\", ), )",
+            "extra": {
+              "model_name": "comment",
+              "app_label": "files",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "files_comment",
+            "column": "media",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "files/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'files_comment' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "files_comment",
+            "column": "user",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "files/migrations/0002_auto_20201201_0712.py",
+            "line": 184,
+            "raw_snippet": "migrations.AddField( model_name=\"comment\", name=\"user\", field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL), )",
+            "extra": {
+              "model_name": "comment",
+              "app_label": "files",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "files_comment",
+            "column": "user",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "files/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'files_comment' was created in the same commit; C_{t-1} does not write to it."
+        }
+      ]
+    },
+    {
+      "sha": "f1663f527055c3cca3f9e20b209660447c3a834c",
+      "parent": "dc6681a27c26515b16b76b518405f1ea0b083793",
+      "date": "2020-12-22T15:21:20+02:00",
+      "subject": "remove redundant index",
+      "mig_files": [
+        "files/migrations/0002_auto_20201201_0712.py"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 13,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "files_subtitle",
+            "column": "language",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "files/migrations/0002_auto_20201201_0712.py",
+            "line": 31,
+            "raw_snippet": "migrations.AddField( model_name=\"subtitle\", name=\"language\", field=models.ForeignKey( on_delete=django.db.models.deletion.CASCADE, to=\"files.language\" ), )",
+            "extra": {
+              "model_name": "subtitle",
+              "app_label": "files",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "files_subtitle",
+            "column": "language",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "files/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'files_subtitle.language' breaks C_{t-1} INSERTs."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "files_subtitle",
+            "column": "media",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "files/migrations/0002_auto_20201201_0712.py",
+            "line": 38,
+            "raw_snippet": "migrations.AddField( model_name=\"subtitle\", name=\"media\", field=models.ForeignKey( on_delete=django.db.models.deletion.CASCADE, related_name=\"subtitles\", to=\"files.media\", ), )",
+            "extra": {
+              "model_name": "subtitle",
+              "app_label": "files",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "files_subtitle",
+            "column": "media",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "files/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'files_subtitle.media' breaks C_{t-1} INSERTs."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "files_subtitle",
+            "column": "user",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "files/migrations/0002_auto_20201201_0712.py",
+            "line": 47,
+            "raw_snippet": "migrations.AddField( model_name=\"subtitle\", name=\"user\", field=models.ForeignKey( on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL ), )",
+            "extra": {
+              "model_name": "subtitle",
+              "app_label": "files",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "files_subtitle",
+            "column": "user",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "files/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'files_subtitle.user' breaks C_{t-1} INSERTs."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "files_rating",
+            "column": "media",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "files/migrations/0002_auto_20201201_0712.py",
+            "line": 54,
+            "raw_snippet": "migrations.AddField( model_name=\"rating\", name=\"media\", field=models.ForeignKey( on_delete=django.db.models.deletion.CASCADE, related_name=\"ratings\", to=\"files.media\", ), )",
+            "extra": {
+              "model_name": "rating",
+              "app_label": "files",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "files_rating",
+            "column": "media",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "files/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'files_rating.media' breaks C_{t-1} INSERTs."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "files_rating",
+            "column": "rating_category",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "files/migrations/0002_auto_20201201_0712.py",
+            "line": 63,
+            "raw_snippet": "migrations.AddField( model_name=\"rating\", name=\"rating_category\", field=models.ForeignKey( on_delete=django.db.models.deletion.CASCADE, to=\"files.ratingcategory\" ), )",
+            "extra": {
+              "model_name": "rating",
+              "app_label": "files",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "files_rating",
+            "column": "rating_category",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "files/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'files_rating.rating_category' breaks C_{t-1} INSERTs."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "files_rating",
+            "column": "user",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "files/migrations/0002_auto_20201201_0712.py",
+            "line": 70,
+            "raw_snippet": "migrations.AddField( model_name=\"rating\", name=\"user\", field=models.ForeignKey( on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL ), )",
+            "extra": {
+              "model_name": "rating",
+              "app_label": "files",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "files_rating",
+            "column": "user",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "files/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'files_rating.user' breaks C_{t-1} INSERTs."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "files_playlistmedia",
+            "column": "media",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "files/migrations/0002_auto_20201201_0712.py",
+            "line": 77,
+            "raw_snippet": "migrations.AddField( model_name=\"playlistmedia\", name=\"media\", field=models.ForeignKey( on_delete=django.db.models.deletion.CASCADE, to=\"files.media\" ), )",
+            "extra": {
+              "model_name": "playlistmedia",
+              "app_label": "files",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "files_playlistmedia",
+            "column": "media",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "files/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'files_playlistmedia.media' breaks C_{t-1} INSERTs."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "files_playlistmedia",
+            "column": "playlist",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "files/migrations/0002_auto_20201201_0712.py",
+            "line": 84,
+            "raw_snippet": "migrations.AddField( model_name=\"playlistmedia\", name=\"playlist\", field=models.ForeignKey( on_delete=django.db.models.deletion.CASCADE, to=\"files.playlist\" ), )",
+            "extra": {
+              "model_name": "playlistmedia",
+              "app_label": "files",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "files_playlistmedia",
+            "column": "playlist",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "files/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'files_playlistmedia.playlist' breaks C_{t-1} INSERTs."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "files_playlist",
+            "column": "user",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "files/migrations/0002_auto_20201201_0712.py",
+            "line": 98,
+            "raw_snippet": "migrations.AddField( model_name=\"playlist\", name=\"user\", field=models.ForeignKey( on_delete=django.db.models.deletion.CASCADE, related_name=\"playlists\", to=settings.AUTH_USER_MODEL",
+            "extra": {
+              "model_name": "playlist",
+              "app_label": "files",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "files_playlist",
+            "column": "user",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "files/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'files_playlist.user' breaks C_{t-1} INSERTs."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "files_media",
+            "column": "user",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "files/migrations/0002_auto_20201201_0712.py",
+            "line": 155,
+            "raw_snippet": "migrations.AddField( model_name=\"media\", name=\"user\", field=models.ForeignKey( help_text=\"user that uploads the media\", on_delete=django.db.models.deletion.CASCADE, to=settings.AUT",
+            "extra": {
+              "model_name": "media",
+              "app_label": "files",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "files_media",
+            "column": "user",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "files/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'files_media.user' breaks C_{t-1} INSERTs."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "files_encoding",
+            "column": "media",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "files/migrations/0002_auto_20201201_0712.py",
+            "line": 164,
+            "raw_snippet": "migrations.AddField( model_name=\"encoding\", name=\"media\", field=models.ForeignKey( on_delete=django.db.models.deletion.CASCADE, related_name=\"encodings\", to=\"files.media\", ), )",
+            "extra": {
+              "model_name": "encoding",
+              "app_label": "files",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "files_encoding",
+            "column": "media",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "files/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'files_encoding.media' breaks C_{t-1} INSERTs."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "files_encoding",
+            "column": "profile",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "files/migrations/0002_auto_20201201_0712.py",
+            "line": 173,
+            "raw_snippet": "migrations.AddField( model_name=\"encoding\", name=\"profile\", field=models.ForeignKey( on_delete=django.db.models.deletion.CASCADE, to=\"files.encodeprofile\" ), )",
+            "extra": {
+              "model_name": "encoding",
+              "app_label": "files",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "files_encoding",
+            "column": "profile",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "files/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'files_encoding.profile' breaks C_{t-1} INSERTs."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "files_comment",
+            "column": "media",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "files/migrations/0002_auto_20201201_0712.py",
+            "line": 180,
+            "raw_snippet": "migrations.AddField( model_name=\"comment\", name=\"media\", field=models.ForeignKey( on_delete=django.db.models.deletion.CASCADE, related_name=\"comments\", to=\"files.media\", ), )",
+            "extra": {
+              "model_name": "comment",
+              "app_label": "files",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "files_comment",
+            "column": "media",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "files/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'files_comment.media' breaks C_{t-1} INSERTs."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "files_comment",
+            "column": "user",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "files/migrations/0002_auto_20201201_0712.py",
+            "line": 200,
+            "raw_snippet": "migrations.AddField( model_name=\"comment\", name=\"user\", field=models.ForeignKey( on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL ), )",
+            "extra": {
+              "model_name": "comment",
+              "app_label": "files",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "files_comment",
+            "column": "user",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "files/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'files_comment.user' breaks C_{t-1} INSERTs."
+        }
+      ]
+    }
+  ]
+}

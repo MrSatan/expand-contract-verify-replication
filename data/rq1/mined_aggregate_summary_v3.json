@@ -1,0 +1,112 @@
+{
+  "repos_targeted": 110,
+  "repos_cloned_ok": 110,
+  "clone_errors": [],
+  "repos_mined_ok": 110,
+  "by_ecosystem": {
+    "prisma": {
+      "repos_ok": 30,
+      "migration_commits_analyzed": 3067,
+      "commits_with_forward_destructive": 561,
+      "commits_with_rollback_only_destructive": 0,
+      "verdicts": {
+        "SAFE_CONTRACT": 537,
+        "DATA_DEPENDENT": 49,
+        "DUAL_VERSION_VIOLATION_BACKWARD": 1184,
+        "DUAL_VERSION_VIOLATION_BOTH": 219,
+        "SAFE_ADDITIVE": 90,
+        "UNCERTAIN": 95,
+        "DUAL_VERSION_VIOLATION_FORWARD": 10
+      },
+      "op_kinds": {
+        "SET_NOT_NULL": 168,
+        "ADD_UNIQUE_OR_CHECK": 64,
+        "ALTER_COLUMN_TYPE": 338,
+        "RENAME_TYPE_ENUM": 246,
+        "DROP_COLUMN": 570,
+        "DROP_TABLE": 415,
+        "RENAME_COLUMN": 124,
+        "ADD_NOT_NULL_NO_DEFAULT": 132,
+        "RENAME_TABLE": 127
+      },
+      "rails_safety_assured_violations": 0,
+      "rails_ignored_columns_safe_contracts": 0
+    },
+    "rails": {
+      "repos_ok": 40,
+      "migration_commits_analyzed": 4674,
+      "commits_with_forward_destructive": 1135,
+      "commits_with_rollback_only_destructive": 221,
+      "verdicts": {
+        "SAFE_CONTRACT": 2065,
+        "ROLLBACK_ONLY_FALSE_ALARM": 2153,
+        "DUAL_VERSION_VIOLATION_BACKWARD": 2580,
+        "DUAL_VERSION_VIOLATION_BOTH": 203,
+        "UNCERTAIN": 2685,
+        "SAFE_ADDITIVE": 792,
+        "DUAL_VERSION_VIOLATION_FORWARD": 44,
+        "DATA_DEPENDENT": 21
+      },
+      "op_kinds": {
+        "SET_NOT_NULL": 497,
+        "DROP_COLUMN": 3511,
+        "DROP_TABLE": 2267,
+        "RENAME_COLUMN": 783,
+        "ALTER_COLUMN_TYPE": 3028,
+        "RENAME_TABLE": 312,
+        "ADD_NOT_NULL_NO_DEFAULT": 106,
+        "ADD_UNIQUE_OR_CHECK": 39
+      },
+      "rails_safety_assured_violations": 28,
+      "rails_ignored_columns_safe_contracts": 17
+    },
+    "django": {
+      "repos_ok": 40,
+      "migration_commits_analyzed": 4776,
+      "commits_with_forward_destructive": 1624,
+      "commits_with_rollback_only_destructive": 2,
+      "verdicts": {
+        "SAFE_ADDITIVE": 2784,
+        "SAFE_CONTRACT": 1814,
+        "DUAL_VERSION_VIOLATION_BACKWARD": 4116,
+        "UNCERTAIN": 481,
+        "DUAL_VERSION_VIOLATION_FORWARD": 142,
+        "DUAL_VERSION_VIOLATION_BOTH": 208,
+        "ROLLBACK_ONLY_FALSE_ALARM": 6
+      },
+      "op_kinds": {
+        "ADD_NOT_NULL_NO_DEFAULT": 5579,
+        "DROP_COLUMN": 2465,
+        "SET_NOT_NULL": 165,
+        "DROP_TABLE": 640,
+        "ALTER_COLUMN_TYPE": 157,
+        "RENAME_TABLE": 56,
+        "RENAME_COLUMN": 487,
+        "ADD_UNIQUE_OR_CHECK": 2
+      },
+      "rails_safety_assured_violations": 0,
+      "rails_ignored_columns_safe_contracts": 0
+    }
+  },
+  "overall_verdicts": {
+    "SAFE_CONTRACT": 4416,
+    "DATA_DEPENDENT": 70,
+    "DUAL_VERSION_VIOLATION_BACKWARD": 7880,
+    "DUAL_VERSION_VIOLATION_BOTH": 630,
+    "SAFE_ADDITIVE": 3666,
+    "UNCERTAIN": 3261,
+    "DUAL_VERSION_VIOLATION_FORWARD": 196,
+    "ROLLBACK_ONLY_FALSE_ALARM": 2159
+  },
+  "overall_op_kinds": {
+    "SET_NOT_NULL": 830,
+    "ADD_UNIQUE_OR_CHECK": 105,
+    "ALTER_COLUMN_TYPE": 3523,
+    "RENAME_TYPE_ENUM": 246,
+    "DROP_COLUMN": 6546,
+    "DROP_TABLE": 3322,
+    "RENAME_COLUMN": 1394,
+    "ADD_NOT_NULL_NO_DEFAULT": 5817,
+    "RENAME_TABLE": 495
+  }
+}

@@ -1,0 +1,1551 @@
+{
+  "repo": "Shelf-nu/shelf.nu",
+  "ecosystem": "prisma",
+  "stars": 3060,
+  "has_k8s_helm": false,
+  "status": "ok",
+  "stats": {
+    "total_migration_commits_in_history": 320,
+    "migration_commits_analyzed": 150,
+    "total_migration_files_parsed": 166,
+    "commits_with_any_destructive": 16,
+    "commits_with_forward_destructive": 16,
+    "commits_with_rollback_only_destructive": 0,
+    "total_ops_extracted": 29,
+    "destructive_ops_up": 29,
+    "destructive_ops_down": 0
+  },
+  "verdict_counts": {
+    "SAFE_CONTRACT": 8,
+    "DUAL_VERSION_VIOLATION_BACKWARD": 11,
+    "DUAL_VERSION_VIOLATION_BOTH": 1,
+    "DATA_DEPENDENT": 7,
+    "UNCERTAIN": 1,
+    "DUAL_VERSION_VIOLATION_FORWARD": 1
+  },
+  "destructive_commits": [
+    {
+      "sha": "8cec453f3f2f89d409b239885bfe829215283d6a",
+      "parent": "2a96afbc2df5da8c2544424bedbe857b2e7291d7",
+      "date": "2026-11-17T00:34:50+01:00",
+      "subject": "fix(bookings): booking approval is opt-in, both switches off by default",
+      "mig_files": [
+        "packages/database/prisma/migrations/20261110120000_booking_approval_per_role/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/webapp/app/components/booking/approval/approval-settings.tsx",
+        "apps/webapp/app/modules/booking-settings/approval-defaults.test.ts",
+        "apps/webapp/app/modules/booking/service.server.test.ts",
+        "apps/webapp/app/modules/booking/service.server.ts",
+        "apps/webapp/app/routes/_layout+/settings.bookings.tsx",
+        "packages/database/prisma/schema.prisma"
+      ],
+      "orm_models_parsed_old": 66,
+      "raw_sql": "-- Booking approval, per requesting role. Both switches are off by default:\n-- the feature is opt-in per workspace, so nothing changes for anyone until an\n-- owner or administrator turns one on. A workspace that had the single switch\n-- on keeps approval for Self service.\nALTER TABLE \"BookingSettings\" ADD COLUMN \"requireApprovalForBase\" BOOLEAN NOT NULL DEFAULT false;\nALTER TABLE \"BookingSettings\" ADD COLUMN \"requireApprovalForSelfService\" BOOLEAN NOT NULL DEFAULT false;\n\nUPDATE \"BookingSettings\"\nSET \"requireApprovalForSelfService\" = \"requireBookingApproval\";\n\nALTER TABLE \"BookingSettings\" DROP COLUMN \"requireBookingApproval\";\n\n-- Records the approval of a booking reservation request in the activity\n-- log. The booking stays RESERVED when approved, so without this event the\n-- decision would only live in a free-text note. Nothing in this migration\n-- uses the new value.\nALTER TYPE \"ActivityAction\" ADD VALUE IF NOT EXISTS 'BOOKING_APPROVED';\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "bookingsettings",
+            "column": "requirebookingapproval",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/database/prisma/migrations/20261110120000_booking_approval_per_role/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE bookingsettings DROP COLUMN \"requireBookingApproval\"",
+            "extra": {
+              "table_sql": "BookingSettings",
+              "column_sql": "requireBookingApproval"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "bookingsettings",
+            "column": "requirebookingapproval",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'requirebookingapproval' already absent from C_{t-1} ORM and app code."
+        }
+      ]
+    },
+    {
+      "sha": "00c365a1f1e43ca14780abc667e2ad49992dc78b",
+      "parent": "c76f534b63a050bbb5dd50cd8720d8d59a39534e",
+      "date": "2026-11-10T11:00:29+01:00",
+      "subject": "fix(bookings): close the approval gaps found in review",
+      "mig_files": [
+        "packages/database/prisma/migrations/20261110120000_booking_approval_per_role/migration.sql",
+        "packages/database/prisma/migrations/20261110120100_backfill_booking_approval/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/companion/app/(tabs)/bookings/[id].tsx",
+        "apps/companion/lib/booking-approval-view.test.ts",
+        "apps/companion/lib/booking-approval-view.ts",
+        "apps/webapp/app/components/assets/assets-index/advanced-asset-columns.tsx",
+        "apps/webapp/app/components/booking/approval/approve-booking-dialog.tsx",
+        "apps/webapp/app/components/booking/booking-actions.test.ts",
+        "apps/webapp/app/components/booking/booking-actions.ts",
+        "apps/webapp/app/components/booking/booking-status-badge.tsx",
+        "apps/webapp/app/components/booking/forms/edit-booking-form.tsx",
+        "apps/webapp/app/hooks/use-sidebar-nav-items.test.tsx",
+        "apps/webapp/app/modules/asset/query.server.test.ts",
+        "apps/webapp/app/modules/booking/bulk-check-in-out.server.test.ts"
+      ],
+      "orm_models_parsed_old": 66,
+      "raw_sql": "-- Booking approval, per requesting role. Base is on by default (a Base\n-- member never checks out themself, so the hand-over was always the\n-- approval); Self service is off by default. A workspace that had the single\n-- switch on keeps approval for Self service too.\nALTER TABLE \"BookingSettings\" ADD COLUMN \"requireApprovalForBase\" BOOLEAN NOT NULL DEFAULT true;\nALTER TABLE \"BookingSettings\" ADD COLUMN \"requireApprovalForSelfService\" BOOLEAN NOT NULL DEFAULT false;\n\nUPDATE \"BookingSettings\"\nSET \"requireApprovalForSelfService\" = \"requireBookingApproval\";\n\nALTER TABLE \"BookingSettings\" DROP COLUMN \"requireBookingApproval\";\n\n-- Records the approval of a booking reservation request in the activity\n-- log. The booking stays RESERVED when approved, so without this event the\n-- decision would only live in a free-text note. Nothing in this migration\n-- uses the new value.\nALTER TYPE \"ActivityAction\" ADD VALUE IF NOT EXISTS 'BOOKING_APPROVED';\n\n-- Stamps every existing reservation approved, so none reads as pending once\n-- approval is on: nobody held them back. Only RESERVED rows are read as\n-- pending, and `reserveBooking` writes the stamp itself (now, or NULL for a\n-- request) whenever a booking becomes RESERVED, so other statuses are left\n-- alone.\n--\n-- Its own migration, so this UPDATE does not run while the previous one\n-- still holds its lock on \"BookingSettings\". Re-run once right after the\n-- deploy, bounded by the time the previous app version stopped serving, for\n-- reservations it made in between (see the PR's deploy steps).\nUPDATE \"Booking\"\nSET \"approvedAt\" = COALESCE(\"updatedAt\", \"createdAt\", NOW())\nWHERE \"approvedAt\" IS NULL\n  AND \"status\" = 'RESERVED';\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "bookingsettings",
+            "column": "requirebookingapproval",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/database/prisma/migrations/20261110120000_booking_approval_per_role/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE bookingsettings DROP COLUMN \"requireBookingApproval\"",
+            "extra": {
+              "table_sql": "BookingSettings",
+              "column_sql": "requireBookingApproval"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "bookingsettings",
+            "column": "requirebookingapproval",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'requirebookingapproval' already absent from C_{t-1} ORM and app code."
+        }
+      ]
+    },
+    {
+      "sha": "0c0d8859ec5a5866862680a6d5929e6f69d4354e",
+      "parent": "52eb5b82f742f75814289849edee7fabfa7f3419",
+      "date": "2026-11-09T13:28:40+02:00",
+      "subject": "chore(database): drop PDF documents after the move to PDF templates",
+      "mig_files": [
+        "packages/database/prisma/migrations/20261109120000_drop_pdf_documents/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "packages/database/prisma/schema.prisma",
+        "packages/database/src/protected-indexes.test.ts"
+      ],
+      "orm_models_parsed_old": 67,
+      "raw_sql": "-- Drops what PdfTemplate (20261103120000_add_pdf_templates) replaced: the\n-- PdfDocument table and its enum, and the plan gate and seeding marker that\n-- only the PdfDocument code read.\n--\n-- Run this AFTER the build without these fields is live everywhere. The build\n-- before it selects every scalar of Organization and TierLimit, so dropping\n-- the columns under it fails those reads.\n\n-- DropTable (its indexes, foreign key and row level security go with it)\nDROP TABLE \"PdfDocument\";\n\n-- DropEnum\nDROP TYPE \"PdfDocumentKind\";\n\n-- AlterTable\nALTER TABLE \"Organization\" DROP COLUMN \"paidPdfDocumentsSeededAt\";\n\n-- AlterTable\nALTER TABLE \"TierLimit\" DROP COLUMN \"canCustomizePdfDocuments\";\n\n-- AlterTable\nALTER TABLE \"CustomTierLimit\" DROP COLUMN \"canCustomizePdfDocuments\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "pdfdocument",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/database/prisma/migrations/20261109120000_drop_pdf_documents/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* Drops what PdfTemplate (20261103120000_add_pdf_templates) replaced: the */ /* PdfDocument table and its enum, and the plan gate and seeding marker that */ /* only the PdfDocumen",
+            "extra": {
+              "table_sql": "PdfDocument"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "pdfdocument",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'pdfdocument' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "pdfdocumentkind",
+            "column": "pdfdocumentkind",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/database/prisma/migrations/20261109120000_drop_pdf_documents/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropEnum */ DROP TYPE \"PdfDocumentKind\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "PdfDocumentKind",
+              "column_sql": "PdfDocumentKind"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "pdfdocumentkind",
+            "column": "pdfdocumentkind",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'pdfdocumentkind' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "organization",
+            "column": "paidpdfdocumentsseededat",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/database/prisma/migrations/20261109120000_drop_pdf_documents/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE organization DROP COLUMN \"paidPdfDocumentsSeededAt\"",
+            "extra": {
+              "table_sql": "Organization",
+              "column_sql": "paidPdfDocumentsSeededAt"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "organization",
+            "column": "paidpdfdocumentsseededat",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'paidpdfdocumentsseededat' active in C_{t-1} ORM (packages/database/prisma/schema.prisma); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "tierlimit",
+            "column": "cancustomizepdfdocuments",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/database/prisma/migrations/20261109120000_drop_pdf_documents/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE tierlimit DROP COLUMN \"canCustomizePdfDocuments\"",
+            "extra": {
+              "table_sql": "TierLimit",
+              "column_sql": "canCustomizePdfDocuments"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "tierlimit",
+            "column": "cancustomizepdfdocuments",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'cancustomizepdfdocuments' active in C_{t-1} ORM (packages/database/prisma/schema.prisma); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "customtierlimit",
+            "column": "cancustomizepdfdocuments",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/database/prisma/migrations/20261109120000_drop_pdf_documents/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE customtierlimit DROP COLUMN \"canCustomizePdfDocuments\"",
+            "extra": {
+              "table_sql": "CustomTierLimit",
+              "column_sql": "canCustomizePdfDocuments"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "customtierlimit",
+            "column": "cancustomizepdfdocuments",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'cancustomizepdfdocuments' active in C_{t-1} ORM (packages/database/prisma/schema.prisma); identifier removed in same commit diff"
+        }
+      ]
+    },
+    {
+      "sha": "ce44443958717209d8cd37fc239d697ef2788830",
+      "parent": "217b312d9023542f57aca4eff4a225ff45b41135",
+      "date": "2026-11-04T12:44:49+01:00",
+      "subject": "fix(audits): address review of the audit quantity count",
+      "mig_files": [
+        "packages/database/prisma/migrations/20261104120000_add_audit_asset_quantities/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/companion/app/(tabs)/audits/scan.tsx",
+        "apps/companion/components/audit/scanned-items-list.tsx",
+        "apps/companion/components/quantity-input-sheet.tsx",
+        "apps/companion/hooks/use-audit-init.ts",
+        "apps/companion/hooks/use-scan-queue.ts",
+        "apps/companion/lib/audit-scan-queue.test.ts",
+        "apps/companion/lib/audit-scan-queue.ts",
+        "apps/webapp/app/atoms/qr-scanner.audit-counts.test.ts",
+        "apps/webapp/app/atoms/qr-scanner.ts",
+        "apps/webapp/app/components/audit/audit-count-dialog.tsx",
+        "apps/webapp/app/components/audit/audit-count-flow.test.ts",
+        "apps/webapp/app/components/audit/audit-count-flow.ts"
+      ],
+      "orm_models_parsed_old": 66,
+      "raw_sql": "-- Audits count units of quantity-tracked assets.\n-- Both columns stay NULL for individual assets.\nALTER TABLE \"AuditAsset\" ADD COLUMN \"expectedQuantity\" INTEGER;\nALTER TABLE \"AuditAsset\" ADD COLUMN \"foundQuantity\" INTEGER;\n\nALTER TABLE \"AuditAsset\"\n  ADD CONSTRAINT \"AuditAsset_expectedQuantity_non_negative\"\n  CHECK (\"expectedQuantity\" IS NULL OR \"expectedQuantity\" >= 0);\nALTER TABLE \"AuditAsset\"\n  ADD CONSTRAINT \"AuditAsset_foundQuantity_non_negative\"\n  CHECK (\"foundQuantity\" IS NULL OR \"foundQuantity\" >= 0);\n\n-- Audits still open get the expected units for their quantity-tracked rows,\n-- so a pool that is never scanned is still reported (as \"0 of N\"). These\n-- audits were started without a stored location scope, so they expect the\n-- whole pool. Finished audits keep NULL: their counts were never taken.\nUPDATE \"AuditAsset\" AS aa\nSET \"expectedQuantity\" = COALESCE(a.\"quantity\", 0)\nFROM \"Asset\" AS a, \"AuditSession\" AS s\nWHERE aa.\"assetId\" = a.\"id\"\n  AND aa.\"auditSessionId\" = s.\"id\"\n  AND a.\"type\" = 'QUANTITY_TRACKED'\n  AND s.\"status\" IN ('PENDING', 'ACTIVE')\n  AND aa.\"expectedQuantity\" IS NULL;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ADD_UNIQUE_OR_CHECK",
+            "table": "auditasset",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/database/prisma/migrations/20261104120000_add_audit_asset_quantities/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE auditasset ADD CONSTRAINT \"AuditAsset_expectedQuantity_non_negative\" CHECK (\"expectedQuantity\" IS NULL OR \"expectedQuantity\" >= 0)",
+            "extra": {
+              "table_sql": "AuditAsset"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "auditasset",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "DATA_DEPENDENT",
+          "compat_forward": "SAFE",
+          "classification": "DATA_DEPENDENT",
+          "reason": "CHECK/UNIQUE constraint added on active C_{t-1} table 'auditasset'; safety depends on C_{t-1} write values."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ADD_UNIQUE_OR_CHECK",
+            "table": "auditasset",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/database/prisma/migrations/20261104120000_add_audit_asset_quantities/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE auditasset ADD CONSTRAINT \"AuditAsset_foundQuantity_non_negative\" CHECK (\"foundQuantity\" IS NULL OR \"foundQuantity\" >= 0)",
+            "extra": {
+              "table_sql": "AuditAsset"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "auditasset",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "DATA_DEPENDENT",
+          "compat_forward": "SAFE",
+          "classification": "DATA_DEPENDENT",
+          "reason": "CHECK/UNIQUE constraint added on active C_{t-1} table 'auditasset'; safety depends on C_{t-1} write values."
+        }
+      ]
+    },
+    {
+      "sha": "7dedd84775a03fb93a27bb72bb255fb28651a6fe",
+      "parent": "ab2431f882b614289d829b8bc274e138d428082f",
+      "date": "2026-11-04T11:15:31+01:00",
+      "subject": "fix(audits): count units of quantity-tracked assets",
+      "mig_files": [
+        "packages/database/prisma/migrations/20261104120000_add_audit_asset_quantities/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/companion/app/(tabs)/audits/[id].tsx",
+        "apps/companion/app/(tabs)/audits/scan.tsx",
+        "apps/companion/components/audit/remaining-assets-list.tsx",
+        "apps/companion/components/audit/scanned-items-list.tsx",
+        "apps/companion/hooks/use-audit-init.ts",
+        "apps/companion/lib/api/audits.ts",
+        "apps/companion/lib/api/types.ts",
+        "apps/companion/lib/audit-scan-persistence.ts",
+        "apps/webapp/app/atoms/qr-scanner.ts",
+        "apps/webapp/app/components/audit/audit-asset-list-item.tsx",
+        "apps/webapp/app/components/audit/audit-count-dialog.tsx",
+        "apps/webapp/app/components/audit/audit-drawer.tsx"
+      ],
+      "orm_models_parsed_old": 66,
+      "raw_sql": "-- Audits count units of quantity-tracked assets.\n-- Both columns stay NULL for individual assets and for every existing row.\nALTER TABLE \"AuditAsset\" ADD COLUMN \"expectedQuantity\" INTEGER;\nALTER TABLE \"AuditAsset\" ADD COLUMN \"foundQuantity\" INTEGER;\n\nALTER TABLE \"AuditAsset\"\n  ADD CONSTRAINT \"AuditAsset_expectedQuantity_non_negative\"\n  CHECK (\"expectedQuantity\" IS NULL OR \"expectedQuantity\" >= 0);\nALTER TABLE \"AuditAsset\"\n  ADD CONSTRAINT \"AuditAsset_foundQuantity_non_negative\"\n  CHECK (\"foundQuantity\" IS NULL OR \"foundQuantity\" >= 0);\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ADD_UNIQUE_OR_CHECK",
+            "table": "auditasset",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/database/prisma/migrations/20261104120000_add_audit_asset_quantities/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE auditasset ADD CONSTRAINT \"AuditAsset_expectedQuantity_non_negative\" CHECK (\"expectedQuantity\" IS NULL OR \"expectedQuantity\" >= 0)",
+            "extra": {
+              "table_sql": "AuditAsset"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "auditasset",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "DATA_DEPENDENT",
+          "compat_forward": "SAFE",
+          "classification": "DATA_DEPENDENT",
+          "reason": "CHECK/UNIQUE constraint added on active C_{t-1} table 'auditasset'; safety depends on C_{t-1} write values."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ADD_UNIQUE_OR_CHECK",
+            "table": "auditasset",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/database/prisma/migrations/20261104120000_add_audit_asset_quantities/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE auditasset ADD CONSTRAINT \"AuditAsset_foundQuantity_non_negative\" CHECK (\"foundQuantity\" IS NULL OR \"foundQuantity\" >= 0)",
+            "extra": {
+              "table_sql": "AuditAsset"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "auditasset",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "DATA_DEPENDENT",
+          "compat_forward": "SAFE",
+          "classification": "DATA_DEPENDENT",
+          "reason": "CHECK/UNIQUE constraint added on active C_{t-1} table 'auditasset'; safety depends on C_{t-1} write values."
+        }
+      ]
+    },
+    {
+      "sha": "224bfdeaf4bb7f704e3644256753937f2ee35482",
+      "parent": "cb01f30ff3375b176f515f5e792f6b348117a397",
+      "date": "2026-11-03T11:48:30+01:00",
+      "subject": "feat(bookings): booking approval becomes a switch per requesting role",
+      "mig_files": [
+        "packages/database/prisma/migrations/20261103120000_booking_approval_per_role/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/companion/lib/api/types.ts",
+        "apps/webapp/app/components/assets/assets-index/advanced-asset-columns.tsx",
+        "apps/webapp/app/components/booking/approval/approval-settings.tsx",
+        "apps/webapp/app/components/booking/booking-filters.tsx",
+        "apps/webapp/app/components/booking/booking-process-sidebar.tsx",
+        "apps/webapp/app/components/booking/booking-quick-actions.tsx",
+        "apps/webapp/app/components/booking/forms/edit-booking-form.tsx",
+        "apps/webapp/app/components/booking/list-bookings-content.test.tsx",
+        "apps/webapp/app/components/booking/list-bookings-content.tsx",
+        "apps/webapp/app/modules/booking-settings/service.server.test.ts",
+        "apps/webapp/app/modules/booking-settings/service.server.ts",
+        "apps/webapp/app/modules/booking/bulk-check-in-out.server.test.ts"
+      ],
+      "orm_models_parsed_old": 65,
+      "raw_sql": "-- Booking approval becomes a per-role choice. Base is on by default (a Base\n-- member never checks out themself, so the hand-over was always the\n-- approval); Self service is off by default. A workspace that had the single\n-- switch on keeps approval for Self service too.\nALTER TABLE \"BookingSettings\" ADD COLUMN \"requireApprovalForBase\" BOOLEAN NOT NULL DEFAULT true;\nALTER TABLE \"BookingSettings\" ADD COLUMN \"requireApprovalForSelfService\" BOOLEAN NOT NULL DEFAULT false;\n\nUPDATE \"BookingSettings\"\nSET \"requireApprovalForSelfService\" = \"requireBookingApproval\";\n\nALTER TABLE \"BookingSettings\" DROP COLUMN \"requireBookingApproval\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "bookingsettings",
+            "column": "requirebookingapproval",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/database/prisma/migrations/20261103120000_booking_approval_per_role/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE bookingsettings DROP COLUMN \"requireBookingApproval\"",
+            "extra": {
+              "table_sql": "BookingSettings",
+              "column_sql": "requireBookingApproval"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "bookingsettings",
+            "column": "requirebookingapproval",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'requirebookingapproval' active in C_{t-1} ORM (packages/database/prisma/schema.prisma); identifier removed in same commit diff"
+        }
+      ]
+    },
+    {
+      "sha": "28d593693c25bbbc0801be8954a865637f7f5679",
+      "parent": "0771b00fd0260a81e930f8dfc745f88fccecab62",
+      "date": "2026-10-29T14:21:41+01:00",
+      "subject": "feat(custom-fields): add a Link format for text fields",
+      "mig_files": [
+        "packages/database/prisma/migrations/20261029130000_add_custom_field_format/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/webapp/app/components/custom-fields/form.test.ts",
+        "apps/webapp/app/components/custom-fields/form.tsx",
+        "apps/webapp/app/modules/asset/fields.ts",
+        "apps/webapp/app/modules/custom-field/service.server.test.ts",
+        "apps/webapp/app/modules/custom-field/service.server.ts",
+        "apps/webapp/app/modules/custom-field/types.ts",
+        "apps/webapp/app/routes/_layout+/settings.custom-fields.$fieldId_.edit.tsx",
+        "apps/webapp/app/routes/_layout+/settings.custom-fields.index.tsx",
+        "apps/webapp/app/routes/_layout+/settings.custom-fields.new.tsx",
+        "apps/webapp/app/routes/api+/mobile+/assets.$assetId.ts",
+        "apps/webapp/app/routes/api+/mobile+/custom-fields.ts",
+        "apps/webapp/app/utils/custom-fields.test.ts"
+      ],
+      "orm_models_parsed_old": 63,
+      "raw_sql": "-- A TEXT custom field can be marked as holding a web link. Existing fields\n-- become PLAIN, which is how they behave today, so no backfill is needed.\n\n-- CreateEnum\nCREATE TYPE \"CustomFieldFormat\" AS ENUM ('PLAIN', 'LINK');\n\n-- AlterTable\nALTER TABLE \"CustomField\" ADD COLUMN \"format\" \"CustomFieldFormat\" NOT NULL DEFAULT 'PLAIN';\n\n-- Only TEXT fields can be Link fields.\nALTER TABLE \"CustomField\" ADD CONSTRAINT \"CustomField_format_needs_text\"\n  CHECK (\"format\" = 'PLAIN' OR \"type\" = 'TEXT');\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ADD_UNIQUE_OR_CHECK",
+            "table": "customfield",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/database/prisma/migrations/20261029130000_add_custom_field_format/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE customfield ADD CONSTRAINT \"CustomField_format_needs_text\" CHECK (\"format\" = 'PLAIN' OR \"type\" = 'TEXT')",
+            "extra": {
+              "table_sql": "CustomField"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "customfield",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "DATA_DEPENDENT",
+          "compat_forward": "SAFE",
+          "classification": "DATA_DEPENDENT",
+          "reason": "CHECK/UNIQUE constraint added on active C_{t-1} table 'customfield'; safety depends on C_{t-1} write values."
+        }
+      ]
+    },
+    {
+      "sha": "19d6ef77b129737a372c84fb9369d024c58f216b",
+      "parent": "46f482d7e8698007a186d07465c521613e39d648",
+      "date": "2026-10-16T16:13:43+03:00",
+      "subject": "fix(scan): lock Scan writes while the migration settles and constrains it",
+      "mig_files": [
+        "packages/database/prisma/migrations/20261016120000_scan_organization_required/migration.sql"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 60,
+      "raw_sql": "-- Every scan belongs to the workspace its code resolved in. The code has\n-- required that on every write since scans began recording their workspace;\n-- this makes the column required too. It runs unattended, so it also settles\n-- every row that still has no workspace.\n\n-- One transaction, so a failure leaves nothing half-done. The lock blocks\n-- writes to \"Scan\" (reads carry on) from the cleanup until the constraint is\n-- in place: an older writer still serving could otherwise insert a row with\n-- no workspace after the DELETE, and SET NOT NULL would fail on it.\nBEGIN;\n\nLOCK TABLE \"Scan\" IN SHARE ROW EXCLUSIVE MODE;\n\n-- Stamp rows whose QR still exists with the asset, kit and workspace it points\n-- at. These are QR scans recorded by code that did not stamp the scan itself:\n-- rows written between the previous migration and the deploy that followed\n-- it. Only columns that are still NULL are filled.\nUPDATE \"Scan\" s\nSET \"organizationId\" = q.\"organizationId\",\n    \"assetId\" = COALESCE(s.\"assetId\", q.\"assetId\"),\n    \"kitId\" = COALESCE(s.\"kitId\", q.\"kitId\"),\n    \"code\" = COALESCE(s.\"code\", s.\"rawQrId\")\nFROM \"Qr\" q\nWHERE s.\"qrId\" = q.\"id\"\n  AND s.\"organizationId\" IS NULL\n  AND q.\"organizationId\" IS NOT NULL;\n\n-- What is left belongs to no workspace: scans of QR codes nobody had claimed,\n-- or whose QR was deleted. No surface can show them and no workspace owns\n-- them, so they are removed.\nDELETE FROM \"Scan\" WHERE \"organizationId\" IS NULL;\n\n-- AlterTable\nALTER TABLE \"Scan\" ALTER COLUMN \"organizationId\" SET NOT NULL;\n\nCOMMIT;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "SET_NOT_NULL",
+            "table": "scan",
+            "column": "organizationid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/database/prisma/migrations/20261016120000_scan_organization_required/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE scan ALTER COLUMN \"organizationId\" SET NOT NULL",
+            "extra": {
+              "table_sql": "Scan",
+              "column_sql": "organizationId"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "scan",
+            "column": "organizationid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: 'scan.organizationid' was already non-nullable in C_{t-1} ORM."
+        }
+      ]
+    },
+    {
+      "sha": "46f482d7e8698007a186d07465c521613e39d648",
+      "parent": "931f6688da13f3b25fe8ef1a2766359d87d9df22",
+      "date": "2026-10-16T15:40:35+03:00",
+      "subject": "feat(scan): require every scan to belong to a workspace",
+      "mig_files": [
+        "packages/database/prisma/migrations/20261016120000_scan_organization_required/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/webapp/app/modules/scan/last-scan-for-viewer.test.ts",
+        "apps/webapp/app/modules/scan/service.server.ts",
+        "apps/webapp/app/modules/scan/utils.server.test.ts",
+        "apps/webapp/app/modules/scan/utils.server.ts",
+        "packages/database/prisma/schema.prisma"
+      ],
+      "orm_models_parsed_old": 60,
+      "raw_sql": "-- Every scan belongs to the workspace its code resolved in. The code has\n-- required that on every write since scans began recording their workspace;\n-- this makes the column required too. It runs unattended, so it also settles\n-- every row that still has no workspace.\n\n-- Stamp rows whose QR still exists with the asset, kit and workspace it points\n-- at. These are QR scans recorded by code that did not stamp the scan itself:\n-- rows written between the previous migration and the deploy that followed\n-- it. Only columns that are still NULL are filled.\nUPDATE \"Scan\" s\nSET \"organizationId\" = q.\"organizationId\",\n    \"assetId\" = COALESCE(s.\"assetId\", q.\"assetId\"),\n    \"kitId\" = COALESCE(s.\"kitId\", q.\"kitId\"),\n    \"code\" = COALESCE(s.\"code\", s.\"rawQrId\")\nFROM \"Qr\" q\nWHERE s.\"qrId\" = q.\"id\"\n  AND s.\"organizationId\" IS NULL\n  AND q.\"organizationId\" IS NOT NULL;\n\n-- What is left belongs to no workspace: scans of QR codes nobody had claimed,\n-- or whose QR was deleted. No surface can show them and no workspace owns\n-- them, so they are removed.\nDELETE FROM \"Scan\" WHERE \"organizationId\" IS NULL;\n\n-- AlterTable\nALTER TABLE \"Scan\" ALTER COLUMN \"organizationId\" SET NOT NULL;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "SET_NOT_NULL",
+            "table": "scan",
+            "column": "organizationid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/database/prisma/migrations/20261016120000_scan_organization_required/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE scan ALTER COLUMN \"organizationId\" SET NOT NULL",
+            "extra": {
+              "table_sql": "Scan",
+              "column_sql": "organizationId"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "scan",
+            "column": "organizationid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "SET_NOT_NULL on 'scan.organizationid' which was nullable in C_{t-1} ORM (packages/database/prisma/schema.prisma)."
+        }
+      ]
+    },
+    {
+      "sha": "77806f84dd86faa0cc5160cd1abda124d460c3aa",
+      "parent": "6981b2c1e423a62d8c573cc0fb6d3c470e48ad5e",
+      "date": "2026-08-10T17:53:39+03:00",
+      "subject": "refactor(assets): resolve asset-model cover images at render time, not by copying",
+      "mig_files": [
+        "packages/database/prisma/migrations/20260810120000_asset_model_public_cover_image/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/webapp/app/components/asset-model/form.tsx",
+        "apps/webapp/app/components/assets/asset-image/component.test.tsx",
+        "apps/webapp/app/components/assets/asset-image/component.tsx",
+        "apps/webapp/app/components/assets/asset-image/types.d.ts",
+        "apps/webapp/app/components/assets/assets-index/advanced-asset-columns.tsx",
+        "apps/webapp/app/components/assets/assets-index/assets-list.tsx",
+        "apps/webapp/app/components/assets/assets-index/use-asset-availability-data.ts",
+        "apps/webapp/app/components/assets/form.tsx",
+        "apps/webapp/app/components/audit/audit-asset-list-item.tsx",
+        "apps/webapp/app/components/booking/booking-assets-sidebar.tsx",
+        "apps/webapp/app/components/booking/booking-overview-pdf.tsx",
+        "apps/webapp/app/components/booking/bulk-partial-checkin-dialog.tsx"
+      ],
+      "orm_models_parsed_old": 60,
+      "raw_sql": "-- AssetModel cover images move to the public `files` bucket.\n-- `image` was never written by any code path (all NULL in production), so it is\n-- repurposed in place from a signed URL to a public URL with no data migration.\n-- `imageExpiration` is meaningless without signed URLs and is likewise all NULL.\n-- Both operations are catalog-only in Postgres: no table rewrite, no long lock.\nALTER TABLE \"AssetModel\" ADD COLUMN \"thumbnailImage\" TEXT;\nALTER TABLE \"AssetModel\" DROP COLUMN \"imageExpiration\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "assetmodel",
+            "column": "imageexpiration",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/database/prisma/migrations/20260810120000_asset_model_public_cover_image/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE assetmodel DROP COLUMN \"imageExpiration\"",
+            "extra": {
+              "table_sql": "AssetModel",
+              "column_sql": "imageExpiration"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "assetmodel",
+            "column": "imageexpiration",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'imageexpiration' active in C_{t-1} ORM (packages/database/prisma/schema.prisma)"
+        }
+      ]
+    },
+    {
+      "sha": "56876667aad671ceb3ac45b2ef8d6a452f2e454d",
+      "parent": "b78c87778a2d63f92bb3f7e04ae8d70f4b864c2e",
+      "date": "2026-07-02T19:09:09+02:00",
+      "subject": "fix(webapp): address CodeRabbit re-review on recurring reminders",
+      "mig_files": [
+        "packages/database/prisma/migrations/20260702120000_add_recurring_reminders/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/webapp/app/components/asset-reminder/set-or-edit-reminder-dialog.schema.test.ts",
+        "apps/webapp/app/components/asset-reminder/set-or-edit-reminder-dialog.tsx",
+        "apps/webapp/app/modules/asset-reminder/service.server.ts",
+        "apps/webapp/app/modules/asset-reminder/utils.server.test.ts",
+        "apps/webapp/app/modules/asset-reminder/utils.server.ts"
+      ],
+      "orm_models_parsed_old": 58,
+      "raw_sql": "-- Recurring reminders: cadence fields on AssetReminder + tier capability flags.\n-- All AssetReminder columns are nullable; existing rows stay one-shot (null unit/interval).\n\n-- CreateEnum\nCREATE TYPE \"ReminderRecurrenceUnit\" AS ENUM ('DAY', 'WEEK', 'MONTH', 'YEAR');\n\n-- AlterTable\nALTER TABLE \"AssetReminder\" ADD COLUMN     \"recurrenceUnit\" \"ReminderRecurrenceUnit\",\nADD COLUMN     \"recurrenceInterval\" INTEGER,\nADD COLUMN     \"recurrenceTimezone\" TEXT,\nADD COLUMN     \"recurrenceEndsAt\" TIMESTAMP(3);\n\n-- Cadence invariant: a reminder is either one-shot (both cadence fields null)\n-- or recurring (both present, positive interval). Guards downstream recurrence\n-- detection (isRecurringReminder) against partial/invalid rows written by any\n-- future path that bypasses the service layer. (Prisma cannot model CHECK\n-- constraints, so this lives in SQL only.)\nALTER TABLE \"AssetReminder\" ADD CONSTRAINT \"AssetReminder_recurrence_cadence_check\" CHECK (\n  (\"recurrenceUnit\" IS NULL AND \"recurrenceInterval\" IS NULL)\n  OR (\"recurrenceUnit\" IS NOT NULL AND \"recurrenceInterval\" IS NOT NULL AND \"recurrenceInterval\" > 0)\n);\n\n-- AlterTable (mirrors the canImportNRM / canHideShelfBranding precedent pair:\n-- TierLimit defaults false, CustomTierLimit defaults true)\nALTER TABLE \"TierLimit\" ADD COLUMN     \"canUseRecurringReminders\" BOOLEAN NOT NULL DEFAULT false;\n\n-- AlterTable\nALTER TABLE \"CustomTierLimit\" ADD COLUMN     \"canUseRecurringReminders\" BOOLEAN NOT NULL DEFAULT true;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ADD_UNIQUE_OR_CHECK",
+            "table": "assetreminder",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/database/prisma/migrations/20260702120000_add_recurring_reminders/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE assetreminder ADD CONSTRAINT \"AssetReminder_recurrence_cadence_check\" CHECK ((\"recurrenceUnit\" IS NULL AND \"recurrenceInterval\" IS NULL) OR (\"recurrenceUnit\" IS NOT NUL",
+            "extra": {
+              "table_sql": "AssetReminder"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "assetreminder",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "DATA_DEPENDENT",
+          "compat_forward": "SAFE",
+          "classification": "DATA_DEPENDENT",
+          "reason": "CHECK/UNIQUE constraint added on active C_{t-1} table 'assetreminder'; safety depends on C_{t-1} write values."
+        }
+      ]
+    },
+    {
+      "sha": "b43a3ae56be43ae1d2bc83373ebbed92d20fb831",
+      "parent": "d27ade085fa7bc8b7ead5741f5f696d723044bb6",
+      "date": "2026-05-20T16:37:48+03:00",
+      "subject": "feat(assets): location pivot + qty allocation (Phase 4b)",
+      "mig_files": [
+        "packages/database/prisma/migrations/20260519143054_add_asset_location_pivot/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/webapp/app/atoms/qr-scanner.ts",
+        "apps/webapp/app/components/assets/assets-index/advanced-asset-columns.tsx",
+        "apps/webapp/app/components/assets/assets-index/assets-list.tsx",
+        "apps/webapp/app/components/assets/form.tsx",
+        "apps/webapp/app/components/assets/quantity-overview-card.tsx",
+        "apps/webapp/app/components/scanner/drawer/uses/add-assets-to-location-drawer.tsx",
+        "apps/webapp/app/components/scanner/drawer/uses/update-location-drawer.tsx",
+        "apps/webapp/app/modules/asset/fields.test.ts",
+        "apps/webapp/app/modules/asset/fields.ts",
+        "apps/webapp/app/modules/asset/query.server.test.ts",
+        "apps/webapp/app/modules/asset/query.server.ts",
+        "apps/webapp/app/modules/asset/service.server.ts"
+      ],
+      "orm_models_parsed_old": 55,
+      "raw_sql": "-- Phase 4b \u2014 Replace Asset.locationId 1:1 FK with the AssetLocation\n-- pivot, AND ship the qty-allocation triggers in the same migration.\n--\n-- Unlike Phase 4a (which split the structural pivot from the triggers\n-- across two migrations to de-risk a first-of-kind pattern), Location\n-- ships the final shape directly: there is no separate \"Location\n-- polish\" release planned and re-sweeping ~108 files twice would be\n-- wasteful. So no intermediate @@unique([assetId]) \u2014 the INDIVIDUAL\n-- single-location cap is enforced by a trigger from day one.\n--\n-- Migration shape: introduce -> backfill -> triggers -> drop, all in\n-- one transaction-scoped migration so no half-pivoted state is\n-- observable to app code.\n--\n-- Cascade-semantics flag for PR description: old Asset.locationId was\n-- nullable with Prisma default SET NULL on Location delete. New\n-- AssetLocation.locationId is ON DELETE CASCADE \u2014 deleting a location\n-- cascade-deletes the pivot rows; the assets themselves stay (only the\n-- placement link is removed, asset becomes \"unplaced\"). End-state\n-- observably equivalent.\n\n-- 1. Create the AssetLocation pivot table.\nCREATE TABLE \"AssetLocation\" (\n  \"id\"             TEXT NOT NULL,\n  \"assetId\"        TEXT NOT NULL,\n  \"locationId\"     TEXT NOT NULL,\n  \"organizationId\" TEXT NOT NULL,\n  \"quantity\"       INTEGER NOT NULL DEFAULT 1,\n  \"createdAt\"      TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n  \"updatedAt\"      TIMESTAMP(3) NOT NULL,\n  CONSTRAINT \"AssetLocation_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- No \"AssetLocation_assetId_key\" single-row unique (the 4a AssetKit\n-- had one until 4a-Polish-2 dropped it). The composite below still\n-- prevents the same asset being placed twice at the same location.\nCREATE UNIQUE INDEX \"AssetLocation_assetId_locationId_key\" ON \"AssetLocation\"(\"assetId\", \"locationId\");\nCREATE INDEX        \"AssetLocation_locationId_idx\"          ON \"AssetLocation\"(\"locationId\");\nCREATE INDEX        \"AssetLocation_organizationId_idx\"      ON \"AssetLocation\"(\"organizationId\");\nCREATE INDEX        \"AssetLocation_assetId_idx\"             ON \"AssetLocation\"(\"assetId\");\n\nALTER TABLE \"AssetLocation\"\n  ADD CONSTRAINT \"AssetLocation_assetId_fkey\"\n    FOREIGN KEY (\"assetId\")        REFERENCES \"Asset\"(\"id\")        ON DELETE CASCADE ON UPDATE CASCADE,\n  ADD CONSTRAINT \"AssetLocation_locationId_fkey\"\n    FOREIGN KEY (\"locationId\")     REFERENCES \"Location\"(\"id\")     ON DELETE CASCADE ON UPDATE CASCADE,\n  ADD CONSTRAINT \"AssetLocation_organizationId_fkey\"\n    FOREIGN KEY (\"organizationId\") REFERENCES \"Organization\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- 2. Backfill \u2014 one row per asset currently placed at a location.\n--    One shot (no 4a-style \"1 then promote\" two-step): a qty-tracked\n--    asset that has a location semantically owns its full pool there;\n--    INDIVIDUAL rows stay at 1. The DEFERRED sum trigger re-checks at\n--    COMMIT and passes (one row per asset pre-migration, so\n--    sum(AssetLocation.quantity) = that row's quantity <= Asset.quantity).\nINSERT INTO \"AssetLocation\" (\"id\", \"assetId\", \"locationId\", \"organizationId\", \"quantity\", \"createdAt\", \"updatedAt\")\nSELECT\n  gen_random_uuid()::text,\n  a.\"id\",\n  a.\"locationId\",\n  a.\"organizationId\",\n  CASE\n    WHEN a.\"type\" = 'QUANTITY_TRACKED' AND a.\"quantity\" IS NOT NULL\n      THEN a.\"quantity\"\n    ELSE 1\n  END,\n  now(),\n  now()\nFROM \"Asset\" a\nWHERE a.\"locationId\" IS NOT NULL;\n\n-- 3. INDIVIDUAL assets cap at one AssetLocation row per asset.\n--    Mirrors `enforce_individual_asset_single_kit` (Phase 4a-Polish-2).\nCREATE OR REPLACE FUNCTION enforce_individual_asset_single_location()\nRETURNS TRIGGER AS $$\nBEGIN\n  IF (SELECT type FROM \"Asset\" WHERE id = NEW.\"assetId\") = 'INDIVIDUAL'\n     AND (\n       SELECT COUNT(*) FROM \"AssetLocation\"\n       WHERE \"assetId\" = NEW.\"assetId\" AND id <> NEW.id\n     ) > 0\n  THEN\n    RAISE EXCEPTION 'INDIVIDUAL asset % already placed at a location',\n      NEW.\"assetId\" USING ERRCODE = 'check_violation';\n  END IF;\n  RETURN NEW;\nEND;\n$$ LANGUAGE plpgsql;\n\nCREATE TRIGGER asset_location_individual_single_row\n  BEFORE INSERT OR UPDATE ON \"AssetLocation\"\n  FOR EACH ROW EXECUTE FUNCTION enforce_individual_asset_single_location();\n\n-- 4. sum(AssetLocation.quantity) per asset must be <= Asset.quantity.\n--    DEFERRABLE INITIALLY DEFERRED so a \"move N units from Location A\n--    to Location B\" two-row tx (decrement A, increment B) is valid\n--    mid-flight and only re-checked at COMMIT. Mirrors\n--    `enforce_asset_kit_sum_within_total`.\nCREATE OR REPLACE FUNCTION enforce_asset_location_sum_within_total()\nRETURNS TRIGGER AS $$\nDECLARE\n  asset_total INT;\n  pivot_sum   INT;\n  asset_id    TEXT;\nBEGIN\n  asset_id := COALESCE(NEW.\"assetId\", OLD.\"assetId\");\n  SELECT quantity INTO asset_total FROM \"Asset\" WHERE id = asset_id;\n\n  -- INDIVIDUAL assets have asset_total = NULL. The single-row trigger\n  -- above already keeps the count at 1; nothing to enforce here.\n  IF asset_total IS NULL THEN\n    RETURN NULL;\n  END IF;\n\n  SELECT COALESCE(SUM(quantity), 0) INTO pivot_sum\n    FROM \"AssetLocation\" WHERE \"assetId\" = asset_id;\n\n  IF pivot_sum > asset_total THEN\n    RAISE EXCEPTION 'AssetLocation total % exceeds Asset.quantity % for asset %',\n      pivot_sum, asset_total, asset_id USING ERRCODE = 'check_violation';\n  END IF;\n\n  RETURN NULL;\nEND;\n$$ LANGUAGE plpgsql;\n\nCREATE CONSTRAINT TRIGGER asset_location_sum_within_total\n  AFTER INSERT OR UPDATE OR DELETE ON \"AssetLocation\"\n  DEFERRABLE INITIALLY DEFERRED\n  FOR EACH ROW EXECUTE FUNCTION enforce_asset_location_sum_within_total();\n\n-- 5. Drop the legacy column + its index + FK.\nDROP INDEX IF EXISTS \"Asset_locationId_organizationId_idx\";\nALTER TABLE \"Asset\" DROP CONSTRAINT IF EXISTS \"Asset_locationId_fkey\";\nALTER TABLE \"Asset\" DROP COLUMN \"locationId\";\n\n-- 6. Enable RLS to match the AssetKit / Kit / KitCustody pattern\n--    (Supabase default-deny; all access goes through the Prisma client\n--    carrying the service-role JWT, so no explicit policy needed).\nALTER TABLE \"AssetLocation\" ENABLE row level security;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "asset",
+            "column": "locationid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/database/prisma/migrations/20260519143054_add_asset_location_pivot/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE asset DROP COLUMN \"locationId\"",
+            "extra": {
+              "table_sql": "Asset",
+              "column_sql": "locationId"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "asset",
+            "column": "locationid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'locationid' active in C_{t-1} ORM (packages/database/prisma/schema.prisma); identifier removed in same commit diff"
+        }
+      ]
+    },
+    {
+      "sha": "266425e390041383745e7bbcb459fa9b060f06fb",
+      "parent": "46c6028e4122c6304500d51831c58ffe1fbdae26",
+      "date": "2026-05-12T15:49:38+03:00",
+      "subject": "feat(schema): replace Asset.kitId with an AssetKit pivot (Phase 4a)",
+      "mig_files": [
+        "packages/database/prisma/migrations/20260511120000_add_asset_kit_pivot/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/webapp/app/components/assets/actions-dropdown.tsx",
+        "apps/webapp/app/components/assets/assets-index/advanced-asset-columns.tsx",
+        "apps/webapp/app/components/assets/assets-index/assets-list.tsx",
+        "apps/webapp/app/components/assets/assets-index/use-kit-availability-data.ts",
+        "apps/webapp/app/components/assets/booking-actions-dropdown.tsx",
+        "apps/webapp/app/components/assets/form.tsx",
+        "apps/webapp/app/components/booking/availability-label.tsx",
+        "apps/webapp/app/components/booking/booking-assets-sidebar.tsx",
+        "apps/webapp/app/components/booking/list-asset-content.tsx",
+        "apps/webapp/app/components/kits/actions-dropdown.tsx",
+        "apps/webapp/app/components/kits/booking-actions-dropdown.tsx",
+        "apps/webapp/app/components/scanner/drawer/uses/add-assets-to-booking-drawer.tsx"
+      ],
+      "orm_models_parsed_old": 54,
+      "raw_sql": "-- Phase 4a \u2014 Replace Asset.kitId 1:1 FK with AssetKit pivot table.\n--\n-- Structural-only change: every existing Asset.kitId becomes one\n-- AssetKit row. A @@unique([assetId]) constraint preserves the\n-- \"at most one kit per asset\" invariant. The pivot's `quantity`\n-- defaults to 1 and stays at 1 in this phase; future work drops\n-- the assetId unique constraint and introduces type-aware single-\n-- row + sum-within-total triggers when multi-kit allocation lands.\n--\n-- Migration shape: introduce \u2192 backfill \u2192 drop, all in one\n-- transaction-scoped migration so no half-pivoted state is\n-- observable to app code.\n\n-- 1. Create the AssetKit pivot table.\nCREATE TABLE \"AssetKit\" (\n  \"id\"             TEXT NOT NULL,\n  \"assetId\"        TEXT NOT NULL,\n  \"kitId\"          TEXT NOT NULL,\n  \"organizationId\" TEXT NOT NULL,\n  \"quantity\"       INTEGER NOT NULL DEFAULT 1,\n  \"createdAt\"      TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n  \"updatedAt\"      TIMESTAMP(3) NOT NULL,\n  CONSTRAINT \"AssetKit_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- 1:1 today; drop when multi-kit allocation lands.\nCREATE UNIQUE INDEX \"AssetKit_assetId_key\"        ON \"AssetKit\"(\"assetId\");\nCREATE UNIQUE INDEX \"AssetKit_assetId_kitId_key\"  ON \"AssetKit\"(\"assetId\", \"kitId\");\nCREATE INDEX        \"AssetKit_kitId_idx\"          ON \"AssetKit\"(\"kitId\");\nCREATE INDEX        \"AssetKit_organizationId_idx\" ON \"AssetKit\"(\"organizationId\");\n\nALTER TABLE \"AssetKit\"\n  ADD CONSTRAINT \"AssetKit_assetId_fkey\"\n    FOREIGN KEY (\"assetId\")        REFERENCES \"Asset\"(\"id\")        ON DELETE CASCADE ON UPDATE CASCADE,\n  ADD CONSTRAINT \"AssetKit_kitId_fkey\"\n    FOREIGN KEY (\"kitId\")          REFERENCES \"Kit\"(\"id\")          ON DELETE CASCADE ON UPDATE CASCADE,\n  ADD CONSTRAINT \"AssetKit_organizationId_fkey\"\n    FOREIGN KEY (\"organizationId\") REFERENCES \"Organization\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- 2. Backfill \u2014 one row per asset currently in a kit. quantity = 1\n--    is correct for every row in this phase: pre-pivot the schema\n--    couldn't express multi-kit allocation, so each row simply\n--    represents \"this asset belongs to this kit.\" Quantity-aware\n--    behaviour layers on top in a follow-up phase.\nINSERT INTO \"AssetKit\" (\"id\", \"assetId\", \"kitId\", \"organizationId\", \"quantity\", \"createdAt\", \"updatedAt\")\nSELECT\n  gen_random_uuid()::text,\n  a.\"id\",\n  a.\"kitId\",\n  a.\"organizationId\",\n  1,\n  now(),\n  now()\nFROM \"Asset\" a\nWHERE a.\"kitId\" IS NOT NULL;\n\n-- 3. Drop the legacy column + its index.\nDROP INDEX IF EXISTS \"Asset_kitId_organizationId_idx\";\nALTER TABLE \"Asset\" DROP CONSTRAINT IF EXISTS \"Asset_kitId_fkey\";\nALTER TABLE \"Asset\" DROP COLUMN \"kitId\";\n\n-- 4. Enable RLS to match the Kit / KitCustody / BookingModelRequest\n--    pattern (Supabase default-deny; no explicit policy needed since\n--    all access goes through the Prisma client which carries the\n--    service-role JWT).\nALTER TABLE \"AssetKit\" ENABLE row level security;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "asset",
+            "column": "kitid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/database/prisma/migrations/20260511120000_add_asset_kit_pivot/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE asset DROP COLUMN \"kitId\"",
+            "extra": {
+              "table_sql": "Asset",
+              "column_sql": "kitId"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "asset",
+            "column": "kitid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'kitid' active in C_{t-1} ORM (packages/database/prisma/schema.prisma); identifier removed in same commit diff"
+        }
+      ]
+    },
+    {
+      "sha": "15911b01195dfdbdbd0e1170ecfc6e904fe8353f",
+      "parent": "bb0e0dcc43d7e9ef924cdced08c171626ae5f16e",
+      "date": "2026-04-09T14:35:36+03:00",
+      "subject": "feat: migrate _AssetToBooking to explicit BookingAsset pivot table (Phase 3a)",
+      "mig_files": [
+        "packages/database/prisma/migrations/20260409100000_rename_asset_to_booking_to_booking_asset/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/webapp/app/components/assets/assets-index/use-asset-availability-data.ts",
+        "apps/webapp/app/components/assets/assets-index/use-kit-availability-data.ts",
+        "apps/webapp/app/components/booking/actions-dropdown.tsx",
+        "apps/webapp/app/components/booking/availability-label.tsx",
+        "apps/webapp/app/components/booking/booking-assets-sidebar.tsx",
+        "apps/webapp/app/components/booking/bulk-partial-checkin-dialog.tsx",
+        "apps/webapp/app/components/booking/list-asset-content.tsx",
+        "apps/webapp/app/components/home/active-bookings.tsx",
+        "apps/webapp/app/components/home/overdue-bookings.tsx",
+        "apps/webapp/app/components/home/upcoming-bookings.tsx",
+        "apps/webapp/app/components/scanner/drawer/uses/add-assets-to-booking-drawer.tsx",
+        "apps/webapp/app/components/scanner/drawer/uses/partial-checkin-drawer.tsx"
+      ],
+      "orm_models_parsed_old": 52,
+      "raw_sql": "-- Phase 3a: Replace the implicit M2M (_AssetToBooking) with the explicit\n-- BookingAsset pivot table. Uses a rename strategy \u2014 no data is copied.\n--\n-- The Phase 1 migration created an empty BookingAsset table that coexisted\n-- with the implicit M2M. We drop that empty shell and rename the real\n-- data-bearing _AssetToBooking table into its place.\n\n-- 1. Drop the empty Phase 1 BookingAsset table (has no data)\nDROP TABLE \"BookingAsset\";\n\n-- 2. Rename the implicit M2M table and its columns\nALTER TABLE \"_AssetToBooking\" RENAME TO \"BookingAsset\";\nALTER TABLE \"BookingAsset\" RENAME COLUMN \"A\" TO \"assetId\";\nALTER TABLE \"BookingAsset\" RENAME COLUMN \"B\" TO \"bookingId\";\n\n-- 3. Add quantity column (default 1 for all existing rows)\nALTER TABLE \"BookingAsset\" ADD COLUMN \"quantity\" INTEGER NOT NULL DEFAULT 1;\n\n-- 4. Replace composite PK with a text ID primary key\nALTER TABLE \"BookingAsset\" DROP CONSTRAINT \"_AssetToBooking_AB_pkey\";\nALTER TABLE \"BookingAsset\" ADD COLUMN \"id\" TEXT;\nUPDATE \"BookingAsset\" SET \"id\" = gen_random_uuid()::text WHERE \"id\" IS NULL;\nALTER TABLE \"BookingAsset\" ALTER COLUMN \"id\" SET NOT NULL;\nALTER TABLE \"BookingAsset\" ADD CONSTRAINT \"BookingAsset_pkey\" PRIMARY KEY (\"id\");\n\n-- 5. Add unique constraint on (bookingId, assetId) to replace the old PK\nALTER TABLE \"BookingAsset\"\n  ADD CONSTRAINT \"BookingAsset_bookingId_assetId_key\"\n  UNIQUE (\"bookingId\", \"assetId\");\n\n-- 6. Rename existing B index, add assetId index\nALTER INDEX \"_AssetToBooking_B_index\" RENAME TO \"BookingAsset_bookingId_idx\";\nCREATE INDEX \"BookingAsset_assetId_idx\" ON \"BookingAsset\" (\"assetId\");\n\n-- 7. Rename foreign key constraints to match Prisma conventions\nALTER TABLE \"BookingAsset\" RENAME CONSTRAINT \"_AssetToBooking_A_fkey\" TO \"BookingAsset_assetId_fkey\";\nALTER TABLE \"BookingAsset\" RENAME CONSTRAINT \"_AssetToBooking_B_fkey\" TO \"BookingAsset_bookingId_fkey\";\n\n-- RLS was already enabled on _AssetToBooking and carries over with the rename.\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "bookingasset",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/database/prisma/migrations/20260409100000_rename_asset_to_booking_to_booking_asset/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* Phase 3a: Replace the implicit M2M (_AssetToBooking) with the explicit */ /* BookingAsset pivot table. Uses a rename strategy \u2014 no data is copied. */ /* The Phase 1 migration cr",
+            "extra": {
+              "table_sql": "BookingAsset"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "bookingasset",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'bookingasset' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TABLE",
+            "table": "_assettobooking",
+            "column": null,
+            "new_name": "bookingasset",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/database/prisma/migrations/20260409100000_rename_asset_to_booking_to_booking_asset/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE _assettobooking RENAME TO \"BookingAsset\"",
+            "extra": {
+              "table_sql": "_AssetToBooking",
+              "new_name_sql": "BookingAsset"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "_assettobooking",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": true,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "UNCERTAIN",
+          "classification": "UNCERTAIN",
+          "reason": "Table '_assettobooking' not resolved in C_{t-1} ORM snapshot."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_COLUMN",
+            "table": "bookingasset",
+            "column": "a",
+            "new_name": "assetid",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/database/prisma/migrations/20260409100000_rename_asset_to_booking_to_booking_asset/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE bookingasset RENAME COLUMN \"A\" TO \"assetId\"",
+            "extra": {
+              "table_sql": "BookingAsset",
+              "column_sql": "A",
+              "new_name_sql": "assetId"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "bookingasset",
+            "column": "a",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_FORWARD",
+          "reason": "RENAME_COLUMN 'a'->'assetid' breaks C_t |= S_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_COLUMN",
+            "table": "bookingasset",
+            "column": "b",
+            "new_name": "bookingid",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/database/prisma/migrations/20260409100000_rename_asset_to_booking_to_booking_asset/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE bookingasset RENAME COLUMN \"B\" TO \"bookingId\"",
+            "extra": {
+              "table_sql": "BookingAsset",
+              "column_sql": "B",
+              "new_name_sql": "bookingId"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "bookingasset",
+            "column": "b",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Renamed column 'b' not referenced in C_{t-1} or C_t."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "SET_NOT_NULL",
+            "table": "bookingasset",
+            "column": "id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/database/prisma/migrations/20260409100000_rename_asset_to_booking_to_booking_asset/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE bookingasset ALTER COLUMN \"id\" SET NOT NULL",
+            "extra": {
+              "table_sql": "BookingAsset"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "bookingasset",
+            "column": "id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: 'bookingasset.id' was already non-nullable in C_{t-1} ORM."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ADD_UNIQUE_OR_CHECK",
+            "table": "bookingasset",
+            "column": "bookingid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/database/prisma/migrations/20260409100000_rename_asset_to_booking_to_booking_asset/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE bookingasset ADD CONSTRAINT \"BookingAsset_bookingId_assetId_key\" UNIQUE (\"bookingId\", \"assetId\")",
+            "extra": {
+              "table_sql": "BookingAsset",
+              "column_sql": "bookingId"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "bookingasset",
+            "column": "bookingid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/database/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "DATA_DEPENDENT",
+          "compat_forward": "SAFE",
+          "classification": "DATA_DEPENDENT",
+          "reason": "CHECK/UNIQUE constraint added on active C_{t-1} table 'bookingasset'; safety depends on C_{t-1} write values."
+        }
+      ]
+    },
+    {
+      "sha": "a677232312ce25d7224d1ab521cddb507babbf50",
+      "parent": "c9b3b42e52b8f843aa1c3e844cda511c7c69487d",
+      "date": "2025-12-08T17:00:13Z",
+      "subject": "fix: issue with bookings from and to migration",
+      "mig_files": [
+        "app/database/migrations/20251120080159_make_booking_from_and_to_required_fields/migration.sql"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 40,
+      "raw_sql": "/*\n  Warnings:\n\n  - Made the column `from` on table `Booking` required. This step will fail if there are existing NULL values in that column.\n  - Made the column `to` on table `Booking` required. This step will fail if there are existing NULL values in that column.\n\n*/\n-- Data migration: Set default dates for bookings with NULL from/to values\n-- This ensures the migration succeeds for existing databases with draft bookings\nUPDATE \"Booking\"\nSET \n  \"from\" = COALESCE(\"from\", NOW()),\n  \"to\" = COALESCE(\"to\", NOW() + INTERVAL '10 minutes')\nWHERE \"from\" IS NULL OR \"to\" IS NULL;\n\n-- AlterTable\nALTER TABLE \"Booking\" ALTER COLUMN \"from\" SET NOT NULL,\nALTER COLUMN \"to\" SET NOT NULL;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "SET_NOT_NULL",
+            "table": "booking",
+            "column": "from",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "app/database/migrations/20251120080159_make_booking_from_and_to_required_fields/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE booking ALTER COLUMN \"from\" SET NOT NULL",
+            "extra": {
+              "table_sql": "Booking"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "booking",
+            "column": "from",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/database/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: 'booking.from' was already non-nullable in C_{t-1} ORM."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "SET_NOT_NULL",
+            "table": "booking",
+            "column": "to",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "app/database/migrations/20251120080159_make_booking_from_and_to_required_fields/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE booking ALTER COLUMN \"to\" SET NOT NULL",
+            "extra": {
+              "table_sql": "Booking"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "booking",
+            "column": "to",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/database/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: 'booking.to' was already non-nullable in C_{t-1} ORM."
+        }
+      ]
+    },
+    {
+      "sha": "fd1c84423d6b8e4dac6bb4f9dc65fae7ab7b00dd",
+      "parent": "ab44c1bba7b29c7aadd6c74e5a397a8aaca08518",
+      "date": "2025-11-20T09:18:39Z",
+      "subject": "fix: require booking dates and align booking flow",
+      "mig_files": [
+        "app/database/migrations/20251120080159_make_booking_from_and_to_required_fields/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "app/components/assets/assets-index/use-asset-availability-data.ts",
+        "app/components/booking/actions-dropdown.tsx",
+        "app/components/booking/bulk-partial-checkin-dialog.tsx",
+        "app/components/booking/checkin-dialog.tsx",
+        "app/components/booking/checkin-dropdown.tsx",
+        "app/components/booking/checkout-dialog.tsx",
+        "app/components/booking/forms/edit-booking-form.tsx",
+        "app/components/booking/page-content.tsx",
+        "app/components/layout/command-palette/command-palette.test.tsx",
+        "app/components/layout/command-palette/command-palette.tsx",
+        "app/components/scanner/drawer/uses/partial-checkin-drawer.tsx",
+        "app/modules/booking/helpers.ts"
+      ],
+      "orm_models_parsed_old": 39,
+      "raw_sql": "/*\n  Warnings:\n\n  - Made the column `from` on table `Booking` required. This step will fail if there are existing NULL values in that column.\n  - Made the column `to` on table `Booking` required. This step will fail if there are existing NULL values in that column.\n\n*/\n-- AlterTable\nALTER TABLE \"Booking\" ALTER COLUMN \"from\" SET NOT NULL,\nALTER COLUMN \"to\" SET NOT NULL;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "SET_NOT_NULL",
+            "table": "booking",
+            "column": "from",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "app/database/migrations/20251120080159_make_booking_from_and_to_required_fields/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE booking ALTER COLUMN \"from\" SET NOT NULL",
+            "extra": {
+              "table_sql": "Booking"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "booking",
+            "column": "from",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/database/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "SET_NOT_NULL on active C_{t-1} column 'booking.from' without prior NOT NULL guarantee."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "SET_NOT_NULL",
+            "table": "booking",
+            "column": "to",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "app/database/migrations/20251120080159_make_booking_from_and_to_required_fields/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE booking ALTER COLUMN \"to\" SET NOT NULL",
+            "extra": {
+              "table_sql": "Booking"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "booking",
+            "column": "to",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/database/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: 'booking.to' was already non-nullable in C_{t-1} ORM."
+        }
+      ]
+    }
+  ]
+}

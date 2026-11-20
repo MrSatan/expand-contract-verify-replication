@@ -1,0 +1,338 @@
+[PROGRESS] phase1b-clone-repos  0/110  0.0%  started 06:12:02
+[PROGRESS] phase1b-clone-repos  1/110  0.9%  elapsed 00:00  ETA 00:00  | last: calcom/cal.diy (cached)
+[PROGRESS] phase1b-clone-repos  2/110  1.8%  elapsed 00:00  ETA 00:00  | last: Openpanel-dev/openpanel (cached)
+[PROGRESS] phase1b-clone-repos  3/110  2.7%  elapsed 00:00  ETA 00:00  | last: BerriAI/litellm (cached)
+[PROGRESS] phase1b-clone-repos  4/110  3.6%  elapsed 00:00  ETA 00:00  | last: toeverything/AFFiNE (cached)
+[PROGRESS] phase1b-clone-repos  5/110  4.5%  elapsed 00:00  ETA 00:00  | last: langfuse/langfuse (cached)
+[PROGRESS] phase1b-clone-repos  6/110  5.5%  elapsed 00:00  ETA 00:00  | last: documenso/documenso (cached)
+[PROGRESS] phase1b-clone-repos  7/110  6.4%  elapsed 00:00  ETA 00:00  | last: umami-software/umami (cached)
+[PROGRESS] phase1b-clone-repos  8/110  7.3%  elapsed 00:00  ETA 00:00  | last: triggerdotdev/trigger.dev (cached)
+[PROGRESS] phase1b-clone-repos  9/110  8.2%  elapsed 00:00  ETA 00:00  | last: teableio/teable (cached)
+[PROGRESS] phase1b-clone-repos  10/110  9.1%  elapsed 00:00  ETA 00:00  | last: amplication/amplication (cached)
+[PROGRESS] phase1b-clone-repos  11/110  10.0%  elapsed 00:00  ETA 00:00  | last: Mintplex-Labs/anything-llm (cached)
+[PROGRESS] phase1b-clone-repos  12/110  10.9%  elapsed 00:00  ETA 00:00  | last: linkwarden/linkwarden (cached)
+[PROGRESS] phase1b-clone-repos  13/110  11.8%  elapsed 00:00  ETA 00:00  | last: super-productivity/super-productivity (cached)
+[PROGRESS] phase1b-clone-repos  14/110  12.7%  elapsed 00:00  ETA 00:00  | last: wasp-lang/wasp (cached)
+[PROGRESS] phase1b-clone-repos  15/110  13.6%  elapsed 00:00  ETA 00:00  | last: hoppscotch/hoppscotch (cached)
+[PROGRESS] phase1b-clone-repos  16/110  14.5%  elapsed 00:00  ETA 00:00  | last: ghostfolio/ghostfolio (cached)
+[PROGRESS] phase1b-clone-repos  17/110  15.5%  elapsed 00:00  ETA 00:00  | last: lukevella/rallly (cached)
+[PROGRESS] phase1b-clone-repos  18/110  16.4%  elapsed 00:00  ETA 00:00  | last: elie222/inbox-zero (cached)
+[PROGRESS] phase1b-clone-repos  19/110  17.3%  elapsed 00:00  ETA 00:00  | last: pdovhomilja/nextcrm-app (cached)
+[PROGRESS] phase1b-clone-repos  20/110  18.2%  elapsed 00:00  ETA 00:00  | last: invoicerr-app/invoicerr (cached)
+[PROGRESS] phase1b-clone-repos  21/110  19.1%  elapsed 00:00  ETA 00:00  | last: papermark/papermark (cached)
+[PROGRESS] phase1b-clone-repos  22/110  20.0%  elapsed 00:00  ETA 00:00  | last: crawlseo/crawlseo (cached)
+[PROGRESS] phase1b-clone-repos  23/110  20.9%  elapsed 00:00  ETA 00:00  | last: stackernews/stacker.news (cached)
+[PROGRESS] phase1b-clone-repos  24/110  21.8%  elapsed 00:00  ETA 00:00  | last: Shelf-nu/shelf.nu (cached)
+[PROGRESS] phase1b-clone-repos  25/110  22.7%  elapsed 00:00  ETA 00:00  | last: trycompai/comp (cached)
+[PROGRESS] phase1b-clone-repos  26/110  23.6%  elapsed 00:00  ETA 00:00  | last: Raktim94/nodedr-restaurant-pos (cached)
+[PROGRESS] phase1b-clone-repos  27/110  24.5%  elapsed 00:00  ETA 00:00  | last: useplunk/plunk (cached)
+[PROGRESS] phase1b-clone-repos  28/110  25.5%  elapsed 00:00  ETA 00:00  | last: velobase/velobase-harness (cached)
+[PROGRESS] phase1b-clone-repos  29/110  26.4%  elapsed 00:00  ETA 00:00  | last: captableinc/captable (cached)
+[PROGRESS] phase1b-clone-repos  30/110  27.3%  elapsed 00:00  ETA 00:00  | last: quenti-io/quenti (cached)
+[PROGRESS] phase1b-clone-repos  31/110  28.2%  elapsed 00:00  ETA 00:00  | last: mastodon/mastodon (cached)
+[PROGRESS] phase1b-clone-repos  32/110  29.1%  elapsed 00:00  ETA 00:00  | last: opf/openproject (cached)
+[PROGRESS] phase1b-clone-repos  33/110  30.0%  elapsed 00:00  ETA 00:00  | last: chatwoot/chatwoot (cached)
+[PROGRESS] phase1b-clone-repos  34/110  30.9%  elapsed 00:00  ETA 00:00  | last: spree/spree (cached)
+[PROGRESS] phase1b-clone-repos  35/110  31.8%  elapsed 00:00  ETA 00:00  | last: diaspora/diaspora (cached)
+[PROGRESS] phase1b-clone-repos  36/110  32.7%  elapsed 00:00  ETA 00:00  | last: gitlabhq/gitlabhq (cached)
+[PROGRESS] phase1b-clone-repos  37/110  33.6%  elapsed 00:00  ETA 00:00  | last: instructure/canvas-lms (cached)
+[PROGRESS] phase1b-clone-repos  38/110  34.5%  elapsed 00:00  ETA 00:00  | last: zammad/zammad (cached)
+[PROGRESS] phase1b-clone-repos  39/110  35.5%  elapsed 00:00  ETA 00:00  | last: docusealco/docuseal (cached)
+[PROGRESS] phase1b-clone-repos  40/110  36.4%  elapsed 00:00  ETA 00:00  | last: lobsters/lobsters (cached)
+[PROGRESS] phase1b-clone-repos  41/110  37.3%  elapsed 00:00  ETA 00:00  | last: forem/forem (cached)
+[PROGRESS] phase1b-clone-repos  42/110  38.2%  elapsed 00:00  ETA 00:00  | last: TheOdinProject/theodinproject (cached)
+[PROGRESS] phase1b-clone-repos  43/110  39.1%  elapsed 00:00  ETA 00:00  | last: huginn/huginn (cached)
+[PROGRESS] phase1b-clone-repos  44/110  40.0%  elapsed 00:00  ETA 00:00  | last: postalserver/postal (cached)
+[PROGRESS] phase1b-clone-repos  45/110  40.9%  elapsed 00:00  ETA 00:00  | last: solidusio/solidus (cached)
+[PROGRESS] phase1b-clone-repos  46/110  41.8%  elapsed 00:00  ETA 00:00  | last: basecamp/once-campfire (cached)
+[PROGRESS] phase1b-clone-repos  47/110  42.7%  elapsed 00:00  ETA 00:00  | last: basecamp/fizzy (cached)
+[PROGRESS] phase1b-clone-repos  48/110  43.6%  elapsed 00:00  ETA 00:00  | last: octobox/octobox (cached)
+[PROGRESS] phase1b-clone-repos  49/110  44.5%  elapsed 00:00  ETA 00:00  | last: openstreetmap/openstreetmap-website (cached)
+[PROGRESS] phase1b-clone-repos  50/110  45.5%  elapsed 00:00  ETA 00:00  | last: blackcandy-org/blackcandy (cached)
+[PROGRESS] phase1b-clone-repos  51/110  46.4%  elapsed 00:00  ETA 00:00  | last: theforeman/foreman (cached)
+[PROGRESS] phase1b-clone-repos  52/110  47.3%  elapsed 00:00  ETA 00:00  | last: bensheldon/good_job (cached)
+[PROGRESS] phase1b-clone-repos  53/110  48.2%  elapsed 00:00  ETA 00:00  | last: danbooru/danbooru (cached)
+[PROGRESS] phase1b-clone-repos  54/110  49.1%  elapsed 00:00  ETA 00:00  | last: ruby-china/homeland (cached)
+[PROGRESS] phase1b-clone-repos  55/110  50.0%  elapsed 00:00  ETA 00:00  | last: manyfold3d/manyfold (cached)
+[PROGRESS] phase1b-clone-repos  56/110  50.9%  elapsed 00:00  ETA 00:00  | last: adamcooke/staytus (cached)
+[PROGRESS] phase1b-clone-repos  57/110  51.8%  elapsed 00:00  ETA 00:00  | last: helpyio/helpy (cached)
+[PROGRESS] phase1b-clone-repos  58/110  52.7%  elapsed 00:00  ETA 00:00  | last: sharetribe/sharetribe (cached)
+[PROGRESS] phase1b-clone-repos  59/110  53.6%  elapsed 00:00  ETA 00:00  | last: rubygems/rubygems.org (cached)
+[PROGRESS] phase1b-clone-repos  60/110  54.5%  elapsed 00:00  ETA 00:00  | last: consuldemocracy/consuldemocracy (cached)
+[PROGRESS] phase1b-clone-repos  61/110  55.5%  elapsed 00:00  ETA 00:00  | last: decidim/decidim (cached)
+[PROGRESS] phase1b-clone-repos  62/110  56.4%  elapsed 00:00  ETA 00:00  | last: avo-hq/avo (cached)
+[PROGRESS] phase1b-clone-repos  63/110  57.3%  elapsed 00:00  ETA 00:00  | last: 24pullrequests/24pullrequests (cached)
+[PROGRESS] phase1b-clone-repos  64/110  58.2%  elapsed 00:00  ETA 00:00  | last: ifmeorg/ifme (cached)
+[PROGRESS] phase1b-clone-repos  65/110  59.1%  elapsed 00:00  ETA 00:00  | last: TracksApp/tracks (cached)
+[PROGRESS] phase1b-clone-repos  66/110  60.0%  elapsed 00:00  ETA 00:00  | last: paperless-ngx/paperless-ngx (cached)
+[PROGRESS] phase1b-clone-repos  67/110  60.9%  elapsed 00:00  ETA 00:00  | last: bullet-train-co/bullet_train (cached)
+[PROGRESS] phase1b-clone-repos  68/110  61.8%  elapsed 00:00  ETA 00:00  | last: inaturalist/inaturalist (cached)
+[PROGRESS] phase1b-clone-repos  69/110  62.7%  elapsed 00:00  ETA 00:00  | last: Growstuff/growstuff (cached)
+[PROGRESS] phase1b-clone-repos  70/110  63.6%  elapsed 00:00  ETA 00:00  | last: goauthentik/authentik (cached)
+[PROGRESS] phase1b-clone-repos  71/110  64.5%  elapsed 00:00  ETA 00:00  | last: mysociety/alaveteli (cached)
+[PROGRESS] phase1b-clone-repos  72/110  65.5%  elapsed 00:00  ETA 00:00  | last: AlchemyCMS/alchemy_cms (cached)
+[PROGRESS] phase1b-clone-repos  73/110  66.4%  elapsed 00:00  ETA 00:00  | last: getsentry/sentry (cached)
+[PROGRESS] phase1b-clone-repos  74/110  67.3%  elapsed 00:00  ETA 00:00  | last: jumpserver/jumpserver (cached)
+[PROGRESS] phase1b-clone-repos  75/110  68.2%  elapsed 00:00  ETA 00:00  | last: HumanSignal/label-studio (cached)
+[PROGRESS] phase1b-clone-repos  76/110  69.1%  elapsed 00:00  ETA 00:00  | last: zulip/zulip (cached)
+[PROGRESS] phase1b-clone-repos  77/110  70.0%  elapsed 00:00  ETA 00:00  | last: wagtail/wagtail (cached)
+[PROGRESS] phase1b-clone-repos  78/110  70.9%  elapsed 00:00  ETA 00:00  | last: cvat-ai/cvat (cached)
+[PROGRESS] phase1b-clone-repos  79/110  71.8%  elapsed 00:00  ETA 00:00  | last: ansible/awx (cached)
+[PROGRESS] phase1b-clone-repos  80/110  72.7%  elapsed 00:00  ETA 00:00  | last: healthchecks/healthchecks (cached)
+[PROGRESS] phase1b-clone-repos  81/110  73.6%  elapsed 00:00  ETA 00:00  | last: pennersr/django-allauth (cached)
+[PROGRESS] phase1b-clone-repos  82/110  74.5%  elapsed 00:00  ETA 00:00  | last: TandoorRecipes/recipes (cached)
+[PROGRESS] phase1b-clone-repos  83/110  75.5%  elapsed 00:00  ETA 00:00  | last: readthedocs/readthedocs.org (cached)
+[PROGRESS] phase1b-clone-repos  84/110  76.4%  elapsed 00:00  ETA 00:00  | last: LibrePhotos/librephotos (cached)
+[PROGRESS] phase1b-clone-repos  85/110  77.3%  elapsed 00:00  ETA 00:00  | last: inventree/InvenTree (cached)
+[PROGRESS] phase1b-clone-repos  86/110  78.2%  elapsed 00:00  ETA 00:00  | last: liangliangyy/DjangoBlog (cached)
+[PROGRESS] phase1b-clone-repos  87/110  79.1%  elapsed 00:00  ETA 00:00  | last: wger-project/wger (cached)
+[PROGRESS] phase1b-clone-repos  88/110  80.0%  elapsed 00:00  ETA 00:00  | last: baserow/baserow (cached)
+[PROGRESS] phase1b-clone-repos  89/110  80.9%  elapsed 00:00  ETA 00:00  | last: WeblateOrg/weblate (cached)
+[PROGRESS] phase1b-clone-repos  90/110  81.8%  elapsed 00:00  ETA 00:00  | last: mediacms-io/mediacms (cached)
+[PROGRESS] phase1b-clone-repos  91/110  82.7%  elapsed 00:00  ETA 00:00  | last: amidaware/tacticalrmm (cached)
+[PROGRESS] phase1b-clone-repos  92/110  83.6%  elapsed 00:00  ETA 00:00  | last: django-oscar/django-oscar (cached)
+[PROGRESS] phase1b-clone-repos  93/110  84.5%  elapsed 00:00  ETA 00:00  | last: QingdaoU/OnlineJudge (cached)
+[PROGRESS] phase1b-clone-repos  94/110  85.5%  elapsed 00:00  ETA 00:00  | last: FuzzyGrim/Yamtrack (cached)
+[PROGRESS] phase1b-clone-repos  95/110  86.4%  elapsed 00:00  ETA 00:00  | last: modoboa/modoboa (cached)
+[PROGRESS] phase1b-clone-repos  96/110  87.3%  elapsed 00:00  ETA 00:00  | last: django-oauth/django-oauth-toolkit (cached)
+[PROGRESS] phase1b-clone-repos  97/110  88.2%  elapsed 00:00  ETA 00:00  | last: milesmcc/shynet (cached)
+[PROGRESS] phase1b-clone-repos  98/110  89.1%  elapsed 00:00  ETA 00:00  | last: opencve/opencve (cached)
+[PROGRESS] phase1b-clone-repos  99/110  90.0%  elapsed 00:00  ETA 00:00  | last: rafalp/Misago (cached)
+[PROGRESS] phase1b-clone-repos  100/110  90.9%  elapsed 00:00  ETA 00:00  | last: brightbeanxyz/brightbean-studio (cached)
+[PROGRESS] phase1b-clone-repos  101/110  91.8%  elapsed 00:00  ETA 00:00  | last: pretix/pretix (cached)
+[PROGRESS] phase1b-clone-repos  102/110  92.7%  elapsed 00:00  ETA 00:00  | last: allegro/ralph (cached)
+[PROGRESS] phase1b-clone-repos  103/110  93.6%  elapsed 00:00  ETA 00:00  | last: suitenumerique/meet (cached)
+[PROGRESS] phase1b-clone-repos  104/110  94.5%  elapsed 00:00  ETA 00:00  | last: Django-CRM/Django-CRM (cached)
+[PROGRESS] phase1b-clone-repos  105/110  95.5%  elapsed 00:00  ETA 00:00  | last: shuup/shuup (cached)
+[PROGRESS] phase1b-clone-repos  106/110  96.4%  elapsed 00:00  ETA 00:00  | last: wooey/Wooey (cached)
+[PROGRESS] phase1b-clone-repos  107/110  97.3%  elapsed 00:00  ETA 00:00  | last: anzhihe/learning (cached)
+[PROGRESS] phase1b-clone-repos  108/110  98.2%  elapsed 00:00  ETA 00:00  | last: python-social-auth/social-app-django (cached)
+[PROGRESS] phase1b-clone-repos  109/110  99.1%  elapsed 00:00  ETA 00:00  | last: evennia/evennia (cached)
+[PROGRESS] phase1b-clone-repos  110/110  100.0%  elapsed 00:00  ETA 00:00  | last: Cloud-CV/EvalAI (cached)
+[PROGRESS] phase1b-clone-repos  DONE 110/110  total time 00:00
+[PROGRESS] phase1b-mine-8cores-bulk  0/110  0.0%  started 06:12:02
+[PROGRESS] phase1b-mine-8cores-bulk  1/110  0.9%  elapsed 00:06  ETA 12:12  | last: Openpanel-dev/openpanel [prisma] viol=72 safe_c=12
+[PROGRESS] phase1b-mine-8cores-bulk  2/110  1.8%  elapsed 00:07  ETA 06:35  | last: langfuse/langfuse [prisma] viol=25 safe_c=8
+[PROGRESS] phase1b-mine-8cores-bulk  3/110  2.7%  elapsed 00:08  ETA 05:03  | last: triggerdotdev/trigger.dev [prisma] viol=70 safe_c=4
+[PROGRESS] phase1b-mine-8cores-bulk  4/110  3.6%  elapsed 00:09  ETA 04:21  | last: calcom/cal.diy [prisma] viol=58 safe_c=15
+[PROGRESS] phase1b-mine-8cores-bulk  5/110  4.5%  elapsed 00:09  ETA 03:29  | last: Mintplex-Labs/anything-llm [prisma] viol=1 safe_c=0
+[PROGRESS] phase1b-mine-8cores-bulk  6/110  5.5%  elapsed 00:10  ETA 03:08  | last: toeverything/AFFiNE [prisma] viol=182 safe_c=11
+[PROGRESS] phase1b-mine-8cores-bulk  7/110  6.4%  elapsed 00:11  ETA 02:52  | last: BerriAI/litellm [prisma] viol=11 safe_c=2
+[PROGRESS] phase1b-mine-8cores-bulk  8/110  7.3%  elapsed 00:11  ETA 02:32  | last: documenso/documenso [prisma] viol=73 safe_c=37
+[PROGRESS] phase1b-mine-8cores-bulk  9/110  8.2%  elapsed 00:13  ETA 02:34  | last: super-productivity/super-productivity [prisma] viol=2 safe_c=0
+[PROGRESS] phase1b-mine-8cores-bulk  10/110  9.1%  elapsed 00:14  ETA 02:25  | last: hoppscotch/hoppscotch [prisma] viol=31 safe_c=1
+[PROGRESS] phase1b-mine-8cores-bulk  11/110  10.0%  elapsed 00:15  ETA 02:16  | last: umami-software/umami [prisma] viol=76 safe_c=29
+[PROGRESS] phase1b-mine-8cores-bulk  12/110  10.9%  elapsed 00:16  ETA 02:14  | last: wasp-lang/wasp [prisma] viol=24 safe_c=27
+[PROGRESS] phase1b-mine-8cores-bulk  13/110  11.8%  elapsed 00:17  ETA 02:14  | last: linkwarden/linkwarden [prisma] viol=45 safe_c=12
+[PROGRESS] phase1b-mine-8cores-bulk  14/110  12.7%  elapsed 00:18  ETA 02:09  | last: ghostfolio/ghostfolio [prisma] viol=41 safe_c=7
+[PROGRESS] phase1b-mine-8cores-bulk  15/110  13.6%  elapsed 00:19  ETA 02:02  | last: crawlseo/crawlseo [prisma] viol=0 safe_c=0
+[PROGRESS] phase1b-mine-8cores-bulk  16/110  14.5%  elapsed 00:19  ETA 01:54  | last: teableio/teable [prisma] viol=93 safe_c=16
+[PROGRESS] phase1b-mine-8cores-bulk  17/110  15.5%  elapsed 00:20  ETA 01:49  | last: amplication/amplication [prisma] viol=81 safe_c=32
+[PROGRESS] phase1b-mine-8cores-bulk  18/110  16.4%  elapsed 00:20  ETA 01:47  | last: pdovhomilja/nextcrm-app [prisma] viol=23 safe_c=24
+[PROGRESS] phase1b-mine-8cores-bulk  19/110  17.3%  elapsed 00:22  ETA 01:46  | last: papermark/papermark [prisma] viol=11 safe_c=0
+[PROGRESS] phase1b-mine-8cores-bulk  20/110  18.2%  elapsed 00:23  ETA 01:43  | last: Raktim94/nodedr-restaurant-pos [prisma] viol=3 safe_c=0
+[PROGRESS] phase1b-mine-8cores-bulk  21/110  19.1%  elapsed 00:23  ETA 01:39  | last: velobase/velobase-harness [prisma] viol=0 safe_c=0
+[PROGRESS] phase1b-mine-8cores-bulk  22/110  20.0%  elapsed 00:23  ETA 01:34  | last: invoicerr-app/invoicerr [prisma] viol=89 safe_c=15
+[PROGRESS] phase1b-mine-8cores-bulk  23/110  20.9%  elapsed 00:23  ETA 01:29  | last: useplunk/plunk [prisma] viol=0 safe_c=0
+[PROGRESS] phase1b-mine-8cores-bulk  24/110  21.8%  elapsed 00:24  ETA 01:28  | last: elie222/inbox-zero [prisma] viol=21 safe_c=13
+[PROGRESS] phase1b-mine-8cores-bulk  25/110  22.7%  elapsed 00:25  ETA 01:27  | last: quenti-io/quenti [prisma] viol=9 safe_c=0
+[PROGRESS] phase1b-mine-8cores-bulk  26/110  23.6%  elapsed 00:26  ETA 01:26  | last: stackernews/stacker.news [prisma] viol=96 safe_c=9
+[PROGRESS] phase1b-mine-8cores-bulk  27/110  24.5%  elapsed 00:27  ETA 01:23  | last: lukevella/rallly [prisma] viol=108 safe_c=24
+[PROGRESS] phase1b-mine-8cores-bulk  28/110  25.5%  elapsed 00:27  ETA 01:19  | last: Shelf-nu/shelf.nu [prisma] viol=13 safe_c=8
+[PROGRESS] phase1b-mine-8cores-bulk  29/110  26.4%  elapsed 00:30  ETA 01:25  | last: trycompai/comp [prisma] viol=29 safe_c=11
+[PROGRESS] phase1b-mine-8cores-bulk  30/110  27.3%  elapsed 00:32  ETA 01:25  | last: captableinc/captable [prisma] viol=126 safe_c=37
+[PROGRESS] phase1b-mine-8cores-bulk  31/110  28.2%  elapsed 00:36  ETA 01:32  | last: chatwoot/chatwoot [rails] viol=17 safe_c=1
+[PROGRESS] phase1b-mine-8cores-bulk  32/110  29.1%  elapsed 00:41  ETA 01:42  | last: docusealco/docuseal [rails] viol=8 safe_c=19
+[PROGRESS] phase1b-mine-8cores-bulk  33/110  30.0%  elapsed 00:42  ETA 01:38  | last: mastodon/mastodon [rails] viol=38 safe_c=25
+[PROGRESS] phase1b-mine-8cores-bulk  34/110  30.9%  elapsed 00:47  ETA 01:47  | last: diaspora/diaspora [rails] viol=90 safe_c=82
+[PROGRESS] phase1b-mine-8cores-bulk  35/110  31.8%  elapsed 00:54  ETA 01:56  | last: forem/forem [rails] viol=9 safe_c=0
+[PROGRESS] phase1b-mine-8cores-bulk  36/110  32.7%  elapsed 00:56  ETA 01:56  | last: lobsters/lobsters [rails] viol=53 safe_c=117
+[PROGRESS] phase1b-mine-8cores-bulk  37/110  33.6%  elapsed 00:57  ETA 01:52  | last: spree/spree [rails] viol=42 safe_c=2
+[PROGRESS] phase1b-mine-8cores-bulk  38/110  34.5%  elapsed 00:58  ETA 01:50  | last: postalserver/postal [rails] viol=2 safe_c=2
+[PROGRESS] phase1b-mine-8cores-bulk  39/110  35.5%  elapsed 00:59  ETA 01:47  | last: zammad/zammad [rails] viol=169 safe_c=0
+[PROGRESS] phase1b-mine-8cores-bulk  40/110  36.4%  elapsed 00:59  ETA 01:44  | last: basecamp/once-campfire [rails] viol=1 safe_c=0
+[PROGRESS] phase1b-mine-8cores-bulk  41/110  37.3%  elapsed 01:00  ETA 01:42  | last: huginn/huginn [rails] viol=8 safe_c=1
+[PROGRESS] phase1b-mine-8cores-bulk  42/110  38.2%  elapsed 01:01  ETA 01:40  | last: octobox/octobox [rails] viol=3 safe_c=0
+[PROGRESS] phase1b-mine-8cores-bulk  43/110  39.1%  elapsed 01:05  ETA 01:41  | last: TheOdinProject/theodinproject [rails] viol=106 safe_c=52
+[PROGRESS] phase1b-mine-8cores-bulk  44/110  40.0%  elapsed 01:06  ETA 01:40  | last: blackcandy-org/blackcandy [rails] viol=33 safe_c=18
+[PROGRESS] phase1b-mine-8cores-bulk  45/110  40.9%  elapsed 01:08  ETA 01:38  | last: bensheldon/good_job [rails] viol=0 safe_c=0
+[PROGRESS] phase1b-mine-8cores-bulk  46/110  41.8%  elapsed 01:14  ETA 01:44  | last: basecamp/fizzy [rails] viol=66 safe_c=24
+[PROGRESS] phase1b-mine-8cores-bulk  47/110  42.7%  elapsed 01:17  ETA 01:44  | last: solidusio/solidus [rails] viol=8 safe_c=0
+[PROGRESS] phase1b-mine-8cores-bulk  48/110  43.6%  elapsed 01:21  ETA 01:45  | last: openstreetmap/openstreetmap-website [rails] viol=911 safe_c=399
+[PROGRESS] phase1b-mine-8cores-bulk  49/110  44.5%  elapsed 01:23  ETA 01:43  | last: danbooru/danbooru [rails] viol=120 safe_c=27
+[PROGRESS] phase1b-mine-8cores-bulk  50/110  45.5%  elapsed 01:23  ETA 01:40  | last: adamcooke/staytus [rails] viol=4 safe_c=1
+[PROGRESS] phase1b-mine-8cores-bulk  51/110  46.4%  elapsed 01:24  ETA 01:38  | last: ruby-china/homeland [rails] viol=35 safe_c=5
+[PROGRESS] phase1b-mine-8cores-bulk  52/110  47.3%  elapsed 01:25  ETA 01:35  | last: manyfold3d/manyfold [rails] viol=20 safe_c=4
+[PROGRESS] phase1b-mine-8cores-bulk  53/110  48.2%  elapsed 01:25  ETA 01:32  | last: helpyio/helpy [rails] viol=0 safe_c=0
+[PROGRESS] phase1b-mine-8cores-bulk  54/110  49.1%  elapsed 01:25  ETA 01:29  | last: theforeman/foreman [rails] viol=20 safe_c=0
+[PROGRESS] phase1b-mine-8cores-bulk  55/110  50.0%  elapsed 01:28  ETA 01:28  | last: avo-hq/avo [rails] viol=2 safe_c=1
+[PROGRESS] phase1b-mine-8cores-bulk  56/110  50.9%  elapsed 01:31  ETA 01:28  | last: 24pullrequests/24pullrequests [rails] viol=8 safe_c=3
+[PROGRESS] phase1b-mine-8cores-bulk  57/110  51.8%  elapsed 01:32  ETA 01:26  | last: rubygems/rubygems.org [rails] viol=108 safe_c=54
+[PROGRESS] phase1b-mine-8cores-bulk  58/110  52.7%  elapsed 01:35  ETA 01:25  | last: opf/openproject [rails] viol=27 safe_c=0
+[PROGRESS] phase1b-mine-8cores-bulk  59/110  53.6%  elapsed 01:39  ETA 01:26  | last: ifmeorg/ifme [rails] viol=43 safe_c=11
+[PROGRESS] phase1b-mine-8cores-bulk  60/110  54.5%  elapsed 01:42  ETA 01:25  | last: sharetribe/sharetribe [rails] viol=40 safe_c=0
+[PROGRESS] phase1b-mine-8cores-bulk  61/110  55.5%  elapsed 01:43  ETA 01:23  | last: instructure/canvas-lms [rails] viol=14 safe_c=0
+[PROGRESS] phase1b-mine-8cores-bulk  62/110  56.4%  elapsed 01:47  ETA 01:22  | last: bullet-train-co/bullet_train [rails] viol=17 safe_c=5
+[PROGRESS] phase1b-mine-8cores-bulk  63/110  57.3%  elapsed 01:53  ETA 01:24  | last: consuldemocracy/consuldemocracy [rails] viol=150 safe_c=37
+[PROGRESS] phase1b-mine-8cores-bulk  64/110  58.2%  elapsed 01:54  ETA 01:22  | last: Growstuff/growstuff [rails] viol=103 safe_c=53
+[PROGRESS] phase1b-mine-8cores-bulk  65/110  59.1%  elapsed 02:00  ETA 01:23  | last: inaturalist/inaturalist [rails] viol=24 safe_c=6
+[PROGRESS] phase1b-mine-8cores-bulk  66/110  60.0%  elapsed 02:02  ETA 01:21  | last: TracksApp/tracks [rails] viol=234 safe_c=69
+[PROGRESS] phase1b-mine-8cores-bulk  67/110  60.9%  elapsed 02:05  ETA 01:20  | last: paperless-ngx/paperless-ngx [django] viol=94 safe_c=37
+[PROGRESS] phase1b-mine-8cores-bulk  68/110  61.8%  elapsed 02:05  ETA 01:17  | last: gitlabhq/gitlabhq [rails] viol=0 safe_c=8
+[PROGRESS] phase1b-mine-8cores-bulk  69/110  62.7%  elapsed 02:11  ETA 01:18  | last: decidim/decidim [rails] viol=54 safe_c=0
+[PROGRESS] phase1b-mine-8cores-bulk  70/110  63.6%  elapsed 02:18  ETA 01:19  | last: mysociety/alaveteli [rails] viol=124 safe_c=0
+[PROGRESS] phase1b-mine-8cores-bulk  71/110  64.5%  elapsed 02:21  ETA 01:17  | last: AlchemyCMS/alchemy_cms [rails] viol=85 safe_c=123
+[PROGRESS] phase1b-mine-8cores-bulk  72/110  65.5%  elapsed 02:25  ETA 01:16  | last: HumanSignal/label-studio [django] viol=38 safe_c=0
+[PROGRESS] phase1b-mine-8cores-bulk  73/110  66.4%  elapsed 02:30  ETA 01:16  | last: goauthentik/authentik [django] viol=116 safe_c=20
+[PROGRESS] phase1b-mine-8cores-bulk  74/110  67.3%  elapsed 02:34  ETA 01:15  | last: jumpserver/jumpserver [django] viol=179 safe_c=39
+[PROGRESS] phase1b-mine-8cores-bulk  75/110  68.2%  elapsed 02:38  ETA 01:13  | last: pennersr/django-allauth [django] viol=8 safe_c=0
+[PROGRESS] phase1b-mine-8cores-bulk  76/110  69.1%  elapsed 02:52  ETA 01:17  | last: wagtail/wagtail [django] viol=55 safe_c=2
+[PROGRESS] phase1b-mine-8cores-bulk  77/110  70.0%  elapsed 02:54  ETA 01:14  | last: healthchecks/healthchecks [django] viol=107 safe_c=48
+[PROGRESS] phase1b-mine-8cores-bulk  78/110  70.9%  elapsed 02:58  ETA 01:13  | last: cvat-ai/cvat [django] viol=250 safe_c=109
+[PROGRESS] phase1b-mine-8cores-bulk  79/110  71.8%  elapsed 03:01  ETA 01:11  | last: liangliangyy/DjangoBlog [django] viol=41 safe_c=0
+[PROGRESS] phase1b-mine-8cores-bulk  80/110  72.7%  elapsed 03:07  ETA 01:10  | last: zulip/zulip [django] viol=42 safe_c=5
+[PROGRESS] phase1b-mine-8cores-bulk  81/110  73.6%  elapsed 03:12  ETA 01:09  | last: TandoorRecipes/recipes [django] viol=231 safe_c=16
+[PROGRESS] phase1b-mine-8cores-bulk  82/110  74.5%  elapsed 03:16  ETA 01:07  | last: readthedocs/readthedocs.org [django] viol=139 safe_c=130
+[PROGRESS] phase1b-mine-8cores-bulk  83/110  75.5%  elapsed 03:21  ETA 01:05  | last: mediacms-io/mediacms [django] viol=22 safe_c=0
+[PROGRESS] phase1b-mine-8cores-bulk  84/110  76.4%  elapsed 03:28  ETA 01:04  | last: LibrePhotos/librephotos [django] viol=118 safe_c=39
+[PROGRESS] phase1b-mine-8cores-bulk  85/110  77.3%  elapsed 03:35  ETA 01:03  | last: baserow/baserow [django] viol=23 safe_c=1
+[PROGRESS] phase1b-mine-8cores-bulk  86/110  78.2%  elapsed 03:37  ETA 01:00  | last: wger-project/wger [django] viol=248 safe_c=51
+[PROGRESS] phase1b-mine-8cores-bulk  87/110  79.1%  elapsed 03:41  ETA 00:58  | last: getsentry/sentry [django] viol=3 safe_c=46
+[PROGRESS] phase1b-mine-8cores-bulk  88/110  80.0%  elapsed 03:41  ETA 00:55  | last: inventree/InvenTree [django] viol=198 safe_c=4
+[PROGRESS] phase1b-mine-8cores-bulk  89/110  80.9%  elapsed 03:50  ETA 00:54  | last: ansible/awx [django] viol=257 safe_c=172
+[PROGRESS] phase1b-mine-8cores-bulk  90/110  81.8%  elapsed 03:53  ETA 00:51  | last: QingdaoU/OnlineJudge [django] viol=126 safe_c=18
+[PROGRESS] phase1b-mine-8cores-bulk  91/110  82.7%  elapsed 03:53  ETA 00:48  | last: django-oscar/django-oscar [django] viol=9 safe_c=1
+[PROGRESS] phase1b-mine-8cores-bulk  92/110  83.6%  elapsed 03:54  ETA 00:45  | last: django-oauth/django-oauth-toolkit [django] viol=44 safe_c=0
+[PROGRESS] phase1b-mine-8cores-bulk  93/110  84.5%  elapsed 03:56  ETA 00:43  | last: milesmcc/shynet [django] viol=30 safe_c=3
+[PROGRESS] phase1b-mine-8cores-bulk  94/110  85.5%  elapsed 03:56  ETA 00:40  | last: opencve/opencve [django] viol=7 safe_c=0
+[PROGRESS] phase1b-mine-8cores-bulk  95/110  86.4%  elapsed 03:58  ETA 00:37  | last: amidaware/tacticalrmm [django] viol=210 safe_c=28
+[PROGRESS] phase1b-mine-8cores-bulk  96/110  87.3%  elapsed 04:04  ETA 00:35  | last: suitenumerique/meet [django] viol=9 safe_c=0
+[PROGRESS] phase1b-mine-8cores-bulk  97/110  88.2%  elapsed 04:04  ETA 00:32  | last: FuzzyGrim/Yamtrack [django] viol=236 safe_c=20
+[PROGRESS] phase1b-mine-8cores-bulk  98/110  89.1%  elapsed 04:08  ETA 00:30  | last: brightbeanxyz/brightbean-studio [django] viol=55 safe_c=4
+[PROGRESS] phase1b-mine-8cores-bulk  99/110  90.0%  elapsed 04:08  ETA 00:27  | last: modoboa/modoboa [django] viol=74 safe_c=20
+[PROGRESS] phase1b-mine-8cores-bulk  100/110  90.9%  elapsed 04:15  ETA 00:25  | last: anzhihe/learning [django] viol=1 safe_c=0
+[PROGRESS] phase1b-mine-8cores-bulk  101/110  91.8%  elapsed 04:22  ETA 00:23  | last: wooey/Wooey [django] viol=60 safe_c=24
+[PROGRESS] phase1b-mine-8cores-bulk  102/110  92.7%  elapsed 04:23  ETA 00:20  | last: WeblateOrg/weblate [django] viol=119 safe_c=8
+[PROGRESS] phase1b-mine-8cores-bulk  103/110  93.6%  elapsed 04:23  ETA 00:17  | last: python-social-auth/social-app-django [django] viol=18 safe_c=0
+[PROGRESS] phase1b-mine-8cores-bulk  104/110  94.5%  elapsed 04:28  ETA 00:15  | last: rafalp/Misago [django] viol=207 safe_c=67
+[PROGRESS] phase1b-mine-8cores-bulk  105/110  95.5%  elapsed 04:32  ETA 00:12  | last: allegro/ralph [django] viol=76 safe_c=70
+[PROGRESS] phase1b-mine-8cores-bulk  106/110  96.4%  elapsed 04:34  ETA 00:10  | last: evennia/evennia [django] viol=18 safe_c=12
+[PROGRESS] phase1b-mine-8cores-bulk  107/110  97.3%  elapsed 04:37  ETA 00:07  | last: Django-CRM/Django-CRM [django] viol=451 safe_c=83
+[PROGRESS] phase1b-mine-8cores-bulk  108/110  98.2%  elapsed 04:43  ETA 00:05  | last: Cloud-CV/EvalAI [django] viol=156 safe_c=4
+[PROGRESS] phase1b-mine-8cores-bulk  109/110  99.1%  elapsed 04:46  ETA 00:02  | last: pretix/pretix [django] viol=140 safe_c=11
+[PROGRESS] phase1b-mine-8cores-bulk  110/110  100.0%  elapsed 04:52  ETA 00:00  | last: shuup/shuup [django] viol=62 safe_c=13
+[PROGRESS] phase1b-mine-8cores-bulk  DONE 110/110  total time 04:53
+{
+  "repos_targeted": 110,
+  "repos_cloned_ok": 110,
+  "clone_errors": [],
+  "repos_mined_ok": 110,
+  "by_ecosystem": {
+    "prisma": {
+      "repos_ok": 30,
+      "migration_commits_analyzed": 3067,
+      "commits_with_forward_destructive": 561,
+      "commits_with_rollback_only_destructive": 0,
+      "verdicts": {
+        "DUAL_VERSION_VIOLATION_BACKWARD": 1184,
+        "UNCERTAIN": 278,
+        "SAFE_ADDITIVE": 90,
+        "DUAL_VERSION_VIOLATION_BOTH": 219,
+        "SAFE_CONTRACT": 354,
+        "DATA_DEPENDENT": 49,
+        "DUAL_VERSION_VIOLATION_FORWARD": 10
+      },
+      "op_kinds": {
+        "DROP_TABLE": 415,
+        "ALTER_COLUMN_TYPE": 338,
+        "RENAME_COLUMN": 124,
+        "DROP_COLUMN": 570,
+        "SET_NOT_NULL": 168,
+        "ADD_NOT_NULL_NO_DEFAULT": 132,
+        "ADD_UNIQUE_OR_CHECK": 64,
+        "RENAME_TYPE_ENUM": 246,
+        "RENAME_TABLE": 127
+      },
+      "rails_safety_assured_violations": 0,
+      "rails_ignored_columns_safe_contracts": 0
+    },
+    "rails": {
+      "repos_ok": 40,
+      "migration_commits_analyzed": 4674,
+      "commits_with_forward_destructive": 1135,
+      "commits_with_rollback_only_destructive": 221,
+      "verdicts": {
+        "ROLLBACK_ONLY_FALSE_ALARM": 2153,
+        "DUAL_VERSION_VIOLATION_BACKWARD": 2552,
+        "SAFE_ADDITIVE": 776,
+        "SAFE_CONTRACT": 1149,
+        "DUAL_VERSION_VIOLATION_BOTH": 200,
+        "UNCERTAIN": 3648,
+        "DUAL_VERSION_VIOLATION_FORWARD": 44,
+        "DATA_DEPENDENT": 21
+      },
+      "op_kinds": {
+        "DROP_COLUMN": 3511,
+        "ADD_UNIQUE_OR_CHECK": 39,
+        "ALTER_COLUMN_TYPE": 3028,
+        "DROP_TABLE": 2267,
+        "RENAME_COLUMN": 783,
+        "SET_NOT_NULL": 497,
+        "RENAME_TABLE": 312,
+        "ADD_NOT_NULL_NO_DEFAULT": 106
+      },
+      "rails_safety_assured_violations": 28,
+      "rails_ignored_columns_safe_contracts": 17
+    },
+    "django": {
+      "repos_ok": 40,
+      "migration_commits_analyzed": 4776,
+      "commits_with_forward_destructive": 1624,
+      "commits_with_rollback_only_destructive": 2,
+      "verdicts": {
+        "DUAL_VERSION_VIOLATION_BACKWARD": 3946,
+        "SAFE_CONTRACT": 1105,
+        "UNCERTAIN": 935,
+        "SQUASHED_REPLAY": 1087,
+        "DUAL_VERSION_VIOLATION_FORWARD": 126,
+        "DUAL_VERSION_VIOLATION_BOTH": 205,
+        "SAFE_ADDITIVE": 2141,
+        "ROLLBACK_ONLY_FALSE_ALARM": 6
+      },
+      "op_kinds": {
+        "ADD_NOT_NULL_NO_DEFAULT": 5579,
+        "DROP_COLUMN": 2465,
+        "DROP_TABLE": 640,
+        "ALTER_COLUMN_TYPE": 157,
+        "RENAME_TABLE": 56,
+        "RENAME_COLUMN": 487,
+        "SET_NOT_NULL": 165,
+        "ADD_UNIQUE_OR_CHECK": 2
+      },
+      "rails_safety_assured_violations": 0,
+      "rails_ignored_columns_safe_contracts": 0
+    }
+  },
+  "overall_verdicts": {
+    "DUAL_VERSION_VIOLATION_BACKWARD": 7682,
+    "UNCERTAIN": 4861,
+    "SAFE_ADDITIVE": 3007,
+    "DUAL_VERSION_VIOLATION_BOTH": 624,
+    "SAFE_CONTRACT": 2608,
+    "DATA_DEPENDENT": 70,
+    "DUAL_VERSION_VIOLATION_FORWARD": 180,
+    "ROLLBACK_ONLY_FALSE_ALARM": 2159,
+    "SQUASHED_REPLAY": 1087
+  },
+  "overall_op_kinds": {
+    "DROP_TABLE": 3322,
+    "ALTER_COLUMN_TYPE": 3523,
+    "RENAME_COLUMN": 1394,
+    "DROP_COLUMN": 6546,
+    "SET_NOT_NULL": 830,
+    "ADD_NOT_NULL_NO_DEFAULT": 5817,
+    "ADD_UNIQUE_OR_CHECK": 105,
+    "RENAME_TYPE_ENUM": 246,
+    "RENAME_TABLE": 495
+  }
+}

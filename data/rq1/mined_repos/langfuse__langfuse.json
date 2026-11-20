@@ -1,0 +1,1849 @@
+{
+  "repo": "langfuse/langfuse",
+  "ecosystem": "prisma",
+  "stars": 37640,
+  "has_k8s_helm": false,
+  "status": "ok",
+  "stats": {
+    "total_migration_commits_in_history": 392,
+    "migration_commits_analyzed": 150,
+    "total_migration_files_parsed": 177,
+    "commits_with_any_destructive": 12,
+    "commits_with_forward_destructive": 12,
+    "commits_with_rollback_only_destructive": 0,
+    "total_ops_extracted": 40,
+    "destructive_ops_up": 40,
+    "destructive_ops_down": 0
+  },
+  "verdict_counts": {
+    "DATA_DEPENDENT": 7,
+    "SAFE_CONTRACT": 8,
+    "DUAL_VERSION_VIOLATION_BACKWARD": 14,
+    "DUAL_VERSION_VIOLATION_BOTH": 11
+  },
+  "destructive_commits": [
+    {
+      "sha": "45462345d74dc25fcf667a5020f8cd38da984096",
+      "parent": "82d72355db078e8b1ede708aa98d618d26e3f491",
+      "date": "2026-11-18T17:42:56Z",
+      "subject": "feat(ai-gateway): add Budgets page with per-user spend budgets (#20377)",
+      "mig_files": [
+        "packages/shared/prisma/migrations/20261117120000_add_gateway_user_spend_limits/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "packages/shared/prisma/schema.prisma",
+        "packages/shared/scripts/seeder/scenarios/gateway-budgets.ts",
+        "packages/shared/scripts/seeder/scenarios/gateway-traffic.ts",
+        "packages/shared/scripts/seeder/scenarios/index.ts",
+        "packages/shared/scripts/seeder/seed-clickhouse.ts",
+        "packages/shared/scripts/seeder/seed-postgres.ts",
+        "packages/shared/src/features/memberships/orgMembershipRepository.ts",
+        "packages/shared/src/features/query/validateQuery.ts",
+        "packages/shared/src/server/index.ts",
+        "packages/shared/src/server/queues.ts",
+        "packages/shared/src/server/repositories/events.ts",
+        "packages/shared/src/server/services/email/aiGatewaySpendLimit/GatewaySpendLimitEmailTemplate.tsx"
+      ],
+      "orm_models_parsed_old": 163,
+      "raw_sql": "ALTER TYPE \"GatewaySpendLimitScope\" ADD VALUE IF NOT EXISTS 'USER';\n\nALTER TABLE \"gateway_spend_limits\" ADD COLUMN IF NOT EXISTS \"user_id\" TEXT;\n\nDO $$ BEGIN\n  ALTER TABLE \"gateway_spend_limits\"\n    ADD CONSTRAINT \"gateway_spend_limits_user_id_fkey\"\n    FOREIGN KEY (\"user_id\") REFERENCES \"users\"(\"id\")\n    ON DELETE CASCADE ON UPDATE CASCADE;\nEXCEPTION\n  WHEN duplicate_object THEN NULL;\nEND $$;\n\nALTER TABLE \"gateway_spend_limits\" DROP CONSTRAINT IF EXISTS \"gateway_spend_limits_scope_check\";\nALTER TABLE \"gateway_spend_limits\"\n  ADD CONSTRAINT \"gateway_spend_limits_scope_check\"\n  -- Compares as text: Postgres cannot use a new enum value in the transaction that adds it.\n  CHECK (\n    (\"scope\"::text = 'API_KEY') = (\"api_key_id\" IS NOT NULL)\n    AND (\"scope\"::text = 'USER') = (\"user_id\" IS NOT NULL)\n  );\n\nCREATE UNIQUE INDEX IF NOT EXISTS \"gateway_spend_limits_organization_id_user_id_interval_key\" ON \"gateway_spend_limits\"(\"organization_id\", \"user_id\", \"interval\");\n\nCREATE INDEX IF NOT EXISTS \"gateway_spend_limits_user_id_idx\" ON \"gateway_spend_limits\"(\"user_id\");\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ADD_UNIQUE_OR_CHECK",
+            "table": "gateway_spend_limits",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/shared/prisma/migrations/20261117120000_add_gateway_user_spend_limits/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE gateway_spend_limits ADD CONSTRAINT \"gateway_spend_limits_scope_check\" CHECK ((CAST(\"scope\" AS TEXT) = 'API_KEY') = (\"api_key_id\" IS NOT NULL) AND (CAST(\"scope\" AS TEXT",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "gateway_spend_limits",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/shared/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "DATA_DEPENDENT",
+          "compat_forward": "SAFE",
+          "classification": "DATA_DEPENDENT",
+          "reason": "CHECK/UNIQUE constraint added on active C_{t-1} table 'gateway_spend_limits'; safety depends on C_{t-1} write values."
+        }
+      ]
+    },
+    {
+      "sha": "8ffdba4027ff5714c88893431c05669c1ac98e68",
+      "parent": "fcde257ae30a427944e1cd2806cc0db806a0ef69",
+      "date": "2026-11-18T16:46:58+04:00",
+      "subject": "feat(models): add explicit scope column to model definitions (#20300)",
+      "mig_files": [
+        "packages/shared/prisma/migrations/20261116120000_add_model_scope/migration.sql",
+        "packages/shared/prisma/migrations/20261116120001_add_models_scope_idx/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "packages/shared/prisma/schema.prisma",
+        "packages/shared/scripts/seeder/scenarios/custom-models.ts",
+        "packages/shared/src/server/ingestion/modelMatch.ts",
+        "packages/shared/src/server/repositories/events.ts",
+        "packages/shared/src/server/repositories/observations.ts",
+        "packages/shared/src/server/repositories/observations_converters.ts",
+        "web/src/__tests__/server/ai-gateway-control-plane.servertest.ts",
+        "web/src/__tests__/server/model-definitions.servertest.ts",
+        "web/src/__tests__/server/model-pricing-tiers.servertest.ts",
+        "web/src/__tests__/server/repositories/event-repository.servertest.ts",
+        "web/src/features/models/ModelDefinitionsTable/ConnectedModelDefinitionsTable.tsx",
+        "web/src/features/models/ModelDefinitionsTable/ModelDefinitionsTable.stories.tsx"
+      ],
+      "orm_models_parsed_old": 163,
+      "raw_sql": "-- CreateEnum\nCREATE TYPE \"ModelScope\" AS ENUM ('LANGFUSE', 'PROJECT');\n\n-- AlterTable\nALTER TABLE \"models\" ADD COLUMN \"scope\" \"ModelScope\";\n\n-- Backfill: rows without a project are Langfuse-managed defaults\nUPDATE \"models\"\nSET \"scope\" = CASE\n    WHEN \"project_id\" IS NULL THEN 'LANGFUSE'::\"ModelScope\"\n    ELSE 'PROJECT'::\"ModelScope\"\nEND;\n\nALTER TABLE \"models\"\n    ADD CONSTRAINT \"models_scope_owner_check\" CHECK (\n        (\"scope\" = 'LANGFUSE' AND \"project_id\" IS NULL)\n        OR\n        (\"scope\" = 'PROJECT' AND \"project_id\" IS NOT NULL)\n    );\n\nALTER TABLE \"models\" ALTER COLUMN \"scope\" SET NOT NULL;\n-- CreateIndex\nCREATE INDEX CONCURRENTLY IF NOT EXISTS \"models_scope_idx\" ON \"models\"(\"scope\");\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ADD_UNIQUE_OR_CHECK",
+            "table": "models",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/shared/prisma/migrations/20261116120000_add_model_scope/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE models ADD CONSTRAINT \"models_scope_owner_check\" CHECK ((\"scope\" = 'LANGFUSE' AND \"project_id\" IS NULL) OR (\"scope\" = 'PROJECT' AND \"project_id\" IS NOT NULL))",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "models",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/shared/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "DATA_DEPENDENT",
+          "compat_forward": "SAFE",
+          "classification": "DATA_DEPENDENT",
+          "reason": "CHECK/UNIQUE constraint added on active C_{t-1} table 'models'; safety depends on C_{t-1} write values."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "SET_NOT_NULL",
+            "table": "models",
+            "column": "scope",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/shared/prisma/migrations/20261116120000_add_model_scope/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE models ALTER COLUMN \"scope\" SET NOT NULL",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "models",
+            "column": "scope",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/shared/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Column 'models.scope' not active in C_{t-1} ORM."
+        }
+      ]
+    },
+    {
+      "sha": "1d4f7563f754cd99ffb941a9cee1c756f2906691",
+      "parent": "6c1fd54fa71887507bf573f5723428d022c74693",
+      "date": "2026-10-15T15:53:41Z",
+      "subject": "feat(gateway): add per-connection model controls (#18642)",
+      "mig_files": [
+        "packages/shared/prisma/migrations/20261014132400_update_gateway_connection_model_routing/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "packages/shared/prisma/schema.prisma",
+        "packages/shared/scripts/seeder/seed-postgres.ts",
+        "packages/shared/src/features/rbac/organizationAccessRights.ts",
+        "web/src/__e2e__/ai-gateway.gatewaye2e.ts",
+        "web/src/__tests__/organization-settings-pages.clienttest.tsx",
+        "web/src/__tests__/server/ai-gateway-control-plane.servertest.ts",
+        "web/src/__tests__/server/unit/gatewayModelSlug.servertest.ts",
+        "web/src/__tests__/server/unit/gatewayResolveCache.servertest.ts",
+        "web/src/components/design-system/IconButton/IconButton.stories.tsx",
+        "web/src/components/design-system/IconButton/IconButton.tsx",
+        "web/src/components/design-system/SelectInput/SelectInput.tsx",
+        "web/src/components/design-system/table/columns/createTextTableColumn.tsx"
+      ],
+      "orm_models_parsed_old": 155,
+      "raw_sql": "DROP INDEX \"gateway_ai_connections_organization_id_routing_priority_key\";\n\nDROP INDEX \"gateway_ai_connections_organization_id_status_routing_prior_idx\";\n\nALTER TABLE \"gateway_ai_connections\"\nADD COLUMN \"allowed_models\" JSONB,\nDROP COLUMN \"routing_priority\";\n\nCREATE INDEX \"gateway_ai_conn_org_created_at_id_idx\"\nON \"gateway_ai_connections\"(\"organization_id\", \"created_at\", \"id\");\n\nCREATE INDEX \"gateway_ai_conn_org_status_created_at_id_idx\"\nON \"gateway_ai_connections\"(\"organization_id\", \"status\", \"created_at\", \"id\");\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "gateway_ai_connections",
+            "column": "routing_priority",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/shared/prisma/migrations/20261014132400_update_gateway_connection_model_routing/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE gateway_ai_connections DROP COLUMN \"routing_priority\"",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "gateway_ai_connections",
+            "column": "routing_priority",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/shared/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'routing_priority' active in C_{t-1} ORM (packages/shared/prisma/schema.prisma); identifier removed in same commit diff"
+        }
+      ]
+    },
+    {
+      "sha": "40f84e750098708a90d0bdb7ab9f13971a85635f",
+      "parent": "3aa29f7b41e3e007ab1efd2856ffca50ee7a9006",
+      "date": "2026-10-14T09:26:16Z",
+      "subject": "feat(llm): add organization-level connections (#18450)",
+      "mig_files": [
+        "packages/shared/prisma/migrations/20261013120000_add_organization_llm_connections/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "packages/shared/prisma/schema.prisma",
+        "packages/shared/src/features/rbac/organizationAccessRights.ts",
+        "packages/shared/src/server/index.ts",
+        "packages/shared/src/server/llm/types.ts",
+        "packages/shared/src/server/services/DefaultEvaluationModelService/DefaultEvalModelService.ts",
+        "packages/shared/src/server/services/LLMApiKeys/LlmApiKeyRepository.ts",
+        "packages/shared/src/server/services/LLMApiKeys/LlmApiKeyService.test.ts",
+        "packages/shared/src/server/services/LLMApiKeys/LlmApiKeyService.ts",
+        "packages/shared/src/server/services/LLMApiKeys/findCompatibleLlmApiKeysForProjects.test.ts",
+        "packages/shared/src/server/services/LLMApiKeys/findCompatibleLlmApiKeysForProjects.ts",
+        "packages/shared/src/server/services/LLMApiKeys/index.ts",
+        "packages/shared/src/server/topics/model-config.test.ts"
+      ],
+      "orm_models_parsed_old": 155,
+      "raw_sql": "-- Allow LLM connections to be owned by either a project or an organization.\nALTER TABLE \"llm_api_keys\"\n  ADD COLUMN IF NOT EXISTS \"organization_id\" TEXT,\n  ALTER COLUMN \"project_id\" DROP NOT NULL;\n\nALTER TABLE \"llm_api_keys\"\n  ADD CONSTRAINT \"llm_api_keys_owner_check\"\n    CHECK (num_nonnulls(\"project_id\", \"organization_id\") = 1),\n  ADD CONSTRAINT \"llm_api_keys_organization_id_fkey\"\n    FOREIGN KEY (\"organization_id\") REFERENCES \"organizations\"(\"id\")\n    ON DELETE CASCADE ON UPDATE CASCADE;\n\nCREATE UNIQUE INDEX IF NOT EXISTS \"llm_api_keys_organization_id_provider_key\"\n  ON \"llm_api_keys\"(\"organization_id\", \"provider\");\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ADD_UNIQUE_OR_CHECK",
+            "table": "llm_api_keys",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/shared/prisma/migrations/20261013120000_add_organization_llm_connections/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE llm_api_keys ADD CONSTRAINT \"llm_api_keys_owner_check\" CHECK (NUM_NONNULLS(\"project_id\", \"organization_id\") = 1)",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "llm_api_keys",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/shared/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "DATA_DEPENDENT",
+          "compat_forward": "SAFE",
+          "classification": "DATA_DEPENDENT",
+          "reason": "CHECK/UNIQUE constraint added on active C_{t-1} table 'llm_api_keys'; safety depends on C_{t-1} write values."
+        }
+      ]
+    },
+    {
+      "sha": "ef42ef7d2ec10638f7d315dac2ea0f076ce7ee8d",
+      "parent": "44eaf9df3f1f75d17fe0a162932083a50858db2a",
+      "date": "2026-10-09T16:27:11+02:00",
+      "subject": "refactor(rbac): reshape role assignment storage (#18490)",
+      "mig_files": [
+        "packages/shared/prisma/migrations/20261008120000_reshape_role_assignments/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "packages/shared/prisma/schema.prisma",
+        "packages/shared/scripts/seeder/load-seed-clickhouse.ts",
+        "packages/shared/src/features/rbac/roleAssignmentRepository.ts",
+        "packages/shared/src/features/rbac/roleAssignmentService.ts",
+        "packages/shared/src/features/rbac/server.ts",
+        "packages/shared/src/server/auth/apiKeys.test.ts",
+        "packages/shared/src/server/auth/apiKeys.ts",
+        "web/src/__tests__/server/apiKeyCacheInvalidation.servertest.ts",
+        "web/src/__tests__/server/getRolesForPrincipal.servertest.ts",
+        "web/src/__tests__/server/organizations-api-key-trpc.servertest.ts",
+        "web/src/__tests__/server/project-api-key-trpc.servertest.ts",
+        "web/src/__tests__/server/projectsRouter-chbProjectEvents.servertest.ts"
+      ],
+      "orm_models_parsed_old": 149,
+      "raw_sql": "BEGIN;\n\nLOCK TABLE \"role_assignments\" IN ACCESS EXCLUSIVE MODE;\n\nDO $$\nBEGIN\n    IF EXISTS (\n        SELECT 1 FROM \"role_assignments\"\n        WHERE \"owner_org_id\" IS NOT NULL AND \"owner_org_id\" <> \"org_id\"\n    ) THEN\n        RAISE EXCEPTION 'Cannot reshape role assignments whose organization owner differs from their tenant';\n    END IF;\nEND $$;\n\nALTER TABLE \"role_assignments\"\n    ADD COLUMN \"project_id\" TEXT,\n    ADD COLUMN \"user_id\" TEXT,\n    ADD COLUMN \"api_key_id\" TEXT,\n    ADD COLUMN \"owner_id\" TEXT,\n    ADD COLUMN \"principal_id\" TEXT,\n    ADD COLUMN \"role_id\" TEXT;\n\nUPDATE \"role_assignments\"\nSET \"project_id\" = \"owner_project_id\",\n    \"user_id\" = \"principal_user_id\",\n    \"api_key_id\" = \"principal_api_key_id\",\n    \"owner_id\" = CASE\n        WHEN \"owner_project_id\" IS NOT NULL THEN 'project/' || \"owner_project_id\"\n        ELSE 'organization/' || \"owner_org_id\"\n    END,\n    \"principal_id\" = CASE\n        WHEN \"principal_user_id\" IS NOT NULL THEN 'user/' || \"principal_user_id\"\n        ELSE 'apiKey/' || \"principal_api_key_id\"\n    END,\n    \"role_id\" = 'system/' || \"system_role\"::text;\n\nCREATE FUNCTION \"role_assignments_fill_legacy_insert\"() RETURNS trigger\nLANGUAGE plpgsql AS $$\nBEGIN\n    NEW.\"project_id\" := COALESCE(NEW.\"project_id\", NEW.\"owner_project_id\");\n    NEW.\"owner_project_id\" := COALESCE(NEW.\"owner_project_id\", NEW.\"project_id\");\n    NEW.\"user_id\" := COALESCE(NEW.\"user_id\", NEW.\"principal_user_id\");\n    NEW.\"principal_user_id\" := COALESCE(NEW.\"principal_user_id\", NEW.\"user_id\");\n    NEW.\"api_key_id\" := COALESCE(NEW.\"api_key_id\", NEW.\"principal_api_key_id\");\n    NEW.\"principal_api_key_id\" := COALESCE(NEW.\"principal_api_key_id\", NEW.\"api_key_id\");\n\n    IF NEW.\"owner_id\" IS NULL THEN\n        NEW.\"owner_id\" := CASE\n            WHEN NEW.\"owner_project_id\" IS NOT NULL THEN 'project/' || NEW.\"owner_project_id\"\n            ELSE 'organization/' || NEW.\"owner_org_id\"\n        END;\n    ELSIF NEW.\"owner_project_id\" IS NULL\n        AND NEW.\"owner_org_id\" IS NULL\n        AND NEW.\"owner_id\" = 'organization/' || NEW.\"org_id\" THEN\n        NEW.\"owner_org_id\" := NEW.\"org_id\";\n    END IF;\n\n    IF NEW.\"principal_id\" IS NULL THEN\n        NEW.\"principal_id\" := CASE\n            WHEN NEW.\"principal_user_id\" IS NOT NULL THEN 'user/' || NEW.\"principal_user_id\"\n            ELSE 'apiKey/' || NEW.\"principal_api_key_id\"\n        END;\n    END IF;\n\n    IF NEW.\"role_id\" IS NULL THEN\n        NEW.\"role_id\" := 'system/' || NEW.\"system_role\"::text;\n    END IF;\n\n    RETURN NEW;\nEND $$;\n\nCREATE TRIGGER \"role_assignments_fill_legacy_insert\"\nBEFORE INSERT ON \"role_assignments\"\nFOR EACH ROW EXECUTE FUNCTION \"role_assignments_fill_legacy_insert\"();\n\nALTER TABLE \"role_assignments\"\n    ALTER COLUMN \"owner_id\" SET NOT NULL,\n    ALTER COLUMN \"principal_id\" SET NOT NULL,\n    ALTER COLUMN \"role_id\" SET NOT NULL;\n\nCREATE FUNCTION \"role_assignments_validate_legacy_update\"() RETURNS trigger\nLANGUAGE plpgsql AS $$\nBEGIN\n    IF NEW.\"project_id\" IS DISTINCT FROM NEW.\"owner_project_id\"\n        OR NEW.\"user_id\" IS DISTINCT FROM NEW.\"principal_user_id\"\n        OR NEW.\"api_key_id\" IS DISTINCT FROM NEW.\"principal_api_key_id\"\n        OR NEW.\"owner_org_id\" IS DISTINCT FROM (CASE WHEN NEW.\"project_id\" IS NULL THEN NEW.\"org_id\" END) THEN\n        RAISE EXCEPTION 'Role assignment legacy fields must match the active fields'\n            USING ERRCODE = '23514', CONSTRAINT = 'role_assignments_legacy_fields_check';\n    END IF;\n    RETURN NEW;\nEND $$;\n\nCREATE FUNCTION \"role_assignments_sync_legacy_update\"() RETURNS trigger\nLANGUAGE plpgsql AS $$\nBEGIN\n    NEW.\"owner_project_id\" := NEW.\"project_id\";\n    NEW.\"principal_user_id\" := NEW.\"user_id\";\n    NEW.\"principal_api_key_id\" := NEW.\"api_key_id\";\n    NEW.\"owner_org_id\" := CASE WHEN NEW.\"project_id\" IS NULL THEN NEW.\"org_id\" END;\n    RETURN NEW;\nEND $$;\n\nCREATE TRIGGER \"role_assignments_10_validate_legacy_update\"\nBEFORE UPDATE OF \"owner_project_id\", \"principal_user_id\", \"principal_api_key_id\", \"owner_org_id\" ON \"role_assignments\"\nFOR EACH ROW EXECUTE FUNCTION \"role_assignments_validate_legacy_update\"();\n\nCREATE TRIGGER \"role_assignments_20_sync_legacy_update\"\nBEFORE UPDATE OF \"project_id\", \"user_id\", \"api_key_id\", \"org_id\" ON \"role_assignments\"\nFOR EACH ROW EXECUTE FUNCTION \"role_assignments_sync_legacy_update\"();\n\nALTER TABLE \"role_assignments\"\n    ADD CONSTRAINT \"role_assignments_project_id_fkey\" FOREIGN KEY (\"project_id\") REFERENCES \"projects\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE,\n    ADD CONSTRAINT \"role_assignments_user_id_fkey\" FOREIGN KEY (\"user_id\") REFERENCES \"users\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE,\n    ADD CONSTRAINT \"role_assignments_api_key_id_fkey\" FOREIGN KEY (\"api_key_id\") REFERENCES \"api_keys\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE,\n    ADD CONSTRAINT \"role_assignments_owner_check\" CHECK (\n        \"owner_id\" = CASE\n            WHEN \"project_id\" IS NOT NULL THEN 'project/' || \"project_id\"\n            ELSE 'organization/' || \"org_id\"\n        END\n    ),\n    ADD CONSTRAINT \"role_assignments_principal_check\" CHECK (\n        (\"user_id\" IS NOT NULL AND \"api_key_id\" IS NULL AND \"principal_id\" = 'user/' || \"user_id\")\n        OR\n        (\"user_id\" IS NULL AND \"api_key_id\" IS NOT NULL AND \"principal_id\" = 'apiKey/' || \"api_key_id\")\n    ),\n    ADD CONSTRAINT \"role_assignments_role_check\" CHECK (\n        \"role_id\" = 'system/' || \"system_role\"::text\n    ),\n    ADD CONSTRAINT \"role_assignments_legacy_fields_check\" CHECK (\n        \"project_id\" IS NOT DISTINCT FROM \"owner_project_id\"\n        AND \"user_id\" IS NOT DISTINCT FROM \"principal_user_id\"\n        AND \"api_key_id\" IS NOT DISTINCT FROM \"principal_api_key_id\"\n        AND \"owner_org_id\" IS NOT DISTINCT FROM CASE WHEN \"project_id\" IS NULL THEN \"org_id\" END\n    );\n\nCREATE UNIQUE INDEX \"role_assignments_owner_id_principal_id_role_id_key\" ON \"role_assignments\"(\"owner_id\", \"principal_id\", \"role_id\");\nCREATE INDEX \"role_assignments_project_id_idx\" ON \"role_assignments\"(\"project_id\");\nCREATE INDEX \"role_assignments_principal_id_idx\" ON \"role_assignments\"(\"principal_id\");\nCREATE INDEX \"role_assignments_user_id_idx\" ON \"role_assignments\"(\"user_id\");\nCREATE INDEX \"role_assignments_api_key_id_idx\" ON \"role_assignments\"(\"api_key_id\");\n\nCOMMIT;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "SET_NOT_NULL",
+            "table": "role_assignments",
+            "column": "owner_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/shared/prisma/migrations/20261008120000_reshape_role_assignments/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE role_assignments ALTER COLUMN \"owner_id\" SET NOT NULL",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "role_assignments",
+            "column": "owner_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/shared/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Column 'role_assignments.owner_id' not active in C_{t-1} ORM."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "SET_NOT_NULL",
+            "table": "role_assignments",
+            "column": "principal_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/shared/prisma/migrations/20261008120000_reshape_role_assignments/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE role_assignments ALTER COLUMN \"principal_id\" SET NOT NULL",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "role_assignments",
+            "column": "principal_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/shared/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Column 'role_assignments.principal_id' not active in C_{t-1} ORM."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "SET_NOT_NULL",
+            "table": "role_assignments",
+            "column": "role_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/shared/prisma/migrations/20261008120000_reshape_role_assignments/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE role_assignments ALTER COLUMN \"role_id\" SET NOT NULL",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "role_assignments",
+            "column": "role_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/shared/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Column 'role_assignments.role_id' not active in C_{t-1} ORM."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ADD_UNIQUE_OR_CHECK",
+            "table": "role_assignments",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/shared/prisma/migrations/20261008120000_reshape_role_assignments/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE role_assignments ADD CONSTRAINT \"role_assignments_owner_check\" CHECK (\"owner_id\" = CASE WHEN \"project_id\" IS NOT NULL THEN 'project/' || \"project_id\" ELSE 'organization",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "role_assignments",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/shared/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "DATA_DEPENDENT",
+          "compat_forward": "SAFE",
+          "classification": "DATA_DEPENDENT",
+          "reason": "CHECK/UNIQUE constraint added on active C_{t-1} table 'role_assignments'; safety depends on C_{t-1} write values."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ADD_UNIQUE_OR_CHECK",
+            "table": "role_assignments",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/shared/prisma/migrations/20261008120000_reshape_role_assignments/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE role_assignments ADD CONSTRAINT \"role_assignments_principal_check\" CHECK ((\"user_id\" IS NOT NULL AND \"api_key_id\" IS NULL AND \"principal_id\" = 'user/' || \"user_id\") OR ",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "role_assignments",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/shared/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "DATA_DEPENDENT",
+          "compat_forward": "SAFE",
+          "classification": "DATA_DEPENDENT",
+          "reason": "CHECK/UNIQUE constraint added on active C_{t-1} table 'role_assignments'; safety depends on C_{t-1} write values."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ADD_UNIQUE_OR_CHECK",
+            "table": "role_assignments",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/shared/prisma/migrations/20261008120000_reshape_role_assignments/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE role_assignments ADD CONSTRAINT \"role_assignments_role_check\" CHECK (\"role_id\" = 'system/' || CAST(\"system_role\" AS TEXT))",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "role_assignments",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/shared/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "DATA_DEPENDENT",
+          "compat_forward": "SAFE",
+          "classification": "DATA_DEPENDENT",
+          "reason": "CHECK/UNIQUE constraint added on active C_{t-1} table 'role_assignments'; safety depends on C_{t-1} write values."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ADD_UNIQUE_OR_CHECK",
+            "table": "role_assignments",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/shared/prisma/migrations/20261008120000_reshape_role_assignments/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE role_assignments ADD CONSTRAINT \"role_assignments_legacy_fields_check\" CHECK (\"project_id\" IS NOT DISTINCT FROM \"owner_project_id\" AND \"user_id\" IS NOT DISTINCT FROM \"p",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "role_assignments",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/shared/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "DATA_DEPENDENT",
+          "compat_forward": "SAFE",
+          "classification": "DATA_DEPENDENT",
+          "reason": "CHECK/UNIQUE constraint added on active C_{t-1} table 'role_assignments'; safety depends on C_{t-1} write values."
+        }
+      ]
+    },
+    {
+      "sha": "340c3c85077055886c019163971a5d02e25edcfa",
+      "parent": "5601b4b7f473db1f3921d460b198b11699e09234",
+      "date": "2026-07-24T13:35:01+02:00",
+      "subject": "feat(v4)!: drop superseded Postgres and ClickHouse tables (#15369)",
+      "mig_files": [
+        "packages/shared/prisma/migrations/20260723124010_drop_dataset_run_items_table/migration.sql",
+        "packages/shared/prisma/migrations/20260723150000_drop_legacy_tracing_tables/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "packages/shared/prisma/schema.prisma",
+        "packages/shared/src/server/repositories/blobStorageLog.ts",
+        "packages/shared/src/server/repositories/definitions.ts",
+        "web/src/__tests__/server/repositories/environment-repository.servertest.ts",
+        "worker/src/backgroundMigrations/addGenerationsCostBackfill.ts",
+        "worker/src/backgroundMigrations/migrateDatasetRunItemsFromPostgresToClickhouse.ts",
+        "worker/src/backgroundMigrations/migrateDatasetRunItemsFromPostgresToClickhouseRmt.ts",
+        "worker/src/backgroundMigrations/migrateEventLogToBlobStorageRefTable.ts",
+        "worker/src/backgroundMigrations/migrateObservationsFromPostgresToClickhouse.ts",
+        "worker/src/backgroundMigrations/migrateScoresFromPostgresToClickhouse.ts",
+        "worker/src/backgroundMigrations/migrateTracesFromPostgresToClickhouse.ts",
+        "worker/src/scripts/verifyClickhouseRecords/index.ts"
+      ],
+      "orm_models_parsed_old": 134,
+      "raw_sql": "-- The legacy dataset_run_items table is superseded by the ClickHouse\n-- dataset_run_items_rmt table. Its contents were copied over by the\n-- 20250814_1001_migrate_dataset_run_items_rmt_pg_to_ch background migration,\n-- which must have completed (on the latest v3 release) before upgrading to v4.\nDROP TABLE IF EXISTS \"dataset_run_items\";\n\n-- Remove the background migrations whose source tables are dropped in v4\n-- (dataset_run_items here, event_log in ClickHouse migration 0044). Their\n-- worker scripts are deleted alongside this migration, so leftover unfinished\n-- rows would make the BackgroundMigrationManager fail to resolve the script.\nDELETE FROM \"background_migrations\"\nWHERE \"name\" IN (\n  '20250417_1737_migrate_event_log_to_blob_storage',\n  '20250731_1001_migrate_dataset_run_items_pg_to_ch',\n  '20250814_1001_migrate_dataset_run_items_rmt_pg_to_ch'\n);\n\n-- The traces, observations and scores tables were superseded by their\n-- ClickHouse counterparts in v3. Their contents were copied over by the\n-- 20241024_* background migrations, which must have completed (on the latest\n-- v3 release) before upgrading to v4.\nDROP TABLE IF EXISTS \"traces\";\nDROP TABLE IF EXISTS \"observations\";\nDROP TABLE IF EXISTS \"scores\";\n\n-- These enum types were only used by the dropped tables.\nDROP TYPE IF EXISTS \"ObservationType\";\nDROP TYPE IF EXISTS \"ObservationLevel\";\nDROP TYPE IF EXISTS \"ScoreSource\";\n\n-- Remove the background migrations whose source tables are dropped above.\n-- Their worker scripts are deleted alongside this migration, so leftover\n-- unfinished rows would make the BackgroundMigrationManager fail to resolve\n-- the script.\nDELETE FROM \"background_migrations\"\nWHERE \"name\" IN (\n  '20241024_1216_add_generations_cost_backfill',\n  '20241024_1730_migrate_traces_from_pg_to_ch',\n  '20241024_1737_migrate_observations_from_pg_to_ch',\n  '20241024_1738_migrate_scores_from_pg_to_ch'\n);\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "dataset_run_items",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/shared/prisma/migrations/20260723124010_drop_dataset_run_items_table/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* The legacy dataset_run_items table is superseded by the ClickHouse */ /* dataset_run_items_rmt table. Its contents were copied over by the */ /* 20250814_1001_migrate_dataset_ru",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "dataset_run_items",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/shared/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'dataset_run_items' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "traces",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/shared/prisma/migrations/20260723150000_drop_legacy_tracing_tables/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* The traces, observations and scores tables were superseded by their */ /* ClickHouse counterparts in v3. Their contents were copied over by the */ /* 20241024_* background migra",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "traces",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/shared/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'traces' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "observations",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/shared/prisma/migrations/20260723150000_drop_legacy_tracing_tables/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TABLE IF EXISTS \"observations\"",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "observations",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/shared/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'observations' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "scores",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/shared/prisma/migrations/20260723150000_drop_legacy_tracing_tables/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TABLE IF EXISTS \"scores\"",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "scores",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/shared/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'scores' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "observationtype",
+            "column": "observationtype",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/shared/prisma/migrations/20260723150000_drop_legacy_tracing_tables/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* These enum types were only used by the dropped tables. */ DROP TYPE IF EXISTS \"ObservationType\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "ObservationType",
+              "column_sql": "ObservationType"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "observationtype",
+            "column": "observationtype",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'observationtype' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "observationlevel",
+            "column": "observationlevel",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/shared/prisma/migrations/20260723150000_drop_legacy_tracing_tables/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TYPE IF EXISTS \"ObservationLevel\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "ObservationLevel",
+              "column_sql": "ObservationLevel"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "observationlevel",
+            "column": "observationlevel",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'observationlevel' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "scoresource",
+            "column": "scoresource",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/shared/prisma/migrations/20260723150000_drop_legacy_tracing_tables/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TYPE IF EXISTS \"ScoreSource\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "ScoreSource",
+              "column_sql": "ScoreSource"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "scoresource",
+            "column": "scoresource",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'scoresource' affects active C_{t-1} enum definition/code."
+        }
+      ]
+    },
+    {
+      "sha": "903a0eaa40b076c0fdebfbb81460c3bbabd0d9b6",
+      "parent": "86a77f9b278438ea7764e59d3cee0eeedacd4192",
+      "date": "2026-06-19T17:08:51+02:00",
+      "subject": "revert(slack): remove Marketplace install-then-link flow (#14416)",
+      "mig_files": [
+        "packages/shared/prisma/migrations/20260619120000_revert_slack_pending_install_columns/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "packages/shared/prisma/schema.prisma",
+        "packages/shared/src/server/services/SlackService.ts",
+        "web/src/__tests__/server/slack-marketplace-router.servertest.ts",
+        "web/src/__tests__/server/slack-pending-installation.servertest.ts",
+        "web/src/__tests__/server/unit/slack-marketplace-install-rate-limit.servertest.ts",
+        "web/src/features/slack/server/marketplaceInstallRateLimit.ts",
+        "web/src/features/slack/server/oauth-handlers.ts",
+        "web/src/features/slack/server/pendingInstallClaimCookie.ts",
+        "web/src/features/slack/server/router.ts",
+        "web/src/pages/api/public/slack/marketplace-install/index.ts",
+        "web/src/pages/slack/direct-setup.tsx"
+      ],
+      "orm_models_parsed_old": 130,
+      "raw_sql": "-- Revert the Marketplace install-then-link schema changes: drop the pending-only\n-- columns and restore the 1:1 project mapping (project_id NOT NULL).\n--\n-- Pending (unlinked) installs have a NULL project_id and cannot satisfy the\n-- restored NOT NULL constraint, so delete them first. They are short-lived,\n-- never linked to a project, and hold no live integration, so dropping them is\n-- safe.\nDELETE FROM \"slack_integrations\" WHERE \"project_id\" IS NULL;\n\n-- Drop the index that backed expired-pending purges.\nDROP INDEX IF EXISTS \"slack_integrations_expires_at_idx\";\n\n-- Drop the pending-only columns.\nALTER TABLE \"slack_integrations\" DROP COLUMN IF EXISTS \"expires_at\";\nALTER TABLE \"slack_integrations\" DROP COLUMN IF EXISTS \"claim_token_hash\";\n\n-- Restore the 1:1 project mapping.\nALTER TABLE \"slack_integrations\" ALTER COLUMN \"project_id\" SET NOT NULL;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "slack_integrations",
+            "column": "expires_at",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/shared/prisma/migrations/20260619120000_revert_slack_pending_install_columns/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE slack_integrations DROP COLUMN IF EXISTS \"expires_at\"",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "slack_integrations",
+            "column": "expires_at",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/shared/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'expires_at' active in C_{t-1} ORM (packages/shared/prisma/schema.prisma); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "slack_integrations",
+            "column": "claim_token_hash",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/shared/prisma/migrations/20260619120000_revert_slack_pending_install_columns/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE slack_integrations DROP COLUMN IF EXISTS \"claim_token_hash\"",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "slack_integrations",
+            "column": "claim_token_hash",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/shared/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'claim_token_hash' active in C_{t-1} ORM (packages/shared/prisma/schema.prisma); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "SET_NOT_NULL",
+            "table": "slack_integrations",
+            "column": "project_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/shared/prisma/migrations/20260619120000_revert_slack_pending_install_columns/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE slack_integrations ALTER COLUMN \"project_id\" SET NOT NULL",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "slack_integrations",
+            "column": "project_id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/shared/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "SET_NOT_NULL on 'slack_integrations.project_id' which was nullable in C_{t-1} ORM (packages/shared/prisma/schema.prisma)."
+        }
+      ]
+    },
+    {
+      "sha": "a9678ad9c174d667d71e11cbafd7dd75c04855ab",
+      "parent": "c82119e2660294d47eba0e8f24734adc77c0f9d8",
+      "date": "2026-06-09T16:34:13+02:00",
+      "subject": "feat(monitors): metric alerting -  scheduler, processor, alert dispatch, and management ui (#13874)",
+      "mig_files": [
+        "packages/shared/prisma/migrations/20260522113010_add_paused_monitor_severity/migration.sql",
+        "packages/shared/prisma/migrations/20260527110000_monitor_wallclock_lifecycle/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "packages/shared/prisma/schema.prisma",
+        "packages/shared/src/domain/automations.test.ts",
+        "packages/shared/src/domain/automations.ts",
+        "packages/shared/src/features/monitors/filterColumns.ts",
+        "packages/shared/src/features/monitors/index.ts",
+        "packages/shared/src/features/monitors/isValidQuery.test.ts",
+        "packages/shared/src/features/monitors/isValidQuery.ts",
+        "packages/shared/src/features/monitors/isValidThresholdOrder.test.ts",
+        "packages/shared/src/features/monitors/isValidThresholdOrder.ts",
+        "packages/shared/src/features/monitors/processor/applyStateMachine.test.ts",
+        "packages/shared/src/features/monitors/processor/applyStateMachine.ts",
+        "packages/shared/src/features/monitors/processor/buildPermalink.test.ts"
+      ],
+      "orm_models_parsed_old": 128,
+      "raw_sql": "-- Add PAUSED to MonitorSeverity (positioned first so `severity DESC` sinks\n-- paused monitors to the bottom) and backfill non-ACTIVE rows. The enum is\n-- recreated rather than evolved via ALTER TYPE ADD VALUE so the new value is\n-- usable in the same migration's backfill (Postgres otherwise requires a\n-- separate transaction before a newly-added enum value can be referenced).\nALTER TYPE \"MonitorSeverity\" RENAME TO \"MonitorSeverity_old\";\n\nCREATE TYPE \"MonitorSeverity\" AS ENUM (\n  'PAUSED',\n  'UNKNOWN',\n  'NO_DATA',\n  'OK',\n  'WARNING',\n  'ALERT'\n);\n\nALTER TABLE monitors\n  ALTER COLUMN severity DROP DEFAULT,\n  ALTER COLUMN severity TYPE \"MonitorSeverity\"\n    USING severity::text::\"MonitorSeverity\",\n  ALTER COLUMN severity SET DEFAULT 'UNKNOWN'::\"MonitorSeverity\";\n\nDROP TYPE \"MonitorSeverity_old\";\n\n-- Backfill existing non-ACTIVE rows (PAUSED + ERROR_BAD_QUERY) so the list\n-- view renders them with the new \"paused\" appearance from the first deploy.\n-- New transitions are written by MonitorService.update going forward.\nUPDATE monitors SET severity = 'PAUSED' WHERE status <> 'ACTIVE';\n\nALTER TABLE \"monitors\" ADD COLUMN \"trigger_ids\" TEXT[] NOT NULL DEFAULT ARRAY[]::TEXT[];\n\nALTER TABLE \"monitors\" ALTER COLUMN \"next_run_at\" DROP NOT NULL;\n\nALTER TABLE \"monitors\" RENAME COLUMN \"last_published_run_at\" TO \"last_published_at\";\n\nALTER TABLE \"monitors\" RENAME COLUMN \"last_completed_run_at\" TO \"last_completed_at\";\n\nALTER TABLE \"monitors\" ADD COLUMN \"last_claimed_at\" TIMESTAMP(3);\n\nCREATE INDEX \"monitors_scheduler_rescue_idx\" ON \"monitors\"(\"last_published_at\")\n  WHERE \"last_completed_at\" IS NULL OR \"last_completed_at\" < \"last_published_at\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "monitorseverity",
+            "column": "monitorseverity",
+            "new_name": "monitorseverity_old",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/shared/prisma/migrations/20260522113010_add_paused_monitor_severity/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* Add PAUSED to MonitorSeverity (positioned first so `severity DESC` sinks */ /* paused monitors to the bottom) and backfill non-ACTIVE rows. The enum is */ /* recreated rather th",
+            "extra": {
+              "table_sql": "MonitorSeverity",
+              "column_sql": "MonitorSeverity",
+              "new_name_sql": "MonitorSeverity_old"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "monitorseverity",
+            "column": "monitorseverity",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'monitorseverity' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "monitors",
+            "column": "severity",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "\"MonitorSeverity\"",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/shared/prisma/migrations/20260522113010_add_paused_monitor_severity/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE monitors ALTER COLUMN severity SET DATA TYPE \"MonitorSeverity\" USING CAST(CAST(severity AS TEXT) AS \"MonitorSeverity\")",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "monitors",
+            "column": "severity",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/shared/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'monitors.severity' (MonitorSeverity -> \"MonitorSeverity\")."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "monitorseverity_old",
+            "column": "monitorseverity_old",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/shared/prisma/migrations/20260522113010_add_paused_monitor_severity/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TYPE \"MonitorSeverity_old\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "MonitorSeverity_old",
+              "column_sql": "MonitorSeverity_old"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "monitorseverity_old",
+            "column": "monitorseverity_old",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "ENUM 'monitorseverity_old' not present in C_{t-1} schema."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_COLUMN",
+            "table": "monitors",
+            "column": "last_published_run_at",
+            "new_name": "last_published_at",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/shared/prisma/migrations/20260527110000_monitor_wallclock_lifecycle/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE monitors RENAME COLUMN \"last_published_run_at\" TO \"last_published_at\"",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "monitors",
+            "column": "last_published_run_at",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/shared/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_COLUMN 'last_published_run_at'->'last_published_at' breaks both C_{t-1} |= S_t and C_t |= S_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_COLUMN",
+            "table": "monitors",
+            "column": "last_completed_run_at",
+            "new_name": "last_completed_at",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/shared/prisma/migrations/20260527110000_monitor_wallclock_lifecycle/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE monitors RENAME COLUMN \"last_completed_run_at\" TO \"last_completed_at\"",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "monitors",
+            "column": "last_completed_run_at",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/shared/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_COLUMN 'last_completed_run_at'->'last_completed_at' breaks both C_{t-1} |= S_t and C_t |= S_{t-1}."
+        }
+      ]
+    },
+    {
+      "sha": "c9274a20b7bdd584d4af0efeb285d528be891e43",
+      "parent": "7a4b92117b8f31c2ba7e9b4dc735b88f52a68a8e",
+      "date": "2026-05-21T10:41:44+02:00",
+      "subject": "feat(monitors): Service & Schema (#13725)",
+      "mig_files": [
+        "packages/shared/prisma/migrations/20260521000000_monitor_severity_status_reorder_drop_message/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "packages/shared/prisma/schema.prisma",
+        "packages/shared/src/features/monitors/helpers.ts",
+        "packages/shared/src/features/monitors/index.ts",
+        "packages/shared/src/features/monitors/isValidQuery.test.ts",
+        "packages/shared/src/features/monitors/isValidQuery.ts",
+        "packages/shared/src/features/monitors/isValidThresholdOrder.test.ts",
+        "packages/shared/src/features/monitors/isValidThresholdOrder.ts",
+        "packages/shared/src/features/monitors/scheduler/types.test.ts",
+        "packages/shared/src/features/monitors/scheduler/types.ts",
+        "packages/shared/src/features/monitors/server.ts",
+        "packages/shared/src/features/monitors/service/helpers.test.ts",
+        "packages/shared/src/features/monitors/service/helpers.ts"
+      ],
+      "orm_models_parsed_old": 122,
+      "raw_sql": "-- AlterEnum: reorder MonitorSeverity so DESC sorts most-critical first\n-- (ALERT, WARNING, OK, NO_DATA, UNKNOWN).\nBEGIN;\nCREATE TYPE \"MonitorSeverity_new\" AS ENUM ('UNKNOWN', 'NO_DATA', 'OK', 'WARNING', 'ALERT');\nALTER TABLE \"monitors\" ALTER COLUMN \"severity\" DROP DEFAULT;\nALTER TABLE \"monitors\" ALTER COLUMN \"severity\" TYPE \"MonitorSeverity_new\" USING (\"severity\"::text::\"MonitorSeverity_new\");\nALTER TYPE \"MonitorSeverity\" RENAME TO \"MonitorSeverity_old\";\nALTER TYPE \"MonitorSeverity_new\" RENAME TO \"MonitorSeverity\";\nDROP TYPE \"MonitorSeverity_old\";\nALTER TABLE \"monitors\" ALTER COLUMN \"severity\" SET DEFAULT 'UNKNOWN';\nCOMMIT;\n\n-- AlterEnum: reorder MonitorStatus so DESC sorts in attention-priority order\n-- (ERROR_BAD_QUERY, ACTIVE, PAUSED).\nBEGIN;\nCREATE TYPE \"MonitorStatus_new\" AS ENUM ('PAUSED', 'ACTIVE', 'ERROR_BAD_QUERY');\nALTER TABLE \"monitors\" ALTER COLUMN \"status\" DROP DEFAULT;\nALTER TABLE \"monitors\" ALTER COLUMN \"status\" TYPE \"MonitorStatus_new\" USING (\"status\"::text::\"MonitorStatus_new\");\nALTER TYPE \"MonitorStatus\" RENAME TO \"MonitorStatus_old\";\nALTER TYPE \"MonitorStatus_new\" RENAME TO \"MonitorStatus\";\nDROP TYPE \"MonitorStatus_old\";\nALTER TABLE \"monitors\" ALTER COLUMN \"status\" SET DEFAULT 'ACTIVE';\nCOMMIT;\n\n-- AlterTable: drop the unused message column (templating removed for v1).\nALTER TABLE \"monitors\" DROP COLUMN \"message\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "monitors",
+            "column": "severity",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "\"MonitorSeverity_new\"",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/shared/prisma/migrations/20260521000000_monitor_severity_status_reorder_drop_message/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE monitors ALTER COLUMN \"severity\" SET DATA TYPE \"MonitorSeverity_new\" USING (CAST(CAST(\"severity\" AS TEXT) AS \"MonitorSeverity_new\"))",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "monitors",
+            "column": "severity",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/shared/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'monitors.severity' (MonitorSeverity -> \"MonitorSeverity_new\")."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "monitorseverity",
+            "column": "monitorseverity",
+            "new_name": "monitorseverity_old",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/shared/prisma/migrations/20260521000000_monitor_severity_status_reorder_drop_message/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TYPE \"MonitorSeverity\" RENAME TO \"MonitorSeverity_old\"",
+            "extra": {
+              "table_sql": "MonitorSeverity",
+              "column_sql": "MonitorSeverity",
+              "new_name_sql": "MonitorSeverity_old"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "monitorseverity",
+            "column": "monitorseverity",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'monitorseverity' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "monitorseverity_new",
+            "column": "monitorseverity_new",
+            "new_name": "monitorseverity",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/shared/prisma/migrations/20260521000000_monitor_severity_status_reorder_drop_message/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TYPE \"MonitorSeverity_new\" RENAME TO \"MonitorSeverity\"",
+            "extra": {
+              "table_sql": "MonitorSeverity_new",
+              "column_sql": "MonitorSeverity_new",
+              "new_name_sql": "MonitorSeverity"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "monitorseverity_new",
+            "column": "monitorseverity_new",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'monitorseverity_new' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "monitorseverity_old",
+            "column": "monitorseverity_old",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/shared/prisma/migrations/20260521000000_monitor_severity_status_reorder_drop_message/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TYPE \"MonitorSeverity_old\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "MonitorSeverity_old",
+              "column_sql": "MonitorSeverity_old"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "monitorseverity_old",
+            "column": "monitorseverity_old",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "ENUM 'monitorseverity_old' not present in C_{t-1} schema."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "monitors",
+            "column": "status",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "\"MonitorStatus_new\"",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/shared/prisma/migrations/20260521000000_monitor_severity_status_reorder_drop_message/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE monitors ALTER COLUMN \"status\" SET DATA TYPE \"MonitorStatus_new\" USING (CAST(CAST(\"status\" AS TEXT) AS \"MonitorStatus_new\"))",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "monitors",
+            "column": "status",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/shared/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'monitors.status' (MonitorStatus -> \"MonitorStatus_new\")."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "monitorstatus",
+            "column": "monitorstatus",
+            "new_name": "monitorstatus_old",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/shared/prisma/migrations/20260521000000_monitor_severity_status_reorder_drop_message/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TYPE \"MonitorStatus\" RENAME TO \"MonitorStatus_old\"",
+            "extra": {
+              "table_sql": "MonitorStatus",
+              "column_sql": "MonitorStatus",
+              "new_name_sql": "MonitorStatus_old"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "monitorstatus",
+            "column": "monitorstatus",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'monitorstatus' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "monitorstatus_new",
+            "column": "monitorstatus_new",
+            "new_name": "monitorstatus",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/shared/prisma/migrations/20260521000000_monitor_severity_status_reorder_drop_message/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TYPE \"MonitorStatus_new\" RENAME TO \"MonitorStatus\"",
+            "extra": {
+              "table_sql": "MonitorStatus_new",
+              "column_sql": "MonitorStatus_new",
+              "new_name_sql": "MonitorStatus"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "monitorstatus_new",
+            "column": "monitorstatus_new",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'monitorstatus_new' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "monitorstatus_old",
+            "column": "monitorstatus_old",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/shared/prisma/migrations/20260521000000_monitor_severity_status_reorder_drop_message/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TYPE \"MonitorStatus_old\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "MonitorStatus_old",
+              "column_sql": "MonitorStatus_old"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "monitorstatus_old",
+            "column": "monitorstatus_old",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "ENUM 'monitorstatus_old' not present in C_{t-1} schema."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "monitors",
+            "column": "message",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/shared/prisma/migrations/20260521000000_monitor_severity_status_reorder_drop_message/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE monitors DROP COLUMN \"message\"",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "monitors",
+            "column": "message",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/shared/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'message' active in C_{t-1} ORM (packages/shared/prisma/schema.prisma); identifier removed in same commit diff"
+        }
+      ]
+    },
+    {
+      "sha": "39855914b57e711adc9795eb76c47729e12b8eea",
+      "parent": "a2b3ab9b93d1e446482190fe67cd364a2a2d07f7",
+      "date": "2026-01-13T16:49:36+01:00",
+      "subject": "chore(dataset-item-events): drop unused tables and sys_id col (#11136)",
+      "mig_files": [
+        "packages/shared/prisma/migrations/20260113102907_dataset_items_drop_sys_id_col/migration.sql",
+        "packages/shared/prisma/migrations/20260113112907_dataset_item_events_drop_fk_datasets/migration.sql",
+        "packages/shared/prisma/migrations/20260113114006_dataset_item_events_drop_table/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "packages/shared/prisma/generated/types.ts",
+        "packages/shared/prisma/schema.prisma",
+        "packages/shared/src/server/repositories/dataset-items.ts"
+      ],
+      "orm_models_parsed_old": 118,
+      "raw_sql": "/*\n  Warnings:\n\n  - You are about to drop the column `sys_id` on the `dataset_items` table. All the data in the column will be lost.\n\n*/\n-- AlterTable\nALTER TABLE \"dataset_items\" DROP COLUMN \"sys_id\";\n\n\n-- DropForeignKey\nALTER TABLE \"dataset_item_events\" DROP CONSTRAINT \"dataset_item_events_dataset_id_project_id_fkey\";\n\n\n/*\n  Warnings:\n\n  - You are about to drop the `dataset_item_events` table. If the table is not empty, all the data it contains will be lost.\n\n*/\n-- DropTable\nDROP TABLE \"dataset_item_events\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "dataset_items",
+            "column": "sys_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/shared/prisma/migrations/20260113102907_dataset_items_drop_sys_id_col/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE dataset_items DROP COLUMN \"sys_id\"",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "dataset_items",
+            "column": "sys_id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/shared/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'sys_id' active in C_{t-1} ORM (packages/shared/prisma/schema.prisma); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "dataset_item_events",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/shared/prisma/migrations/20260113114006_dataset_item_events_drop_table/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* Warnings: - You are about to drop the `dataset_item_events` table. If the table is not empty, all the data it contains will be lost. */ /* DropTable */ DROP TABLE \"dataset_item_",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "dataset_item_events",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/shared/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'dataset_item_events' active in C_{t-1}."
+        }
+      ]
+    },
+    {
+      "sha": "223f4571c9daad9013412a78271635d5ae417b10",
+      "parent": "ece6ee5144e0e5ef2aead9a33a115cf48b841881",
+      "date": "2025-12-22T18:27:21+01:00",
+      "subject": "chore(score-configs): rename ScoreDataType -> ScoreConfigDataType (#11266)",
+      "mig_files": [
+        "packages/shared/prisma/migrations/20251218102933_score_configs_rename_score_data_type_enum/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "packages/shared/prisma/generated/types.ts",
+        "packages/shared/prisma/schema.prisma",
+        "packages/shared/scripts/seeder/seed-postgres.ts",
+        "packages/shared/src/features/scores/interfaces/ui/types.ts",
+        "packages/shared/src/server/ingestion/validateAndInflateScore.ts",
+        "packages/shared/src/server/repositories/scores.ts",
+        "packages/shared/src/server/repositories/scores_converters.ts",
+        "web/src/__tests__/score-configs.servertest.ts",
+        "web/src/components/table/use-cases/score-configs.tsx",
+        "web/src/components/table/use-cases/scores.tsx",
+        "web/src/features/annotation-queues/components/AnnotationQueuesTable.tsx",
+        "web/src/features/dashboard/components/ChartScores.tsx"
+      ],
+      "orm_models_parsed_old": 118,
+      "raw_sql": "/*\n  Warnings:\n\n  - Changed the type of `data_type` on the `score_configs` table. No cast exists, the column would be dropped and recreated, which cannot be done if there is data, since the column is required.\n\n*/\n-- Rename enum\nALTER TYPE \"ScoreDataType\" RENAME TO \"ScoreConfigDataType\";",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "scoredatatype",
+            "column": "scoredatatype",
+            "new_name": "scoreconfigdatatype",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/shared/prisma/migrations/20251218102933_score_configs_rename_score_data_type_enum/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* Warnings: - Changed the type of `data_type` on the `score_configs` table. No cast exists, the column would be dropped and recreated, which cannot be done if there is data, since",
+            "extra": {
+              "table_sql": "ScoreDataType",
+              "column_sql": "ScoreDataType",
+              "new_name_sql": "ScoreConfigDataType"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "scoredatatype",
+            "column": "scoredatatype",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'scoredatatype' affects active C_{t-1} enum definition/code."
+        }
+      ]
+    },
+    {
+      "sha": "ad16fa0ada15fbcdaee031c7e5027a65e54abaaf",
+      "parent": "10c32f2f1493902490033d5341eaf8a36a60c33c",
+      "date": "2025-11-26T16:03:46+01:00",
+      "subject": "feat(model-prices): add model pricing tiers (#10606)",
+      "mig_files": [
+        "packages/shared/prisma/migrations/20251120105316_add_pricing_tiers/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "packages/shared/prisma/generated/types.ts",
+        "packages/shared/prisma/schema.prisma",
+        "packages/shared/src/domain/observations.ts",
+        "packages/shared/src/features/model-pricing/index.ts",
+        "packages/shared/src/features/model-pricing/validation.ts",
+        "packages/shared/src/index.ts",
+        "packages/shared/src/server/index.ts",
+        "packages/shared/src/server/ingestion/modelMatch.ts",
+        "packages/shared/src/server/pricing-tiers/index.ts",
+        "packages/shared/src/server/pricing-tiers/matcher.ts",
+        "packages/shared/src/server/pricing-tiers/types.ts",
+        "packages/shared/src/server/repositories/definitions.ts"
+      ],
+      "orm_models_parsed_old": 114,
+      "raw_sql": "BEGIN;\n\n-- CreateTable\nCREATE TABLE \"pricing_tiers\" (\n    \"id\" TEXT NOT NULL,\n    \"created_at\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    \"updated_at\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    \"model_id\" TEXT NOT NULL,\n    \"name\" TEXT NOT NULL,\n    \"is_default\" BOOLEAN NOT NULL DEFAULT false,\n    \"priority\" INTEGER NOT NULL,\n    \"conditions\" JSONB NOT NULL,\n\n    CONSTRAINT \"pricing_tiers_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"pricing_tiers_model_id_priority_key\" ON \"pricing_tiers\"(\"model_id\", \"priority\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"pricing_tiers_model_id_name_key\" ON \"pricing_tiers\"(\"model_id\", \"name\");\n\n-- AddForeignKey\nALTER TABLE \"pricing_tiers\" ADD CONSTRAINT \"pricing_tiers_model_id_fkey\" FOREIGN KEY (\"model_id\") REFERENCES \"models\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AlterTable\nALTER TABLE \"prices\" ADD COLUMN \"pricing_tier_id\" TEXT;\n\n-- Data Migration: Create default pricing tiers with DETERMINISTIC IDs\n-- Pattern: {model_id}_tier_default\nINSERT INTO \"pricing_tiers\" (id, model_id, name, is_default, priority, conditions)\nSELECT\n  model_id || '_tier_default',\n  model_id,\n  'Standard',\n  TRUE,\n  0,\n  '[]'::jsonb\nFROM (\n  SELECT DISTINCT model_id\n  FROM prices\n  WHERE pricing_tier_id IS NULL\n) AS distinct_models\nON CONFLICT (id) DO NOTHING;\n\n-- Data Migration: Link existing prices to their default tiers using deterministic IDs\nUPDATE prices\nSET pricing_tier_id = model_id || '_tier_default'\nWHERE pricing_tier_id IS NULL;\n\n-- AlterTable: Make pricing_tier_id NOT NULL\nALTER TABLE \"prices\" ALTER COLUMN \"pricing_tier_id\" SET NOT NULL;\n\n-- AddForeignKey\nALTER TABLE \"prices\" ADD CONSTRAINT \"prices_pricing_tier_id_fkey\" FOREIGN KEY (\"pricing_tier_id\") REFERENCES \"pricing_tiers\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- DropIndex\nDROP INDEX IF EXISTS \"prices_model_id_usage_type_key\";\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"prices_model_id_usage_type_pricing_tier_id_key\" ON \"prices\"(\"model_id\", \"usage_type\", \"pricing_tier_id\");\n\nCOMMIT;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "SET_NOT_NULL",
+            "table": "prices",
+            "column": "pricing_tier_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/shared/prisma/migrations/20251120105316_add_pricing_tiers/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE prices ALTER COLUMN \"pricing_tier_id\" SET NOT NULL",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "prices",
+            "column": "pricing_tier_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/shared/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Column 'prices.pricing_tier_id' not active in C_{t-1} ORM."
+        }
+      ]
+    }
+  ]
+}

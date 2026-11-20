@@ -1,0 +1,6617 @@
+{
+  "squawk": {
+    "django_121": {
+      "rules": [
+        "ban-drop-default",
+        "prefer-robust-stmts",
+        "prefer-text-field",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [],
+      "strict_compat_flagged": false
+    },
+    "django_122": {
+      "rules": [
+        "changing-column-type",
+        "prefer-bigint-over-int",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "changing-column-type"
+      ],
+      "strict_compat_flagged": true
+    },
+    "django_123": {
+      "rules": [
+        "ban-drop-column",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-column"
+      ],
+      "strict_compat_flagged": true
+    },
+    "django_124": {
+      "rules": [
+        "ban-drop-table",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-table"
+      ],
+      "strict_compat_flagged": true
+    },
+    "django_125": {
+      "rules": [
+        "prefer-robust-stmts",
+        "renaming-column",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "renaming-column"
+      ],
+      "strict_compat_flagged": true
+    },
+    "django_126": {
+      "rules": [
+        "prefer-robust-stmts",
+        "renaming-table",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "renaming-table"
+      ],
+      "strict_compat_flagged": true
+    },
+    "django_127": {
+      "rules": [
+        "adding-not-nullable-field",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "adding-not-nullable-field"
+      ],
+      "strict_compat_flagged": true
+    },
+    "django_128": {
+      "rules": [
+        "ban-drop-default",
+        "prefer-robust-stmts",
+        "prefer-text-field",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [],
+      "strict_compat_flagged": false
+    },
+    "django_129": {
+      "rules": [
+        "ban-drop-column",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-column"
+      ],
+      "strict_compat_flagged": true
+    },
+    "django_130": {
+      "rules": [
+        "ban-drop-table",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-table"
+      ],
+      "strict_compat_flagged": true
+    },
+    "django_131": {
+      "rules": [
+        "prefer-robust-stmts",
+        "renaming-column",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "renaming-column"
+      ],
+      "strict_compat_flagged": true
+    },
+    "django_132": {
+      "rules": [
+        "adding-not-nullable-field",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "adding-not-nullable-field"
+      ],
+      "strict_compat_flagged": true
+    },
+    "django_133": {
+      "rules": [
+        "ban-drop-default",
+        "prefer-robust-stmts",
+        "prefer-text-field",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [],
+      "strict_compat_flagged": false
+    },
+    "django_134": {
+      "rules": [
+        "ban-drop-column",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-column"
+      ],
+      "strict_compat_flagged": true
+    },
+    "django_135": {
+      "rules": [
+        "ban-drop-table",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-table"
+      ],
+      "strict_compat_flagged": true
+    },
+    "django_136": {
+      "rules": [
+        "prefer-robust-stmts",
+        "renaming-column",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "renaming-column"
+      ],
+      "strict_compat_flagged": true
+    },
+    "django_137": {
+      "rules": [
+        "ban-drop-default",
+        "prefer-robust-stmts",
+        "prefer-text-field",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [],
+      "strict_compat_flagged": false
+    },
+    "django_138": {
+      "rules": [
+        "ban-drop-column",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-column"
+      ],
+      "strict_compat_flagged": true
+    },
+    "django_139": {
+      "rules": [
+        "ban-drop-table",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-table"
+      ],
+      "strict_compat_flagged": true
+    },
+    "django_140": {
+      "rules": [
+        "prefer-robust-stmts",
+        "renaming-column",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "renaming-column"
+      ],
+      "strict_compat_flagged": true
+    },
+    "django_141": {
+      "rules": [
+        "ban-drop-default",
+        "prefer-robust-stmts",
+        "prefer-text-field",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [],
+      "strict_compat_flagged": false
+    },
+    "django_142": {
+      "rules": [
+        "ban-drop-column",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-column"
+      ],
+      "strict_compat_flagged": true
+    },
+    "django_143": {
+      "rules": [
+        "ban-drop-table",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-table"
+      ],
+      "strict_compat_flagged": true
+    },
+    "django_144": {
+      "rules": [
+        "prefer-robust-stmts",
+        "renaming-column",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "renaming-column"
+      ],
+      "strict_compat_flagged": true
+    },
+    "django_145": {
+      "rules": [
+        "ban-drop-default",
+        "prefer-robust-stmts",
+        "prefer-text-field",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [],
+      "strict_compat_flagged": false
+    },
+    "django_146": {
+      "rules": [
+        "ban-drop-column",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-column"
+      ],
+      "strict_compat_flagged": true
+    },
+    "django_147": {
+      "rules": [
+        "ban-drop-table",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-table"
+      ],
+      "strict_compat_flagged": true
+    },
+    "django_148": {
+      "rules": [
+        "prefer-robust-stmts",
+        "renaming-column",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "renaming-column"
+      ],
+      "strict_compat_flagged": true
+    },
+    "django_149": {
+      "rules": [
+        "ban-drop-default",
+        "prefer-robust-stmts",
+        "prefer-text-field",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [],
+      "strict_compat_flagged": false
+    },
+    "django_150": {
+      "rules": [
+        "ban-drop-column",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-column"
+      ],
+      "strict_compat_flagged": true
+    },
+    "django_151": {
+      "rules": [
+        "ban-drop-default",
+        "prefer-robust-stmts",
+        "prefer-text-field",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [],
+      "strict_compat_flagged": false
+    },
+    "django_152": {
+      "rules": [
+        "disallowed-unique-constraint",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [],
+      "strict_compat_flagged": false
+    },
+    "django_153": {
+      "rules": [
+        "changing-column-type",
+        "prefer-bigint-over-int",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "changing-column-type"
+      ],
+      "strict_compat_flagged": true
+    },
+    "django_154": {
+      "rules": [
+        "ban-drop-column",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-column"
+      ],
+      "strict_compat_flagged": true
+    },
+    "django_155": {
+      "rules": [
+        "ban-drop-table",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-table"
+      ],
+      "strict_compat_flagged": true
+    },
+    "django_156": {
+      "rules": [
+        "prefer-robust-stmts",
+        "renaming-column",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "renaming-column"
+      ],
+      "strict_compat_flagged": true
+    },
+    "django_157": {
+      "rules": [
+        "prefer-robust-stmts",
+        "renaming-table",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "renaming-table"
+      ],
+      "strict_compat_flagged": true
+    },
+    "django_158": {
+      "rules": [
+        "adding-not-nullable-field",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "adding-not-nullable-field"
+      ],
+      "strict_compat_flagged": true
+    },
+    "django_159": {
+      "rules": [
+        "ban-drop-default",
+        "prefer-robust-stmts",
+        "prefer-text-field",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [],
+      "strict_compat_flagged": false
+    },
+    "django_160": {
+      "rules": [
+        "changing-column-type",
+        "prefer-bigint-over-int",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "changing-column-type"
+      ],
+      "strict_compat_flagged": true
+    },
+    "django_161": {
+      "rules": [
+        "ban-drop-column",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-column"
+      ],
+      "strict_compat_flagged": true
+    },
+    "django_162": {
+      "rules": [
+        "ban-drop-table",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-table"
+      ],
+      "strict_compat_flagged": true
+    },
+    "django_163": {
+      "rules": [
+        "prefer-robust-stmts",
+        "renaming-column",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "renaming-column"
+      ],
+      "strict_compat_flagged": true
+    },
+    "django_164": {
+      "rules": [
+        "prefer-robust-stmts",
+        "renaming-table",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "renaming-table"
+      ],
+      "strict_compat_flagged": true
+    },
+    "django_165": {
+      "rules": [
+        "adding-not-nullable-field",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "adding-not-nullable-field"
+      ],
+      "strict_compat_flagged": true
+    },
+    "django_166": {
+      "rules": [
+        "ban-drop-default",
+        "prefer-robust-stmts",
+        "prefer-text-field",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [],
+      "strict_compat_flagged": false
+    },
+    "django_167": {
+      "rules": [
+        "changing-column-type",
+        "prefer-bigint-over-int",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "changing-column-type"
+      ],
+      "strict_compat_flagged": true
+    },
+    "django_168": {
+      "rules": [
+        "ban-drop-column",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-column"
+      ],
+      "strict_compat_flagged": true
+    },
+    "django_169": {
+      "rules": [
+        "ban-drop-table",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-table"
+      ],
+      "strict_compat_flagged": true
+    },
+    "django_170": {
+      "rules": [
+        "prefer-robust-stmts",
+        "renaming-column",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "renaming-column"
+      ],
+      "strict_compat_flagged": true
+    },
+    "django_171": {
+      "rules": [
+        "prefer-robust-stmts",
+        "renaming-table",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "renaming-table"
+      ],
+      "strict_compat_flagged": true
+    },
+    "django_172": {
+      "rules": [
+        "adding-not-nullable-field",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "adding-not-nullable-field"
+      ],
+      "strict_compat_flagged": true
+    },
+    "django_173": {
+      "rules": [
+        "ban-drop-default",
+        "prefer-robust-stmts",
+        "prefer-text-field",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [],
+      "strict_compat_flagged": false
+    },
+    "django_174": {
+      "rules": [
+        "changing-column-type",
+        "prefer-bigint-over-int",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "changing-column-type"
+      ],
+      "strict_compat_flagged": true
+    },
+    "django_175": {
+      "rules": [
+        "ban-drop-column",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-column"
+      ],
+      "strict_compat_flagged": true
+    },
+    "django_176": {
+      "rules": [
+        "ban-drop-table",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-table"
+      ],
+      "strict_compat_flagged": true
+    },
+    "django_177": {
+      "rules": [
+        "prefer-robust-stmts",
+        "renaming-column",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "renaming-column"
+      ],
+      "strict_compat_flagged": true
+    },
+    "django_178": {
+      "rules": [
+        "prefer-robust-stmts",
+        "renaming-table",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "renaming-table"
+      ],
+      "strict_compat_flagged": true
+    },
+    "django_179": {
+      "rules": [
+        "adding-not-nullable-field",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "adding-not-nullable-field"
+      ],
+      "strict_compat_flagged": true
+    },
+    "django_180": {
+      "rules": [
+        "ban-drop-default",
+        "prefer-robust-stmts",
+        "prefer-text-field",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [],
+      "strict_compat_flagged": false
+    },
+    "prisma_001": {
+      "rules": [
+        "adding-foreign-key-constraint",
+        "adding-not-nullable-field",
+        "adding-required-field",
+        "ban-drop-column",
+        "ban-drop-constraint",
+        "constraint-missing-not-valid",
+        "prefer-robust-stmts",
+        "prefer-timestamp-tz",
+        "require-concurrent-index-creation",
+        "require-concurrent-index-deletion",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "adding-not-nullable-field",
+        "adding-required-field",
+        "ban-drop-column"
+      ],
+      "strict_compat_flagged": true
+    },
+    "prisma_002": {
+      "rules": [
+        "constraint-missing-not-valid",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [],
+      "strict_compat_flagged": false
+    },
+    "prisma_003": {
+      "rules": [
+        "ban-drop-default",
+        "ban-drop-type",
+        "changing-column-type",
+        "renaming-object",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-type",
+        "changing-column-type"
+      ],
+      "strict_compat_flagged": true
+    },
+    "prisma_004": {
+      "rules": [
+        "adding-required-field",
+        "ban-drop-column",
+        "ban-drop-constraint",
+        "ban-drop-table",
+        "prefer-robust-stmts",
+        "prefer-text-field",
+        "require-concurrent-index-creation",
+        "require-concurrent-index-deletion",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "adding-required-field",
+        "ban-drop-column",
+        "ban-drop-table"
+      ],
+      "strict_compat_flagged": true
+    },
+    "prisma_005": {
+      "rules": [
+        "ban-drop-table",
+        "ban-drop-type",
+        "changing-column-type",
+        "prefer-bigint-over-int",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-table",
+        "ban-drop-type",
+        "changing-column-type"
+      ],
+      "strict_compat_flagged": true
+    },
+    "prisma_006": {
+      "rules": [
+        "syntax-error"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [],
+      "strict_compat_flagged": false
+    },
+    "prisma_007": {
+      "rules": [
+        "ban-drop-column",
+        "ban-drop-type",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-column",
+        "ban-drop-type"
+      ],
+      "strict_compat_flagged": true
+    },
+    "prisma_008": {
+      "rules": [
+        "adding-not-nullable-field",
+        "ban-drop-column",
+        "prefer-robust-stmts",
+        "require-concurrent-index-creation",
+        "require-concurrent-index-deletion",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "adding-not-nullable-field",
+        "ban-drop-column"
+      ],
+      "strict_compat_flagged": true
+    },
+    "prisma_009": {
+      "rules": [
+        "adding-foreign-key-constraint",
+        "adding-required-field",
+        "ban-drop-column",
+        "ban-drop-constraint",
+        "constraint-missing-not-valid",
+        "prefer-bigint-over-int",
+        "prefer-robust-stmts",
+        "prefer-timestamp-tz",
+        "require-concurrent-index-creation",
+        "require-concurrent-index-deletion",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "adding-required-field",
+        "ban-drop-column"
+      ],
+      "strict_compat_flagged": true
+    },
+    "prisma_010": {
+      "rules": [
+        "constraint-missing-not-valid",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [],
+      "strict_compat_flagged": false
+    },
+    "prisma_011": {
+      "rules": [
+        "ban-drop-type",
+        "changing-column-type",
+        "renaming-object",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-type",
+        "changing-column-type"
+      ],
+      "strict_compat_flagged": true
+    },
+    "prisma_012": {
+      "rules": [
+        "adding-foreign-key-constraint",
+        "ban-drop-column",
+        "ban-drop-type",
+        "constraint-missing-not-valid",
+        "prefer-bigint-over-int",
+        "require-concurrent-index-creation",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-column",
+        "ban-drop-type"
+      ],
+      "strict_compat_flagged": true
+    },
+    "prisma_013": {
+      "rules": [
+        "ban-drop-table",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-table"
+      ],
+      "strict_compat_flagged": true
+    },
+    "prisma_014": {
+      "rules": [
+        "prefer-robust-stmts",
+        "renaming-column",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "renaming-column"
+      ],
+      "strict_compat_flagged": true
+    },
+    "prisma_015": {
+      "rules": [
+        "ban-drop-column",
+        "ban-drop-type",
+        "prefer-robust-stmts",
+        "require-concurrent-index-creation",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-column",
+        "ban-drop-type"
+      ],
+      "strict_compat_flagged": true
+    },
+    "prisma_016": {
+      "rules": [
+        "adding-foreign-key-constraint",
+        "adding-not-nullable-field",
+        "constraint-missing-not-valid",
+        "prefer-robust-stmts",
+        "prefer-timestamp-tz",
+        "require-concurrent-index-creation",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "adding-not-nullable-field"
+      ],
+      "strict_compat_flagged": true
+    },
+    "prisma_017": {
+      "rules": [
+        "adding-foreign-key-constraint",
+        "changing-column-type",
+        "constraint-missing-not-valid",
+        "prefer-robust-stmts",
+        "prefer-text-field",
+        "prefer-timestamp-tz",
+        "require-concurrent-index-creation",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "changing-column-type"
+      ],
+      "strict_compat_flagged": true
+    },
+    "prisma_018": {
+      "rules": [
+        "ban-drop-column",
+        "prefer-bigint-over-int",
+        "prefer-robust-stmts",
+        "prefer-timestamp-tz",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-column"
+      ],
+      "strict_compat_flagged": true
+    },
+    "prisma_019": {
+      "rules": [
+        "ban-drop-column",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-column"
+      ],
+      "strict_compat_flagged": true
+    },
+    "prisma_020": {
+      "rules": [
+        "ban-drop-column",
+        "prefer-robust-stmts",
+        "require-concurrent-index-creation",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-column"
+      ],
+      "strict_compat_flagged": true
+    },
+    "prisma_021": {
+      "rules": [
+        "ban-drop-column",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-column"
+      ],
+      "strict_compat_flagged": true
+    },
+    "prisma_022": {
+      "rules": [
+        "ban-drop-column",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-column"
+      ],
+      "strict_compat_flagged": true
+    },
+    "prisma_023": {
+      "rules": [
+        "ban-drop-table",
+        "ban-drop-type",
+        "changing-column-type",
+        "prefer-bigint-over-int",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-table",
+        "ban-drop-type",
+        "changing-column-type"
+      ],
+      "strict_compat_flagged": true
+    },
+    "prisma_024": {
+      "rules": [
+        "adding-foreign-key-constraint",
+        "changing-column-type",
+        "constraint-missing-not-valid",
+        "prefer-robust-stmts",
+        "prefer-text-field",
+        "prefer-timestamp-tz",
+        "require-concurrent-index-creation",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "changing-column-type"
+      ],
+      "strict_compat_flagged": true
+    },
+    "prisma_025": {
+      "rules": [
+        "ban-drop-column",
+        "prefer-bigint-over-int",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-column"
+      ],
+      "strict_compat_flagged": true
+    },
+    "prisma_026": {
+      "rules": [
+        "adding-required-field",
+        "ban-drop-column",
+        "ban-drop-constraint",
+        "ban-drop-table",
+        "prefer-robust-stmts",
+        "prefer-text-field",
+        "require-concurrent-index-creation",
+        "require-concurrent-index-deletion",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "adding-required-field",
+        "ban-drop-column",
+        "ban-drop-table"
+      ],
+      "strict_compat_flagged": true
+    },
+    "prisma_027": {
+      "rules": [
+        "adding-required-field",
+        "ban-drop-column",
+        "ban-drop-constraint",
+        "ban-drop-table",
+        "prefer-robust-stmts",
+        "prefer-text-field",
+        "require-concurrent-index-creation",
+        "require-concurrent-index-deletion",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "adding-required-field",
+        "ban-drop-column",
+        "ban-drop-table"
+      ],
+      "strict_compat_flagged": true
+    },
+    "prisma_028": {
+      "rules": [
+        "adding-foreign-key-constraint",
+        "ban-drop-column",
+        "ban-drop-type",
+        "constraint-missing-not-valid",
+        "prefer-bigint-over-int",
+        "require-concurrent-index-creation",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-column",
+        "ban-drop-type"
+      ],
+      "strict_compat_flagged": true
+    },
+    "prisma_029": {
+      "rules": [
+        "ban-drop-type",
+        "changing-column-type",
+        "renaming-object",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-type",
+        "changing-column-type"
+      ],
+      "strict_compat_flagged": true
+    },
+    "prisma_030": {
+      "rules": [
+        "adding-foreign-key-constraint",
+        "adding-required-field",
+        "ban-drop-column",
+        "ban-drop-constraint",
+        "constraint-missing-not-valid",
+        "prefer-bigint-over-int",
+        "prefer-robust-stmts",
+        "prefer-timestamp-tz",
+        "require-concurrent-index-creation",
+        "require-concurrent-index-deletion",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "adding-required-field",
+        "ban-drop-column"
+      ],
+      "strict_compat_flagged": true
+    },
+    "prisma_031": {
+      "rules": [
+        "adding-required-field",
+        "prefer-bigint-over-int",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "adding-required-field"
+      ],
+      "strict_compat_flagged": true
+    },
+    "prisma_032": {
+      "rules": [
+        "constraint-missing-not-valid",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [],
+      "strict_compat_flagged": false
+    },
+    "prisma_033": {
+      "rules": [
+        "ban-drop-table",
+        "changing-column-type",
+        "prefer-robust-stmts",
+        "prefer-timestamp-tz",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-table",
+        "changing-column-type"
+      ],
+      "strict_compat_flagged": true
+    },
+    "prisma_034": {
+      "rules": [
+        "adding-foreign-key-constraint",
+        "adding-not-nullable-field",
+        "ban-drop-column",
+        "ban-drop-constraint",
+        "constraint-missing-not-valid",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "adding-not-nullable-field",
+        "ban-drop-column"
+      ],
+      "strict_compat_flagged": true
+    },
+    "prisma_035": {
+      "rules": [
+        "ban-drop-table",
+        "prefer-robust-stmts",
+        "require-concurrent-index-creation",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-table"
+      ],
+      "strict_compat_flagged": true
+    },
+    "prisma_036": {
+      "rules": [
+        "prefer-robust-stmts",
+        "renaming-column",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "renaming-column"
+      ],
+      "strict_compat_flagged": true
+    },
+    "prisma_037": {
+      "rules": [
+        "syntax-error"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [],
+      "strict_compat_flagged": false
+    },
+    "prisma_038": {
+      "rules": [
+        "ban-drop-default",
+        "ban-drop-type",
+        "changing-column-type",
+        "renaming-object",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-type",
+        "changing-column-type"
+      ],
+      "strict_compat_flagged": true
+    },
+    "prisma_039": {
+      "rules": [
+        "adding-not-nullable-field",
+        "prefer-robust-stmts",
+        "require-concurrent-index-creation",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "adding-not-nullable-field"
+      ],
+      "strict_compat_flagged": true
+    },
+    "prisma_040": {
+      "rules": [
+        "adding-required-field",
+        "prefer-robust-stmts",
+        "prefer-timestamp-tz",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "adding-required-field"
+      ],
+      "strict_compat_flagged": true
+    },
+    "prisma_041": {
+      "rules": [
+        "adding-foreign-key-constraint",
+        "constraint-missing-not-valid",
+        "prefer-robust-stmts",
+        "require-concurrent-index-creation",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [],
+      "strict_compat_flagged": false
+    },
+    "prisma_042": {
+      "rules": [
+        "changing-column-type",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "changing-column-type"
+      ],
+      "strict_compat_flagged": true
+    },
+    "prisma_043": {
+      "rules": [
+        "syntax-error"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [],
+      "strict_compat_flagged": false
+    },
+    "prisma_044": {
+      "rules": [
+        "ban-drop-table",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-table"
+      ],
+      "strict_compat_flagged": true
+    },
+    "prisma_045": {
+      "rules": [
+        "prefer-robust-stmts",
+        "renaming-column",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "renaming-column"
+      ],
+      "strict_compat_flagged": true
+    },
+    "prisma_046": {
+      "rules": [
+        "adding-not-nullable-field",
+        "prefer-robust-stmts",
+        "renaming-column",
+        "renaming-object",
+        "renaming-table",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "adding-not-nullable-field",
+        "renaming-column",
+        "renaming-table"
+      ],
+      "strict_compat_flagged": true
+    },
+    "prisma_047": {
+      "rules": [
+        "ban-drop-column",
+        "ban-drop-default",
+        "ban-drop-type",
+        "changing-column-type",
+        "prefer-robust-stmts",
+        "renaming-object",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-column",
+        "ban-drop-type",
+        "changing-column-type"
+      ],
+      "strict_compat_flagged": true
+    },
+    "prisma_048": {
+      "rules": [
+        "adding-foreign-key-constraint",
+        "adding-not-nullable-field",
+        "ban-drop-constraint",
+        "ban-drop-not-null",
+        "constraint-missing-not-valid",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "adding-not-nullable-field",
+        "ban-drop-not-null"
+      ],
+      "strict_compat_flagged": true
+    },
+    "prisma_049": {
+      "rules": [
+        "adding-foreign-key-constraint",
+        "adding-required-field",
+        "constraint-missing-not-valid",
+        "prefer-robust-stmts",
+        "require-concurrent-index-creation",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "adding-required-field"
+      ],
+      "strict_compat_flagged": true
+    },
+    "prisma_050": {
+      "rules": [
+        "adding-foreign-key-constraint",
+        "adding-not-nullable-field",
+        "constraint-missing-not-valid",
+        "require-concurrent-index-creation",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "adding-not-nullable-field"
+      ],
+      "strict_compat_flagged": true
+    },
+    "prisma_051": {
+      "rules": [
+        "adding-foreign-key-constraint",
+        "adding-serial-primary-key-field",
+        "ban-drop-column",
+        "ban-drop-constraint",
+        "changing-column-type",
+        "constraint-missing-not-valid",
+        "prefer-robust-stmts",
+        "require-concurrent-index-deletion",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-column",
+        "changing-column-type"
+      ],
+      "strict_compat_flagged": true
+    },
+    "prisma_052": {
+      "rules": [
+        "ban-drop-column",
+        "ban-drop-constraint",
+        "ban-drop-table",
+        "prefer-robust-stmts",
+        "require-concurrent-index-deletion",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-column",
+        "ban-drop-table"
+      ],
+      "strict_compat_flagged": true
+    },
+    "prisma_053": {
+      "rules": [
+        "adding-not-nullable-field",
+        "adding-serial-primary-key-field",
+        "ban-drop-constraint",
+        "ban-drop-table",
+        "disallowed-unique-constraint",
+        "prefer-bigint-over-int",
+        "prefer-robust-stmts",
+        "renaming-column",
+        "renaming-object",
+        "renaming-table",
+        "require-concurrent-index-creation",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "adding-not-nullable-field",
+        "ban-drop-table",
+        "renaming-column",
+        "renaming-table"
+      ],
+      "strict_compat_flagged": true
+    },
+    "prisma_054": {
+      "rules": [
+        "prefer-robust-stmts",
+        "renaming-column",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "renaming-column"
+      ],
+      "strict_compat_flagged": true
+    },
+    "prisma_055": {
+      "rules": [
+        "adding-foreign-key-constraint",
+        "ban-drop-constraint",
+        "constraint-missing-not-valid",
+        "prefer-robust-stmts",
+        "renaming-column",
+        "renaming-object",
+        "renaming-table",
+        "require-concurrent-index-creation",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "renaming-column",
+        "renaming-table"
+      ],
+      "strict_compat_flagged": true
+    },
+    "prisma_056": {
+      "rules": [
+        "ban-drop-column",
+        "ban-drop-default",
+        "ban-drop-type",
+        "changing-column-type",
+        "prefer-robust-stmts",
+        "renaming-object",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-column",
+        "ban-drop-type",
+        "changing-column-type"
+      ],
+      "strict_compat_flagged": true
+    },
+    "prisma_057": {
+      "rules": [
+        "adding-foreign-key-constraint",
+        "adding-not-nullable-field",
+        "ban-drop-column",
+        "constraint-missing-not-valid",
+        "require-concurrent-index-creation",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "adding-not-nullable-field",
+        "ban-drop-column"
+      ],
+      "strict_compat_flagged": true
+    },
+    "prisma_058": {
+      "rules": [
+        "adding-required-field",
+        "prefer-robust-stmts",
+        "prefer-text-field",
+        "require-concurrent-index-creation",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "adding-required-field"
+      ],
+      "strict_compat_flagged": true
+    },
+    "prisma_059": {
+      "rules": [
+        "constraint-missing-not-valid",
+        "prefer-bigint-over-int",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [],
+      "strict_compat_flagged": false
+    },
+    "prisma_060": {
+      "rules": [
+        "changing-column-type",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "changing-column-type"
+      ],
+      "strict_compat_flagged": true
+    },
+    "rails_061": {
+      "rules": [
+        "adding-required-field",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "adding-required-field"
+      ],
+      "strict_compat_flagged": true
+    },
+    "rails_062": {
+      "rules": [
+        "changing-column-type",
+        "prefer-bigint-over-int",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "changing-column-type"
+      ],
+      "strict_compat_flagged": true
+    },
+    "rails_063": {
+      "rules": [
+        "ban-drop-column",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-column"
+      ],
+      "strict_compat_flagged": true
+    },
+    "rails_064": {
+      "rules": [
+        "ban-drop-table",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-table"
+      ],
+      "strict_compat_flagged": true
+    },
+    "rails_065": {
+      "rules": [
+        "prefer-robust-stmts",
+        "renaming-column",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "renaming-column"
+      ],
+      "strict_compat_flagged": true
+    },
+    "rails_066": {
+      "rules": [
+        "prefer-robust-stmts",
+        "renaming-table",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "renaming-table"
+      ],
+      "strict_compat_flagged": true
+    },
+    "rails_067": {
+      "rules": [
+        "adding-not-nullable-field",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "adding-not-nullable-field"
+      ],
+      "strict_compat_flagged": true
+    },
+    "rails_068": {
+      "rules": [
+        "changing-column-type",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "changing-column-type"
+      ],
+      "strict_compat_flagged": true
+    },
+    "rails_069": {
+      "rules": [
+        "ban-drop-column",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-column"
+      ],
+      "strict_compat_flagged": true
+    },
+    "rails_070": {
+      "rules": [
+        "ban-drop-table",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-table"
+      ],
+      "strict_compat_flagged": true
+    },
+    "rails_071": {
+      "rules": [
+        "prefer-robust-stmts",
+        "renaming-column",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "renaming-column"
+      ],
+      "strict_compat_flagged": true
+    },
+    "rails_072": {
+      "rules": [
+        "prefer-robust-stmts",
+        "renaming-table",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "renaming-table"
+      ],
+      "strict_compat_flagged": true
+    },
+    "rails_073": {
+      "rules": [
+        "adding-not-nullable-field",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "adding-not-nullable-field"
+      ],
+      "strict_compat_flagged": true
+    },
+    "rails_074": {
+      "rules": [
+        "changing-column-type",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "changing-column-type"
+      ],
+      "strict_compat_flagged": true
+    },
+    "rails_075": {
+      "rules": [
+        "ban-drop-column",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-column"
+      ],
+      "strict_compat_flagged": true
+    },
+    "rails_076": {
+      "rules": [
+        "ban-drop-table",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-table"
+      ],
+      "strict_compat_flagged": true
+    },
+    "rails_077": {
+      "rules": [
+        "prefer-robust-stmts",
+        "renaming-column",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "renaming-column"
+      ],
+      "strict_compat_flagged": true
+    },
+    "rails_078": {
+      "rules": [
+        "prefer-robust-stmts",
+        "renaming-table",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "renaming-table"
+      ],
+      "strict_compat_flagged": true
+    },
+    "rails_079": {
+      "rules": [
+        "adding-not-nullable-field",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "adding-not-nullable-field"
+      ],
+      "strict_compat_flagged": true
+    },
+    "rails_080": {
+      "rules": [
+        "changing-column-type",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "changing-column-type"
+      ],
+      "strict_compat_flagged": true
+    },
+    "rails_081": {
+      "rules": [
+        "ban-drop-column",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-column"
+      ],
+      "strict_compat_flagged": true
+    },
+    "rails_082": {
+      "rules": [
+        "ban-drop-table",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-table"
+      ],
+      "strict_compat_flagged": true
+    },
+    "rails_083": {
+      "rules": [
+        "prefer-robust-stmts",
+        "renaming-column",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "renaming-column"
+      ],
+      "strict_compat_flagged": true
+    },
+    "rails_084": {
+      "rules": [
+        "prefer-robust-stmts",
+        "renaming-table",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "renaming-table"
+      ],
+      "strict_compat_flagged": true
+    },
+    "rails_085": {
+      "rules": [
+        "adding-not-nullable-field",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "adding-not-nullable-field"
+      ],
+      "strict_compat_flagged": true
+    },
+    "rails_086": {
+      "rules": [
+        "changing-column-type",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "changing-column-type"
+      ],
+      "strict_compat_flagged": true
+    },
+    "rails_087": {
+      "rules": [
+        "ban-drop-column",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-column"
+      ],
+      "strict_compat_flagged": true
+    },
+    "rails_088": {
+      "rules": [
+        "ban-drop-table",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-table"
+      ],
+      "strict_compat_flagged": true
+    },
+    "rails_089": {
+      "rules": [
+        "prefer-robust-stmts",
+        "renaming-column",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "renaming-column"
+      ],
+      "strict_compat_flagged": true
+    },
+    "rails_090": {
+      "rules": [
+        "adding-not-nullable-field",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "adding-not-nullable-field"
+      ],
+      "strict_compat_flagged": true
+    },
+    "rails_091": {
+      "rules": [
+        "adding-required-field",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "adding-required-field"
+      ],
+      "strict_compat_flagged": true
+    },
+    "rails_092": {
+      "rules": [
+        "constraint-missing-not-valid",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [],
+      "strict_compat_flagged": false
+    },
+    "rails_093": {
+      "rules": [
+        "changing-column-type",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "changing-column-type"
+      ],
+      "strict_compat_flagged": true
+    },
+    "rails_094": {
+      "rules": [
+        "ban-drop-column",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-column"
+      ],
+      "strict_compat_flagged": true
+    },
+    "rails_095": {
+      "rules": [
+        "ban-drop-table",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-table"
+      ],
+      "strict_compat_flagged": true
+    },
+    "rails_096": {
+      "rules": [
+        "prefer-robust-stmts",
+        "renaming-column",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "renaming-column"
+      ],
+      "strict_compat_flagged": true
+    },
+    "rails_097": {
+      "rules": [
+        "prefer-robust-stmts",
+        "renaming-table",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "renaming-table"
+      ],
+      "strict_compat_flagged": true
+    },
+    "rails_098": {
+      "rules": [
+        "adding-not-nullable-field",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "adding-not-nullable-field"
+      ],
+      "strict_compat_flagged": true
+    },
+    "rails_099": {
+      "rules": [
+        "adding-required-field",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "adding-required-field"
+      ],
+      "strict_compat_flagged": true
+    },
+    "rails_100": {
+      "rules": [
+        "constraint-missing-not-valid",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [],
+      "strict_compat_flagged": false
+    },
+    "rails_101": {
+      "rules": [
+        "changing-column-type",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "changing-column-type"
+      ],
+      "strict_compat_flagged": true
+    },
+    "rails_102": {
+      "rules": [
+        "ban-drop-column",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-column"
+      ],
+      "strict_compat_flagged": true
+    },
+    "rails_103": {
+      "rules": [
+        "ban-drop-table",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-table"
+      ],
+      "strict_compat_flagged": true
+    },
+    "rails_104": {
+      "rules": [
+        "prefer-robust-stmts",
+        "renaming-column",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "renaming-column"
+      ],
+      "strict_compat_flagged": true
+    },
+    "rails_105": {
+      "rules": [
+        "prefer-robust-stmts",
+        "renaming-table",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "renaming-table"
+      ],
+      "strict_compat_flagged": true
+    },
+    "rails_106": {
+      "rules": [
+        "adding-not-nullable-field",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "adding-not-nullable-field"
+      ],
+      "strict_compat_flagged": true
+    },
+    "rails_107": {
+      "rules": [
+        "adding-required-field",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "adding-required-field"
+      ],
+      "strict_compat_flagged": true
+    },
+    "rails_108": {
+      "rules": [
+        "constraint-missing-not-valid",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [],
+      "strict_compat_flagged": false
+    },
+    "rails_109": {
+      "rules": [
+        "changing-column-type",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "changing-column-type"
+      ],
+      "strict_compat_flagged": true
+    },
+    "rails_110": {
+      "rules": [
+        "ban-drop-column",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-column"
+      ],
+      "strict_compat_flagged": true
+    },
+    "rails_111": {
+      "rules": [
+        "ban-drop-table",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-table"
+      ],
+      "strict_compat_flagged": true
+    },
+    "rails_112": {
+      "rules": [
+        "prefer-robust-stmts",
+        "renaming-column",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "renaming-column"
+      ],
+      "strict_compat_flagged": true
+    },
+    "rails_113": {
+      "rules": [
+        "prefer-robust-stmts",
+        "renaming-table",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "renaming-table"
+      ],
+      "strict_compat_flagged": true
+    },
+    "rails_114": {
+      "rules": [
+        "adding-not-nullable-field",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "adding-not-nullable-field"
+      ],
+      "strict_compat_flagged": true
+    },
+    "rails_115": {
+      "rules": [
+        "adding-required-field",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "adding-required-field"
+      ],
+      "strict_compat_flagged": true
+    },
+    "rails_116": {
+      "rules": [
+        "constraint-missing-not-valid",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [],
+      "strict_compat_flagged": false
+    },
+    "rails_117": {
+      "rules": [
+        "changing-column-type",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "changing-column-type"
+      ],
+      "strict_compat_flagged": true
+    },
+    "rails_118": {
+      "rules": [
+        "ban-drop-column",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-column"
+      ],
+      "strict_compat_flagged": true
+    },
+    "rails_119": {
+      "rules": [
+        "ban-drop-table",
+        "prefer-robust-stmts",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "ban-drop-table"
+      ],
+      "strict_compat_flagged": true
+    },
+    "rails_120": {
+      "rules": [
+        "prefer-robust-stmts",
+        "renaming-column",
+        "require-lock-timeout",
+        "require-statement-timeout"
+      ],
+      "default_flagged": true,
+      "strict_compat_rules": [
+        "renaming-column"
+      ],
+      "strict_compat_flagged": true
+    }
+  },
+  "strong_migrations": {
+    "rails_061": {
+      "id": "rails_061",
+      "executed_ok": true,
+      "flagged": true,
+      "error_kind": "UnsafeMigration",
+      "message": "=== Dangerous operation detected #strong_migrations === | Adding an index non-concurrently blocks writes. Instead, use: | class #<Module:0x0000022161d27b28>::AddUsernameToUsers < ActiveRecord::Migration[8.1]",
+      "elapsed_ms": 180.55
+    },
+    "rails_062": {
+      "id": "rails_062",
+      "executed_ok": true,
+      "flagged": true,
+      "error_kind": "UnsafeMigration",
+      "message": "=== Dangerous operation detected #strong_migrations === | Changing the type of an existing column blocks reads and writes | while the entire table is rewritten. A safer approach is to:",
+      "elapsed_ms": 2.63
+    },
+    "rails_063": {
+      "id": "rails_063",
+      "executed_ok": false,
+      "flagged": false,
+      "error_kind": "NameError",
+      "message": "uninitialized constant #<Module:0x0000022162689428>::LinkShareVisibilitiesWithUser::ShareVisibility",
+      "elapsed_ms": 0.8
+    },
+    "rails_064": {
+      "id": "rails_064",
+      "executed_ok": true,
+      "flagged": false,
+      "error_kind": null,
+      "message": null,
+      "elapsed_ms": 1.07
+    },
+    "rails_065": {
+      "id": "rails_065",
+      "executed_ok": true,
+      "flagged": true,
+      "error_kind": "UnsafeMigration",
+      "message": "=== Dangerous operation detected #strong_migrations === | Renaming a column that's in use will cause errors | in your application. A safer approach is to:",
+      "elapsed_ms": 0.52
+    },
+    "rails_066": {
+      "id": "rails_066",
+      "executed_ok": true,
+      "flagged": true,
+      "error_kind": "UnsafeMigration",
+      "message": "=== Dangerous operation detected #strong_migrations === | Renaming a table that's in use will cause errors | in your application. A safer approach is to:",
+      "elapsed_ms": 0.65
+    },
+    "rails_067": {
+      "id": "rails_067",
+      "executed_ok": true,
+      "flagged": true,
+      "error_kind": "UnsafeMigration",
+      "message": "=== Dangerous operation detected #strong_migrations === | Setting NOT NULL on an existing column blocks reads and writes while every row is checked. | Instead, add a check constraint and validate it in a separate migration.",
+      "elapsed_ms": 0.75
+    },
+    "rails_068": {
+      "id": "rails_068",
+      "executed_ok": true,
+      "flagged": true,
+      "error_kind": "UnsafeMigration",
+      "message": "=== Dangerous operation detected #strong_migrations === | Changing the type of an existing column blocks reads and writes | while the entire table is rewritten. A safer approach is to:",
+      "elapsed_ms": 0.59
+    },
+    "rails_069": {
+      "id": "rails_069",
+      "executed_ok": true,
+      "flagged": true,
+      "error_kind": "UnsafeMigration",
+      "message": "=== Dangerous operation detected #strong_migrations === | Active Record caches attributes, which causes problems | when removing columns. Be sure to ignore the column:",
+      "elapsed_ms": 0.99
+    },
+    "rails_070": {
+      "id": "rails_070",
+      "executed_ok": true,
+      "flagged": false,
+      "error_kind": null,
+      "message": null,
+      "elapsed_ms": 0.43
+    },
+    "rails_071": {
+      "id": "rails_071",
+      "executed_ok": true,
+      "flagged": true,
+      "error_kind": "UnsafeMigration",
+      "message": "=== Dangerous operation detected #strong_migrations === | Renaming a column that's in use will cause errors | in your application. A safer approach is to:",
+      "elapsed_ms": 0.47
+    },
+    "rails_072": {
+      "id": "rails_072",
+      "executed_ok": true,
+      "flagged": true,
+      "error_kind": "UnsafeMigration",
+      "message": "=== Dangerous operation detected #strong_migrations === | Renaming a table that's in use will cause errors | in your application. A safer approach is to:",
+      "elapsed_ms": 0.64
+    },
+    "rails_073": {
+      "id": "rails_073",
+      "executed_ok": true,
+      "flagged": true,
+      "error_kind": "UnsafeMigration",
+      "message": "=== Dangerous operation detected #strong_migrations === | Setting NOT NULL on an existing column blocks reads and writes while every row is checked. | Instead, add a check constraint and validate it in a separate migration.",
+      "elapsed_ms": 0.7
+    },
+    "rails_074": {
+      "id": "rails_074",
+      "executed_ok": false,
+      "flagged": false,
+      "error_kind": "NameError",
+      "message": "uninitialized constant #<Module:0x00000221626e3cc0>::ChecklistTablesWrongColumnType::Setting",
+      "elapsed_ms": 0.47
+    },
+    "rails_075": {
+      "id": "rails_075",
+      "executed_ok": true,
+      "flagged": true,
+      "error_kind": "UnsafeMigration",
+      "message": "=== Dangerous operation detected #strong_migrations === | Active Record caches attributes, which causes problems | when removing columns. Be sure to ignore the column:",
+      "elapsed_ms": 0.5
+    },
+    "rails_076": {
+      "id": "rails_076",
+      "executed_ok": true,
+      "flagged": false,
+      "error_kind": null,
+      "message": null,
+      "elapsed_ms": 0.41
+    },
+    "rails_077": {
+      "id": "rails_077",
+      "executed_ok": true,
+      "flagged": true,
+      "error_kind": "UnsafeMigration",
+      "message": "=== Dangerous operation detected #strong_migrations === | Renaming a column that's in use will cause errors | in your application. A safer approach is to:",
+      "elapsed_ms": 0.46
+    },
+    "rails_078": {
+      "id": "rails_078",
+      "executed_ok": true,
+      "flagged": true,
+      "error_kind": "UnsafeMigration",
+      "message": "=== Dangerous operation detected #strong_migrations === | Renaming a column that's in use will cause errors | in your application. A safer approach is to:",
+      "elapsed_ms": 0.35
+    },
+    "rails_079": {
+      "id": "rails_079",
+      "executed_ok": false,
+      "flagged": false,
+      "error_kind": "NameError",
+      "message": "uninitialized constant Host",
+      "elapsed_ms": 0.18
+    },
+    "rails_080": {
+      "id": "rails_080",
+      "executed_ok": true,
+      "flagged": true,
+      "error_kind": "UnsafeMigration",
+      "message": "=== Dangerous operation detected #strong_migrations === | Changing the type of an existing column blocks reads and writes | while the entire table is rewritten. A safer approach is to:",
+      "elapsed_ms": 0.5
+    },
+    "rails_081": {
+      "id": "rails_081",
+      "executed_ok": true,
+      "flagged": true,
+      "error_kind": "UnsafeMigration",
+      "message": "=== Dangerous operation detected #strong_migrations === | Active Record caches attributes, which causes problems | when removing columns. Be sure to ignore the column:",
+      "elapsed_ms": 0.61
+    },
+    "rails_082": {
+      "id": "rails_082",
+      "executed_ok": true,
+      "flagged": false,
+      "error_kind": null,
+      "message": null,
+      "elapsed_ms": 0.44
+    },
+    "rails_083": {
+      "id": "rails_083",
+      "executed_ok": true,
+      "flagged": true,
+      "error_kind": "UnsafeMigration",
+      "message": "=== Dangerous operation detected #strong_migrations === | Renaming a column that's in use will cause errors | in your application. A safer approach is to:",
+      "elapsed_ms": 0.36
+    },
+    "rails_084": {
+      "id": "rails_084",
+      "executed_ok": true,
+      "flagged": true,
+      "error_kind": "UnsafeMigration",
+      "message": "=== Dangerous operation detected #strong_migrations === | Renaming a table that's in use will cause errors | in your application. A safer approach is to:",
+      "elapsed_ms": 0.55
+    },
+    "rails_085": {
+      "id": "rails_085",
+      "executed_ok": true,
+      "flagged": true,
+      "error_kind": "UnsafeMigration",
+      "message": "=== Dangerous operation detected #strong_migrations === | Setting NOT NULL on an existing column blocks reads and writes while every row is checked. | Instead, add a check constraint and validate it in a separate migration.",
+      "elapsed_ms": 0.55
+    },
+    "rails_086": {
+      "id": "rails_086",
+      "executed_ok": true,
+      "flagged": false,
+      "error_kind": null,
+      "message": null,
+      "elapsed_ms": 0.61
+    },
+    "rails_087": {
+      "id": "rails_087",
+      "executed_ok": true,
+      "flagged": false,
+      "error_kind": null,
+      "message": null,
+      "elapsed_ms": 0.61
+    },
+    "rails_088": {
+      "id": "rails_088",
+      "executed_ok": true,
+      "flagged": false,
+      "error_kind": null,
+      "message": null,
+      "elapsed_ms": 2.94
+    },
+    "rails_089": {
+      "id": "rails_089",
+      "executed_ok": true,
+      "flagged": true,
+      "error_kind": "UnsafeMigration",
+      "message": "=== Dangerous operation detected #strong_migrations === | Renaming a column that's in use will cause errors | in your application. A safer approach is to:",
+      "elapsed_ms": 0.87
+    },
+    "rails_090": {
+      "id": "rails_090",
+      "executed_ok": true,
+      "flagged": true,
+      "error_kind": "UnsafeMigration",
+      "message": "=== Dangerous operation detected #strong_migrations === | Setting NOT NULL on an existing column blocks reads and writes while every row is checked. | Instead, add a check constraint and validate it in a separate migration.",
+      "elapsed_ms": 0.58
+    },
+    "rails_091": {
+      "id": "rails_091",
+      "executed_ok": true,
+      "flagged": false,
+      "error_kind": null,
+      "message": null,
+      "elapsed_ms": 0.6
+    },
+    "rails_092": {
+      "id": "rails_092",
+      "executed_ok": true,
+      "flagged": true,
+      "error_kind": "UnsafeMigration",
+      "message": "=== Dangerous operation detected #strong_migrations === | Adding an index non-concurrently blocks writes. Instead, use: | class #<Module:0x0000022162847d00>::AddStatusToProjectPhases < ActiveRecord::Migration[8.1]",
+      "elapsed_ms": 0.75
+    },
+    "rails_093": {
+      "id": "rails_093",
+      "executed_ok": false,
+      "flagged": false,
+      "error_kind": "NoMethodError",
+      "message": "undefined method 'map' for nil",
+      "elapsed_ms": 10.56
+    },
+    "rails_094": {
+      "id": "rails_094",
+      "executed_ok": true,
+      "flagged": true,
+      "error_kind": "UnsafeMigration",
+      "message": "=== Dangerous operation detected #strong_migrations === | Active Record caches attributes, which causes problems | when removing columns. Be sure to ignore the column:",
+      "elapsed_ms": 1.02
+    },
+    "rails_095": {
+      "id": "rails_095",
+      "executed_ok": true,
+      "flagged": true,
+      "error_kind": "UnsafeMigration",
+      "message": "=== Dangerous operation detected #strong_migrations === | The force option will destroy existing tables. | If this is intended, drop the existing table first.",
+      "elapsed_ms": 0.71
+    },
+    "rails_096": {
+      "id": "rails_096",
+      "executed_ok": false,
+      "flagged": false,
+      "error_kind": "NoMethodError",
+      "message": "private method 'select' called for nil",
+      "elapsed_ms": 1.07
+    },
+    "rails_097": {
+      "id": "rails_097",
+      "executed_ok": true,
+      "flagged": true,
+      "error_kind": "UnsafeMigration",
+      "message": "=== Dangerous operation detected #strong_migrations === | Renaming a table that's in use will cause errors | in your application. A safer approach is to:",
+      "elapsed_ms": 0.47
+    },
+    "rails_098": {
+      "id": "rails_098",
+      "executed_ok": true,
+      "flagged": true,
+      "error_kind": "UnsafeMigration",
+      "message": "=== Dangerous operation detected #strong_migrations === | Validating a check constraint while writes are blocked is dangerous. | Use disable_ddl_transaction! or a separate migration.",
+      "elapsed_ms": 0.51
+    },
+    "rails_099": {
+      "id": "rails_099",
+      "executed_ok": true,
+      "flagged": true,
+      "error_kind": "UnsafeMigration",
+      "message": "=== Dangerous operation detected #strong_migrations === | Adding an index non-concurrently blocks writes. Instead, use: | class #<Module:0x00000221627f1f40>::AddNumberToCards < ActiveRecord::Migration[8.1]",
+      "elapsed_ms": 0.73
+    },
+    "rails_100": {
+      "id": "rails_100",
+      "executed_ok": false,
+      "flagged": false,
+      "error_kind": "NoMethodError",
+      "message": "undefined method '[]' for nil",
+      "elapsed_ms": 2.52
+    },
+    "rails_101": {
+      "id": "rails_101",
+      "executed_ok": true,
+      "flagged": true,
+      "error_kind": "UnsafeMigration",
+      "message": "=== Dangerous operation detected #strong_migrations === | Changing the type of an existing column blocks reads and writes | while the entire table is rewritten. A safer approach is to:",
+      "elapsed_ms": 0.61
+    },
+    "rails_102": {
+      "id": "rails_102",
+      "executed_ok": true,
+      "flagged": true,
+      "error_kind": "UnsafeMigration",
+      "message": "=== Dangerous operation detected #strong_migrations === | Active Record caches attributes, which causes problems | when removing columns. Be sure to ignore the column:",
+      "elapsed_ms": 0.66
+    },
+    "rails_103": {
+      "id": "rails_103",
+      "executed_ok": true,
+      "flagged": false,
+      "error_kind": null,
+      "message": null,
+      "elapsed_ms": 0.48
+    },
+    "rails_104": {
+      "id": "rails_104",
+      "executed_ok": true,
+      "flagged": true,
+      "error_kind": "UnsafeMigration",
+      "message": "=== Dangerous operation detected #strong_migrations === | Renaming a table that's in use will cause errors | in your application. A safer approach is to:",
+      "elapsed_ms": 0.45
+    },
+    "rails_105": {
+      "id": "rails_105",
+      "executed_ok": true,
+      "flagged": true,
+      "error_kind": "UnsafeMigration",
+      "message": "=== Dangerous operation detected #strong_migrations === | Renaming a table that's in use will cause errors | in your application. A safer approach is to:",
+      "elapsed_ms": 1.48
+    },
+    "rails_106": {
+      "id": "rails_106",
+      "executed_ok": true,
+      "flagged": true,
+      "error_kind": "UnsafeMigration",
+      "message": "=== Dangerous operation detected #strong_migrations === | Active Record caches attributes, which causes problems | when removing columns. Be sure to ignore the column:",
+      "elapsed_ms": 1.36
+    },
+    "rails_107": {
+      "id": "rails_107",
+      "executed_ok": true,
+      "flagged": false,
+      "error_kind": null,
+      "message": null,
+      "elapsed_ms": 0.79
+    },
+    "rails_108": {
+      "id": "rails_108",
+      "executed_ok": true,
+      "flagged": true,
+      "error_kind": "UnsafeMigration",
+      "message": "=== Dangerous operation detected #strong_migrations === | Adding an index non-concurrently blocks writes. Instead, use: | class #<Module:0x00000221626e43a0>::AddRatingToProducts < ActiveRecord::Migration[8.1]",
+      "elapsed_ms": 0.56
+    },
+    "rails_109": {
+      "id": "rails_109",
+      "executed_ok": true,
+      "flagged": true,
+      "error_kind": "UnsafeMigration",
+      "message": "=== Dangerous operation detected #strong_migrations === | Changing the type of an existing column blocks reads and writes | while the entire table is rewritten. A safer approach is to:",
+      "elapsed_ms": 1.48
+    },
+    "rails_110": {
+      "id": "rails_110",
+      "executed_ok": true,
+      "flagged": true,
+      "error_kind": "UnsafeMigration",
+      "message": "=== Dangerous operation detected #strong_migrations === | Adding a foreign key blocks writes on both tables. Instead, | add the foreign key without validating existing rows,",
+      "elapsed_ms": 1.13
+    },
+    "rails_111": {
+      "id": "rails_111",
+      "executed_ok": true,
+      "flagged": false,
+      "error_kind": null,
+      "message": null,
+      "elapsed_ms": 0.59
+    },
+    "rails_112": {
+      "id": "rails_112",
+      "executed_ok": true,
+      "flagged": true,
+      "error_kind": "UnsafeMigration",
+      "message": "=== Dangerous operation detected #strong_migrations === | Renaming a column that's in use will cause errors | in your application. A safer approach is to:",
+      "elapsed_ms": 0.32
+    },
+    "rails_113": {
+      "id": "rails_113",
+      "executed_ok": true,
+      "flagged": true,
+      "error_kind": "UnsafeMigration",
+      "message": "=== Dangerous operation detected #strong_migrations === | Renaming a table that's in use will cause errors | in your application. A safer approach is to:",
+      "elapsed_ms": 0.3
+    },
+    "rails_114": {
+      "id": "rails_114",
+      "executed_ok": false,
+      "flagged": false,
+      "error_kind": "NameError",
+      "message": "uninitialized constant #<Module:0x0000022162683208>::AddUuidToUsers::ApplicationRecord",
+      "elapsed_ms": 0.32
+    },
+    "rails_115": {
+      "id": "rails_115",
+      "executed_ok": true,
+      "flagged": false,
+      "error_kind": null,
+      "message": null,
+      "elapsed_ms": 0.43
+    },
+    "rails_116": {
+      "id": "rails_116",
+      "executed_ok": true,
+      "flagged": true,
+      "error_kind": "UnsafeMigration",
+      "message": "=== Possibly dangerous operation #strong_migrations === | Strong Migrations does not support inspecting what happens inside a | change_table block, so cannot help you here. Please make really sure that what",
+      "elapsed_ms": 0.83
+    },
+    "rails_117": {
+      "id": "rails_117",
+      "executed_ok": true,
+      "flagged": true,
+      "error_kind": "UnsafeMigration",
+      "message": "=== Dangerous operation detected #strong_migrations === | Partial writes are enabled, which can cause incorrect values | to be inserted when changing the default value of a column.",
+      "elapsed_ms": 2926.89
+    },
+    "rails_118": {
+      "id": "rails_118",
+      "executed_ok": true,
+      "flagged": true,
+      "error_kind": "UnsafeMigration",
+      "message": "=== Dangerous operation detected #strong_migrations === | Active Record caches attributes, which causes problems | when removing columns. Be sure to ignore the column:",
+      "elapsed_ms": 0.86
+    },
+    "rails_119": {
+      "id": "rails_119",
+      "executed_ok": true,
+      "flagged": false,
+      "error_kind": null,
+      "message": null,
+      "elapsed_ms": 1.49
+    },
+    "rails_120": {
+      "id": "rails_120",
+      "executed_ok": false,
+      "flagged": false,
+      "error_kind": "NameError",
+      "message": "uninitialized constant #<Module:0x00000221637f4f78>::MigrateTaxonomiesIgnoreTypesToJsonb::ApplicationRecord",
+      "elapsed_ms": 0.53
+    }
+  },
+  "django_migration_linter": {
+    "django_121": {
+      "sql_analysed": [
+        "ALTER TABLE \"cookbook_space\" ADD COLUMN \"use_plural\" varchar(255) DEFAULT '' NOT NULL;",
+        "ALTER TABLE \"cookbook_space\" ALTER COLUMN \"use_plural\" DROP DEFAULT;"
+      ],
+      "error_codes": [
+        "NOT_NULL"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 11.27
+    },
+    "django_122": {
+      "sql_analysed": [
+        "ALTER TABLE \"manager_workoutlog\" ALTER COLUMN \"next_log\" TYPE integer USING \"next_log\"::integer;"
+      ],
+      "error_codes": [
+        "ALTER_COLUMN"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 3.72
+    },
+    "django_123": {
+      "sql_analysed": [
+        "ALTER TABLE \"app_game\" DROP COLUMN \"title\" CASCADE;"
+      ],
+      "error_codes": [
+        "DROP_COLUMN"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 21.51
+    },
+    "django_124": {
+      "sql_analysed": [
+        "DROP TABLE \"players_defaultguest\" CASCADE;"
+      ],
+      "error_codes": [
+        "DROP_TABLE"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 2.22
+    },
+    "django_125": {
+      "sql_analysed": [
+        "ALTER TABLE \"app01_student\" RENAME COLUMN \"\u90ae\u7bb1\u5730\u5740\" TO \"name\";"
+      ],
+      "error_codes": [
+        "RENAME_COLUMN"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 2.13
+    },
+    "django_126": {
+      "sql_analysed": [
+        "ALTER TABLE \"documents_sender\" RENAME TO \"documents_correspondent\";"
+      ],
+      "error_codes": [
+        "RENAME_TABLE"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 4.7
+    },
+    "django_127": {
+      "sql_analysed": [
+        "ALTER TABLE \"api_photo_caption\" ALTER COLUMN \"photo_id\" SET NOT NULL;"
+      ],
+      "error_codes": [
+        "NOT_NULL"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 66.07
+    },
+    "django_128": {
+      "sql_analysed": [
+        "ALTER TABLE \"wooey_wooeyjob\" ADD COLUMN \"uuid\" varchar(255) DEFAULT '' NOT NULL;",
+        "ALTER TABLE \"wooey_wooeyjob\" ALTER COLUMN \"uuid\" DROP DEFAULT;"
+      ],
+      "error_codes": [
+        "NOT_NULL"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 2.68
+    },
+    "django_129": {
+      "sql_analysed": [
+        "ALTER TABLE \"account_user\" DROP COLUMN \"login_failed_counter\" CASCADE;"
+      ],
+      "error_codes": [
+        "DROP_COLUMN"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 9.48
+    },
+    "django_130": {
+      "sql_analysed": [
+        "DROP TABLE \"engine_pluginoption\" CASCADE;"
+      ],
+      "error_codes": [
+        "DROP_TABLE"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 3.12
+    },
+    "django_131": {
+      "sql_analysed": [
+        "ALTER TABLE \"trans_announcement\" RENAME COLUMN \"category\" TO \"severity\";"
+      ],
+      "error_codes": [
+        "RENAME_COLUMN"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 29.13
+    },
+    "django_132": {
+      "sql_analysed": [
+        "ALTER TABLE \"documents_tag\" ALTER COLUMN \"matching_algorithm\" SET NOT NULL;"
+      ],
+      "error_codes": [
+        "NOT_NULL"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 2.95
+    },
+    "django_133": {
+      "sql_analysed": [
+        "ALTER TABLE \"accounts_role\" ADD COLUMN \"can_run_server_scripts\" varchar(255) DEFAULT '' NOT NULL;",
+        "ALTER TABLE \"accounts_role\" ALTER COLUMN \"can_run_server_scripts\" DROP DEFAULT;"
+      ],
+      "error_codes": [
+        "NOT_NULL"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 3.51
+    },
+    "django_134": {
+      "sql_analysed": [
+        "ALTER TABLE \"accounts_pushaccountautomation\" DROP COLUMN \"action\" CASCADE;"
+      ],
+      "error_codes": [
+        "DROP_COLUMN"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 51.67
+    },
+    "django_135": {
+      "sql_analysed": [
+        "DROP TABLE \"main_profile\" CASCADE;"
+      ],
+      "error_codes": [
+        "DROP_TABLE"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 14.52
+    },
+    "django_136": {
+      "sql_analysed": [
+        "ALTER TABLE \"gdpr_gdpruserconsent\" RENAME COLUMN \"consents\" TO \"documents\";"
+      ],
+      "error_codes": [
+        "RENAME_COLUMN"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 9.24
+    },
+    "django_137": {
+      "sql_analysed": [
+        "ALTER TABLE \"core_service\" ADD COLUMN \"anonymize_ips\" varchar(255) DEFAULT '' NOT NULL;",
+        "ALTER TABLE \"core_service\" ALTER COLUMN \"anonymize_ips\" DROP DEFAULT;"
+      ],
+      "error_codes": [
+        "NOT_NULL"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 9.53
+    },
+    "django_138": {
+      "sql_analysed": [
+        "ALTER TABLE \"accounts_member\" DROP COLUMN \"rw\" CASCADE;"
+      ],
+      "error_codes": [
+        "DROP_COLUMN"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 2.16
+    },
+    "django_139": {
+      "sql_analysed": [
+        "DROP TABLE \"scripts_checksessions\" CASCADE;"
+      ],
+      "error_codes": [
+        "DROP_TABLE"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 1.63
+    },
+    "django_140": {
+      "sql_analysed": [
+        "ALTER TABLE \"wooey_scriptparameter\" RENAME COLUMN \"script_versions\" TO \"script_version\";"
+      ],
+      "error_codes": [
+        "RENAME_COLUMN"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 1.17
+    },
+    "django_141": {
+      "sql_analysed": [
+        "ALTER TABLE \"challenges_challenge\" ADD COLUMN \"ec2_storage\" varchar(255) DEFAULT '' NOT NULL;",
+        "ALTER TABLE \"challenges_challenge\" ALTER COLUMN \"ec2_storage\" DROP DEFAULT;"
+      ],
+      "error_codes": [
+        "NOT_NULL"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 10.86
+    },
+    "django_142": {
+      "sql_analysed": [
+        "ALTER TABLE \"base_subevent\" DROP COLUMN \"variations\" CASCADE;"
+      ],
+      "error_codes": [
+        "DROP_COLUMN"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 7.51
+    },
+    "django_143": {
+      "sql_analysed": [
+        "DROP TABLE \"cookbook_shoppinglist\" CASCADE;"
+      ],
+      "error_codes": [
+        "DROP_TABLE"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 9.8
+    },
+    "django_144": {
+      "sql_analysed": [
+        "ALTER TABLE \"app_historicalepisode\" RENAME COLUMN \"watch_date\" TO \"end_date\";"
+      ],
+      "error_codes": [
+        "RENAME_COLUMN"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 40.91
+    },
+    "django_145": {
+      "sql_analysed": [
+        "ALTER TABLE \"admin_mailbox\" ADD COLUMN \"is_send_only\" varchar(255) DEFAULT '' NOT NULL;",
+        "ALTER TABLE \"admin_mailbox\" ALTER COLUMN \"is_send_only\" DROP DEFAULT;"
+      ],
+      "error_codes": [
+        "NOT_NULL"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 2.88
+    },
+    "django_146": {
+      "sql_analysed": [
+        "ALTER TABLE \"nutrition_ingredientweightunit\" DROP COLUMN \"unit\" CASCADE;"
+      ],
+      "error_codes": [
+        "DROP_COLUMN"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 3.25
+    },
+    "django_147": {
+      "sql_analysed": [
+        "DROP TABLE \"contest_contestsubmission\" CASCADE;"
+      ],
+      "error_codes": [
+        "DROP_TABLE"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 8.61
+    },
+    "django_148": {
+      "sql_analysed": [
+        "ALTER TABLE \"goods_goodscategorybrand\" RENAME COLUMN \"cagetory\" TO \"category\";"
+      ],
+      "error_codes": [
+        "RENAME_COLUMN"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 12.4
+    },
+    "django_149": {
+      "sql_analysed": [
+        "ALTER TABLE \"projects_addonsconfig\" ADD COLUMN \"linkpreviews_enabled\" varchar(255) DEFAULT '' NOT NULL;",
+        "ALTER TABLE \"projects_addonsconfig\" ALTER COLUMN \"linkpreviews_enabled\" DROP DEFAULT;"
+      ],
+      "error_codes": [
+        "NOT_NULL"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 10.41
+    },
+    "django_150": {
+      "sql_analysed": [
+        "ALTER TABLE \"engine_task\" DROP COLUMN \"z_order\" CASCADE;"
+      ],
+      "error_codes": [
+        "DROP_COLUMN"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 13.29
+    },
+    "django_151": {
+      "sql_analysed": [
+        "ALTER TABLE \"paperless_mail_mailrule\" ADD COLUMN \"assign_owner_from_rule\" varchar(255) DEFAULT '' NOT NULL;",
+        "ALTER TABLE \"paperless_mail_mailrule\" ALTER COLUMN \"assign_owner_from_rule\" DROP DEFAULT;"
+      ],
+      "error_codes": [
+        "NOT_NULL"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 9.54
+    },
+    "django_152": {
+      "sql_analysed": [
+        "ALTER TABLE \"auth_user\" ADD CONSTRAINT \"uniq_auth_user_email\" UNIQUE (\"email\");"
+      ],
+      "error_codes": [
+        "ADD_UNIQUE"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 10.13
+    },
+    "django_153": {
+      "sql_analysed": [
+        "ALTER TABLE \"database_buttonfield\" ALTER COLUMN \"url_formula\" TYPE integer USING \"url_formula\"::integer;"
+      ],
+      "error_codes": [
+        "ALTER_COLUMN"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 13.92
+    },
+    "django_154": {
+      "sql_analysed": [
+        "ALTER TABLE \"engine_labeledboxattributeval\" DROP COLUMN \"box\" CASCADE;"
+      ],
+      "error_codes": [
+        "DROP_COLUMN"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 19.93
+    },
+    "django_155": {
+      "sql_analysed": [
+        "DROP TABLE \"leads_company\" CASCADE;"
+      ],
+      "error_codes": [
+        "DROP_TABLE"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 2.69
+    },
+    "django_156": {
+      "sql_analysed": [
+        "ALTER TABLE \"core_modellogentry\" RENAME COLUMN \"data_json\" TO \"data\";"
+      ],
+      "error_codes": [
+        "RENAME_COLUMN"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 1.69
+    },
+    "django_157": {
+      "sql_analysed": [
+        "ALTER TABLE \"oauth2_provider_pushedauthorizationrequest\" RENAME TO \"oauth2_provider_storedauthorizationrequest\";"
+      ],
+      "error_codes": [
+        "RENAME_TABLE"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 13.13
+    },
+    "django_158": {
+      "sql_analysed": [
+        "ALTER TABLE \"api_check\" ALTER COLUMN \"success_kw\" SET NOT NULL;"
+      ],
+      "error_codes": [
+        "NOT_NULL"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 9.41
+    },
+    "django_159": {
+      "sql_analysed": [
+        "ALTER TABLE \"part_parttesttemplate\" ADD COLUMN \"key\" varchar(255) DEFAULT '' NOT NULL;",
+        "ALTER TABLE \"part_parttesttemplate\" ALTER COLUMN \"key\" DROP DEFAULT;"
+      ],
+      "error_codes": [
+        "NOT_NULL"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 12.41
+    },
+    "django_160": {
+      "sql_analysed": [
+        "ALTER TABLE \"brands_brand\" ALTER COLUMN \"branding_logo\" TYPE integer USING \"branding_logo\"::integer;"
+      ],
+      "error_codes": [
+        "ALTER_COLUMN"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 1.94
+    },
+    "django_161": {
+      "sql_analysed": [
+        "ALTER TABLE \"core_contactgroup\" DROP COLUMN \"show_pricing\" CASCADE;"
+      ],
+      "error_codes": [
+        "DROP_COLUMN"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 11.78
+    },
+    "django_162": {
+      "sql_analysed": [
+        "DROP TABLE \"scripts_store\" CASCADE;"
+      ],
+      "error_codes": [
+        "DROP_TABLE"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 7.46
+    },
+    "django_163": {
+      "sql_analysed": [
+        "ALTER TABLE \"contest_contestproblem\" RENAME COLUMN \"spj_code_language\" TO \"spj_language\";"
+      ],
+      "error_codes": [
+        "RENAME_COLUMN"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 1.33
+    },
+    "django_164": {
+      "sql_analysed": [
+        "ALTER TABLE \"cookbook_foodpropertytype\" RENAME TO \"cookbook_propertytype\";"
+      ],
+      "error_codes": [
+        "RENAME_TABLE"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 7.31
+    },
+    "django_165": {
+      "sql_analysed": [
+        "ALTER TABLE \"projects_domain\" ALTER COLUMN \"validation_process_start\" SET NOT NULL;"
+      ],
+      "error_codes": [
+        "NOT_NULL"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 1.36
+    },
+    "django_166": {
+      "sql_analysed": [
+        "ALTER TABLE \"oauth_oauthconfig\" ADD COLUMN \"creation_time\" varchar(255) DEFAULT '' NOT NULL;",
+        "ALTER TABLE \"oauth_oauthconfig\" ALTER COLUMN \"creation_time\" DROP DEFAULT;"
+      ],
+      "error_codes": [
+        "NOT_NULL"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 9.11
+    },
+    "django_167": {
+      "sql_analysed": [
+        "ALTER TABLE \"trade_marks_trademark\" ALTER COLUMN \"type\" TYPE integer USING \"type\"::integer;"
+      ],
+      "error_codes": [
+        "ALTER_COLUMN"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 2.06
+    },
+    "django_168": {
+      "sql_analysed": [
+        "ALTER TABLE \"threads_poll\" DROP COLUMN \"thread\" CASCADE;"
+      ],
+      "error_codes": [
+        "DROP_COLUMN"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 3.19
+    },
+    "django_169": {
+      "sql_analysed": [
+        "DROP TABLE \"nutrition_weightunit\" CASCADE;"
+      ],
+      "error_codes": [
+        "DROP_TABLE"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 6.84
+    },
+    "django_170": {
+      "sql_analysed": [
+        "ALTER TABLE \"clients_deployment\" RENAME COLUMN \"arch\" TO \"goarch\";"
+      ],
+      "error_codes": [
+        "RENAME_COLUMN"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 1.14
+    },
+    "django_171": {
+      "sql_analysed": [
+        "ALTER TABLE \"assets_domain\" RENAME TO \"assets_zone\";"
+      ],
+      "error_codes": [
+        "RENAME_TABLE"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 1.62
+    },
+    "django_172": {
+      "sql_analysed": [
+        "ALTER TABLE \"zerver_realmemoji\" ALTER COLUMN \"author\" SET NOT NULL;"
+      ],
+      "error_codes": [
+        "NOT_NULL"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 10.15
+    },
+    "django_173": {
+      "sql_analysed": [
+        "ALTER TABLE \"trans_component\" ADD COLUMN \"inherit_addon_message\" varchar(255) DEFAULT '' NOT NULL;",
+        "ALTER TABLE \"trans_component\" ALTER COLUMN \"inherit_addon_message\" DROP DEFAULT;"
+      ],
+      "error_codes": [
+        "NOT_NULL"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 37.44
+    },
+    "django_174": {
+      "sql_analysed": [
+        "ALTER TABLE \"admin_dnsblresult\" ALTER COLUMN \"mx\" TYPE integer USING \"mx\"::integer;"
+      ],
+      "error_codes": [
+        "ALTER_COLUMN"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 2.42
+    },
+    "django_175": {
+      "sql_analysed": [
+        "ALTER TABLE \"app_movie\" DROP COLUMN \"repeats\" CASCADE;"
+      ],
+      "error_codes": [
+        "DROP_COLUMN"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 15.71
+    },
+    "django_176": {
+      "sql_analysed": [
+        "DROP TABLE \"main_oauth2accesstoken\" CASCADE;"
+      ],
+      "error_codes": [
+        "DROP_TABLE"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 2.57
+    },
+    "django_177": {
+      "sql_analysed": [
+        "ALTER TABLE \"partner_stockrecord\" RENAME COLUMN \"price_excl_tax\" TO \"price\";"
+      ],
+      "error_codes": [
+        "RENAME_COLUMN"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 10.63
+    },
+    "django_178": {
+      "sql_analysed": [
+        "ALTER TABLE \"wagtail_pagerevision\" RENAME TO \"wagtail_revision\";"
+      ],
+      "error_codes": [
+        "RENAME_TABLE"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 2.36
+    },
+    "django_179": {
+      "sql_analysed": [
+        "ALTER TABLE \"api_user\" ALTER COLUMN \"nextcloud_username\" SET NOT NULL;"
+      ],
+      "error_codes": [
+        "NOT_NULL"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 9.77
+    },
+    "django_180": {
+      "sql_analysed": [
+        "ALTER TABLE \"base_giftcardacceptance\" ADD COLUMN \"reusable_media\" varchar(255) DEFAULT '' NOT NULL;",
+        "ALTER TABLE \"base_giftcardacceptance\" ALTER COLUMN \"reusable_media\" DROP DEFAULT;"
+      ],
+      "error_codes": [
+        "NOT_NULL"
+      ],
+      "warning_codes": [],
+      "flagged_err": true,
+      "flagged_any": true,
+      "elapsed_ms": 8.57
+    }
+  },
+  "prisma_dmmf_oracle": {
+    "prisma_001": {
+      "id": "prisma_001",
+      "dmmf_parsed_ok": true,
+      "dmmf_error": null,
+      "dmmf_models_count": 29,
+      "dmmf_model_found": "Project",
+      "dmmf_table_name": "Project",
+      "dmmf_col_found": "updatedAt",
+      "dmmf_col_is_required": true,
+      "dmmf_col_has_default": false,
+      "dmmf_col_type": "DateTime",
+      "dmmf_enum_found": null,
+      "dmmf_scalar_fields_count": 6,
+      "pg_c_old_at_s_old_ok": true,
+      "pg_c_old_at_s_new_crash": true,
+      "pg_sqlstate": "23502",
+      "pg_error_msg": "null value in column \"updatedat\" of relation \"Project\" violates not-null constraint"
+    },
+    "prisma_002": {
+      "id": "prisma_002",
+      "dmmf_parsed_ok": true,
+      "dmmf_error": null,
+      "dmmf_models_count": 5,
+      "dmmf_model_found": null,
+      "dmmf_table_name": null,
+      "dmmf_col_found": null,
+      "dmmf_col_is_required": null,
+      "dmmf_col_has_default": null,
+      "dmmf_col_type": null,
+      "dmmf_enum_found": null,
+      "dmmf_scalar_fields_count": 0,
+      "pg_c_old_at_s_old_ok": null,
+      "pg_c_old_at_s_new_crash": null,
+      "pg_sqlstate": null,
+      "pg_error_msg": null
+    },
+    "prisma_003": {
+      "id": "prisma_003",
+      "dmmf_parsed_ok": true,
+      "dmmf_error": null,
+      "dmmf_models_count": 14,
+      "dmmf_model_found": "User",
+      "dmmf_table_name": "User",
+      "dmmf_col_found": "theme",
+      "dmmf_col_is_required": true,
+      "dmmf_col_has_default": true,
+      "dmmf_col_type": "Theme",
+      "dmmf_enum_found": "Theme",
+      "dmmf_scalar_fields_count": 30,
+      "pg_c_old_at_s_old_ok": true,
+      "pg_c_old_at_s_new_crash": null,
+      "pg_sqlstate": null,
+      "pg_error_msg": null
+    },
+    "prisma_004": {
+      "id": "prisma_004",
+      "dmmf_parsed_ok": true,
+      "dmmf_error": null,
+      "dmmf_models_count": 19,
+      "dmmf_model_found": "TeamUser",
+      "dmmf_table_name": "team_user",
+      "dmmf_col_found": "role_id",
+      "dmmf_col_is_required": true,
+      "dmmf_col_has_default": false,
+      "dmmf_col_type": "String",
+      "dmmf_enum_found": null,
+      "dmmf_scalar_fields_count": 6,
+      "pg_c_old_at_s_old_ok": true,
+      "pg_c_old_at_s_new_crash": true,
+      "pg_sqlstate": "42703",
+      "pg_error_msg": "column \"role_id\" does not exist"
+    },
+    "prisma_005": {
+      "id": "prisma_005",
+      "dmmf_parsed_ok": true,
+      "dmmf_error": null,
+      "dmmf_models_count": 73,
+      "dmmf_model_found": null,
+      "dmmf_table_name": null,
+      "dmmf_col_found": null,
+      "dmmf_col_is_required": null,
+      "dmmf_col_has_default": null,
+      "dmmf_col_type": null,
+      "dmmf_enum_found": null,
+      "dmmf_scalar_fields_count": 0,
+      "pg_c_old_at_s_old_ok": null,
+      "pg_c_old_at_s_new_crash": null,
+      "pg_sqlstate": null,
+      "pg_error_msg": null
+    },
+    "prisma_006": {
+      "id": "prisma_006",
+      "dmmf_parsed_ok": false,
+      "dmmf_error": "no_schema_prisma_at_parent",
+      "dmmf_models_count": 0,
+      "dmmf_model_found": null,
+      "dmmf_table_name": null,
+      "dmmf_col_found": null,
+      "dmmf_col_is_required": null,
+      "dmmf_col_has_default": null,
+      "dmmf_col_type": null,
+      "dmmf_enum_found": null,
+      "dmmf_scalar_fields_count": 0,
+      "pg_c_old_at_s_old_ok": null,
+      "pg_c_old_at_s_new_crash": null,
+      "pg_sqlstate": null,
+      "pg_error_msg": null
+    },
+    "prisma_007": {
+      "id": "prisma_007",
+      "dmmf_parsed_ok": true,
+      "dmmf_error": null,
+      "dmmf_models_count": 37,
+      "dmmf_model_found": null,
+      "dmmf_table_name": null,
+      "dmmf_col_found": null,
+      "dmmf_col_is_required": null,
+      "dmmf_col_has_default": null,
+      "dmmf_col_type": null,
+      "dmmf_enum_found": null,
+      "dmmf_scalar_fields_count": 0,
+      "pg_c_old_at_s_old_ok": null,
+      "pg_c_old_at_s_new_crash": null,
+      "pg_sqlstate": null,
+      "pg_error_msg": null
+    },
+    "prisma_008": {
+      "id": "prisma_008",
+      "dmmf_parsed_ok": true,
+      "dmmf_error": null,
+      "dmmf_models_count": 10,
+      "dmmf_model_found": "Membership",
+      "dmmf_table_name": "Membership",
+      "dmmf_col_found": "userId",
+      "dmmf_col_is_required": true,
+      "dmmf_col_has_default": false,
+      "dmmf_col_type": "String",
+      "dmmf_enum_found": null,
+      "dmmf_scalar_fields_count": 11,
+      "pg_c_old_at_s_old_ok": true,
+      "pg_c_old_at_s_new_crash": false,
+      "pg_sqlstate": null,
+      "pg_error_msg": null
+    },
+    "prisma_009": {
+      "id": "prisma_009",
+      "dmmf_parsed_ok": true,
+      "dmmf_error": null,
+      "dmmf_models_count": 62,
+      "dmmf_model_found": "BrowserbaseContext",
+      "dmmf_table_name": "BrowserbaseContext",
+      "dmmf_col_found": "organizationId",
+      "dmmf_col_is_required": true,
+      "dmmf_col_has_default": false,
+      "dmmf_col_type": "String",
+      "dmmf_enum_found": null,
+      "dmmf_scalar_fields_count": 5,
+      "pg_c_old_at_s_old_ok": true,
+      "pg_c_old_at_s_new_crash": true,
+      "pg_sqlstate": "23502",
+      "pg_error_msg": "null value in column \"organizationid\" of relation \"BrowserbaseContext\" violates not-null constraint"
+    },
+    "prisma_010": {
+      "id": "prisma_010",
+      "dmmf_parsed_ok": true,
+      "dmmf_error": null,
+      "dmmf_models_count": 57,
+      "dmmf_model_found": "Sub",
+      "dmmf_table_name": "Sub",
+      "dmmf_col_found": null,
+      "dmmf_col_is_required": null,
+      "dmmf_col_has_default": null,
+      "dmmf_col_type": null,
+      "dmmf_enum_found": null,
+      "dmmf_scalar_fields_count": 22,
+      "pg_c_old_at_s_old_ok": true,
+      "pg_c_old_at_s_new_crash": null,
+      "pg_sqlstate": null,
+      "pg_error_msg": null
+    },
+    "prisma_011": {
+      "id": "prisma_011",
+      "dmmf_parsed_ok": true,
+      "dmmf_error": null,
+      "dmmf_models_count": 70,
+      "dmmf_model_found": "UserAction",
+      "dmmf_table_name": "UserAction",
+      "dmmf_col_found": "userActionType",
+      "dmmf_col_is_required": true,
+      "dmmf_col_has_default": false,
+      "dmmf_col_type": "EnumUserActionType",
+      "dmmf_enum_found": null,
+      "dmmf_scalar_fields_count": 8,
+      "pg_c_old_at_s_old_ok": true,
+      "pg_c_old_at_s_new_crash": null,
+      "pg_sqlstate": null,
+      "pg_error_msg": null
+    },
+    "prisma_012": {
+      "id": "prisma_012",
+      "dmmf_parsed_ok": true,
+      "dmmf_error": null,
+      "dmmf_models_count": 57,
+      "dmmf_model_found": "crm_Contacts",
+      "dmmf_table_name": "crm_Contacts",
+      "dmmf_col_found": null,
+      "dmmf_col_is_required": null,
+      "dmmf_col_has_default": null,
+      "dmmf_col_type": null,
+      "dmmf_enum_found": null,
+      "dmmf_scalar_fields_count": 34,
+      "pg_c_old_at_s_old_ok": true,
+      "pg_c_old_at_s_new_crash": false,
+      "pg_sqlstate": null,
+      "pg_error_msg": null
+    },
+    "prisma_013": {
+      "id": "prisma_013",
+      "dmmf_parsed_ok": true,
+      "dmmf_error": null,
+      "dmmf_models_count": 40,
+      "dmmf_model_found": "User",
+      "dmmf_table_name": "User",
+      "dmmf_col_found": null,
+      "dmmf_col_is_required": null,
+      "dmmf_col_has_default": null,
+      "dmmf_col_type": null,
+      "dmmf_enum_found": null,
+      "dmmf_scalar_fields_count": 8,
+      "pg_c_old_at_s_old_ok": true,
+      "pg_c_old_at_s_new_crash": true,
+      "pg_sqlstate": "42P01",
+      "pg_error_msg": "relation \"User\" does not exist"
+    },
+    "prisma_014": {
+      "id": "prisma_014",
+      "dmmf_parsed_ok": true,
+      "dmmf_error": null,
+      "dmmf_models_count": 29,
+      "dmmf_model_found": "Resource",
+      "dmmf_table_name": "Resource",
+      "dmmf_col_found": null,
+      "dmmf_col_is_required": null,
+      "dmmf_col_has_default": null,
+      "dmmf_col_type": null,
+      "dmmf_enum_found": null,
+      "dmmf_scalar_fields_count": 12,
+      "pg_c_old_at_s_old_ok": true,
+      "pg_c_old_at_s_new_crash": true,
+      "pg_sqlstate": "42P01",
+      "pg_error_msg": "relation \"Resource\" does not exist"
+    },
+    "prisma_015": {
+      "id": "prisma_015",
+      "dmmf_parsed_ok": true,
+      "dmmf_error": null,
+      "dmmf_models_count": 15,
+      "dmmf_model_found": null,
+      "dmmf_table_name": null,
+      "dmmf_col_found": null,
+      "dmmf_col_is_required": null,
+      "dmmf_col_has_default": null,
+      "dmmf_col_type": null,
+      "dmmf_enum_found": null,
+      "dmmf_scalar_fields_count": 0,
+      "pg_c_old_at_s_old_ok": null,
+      "pg_c_old_at_s_new_crash": null,
+      "pg_sqlstate": null,
+      "pg_error_msg": null
+    },
+    "prisma_016": {
+      "id": "prisma_016",
+      "dmmf_parsed_ok": true,
+      "dmmf_error": null,
+      "dmmf_models_count": 131,
+      "dmmf_model_found": "Version",
+      "dmmf_table_name": "Version",
+      "dmmf_col_found": "name",
+      "dmmf_col_is_required": true,
+      "dmmf_col_has_default": false,
+      "dmmf_col_type": "String",
+      "dmmf_enum_found": null,
+      "dmmf_scalar_fields_count": 9,
+      "pg_c_old_at_s_old_ok": true,
+      "pg_c_old_at_s_new_crash": false,
+      "pg_sqlstate": null,
+      "pg_error_msg": null
+    },
+    "prisma_017": {
+      "id": "prisma_017",
+      "dmmf_parsed_ok": true,
+      "dmmf_error": null,
+      "dmmf_models_count": 70,
+      "dmmf_model_found": "crm_Contracts",
+      "dmmf_table_name": "crm_Contracts",
+      "dmmf_col_found": "value",
+      "dmmf_col_is_required": true,
+      "dmmf_col_has_default": false,
+      "dmmf_col_type": "Decimal",
+      "dmmf_enum_found": null,
+      "dmmf_scalar_fields_count": 22,
+      "pg_c_old_at_s_old_ok": true,
+      "pg_c_old_at_s_new_crash": null,
+      "pg_sqlstate": null,
+      "pg_error_msg": null
+    },
+    "prisma_018": {
+      "id": "prisma_018",
+      "dmmf_parsed_ok": true,
+      "dmmf_error": null,
+      "dmmf_models_count": 80,
+      "dmmf_model_found": "User",
+      "dmmf_table_name": "users",
+      "dmmf_col_found": null,
+      "dmmf_col_is_required": null,
+      "dmmf_col_has_default": null,
+      "dmmf_col_type": null,
+      "dmmf_enum_found": null,
+      "dmmf_scalar_fields_count": 78,
+      "pg_c_old_at_s_old_ok": true,
+      "pg_c_old_at_s_new_crash": false,
+      "pg_sqlstate": null,
+      "pg_error_msg": null
+    },
+    "prisma_019": {
+      "id": "prisma_019",
+      "dmmf_parsed_ok": true,
+      "dmmf_error": null,
+      "dmmf_models_count": 16,
+      "dmmf_model_found": "Website",
+      "dmmf_table_name": "website",
+      "dmmf_col_found": null,
+      "dmmf_col_is_required": null,
+      "dmmf_col_has_default": null,
+      "dmmf_col_type": null,
+      "dmmf_enum_found": null,
+      "dmmf_scalar_fields_count": 9,
+      "pg_c_old_at_s_old_ok": true,
+      "pg_c_old_at_s_new_crash": false,
+      "pg_sqlstate": null,
+      "pg_error_msg": null
+    },
+    "prisma_020": {
+      "id": "prisma_020",
+      "dmmf_parsed_ok": true,
+      "dmmf_error": null,
+      "dmmf_models_count": 17,
+      "dmmf_model_found": "Stakeholder",
+      "dmmf_table_name": "Stakeholder",
+      "dmmf_col_found": null,
+      "dmmf_col_is_required": null,
+      "dmmf_col_has_default": null,
+      "dmmf_col_type": null,
+      "dmmf_enum_found": null,
+      "dmmf_scalar_fields_count": 14,
+      "pg_c_old_at_s_old_ok": true,
+      "pg_c_old_at_s_new_crash": false,
+      "pg_sqlstate": null,
+      "pg_error_msg": null
+    },
+    "prisma_021": {
+      "id": "prisma_021",
+      "dmmf_parsed_ok": true,
+      "dmmf_error": null,
+      "dmmf_models_count": 22,
+      "dmmf_model_found": "Update",
+      "dmmf_table_name": "Update",
+      "dmmf_col_found": null,
+      "dmmf_col_is_required": null,
+      "dmmf_col_has_default": null,
+      "dmmf_col_type": null,
+      "dmmf_enum_found": null,
+      "dmmf_scalar_fields_count": 11,
+      "pg_c_old_at_s_old_ok": true,
+      "pg_c_old_at_s_new_crash": false,
+      "pg_sqlstate": null,
+      "pg_error_msg": null
+    },
+    "prisma_022": {
+      "id": "prisma_022",
+      "dmmf_parsed_ok": true,
+      "dmmf_error": null,
+      "dmmf_models_count": 131,
+      "dmmf_model_found": "Plugin",
+      "dmmf_table_name": "Plugin",
+      "dmmf_col_found": null,
+      "dmmf_col_is_required": null,
+      "dmmf_col_has_default": null,
+      "dmmf_col_type": null,
+      "dmmf_enum_found": null,
+      "dmmf_scalar_fields_count": 14,
+      "pg_c_old_at_s_old_ok": true,
+      "pg_c_old_at_s_new_crash": false,
+      "pg_sqlstate": null,
+      "pg_error_msg": null
+    },
+    "prisma_023": {
+      "id": "prisma_023",
+      "dmmf_parsed_ok": true,
+      "dmmf_error": null,
+      "dmmf_models_count": 73,
+      "dmmf_model_found": null,
+      "dmmf_table_name": null,
+      "dmmf_col_found": null,
+      "dmmf_col_is_required": null,
+      "dmmf_col_has_default": null,
+      "dmmf_col_type": null,
+      "dmmf_enum_found": null,
+      "dmmf_scalar_fields_count": 0,
+      "pg_c_old_at_s_old_ok": null,
+      "pg_c_old_at_s_new_crash": null,
+      "pg_sqlstate": null,
+      "pg_error_msg": null
+    },
+    "prisma_024": {
+      "id": "prisma_024",
+      "dmmf_parsed_ok": true,
+      "dmmf_error": null,
+      "dmmf_models_count": 70,
+      "dmmf_model_found": "crm_Opportunities",
+      "dmmf_table_name": "crm_Opportunities",
+      "dmmf_col_found": "expected_revenue",
+      "dmmf_col_is_required": true,
+      "dmmf_col_has_default": true,
+      "dmmf_col_type": "Decimal",
+      "dmmf_enum_found": null,
+      "dmmf_scalar_fields_count": 27,
+      "pg_c_old_at_s_old_ok": true,
+      "pg_c_old_at_s_new_crash": null,
+      "pg_sqlstate": null,
+      "pg_error_msg": null
+    },
+    "prisma_025": {
+      "id": "prisma_025",
+      "dmmf_parsed_ok": true,
+      "dmmf_error": null,
+      "dmmf_models_count": 80,
+      "dmmf_model_found": "Sub",
+      "dmmf_table_name": "Sub",
+      "dmmf_col_found": null,
+      "dmmf_col_is_required": null,
+      "dmmf_col_has_default": null,
+      "dmmf_col_type": null,
+      "dmmf_enum_found": null,
+      "dmmf_scalar_fields_count": 22,
+      "pg_c_old_at_s_old_ok": true,
+      "pg_c_old_at_s_new_crash": false,
+      "pg_sqlstate": null,
+      "pg_error_msg": null
+    },
+    "prisma_026": {
+      "id": "prisma_026",
+      "dmmf_parsed_ok": true,
+      "dmmf_error": null,
+      "dmmf_models_count": 19,
+      "dmmf_model_found": "UserRole",
+      "dmmf_table_name": "user_role",
+      "dmmf_col_found": "role_id",
+      "dmmf_col_is_required": true,
+      "dmmf_col_has_default": false,
+      "dmmf_col_type": "String",
+      "dmmf_enum_found": null,
+      "dmmf_scalar_fields_count": 5,
+      "pg_c_old_at_s_old_ok": true,
+      "pg_c_old_at_s_new_crash": true,
+      "pg_sqlstate": "42703",
+      "pg_error_msg": "column \"role_id\" does not exist"
+    },
+    "prisma_027": {
+      "id": "prisma_027",
+      "dmmf_parsed_ok": true,
+      "dmmf_error": null,
+      "dmmf_models_count": 19,
+      "dmmf_model_found": "RolePermission",
+      "dmmf_table_name": "role_permission",
+      "dmmf_col_found": null,
+      "dmmf_col_is_required": null,
+      "dmmf_col_has_default": null,
+      "dmmf_col_type": null,
+      "dmmf_enum_found": null,
+      "dmmf_scalar_fields_count": 5,
+      "pg_c_old_at_s_old_ok": true,
+      "pg_c_old_at_s_new_crash": true,
+      "pg_sqlstate": "42P01",
+      "pg_error_msg": "relation \"role_permission\" does not exist"
+    },
+    "prisma_028": {
+      "id": "prisma_028",
+      "dmmf_parsed_ok": true,
+      "dmmf_error": null,
+      "dmmf_models_count": 57,
+      "dmmf_model_found": null,
+      "dmmf_table_name": null,
+      "dmmf_col_found": null,
+      "dmmf_col_is_required": null,
+      "dmmf_col_has_default": null,
+      "dmmf_col_type": null,
+      "dmmf_enum_found": null,
+      "dmmf_scalar_fields_count": 0,
+      "pg_c_old_at_s_old_ok": null,
+      "pg_c_old_at_s_new_crash": null,
+      "pg_sqlstate": null,
+      "pg_error_msg": null
+    },
+    "prisma_029": {
+      "id": "prisma_029",
+      "dmmf_parsed_ok": true,
+      "dmmf_error": null,
+      "dmmf_models_count": 70,
+      "dmmf_model_found": null,
+      "dmmf_table_name": null,
+      "dmmf_col_found": null,
+      "dmmf_col_is_required": null,
+      "dmmf_col_has_default": null,
+      "dmmf_col_type": null,
+      "dmmf_enum_found": "EnumUserActionType",
+      "dmmf_scalar_fields_count": 0,
+      "pg_c_old_at_s_old_ok": null,
+      "pg_c_old_at_s_new_crash": null,
+      "pg_sqlstate": null,
+      "pg_error_msg": null
+    },
+    "prisma_030": {
+      "id": "prisma_030",
+      "dmmf_parsed_ok": true,
+      "dmmf_error": null,
+      "dmmf_models_count": 62,
+      "dmmf_model_found": "BrowserbaseContext",
+      "dmmf_table_name": "BrowserbaseContext",
+      "dmmf_col_found": null,
+      "dmmf_col_is_required": null,
+      "dmmf_col_has_default": null,
+      "dmmf_col_type": null,
+      "dmmf_enum_found": null,
+      "dmmf_scalar_fields_count": 5,
+      "pg_c_old_at_s_old_ok": true,
+      "pg_c_old_at_s_new_crash": false,
+      "pg_sqlstate": null,
+      "pg_error_msg": null
+    },
+    "prisma_031": {
+      "id": "prisma_031",
+      "dmmf_parsed_ok": true,
+      "dmmf_error": null,
+      "dmmf_models_count": 17,
+      "dmmf_model_found": "TemplateField",
+      "dmmf_table_name": "TemplateField",
+      "dmmf_col_found": null,
+      "dmmf_col_is_required": null,
+      "dmmf_col_has_default": null,
+      "dmmf_col_type": null,
+      "dmmf_enum_found": null,
+      "dmmf_scalar_fields_count": 12,
+      "pg_c_old_at_s_old_ok": true,
+      "pg_c_old_at_s_new_crash": true,
+      "pg_sqlstate": "23502",
+      "pg_error_msg": "null value in column \"viewportwidth\" of relation \"TemplateField\" violates not-null constraint"
+    },
+    "prisma_032": {
+      "id": "prisma_032",
+      "dmmf_parsed_ok": true,
+      "dmmf_error": null,
+      "dmmf_models_count": 82,
+      "dmmf_model_found": "Invoices",
+      "dmmf_table_name": "Invoices",
+      "dmmf_col_found": null,
+      "dmmf_col_is_required": null,
+      "dmmf_col_has_default": null,
+      "dmmf_col_type": null,
+      "dmmf_enum_found": null,
+      "dmmf_scalar_fields_count": 33,
+      "pg_c_old_at_s_old_ok": true,
+      "pg_c_old_at_s_new_crash": null,
+      "pg_sqlstate": null,
+      "pg_error_msg": null
+    },
+    "prisma_033": {
+      "id": "prisma_033",
+      "dmmf_parsed_ok": true,
+      "dmmf_error": null,
+      "dmmf_models_count": 31,
+      "dmmf_model_found": "Features",
+      "dmmf_table_name": "features",
+      "dmmf_col_found": "created_at",
+      "dmmf_col_is_required": true,
+      "dmmf_col_has_default": true,
+      "dmmf_col_type": "DateTime",
+      "dmmf_enum_found": null,
+      "dmmf_scalar_fields_count": 6,
+      "pg_c_old_at_s_old_ok": true,
+      "pg_c_old_at_s_new_crash": null,
+      "pg_sqlstate": null,
+      "pg_error_msg": null
+    },
+    "prisma_034": {
+      "id": "prisma_034",
+      "dmmf_parsed_ok": true,
+      "dmmf_error": null,
+      "dmmf_models_count": 18,
+      "dmmf_model_found": "Client",
+      "dmmf_table_name": "clients",
+      "dmmf_col_found": null,
+      "dmmf_col_is_required": null,
+      "dmmf_col_has_default": null,
+      "dmmf_col_type": null,
+      "dmmf_enum_found": null,
+      "dmmf_scalar_fields_count": 10,
+      "pg_c_old_at_s_old_ok": true,
+      "pg_c_old_at_s_new_crash": false,
+      "pg_sqlstate": null,
+      "pg_error_msg": null
+    },
+    "prisma_035": {
+      "id": "prisma_035",
+      "dmmf_parsed_ok": true,
+      "dmmf_error": null,
+      "dmmf_models_count": 20,
+      "dmmf_model_found": "TeamWebsite",
+      "dmmf_table_name": "team_website",
+      "dmmf_col_found": null,
+      "dmmf_col_is_required": null,
+      "dmmf_col_has_default": null,
+      "dmmf_col_type": null,
+      "dmmf_enum_found": null,
+      "dmmf_scalar_fields_count": 4,
+      "pg_c_old_at_s_old_ok": true,
+      "pg_c_old_at_s_new_crash": true,
+      "pg_sqlstate": "42P01",
+      "pg_error_msg": "relation \"team_website\" does not exist"
+    },
+    "prisma_036": {
+      "id": "prisma_036",
+      "dmmf_parsed_ok": true,
+      "dmmf_error": null,
+      "dmmf_models_count": 33,
+      "dmmf_model_found": "Trust",
+      "dmmf_table_name": "Trust",
+      "dmmf_col_found": null,
+      "dmmf_col_is_required": null,
+      "dmmf_col_has_default": null,
+      "dmmf_col_type": null,
+      "dmmf_enum_found": null,
+      "dmmf_scalar_fields_count": 18,
+      "pg_c_old_at_s_old_ok": true,
+      "pg_c_old_at_s_new_crash": false,
+      "pg_sqlstate": null,
+      "pg_error_msg": null
+    },
+    "prisma_037": {
+      "id": "prisma_037",
+      "dmmf_parsed_ok": true,
+      "dmmf_error": null,
+      "dmmf_models_count": 46,
+      "dmmf_model_found": null,
+      "dmmf_table_name": null,
+      "dmmf_col_found": null,
+      "dmmf_col_is_required": null,
+      "dmmf_col_has_default": null,
+      "dmmf_col_type": null,
+      "dmmf_enum_found": null,
+      "dmmf_scalar_fields_count": 0,
+      "pg_c_old_at_s_old_ok": null,
+      "pg_c_old_at_s_new_crash": null,
+      "pg_sqlstate": null,
+      "pg_error_msg": null
+    },
+    "prisma_038": {
+      "id": "prisma_038",
+      "dmmf_parsed_ok": true,
+      "dmmf_error": null,
+      "dmmf_models_count": 4,
+      "dmmf_model_found": null,
+      "dmmf_table_name": null,
+      "dmmf_col_found": null,
+      "dmmf_col_is_required": null,
+      "dmmf_col_has_default": null,
+      "dmmf_col_type": null,
+      "dmmf_enum_found": null,
+      "dmmf_scalar_fields_count": 0,
+      "pg_c_old_at_s_old_ok": null,
+      "pg_c_old_at_s_new_crash": null,
+      "pg_sqlstate": null,
+      "pg_error_msg": null
+    },
+    "prisma_039": {
+      "id": "prisma_039",
+      "dmmf_parsed_ok": true,
+      "dmmf_error": null,
+      "dmmf_models_count": 234,
+      "dmmf_model_found": "LiteLLM_ShadowEvalJob",
+      "dmmf_table_name": "LiteLLM_ShadowEvalJob",
+      "dmmf_col_found": null,
+      "dmmf_col_is_required": null,
+      "dmmf_col_has_default": null,
+      "dmmf_col_type": null,
+      "dmmf_enum_found": null,
+      "dmmf_scalar_fields_count": 12,
+      "pg_c_old_at_s_old_ok": true,
+      "pg_c_old_at_s_new_crash": true,
+      "pg_sqlstate": "23502",
+      "pg_error_msg": "null value in column \"group_id\" of relation \"LiteLLM_ShadowEvalJob\" violates not-null constraint"
+    },
+    "prisma_040": {
+      "id": "prisma_040",
+      "dmmf_parsed_ok": true,
+      "dmmf_error": null,
+      "dmmf_models_count": 20,
+      "dmmf_model_found": "Highscore",
+      "dmmf_table_name": "Highscore",
+      "dmmf_col_found": null,
+      "dmmf_col_is_required": null,
+      "dmmf_col_has_default": null,
+      "dmmf_col_type": null,
+      "dmmf_enum_found": null,
+      "dmmf_scalar_fields_count": 3,
+      "pg_c_old_at_s_old_ok": true,
+      "pg_c_old_at_s_new_crash": true,
+      "pg_sqlstate": "23502",
+      "pg_error_msg": "null value in column \"timestamp\" of relation \"Highscore\" violates not-null constraint"
+    },
+    "prisma_041": {
+      "id": "prisma_041",
+      "dmmf_parsed_ok": true,
+      "dmmf_error": null,
+      "dmmf_models_count": 72,
+      "dmmf_model_found": null,
+      "dmmf_table_name": null,
+      "dmmf_col_found": null,
+      "dmmf_col_is_required": null,
+      "dmmf_col_has_default": null,
+      "dmmf_col_type": null,
+      "dmmf_enum_found": null,
+      "dmmf_scalar_fields_count": 0,
+      "pg_c_old_at_s_old_ok": null,
+      "pg_c_old_at_s_new_crash": null,
+      "pg_sqlstate": null,
+      "pg_error_msg": null
+    },
+    "prisma_042": {
+      "id": "prisma_042",
+      "dmmf_parsed_ok": true,
+      "dmmf_error": null,
+      "dmmf_models_count": 19,
+      "dmmf_model_found": "UserCollection",
+      "dmmf_table_name": "UserCollection",
+      "dmmf_col_found": "updatedOn",
+      "dmmf_col_is_required": true,
+      "dmmf_col_has_default": false,
+      "dmmf_col_type": "DateTime",
+      "dmmf_enum_found": null,
+      "dmmf_scalar_fields_count": 9,
+      "pg_c_old_at_s_old_ok": true,
+      "pg_c_old_at_s_new_crash": null,
+      "pg_sqlstate": null,
+      "pg_error_msg": null
+    },
+    "prisma_043": {
+      "id": "prisma_043",
+      "dmmf_parsed_ok": true,
+      "dmmf_error": null,
+      "dmmf_models_count": 63,
+      "dmmf_model_found": "BookingLink",
+      "dmmf_table_name": "BookingLink",
+      "dmmf_col_found": "timezone",
+      "dmmf_col_is_required": true,
+      "dmmf_col_has_default": false,
+      "dmmf_col_type": "String",
+      "dmmf_enum_found": null,
+      "dmmf_scalar_fields_count": 16,
+      "pg_c_old_at_s_old_ok": true,
+      "pg_c_old_at_s_new_crash": true,
+      "pg_sqlstate": "42703",
+      "pg_error_msg": "column \"timezone\" does not exist"
+    },
+    "prisma_044": {
+      "id": "prisma_044",
+      "dmmf_parsed_ok": true,
+      "dmmf_error": null,
+      "dmmf_models_count": 93,
+      "dmmf_model_found": "JobVersion",
+      "dmmf_table_name": "JobVersion",
+      "dmmf_col_found": null,
+      "dmmf_col_is_required": null,
+      "dmmf_col_has_default": null,
+      "dmmf_col_type": null,
+      "dmmf_enum_found": null,
+      "dmmf_scalar_fields_count": 19,
+      "pg_c_old_at_s_old_ok": true,
+      "pg_c_old_at_s_new_crash": true,
+      "pg_sqlstate": "42P01",
+      "pg_error_msg": "relation \"JobVersion\" does not exist"
+    },
+    "prisma_045": {
+      "id": "prisma_045",
+      "dmmf_parsed_ok": true,
+      "dmmf_error": null,
+      "dmmf_models_count": 25,
+      "dmmf_model_found": "Company",
+      "dmmf_table_name": "Company",
+      "dmmf_col_found": "receiptNumberFormat",
+      "dmmf_col_is_required": true,
+      "dmmf_col_has_default": true,
+      "dmmf_col_type": "String",
+      "dmmf_enum_found": null,
+      "dmmf_scalar_fields_count": 25,
+      "pg_c_old_at_s_old_ok": true,
+      "pg_c_old_at_s_new_crash": true,
+      "pg_sqlstate": "42703",
+      "pg_error_msg": "column \"receiptNumberFormat\" does not exist"
+    },
+    "prisma_046": {
+      "id": "prisma_046",
+      "dmmf_parsed_ok": true,
+      "dmmf_error": null,
+      "dmmf_models_count": 3,
+      "dmmf_model_found": null,
+      "dmmf_table_name": null,
+      "dmmf_col_found": null,
+      "dmmf_col_is_required": null,
+      "dmmf_col_has_default": null,
+      "dmmf_col_type": null,
+      "dmmf_enum_found": null,
+      "dmmf_scalar_fields_count": 0,
+      "pg_c_old_at_s_old_ok": null,
+      "pg_c_old_at_s_new_crash": null,
+      "pg_sqlstate": null,
+      "pg_error_msg": null
+    },
+    "prisma_047": {
+      "id": "prisma_047",
+      "dmmf_parsed_ok": true,
+      "dmmf_error": null,
+      "dmmf_models_count": 11,
+      "dmmf_model_found": null,
+      "dmmf_table_name": null,
+      "dmmf_col_found": null,
+      "dmmf_col_is_required": null,
+      "dmmf_col_has_default": null,
+      "dmmf_col_type": null,
+      "dmmf_enum_found": "LinksRouteTo",
+      "dmmf_scalar_fields_count": 0,
+      "pg_c_old_at_s_old_ok": null,
+      "pg_c_old_at_s_new_crash": null,
+      "pg_sqlstate": null,
+      "pg_error_msg": null
+    },
+    "prisma_048": {
+      "id": "prisma_048",
+      "dmmf_parsed_ok": true,
+      "dmmf_error": null,
+      "dmmf_models_count": 27,
+      "dmmf_model_found": "Domain",
+      "dmmf_table_name": "Domain",
+      "dmmf_col_found": "teamId",
+      "dmmf_col_is_required": false,
+      "dmmf_col_has_default": false,
+      "dmmf_col_type": "String",
+      "dmmf_enum_found": null,
+      "dmmf_scalar_fields_count": 8,
+      "pg_c_old_at_s_old_ok": true,
+      "pg_c_old_at_s_new_crash": true,
+      "pg_sqlstate": "23502",
+      "pg_error_msg": "null value in column \"teamId\" of relation \"Domain\" violates not-null constraint"
+    },
+    "prisma_049": {
+      "id": "prisma_049",
+      "dmmf_parsed_ok": true,
+      "dmmf_error": null,
+      "dmmf_models_count": 45,
+      "dmmf_model_found": "ModifierGroup",
+      "dmmf_table_name": "modifier_groups",
+      "dmmf_col_found": null,
+      "dmmf_col_is_required": null,
+      "dmmf_col_has_default": null,
+      "dmmf_col_type": null,
+      "dmmf_enum_found": null,
+      "dmmf_scalar_fields_count": 5,
+      "pg_c_old_at_s_old_ok": true,
+      "pg_c_old_at_s_new_crash": true,
+      "pg_sqlstate": "23502",
+      "pg_error_msg": "null value in column \"branchid\" of relation \"modifier_groups\" violates not-null constraint"
+    },
+    "prisma_050": {
+      "id": "prisma_050",
+      "dmmf_parsed_ok": true,
+      "dmmf_error": null,
+      "dmmf_models_count": 80,
+      "dmmf_model_found": "RoleAssignment",
+      "dmmf_table_name": "role_assignments",
+      "dmmf_col_found": null,
+      "dmmf_col_is_required": null,
+      "dmmf_col_has_default": null,
+      "dmmf_col_type": null,
+      "dmmf_enum_found": null,
+      "dmmf_scalar_fields_count": 9,
+      "pg_c_old_at_s_old_ok": true,
+      "pg_c_old_at_s_new_crash": null,
+      "pg_sqlstate": null,
+      "pg_error_msg": null
+    },
+    "prisma_051": {
+      "id": "prisma_051",
+      "dmmf_parsed_ok": true,
+      "dmmf_error": null,
+      "dmmf_models_count": 9,
+      "dmmf_model_found": "Client",
+      "dmmf_table_name": "clients",
+      "dmmf_col_found": "project_id",
+      "dmmf_col_is_required": true,
+      "dmmf_col_has_default": false,
+      "dmmf_col_type": "String",
+      "dmmf_enum_found": null,
+      "dmmf_scalar_fields_count": 8,
+      "pg_c_old_at_s_old_ok": true,
+      "pg_c_old_at_s_new_crash": null,
+      "pg_sqlstate": null,
+      "pg_error_msg": null
+    },
+    "prisma_052": {
+      "id": "prisma_052",
+      "dmmf_parsed_ok": true,
+      "dmmf_error": null,
+      "dmmf_models_count": 4,
+      "dmmf_model_found": "User",
+      "dmmf_table_name": "User",
+      "dmmf_col_found": null,
+      "dmmf_col_is_required": null,
+      "dmmf_col_has_default": null,
+      "dmmf_col_type": null,
+      "dmmf_enum_found": null,
+      "dmmf_scalar_fields_count": 3,
+      "pg_c_old_at_s_old_ok": true,
+      "pg_c_old_at_s_new_crash": false,
+      "pg_sqlstate": null,
+      "pg_error_msg": null
+    },
+    "prisma_053": {
+      "id": "prisma_053",
+      "dmmf_parsed_ok": true,
+      "dmmf_error": null,
+      "dmmf_models_count": 52,
+      "dmmf_model_found": "BookingAsset",
+      "dmmf_table_name": "BookingAsset",
+      "dmmf_col_found": null,
+      "dmmf_col_is_required": null,
+      "dmmf_col_has_default": null,
+      "dmmf_col_type": null,
+      "dmmf_enum_found": null,
+      "dmmf_scalar_fields_count": 4,
+      "pg_c_old_at_s_old_ok": true,
+      "pg_c_old_at_s_new_crash": true,
+      "pg_sqlstate": "42P01",
+      "pg_error_msg": "relation \"BookingAsset\" does not exist"
+    },
+    "prisma_054": {
+      "id": "prisma_054",
+      "dmmf_parsed_ok": true,
+      "dmmf_error": null,
+      "dmmf_models_count": 7,
+      "dmmf_model_found": "Term",
+      "dmmf_table_name": "Term",
+      "dmmf_col_found": "term",
+      "dmmf_col_is_required": true,
+      "dmmf_col_has_default": false,
+      "dmmf_col_type": "String",
+      "dmmf_enum_found": null,
+      "dmmf_scalar_fields_count": 5,
+      "pg_c_old_at_s_old_ok": true,
+      "pg_c_old_at_s_new_crash": true,
+      "pg_sqlstate": "42703",
+      "pg_error_msg": "column \"term\" does not exist"
+    },
+    "prisma_055": {
+      "id": "prisma_055",
+      "dmmf_parsed_ok": true,
+      "dmmf_error": null,
+      "dmmf_models_count": 7,
+      "dmmf_model_found": "Participant",
+      "dmmf_table_name": "Participant",
+      "dmmf_col_found": null,
+      "dmmf_col_is_required": null,
+      "dmmf_col_has_default": null,
+      "dmmf_col_type": null,
+      "dmmf_enum_found": null,
+      "dmmf_scalar_fields_count": 7,
+      "pg_c_old_at_s_old_ok": true,
+      "pg_c_old_at_s_new_crash": true,
+      "pg_sqlstate": "42P01",
+      "pg_error_msg": "relation \"Participant\" does not exist"
+    },
+    "prisma_056": {
+      "id": "prisma_056",
+      "dmmf_parsed_ok": true,
+      "dmmf_error": null,
+      "dmmf_models_count": 16,
+      "dmmf_model_found": null,
+      "dmmf_table_name": null,
+      "dmmf_col_found": null,
+      "dmmf_col_is_required": null,
+      "dmmf_col_has_default": null,
+      "dmmf_col_type": null,
+      "dmmf_enum_found": null,
+      "dmmf_scalar_fields_count": 0,
+      "pg_c_old_at_s_old_ok": null,
+      "pg_c_old_at_s_new_crash": null,
+      "pg_sqlstate": null,
+      "pg_error_msg": null
+    },
+    "prisma_057": {
+      "id": "prisma_057",
+      "dmmf_parsed_ok": true,
+      "dmmf_error": null,
+      "dmmf_models_count": 48,
+      "dmmf_model_found": "Collaborator",
+      "dmmf_table_name": "collaborator",
+      "dmmf_col_found": null,
+      "dmmf_col_is_required": null,
+      "dmmf_col_has_default": null,
+      "dmmf_col_type": null,
+      "dmmf_enum_found": null,
+      "dmmf_scalar_fields_count": 10,
+      "pg_c_old_at_s_old_ok": true,
+      "pg_c_old_at_s_new_crash": true,
+      "pg_sqlstate": "23502",
+      "pg_error_msg": "null value in column \"resource_type\" of relation \"collaborator\" violates not-null constraint"
+    },
+    "prisma_058": {
+      "id": "prisma_058",
+      "dmmf_parsed_ok": true,
+      "dmmf_error": null,
+      "dmmf_models_count": 19,
+      "dmmf_model_found": "Segment",
+      "dmmf_table_name": "segment",
+      "dmmf_col_found": null,
+      "dmmf_col_is_required": null,
+      "dmmf_col_has_default": null,
+      "dmmf_col_type": null,
+      "dmmf_enum_found": null,
+      "dmmf_scalar_fields_count": 6,
+      "pg_c_old_at_s_old_ok": true,
+      "pg_c_old_at_s_new_crash": true,
+      "pg_sqlstate": "23502",
+      "pg_error_msg": "null value in column \"type\" of relation \"segment\" violates not-null constraint"
+    },
+    "prisma_059": {
+      "id": "prisma_059",
+      "dmmf_parsed_ok": true,
+      "dmmf_error": null,
+      "dmmf_models_count": 66,
+      "dmmf_model_found": "AuditAsset",
+      "dmmf_table_name": "AuditAsset",
+      "dmmf_col_found": null,
+      "dmmf_col_is_required": null,
+      "dmmf_col_has_default": null,
+      "dmmf_col_type": null,
+      "dmmf_enum_found": null,
+      "dmmf_scalar_fields_count": 10,
+      "pg_c_old_at_s_old_ok": true,
+      "pg_c_old_at_s_new_crash": null,
+      "pg_sqlstate": null,
+      "pg_error_msg": null
+    },
+    "prisma_060": {
+      "id": "prisma_060",
+      "dmmf_parsed_ok": true,
+      "dmmf_error": null,
+      "dmmf_models_count": 24,
+      "dmmf_model_found": "SnapshotHistory",
+      "dmmf_table_name": "snapshot_histories",
+      "dmmf_col_found": "expired_at",
+      "dmmf_col_is_required": true,
+      "dmmf_col_has_default": false,
+      "dmmf_col_type": "DateTime",
+      "dmmf_enum_found": null,
+      "dmmf_scalar_fields_count": 6,
+      "pg_c_old_at_s_old_ok": true,
+      "pg_c_old_at_s_new_crash": null,
+      "pg_sqlstate": null,
+      "pg_error_msg": null
+    }
+  },
+  "ecv_eval": {
+    "django_121": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 28.21,
+      "deep_e2e_ms": 28.21
+    },
+    "django_122": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 76.93,
+      "deep_e2e_ms": 76.93
+    },
+    "django_123": {
+      "ecv_classification": "SAFE_CONTRACT",
+      "is_uncertain": false,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [
+        {
+          "file": "app_01.py",
+          "kind": "ast_orm_kwarg"
+        }
+      ],
+      "fast_e2e_ms": 59.01,
+      "deep_e2e_ms": 96.68
+    },
+    "django_124": {
+      "ecv_classification": "SAFE_CONTRACT",
+      "is_uncertain": false,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": false,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 13.94,
+      "deep_e2e_ms": 110.23
+    },
+    "django_125": {
+      "ecv_classification": "UNCERTAIN",
+      "is_uncertain": true,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": false,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 1.68,
+      "deep_e2e_ms": 31.27
+    },
+    "django_126": {
+      "ecv_classification": "SAFE_CONTRACT",
+      "is_uncertain": false,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": false,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 26.38,
+      "deep_e2e_ms": 262.67
+    },
+    "django_127": {
+      "ecv_classification": "SAFE_CONTRACT",
+      "is_uncertain": false,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": false,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 108.82,
+      "deep_e2e_ms": 283.52
+    },
+    "django_128": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 39.42,
+      "deep_e2e_ms": 39.42
+    },
+    "django_129": {
+      "ecv_classification": "SAFE_CONTRACT",
+      "is_uncertain": false,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": false,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 11.72,
+      "deep_e2e_ms": 121.58
+    },
+    "django_130": {
+      "ecv_classification": "SAFE_CONTRACT",
+      "is_uncertain": false,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": false,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 14.94,
+      "deep_e2e_ms": 246.56
+    },
+    "django_131": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BOTH",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 296.84,
+      "deep_e2e_ms": 296.84
+    },
+    "django_132": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 3.17,
+      "deep_e2e_ms": 3.17
+    },
+    "django_133": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 17.6,
+      "deep_e2e_ms": 17.6
+    },
+    "django_134": {
+      "ecv_classification": "SAFE_CONTRACT",
+      "is_uncertain": false,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [
+        {
+          "file": "app_13.py",
+          "kind": "ast_attr_access"
+        }
+      ],
+      "fast_e2e_ms": 136.9,
+      "deep_e2e_ms": 197.37
+    },
+    "django_135": {
+      "ecv_classification": "SAFE_CONTRACT",
+      "is_uncertain": false,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": false,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 312.12,
+      "deep_e2e_ms": 533.94
+    },
+    "django_136": {
+      "ecv_classification": "SAFE_CONTRACT",
+      "is_uncertain": false,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": false,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 12.03,
+      "deep_e2e_ms": 118.34
+    },
+    "django_137": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 10.07,
+      "deep_e2e_ms": 10.07
+    },
+    "django_138": {
+      "ecv_classification": "SAFE_CONTRACT",
+      "is_uncertain": false,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [
+        {
+          "file": "app_02.py",
+          "kind": "ast_orm_kwarg"
+        }
+      ],
+      "fast_e2e_ms": 14.63,
+      "deep_e2e_ms": 44.97
+    },
+    "django_139": {
+      "ecv_classification": "SAFE_CONTRACT",
+      "is_uncertain": false,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": false,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 12.41,
+      "deep_e2e_ms": 132.24
+    },
+    "django_140": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_FORWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 50.24,
+      "deep_e2e_ms": 50.24
+    },
+    "django_141": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 23.19,
+      "deep_e2e_ms": 23.2
+    },
+    "django_142": {
+      "ecv_classification": "SAFE_CONTRACT",
+      "is_uncertain": false,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [
+        {
+          "file": "app_01.py",
+          "kind": "ast_attr_access"
+        }
+      ],
+      "fast_e2e_ms": 419.53,
+      "deep_e2e_ms": 469.33
+    },
+    "django_143": {
+      "ecv_classification": "SAFE_CONTRACT",
+      "is_uncertain": false,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": false,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 34.35,
+      "deep_e2e_ms": 272.31
+    },
+    "django_144": {
+      "ecv_classification": "UNCERTAIN",
+      "is_uncertain": true,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": false,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 48.81,
+      "deep_e2e_ms": 284.43
+    },
+    "django_145": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 80.75,
+      "deep_e2e_ms": 80.75
+    },
+    "django_146": {
+      "ecv_classification": "SAFE_CONTRACT",
+      "is_uncertain": false,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [
+        {
+          "file": "app_01.py",
+          "kind": "ast_raw_sql"
+        }
+      ],
+      "fast_e2e_ms": 56.36,
+      "deep_e2e_ms": 69.55
+    },
+    "django_147": {
+      "ecv_classification": "SAFE_CONTRACT",
+      "is_uncertain": false,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": false,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 3.02,
+      "deep_e2e_ms": 107.52
+    },
+    "django_148": {
+      "ecv_classification": "UNCERTAIN",
+      "is_uncertain": true,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": false,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 0.54,
+      "deep_e2e_ms": 4.16
+    },
+    "django_149": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 17.76,
+      "deep_e2e_ms": 17.76
+    },
+    "django_150": {
+      "ecv_classification": "SAFE_CONTRACT",
+      "is_uncertain": false,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [
+        {
+          "file": "app_06.py",
+          "kind": "ast_queryset_arg"
+        }
+      ],
+      "fast_e2e_ms": 24.08,
+      "deep_e2e_ms": 87.55
+    },
+    "django_151": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 15.75,
+      "deep_e2e_ms": 15.76
+    },
+    "django_152": {
+      "ecv_classification": "UNCERTAIN",
+      "is_uncertain": true,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [
+        {
+          "file": "app_01.py",
+          "kind": "ast_orm_kwarg"
+        }
+      ],
+      "fast_e2e_ms": 44.56,
+      "deep_e2e_ms": 60.51
+    },
+    "django_153": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 98.31,
+      "deep_e2e_ms": 98.31
+    },
+    "django_154": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 10.07,
+      "deep_e2e_ms": 10.07
+    },
+    "django_155": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 3.36,
+      "deep_e2e_ms": 3.36
+    },
+    "django_156": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BOTH",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 62.57,
+      "deep_e2e_ms": 62.57
+    },
+    "django_157": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BOTH",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 18.9,
+      "deep_e2e_ms": 18.9
+    },
+    "django_158": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 19.05,
+      "deep_e2e_ms": 19.05
+    },
+    "django_159": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 15.35,
+      "deep_e2e_ms": 15.35
+    },
+    "django_160": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 10.24,
+      "deep_e2e_ms": 10.24
+    },
+    "django_161": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 227.72,
+      "deep_e2e_ms": 227.72
+    },
+    "django_162": {
+      "ecv_classification": "SAFE_CONTRACT",
+      "is_uncertain": false,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": false,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 17.05,
+      "deep_e2e_ms": 141.05
+    },
+    "django_163": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_FORWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 14.37,
+      "deep_e2e_ms": 14.37
+    },
+    "django_164": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BOTH",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 37.82,
+      "deep_e2e_ms": 37.82
+    },
+    "django_165": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 25.38,
+      "deep_e2e_ms": 25.39
+    },
+    "django_166": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 5.89,
+      "deep_e2e_ms": 5.89
+    },
+    "django_167": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 20.38,
+      "deep_e2e_ms": 20.38
+    },
+    "django_168": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 98.46,
+      "deep_e2e_ms": 98.46
+    },
+    "django_169": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 73.45,
+      "deep_e2e_ms": 73.45
+    },
+    "django_170": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BOTH",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 17.26,
+      "deep_e2e_ms": 17.26
+    },
+    "django_171": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BOTH",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 192.44,
+      "deep_e2e_ms": 192.44
+    },
+    "django_172": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 203.27,
+      "deep_e2e_ms": 203.27
+    },
+    "django_173": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 170.59,
+      "deep_e2e_ms": 170.59
+    },
+    "django_174": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 49.14,
+      "deep_e2e_ms": 49.14
+    },
+    "django_175": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 20.56,
+      "deep_e2e_ms": 20.56
+    },
+    "django_176": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 282.54,
+      "deep_e2e_ms": 282.54
+    },
+    "django_177": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BOTH",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 13.7,
+      "deep_e2e_ms": 13.7
+    },
+    "django_178": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BOTH",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 222.89,
+      "deep_e2e_ms": 222.89
+    },
+    "django_179": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 61.27,
+      "deep_e2e_ms": 61.27
+    },
+    "django_180": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 331.1,
+      "deep_e2e_ms": 331.1
+    },
+    "prisma_001": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 24.59,
+      "deep_e2e_ms": 24.59
+    },
+    "prisma_002": {
+      "ecv_classification": "DATA_DEPENDENT",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 91.53,
+      "deep_e2e_ms": 91.53
+    },
+    "prisma_003": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 18.25,
+      "deep_e2e_ms": 18.25
+    },
+    "prisma_004": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 26.49,
+      "deep_e2e_ms": 26.49
+    },
+    "prisma_005": {
+      "ecv_classification": "SAFE_CONTRACT",
+      "is_uncertain": false,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": false,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 35.12,
+      "deep_e2e_ms": 266.51
+    },
+    "prisma_006": {
+      "ecv_classification": "UNCERTAIN",
+      "is_uncertain": true,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": false,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 6.76,
+      "deep_e2e_ms": 58.87
+    },
+    "prisma_007": {
+      "ecv_classification": "SAFE_CONTRACT",
+      "is_uncertain": false,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": false,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 29.95,
+      "deep_e2e_ms": 190.98
+    },
+    "prisma_008": {
+      "ecv_classification": "SAFE_CONTRACT",
+      "is_uncertain": false,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [
+        {
+          "file": "app_06.ts",
+          "kind": "ast_ts_property"
+        }
+      ],
+      "fast_e2e_ms": 4.45,
+      "deep_e2e_ms": 22.98
+    },
+    "prisma_009": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 98.31,
+      "deep_e2e_ms": 98.31
+    },
+    "prisma_010": {
+      "ecv_classification": "DATA_DEPENDENT",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 20.2,
+      "deep_e2e_ms": 20.21
+    },
+    "prisma_011": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 43.23,
+      "deep_e2e_ms": 43.23
+    },
+    "prisma_012": {
+      "ecv_classification": "SAFE_CONTRACT",
+      "is_uncertain": false,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [
+        {
+          "file": "app_01.ts",
+          "kind": "ast_ts_property"
+        }
+      ],
+      "fast_e2e_ms": 38.17,
+      "deep_e2e_ms": 67.25
+    },
+    "prisma_013": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 16.49,
+      "deep_e2e_ms": 16.49
+    },
+    "prisma_014": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 14.6,
+      "deep_e2e_ms": 14.6
+    },
+    "prisma_015": {
+      "ecv_classification": "SAFE_CONTRACT",
+      "is_uncertain": false,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": false,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 13.6,
+      "deep_e2e_ms": 156.1
+    },
+    "prisma_016": {
+      "ecv_classification": "SAFE_CONTRACT",
+      "is_uncertain": false,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [
+        {
+          "file": "app_05.ts",
+          "kind": "ast_ts_property"
+        }
+      ],
+      "fast_e2e_ms": 78.77,
+      "deep_e2e_ms": 94.29
+    },
+    "prisma_017": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 32.0,
+      "deep_e2e_ms": 32.0
+    },
+    "prisma_018": {
+      "ecv_classification": "SAFE_CONTRACT",
+      "is_uncertain": false,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": false,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 40.33,
+      "deep_e2e_ms": 305.37
+    },
+    "prisma_019": {
+      "ecv_classification": "SAFE_CONTRACT",
+      "is_uncertain": false,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": false,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 16.3,
+      "deep_e2e_ms": 176.0
+    },
+    "prisma_020": {
+      "ecv_classification": "SAFE_CONTRACT",
+      "is_uncertain": false,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [
+        {
+          "file": "app_03.ts",
+          "kind": "ast_ts_property"
+        }
+      ],
+      "fast_e2e_ms": 16.75,
+      "deep_e2e_ms": 27.75
+    },
+    "prisma_021": {
+      "ecv_classification": "SAFE_CONTRACT",
+      "is_uncertain": false,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [
+        {
+          "file": "app_03.ts",
+          "kind": "ast_ts_property"
+        }
+      ],
+      "fast_e2e_ms": 16.98,
+      "deep_e2e_ms": 37.67
+    },
+    "prisma_022": {
+      "ecv_classification": "SAFE_CONTRACT",
+      "is_uncertain": false,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": false,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 70.22,
+      "deep_e2e_ms": 264.17
+    },
+    "prisma_023": {
+      "ecv_classification": "SAFE_CONTRACT",
+      "is_uncertain": false,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": false,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 17.75,
+      "deep_e2e_ms": 53.4
+    },
+    "prisma_024": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 24.27,
+      "deep_e2e_ms": 24.27
+    },
+    "prisma_025": {
+      "ecv_classification": "SAFE_CONTRACT",
+      "is_uncertain": false,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": false,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 18.95,
+      "deep_e2e_ms": 131.38
+    },
+    "prisma_026": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 9.38,
+      "deep_e2e_ms": 9.38
+    },
+    "prisma_027": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 6.79,
+      "deep_e2e_ms": 6.79
+    },
+    "prisma_028": {
+      "ecv_classification": "SAFE_CONTRACT",
+      "is_uncertain": false,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": false,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 29.3,
+      "deep_e2e_ms": 95.27
+    },
+    "prisma_029": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BOTH",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 26.22,
+      "deep_e2e_ms": 26.22
+    },
+    "prisma_030": {
+      "ecv_classification": "SAFE_CONTRACT",
+      "is_uncertain": false,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": false,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 52.3,
+      "deep_e2e_ms": 239.04
+    },
+    "prisma_031": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 20.18,
+      "deep_e2e_ms": 20.18
+    },
+    "prisma_032": {
+      "ecv_classification": "DATA_DEPENDENT",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 30.07,
+      "deep_e2e_ms": 30.07
+    },
+    "prisma_033": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 39.95,
+      "deep_e2e_ms": 39.95
+    },
+    "prisma_034": {
+      "ecv_classification": "SAFE_CONTRACT",
+      "is_uncertain": false,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": false,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 31.8,
+      "deep_e2e_ms": 175.39
+    },
+    "prisma_035": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 19.92,
+      "deep_e2e_ms": 19.92
+    },
+    "prisma_036": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_FORWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 74.68,
+      "deep_e2e_ms": 74.68
+    },
+    "prisma_037": {
+      "ecv_classification": "SAFE_CONTRACT",
+      "is_uncertain": false,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": false,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 51.75,
+      "deep_e2e_ms": 205.61
+    },
+    "prisma_038": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BOTH",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 37.76,
+      "deep_e2e_ms": 37.76
+    },
+    "prisma_039": {
+      "ecv_classification": "SAFE_CONTRACT",
+      "is_uncertain": false,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": false,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 64.65,
+      "deep_e2e_ms": 65.08
+    },
+    "prisma_040": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 20.43,
+      "deep_e2e_ms": 20.43
+    },
+    "prisma_041": {
+      "ecv_classification": "UNCERTAIN",
+      "is_uncertain": true,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": false,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 65.84,
+      "deep_e2e_ms": 145.06
+    },
+    "prisma_042": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 22.78,
+      "deep_e2e_ms": 22.78
+    },
+    "prisma_043": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 30.06,
+      "deep_e2e_ms": 30.06
+    },
+    "prisma_044": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 34.45,
+      "deep_e2e_ms": 34.45
+    },
+    "prisma_045": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BOTH",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 18.84,
+      "deep_e2e_ms": 18.84
+    },
+    "prisma_046": {
+      "ecv_classification": "SAFE_CONTRACT",
+      "is_uncertain": false,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": false,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 27.06,
+      "deep_e2e_ms": 60.22
+    },
+    "prisma_047": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BOTH",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 5.47,
+      "deep_e2e_ms": 5.47
+    },
+    "prisma_048": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 16.04,
+      "deep_e2e_ms": 16.04
+    },
+    "prisma_049": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 23.97,
+      "deep_e2e_ms": 23.97
+    },
+    "prisma_050": {
+      "ecv_classification": "DATA_DEPENDENT",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 40.29,
+      "deep_e2e_ms": 40.29
+    },
+    "prisma_051": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 15.5,
+      "deep_e2e_ms": 15.5
+    },
+    "prisma_052": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 26.14,
+      "deep_e2e_ms": 26.14
+    },
+    "prisma_053": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 28.97,
+      "deep_e2e_ms": 28.97
+    },
+    "prisma_054": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BOTH",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 19.52,
+      "deep_e2e_ms": 19.52
+    },
+    "prisma_055": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BOTH",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 29.04,
+      "deep_e2e_ms": 29.04
+    },
+    "prisma_056": {
+      "ecv_classification": "SAFE_CONTRACT",
+      "is_uncertain": false,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": false,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 17.95,
+      "deep_e2e_ms": 144.24
+    },
+    "prisma_057": {
+      "ecv_classification": "SAFE_CONTRACT",
+      "is_uncertain": false,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": false,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 49.94,
+      "deep_e2e_ms": 252.32
+    },
+    "prisma_058": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 24.14,
+      "deep_e2e_ms": 24.14
+    },
+    "prisma_059": {
+      "ecv_classification": "DATA_DEPENDENT",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 39.73,
+      "deep_e2e_ms": 39.73
+    },
+    "prisma_060": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 29.12,
+      "deep_e2e_ms": 29.12
+    },
+    "rails_061": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 49.58,
+      "deep_e2e_ms": 49.58
+    },
+    "rails_062": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 39.62,
+      "deep_e2e_ms": 39.62
+    },
+    "rails_063": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 196.44,
+      "deep_e2e_ms": 196.44
+    },
+    "rails_064": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 68.97,
+      "deep_e2e_ms": 68.97
+    },
+    "rails_065": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 31.25,
+      "deep_e2e_ms": 31.25
+    },
+    "rails_066": {
+      "ecv_classification": "SAFE_CONTRACT",
+      "is_uncertain": false,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": false,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 83.26,
+      "deep_e2e_ms": 201.51
+    },
+    "rails_067": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 246.36,
+      "deep_e2e_ms": 246.36
+    },
+    "rails_068": {
+      "ecv_classification": "UNCERTAIN",
+      "is_uncertain": true,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [
+        {
+          "file": "app_00.rb",
+          "kind": "ast_ruby_symbol"
+        }
+      ],
+      "fast_e2e_ms": 78.15,
+      "deep_e2e_ms": 80.85
+    },
+    "rails_069": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 122.03,
+      "deep_e2e_ms": 122.03
+    },
+    "rails_070": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 14.33,
+      "deep_e2e_ms": 14.33
+    },
+    "rails_071": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BOTH",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 60.14,
+      "deep_e2e_ms": 60.14
+    },
+    "rails_072": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BOTH",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 131.14,
+      "deep_e2e_ms": 131.14
+    },
+    "rails_073": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 12.9,
+      "deep_e2e_ms": 12.9
+    },
+    "rails_074": {
+      "ecv_classification": "UNCERTAIN",
+      "is_uncertain": true,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [
+        {
+          "file": "app_02.rb",
+          "kind": "ast_ruby_symbol"
+        }
+      ],
+      "fast_e2e_ms": 36.05,
+      "deep_e2e_ms": 55.17
+    },
+    "rails_075": {
+      "ecv_classification": "UNCERTAIN",
+      "is_uncertain": true,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": false,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 60.06,
+      "deep_e2e_ms": 173.6
+    },
+    "rails_076": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 162.64,
+      "deep_e2e_ms": 162.64
+    },
+    "rails_077": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 69.62,
+      "deep_e2e_ms": 69.62
+    },
+    "rails_078": {
+      "ecv_classification": "SAFE_CONTRACT",
+      "is_uncertain": false,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": false,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 151.11,
+      "deep_e2e_ms": 289.34
+    },
+    "rails_079": {
+      "ecv_classification": "UNCERTAIN",
+      "is_uncertain": true,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [
+        {
+          "file": "app_03.rb",
+          "kind": "ast_ruby_symbol"
+        }
+      ],
+      "fast_e2e_ms": 78.48,
+      "deep_e2e_ms": 99.98
+    },
+    "rails_080": {
+      "ecv_classification": "UNCERTAIN",
+      "is_uncertain": true,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [
+        {
+          "file": "app_04.rb",
+          "kind": "ast_ruby_symbol"
+        }
+      ],
+      "fast_e2e_ms": 2.51,
+      "deep_e2e_ms": 18.21
+    },
+    "rails_081": {
+      "ecv_classification": "UNCERTAIN",
+      "is_uncertain": true,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": false,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 13.96,
+      "deep_e2e_ms": 92.01
+    },
+    "rails_082": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 91.71,
+      "deep_e2e_ms": 91.71
+    },
+    "rails_083": {
+      "ecv_classification": "SAFE_CONTRACT",
+      "is_uncertain": false,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": false,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 96.66,
+      "deep_e2e_ms": 149.16
+    },
+    "rails_084": {
+      "ecv_classification": "SAFE_CONTRACT",
+      "is_uncertain": false,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": false,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 53.39,
+      "deep_e2e_ms": 122.53
+    },
+    "rails_085": {
+      "ecv_classification": "UNCERTAIN",
+      "is_uncertain": true,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": false,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 52.55,
+      "deep_e2e_ms": 204.3
+    },
+    "rails_086": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 64.01,
+      "deep_e2e_ms": 64.01
+    },
+    "rails_087": {
+      "ecv_classification": "SAFE_CONTRACT",
+      "is_uncertain": false,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": false,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 144.42,
+      "deep_e2e_ms": 272.02
+    },
+    "rails_088": {
+      "ecv_classification": "UNCERTAIN",
+      "is_uncertain": true,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": false,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 36.1,
+      "deep_e2e_ms": 280.07
+    },
+    "rails_089": {
+      "ecv_classification": "SAFE_CONTRACT",
+      "is_uncertain": false,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": false,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 15.47,
+      "deep_e2e_ms": 113.2
+    },
+    "rails_090": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 273.85,
+      "deep_e2e_ms": 273.85
+    },
+    "rails_091": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 66.53,
+      "deep_e2e_ms": 66.53
+    },
+    "rails_092": {
+      "ecv_classification": "DATA_DEPENDENT",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 124.64,
+      "deep_e2e_ms": 124.64
+    },
+    "rails_093": {
+      "ecv_classification": "UNCERTAIN",
+      "is_uncertain": true,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [
+        {
+          "file": "app_06.rb",
+          "kind": "ast_ruby_symbol"
+        }
+      ],
+      "fast_e2e_ms": 37.4,
+      "deep_e2e_ms": 72.92
+    },
+    "rails_094": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 9.73,
+      "deep_e2e_ms": 9.73
+    },
+    "rails_095": {
+      "ecv_classification": "UNCERTAIN",
+      "is_uncertain": true,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": false,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 2.37,
+      "deep_e2e_ms": 2.47
+    },
+    "rails_096": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BOTH",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 19.28,
+      "deep_e2e_ms": 19.28
+    },
+    "rails_097": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BOTH",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 247.8,
+      "deep_e2e_ms": 247.8
+    },
+    "rails_098": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 10.63,
+      "deep_e2e_ms": 10.63
+    },
+    "rails_099": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 27.32,
+      "deep_e2e_ms": 27.32
+    },
+    "rails_100": {
+      "ecv_classification": "UNCERTAIN",
+      "is_uncertain": true,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": false,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 1.73,
+      "deep_e2e_ms": 75.44
+    },
+    "rails_101": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 10.83,
+      "deep_e2e_ms": 10.83
+    },
+    "rails_102": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 8.59,
+      "deep_e2e_ms": 8.59
+    },
+    "rails_103": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 15.63,
+      "deep_e2e_ms": 15.63
+    },
+    "rails_104": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BOTH",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 67.17,
+      "deep_e2e_ms": 67.17
+    },
+    "rails_105": {
+      "ecv_classification": "UNCERTAIN",
+      "is_uncertain": true,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": false,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 5.63,
+      "deep_e2e_ms": 166.36
+    },
+    "rails_106": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 23.45,
+      "deep_e2e_ms": 23.45
+    },
+    "rails_107": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 203.72,
+      "deep_e2e_ms": 203.72
+    },
+    "rails_108": {
+      "ecv_classification": "DATA_DEPENDENT",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 90.41,
+      "deep_e2e_ms": 90.41
+    },
+    "rails_109": {
+      "ecv_classification": "SAFE_CONTRACT",
+      "is_uncertain": false,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [
+        {
+          "file": "app_00.rb",
+          "kind": "ast_ruby_symbol"
+        }
+      ],
+      "fast_e2e_ms": 155.2,
+      "deep_e2e_ms": 172.16
+    },
+    "rails_110": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 67.72,
+      "deep_e2e_ms": 67.72
+    },
+    "rails_111": {
+      "ecv_classification": "SAFE_CONTRACT",
+      "is_uncertain": false,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": false,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 21.46,
+      "deep_e2e_ms": 100.09
+    },
+    "rails_112": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_FORWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 11.8,
+      "deep_e2e_ms": 11.8
+    },
+    "rails_113": {
+      "ecv_classification": "SAFE_CONTRACT",
+      "is_uncertain": false,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": false,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 8.47,
+      "deep_e2e_ms": 25.99
+    },
+    "rails_114": {
+      "ecv_classification": "SAFE_CONTRACT",
+      "is_uncertain": false,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [
+        {
+          "file": "app_17.rb",
+          "kind": "ast_ruby_symbol"
+        }
+      ],
+      "fast_e2e_ms": 56.86,
+      "deep_e2e_ms": 155.55
+    },
+    "rails_115": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 176.66,
+      "deep_e2e_ms": 176.66
+    },
+    "rails_116": {
+      "ecv_classification": "DATA_DEPENDENT",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 57.31,
+      "deep_e2e_ms": 57.31
+    },
+    "rails_117": {
+      "ecv_classification": "UNCERTAIN",
+      "is_uncertain": true,
+      "ecv_fast_pred": false,
+      "ecv_deep_pred": false,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 15.67,
+      "deep_e2e_ms": 23.3
+    },
+    "rails_118": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 138.0,
+      "deep_e2e_ms": 138.0
+    },
+    "rails_119": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 145.55,
+      "deep_e2e_ms": 145.56
+    },
+    "rails_120": {
+      "ecv_classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "is_uncertain": false,
+      "ecv_fast_pred": true,
+      "ecv_deep_pred": true,
+      "ecv_deep_ast_hits": [],
+      "fast_e2e_ms": 2.08,
+      "deep_e2e_ms": 2.08
+    }
+  },
+  "runtime_summary": {
+    "ecv_fast_e2e_all": {
+      "median": 30.0,
+      "mean": 58.89,
+      "p95": 222.89
+    },
+    "ecv_fast_e2e_by_eco": {
+      "django": {
+        "median": 25.88,
+        "mean": 72.32,
+        "p95": 296.84
+      },
+      "prisma": {
+        "median": 26.36,
+        "mean": 31.57,
+        "p95": 74.68
+      },
+      "rails": {
+        "median": 57.09,
+        "mean": 72.77,
+        "p95": 203.72
+      }
+    },
+    "ecv_deep_e2e_all": {
+      "median": 60.89,
+      "mean": 94.9,
+      "p95": 280.07
+    },
+    "ecv_deep_e2e_candidates_only": {
+      "median": 122.53,
+      "mean": 147.12,
+      "p95": 289.34
+    },
+    "squawk_native_win_single_cli_all": {
+      "median": 49.94,
+      "mean": 63.77,
+      "p95": 131.99
+    },
+    "squawk_native_win_single_cli_prisma": {
+      "median": 49.45,
+      "mean": 61.79,
+      "p95": 124.03
+    },
+    "squawk_native_win_batched_per_file_ms": 8.92,
+    "strong_migrations_real_rails": {
+      "executed_ok": 52,
+      "total": 60,
+      "flagged": 39,
+      "median_ms": 0.34
+    },
+    "django_migration_linter_real_django": {
+      "total": 60,
+      "flagged_err": 60,
+      "median_ms": 8.59
+    }
+  },
+  "v3_notes": {
+    "verdict_changes_vs_v2": [
+      [
+        "prisma_002",
+        "DUAL_VERSION_VIOLATION_BACKWARD",
+        "DATA_DEPENDENT"
+      ],
+      [
+        "prisma_010",
+        "DUAL_VERSION_VIOLATION_BACKWARD",
+        "DATA_DEPENDENT"
+      ],
+      [
+        "prisma_032",
+        "DUAL_VERSION_VIOLATION_BACKWARD",
+        "DATA_DEPENDENT"
+      ],
+      [
+        "prisma_037",
+        "UNCERTAIN",
+        "SAFE_CONTRACT"
+      ],
+      [
+        "prisma_050",
+        "DUAL_VERSION_VIOLATION_BACKWARD",
+        "DATA_DEPENDENT"
+      ],
+      [
+        "prisma_057",
+        "UNCERTAIN",
+        "SAFE_CONTRACT"
+      ],
+      [
+        "prisma_059",
+        "DUAL_VERSION_VIOLATION_BACKWARD",
+        "DATA_DEPENDENT"
+      ],
+      [
+        "rails_092",
+        "DUAL_VERSION_VIOLATION_BACKWARD",
+        "DATA_DEPENDENT"
+      ],
+      [
+        "rails_108",
+        "DUAL_VERSION_VIOLATION_BACKWARD",
+        "DATA_DEPENDENT"
+      ],
+      [
+        "rails_116",
+        "DUAL_VERSION_VIOLATION_BACKWARD",
+        "DATA_DEPENDENT"
+      ]
+    ],
+    "unmatched_cases_kept_v2_verdict": [
+      "rails_100"
+    ]
+  }
+}

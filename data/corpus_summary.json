@@ -1,0 +1,26 @@
+{
+  "prisma": {
+    "total_verified": 30,
+    "selected": 30,
+    "min_stars": 307,
+    "max_stars": 80852,
+    "k8s_helm_count": 7,
+    "total_migrations": 5583
+  },
+  "rails": {
+    "total_verified": 40,
+    "selected": 40,
+    "min_stars": 421,
+    "max_stars": 50606,
+    "k8s_helm_count": 1,
+    "total_migrations": 9909
+  },
+  "django": {
+    "total_verified": 50,
+    "selected": 40,
+    "min_stars": 2049,
+    "max_stars": 48357,
+    "k8s_helm_count": 7,
+    "total_migrations": 8062
+  }
+}

@@ -1,0 +1,3041 @@
+{
+  "repo": "gitlabhq/gitlabhq",
+  "ecosystem": "rails",
+  "stars": 24570,
+  "has_k8s_helm": true,
+  "status": "ok",
+  "stats": {
+    "total_migration_commits_in_history": 150,
+    "migration_commits_analyzed": 150,
+    "total_migration_files_parsed": 404,
+    "commits_with_any_destructive": 32,
+    "commits_with_forward_destructive": 12,
+    "commits_with_rollback_only_destructive": 20,
+    "total_ops_extracted": 51,
+    "destructive_ops_up": 17,
+    "destructive_ops_down": 34
+  },
+  "verdict_counts": {
+    "ROLLBACK_ONLY_FALSE_ALARM": 34,
+    "SAFE_ADDITIVE": 1,
+    "DATA_DEPENDENT": 8,
+    "SAFE_CONTRACT": 8
+  },
+  "destructive_commits": [
+    {
+      "sha": "22796654cc6f62a952444bb6feff1c4b24543fdf",
+      "parent": "00a1b7d7f3595e2eb668c11576e0c45630354aec",
+      "date": "2026-10-22T03:07:18Z",
+      "subject": "Add latest changes from gitlab-org/gitlab@master",
+      "mig_files": [
+        "db/migrate/20261013233001_add_versions_to_ai_governance_sessions.rb",
+        "db/migrate/20261013233002_add_last_synced_at_to_ai_agent_identities.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/graphql/types/ci/job_type.rb",
+        "app/models/authz/project_grant_sources.rb",
+        "app/models/protected_branch.rb",
+        "config/initializers/0_banzai.rb",
+        "gems/gitlab-banzai/lib/banzai/all.rb",
+        "gems/gitlab-banzai/lib/banzai/configuration.rb",
+        "gems/gitlab-banzai/lib/banzai/filter/ascii_doc_post_processing_filter.rb",
+        "gems/gitlab-banzai/lib/banzai/filter/attributes_filter.rb",
+        "gems/gitlab-banzai/lib/banzai/filter/code_language_filter.rb",
+        "gems/gitlab-banzai/lib/banzai/filter/code_span_filter.rb",
+        "gems/gitlab-banzai/lib/banzai/filter/concerns/pipeline_timing_check.rb",
+        "gems/gitlab-banzai/lib/banzai/filter/concerns/timeout_filter_handler.rb"
+      ],
+      "orm_models_parsed_old": 1364,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "ai_governance_sessions",
+            "column": "glab_version",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20261013233001_add_versions_to_ai_governance_sessions.rb",
+            "line": 18,
+            "raw_snippet": "remove_column :ai_governance_sessions, :glab_version, if_exists: true",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "ai_governance_sessions",
+            "column": "glab_version",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "ai_governance_sessions",
+            "column": "agent_version",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20261013233001_add_versions_to_ai_governance_sessions.rb",
+            "line": 19,
+            "raw_snippet": "remove_column :ai_governance_sessions, :agent_version, if_exists: true",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "ai_governance_sessions",
+            "column": "agent_version",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "8e661594bdc440700168aba76921e9496207bcb9",
+      "parent": "4659873d9b0917fbd38f609f54cca0e0c1d256bd",
+      "date": "2026-10-21T09:07:25Z",
+      "subject": "Add latest changes from gitlab-org/gitlab@master",
+      "mig_files": [
+        "db/migrate/20261007100000_create_p_ai_suggested_reviewers.rb",
+        "db/post_migrate/20261007100100_copy_ai_suggested_reviewers_to_partitioned_table.rb",
+        "db/post_migrate/20261009081500_delete_orphaned_running_scan_result_policy_violations.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/projects/jobs_controller.rb",
+        "app/controllers/projects/merge_requests_controller.rb",
+        "app/controllers/sessions_controller.rb",
+        "app/controllers/users_controller.rb",
+        "app/events/merge_requests/requested_changes_cloud_event.rb",
+        "app/graphql/mutations/ci/job/cancel.rb",
+        "app/graphql/types/namespaces/metadata/project_namespace_metadata_type.rb",
+        "app/graphql/types/project_type.rb",
+        "app/helpers/application_settings_helper.rb",
+        "app/models/application_setting.rb",
+        "app/models/concerns/authz/granular_token_interface.rb",
+        "app/models/member.rb"
+      ],
+      "orm_models_parsed_old": 1363,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ADD_UNIQUE_OR_CHECK",
+            "table": "p_ai_suggested_reviewers",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20261007100000_create_p_ai_suggested_reviewers.rb",
+            "line": 37,
+            "raw_snippet": "add_check_constraint( :p_ai_suggested_reviewers, 'num_nonnulls(approval_merge_request_rule_id, approval_project_rule_id) <= 1', 'check_p_ai_suggested_reviewers_one_approval_rule' )",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "p_ai_suggested_reviewers",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Constraint added on newly created table 'p_ai_suggested_reviewers'.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ADD_UNIQUE_OR_CHECK",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_TABLE",
+            "table": "p_ai_suggested_reviewers",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20261007100000_create_p_ai_suggested_reviewers.rb",
+            "line": 47,
+            "raw_snippet": "drop_table :p_ai_suggested_reviewers",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "p_ai_suggested_reviewers",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "6c32943ae52460bed74cc107a2c414ae148369c3",
+      "parent": "574ce2e8be623c8dd0cccde6bd32f70070a08d22",
+      "date": "2026-10-21T00:08:46Z",
+      "subject": "Add latest changes from gitlab-org/gitlab@master",
+      "mig_files": [
+        "db/migrate/20261014233244_add_o11y_settings_to_application_settings.rb",
+        "db/migrate/20261019142349_add_skillguard_to_security_inventory_filters.rb",
+        "db/post_migrate/20261014185101_add_not_null_merge_after_to_merge_schedules.rb",
+        "db/post_migrate/20261014185102_delete_merge_schedules_with_null_merge_after.rb",
+        "db/post_migrate/20261014185103_validate_not_null_merge_after_to_merge_schedules.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/finders/user_groups_counter.rb",
+        "app/models/application_setting.rb",
+        "app/models/concerns/enums/security.rb",
+        "app/presenters/projects/security/configuration_presenter.rb",
+        "lib/api/merge_requests.rb",
+        "lib/gitlab/security/features.rb",
+        "scripts/cells/application-settings-analysis.rb",
+        "spec/lib/gitlab/group_search_results_spec.rb",
+        "spec/lib/gitlab/jira_import/issues_importer_spec.rb",
+        "spec/lib/gitlab/search_results_spec.rb",
+        "spec/lib/gitlab/security/scan_configuration_spec.rb",
+        "spec/models/application_setting_spec.rb"
+      ],
+      "orm_models_parsed_old": 1363,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ADD_UNIQUE_OR_CHECK",
+            "table": "application_settings",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20261014233244_add_o11y_settings_to_application_settings.rb",
+            "line": 17,
+            "raw_snippet": "add_check_constraint :application_settings, \"(jsonb_typeof(o11y_settings) = 'object')\", CONSTRAINT_NAME",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "application_settings",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "db/structure.sql"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "DATA_DEPENDENT",
+          "compat_forward": "SAFE",
+          "classification": "DATA_DEPENDENT",
+          "reason": "CHECK/UNIQUE constraint added on active C_{t-1} table 'application_settings'; safety depends on C_{t-1} write values.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ADD_UNIQUE_OR_CHECK",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "application_settings",
+            "column": "o11y_provisioner_api_key",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20261014233244_add_o11y_settings_to_application_settings.rb",
+            "line": 24,
+            "raw_snippet": "remove_column :application_settings, :o11y_provisioner_api_key, if_exists: true",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "application_settings",
+            "column": "o11y_provisioner_api_key",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "application_settings",
+            "column": "o11y_settings",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20261014233244_add_o11y_settings_to_application_settings.rb",
+            "line": 25,
+            "raw_snippet": "remove_column :application_settings, :o11y_settings, if_exists: true",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "application_settings",
+            "column": "o11y_settings",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "ea7a45de6af20b2254a493a47e303b8b50114011",
+      "parent": "bb14d80893fce5fd9b393951d97dec8b3731db97",
+      "date": "2026-10-19T18:07:03Z",
+      "subject": "Add latest changes from gitlab-org/gitlab@master",
+      "mig_files": [
+        "db/migrate/20261014224518_add_emoji_skin_tone_to_user_preferences.rb",
+        "db/migrate/20261016070913_add_repository_storage_to_p_knowledge_graph_code_indexing_tasks.rb",
+        "db/post_migrate/20261015093412_finalize_recalculate_min_access_two_factor_enforcement_on_members.rb",
+        "db/post_migrate/20261015093415_remove_tmp_index_members_on_access_level_source_type_requested_at_id.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/profiles/preferences_controller.rb",
+        "app/graphql/mutations/user_preferences/update.rb",
+        "app/graphql/types/user_preferences_type.rb",
+        "app/graphql/types/users/emoji_skin_tone_enum.rb",
+        "app/helpers/preferences_helper.rb",
+        "app/models/user.rb",
+        "app/models/user_preference.rb",
+        "app/services/draft_notes/publish_service.rb",
+        "app/services/issuable_base_service.rb",
+        "app/services/merge_requests/base_service.rb",
+        "app/services/merge_requests/update_service.rb",
+        "app/services/quick_actions/interpret_service.rb"
+      ],
+      "orm_models_parsed_old": 1366,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "p_knowledge_graph_code_indexing_tasks",
+            "column": "repository_storage",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20261016070913_add_repository_storage_to_p_knowledge_graph_code_indexing_tasks.rb",
+            "line": 20,
+            "raw_snippet": "remove_column :p_knowledge_graph_code_indexing_tasks, :repository_storage, if_exists: true",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "p_knowledge_graph_code_indexing_tasks",
+            "column": "repository_storage",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "00d69ba841019f67304404d58122a5ff8f473389",
+      "parent": "c22d2ad2427efda0125434fa2768a7246032fbbf",
+      "date": "2026-10-16T09:07:06Z",
+      "subject": "Add latest changes from gitlab-org/gitlab@master",
+      "mig_files": [
+        "db/migrate/20261009121500_add_on_finish_settings_to_ai_flow_triggers.rb",
+        "db/migrate/20261012125554_create_organization_gitlab_subscriptions.rb",
+        "db/post_migrate/20261012093000_validate_ai_flow_triggers_status_on_finish_text_limit.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/helpers/webpack_helper.rb",
+        "app/models/ci/pipeline_metadata.rb",
+        "lib/api/work_items/discussions.rb",
+        "lib/api/work_items/notes.rb",
+        "lib/authn/iam_service/grpc_client.rb",
+        "lib/gitlab/ci/pipeline/chain/populate_metadata.rb",
+        "lib/gitlab/ci/pipeline/chain/skip.rb",
+        "lib/gitlab/ci/redundant_pipelines/auto_cancel_policy.rb",
+        "lib/gitlab/middleware/labkit_rack_rate_limit.rb",
+        "lib/gitlab/vue3_migration.rb",
+        "spec/controllers/projects/pipelines_settings_controller_spec.rb",
+        "spec/helpers/webpack_helper_spec.rb"
+      ],
+      "orm_models_parsed_old": 1361,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "ai_flow_triggers",
+            "column": "status_on_finish",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20261009121500_add_on_finish_settings_to_ai_flow_triggers.rb",
+            "line": 21,
+            "raw_snippet": "remove_column :ai_flow_triggers, :status_on_finish, if_exists: true",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "ai_flow_triggers",
+            "column": "status_on_finish",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "ai_flow_triggers",
+            "column": "ready_merge_requests_on_finish",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20261009121500_add_on_finish_settings_to_ai_flow_triggers.rb",
+            "line": 22,
+            "raw_snippet": "remove_column :ai_flow_triggers, :ready_merge_requests_on_finish, if_exists: true",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "ai_flow_triggers",
+            "column": "ready_merge_requests_on_finish",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_TABLE",
+            "table": "organization_gitlab_subscriptions",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20261012125554_create_organization_gitlab_subscriptions.rb",
+            "line": 28,
+            "raw_snippet": "drop_table :organization_gitlab_subscriptions",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "organization_gitlab_subscriptions",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "c8a993c3cc92f5561626bdb0e905e35179a7c4bb",
+      "parent": "f66cee4af5ded486185553e3dee1eddc9040d3ac",
+      "date": "2026-10-14T12:16:56Z",
+      "subject": "Add latest changes from gitlab-org/gitlab@master",
+      "mig_files": [
+        "db/migrate/20261007162721_add_project_defaults_to_application_settings.rb",
+        "db/migrate/20261007162722_add_project_defaults_hash_constraint_to_application_settings.rb",
+        "db/migrate/20261013104217_add_kind_to_audit_events_instance_streaming_event_type_filters.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/admin/application_settings_controller.rb",
+        "app/graphql/mutations/achievements/revoke.rb",
+        "app/graphql/types/work_items/type_type.rb",
+        "app/models/application_setting.rb",
+        "app/models/slack_integration.rb",
+        "app/models/work_items/types_framework/system_defined/type.rb",
+        "app/services/achievements/revoke_service.rb",
+        "lib/slack/api.rb",
+        "lib/slack/manifest.rb",
+        "scripts/ci/otel_span_exporter.rb",
+        "scripts/ci/otel_span_smoke_test.rb",
+        "spec/controllers/admin/application_settings_controller_spec.rb"
+      ],
+      "orm_models_parsed_old": 1360,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ADD_UNIQUE_OR_CHECK",
+            "table": "application_settings",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20261007162722_add_project_defaults_hash_constraint_to_application_settings.rb",
+            "line": 10,
+            "raw_snippet": "add_check_constraint :application_settings, \"(jsonb_typeof(project_defaults) = 'object')\", CONSTRAINT_NAME",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "application_settings",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "db/structure.sql"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "DATA_DEPENDENT",
+          "compat_forward": "SAFE",
+          "classification": "DATA_DEPENDENT",
+          "reason": "CHECK/UNIQUE constraint added on active C_{t-1} table 'application_settings'; safety depends on C_{t-1} write values.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ADD_UNIQUE_OR_CHECK",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "b5f500282b2873417ba6b0e6e198f5a862111aa0",
+      "parent": "4035b3d92fba02c638875a14e123636ac9562fef",
+      "date": "2026-10-13T21:12:57Z",
+      "subject": "Add latest changes from gitlab-org/gitlab@master",
+      "mig_files": [
+        "db/post_migrate/20261012145506_remove_template_columns_from_namespaces.rb",
+        "spec/migrations/db/post_migrate/20260928091307_remove_merge_request_event_from_developer_ai_flow_triggers_spec.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/graphql/mutations/achievements/create.rb",
+        "app/graphql/mutations/achievements/delete.rb",
+        "app/graphql/mutations/achievements/update.rb",
+        "app/graphql/resolvers/ci/jobs_resolver.rb",
+        "app/models/ability.rb",
+        "app/models/commit_status.rb",
+        "app/models/hooks/system_hook.rb",
+        "app/models/namespace.rb",
+        "app/models/project.rb",
+        "app/services/achievements/base_service.rb",
+        "app/services/achievements/create_service.rb",
+        "app/services/achievements/destroy_service.rb"
+      ],
+      "orm_models_parsed_old": 1360,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "namespaces",
+            "column": "file_template_project_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/post_migrate/20261012145506_remove_template_columns_from_namespaces.rb",
+            "line": 9,
+            "raw_snippet": "remove_column :namespaces, :file_template_project_id, if_exists: true",
+            "extra": {
+              "post_deploy": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "namespaces",
+            "column": "file_template_project_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "db/structure.sql"
+            ],
+            "app_files_old": [],
+            "notes": [
+              "post_deploy"
+            ]
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Post-deployment migration: runs after C_{t-1} has drained; C_t does not use the symbol.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "namespaces",
+            "column": "custom_project_templates_group_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/post_migrate/20261012145506_remove_template_columns_from_namespaces.rb",
+            "line": 10,
+            "raw_snippet": "remove_column :namespaces, :custom_project_templates_group_id, if_exists: true",
+            "extra": {
+              "post_deploy": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "namespaces",
+            "column": "custom_project_templates_group_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "db/structure.sql"
+            ],
+            "app_files_old": [],
+            "notes": [
+              "post_deploy"
+            ]
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Post-deployment migration: runs after C_{t-1} has drained; C_t does not use the symbol.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "d6c3968ab3bd67df25514a8e76515522292871b0",
+      "parent": "281fe5b7862645ac888336c64bcd9e3cca6ef5ab",
+      "date": "2026-10-11T21:07:11Z",
+      "subject": "Add latest changes from gitlab-org/gitlab@master",
+      "mig_files": [
+        "db/migrate/20260924125415_update_index_dast_site_token_on_token_on_dast_site_tokens.rb",
+        "db/migrate/20261009052537_add_drop_reason_to_duo_workflows_workflows.rb"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 1360,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "duo_workflows_workflows",
+            "column": "drop_reason",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20261009052537_add_drop_reason_to_duo_workflows_workflows.rb",
+            "line": 17,
+            "raw_snippet": "remove_column :duo_workflows_workflows, :drop_reason, if_exists: true",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "duo_workflows_workflows",
+            "column": "drop_reason",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "608ce38b531c4af12713ff2e3397a26e462bc860",
+      "parent": "ffb70c51fce34926cb0d1ee47a0a1c7f31cb1b46",
+      "date": "2026-10-08T00:08:32Z",
+      "subject": "Add latest changes from gitlab-org/gitlab@master",
+      "mig_files": [
+        "db/migrate/20260922120000_create_oauth_application_granular_scopes.rb",
+        "db/migrate/20260922120001_extend_delete_orphaned_granular_scopes_trigger_to_oauth_applications.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/graphql_controller.rb",
+        "app/graphql/mutations/users/personal_access_tokens/create.rb",
+        "app/graphql/resolvers/ci/jobs_resolver.rb",
+        "app/models/authn/oauth_application.rb",
+        "app/models/authz/oauth_application_granular_scope.rb",
+        "app/models/ci/preloaders/commit_status_preloader.rb",
+        "app/models/ci/preloaders/commit_status_relation_extension.rb",
+        "app/models/concerns/commit_signature.rb",
+        "app/models/packages/package_file.rb",
+        "app/models/resource_label_event.rb",
+        "app/models/users/credit_card_validation.rb",
+        "app/services/issuables/label_event_references_service.rb"
+      ],
+      "orm_models_parsed_old": 1361,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_TABLE",
+            "table": "oauth_application_granular_scopes",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260922120000_create_oauth_application_granular_scopes.rb",
+            "line": 30,
+            "raw_snippet": "drop_table :oauth_application_granular_scopes",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "oauth_application_granular_scopes",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "e3b1aca935587e1b98731389d61b21f296da432a",
+      "parent": "3bb4ae95d7491ea559da7b64d3f7920b350bb230",
+      "date": "2026-10-07T15:07:15Z",
+      "subject": "Add latest changes from gitlab-org/gitlab@master",
+      "mig_files": [
+        "db/migrate/20260927170000_swap_pm_checkpoints_path_components_index.rb",
+        "db/migrate/20260927170050_add_check_constraint_to_pm_checkpoints_purl_type.rb",
+        "db/migrate/20260927170100_drop_not_null_constraint_from_pm_checkpoints_purl_type.rb",
+        "db/migrate/20260927170200_cleanup_pm_checkpoints_without_purl_type.rb",
+        "db/post_migrate/20261006123520_add_vulnerability_identifiers_partition_id_not_null_constraint.rb",
+        "db/post_migrate/20261006123524_swap_primary_key_for_vulnerability_identifiers.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/admin/application_settings_controller.rb",
+        "app/controllers/concerns/homepage_data.rb",
+        "app/controllers/dashboard_controller.rb",
+        "app/controllers/root_controller.rb",
+        "app/graphql/types/merge_request_type.rb",
+        "app/models/gitlab_subscriptions/system_defined/plan.rb",
+        "app/models/plan.rb",
+        "app/models/plan_limits.rb",
+        "app/presenters/search_service_presenter.rb",
+        "app/serializers/analytics/cycle_analytics/value_stream_entity.rb",
+        "app/serializers/build_action_entity.rb",
+        "app/serializers/build_details_entity.rb"
+      ],
+      "orm_models_parsed_old": 1359,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ADD_UNIQUE_OR_CHECK",
+            "table": "pm_checkpoints",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260927170050_add_check_constraint_to_pm_checkpoints_purl_type.rb",
+            "line": 11,
+            "raw_snippet": "add_check_constraint :pm_checkpoints, 'data_type = 3 OR purl_type IS NOT NULL', CONSTRAINT_NAME",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "pm_checkpoints",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "db/structure.sql"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "DATA_DEPENDENT",
+          "compat_forward": "SAFE",
+          "classification": "DATA_DEPENDENT",
+          "reason": "CHECK/UNIQUE constraint added on active C_{t-1} table 'pm_checkpoints'; safety depends on C_{t-1} write values.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ADD_UNIQUE_OR_CHECK",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "pm_checkpoints",
+            "column": "purl_type",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260927170100_drop_not_null_constraint_from_pm_checkpoints_purl_type.rb",
+            "line": 11,
+            "raw_snippet": "change_column_null :pm_checkpoints, :purl_type, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "pm_checkpoints",
+            "column": "purl_type",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "3bb4ae95d7491ea559da7b64d3f7920b350bb230",
+      "parent": "c9c312e08f6624c1c0341bba4808ec6a4af99259",
+      "date": "2026-10-07T12:07:05Z",
+      "subject": "Add latest changes from gitlab-org/gitlab@master",
+      "mig_files": [
+        "db/migrate/20260930170000_add_consecutive_auth_failures_to_import_sync_repositories.rb",
+        "db/migrate/20260930170001_add_consecutive_auth_failures_check_to_import_sync_repositories.rb",
+        "db/migrate/20261007094018_add_synced_columns_to_namespaces_sync_events.rb",
+        "db/migrate/20261007094022_add_synced_columns_to_projects_sync_events.rb",
+        "db/migrate/20261007094027_add_unprocessed_indexes_to_namespaces_sync_events.rb",
+        "db/migrate/20261007094031_add_unprocessed_indexes_to_projects_sync_events.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/concerns/lfs_request.rb",
+        "app/finders/ci/commit_statuses_finder.rb",
+        "app/graphql/types/project_type.rb",
+        "app/helpers/commits_helper.rb",
+        "app/helpers/integrations_helper.rb",
+        "app/helpers/organizations/organization_helper.rb",
+        "app/models/bulk_imports/entity.rb",
+        "app/models/ci/pipeline_creation/requests.rb",
+        "app/models/merge_request.rb",
+        "app/models/namespaces/sync_event.rb",
+        "app/models/projects/sync_event.rb",
+        "app/services/bulk_imports/create_service.rb"
+      ],
+      "orm_models_parsed_old": 1359,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ADD_UNIQUE_OR_CHECK",
+            "table": "import_sync_repositories",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260930170001_add_consecutive_auth_failures_check_to_import_sync_repositories.rb",
+            "line": 10,
+            "raw_snippet": "add_check_constraint :import_sync_repositories, 'consecutive_auth_failures >= 0', CONSTRAINT_NAME",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "import_sync_repositories",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "db/structure.sql"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "DATA_DEPENDENT",
+          "compat_forward": "SAFE",
+          "classification": "DATA_DEPENDENT",
+          "reason": "CHECK/UNIQUE constraint added on active C_{t-1} table 'import_sync_repositories'; safety depends on C_{t-1} write values.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ADD_UNIQUE_OR_CHECK",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "c9c312e08f6624c1c0341bba4808ec6a4af99259",
+      "parent": "e3cb8a9fd23c4664b120b14468f77fd44dfdb45e",
+      "date": "2026-10-07T09:16:36Z",
+      "subject": "Add latest changes from gitlab-org/gitlab@master",
+      "mig_files": [
+        "db/migrate/20260921110906_add_configured_at_to_namespace_ai_settings.rb",
+        "db/migrate/20261001090000_add_iam_role_to_ai_self_hosted_models.rb",
+        "db/post_migrate/20260716092514_requeue_mark_done_finalized_merge_request_todos.rb",
+        "db/post_migrate/20261005162420_requeue_mark_done_finalized_merge_request_todos_again.rb",
+        "db/post_migrate/20261006071649_clean_up_bigint_conversion_for_ci_sources_pipelines.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/helpers/webpack_helper.rb",
+        "app/models/ci/sources/pipeline.rb",
+        "app/services/ci/redundant_pipelines/cancel_replaced_pipeline_service.rb",
+        "app/services/merge_requests/base_service.rb",
+        "lib/banzai/filter/markdown_engines/glfm_markdown.rb",
+        "lib/gitlab/auth/auth_finders.rb",
+        "lib/gitlab/background_migration/mark_done_finalized_merge_request_todos.rb",
+        "lib/gitlab/ci/redundant_pipelines/auto_cancel_policy.rb",
+        "lib/gitlab/event_store/cloud_event.rb",
+        "spec/controllers/groups/children_controller_spec.rb",
+        "spec/features/merge_request/user_resolves_diff_notes_and_discussions_resolve_spec.rb",
+        "spec/finders/ci/job_artifacts_finder_spec.rb"
+      ],
+      "orm_models_parsed_old": 1359,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ADD_UNIQUE_OR_CHECK",
+            "table": "namespace_ai_settings",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260921110906_add_configured_at_to_namespace_ai_settings.rb",
+            "line": 14,
+            "raw_snippet": "add_check_constraint( :namespace_ai_settings, \"(jsonb_typeof(configured_at) = 'object')\", CONSTRAINT_NAME )",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "namespace_ai_settings",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "db/structure.sql"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "DATA_DEPENDENT",
+          "compat_forward": "SAFE",
+          "classification": "DATA_DEPENDENT",
+          "reason": "CHECK/UNIQUE constraint added on active C_{t-1} table 'namespace_ai_settings'; safety depends on C_{t-1} write values.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ADD_UNIQUE_OR_CHECK",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "namespace_ai_settings",
+            "column": "configured_at",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260921110906_add_configured_at_to_namespace_ai_settings.rb",
+            "line": 25,
+            "raw_snippet": "remove_column :namespace_ai_settings, :configured_at, if_exists: true",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "namespace_ai_settings",
+            "column": "configured_at",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "ai_self_hosted_models",
+            "column": "iam_role",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20261001090000_add_iam_role_to_ai_self_hosted_models.rb",
+            "line": 20,
+            "raw_snippet": "remove_column :ai_self_hosted_models, :iam_role, if_exists: true",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "ai_self_hosted_models",
+            "column": "iam_role",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "5240645741600b0d2e6a542e9f5bb09f19a94f9f",
+      "parent": "851be8e2ee058d461a20d34680e743be4f7686e2",
+      "date": "2026-10-07T00:07:09Z",
+      "subject": "Add latest changes from gitlab-org/gitlab@master",
+      "mig_files": [
+        "db/post_migrate/20260930091742_remove_ai_infrastructure_columns_from_ai_settings.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/groups/application_controller.rb",
+        "app/controllers/projects/application_controller.rb",
+        "app/controllers/projects/graphs_controller.rb",
+        "app/controllers/sandbox_controller.rb",
+        "app/models/ci/runner.rb",
+        "app/models/ci/trigger.rb",
+        "app/models/concerns/enums/ci/pipeline.rb",
+        "app/models/concerns/token_authenticatable.rb",
+        "app/models/group.rb",
+        "app/models/hooks/web_hook_log.rb",
+        "app/models/project.rb",
+        "app/models/repository.rb"
+      ],
+      "orm_models_parsed_old": 1359,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "ai_settings",
+            "column": "ai_gateway_url",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/post_migrate/20260930091742_remove_ai_infrastructure_columns_from_ai_settings.rb",
+            "line": 9,
+            "raw_snippet": "remove_column :ai_settings, :ai_gateway_url, if_exists: true",
+            "extra": {
+              "post_deploy": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "ai_settings",
+            "column": "ai_gateway_url",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "db/structure.sql"
+            ],
+            "app_files_old": [],
+            "notes": [
+              "post_deploy"
+            ]
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Post-deployment migration: runs after C_{t-1} has drained; C_t does not use the symbol.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "ai_settings",
+            "column": "ai_gateway_timeout_seconds",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/post_migrate/20260930091742_remove_ai_infrastructure_columns_from_ai_settings.rb",
+            "line": 10,
+            "raw_snippet": "remove_column :ai_settings, :ai_gateway_timeout_seconds, if_exists: true",
+            "extra": {
+              "post_deploy": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "ai_settings",
+            "column": "ai_gateway_timeout_seconds",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "db/structure.sql"
+            ],
+            "app_files_old": [],
+            "notes": [
+              "post_deploy"
+            ]
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Post-deployment migration: runs after C_{t-1} has drained; C_t does not use the symbol.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "ai_settings",
+            "column": "enabled_instance_verbose_ai_logs",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/post_migrate/20260930091742_remove_ai_infrastructure_columns_from_ai_settings.rb",
+            "line": 11,
+            "raw_snippet": "remove_column :ai_settings, :enabled_instance_verbose_ai_logs, if_exists: true",
+            "extra": {
+              "post_deploy": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "ai_settings",
+            "column": "enabled_instance_verbose_ai_logs",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "db/structure.sql"
+            ],
+            "app_files_old": [],
+            "notes": [
+              "post_deploy"
+            ]
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Post-deployment migration: runs after C_{t-1} has drained; C_t does not use the symbol.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "ai_settings",
+            "column": "duo_agent_platform_service_url",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/post_migrate/20260930091742_remove_ai_infrastructure_columns_from_ai_settings.rb",
+            "line": 12,
+            "raw_snippet": "remove_column :ai_settings, :duo_agent_platform_service_url, if_exists: true",
+            "extra": {
+              "post_deploy": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "ai_settings",
+            "column": "duo_agent_platform_service_url",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "db/structure.sql"
+            ],
+            "app_files_old": [],
+            "notes": [
+              "post_deploy"
+            ]
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Post-deployment migration: runs after C_{t-1} has drained; C_t does not use the symbol.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "ai_settings",
+            "column": "self_hosted_duo_agent_platform_service_secure",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/post_migrate/20260930091742_remove_ai_infrastructure_columns_from_ai_settings.rb",
+            "line": 13,
+            "raw_snippet": "remove_column :ai_settings, :self_hosted_duo_agent_platform_service_secure, if_exists: true",
+            "extra": {
+              "post_deploy": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "ai_settings",
+            "column": "self_hosted_duo_agent_platform_service_secure",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "db/structure.sql"
+            ],
+            "app_files_old": [],
+            "notes": [
+              "post_deploy"
+            ]
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Post-deployment migration: runs after C_{t-1} has drained; C_t does not use the symbol.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "6b223d291c2b94388709a3fdce10747c13ade7ed",
+      "parent": "6f380bad4aa087df57fc987c0fa7dd2bf6eac91f",
+      "date": "2026-10-01T12:07:22Z",
+      "subject": "Add latest changes from gitlab-org/gitlab@master",
+      "mig_files": [
+        "db/migrate/20260930100000_add_parent_workflow_id_to_duo_workflows_workflows.rb",
+        "db/migrate/20260930100001_add_index_on_parent_workflow_id_to_duo_workflows_workflows.rb",
+        "db/migrate/20260930100002_add_fk_parent_workflow_id_to_duo_workflows_workflows.rb",
+        "db/migrate/20260930100003_add_parent_workflow_trigger_source_constraint_to_duo_workflows_workflows.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/repositories/lfs_api_controller.rb",
+        "app/models/ci/preloaders/commit_status_preloader.rb",
+        "app/models/ci/runner.rb",
+        "app/models/concerns/enums/ci/commit_status.rb",
+        "app/models/draft_note.rb",
+        "app/services/boards/base_items_list_service.rb",
+        "app/services/boards/issues/list_service.rb",
+        "app/services/ci/pipeline_artifacts/coverage_report_service.rb",
+        "app/services/ci/pipeline_artifacts/create_code_quality_mr_diff_report_service.rb",
+        "app/services/projects/transfer_service.rb",
+        "keeps/squash_migrations.rb",
+        "lib/gitlab/database/lock_acquisition/blocker_census.rb"
+      ],
+      "orm_models_parsed_old": 1356,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ADD_UNIQUE_OR_CHECK",
+            "table": "duo_workflows_workflows",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260930100003_add_parent_workflow_trigger_source_constraint_to_duo_workflows_workflows.rb",
+            "line": 15,
+            "raw_snippet": "add_check_constraint :duo_workflows_workflows, \"parent_workflow_id IS NULL OR trigger_source = #{FLOW_TRIGGER_SOURCE}\", CONSTRAINT_NAME",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "duo_workflows_workflows",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "db/structure.sql"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "DATA_DEPENDENT",
+          "compat_forward": "SAFE",
+          "classification": "DATA_DEPENDENT",
+          "reason": "CHECK/UNIQUE constraint added on active C_{t-1} table 'duo_workflows_workflows'; safety depends on C_{t-1} write values.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ADD_UNIQUE_OR_CHECK",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "f85e261daf2dc61e18a2200079e04b9bf7b9f734",
+      "parent": "b7f8d723d5d6e01024785ec445a77fc1fb694f93",
+      "date": "2026-10-01T03:07:12Z",
+      "subject": "Add latest changes from gitlab-org/gitlab@master",
+      "mig_files": [
+        "db/migrate/20260921182240_add_dependency_version_id_to_ai_catalog_item_version_dependencies.rb",
+        "db/migrate/20260921182241_add_item_id_and_id_index_to_ai_catalog_item_versions.rb",
+        "db/migrate/20260921182242_add_pinned_version_fk_to_ai_catalog_item_version_dependencies.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/packages/cargo.rb",
+        "app/services/mcp/tools/base/api_service.rb",
+        "app/services/mcp/tools/base/api_tool.rb",
+        "app/services/mcp/tools/base/base_service.rb",
+        "app/services/mcp/tools/base/custom_service.rb",
+        "app/services/mcp/tools/base/graphql_service.rb",
+        "app/services/mcp/tools/base/graphql_tool.rb",
+        "app/services/mcp/tools/base/response.rb",
+        "app/services/mcp/tools/concerns/resource_finder.rb",
+        "app/services/packages/cargo/create_temporary_package_service.rb",
+        "app/services/packages/cargo/extract_metadata_content_service.rb",
+        "app/services/packages/cargo/update_package_from_metadata_service.rb"
+      ],
+      "orm_models_parsed_old": 1357,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "ai_catalog_item_version_dependencies",
+            "column": "dependency_version_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260921182240_add_dependency_version_id_to_ai_catalog_item_version_dependencies.rb",
+            "line": 21,
+            "raw_snippet": "remove_column :ai_catalog_item_version_dependencies, :dependency_version_id, :bigint",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "ai_catalog_item_version_dependencies",
+            "column": "dependency_version_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "1ab63b16bbae8d6cafbc485ffb5d131f9cb1e026",
+      "parent": "055e3c664f9d74cbbf42eea194375add398b9d31",
+      "date": "2026-09-30T18:07:31Z",
+      "subject": "Add latest changes from gitlab-org/gitlab@master",
+      "mig_files": [
+        "db/migrate/20260924094000_add_goals_to_ai_flow_triggers.rb",
+        "db/post_migrate/20260925095500_validate_ai_flow_triggers_goals_is_hash.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/projects/merge_requests_controller.rb",
+        "app/graphql/resolvers/repositories/tags_resolver.rb",
+        "app/graphql/types/repositories/tag_sort_enum.rb",
+        "app/graphql/types/repository_type.rb",
+        "app/helpers/users/group_callouts_helper.rb",
+        "app/models/users/group_callout.rb",
+        "app/services/ci/cancel_pipeline_service.rb",
+        "app/services/ci/retry_pipeline_service.rb",
+        "app/services/concerns/ci/job_rate_limitable.rb",
+        "app/services/instance_ssh_certificates/destroy_service.rb",
+        "app/services/users/create_service.rb",
+        "lib/api/entities/group_detail.rb"
+      ],
+      "orm_models_parsed_old": 1356,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "ai_flow_triggers",
+            "column": "goals",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260924094000_add_goals_to_ai_flow_triggers.rb",
+            "line": 27,
+            "raw_snippet": "remove_column :ai_flow_triggers, :goals, if_exists: true",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "ai_flow_triggers",
+            "column": "goals",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "3f82e483a3850d6cf7d047203693c770e42dd0eb",
+      "parent": "ab69010225a163d02f75993f492b15f493bb2e10",
+      "date": "2026-09-29T21:07:07Z",
+      "subject": "Add latest changes from gitlab-org/gitlab@master",
+      "mig_files": [
+        "db/migrate/20260925090000_add_webhook_columns_to_import_sync_repositories.rb",
+        "db/migrate/20260925090001_add_provider_webhook_xid_check_to_import_sync_repositories.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/import/bitbucket_controller.rb",
+        "app/controllers/import/gitlab_groups_controller.rb",
+        "app/controllers/import/gitlab_projects_controller.rb",
+        "app/controllers/import/manifest_controller.rb",
+        "app/controllers/projects/imports_controller.rb",
+        "app/controllers/projects/merge_requests/drafts_controller.rb",
+        "app/controllers/projects_controller.rb",
+        "app/events/merge_requests/draft_note_published_event.rb",
+        "app/finders/concerns/namespaces/groups_filter.rb",
+        "app/finders/groups_finder.rb",
+        "app/graphql/resolvers/ci/job_analytics_resolver.rb",
+        "app/graphql/resolvers/concerns/merge_requests/look_ahead_preloads.rb"
+      ],
+      "orm_models_parsed_old": 1357,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ADD_UNIQUE_OR_CHECK",
+            "table": "import_sync_repositories",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260925090001_add_provider_webhook_xid_check_to_import_sync_repositories.rb",
+            "line": 10,
+            "raw_snippet": "add_check_constraint :import_sync_repositories, 'provider_webhook_xid IS NULL OR provider_webhook_xid > 0', CONSTRAINT_NAME",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "import_sync_repositories",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "db/structure.sql"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "DATA_DEPENDENT",
+          "compat_forward": "SAFE",
+          "classification": "DATA_DEPENDENT",
+          "reason": "CHECK/UNIQUE constraint added on active C_{t-1} table 'import_sync_repositories'; safety depends on C_{t-1} write values.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ADD_UNIQUE_OR_CHECK",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "73aa881b9a6c85b8b2ce11771f23554fc83537ff",
+      "parent": "73ccf5925fde054f2645a9f1df50f0a28ae6ea44",
+      "date": "2026-09-28T15:09:46Z",
+      "subject": "Add latest changes from gitlab-org/gitlab@master",
+      "mig_files": [
+        "db/migrate/20260919120000_add_archived_to_security_scan_profiles_projects.rb",
+        "db/migrate/20260928081556_remove_seat_data_syncing_worker_job_instances.rb",
+        "db/post_migrate/20260919120100_swap_scan_profiles_projects_profile_id_index_for_composite.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/graphql/resolvers/work_items/description_templates_resolver.rb",
+        "app/models/namespace.rb",
+        "app/services/merge_requests/refresh_service.rb",
+        "spec/db/schema_spec.rb",
+        "spec/features/projects/settings/service_desk_setting_spec.rb",
+        "spec/helpers/admin/identities_helper_spec.rb",
+        "spec/helpers/environment_helper_spec.rb",
+        "spec/helpers/environments_helper_spec.rb",
+        "spec/helpers/feature_flags_helper_spec.rb",
+        "spec/requests/api/graphql/namespace/work_item_description_templates_spec.rb",
+        "spec/requests/api/graphql/work_item_description_template_content_spec.rb",
+        "spec/services/merge_requests/refresh_service_spec.rb"
+      ],
+      "orm_models_parsed_old": 1357,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "security_scan_profiles_projects",
+            "column": "archived",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260919120000_add_archived_to_security_scan_profiles_projects.rb",
+            "line": 11,
+            "raw_snippet": "remove_column :security_scan_profiles_projects, :archived",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "security_scan_profiles_projects",
+            "column": "archived",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "309d4c9994db05f9d1c362ccad30650cde4ff4b6",
+      "parent": "98ddbf8c4aacd4ea915a262dc79e08d72ac6d17c",
+      "date": "2026-09-28T09:12:02Z",
+      "subject": "Add latest changes from gitlab-org/gitlab@master",
+      "mig_files": [
+        "db/migrate/20260914120000_create_oauth_consent_grants.rb",
+        "db/migrate/20260914120001_create_oauth_consent_grant_granular_scopes.rb",
+        "db/migrate/20260914120002_extend_delete_orphaned_granular_scopes_trigger_to_oauth_consent_grants.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/graphql/resolvers/analytics/aggregation/aggregation_field_resolver.rb",
+        "app/graphql/types/analytics/aggregation/aggregation_field.rb",
+        "app/graphql/types/analytics/aggregation/aggregation_scope_type.rb",
+        "app/graphql/types/base_field.rb",
+        "app/models/authn/oauth_application.rb",
+        "app/models/authz/oauth_consent_grant.rb",
+        "app/models/authz/oauth_consent_grant_granular_scope.rb",
+        "app/models/concerns/namespaces/stateful.rb",
+        "app/models/concerns/namespaces/stateful/state_preservation.rb",
+        "app/models/concerns/namespaces/stateful/transition_validation.rb",
+        "app/models/user.rb",
+        "app/services/groups/destroy_service.rb"
+      ],
+      "orm_models_parsed_old": 1356,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_TABLE",
+            "table": "oauth_consent_grants",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260914120000_create_oauth_consent_grants.rb",
+            "line": 33,
+            "raw_snippet": "drop_table :oauth_consent_grants",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "oauth_consent_grants",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_TABLE",
+            "table": "oauth_consent_grant_granular_scopes",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260914120001_create_oauth_consent_grant_granular_scopes.rb",
+            "line": 28,
+            "raw_snippet": "drop_table :oauth_consent_grant_granular_scopes",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "oauth_consent_grant_granular_scopes",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "105d5b1d97636463b21342d63ee74b39e065e12f",
+      "parent": "61b3801a867326b58628ab0a0697b1d9c1a4feba",
+      "date": "2026-09-24T12:07:16Z",
+      "subject": "Add latest changes from gitlab-org/gitlab@master",
+      "mig_files": [
+        "db/migrate/20260305165400_create_enabled_foundational_flow_check_results.rb",
+        "db/migrate/20260911160000_create_import_sync_repositories.rb",
+        "db/migrate/20260911160001_add_fks_to_import_sync_repositories.rb",
+        "db/migrate/20260911160002_create_import_sync_repository_states.rb",
+        "db/migrate/20260911160003_add_fks_to_import_sync_repository_states.rb",
+        "db/migrate/20260911160004_create_import_sync_external_objects.rb",
+        "db/migrate/20260911160005_add_fks_to_import_sync_external_objects.rb",
+        "db/migrate/20260921080000_increase_affected_range_limit_on_pm_affected_packages.rb",
+        "db/post_migrate/20260922092735_queue_backfill_ci_namespace_mirrors_organization_id.rb",
+        "db/post_migrate/20260922092739_queue_backfill_ci_project_mirrors_organization_id.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/import/bitbucket_server_controller.rb",
+        "app/controllers/import/bulk_imports_controller.rb",
+        "app/controllers/import/fogbugz_controller.rb",
+        "app/controllers/import/github_controller.rb",
+        "app/graphql/resolvers/repositories/commits_resolver.rb",
+        "app/helpers/sidebars_helper.rb",
+        "app/models/bulk_import.rb",
+        "app/models/bulk_imports/entity.rb",
+        "app/models/deployment.rb",
+        "app/models/deployment_cluster.rb",
+        "app/models/deployment_merge_request.rb",
+        "app/models/project_import_state.rb"
+      ],
+      "orm_models_parsed_old": 1352,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_TABLE",
+            "table": "enabled_foundational_flow_check_results",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260305165400_create_enabled_foundational_flow_check_results.rb",
+            "line": 25,
+            "raw_snippet": "drop_table :enabled_foundational_flow_check_results",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "enabled_foundational_flow_check_results",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "830b9f4994317761be26a32b6407e51bb7895a7f",
+      "parent": "325cdfced4877fd3c062c307160060cfafb1c2ff",
+      "date": "2026-09-23T21:07:02Z",
+      "subject": "Add latest changes from gitlab-org/gitlab@master",
+      "mig_files": [
+        "db/migrate/20260116130829_add_index_to_vulnerability_detection_transitions_for_stale_lookup.rb",
+        "db/migrate/20260317150935_add_vulnerability_id_to_security_finding_enrichments.rb",
+        "db/migrate/20260522075714_add_partition_id_to_vulnerability_occurrence_identifiers.rb",
+        "db/post_migrate/20260216140431_add_composite_index_on_security_finding_enrichments.rb",
+        "db/post_migrate/20260302190841_add_composite_index_to_security_finding_enrichments_on_created_at_and_id.rb",
+        "db/post_migrate/20260413161223_replace_vuln_detection_transitions_index.rb",
+        "db/post_migrate/20260916143000_prepare_indexes_for_issues_bigint_conversion_batch_two.rb",
+        "db/post_migrate/20260923094500_delete_group_scim_oauth_access_tokens.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/components/rapid_diffs/diff_file_component.rb",
+        "app/components/rapid_diffs/diff_file_header_component.rb",
+        "app/components/rapid_diffs/merge_request_diff_file_component.rb",
+        "app/components/rapid_diffs/viewers/image_view_component.rb",
+        "app/components/rapid_diffs/viewers/no_preview_component.rb",
+        "app/controllers/concerns/members/invite_modal_actions.rb",
+        "app/controllers/concerns/notes_actions.rb",
+        "app/controllers/omniauth_callbacks_controller.rb",
+        "app/controllers/projects/notes_controller.rb",
+        "app/controllers/user_settings/identities_controller.rb",
+        "app/finders/members/invite_users_finder.rb",
+        "app/graphql/types/authz/access_tokens/granular_scope_access_enum.rb"
+      ],
+      "orm_models_parsed_old": 1353,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "security_finding_enrichments",
+            "column": "vulnerability_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260317150935_add_vulnerability_id_to_security_finding_enrichments.rb",
+            "line": 23,
+            "raw_snippet": "remove_column :security_finding_enrichments, :vulnerability_id, if_exists: true",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "security_finding_enrichments",
+            "column": "vulnerability_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "vulnerability_occurrence_identifiers",
+            "column": "partition_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260522075714_add_partition_id_to_vulnerability_occurrence_identifiers.rb",
+            "line": 18,
+            "raw_snippet": "remove_column :vulnerability_occurrence_identifiers, :partition_id, :bigint, if_exists: true",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "vulnerability_occurrence_identifiers",
+            "column": "partition_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "092af820558b0b473ff14934c1dca18843858a2d",
+      "parent": "5075034af1e025fec5382c76ccd9c9b4933b35a7",
+      "date": "2026-09-23T15:13:37Z",
+      "subject": "Add latest changes from gitlab-org/gitlab@master",
+      "mig_files": [
+        "db/migrate/20260918110508_create_ai_governance_sessions.rb",
+        "db/migrate/20260923121000_add_index_runner_machine_id_to_ci_pending_builds.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/graphql/resolvers/noteable/notes_resolver.rb",
+        "app/services/mcp/tools/repositories/get_repository_file_service.rb",
+        "app/services/mcp/tools/repositories/get_repository_file_tool.rb",
+        "app/services/organizations/organization_users/destroy_service.rb",
+        "app/services/organizations/organization_users/update_service.rb",
+        "app/workers/authz/organizations/grant_owner_role_worker.rb",
+        "app/workers/authz/organizations/revoke_owner_role_worker.rb",
+        "app/workers/concerns/authz/organizations/owner_role_sync.rb",
+        "lib/api/ci/jobs.rb",
+        "lib/api/ci/runner.rb",
+        "lib/authn/token_exchange/token_issuer.rb",
+        "lib/authz/organizations/roles.rb"
+      ],
+      "orm_models_parsed_old": 1349,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_TABLE",
+            "table": "ai_governance_sessions",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260918110508_create_ai_governance_sessions.rb",
+            "line": 41,
+            "raw_snippet": "drop_table :ai_governance_sessions",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "ai_governance_sessions",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "5151826e29c6a454f5cd34793c1fe724af66acae",
+      "parent": "84f51c2a54ff1ef8f758e8c7086dada1fc801c29",
+      "date": "2026-09-17T12:07:35Z",
+      "subject": "Add latest changes from gitlab-org/gitlab@master",
+      "mig_files": [
+        "db/migrate/20260911053748_add_kind_to_ai_catalog_item_consumers.rb",
+        "db/migrate/20260911053811_add_group_id_to_ai_flow_triggers.rb",
+        "db/migrate/20260911053835_add_fk_ai_flow_triggers_group_id_to_namespaces.rb",
+        "db/migrate/20260916024528_allow_null_project_id_on_ai_flow_triggers.rb",
+        "db/post_migrate/20260911053919_add_sharding_key_check_constraint_to_ai_flow_triggers.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/commit_signatures/gpg_signature.rb",
+        "app/models/commit_signatures/ssh_signature.rb",
+        "app/models/concerns/project_scoped_commit_signature.rb",
+        "app/models/merge_request_diff.rb",
+        "app/models/suggestion.rb",
+        "app/presenters/rapid_diffs/base_presenter.rb",
+        "app/serializers/suggestion_entity.rb",
+        "app/services/concerns/suggestible.rb",
+        "app/services/mcp/tools/merge_requests/save_merge_request_review_service.rb",
+        "app/services/merge_requests/approval_service.rb",
+        "app/services/merge_requests/refresh_service.rb",
+        "app/services/organizations/confirm_maintenance_service.rb"
+      ],
+      "orm_models_parsed_old": 1349,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "ai_catalog_item_consumers",
+            "column": "kind",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260911053748_add_kind_to_ai_catalog_item_consumers.rb",
+            "line": 11,
+            "raw_snippet": "remove_column :ai_catalog_item_consumers, :kind, if_exists: true",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "ai_catalog_item_consumers",
+            "column": "kind",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "ai_flow_triggers",
+            "column": "group_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260911053811_add_group_id_to_ai_flow_triggers.rb",
+            "line": 21,
+            "raw_snippet": "remove_column :ai_flow_triggers, :group_id, if_exists: true",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "ai_flow_triggers",
+            "column": "group_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "ai_flow_triggers",
+            "column": "project_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260916024528_allow_null_project_id_on_ai_flow_triggers.rb",
+            "line": 13,
+            "raw_snippet": "change_column_null :ai_flow_triggers, :project_id, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "ai_flow_triggers",
+            "column": "project_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "b410e5f903cd1aee0453ccfa10dd847015b783e0",
+      "parent": "26307bddbee45b0806a08a3a501fc7e3e61be137",
+      "date": "2026-09-16T18:07:40Z",
+      "subject": "Add latest changes from gitlab-org/gitlab@master",
+      "mig_files": [
+        "db/post_migrate/20260915112157_drop_public_column_from_ai_catalog_items.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/graphql/subscriptions/work_items/namespace_work_item_changes.rb",
+        "app/models/ci/group.rb",
+        "app/models/ci/job_artifact.rb",
+        "app/models/ci/job_token/project_scope_link.rb",
+        "app/models/ci/namespace_mirror.rb",
+        "app/models/ci/pending_build.rb",
+        "app/models/ci/pipeline.rb",
+        "app/models/ci/pipeline_artifact.rb",
+        "app/models/ci/processable.rb",
+        "app/models/ci/ref.rb",
+        "app/models/ci/resource_group.rb",
+        "app/models/ci/runner.rb"
+      ],
+      "orm_models_parsed_old": 1347,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "ai_catalog_items",
+            "column": "public",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/post_migrate/20260915112157_drop_public_column_from_ai_catalog_items.rb",
+            "line": 11,
+            "raw_snippet": "remove_column :ai_catalog_items, :public",
+            "extra": {
+              "post_deploy": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "ai_catalog_items",
+            "column": "public",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "db/structure.sql"
+            ],
+            "app_files_old": [],
+            "notes": [
+              "post_deploy"
+            ]
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Post-deployment migration: runs after C_{t-1} has drained; C_t does not use the symbol.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "1ab02ecfe002ea25371cd140e3204a62dd30636a",
+      "parent": "d7f0472c9f493615b688f295256c3f39ab619a0f",
+      "date": "2026-09-15T15:07:48Z",
+      "subject": "Add latest changes from gitlab-org/gitlab@master",
+      "mig_files": [
+        "db/migrate/20260909111350_add_auto_duo_code_review_on_push_enabled_cascading_setting.rb",
+        "db/post_migrate/20260914090001_validate_deployment_merge_requests_bigint_fks.rb",
+        "db/post_migrate/20260914090002_swap_columns_for_deployment_merge_requests_bigint_conversion.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/bulk_imports/entity.rb",
+        "app/models/project.rb",
+        "app/models/route.rb",
+        "app/models/users/callout.rb",
+        "app/services/groups/import_export/export_service.rb",
+        "app/services/merge_requests/work_item_relations/create_service.rb",
+        "app/workers/gitlab/github_import/stage/finish_import_worker.rb",
+        "lib/bulk_imports/common/pipelines/entity_finisher.rb",
+        "lib/bulk_imports/groups/loaders/group_loader.rb",
+        "lib/gitlab/markdown/iframe_providers.rb",
+        "lib/gitlab/rate_limit/target.rb",
+        "lib/gitlab/rate_limit/target_key.rb"
+      ],
+      "orm_models_parsed_old": 1348,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "project_settings",
+            "column": "auto_duo_code_review_on_push_enabled",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260909111350_add_auto_duo_code_review_on_push_enabled_cascading_setting.rb",
+            "line": 16,
+            "raw_snippet": "remove_column :project_settings, :auto_duo_code_review_on_push_enabled, if_exists: true",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "project_settings",
+            "column": "auto_duo_code_review_on_push_enabled",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "dd1097072c388d6a92b2d29816d5a786e669bf1e",
+      "parent": "4ebcf48e706cca302c1bd9fcb261cba430daf16f",
+      "date": "2026-09-13T09:07:44Z",
+      "subject": "Add latest changes from gitlab-org/gitlab@master",
+      "mig_files": [
+        "db/migrate/20260908000001_remove_work_item_decisions_title_null_constraint.rb"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 1348,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "work_item_decisions",
+            "column": "title",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260908000001_remove_work_item_decisions_title_null_constraint.rb",
+            "line": 11,
+            "raw_snippet": "change_column_null :work_item_decisions, :title, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "work_item_decisions",
+            "column": "title",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "6896e931f3a6b5fc5e4af11ab0f713ad40630d76",
+      "parent": "99341291fb96aab956edd33033b05b63772bb701",
+      "date": "2026-09-11T18:12:58Z",
+      "subject": "Add latest changes from gitlab-org/gitlab@master",
+      "mig_files": [
+        "db/migrate/20260907120000_add_orbit_settings_to_application_settings.rb",
+        "db/migrate/20260907120001_add_orbit_settings_hash_constraint.rb",
+        "db/post_migrate/20260910120000_prepare_async_index_mr_metrics_on_project_merged_at_not_deployed.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/helpers/application_helper.rb",
+        "app/services/instance_ssh_certificates/create_service.rb",
+        "app/services/mcp/tools/base/response.rb",
+        "lib/api/issues.rb",
+        "lib/gitlab/database/aggregation/click_house/date_bucket_dimension.rb",
+        "lib/gitlab/database/health_status/indicators/autovacuum_active_on_table.rb",
+        "lib/gitlab/database/partitioning/partition_manager.rb",
+        "lib/gitlab/http_io.rb",
+        "rubocop/cop/api/entity_exposure_growth.rb",
+        "spec/features/merge_request/batch_comments_spec.rb",
+        "spec/features/merge_request/maintainer_edits_fork_spec.rb",
+        "spec/features/merge_request/rapid_diffs/draft_note_overview_diff_context_spec.rb"
+      ],
+      "orm_models_parsed_old": 1347,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "application_settings",
+            "column": "orbit_settings",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260907120000_add_orbit_settings_to_application_settings.rb",
+            "line": 11,
+            "raw_snippet": "remove_column :application_settings, :orbit_settings",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "application_settings",
+            "column": "orbit_settings",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ADD_UNIQUE_OR_CHECK",
+            "table": "application_settings",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260907120001_add_orbit_settings_hash_constraint.rb",
+            "line": 10,
+            "raw_snippet": "add_check_constraint( :application_settings, \"jsonb_typeof(orbit_settings) = 'object'\", CONSTRAINT_NAME )",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "application_settings",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "db/structure.sql"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "DATA_DEPENDENT",
+          "compat_forward": "SAFE",
+          "classification": "DATA_DEPENDENT",
+          "reason": "CHECK/UNIQUE constraint added on active C_{t-1} table 'application_settings'; safety depends on C_{t-1} write values.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ADD_UNIQUE_OR_CHECK",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "34f751d5e252d2041537fb9e0a94db1181168865",
+      "parent": "adea3dcd150b1f3486362ef04c7bbe87f14abb61",
+      "date": "2026-09-11T12:18:19Z",
+      "subject": "Add latest changes from gitlab-org/gitlab@master",
+      "mig_files": [
+        "db/migrate/20260904090000_add_web_search_enabled_to_namespace_ai_settings.rb",
+        "db/migrate/20260909140000_add_secrets_manager_instance_add_on_requested_at_to_application_settings.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/graphql/mutations/work_items/bulk_move.rb",
+        "app/graphql/mutations/work_items/bulk_update.rb",
+        "app/graphql/mutations/work_items/csv/export.rb",
+        "app/graphql/mutations/work_items/csv/import.rb",
+        "app/graphql/mutations/work_items/hierarchy/reorder.rb",
+        "app/graphql/mutations/work_items/linked_items/base.rb",
+        "app/graphql/mutations/work_items/saved_views/create.rb",
+        "app/graphql/mutations/work_items/saved_views/delete.rb",
+        "app/graphql/mutations/work_items/saved_views/reorder.rb",
+        "app/graphql/mutations/work_items/saved_views/subscribe.rb",
+        "app/graphql/mutations/work_items/saved_views/unsubscribe.rb",
+        "app/graphql/mutations/work_items/saved_views/update.rb"
+      ],
+      "orm_models_parsed_old": 1347,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "namespace_ai_settings",
+            "column": "web_search_enabled",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260904090000_add_web_search_enabled_to_namespace_ai_settings.rb",
+            "line": 11,
+            "raw_snippet": "remove_column :namespace_ai_settings, :web_search_enabled",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "namespace_ai_settings",
+            "column": "web_search_enabled",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "b3b01f45e7189c1ddfd63a12062c99c142620cb4",
+      "parent": "af4065676fad611ed3a55d5a4b191f478b91e0a7",
+      "date": "2026-09-09T18:10:15Z",
+      "subject": "Add latest changes from gitlab-org/gitlab@master",
+      "mig_files": [
+        "db/migrate/20260908193413_add_secrets_manager_instance_beta_enrolled_to_application_settings.rb",
+        "db/migrate/20260908193414_backfill_application_settings_secrets_manager_instance_beta_enrolled.rb",
+        "db/migrate/20260909003000_create_project_authorization_reverifications.rb",
+        "db/migrate/20260909003003_add_users_fk_to_project_authorization_reverifications.rb",
+        "db/post_migrate/20260826123132_queue_migrate_legacy_otp_secrets.rb",
+        "spec/migrations/db/post_migrate/20260826123132_queue_migrate_legacy_otp_secrets_spec.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/concerns/creates_commit.rb",
+        "app/controllers/projects/commit_controller.rb",
+        "app/controllers/projects/merge_requests/application_controller.rb",
+        "app/controllers/projects/merge_requests_controller.rb",
+        "app/helpers/merge_requests_helper.rb",
+        "app/models/application_setting.rb",
+        "app/models/authn/oauth_consent.rb",
+        "app/models/authz/project_authorization_reverification.rb",
+        "app/models/bulk_imports/entity.rb",
+        "app/models/concerns/authn/iam_replication/outboxable.rb",
+        "app/models/import/offline/configuration.rb",
+        "app/models/issue.rb"
+      ],
+      "orm_models_parsed_old": 1346,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "application_settings",
+            "column": "secrets_manager_instance_beta_enrolled",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260908193413_add_secrets_manager_instance_beta_enrolled_to_application_settings.rb",
+            "line": 12,
+            "raw_snippet": "remove_column :application_settings, :secrets_manager_instance_beta_enrolled, if_exists: true",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "application_settings",
+            "column": "secrets_manager_instance_beta_enrolled",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "94330fbd2a09a413db6ec6825c7de76ca0e57d21",
+      "parent": "8c466301bed9f9f92323082e101048d87b0c4b69",
+      "date": "2026-09-07T18:09:01Z",
+      "subject": "Add latest changes from gitlab-org/gitlab@master",
+      "mig_files": [
+        "db/migrate/20260904064202_add_idempotency_key_to_duo_workflows_workflow_merge_requests.rb",
+        "db/post_migrate/20260904064206_validate_idempotency_key_limit_on_duo_workflows_workflow_merge_requests.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/services/ci/create_pipeline_service.rb",
+        "lib/gitlab/ci/pipeline/chain/build/associations.rb",
+        "spec/lib/gitlab/ci/pipeline/chain/build/associations_spec.rb",
+        "spec/services/ci/create_pipeline_service/logger_spec.rb",
+        "spec/services/post_receive_service_spec.rb",
+        "spec/support/matchers/change_idempotently.rb",
+        "spec/support_specs/matchers/change_matcher_idempotency_spec.rb"
+      ],
+      "orm_models_parsed_old": 1348,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "duo_workflows_workflow_merge_requests",
+            "column": "idempotency_key",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260904064202_add_idempotency_key_to_duo_workflows_workflow_merge_requests.rb",
+            "line": 27,
+            "raw_snippet": "remove_column :duo_workflows_workflow_merge_requests, :idempotency_key, if_exists: true",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "duo_workflows_workflow_merge_requests",
+            "column": "idempotency_key",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "eb2f2e2eb7a8de4946c8477a7601122b4587cb3d",
+      "parent": "aed7651ed0b7d36a02ba9bc128e2192b053063bd",
+      "date": "2026-09-07T12:09:05Z",
+      "subject": "Add latest changes from gitlab-org/gitlab@master",
+      "mig_files": [
+        "db/migrate/20260818090000_add_code_dropdown_custom_clients_to_application_settings.rb",
+        "db/post_migrate/20260830103000_reset_group_wiki_repository_states_id_sequence.rb",
+        "spec/migrations/db/post_migrate/20260830103000_reset_group_wiki_repository_states_id_sequence_spec.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/projects/merge_requests/application_controller.rb",
+        "app/controllers/projects/merge_requests/conflicts_controller.rb",
+        "app/controllers/projects/merge_requests/creations_controller.rb",
+        "app/controllers/projects/merge_requests/diffs_controller.rb",
+        "app/controllers/projects/merge_requests/drafts_controller.rb",
+        "app/controllers/projects/merge_requests_controller.rb",
+        "app/graphql/resolvers/base_resolver.rb",
+        "app/graphql/resolvers/labels_resolver.rb",
+        "app/graphql/types/group_type.rb",
+        "app/graphql/types/project_type.rb",
+        "app/helpers/diff_helper.rb",
+        "app/models/application_setting.rb"
+      ],
+      "orm_models_parsed_old": 1345,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "application_settings",
+            "column": "code_dropdown_custom_clients",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260818090000_add_code_dropdown_custom_clients_to_application_settings.rb",
+            "line": 11,
+            "raw_snippet": "remove_column :application_settings, :code_dropdown_custom_clients, if_exists: true",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "application_settings",
+            "column": "code_dropdown_custom_clients",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "aed7651ed0b7d36a02ba9bc128e2192b053063bd",
+      "parent": "2ab8b7d2f788b8e76ee743d2cb20166d6729a168",
+      "date": "2026-09-07T09:11:22Z",
+      "subject": "Add latest changes from gitlab-org/gitlab@master",
+      "mig_files": [
+        "db/migrate/20260817100100_add_updated_at_to_jira_connect_installations.rb",
+        "db/migrate/20260827164820_add_agent_type_to_duo_workflow_session_artifacts.rb",
+        "db/post_migrate/20260903145403_queue_backfill_agent_type_on_duo_workflow_session_artifacts.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/finders/concerns/namespaces/groups_filter.rb",
+        "app/finders/groups_finder.rb",
+        "app/graphql/resolvers/analytics/aggregation/aggregation_field_resolver/base_aggregation_field_resolver.rb",
+        "app/graphql/resolvers/namespaces/base_groups_resolver.rb",
+        "app/models/jira_connect_installation.rb",
+        "lib/gitlab/background_migration/backfill_agent_type_on_duo_workflow_session_artifacts.rb",
+        "lib/gitlab/database/aggregation/authorization.rb",
+        "lib/gitlab/database/aggregation/graphql/adapter.rb",
+        "qa/qa/factories/deployments.rb",
+        "qa/qa/resource/deployment.rb",
+        "qa/qa/resource/project_web_hook.rb",
+        "spec/cells/claims/jira_connect_installation_spec.rb"
+      ],
+      "orm_models_parsed_old": 1345,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "duo_workflow_session_artifacts",
+            "column": "agent_type",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260827164820_add_agent_type_to_duo_workflow_session_artifacts.rb",
+            "line": 18,
+            "raw_snippet": "remove_column :duo_workflow_session_artifacts, :agent_type, if_exists: true",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "duo_workflow_session_artifacts",
+            "column": "agent_type",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    }
+  ]
+}

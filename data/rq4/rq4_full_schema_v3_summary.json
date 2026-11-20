@@ -1,0 +1,158 @@
+{
+  "candidates_attempted": 66,
+  "histories_loaded": 46,
+  "crashes_reproduced": 35,
+  "distinct_repos_crashed": 13,
+  "ecs_plan_missing": 1,
+  "synth_verified_with_schema_equiv": 30,
+  "pass_rate_pct": 85.7,
+  "by_op_crashed": {
+    "ADD_NOT_NULL_NO_DEFAULT": 12,
+    "SET_NOT_NULL": 9,
+    "DROP_COLUMN": 6,
+    "DROP_TABLE": 4,
+    "RENAME_COLUMN": 3,
+    "RENAME_TABLE": 1
+  },
+  "by_op_verified": {
+    "ADD_NOT_NULL_NO_DEFAULT": 9,
+    "SET_NOT_NULL": 8,
+    "DROP_COLUMN": 6,
+    "DROP_TABLE": 4,
+    "RENAME_COLUMN": 2,
+    "RENAME_TABLE": 1
+  },
+  "sqlstates": {
+    "23502": 10,
+    "42703": 17,
+    "42P01": 8
+  },
+  "avg_tables": 34.1,
+  "avg_fks": 38.1,
+  "max_tables": 67,
+  "max_fks": 113,
+  "failures": [
+    {
+      "repo": "Openpanel-dev/openpanel",
+      "sha": "097ea183",
+      "op": "RENAME_COLUMN",
+      "table": "projects",
+      "column": "organization_slug",
+      "apply_err": null,
+      "contract_err": null,
+      "c_old_pass": true,
+      "c_new_pass": true,
+      "c_old_err": null,
+      "c_new_err": null,
+      "c_new_probe": "SELECT \"organizationSlug\" FROM \"projects\" LIMIT 5;",
+      "plan": true,
+      "equiv_detail": {
+        "contract": {
+          "column_name": "organizationSlug",
+          "data_type": "text",
+          "udt_name": "text",
+          "datetime_precision": null,
+          "is_nullable": "YES",
+          "column_default": null
+        },
+        "target": {
+          "column_name": "organizationSlug",
+          "data_type": "text",
+          "udt_name": "text",
+          "datetime_precision": null,
+          "is_nullable": "NO",
+          "column_default": null
+        }
+      },
+      "schema_equiv": false
+    },
+    {
+      "repo": "trycompai/comp",
+      "sha": "665ee9ee",
+      "op": "ADD_NOT_NULL_NO_DEFAULT",
+      "table": "BrowserbaseContext",
+      "column": null,
+      "apply_err": null,
+      "contract_err": null,
+      "c_old_pass": false,
+      "c_new_pass": false,
+      "c_old_err": null,
+      "c_new_err": null,
+      "c_new_probe": null,
+      "plan": null,
+      "equiv_detail": null,
+      "schema_equiv": false
+    },
+    {
+      "repo": "captableinc/captable",
+      "sha": "7789249e",
+      "op": "ADD_NOT_NULL_NO_DEFAULT",
+      "table": "ApiKey",
+      "column": null,
+      "apply_err": null,
+      "contract_err": null,
+      "c_old_pass": true,
+      "c_new_pass": true,
+      "c_old_err": null,
+      "c_new_err": null,
+      "c_new_probe": "SELECT \"hashedKey\" FROM \"ApiKey\" LIMIT 5;",
+      "plan": true,
+      "equiv_detail": {
+        "contract": {
+          "column_name": "hashedKey",
+          "data_type": "text",
+          "udt_name": "text",
+          "datetime_precision": null,
+          "is_nullable": "NO",
+          "column_default": null
+        },
+        "target": null
+      },
+      "schema_equiv": false
+    },
+    {
+      "repo": "captableinc/captable",
+      "sha": "7789249e",
+      "op": "ADD_NOT_NULL_NO_DEFAULT",
+      "table": "ApiKey",
+      "column": null,
+      "apply_err": null,
+      "contract_err": null,
+      "c_old_pass": true,
+      "c_new_pass": true,
+      "c_old_err": null,
+      "c_new_err": null,
+      "c_new_probe": "SELECT \"partialKey\" FROM \"ApiKey\" LIMIT 5;",
+      "plan": true,
+      "equiv_detail": {
+        "contract": {
+          "column_name": "partialKey",
+          "data_type": "text",
+          "udt_name": "text",
+          "datetime_precision": null,
+          "is_nullable": "NO",
+          "column_default": null
+        },
+        "target": null
+      },
+      "schema_equiv": false
+    },
+    {
+      "repo": "ghostfolio/ghostfolio",
+      "sha": "65bfe52d",
+      "op": "SET_NOT_NULL",
+      "table": "User",
+      "column": "provider",
+      "apply_err": "22P02: invalid input value for enum \"Provider\": \"\"",
+      "contract_err": null,
+      "c_old_pass": false,
+      "c_new_pass": false,
+      "c_old_err": null,
+      "c_new_err": null,
+      "c_new_probe": null,
+      "plan": true,
+      "equiv_detail": null,
+      "schema_equiv": false
+    }
+  ]
+}

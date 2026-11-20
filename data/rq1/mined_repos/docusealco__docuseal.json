@@ -1,0 +1,2097 @@
+{
+  "repo": "docusealco/docuseal",
+  "ecosystem": "rails",
+  "stars": 19105,
+  "has_k8s_helm": false,
+  "status": "ok",
+  "stats": {
+    "total_migration_commits_in_history": 110,
+    "migration_commits_analyzed": 108,
+    "total_migration_files_parsed": 138,
+    "commits_with_any_destructive": 22,
+    "commits_with_forward_destructive": 20,
+    "commits_with_rollback_only_destructive": 2,
+    "total_ops_extracted": 38,
+    "destructive_ops_up": 27,
+    "destructive_ops_down": 11
+  },
+  "verdict_counts": {
+    "SAFE_CONTRACT": 19,
+    "ROLLBACK_ONLY_FALSE_ALARM": 11,
+    "DUAL_VERSION_VIOLATION_BACKWARD": 2,
+    "DUAL_VERSION_VIOLATION_BOTH": 6
+  },
+  "destructive_commits": [
+    {
+      "sha": "45ae954c0c5359d7f333ab0dd1d3b93c9545441a",
+      "parent": "1304849b55dca2f2b9f5084e66d4c02713e6b3d8",
+      "date": "2026-05-06T11:45:35+03:00",
+      "subject": "add hmac webhook secret",
+      "mig_files": [
+        "db/migrate/20260506120000_add_hmac_to_webhook_urls.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/webhook_hmac_controller.rb",
+        "app/models/webhook_url.rb",
+        "config/routes.rb",
+        "db/schema.rb",
+        "lib/send_webhook_request.rb",
+        "lib/webhook_urls/signatures.rb",
+        "spec/jobs/send_submission_created_webhook_request_job_spec.rb",
+        "spec/system/webhook_settings_spec.rb"
+      ],
+      "orm_models_parsed_old": 43,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "webhook_urls",
+            "column": "hmac_secret",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260506120000_add_hmac_to_webhook_urls.rb",
+            "line": 17,
+            "raw_snippet": "change_column_null :webhook_urls, :hmac_secret, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "webhook_urls",
+            "column": "hmac_secret",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/webhook_url.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Column 'webhook_urls.hmac_secret' not active in C_{t-1} ORM.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "SET_NOT_NULL",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "webhook_urls",
+            "column": "hmac_secret",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260506120000_add_hmac_to_webhook_urls.rb",
+            "line": 21,
+            "raw_snippet": "remove_column :webhook_urls, :hmac_secret",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "webhook_urls",
+            "column": "hmac_secret",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "59fbea5c5fd5cf025c9253da4b1fc0228abc1f65",
+      "parent": "d3273d879a28e307208595d0d8e5513ff939a7bd",
+      "date": "2025-07-30T18:45:28+03:00",
+      "subject": "fix migration",
+      "mig_files": [
+        "db/migrate/20240816072859_populate_submitter_account_id.rb",
+        "db/migrate/20241022125135_populate_completed_submitters_and_documents.rb",
+        "db/migrate/20241029192232_populate_webhook_urls.rb",
+        "db/migrate/20250523121121_add_shared_link_to_templates.rb",
+        "db/migrate/20250603105556_create_search_enties.rb",
+        "db/migrate/20250608163157_add_ngram_to_search_index.rb"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 36,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "submitters",
+            "column": "account_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20240816072859_populate_submitter_account_id.rb",
+            "line": 26,
+            "raw_snippet": "change_column_null :submitters, :account_id, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "submitters",
+            "column": "account_id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/submitter.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: 'submitters.account_id' was already non-nullable in C_{t-1} ORM.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "SET_NOT_NULL",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "templates",
+            "column": "shared_link",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250523121121_add_shared_link_to_templates.rb",
+            "line": 16,
+            "raw_snippet": "change_column_null :templates, :shared_link, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "templates",
+            "column": "shared_link",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/template.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: 'templates.shared_link' was already non-nullable in C_{t-1} ORM.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "SET_NOT_NULL",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "templates",
+            "column": "shared_link",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250523121121_add_shared_link_to_templates.rb",
+            "line": 20,
+            "raw_snippet": "remove_column :templates, :shared_link",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "templates",
+            "column": "shared_link",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_TABLE",
+            "table": "search_entries",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250603105556_create_search_enties.rb",
+            "line": 41,
+            "raw_snippet": "drop_table :search_entries",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "search_entries",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "33811945be722c09ee32a70fba6f965231e4cf4e",
+      "parent": "9d1860f038be31396387e78021f4e70f8aee190b",
+      "date": "2025-06-05T13:16:55+03:00",
+      "subject": "fulltext search",
+      "mig_files": [
+        "db/migrate/20250603105556_create_search_enties.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/api/submissions_controller.rb",
+        "app/controllers/api/submitters_controller.rb",
+        "app/controllers/api/templates_clone_controller.rb",
+        "app/controllers/api/templates_controller.rb",
+        "app/controllers/start_form_controller.rb",
+        "app/controllers/submissions_archived_controller.rb",
+        "app/controllers/submissions_controller.rb",
+        "app/controllers/submissions_dashboard_controller.rb",
+        "app/controllers/submitters_autocomplete_controller.rb",
+        "app/controllers/submitters_controller.rb",
+        "app/controllers/template_folders_controller.rb",
+        "app/controllers/templates_archived_controller.rb"
+      ],
+      "orm_models_parsed_old": 33,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_TABLE",
+            "table": "search_entries",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250603105556_create_search_enties.rb",
+            "line": 29,
+            "raw_snippet": "drop_table :search_entries",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "search_entries",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "e77b5fa2c9ab572984e8649e6785aee7cb8c8e10",
+      "parent": "c91b4a765b9c669904087f9c95d26a4707fece4e",
+      "date": "2025-05-26T13:32:32+03:00",
+      "subject": "add optional shared link to templates",
+      "mig_files": [
+        "db/migrate/20250523121121_add_shared_link_to_templates.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/api/templates_controller.rb",
+        "app/controllers/start_form_controller.rb",
+        "app/controllers/templates_share_link_controller.rb",
+        "app/models/template.rb",
+        "config/routes.rb",
+        "db/schema.rb",
+        "lib/templates/clone.rb",
+        "lib/templates/serialize_for_api.rb",
+        "spec/requests/templates_spec.rb",
+        "spec/system/signing_form_spec.rb",
+        "spec/system/template_share_link_spec.rb"
+      ],
+      "orm_models_parsed_old": 33,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "templates",
+            "column": "shared_link",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250523121121_add_shared_link_to_templates.rb",
+            "line": 16,
+            "raw_snippet": "change_column_null :templates, :shared_link, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "templates",
+            "column": "shared_link",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/template.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Column 'templates.shared_link' not active in C_{t-1} ORM.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "SET_NOT_NULL",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "templates",
+            "column": "shared_link",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250523121121_add_shared_link_to_templates.rb",
+            "line": 20,
+            "raw_snippet": "remove_column :templates, :shared_link",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "templates",
+            "column": "shared_link",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "2542f26d96cffda95ca0f46c4d5fac321891048f",
+      "parent": "84edb6dbdaceaab42869d66a0b40468a74908cce",
+      "date": "2024-11-01T15:35:02+02:00",
+      "subject": "adjust webhooks",
+      "mig_files": [
+        "db/migrate/20241028162000_add_secret_to_webhook_urls.rb",
+        "db/migrate/20241029192232_populate_webhook_urls.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/api/submissions_controller.rb",
+        "app/controllers/api/submitter_form_views_controller.rb",
+        "app/controllers/api/submitters_controller.rb",
+        "app/controllers/api/templates_clone_controller.rb",
+        "app/controllers/api/templates_controller.rb",
+        "app/controllers/start_form_controller.rb",
+        "app/controllers/submissions_controller.rb",
+        "app/controllers/submit_form_decline_controller.rb",
+        "app/controllers/templates_controller.rb",
+        "app/controllers/templates_uploads_controller.rb",
+        "app/controllers/webhook_preferences_controller.rb",
+        "app/controllers/webhook_settings_controller.rb"
+      ],
+      "orm_models_parsed_old": 27,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "webhook_urls",
+            "column": "secret",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20241028162000_add_secret_to_webhook_urls.rb",
+            "line": 19,
+            "raw_snippet": "change_column_null :webhook_urls, :secret, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "webhook_urls",
+            "column": "secret",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/webhook_url.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "SET_NOT_NULL on 'webhook_urls.secret' which was nullable in C_{t-1} ORM (app/models/webhook_url.rb).",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "SET_NOT_NULL",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "b8828b503c1059c67608b867c7e0f52737fcda26",
+      "parent": "d63f62109b4a09f05cf813a6bfbd5dba2392dea6",
+      "date": "2024-08-16T10:42:16+03:00",
+      "subject": "populate account_id",
+      "mig_files": [
+        "db/migrate/20240816072859_populate_submitter_account_id.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/submitter.rb",
+        "db/schema.rb"
+      ],
+      "orm_models_parsed_old": 25,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "submitters",
+            "column": "account_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20240816072859_populate_submitter_account_id.rb",
+            "line": 26,
+            "raw_snippet": "change_column_null :submitters, :account_id, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "submitters",
+            "column": "account_id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/submitter.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "SET_NOT_NULL on 'submitters.account_id' which was nullable in C_{t-1} ORM (app/models/submitter.rb).",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "SET_NOT_NULL",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "1e57c1ace72c393b5f4ec845d5e5a0cea3622112",
+      "parent": "fefd138dfde497c6cbdae71d8f8539edce581e79",
+      "date": "2024-04-17T16:08:58+03:00",
+      "subject": "add template preferences",
+      "mig_files": [
+        "db/migrate/20240416170023_add_preferences_to_templates.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/submissions_controller.rb",
+        "app/controllers/templates_preferences_controller.rb",
+        "app/jobs/process_submitter_completion_job.rb",
+        "app/mailers/submitter_mailer.rb",
+        "app/models/template.rb",
+        "config/routes.rb",
+        "db/schema.rb"
+      ],
+      "orm_models_parsed_old": 20,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "templates",
+            "column": "preferences",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20240416170023_add_preferences_to_templates.rb",
+            "line": 13,
+            "raw_snippet": "change_column_null :templates, :preferences, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "templates",
+            "column": "preferences",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/template.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Column 'templates.preferences' not active in C_{t-1} ORM.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "SET_NOT_NULL",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "12cf28792bfef68190f465189a4cb4804fd648fc",
+      "parent": "33466c1d070170819c30c432176f80ec09afab43",
+      "date": "2024-04-05T19:55:35+03:00",
+      "subject": "add uuid to accounts",
+      "mig_files": [
+        "db/migrate/20240405165329_add_uuid_to_accounts.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/account.rb",
+        "db/schema.rb"
+      ],
+      "orm_models_parsed_old": 20,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "accounts",
+            "column": "uuid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20240405165329_add_uuid_to_accounts.rb",
+            "line": 17,
+            "raw_snippet": "change_column_null :accounts, :uuid, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "accounts",
+            "column": "uuid",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/account.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Column 'accounts.uuid' not active in C_{t-1} ORM.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "SET_NOT_NULL",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "8630c68631074deccbf720714c1e31ef6eab12c2",
+      "parent": "ddcb5c5d40f3b5593ce9e46b7b76728a0213ac2f",
+      "date": "2024-02-03T14:39:28+02:00",
+      "subject": "add account_id to submissions",
+      "mig_files": [
+        "db/migrate/20240203113454_add_account_id_to_submissions.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/start_form_controller.rb",
+        "app/models/submission.rb",
+        "app/models/submitter.rb",
+        "db/schema.rb",
+        "lib/ability.rb",
+        "lib/submissions.rb",
+        "lib/submissions/create_from_submitters.rb",
+        "spec/factories/submissions.rb"
+      ],
+      "orm_models_parsed_old": 19,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "submissions",
+            "column": "account_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20240203113454_add_account_id_to_submissions.rb",
+            "line": 24,
+            "raw_snippet": "change_column_null :submissions, :account_id, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "submissions",
+            "column": "account_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/submission.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Column 'submissions.account_id' not active in C_{t-1} ORM.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "SET_NOT_NULL",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "07f0fbb50fc918b217ef9a4445c106f19afc1b64",
+      "parent": "3781b0aa726301b3a9353129051c1aec8aecc700",
+      "date": "2024-02-01T23:29:27+02:00",
+      "subject": "add submitter metadata",
+      "mig_files": [
+        "db/migrate/20240201210319_add_submitter_metadata.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/api/submissions_controller.rb",
+        "app/controllers/api/submitters_controller.rb",
+        "app/controllers/start_form_controller.rb",
+        "app/models/submitter.rb",
+        "db/schema.rb",
+        "lib/params/submission_create_validator.rb",
+        "lib/submissions/create_from_submitters.rb",
+        "lib/submitters/create_stamp_attachment.rb",
+        "lib/submitters/serialize_for_api.rb"
+      ],
+      "orm_models_parsed_old": 19,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "submitters",
+            "column": "metadata",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20240201210319_add_submitter_metadata.rb",
+            "line": 13,
+            "raw_snippet": "change_column_null :submitters, :metadata, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "submitters",
+            "column": "metadata",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/submitter.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Column 'submitters.metadata' not active in C_{t-1} ORM.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "SET_NOT_NULL",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "3781b0aa726301b3a9353129051c1aec8aecc700",
+      "parent": "42a5cea521729cf6b55c097e455f647b3cbd60e7",
+      "date": "2024-02-01T00:34:35+02:00",
+      "subject": "application_key -> external_id",
+      "mig_files": [
+        "db/migrate/20240131212010_rename_application_key_to_external_id.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/api/submissions_controller.rb",
+        "app/controllers/api/submitters_controller.rb",
+        "app/controllers/api/templates_clone_controller.rb",
+        "app/controllers/api/templates_controller.rb",
+        "app/models/submitter.rb",
+        "app/models/template.rb",
+        "db/schema.rb",
+        "lib/submissions/create_from_submitters.rb",
+        "lib/submitters/serialize_for_api.rb",
+        "lib/submitters/serialize_for_webhook.rb",
+        "lib/templates/clone.rb"
+      ],
+      "orm_models_parsed_old": 19,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_COLUMN",
+            "table": "templates",
+            "column": "application_key",
+            "new_name": "external_id",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20240131212010_rename_application_key_to_external_id.rb",
+            "line": 5,
+            "raw_snippet": "rename_column :templates, :application_key, :external_id",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "templates",
+            "column": "application_key",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/template.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_COLUMN 'application_key'->'external_id' breaks both C_{t-1} |= S_t and C_t |= S_{t-1}.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_COLUMN",
+            "table": "submitters",
+            "column": "application_key",
+            "new_name": "external_id",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20240131212010_rename_application_key_to_external_id.rb",
+            "line": 6,
+            "raw_snippet": "rename_column :submitters, :application_key, :external_id",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "submitters",
+            "column": "application_key",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/submitter.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_COLUMN 'application_key'->'external_id' breaks both C_{t-1} |= S_t and C_t |= S_{t-1}.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_COLUMN",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "6d7d8ae87c6578804091f1efa9db830864dd1896",
+      "parent": "cfb1bdcd52575dbefb01bfc6f3890472228c2067",
+      "date": "2023-12-30T00:37:03+02:00",
+      "subject": "rename deleted_at to archived_at",
+      "mig_files": [
+        "db/migrate/20231229220819_rename_deleted_at_to_archived_at.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/api/submissions_controller.rb",
+        "app/controllers/api/template_folders_autocomplete_controller.rb",
+        "app/controllers/api/templates_controller.rb",
+        "app/controllers/start_form_controller.rb",
+        "app/controllers/submissions_controller.rb",
+        "app/controllers/submit_form_controller.rb",
+        "app/controllers/templates_archived_controller.rb",
+        "app/controllers/templates_archived_submissions_controller.rb",
+        "app/controllers/templates_controller.rb",
+        "app/controllers/templates_restore_controller.rb",
+        "app/controllers/users_controller.rb",
+        "app/models/submission.rb"
+      ],
+      "orm_models_parsed_old": 18,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_COLUMN",
+            "table": "templates",
+            "column": "deleted_at",
+            "new_name": "archived_at",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20231229220819_rename_deleted_at_to_archived_at.rb",
+            "line": 5,
+            "raw_snippet": "rename_column :templates, :deleted_at, :archived_at",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "templates",
+            "column": "deleted_at",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/template.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_COLUMN 'deleted_at'->'archived_at' breaks both C_{t-1} |= S_t and C_t |= S_{t-1}.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_COLUMN",
+            "table": "submissions",
+            "column": "deleted_at",
+            "new_name": "archived_at",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20231229220819_rename_deleted_at_to_archived_at.rb",
+            "line": 6,
+            "raw_snippet": "rename_column :submissions, :deleted_at, :archived_at",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "submissions",
+            "column": "deleted_at",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/submission.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_COLUMN 'deleted_at'->'archived_at' breaks both C_{t-1} |= S_t and C_t |= S_{t-1}.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_COLUMN",
+            "table": "users",
+            "column": "deleted_at",
+            "new_name": "archived_at",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20231229220819_rename_deleted_at_to_archived_at.rb",
+            "line": 7,
+            "raw_snippet": "rename_column :users, :deleted_at, :archived_at",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users",
+            "column": "deleted_at",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/user.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_COLUMN 'deleted_at'->'archived_at' breaks both C_{t-1} |= S_t and C_t |= S_{t-1}.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_COLUMN",
+            "table": "template_folders",
+            "column": "deleted_at",
+            "new_name": "archived_at",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20231229220819_rename_deleted_at_to_archived_at.rb",
+            "line": 8,
+            "raw_snippet": "rename_column :template_folders, :deleted_at, :archived_at",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "template_folders",
+            "column": "deleted_at",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/template_folder.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_COLUMN 'deleted_at'->'archived_at' breaks both C_{t-1} |= S_t and C_t |= S_{t-1}.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_COLUMN",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "01333e5b2e36b420794669b24adeea1b1f772ef3",
+      "parent": "514987138a604fc14f7321d18b367c2e113bc776",
+      "date": "2023-11-23T20:03:52+02:00",
+      "subject": "preserve submitter preferences",
+      "mig_files": [
+        "db/migrate/20231122203341_add_preferences_to_submitters.rb",
+        "db/migrate/20231122203347_add_preferences_to_submissions.rb",
+        "db/migrate/20231122212612_create_email_messages.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/api/submissions_controller.rb",
+        "app/controllers/start_form_controller.rb",
+        "app/controllers/submissions_controller.rb",
+        "app/jobs/process_submitter_completion_job.rb",
+        "app/jobs/send_submitter_invitation_email_job.rb",
+        "app/mailers/submitter_mailer.rb",
+        "app/models/account.rb",
+        "app/models/email_message.rb",
+        "app/models/submission.rb",
+        "app/models/submitter.rb",
+        "app/models/user.rb",
+        "db/schema.rb"
+      ],
+      "orm_models_parsed_old": 17,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "submitters",
+            "column": "preferences",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20231122203341_add_preferences_to_submitters.rb",
+            "line": 13,
+            "raw_snippet": "change_column_null :submitters, :preferences, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "submitters",
+            "column": "preferences",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/submitter.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Column 'submitters.preferences' not active in C_{t-1} ORM.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "SET_NOT_NULL",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "submissions",
+            "column": "preferences",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20231122203347_add_preferences_to_submissions.rb",
+            "line": 13,
+            "raw_snippet": "change_column_null :submissions, :preferences, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "submissions",
+            "column": "preferences",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/submission.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Column 'submissions.preferences' not active in C_{t-1} ORM.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "SET_NOT_NULL",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "66d1ae2f64fff76f4d6df0110b7c8f80fb66e2d3",
+      "parent": "d1308359025d838bde20398c4735011b4883fca1",
+      "date": "2023-11-20T00:52:05+02:00",
+      "subject": "link to submission preview page in completed emails",
+      "mig_files": [
+        "db/migrate/20231119222105_add_slug_to_submissions.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/submissions_preview_controller.rb",
+        "app/models/account_config.rb",
+        "app/models/submission.rb",
+        "config/routes.rb",
+        "db/schema.rb",
+        "lib/replace_email_variables.rb",
+        "lib/submissions/generate_audit_trail.rb",
+        "lib/time_utils.rb",
+        "spec/system/submission_preview_spec.rb"
+      ],
+      "orm_models_parsed_old": 17,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "submissions",
+            "column": "slug",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20231119222105_add_slug_to_submissions.rb",
+            "line": 15,
+            "raw_snippet": "change_column_null :submissions, :slug, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "submissions",
+            "column": "slug",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/submission.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Column 'submissions.slug' not active in C_{t-1} ORM.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "SET_NOT_NULL",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "submissions",
+            "column": "slug",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20231119222105_add_slug_to_submissions.rb",
+            "line": 21,
+            "raw_snippet": "remove_column :submissions, :slug",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "submissions",
+            "column": "slug",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "ddb557ebef2c302d29ba15935429b11d0bbcde07",
+      "parent": "b48615df3f6ef392929d26f1571f6d59e8c1a18c",
+      "date": "2023-10-28T23:07:18+03:00",
+      "subject": "upload template from URL",
+      "mig_files": [
+        "db/migrate/20230920202947_add_folder_id_to_templates.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/templates_uploads_controller.rb",
+        "config/routes.rb",
+        "spec/system/setup_spec.rb"
+      ],
+      "orm_models_parsed_old": 17,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "templates",
+            "column": "folder_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20230920202947_add_folder_id_to_templates.rb",
+            "line": 34,
+            "raw_snippet": "change_column_null :templates, :folder_id, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "templates",
+            "column": "folder_id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/template.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: 'templates.folder_id' was already non-nullable in C_{t-1} ORM.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "SET_NOT_NULL",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "templates",
+            "column": "folder_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20230920202947_add_folder_id_to_templates.rb",
+            "line": 38,
+            "raw_snippet": "remove_column :templates, :folder_id",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "templates",
+            "column": "folder_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "761bb07ee6c263effb0ff9bd0f96a2eb13877398",
+      "parent": "92d7bc65f5d92a1250e394bb3a66ee1a899057bf",
+      "date": "2023-10-11T21:05:29+03:00",
+      "subject": "fix migration for mysql",
+      "mig_files": [
+        "db/migrate/20230803200825_add_uuid_to_users.rb",
+        "db/migrate/20230805124454_add_source_to_submissions.rb",
+        "db/migrate/20230806140534_create_access_tokens.rb"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 16,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "users",
+            "column": "uuid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20230803200825_add_uuid_to_users.rb",
+            "line": 16,
+            "raw_snippet": "change_column_null :users, :uuid, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users",
+            "column": "uuid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/user.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: 'users.uuid' was already non-nullable in C_{t-1} ORM.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "SET_NOT_NULL",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "submissions",
+            "column": "source",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20230805124454_add_source_to_submissions.rb",
+            "line": 13,
+            "raw_snippet": "change_column_null :submissions, :source, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "submissions",
+            "column": "source",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/submission.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: 'submissions.source' was already non-nullable in C_{t-1} ORM.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "SET_NOT_NULL",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "ef8c3cfe7ff6e61147711f74b60eda34acce54c5",
+      "parent": "9bcf5aacc06737badd80f872ca2c5b9a235b8ead",
+      "date": "2023-09-21T00:23:38+03:00",
+      "subject": "add folders migration",
+      "mig_files": [
+        "db/migrate/20230920195319_create_template_folders.rb",
+        "db/migrate/20230920202947_add_folder_id_to_templates.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/account.rb",
+        "app/models/template.rb",
+        "app/models/template_folder.rb",
+        "db/schema.rb",
+        "lib/ability.rb",
+        "spec/system/dashboard_spec.rb"
+      ],
+      "orm_models_parsed_old": 14,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "templates",
+            "column": "folder_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20230920202947_add_folder_id_to_templates.rb",
+            "line": 34,
+            "raw_snippet": "change_column_null :templates, :folder_id, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "templates",
+            "column": "folder_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/template.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Column 'templates.folder_id' not active in C_{t-1} ORM.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "SET_NOT_NULL",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "templates",
+            "column": "folder_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20230920202947_add_folder_id_to_templates.rb",
+            "line": 38,
+            "raw_snippet": "remove_column :templates, :folder_id",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "templates",
+            "column": "folder_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "62cea05084bc019d3a256e432b7df9b341eb0410",
+      "parent": "07e49f9f07888f0042c3e502df2e37ded36d1331",
+      "date": "2023-09-10T02:10:01+03:00",
+      "subject": "add preserve submitters order option",
+      "mig_files": [
+        "db/migrate/20230909213212_add_submitters_order_to_submissions.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/api/submissions_controller.rb",
+        "app/controllers/submissions_controller.rb",
+        "app/jobs/process_submitter_completion_job.rb",
+        "app/jobs/send_submitter_invitation_email_job.rb",
+        "app/models/submission.rb",
+        "db/schema.rb",
+        "lib/submissions.rb",
+        "lib/submitters.rb"
+      ],
+      "orm_models_parsed_old": 13,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "submissions",
+            "column": "submitters_order",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20230909213212_add_submitters_order_to_submissions.rb",
+            "line": 13,
+            "raw_snippet": "change_column_null :submissions, :submitters_order, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "submissions",
+            "column": "submitters_order",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/submission.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Column 'submissions.submitters_order' not active in C_{t-1} ORM.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "SET_NOT_NULL",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "8e39f0078dce4b00c95873271150b184aaeb260b",
+      "parent": "46f350217aca4b87f8ec5eb8d5bc71003696fcef",
+      "date": "2023-08-19T22:08:17+03:00",
+      "subject": "add source to templates",
+      "mig_files": [
+        "db/migrate/20230819190316_add_source_to_templates.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/template.rb",
+        "db/schema.rb"
+      ],
+      "orm_models_parsed_old": 13,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "templates",
+            "column": "source",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20230819190316_add_source_to_templates.rb",
+            "line": 13,
+            "raw_snippet": "change_column_null :templates, :source, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "templates",
+            "column": "source",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/template.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Column 'templates.source' not active in C_{t-1} ORM.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "SET_NOT_NULL",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "644b14279800d0210b24e88a127515c6b213a1b5",
+      "parent": "e4bb5466f51eb0b58d8c9488364254562296972b",
+      "date": "2023-08-05T19:20:06+03:00",
+      "subject": "add source to submissions",
+      "mig_files": [
+        "db/migrate/20230805124454_add_source_to_submissions.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/api/submissions_controller.rb",
+        "app/controllers/start_form_controller.rb",
+        "app/controllers/submissions_controller.rb",
+        "app/models/submission.rb",
+        "db/schema.rb",
+        "lib/submissions.rb"
+      ],
+      "orm_models_parsed_old": 11,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "submissions",
+            "column": "source",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20230805124454_add_source_to_submissions.rb",
+            "line": 13,
+            "raw_snippet": "change_column_null :submissions, :source, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "submissions",
+            "column": "source",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/submission.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Column 'submissions.source' not active in C_{t-1} ORM.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "SET_NOT_NULL",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "7912c9a1eee654da1e4f80008c3de124d4104488",
+      "parent": "63e1246a11caa6533b7fa5e49bf00e07b74fa5ae",
+      "date": "2023-08-04T00:40:13+03:00",
+      "subject": "add submitters api",
+      "mig_files": [
+        "db/migrate/20230803200825_add_uuid_to_users.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/api/submissions_controller.rb",
+        "app/controllers/api/templates_controller.rb",
+        "app/controllers/submissions_controller.rb",
+        "app/mailers/submitter_mailer.rb",
+        "app/models/user.rb",
+        "config/application.rb",
+        "config/initializers/devise.rb",
+        "config/routes.rb",
+        "db/schema.rb",
+        "lib/api_path_consider_json_middleware.rb",
+        "lib/auth_with_token_strategy.rb",
+        "lib/json_web_token.rb"
+      ],
+      "orm_models_parsed_old": 11,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "users",
+            "column": "uuid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20230803200825_add_uuid_to_users.rb",
+            "line": 16,
+            "raw_snippet": "change_column_null :users, :uuid, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users",
+            "column": "uuid",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/user.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Column 'users.uuid' not active in C_{t-1} ORM.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "SET_NOT_NULL",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "e1eb2da6f901ec288411d21de7f3fc967187d2ad",
+      "parent": "a92d1d82c1249ecb1db596b2d13814dd416675e5",
+      "date": "2023-07-26T09:58:50+03:00",
+      "subject": "preserve template fields per submission",
+      "mig_files": [
+        "db/migrate/20230726062428_add_template_fields_to_submission.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/submit_form_controller.rb",
+        "app/models/submission.rb",
+        "db/schema.rb",
+        "lib/submissions.rb",
+        "lib/submissions/generate_result_attachments.rb",
+        "lib/templates.rb"
+      ],
+      "orm_models_parsed_old": 11,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "submissions",
+            "column": "template_fields",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20230726062428_add_template_fields_to_submission.rb",
+            "line": 27,
+            "raw_snippet": "remove_column :submissions, :template_fields",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "submissions",
+            "column": "template_fields",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "submissions",
+            "column": "template_schema",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20230726062428_add_template_fields_to_submission.rb",
+            "line": 28,
+            "raw_snippet": "remove_column :submissions, :template_schema",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "submissions",
+            "column": "template_schema",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "submissions",
+            "column": "template_submitters",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20230726062428_add_template_fields_to_submission.rb",
+            "line": 29,
+            "raw_snippet": "remove_column :submissions, :template_submitters",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "submissions",
+            "column": "template_submitters",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    }
+  ]
+}

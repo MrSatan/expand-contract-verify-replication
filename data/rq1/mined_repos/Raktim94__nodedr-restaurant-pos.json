@@ -1,0 +1,193 @@
+{
+  "repo": "Raktim94/nodedr-restaurant-pos",
+  "ecosystem": "prisma",
+  "stars": 307,
+  "has_k8s_helm": false,
+  "status": "ok",
+  "stats": {
+    "total_migration_commits_in_history": 71,
+    "migration_commits_analyzed": 71,
+    "total_migration_files_parsed": 76,
+    "commits_with_any_destructive": 2,
+    "commits_with_forward_destructive": 2,
+    "commits_with_rollback_only_destructive": 0,
+    "total_ops_extracted": 3,
+    "destructive_ops_up": 3,
+    "destructive_ops_down": 0
+  },
+  "verdict_counts": {
+    "DUAL_VERSION_VIOLATION_BACKWARD": 2,
+    "DUAL_VERSION_VIOLATION_BOTH": 1
+  },
+  "destructive_commits": [
+    {
+      "sha": "06d4e8946780577c68ac00b483a1d03e45636034",
+      "parent": "9cb110f1a611e09d4d05a3dc47bef7d429093206",
+      "date": "2026-08-15T18:15:23+05:30",
+      "subject": "Custom/dynamic roles (Phase 2 of RBAC/audit/backup plan)",
+      "mig_files": [
+        "apps/backend/prisma/migrations/20260815123739_make_role_name_string/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/backend/prisma/schema.prisma",
+        "apps/backend/src/app.module.ts",
+        "apps/backend/src/roles/roles.controller.ts",
+        "apps/backend/src/roles/roles.module.ts",
+        "apps/backend/src/roles/roles.service.ts",
+        "apps/web/app/(dashboard)/settings/roles/page.tsx",
+        "apps/web/components/settings/create-role-dialog.tsx",
+        "apps/web/components/settings/edit-role-dialog.tsx",
+        "apps/web/components/settings/permission-checklist.tsx",
+        "apps/web/components/settings/settings-tabs.tsx",
+        "apps/web/hooks/use-roles.ts",
+        "packages/types/src/index.ts"
+      ],
+      "orm_models_parsed_old": 92,
+      "raw_sql": "/*\n  `roles.name` changes from the fixed `StaffRoleName` enum to a plain TEXT\n  column, so an Owner can create custom roles with any name beyond the\n  seeded 11 (e.g. \"Display\", \"Host\", \"Valet\"). Hand-edited from Prisma's\n  auto-generated drop-and-recreate version (which would have destroyed\n  every existing role's `name` value) to an in-place ALTER COLUMN ... USING\n  cast instead, which preserves both the data and the existing\n  `roles_restaurantId_name_key` unique index untouched.\n*/\n\n-- AlterTable\nALTER TABLE \"roles\" ALTER COLUMN \"name\" TYPE TEXT USING \"name\"::text;\n\n-- DropEnum\nDROP TYPE \"StaffRoleName\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "roles",
+            "column": "name",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TEXT",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/backend/prisma/migrations/20260815123739_make_role_name_string/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE roles ALTER COLUMN \"name\" SET DATA TYPE TEXT USING CAST(\"name\" AS TEXT)",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "roles",
+            "column": "name",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "apps/backend/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'roles.name' (StaffRoleName -> TEXT)."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "staffrolename",
+            "column": "staffrolename",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/backend/prisma/migrations/20260815123739_make_role_name_string/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropEnum */ DROP TYPE \"StaffRoleName\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "StaffRoleName",
+              "column_sql": "StaffRoleName"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "staffrolename",
+            "column": "staffrolename",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'staffrolename' affects active C_{t-1} enum definition/code."
+        }
+      ]
+    },
+    {
+      "sha": "4d758bd5868ec2f0a7fa898bf77a45bfd0820130",
+      "parent": "83a680b2ff45cb91a6f486791f5781cc8528951e",
+      "date": "2026-08-15T12:41:30+05:30",
+      "subject": "Security hardening pass + Windows MSIX client",
+      "mig_files": [
+        "apps/backend/prisma/migrations/20260815065428_modifier_group_branch_scoping/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/backend/prisma/schema.prisma",
+        "apps/backend/prisma/seed.ts",
+        "apps/backend/src/auth/auth.controller.ts",
+        "apps/backend/src/common/upload/image-upload.config.ts",
+        "apps/backend/src/main.ts",
+        "apps/backend/src/modules/gift-cards/gift-cards.service.ts",
+        "apps/backend/src/modules/inventory/stock.service.ts",
+        "apps/backend/src/modules/menu/menu.controller.ts",
+        "apps/backend/src/modules/menu/menu.service.ts",
+        "apps/backend/src/modules/orders/orders.controller.ts",
+        "apps/backend/src/modules/orders/orders.service.ts",
+        "apps/backend/src/modules/reservations/reservations.service.ts"
+      ],
+      "orm_models_parsed_old": 90,
+      "raw_sql": "/*\n  Warnings:\n\n  - Added the required column `branchId` to the `modifier_groups` table without a default value. This is not possible if the table is not empty.\n\n*/\n-- AlterTable\nALTER TABLE \"modifier_groups\" ADD COLUMN     \"branchId\" TEXT NOT NULL;\n\n-- CreateIndex\nCREATE INDEX \"modifier_groups_branchId_idx\" ON \"modifier_groups\"(\"branchId\");\n\n-- AddForeignKey\nALTER TABLE \"modifier_groups\" ADD CONSTRAINT \"modifier_groups_branchId_fkey\" FOREIGN KEY (\"branchId\") REFERENCES \"branches\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "modifier_groups",
+            "column": "branchid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TEXT",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/backend/prisma/migrations/20260815065428_modifier_group_branch_scoping/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE modifier_groups ADD COLUMN \"branchId\" TEXT NOT NULL",
+            "extra": {
+              "column_sql": "branchId"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "modifier_groups",
+            "column": "branchid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "apps/backend/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'modifier_groups.branchid' breaks C_{t-1} INSERTs."
+        }
+      ]
+    }
+  ]
+}

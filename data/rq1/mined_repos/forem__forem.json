@@ -1,0 +1,4449 @@
+{
+  "repo": "forem/forem",
+  "ecosystem": "rails",
+  "stars": 22840,
+  "has_k8s_helm": false,
+  "status": "ok",
+  "stats": {
+    "total_migration_commits_in_history": 644,
+    "migration_commits_analyzed": 150,
+    "total_migration_files_parsed": 252,
+    "commits_with_any_destructive": 12,
+    "commits_with_forward_destructive": 4,
+    "commits_with_rollback_only_destructive": 8,
+    "total_ops_extracted": 102,
+    "destructive_ops_up": 85,
+    "destructive_ops_down": 17
+  },
+  "verdict_counts": {
+    "ROLLBACK_ONLY_FALSE_ALARM": 17,
+    "DUAL_VERSION_VIOLATION_BACKWARD": 8,
+    "SAFE_ADDITIVE": 1,
+    "UNCERTAIN": 75,
+    "DUAL_VERSION_VIOLATION_FORWARD": 1
+  },
+  "destructive_commits": [
+    {
+      "sha": "7dfa3690f2b78f44b1eed03699ae7ff81d5b1ecf",
+      "parent": "a8e9051c4f3f54328512d5a89f01bf2d834aa333",
+      "date": "2026-11-19T13:28:36-05:00",
+      "subject": "feat(events): allow articles to belong to events with quickie-friendly event feed UI (#24874)",
+      "mig_files": [
+        "db/migrate/20261119161000_add_allow_articles_to_events.rb",
+        "db/migrate/20261119161100_add_event_id_to_articles.rb",
+        "db/migrate/20261119161200_add_event_id_index_to_articles.rb",
+        "db/migrate/20261119161300_validate_event_id_on_articles.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/admin/events_controller.rb",
+        "app/controllers/api/v0/events_controller.rb",
+        "app/controllers/events_controller.rb",
+        "app/models/article.rb",
+        "app/models/event.rb",
+        "app/services/edge_cache/bust_article.rb",
+        "app/workers/articles/bust_deleted_article_cache_worker.rb",
+        "db/schema.rb",
+        "spec/models/article_event_spec.rb",
+        "spec/models/event_spec.rb",
+        "spec/requests/admin/events_spec.rb",
+        "spec/requests/api/v0/events_spec.rb"
+      ],
+      "orm_models_parsed_old": 133,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "events",
+            "column": "allow_articles",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": true,
+            "file_path": "db/migrate/20261119161000_add_allow_articles_to_events.rb",
+            "line": 8,
+            "raw_snippet": "remove_column :events, :allow_articles, :boolean",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "events",
+            "column": "allow_articles",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "articles",
+            "column": "event_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": true,
+            "file_path": "db/migrate/20261119161100_add_event_id_to_articles.rb",
+            "line": 10,
+            "raw_snippet": "remove_column :articles, :event_id, :bigint",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "articles",
+            "column": "event_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "91e93ec929ab9f0e393ef9e78c6679c907eed3a9",
+      "parent": "97166456e74ceb4db8d1423be4fce6c3403c1361",
+      "date": "2026-11-18T21:09:01-05:00",
+      "subject": "feat(events): add event-owned markdown and embed pages with tabs and optional showcase (#24851)",
+      "mig_files": [
+        "db/migrate/20261119120000_add_event_id_to_pages.rb",
+        "db/migrate/20261119120100_add_index_to_pages_event_id.rb",
+        "db/migrate/20261119120200_validate_event_id_on_pages.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/admin/event_pages_controller.rb",
+        "app/controllers/admin/pages_controller.rb",
+        "app/controllers/api/v1/pages_controller.rb",
+        "app/controllers/concerns/owned_page_management.rb",
+        "app/controllers/events_controller.rb",
+        "app/controllers/organization_embeds_controller.rb",
+        "app/controllers/organization_pages_controller.rb",
+        "app/controllers/pages_controller.rb",
+        "app/helpers/events_helper.rb",
+        "app/liquid_tags/page_tag.rb",
+        "app/models/event.rb",
+        "app/models/page.rb"
+      ],
+      "orm_models_parsed_old": 133,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "pages",
+            "column": "event_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": true,
+            "file_path": "db/migrate/20261119120000_add_event_id_to_pages.rb",
+            "line": 10,
+            "raw_snippet": "remove_column :pages, :event_id, :bigint",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "pages",
+            "column": "event_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "ac15763445363bbb76a4407ff10ca8bfa5365591",
+      "parent": "5a1b6cd8da2a1d80031ff015c20442d2b3318d92",
+      "date": "2026-11-12T14:17:57-05:00",
+      "subject": "feat(pages): add user sandboxed embed HTML pages and article embed footer/fullscreen (#24778)",
+      "mig_files": [
+        "db/migrate/20261112120000_add_user_id_to_pages.rb",
+        "db/migrate/20261112120100_add_index_to_pages_user_id.rb",
+        "db/migrate/20261112120200_validate_user_id_on_pages.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/admin/pages_controller.rb",
+        "app/controllers/dashboards_controller.rb",
+        "app/controllers/organization_embeds_controller.rb",
+        "app/controllers/user_embed_pages_controller.rb",
+        "app/liquid_tags/page_tag.rb",
+        "app/models/page.rb",
+        "app/models/settings/rate_limit.rb",
+        "app/models/user.rb",
+        "app/services/edge_cache/bust_page.rb",
+        "app/services/rate_limit_checker.rb",
+        "app/workers/pages/bust_cache_worker.rb",
+        "config/routes.rb"
+      ],
+      "orm_models_parsed_old": 133,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "pages",
+            "column": "user_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": true,
+            "file_path": "db/migrate/20261112120000_add_user_id_to_pages.rb",
+            "line": 10,
+            "raw_snippet": "remove_column :pages, :user_id, :bigint",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "pages",
+            "column": "user_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "6f5b69113c41528ad89bab1d054136ba2f364800",
+      "parent": "b2382d8318ae106b513a82629f0eb0c808b13ad7",
+      "date": "2026-08-12T21:36:30+08:00",
+      "subject": "Mod center overhaul phase 1 (#23701)",
+      "mig_files": [
+        "db/migrate/20260728100000_add_favorited_by_user_id_to_articles.rb",
+        "db/migrate/20260728100100_add_index_to_articles_favorited_by_user_id.rb",
+        "db/migrate/20260728100200_validate_favorited_by_user_id_on_articles.rb",
+        "db/migrate/20260728100300_add_favorited_by_user_id_to_comments.rb",
+        "db/migrate/20260728100400_add_index_to_comments_favorited_by_user_id.rb",
+        "db/migrate/20260728100500_validate_favorited_by_user_id_on_comments.rb",
+        "db/migrate/20260728100600_add_earned_favorites_count_to_users.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/favorites_controller.rb",
+        "app/helpers/favorites_helper.rb",
+        "app/lib/constants/role.rb",
+        "app/models/article.rb",
+        "app/models/async_info.rb",
+        "app/models/comment.rb",
+        "app/models/role.rb",
+        "app/models/settings/user_experience.rb",
+        "app/models/user.rb",
+        "app/policies/application_policy.rb",
+        "app/policies/authorizer.rb",
+        "app/policies/favorite_policy.rb"
+      ],
+      "orm_models_parsed_old": 128,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "articles",
+            "column": "favorited_by_user_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": true,
+            "file_path": "db/migrate/20260728100000_add_favorited_by_user_id_to_articles.rb",
+            "line": 11,
+            "raw_snippet": "remove_column :articles, :favorited_by_user_id, :bigint",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "articles",
+            "column": "favorited_by_user_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "articles",
+            "column": "favorited_at",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": true,
+            "file_path": "db/migrate/20260728100000_add_favorited_by_user_id_to_articles.rb",
+            "line": 12,
+            "raw_snippet": "remove_column :articles, :favorited_at, :datetime",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "articles",
+            "column": "favorited_at",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "comments",
+            "column": "favorited_by_user_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": true,
+            "file_path": "db/migrate/20260728100300_add_favorited_by_user_id_to_comments.rb",
+            "line": 11,
+            "raw_snippet": "remove_column :comments, :favorited_by_user_id, :bigint",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "comments",
+            "column": "favorited_by_user_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "comments",
+            "column": "favorited_at",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": true,
+            "file_path": "db/migrate/20260728100300_add_favorited_by_user_id_to_comments.rb",
+            "line": 12,
+            "raw_snippet": "remove_column :comments, :favorited_at, :datetime",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "comments",
+            "column": "favorited_at",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "b187465696adebfa968eeb3aeb766b8bfffcac4f",
+      "parent": "75f6ce2fd935daf83d42a6ae7d4223a7bbf47bda",
+      "date": "2026-06-08T14:20:10-04:00",
+      "subject": "Challenge type events (#23419)",
+      "mig_files": [
+        "db/migrate/20260608155400_add_page_delegation_to_events.rb",
+        "db/migrate/20260608155500_add_page_index_to_events.rb",
+        "db/migrate/20260608155600_validate_add_page_delegation_to_events.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/admin/events_controller.rb",
+        "app/controllers/events_controller.rb",
+        "app/controllers/sidebars_controller.rb",
+        "app/models/event.rb",
+        "db/schema.rb",
+        "spec/models/event_spec.rb",
+        "spec/requests/events_spec.rb",
+        "spec/system/user/view_user_index_spec.rb"
+      ],
+      "orm_models_parsed_old": 126,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "events",
+            "column": "page_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": true,
+            "file_path": "db/migrate/20260608155400_add_page_delegation_to_events.rb",
+            "line": 11,
+            "raw_snippet": "remove_column :events, :page_id, :bigint",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "events",
+            "column": "page_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "events",
+            "column": "delegate_to_page",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": true,
+            "file_path": "db/migrate/20260608155400_add_page_delegation_to_events.rb",
+            "line": 12,
+            "raw_snippet": "remove_column :events, :delegate_to_page, :boolean, default: false, null: false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "events",
+            "column": "delegate_to_page",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "7e30dca4e6b03a7533872d58d34c976b2080e542",
+      "parent": "0d1c06f13e134d132af469f6213b8998453be6dd",
+      "date": "2026-05-14T16:28:01-04:00",
+      "subject": "Implement semantic feed ranking using vector embeddings and background worker updates (#23272)",
+      "mig_files": [
+        "db/migrate/20260513145959_enable_vector_extension.rb",
+        "db/migrate/20260513150000_setup_vector_columns_for_feed.rb",
+        "db/migrate/20260513150001_add_vector_indexes_for_feed.rb",
+        "db/migrate/20260513150002_add_semantic_similarity_weight_to_feed_configs.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/article.rb",
+        "app/models/comment.rb",
+        "app/models/feed_config.rb",
+        "app/models/reaction.rb",
+        "app/models/user_activity.rb",
+        "app/services/ai/embedding.rb",
+        "app/workers/generate_article_embedding_worker.rb",
+        "app/workers/update_user_interest_embedding_worker.rb",
+        "db/schema.rb",
+        "spec/models/article_spec.rb",
+        "spec/models/comment_spec.rb",
+        "spec/models/feed_config_spec.rb"
+      ],
+      "orm_models_parsed_old": 123,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "user_activities",
+            "column": "semantic_interest_profile",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": true,
+            "file_path": "db/migrate/20260513150000_setup_vector_columns_for_feed.rb",
+            "line": 9,
+            "raw_snippet": "remove_column :user_activities, :semantic_interest_profile",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "user_activities",
+            "column": "semantic_interest_profile",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "db/schema.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'semantic_interest_profile' active in C_{t-1} ORM (db/schema.rb); identifier removed in same commit diff",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": "DROP_COLUMN",
+            "bypassed": true
+          }
+        }
+      ]
+    },
+    {
+      "sha": "2b75a44c6b829ca0479982e748381407182fc0f2",
+      "parent": "537a872d3c4c663ca3353459a32a293056c21d28",
+      "date": "2026-04-25T01:02:40+08:00",
+      "subject": "Generate article summaries with Gemini (#23177)",
+      "mig_files": [
+        "db/migrate/20260422102533_add_ai_summary_to_articles.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/article.rb",
+        "app/services/ai/article_summary_generator.rb",
+        "app/workers/articles/generate_summary_worker.rb",
+        "db/schema.rb",
+        "spec/models/article_spec.rb",
+        "spec/services/ai/article_summary_generator_spec.rb",
+        "spec/workers/articles/generate_summary_worker_spec.rb"
+      ],
+      "orm_models_parsed_old": 119,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "articles",
+            "column": "ai_summary_generated_at",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260422102533_add_ai_summary_to_articles.rb",
+            "line": 9,
+            "raw_snippet": "remove_column :articles, :ai_summary_generated_at",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "articles",
+            "column": "ai_summary_generated_at",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "articles",
+            "column": "ai_summary_prompt_version",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260422102533_add_ai_summary_to_articles.rb",
+            "line": 10,
+            "raw_snippet": "remove_column :articles, :ai_summary_prompt_version",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "articles",
+            "column": "ai_summary_prompt_version",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "articles",
+            "column": "ai_summary",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260422102533_add_ai_summary_to_articles.rb",
+            "line": 11,
+            "raw_snippet": "remove_column :articles, :ai_summary",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "articles",
+            "column": "ai_summary",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "466ad85c99e9d773831076876554b7ff070b41c2",
+      "parent": "bee18735639bccf5d47adf3c4b42b2d02435c3bb",
+      "date": "2026-04-09T17:08:52-04:00",
+      "subject": "Add dedicated event model (#23115)",
+      "mig_files": [
+        "db/migrate/20260409163500_initialize_events_table.rb",
+        "db/migrate/20260409170801_add_event_id_to_display_ads.rb",
+        "db/migrate/20260409173612_validate_event_foreign_key_on_display_ads.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/admin/events_controller.rb",
+        "app/controllers/api/v0/events_controller.rb",
+        "app/controllers/events_controller.rb",
+        "app/models/admin_menu.rb",
+        "app/models/billboard.rb",
+        "app/models/event.rb",
+        "app/policies/event_policy.rb",
+        "app/queries/billboards/filtered_ads_query.rb",
+        "app/workers/events/manage_broadcast_billboards_worker.rb",
+        "config/routes.rb",
+        "config/routes/admin.rb",
+        "config/routes/api.rb"
+      ],
+      "orm_models_parsed_old": 118,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ADD_UNIQUE_OR_CHECK",
+            "table": "events",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260409163500_initialize_events_table.rb",
+            "line": 26,
+            "raw_snippet": "add_check_constraint :events, \"broadcast_config IS NOT NULL\", name: \"events_broadcast_config_null\"",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "events",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Constraint added on newly created table 'events'.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ADD_UNIQUE_OR_CHECK",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "display_ads",
+            "column": "event_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": true,
+            "file_path": "db/migrate/20260409170801_add_event_id_to_display_ads.rb",
+            "line": 13,
+            "raw_snippet": "remove_reference :display_ads, :event, null: true, index: false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "display_ads",
+            "column": "event_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "b6db3a7cae9766bcf0eb14efe43c918e4717817c",
+      "parent": "7063635de6f946b81b39ba8b43449a2632e53320",
+      "date": "2026-03-30T12:40:26-04:00",
+      "subject": "Add more performant tags column (#23059)",
+      "mig_files": [
+        "db/migrate/20260330145136_add_brin_index_to_display_ad_events.rb",
+        "db/migrate/20260330150023_add_brin_index_to_field_test_events.rb",
+        "db/migrate/20260330150026_add_brin_index_to_audit_logs.rb",
+        "db/migrate/20260330151720_add_tags_array_to_articles.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/concerns/taggable.rb",
+        "app/models/feed_config.rb",
+        "app/services/articles/feeds/custom.rb",
+        "db/schema.rb",
+        "spec/models/article_spec.rb",
+        "spec/models/billboard_spec.rb",
+        "spec/models/feed_config_spec.rb",
+        "spec/models/shared_examples/taggable_spec.rb",
+        "spec/services/articles/feeds/custom_spec.rb"
+      ],
+      "orm_models_parsed_old": 117,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "display_ads",
+            "column": "tags_array",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260330151720_add_tags_array_to_articles.rb",
+            "line": 21,
+            "raw_snippet": "remove_column :display_ads, :tags_array",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "display_ads",
+            "column": "tags_array",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "articles",
+            "column": "tags_array",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260330151720_add_tags_array_to_articles.rb",
+            "line": 22,
+            "raw_snippet": "remove_column :articles, :tags_array",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "articles",
+            "column": "tags_array",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "466b89e27dae60c61a5eb82a7cb65a132148c0ba",
+      "parent": "5ad6096a2bf687915369cb8708f79185c9d1df56",
+      "date": "2026-03-06T15:45:06-05:00",
+      "subject": "Improve performance for dashboard sidebar (#22918)",
+      "mig_files": [
+        "db/migrate/20260306200919_add_sidebar_counters_to_users.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/dashboards_controller.rb",
+        "app/models/agent_session.rb",
+        "app/models/user.rb",
+        "db/schema.rb",
+        "spec/models/user_spec.rb",
+        "spec/requests/dashboard_spec.rb"
+      ],
+      "orm_models_parsed_old": 114,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "users",
+            "column": "agent_sessions_count",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": true,
+            "file_path": "db/migrate/20260306200919_add_sidebar_counters_to_users.rb",
+            "line": 24,
+            "raw_snippet": "remove_column :users, :agent_sessions_count",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users",
+            "column": "agent_sessions_count",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "0230aa56c1b4e59480c1de95822824f62f95aaa4",
+      "parent": "4417254a11853bac136e56d75c391ce5d92a3bc5",
+      "date": "2026-03-06T12:16:30-05:00",
+      "subject": "Refactor: client-side parsing & curation for agent sessions (#22893)",
+      "mig_files": [
+        "db/migrate/20260305134544_add_s3_to_agent_sessions.rb",
+        "db/migrate/20260305140853_remove_legacy_columns_from_agent_sessions.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/agent_sessions_controller.rb",
+        "app/controllers/api/v1/agent_sessions_controller.rb",
+        "app/lib/constants/settings/general.rb",
+        "app/models/agent_session.rb",
+        "app/models/settings/general.rb",
+        "app/policies/agent_session_policy.rb",
+        "app/services/agent_session_parsers/auto_detect.rb",
+        "app/services/agent_session_parsers/base.rb",
+        "app/services/agent_session_parsers/claude_code.rb",
+        "app/services/agent_session_parsers/codex.rb",
+        "app/services/agent_session_parsers/gemini_cli.rb",
+        "app/services/agent_session_parsers/github_copilot.rb"
+      ],
+      "orm_models_parsed_old": 111,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "agent_sessions",
+            "column": "raw_data",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": true,
+            "file_path": "db/migrate/20260305140853_remove_legacy_columns_from_agent_sessions.rb",
+            "line": 6,
+            "raw_snippet": "remove_column :agent_sessions, :raw_data, :text",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "agent_sessions",
+            "column": "raw_data",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/agent_session.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'raw_data' active in C_{t-1} ORM (app/models/agent_session.rb); identifier removed in same commit diff",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": "DROP_COLUMN",
+            "bypassed": true
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "agent_sessions",
+            "column": "normalized_data",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": true,
+            "file_path": "db/migrate/20260305140853_remove_legacy_columns_from_agent_sessions.rb",
+            "line": 7,
+            "raw_snippet": "remove_column :agent_sessions, :normalized_data, :jsonb, default: {}, null: false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "agent_sessions",
+            "column": "normalized_data",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/agent_session.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'normalized_data' active in C_{t-1} ORM (app/models/agent_session.rb); identifier removed in same commit diff",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": "DROP_COLUMN",
+            "bypassed": true
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "agent_sessions",
+            "column": "curated_selections",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": true,
+            "file_path": "db/migrate/20260305140853_remove_legacy_columns_from_agent_sessions.rb",
+            "line": 8,
+            "raw_snippet": "remove_column :agent_sessions, :curated_selections, :jsonb, default: [], null: false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "agent_sessions",
+            "column": "curated_selections",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/agent_session.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'curated_selections' active in C_{t-1} ORM (app/models/agent_session.rb); identifier removed in same commit diff",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": "DROP_COLUMN",
+            "bypassed": true
+          }
+        }
+      ]
+    },
+    {
+      "sha": "372afa68fb362306eed79f913d0cbaea477eb26c",
+      "parent": "fe54a1c54e0274a432860d003cdb05f173ae726f",
+      "date": "2025-10-03T15:05:56-04:00",
+      "subject": "Add Android push notification support (#22399)",
+      "mig_files": [
+        "db/migrate/20250625130740_add_rpush.rb",
+        "db/migrate/20250625130741_rpush_2_0_0_updates.rb",
+        "db/migrate/20250625130742_rpush_2_1_0_updates.rb",
+        "db/migrate/20250625130743_rpush_2_6_0_updates.rb",
+        "db/migrate/20250625130744_rpush_2_7_0_updates.rb",
+        "db/migrate/20250625130745_rpush_3_0_0_updates.rb",
+        "db/migrate/20250625130746_rpush_3_0_1_updates.rb",
+        "db/migrate/20250625130747_rpush_3_1_0_add_pushy.rb",
+        "db/migrate/20250625130748_rpush_3_1_1_updates.rb",
+        "db/migrate/20250625130749_rpush_3_2_0_add_apns_p8.rb",
+        "db/migrate/20250625130750_rpush_3_2_4_updates.rb",
+        "db/migrate/20250625130751_rpush_3_3_0_updates.rb",
+        "db/migrate/20250625130752_rpush_3_3_1_updates.rb",
+        "db/migrate/20250625130753_rpush_4_1_0_updates.rb",
+        "db/migrate/20250625130754_rpush_4_1_1_updates.rb",
+        "db/migrate/20250625130755_rpush_4_2_0_updates.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/consumer_app.rb"
+      ],
+      "orm_models_parsed_old": 105,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_TABLE",
+            "table": "rapns_notifications",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130740_add_rpush.rb",
+            "line": 71,
+            "raw_snippet": "drop_table :rapns_notifications",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rapns_notifications",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rapns_notifications' not resolved in C_{t-1} ORM snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_TABLE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_TABLE",
+            "table": "rapns_feedback",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130740_add_rpush.rb",
+            "line": 91,
+            "raw_snippet": "drop_table :rapns_feedback",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rapns_feedback",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rapns_feedback' not resolved in C_{t-1} ORM snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_TABLE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "rapns_notifications",
+            "column": "alert_is_json",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130740_add_rpush.rb",
+            "line": 101,
+            "raw_snippet": "remove_column :rapns_notifications, :alert_is_json",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rapns_notifications",
+            "column": "alert_is_json",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rapns_notifications' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "rapns_notifications",
+            "column": "app",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130740_add_rpush.rb",
+            "line": 112,
+            "raw_snippet": "remove_column :rapns_notifications, :app",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rapns_notifications",
+            "column": "app",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "rapns_feedback",
+            "column": "app",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130740_add_rpush.rb",
+            "line": 113,
+            "raw_snippet": "remove_column :rapns_feedback, :app",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rapns_feedback",
+            "column": "app",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_TABLE",
+            "table": "rapns_apps",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130740_add_rpush.rb",
+            "line": 130,
+            "raw_snippet": "drop_table :rapns_apps",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rapns_apps",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rapns_apps' not resolved in C_{t-1} ORM snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_TABLE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "rapns_notifications",
+            "column": "type",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "string",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130740_add_rpush.rb",
+            "line": 153,
+            "raw_snippet": "change_column :rapns_notifications, :type, :string, null: false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rapns_notifications",
+            "column": "type",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rapns_notifications' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "rapns_apps",
+            "column": "type",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "string",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130740_add_rpush.rb",
+            "line": 154,
+            "raw_snippet": "change_column :rapns_apps, :type, :string, null: false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rapns_apps",
+            "column": "type",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rapns_apps' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "rapns_notifications",
+            "column": "device_token",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "string",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130740_add_rpush.rb",
+            "line": 155,
+            "raw_snippet": "change_column :rapns_notifications, :device_token, :string, null: true, limit: 64",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rapns_notifications",
+            "column": "device_token",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rapns_notifications' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "rapns_notifications",
+            "column": "expiry",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "integer",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130740_add_rpush.rb",
+            "line": 156,
+            "raw_snippet": "change_column :rapns_notifications, :expiry, :integer, null: true, default: 1.day.to_i",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rapns_notifications",
+            "column": "expiry",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rapns_notifications' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "rapns_apps",
+            "column": "environment",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "string",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130740_add_rpush.rb",
+            "line": 157,
+            "raw_snippet": "change_column :rapns_apps, :environment, :string, null: true",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rapns_apps",
+            "column": "environment",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rapns_apps' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "rapns_apps",
+            "column": "certificate",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130740_add_rpush.rb",
+            "line": 158,
+            "raw_snippet": "change_column :rapns_apps, :certificate, :text, null: true, default: nil",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rapns_apps",
+            "column": "certificate",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rapns_apps' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "rapns_notifications",
+            "column": "error_description",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130740_add_rpush.rb",
+            "line": 160,
+            "raw_snippet": "change_column :rapns_notifications, :error_description, :text, null: true, default: nil",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rapns_notifications",
+            "column": "error_description",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rapns_notifications' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "rapns_notifications",
+            "column": "sound",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "string",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130740_add_rpush.rb",
+            "line": 161,
+            "raw_snippet": "change_column :rapns_notifications, :sound, :string, default: 'default'",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rapns_notifications",
+            "column": "sound",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rapns_notifications' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_COLUMN",
+            "table": "rapns_notifications",
+            "column": "attributes_for_device",
+            "new_name": "data",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130740_add_rpush.rb",
+            "line": 163,
+            "raw_snippet": "rename_column :rapns_notifications, :attributes_for_device, :data",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rapns_notifications",
+            "column": "attributes_for_device",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "UNCERTAIN",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rapns_notifications' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_COLUMN",
+            "table": "rapns_apps",
+            "column": "key",
+            "new_name": "name",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130740_add_rpush.rb",
+            "line": 164,
+            "raw_snippet": "rename_column :rapns_apps, :key, :name",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rapns_apps",
+            "column": "key",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "UNCERTAIN",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rapns_apps' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "rapns_notifications",
+            "column": "app_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "integer",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130740_add_rpush.rb",
+            "line": 183,
+            "raw_snippet": "change_column :rapns_notifications, :app_id, :integer, null: false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rapns_notifications",
+            "column": "app_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rapns_notifications' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "rapns_notifications",
+            "column": "app",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130740_add_rpush.rb",
+            "line": 184,
+            "raw_snippet": "remove_column :rapns_notifications, :app",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rapns_notifications",
+            "column": "app",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "rapns_notifications",
+            "column": "type",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130740_add_rpush.rb",
+            "line": 198,
+            "raw_snippet": "remove_column :rapns_notifications, :type",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rapns_notifications",
+            "column": "type",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rapns_notifications' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "rapns_apps",
+            "column": "type",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130740_add_rpush.rb",
+            "line": 199,
+            "raw_snippet": "remove_column :rapns_apps, :type",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rapns_apps",
+            "column": "type",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rapns_apps' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "rapns_notifications",
+            "column": "device_token",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "string",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130740_add_rpush.rb",
+            "line": 201,
+            "raw_snippet": "change_column :rapns_notifications, :device_token, :string, null: false, limit: 64",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rapns_notifications",
+            "column": "device_token",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rapns_notifications' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "rapns_notifications",
+            "column": "expiry",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "integer",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130740_add_rpush.rb",
+            "line": 202,
+            "raw_snippet": "change_column :rapns_notifications, :expiry, :integer, null: false, default: 1.day.to_i",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rapns_notifications",
+            "column": "expiry",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rapns_notifications' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "rapns_apps",
+            "column": "environment",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "string",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130740_add_rpush.rb",
+            "line": 203,
+            "raw_snippet": "change_column :rapns_apps, :environment, :string, null: false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rapns_apps",
+            "column": "environment",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rapns_apps' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "rapns_apps",
+            "column": "certificate",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130740_add_rpush.rb",
+            "line": 204,
+            "raw_snippet": "change_column :rapns_apps, :certificate, :text, null: false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rapns_apps",
+            "column": "certificate",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rapns_apps' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "rapns_notifications",
+            "column": "error_description",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "string",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130740_add_rpush.rb",
+            "line": 206,
+            "raw_snippet": "change_column :rapns_notifications, :error_description, :string, null: true, default: nil",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rapns_notifications",
+            "column": "error_description",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rapns_notifications' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "rapns_notifications",
+            "column": "sound",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "string",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130740_add_rpush.rb",
+            "line": 207,
+            "raw_snippet": "change_column :rapns_notifications, :sound, :string, default: '1.aiff'",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rapns_notifications",
+            "column": "sound",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rapns_notifications' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_COLUMN",
+            "table": "rapns_notifications",
+            "column": "data",
+            "new_name": "attributes_for_device",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130740_add_rpush.rb",
+            "line": 209,
+            "raw_snippet": "rename_column :rapns_notifications, :data, :attributes_for_device",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rapns_notifications",
+            "column": "data",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "UNCERTAIN",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rapns_notifications' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_COLUMN",
+            "table": "rapns_apps",
+            "column": "name",
+            "new_name": "key",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130740_add_rpush.rb",
+            "line": 210,
+            "raw_snippet": "rename_column :rapns_apps, :name, :key",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rapns_apps",
+            "column": "name",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "UNCERTAIN",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rapns_apps' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "rapns_apps",
+            "column": "auth_key",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130740_add_rpush.rb",
+            "line": 212,
+            "raw_snippet": "remove_column :rapns_apps, :auth_key",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rapns_apps",
+            "column": "auth_key",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rapns_apps' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "rapns_notifications",
+            "column": "collapse_key",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130740_add_rpush.rb",
+            "line": 214,
+            "raw_snippet": "remove_column :rapns_notifications, :collapse_key",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rapns_notifications",
+            "column": "collapse_key",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rapns_notifications' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "rapns_notifications",
+            "column": "delay_while_idle",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130740_add_rpush.rb",
+            "line": 215,
+            "raw_snippet": "remove_column :rapns_notifications, :delay_while_idle",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rapns_notifications",
+            "column": "delay_while_idle",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rapns_notifications' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "rapns_notifications",
+            "column": "registration_ids",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130740_add_rpush.rb",
+            "line": 216,
+            "raw_snippet": "remove_column :rapns_notifications, :registration_ids",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rapns_notifications",
+            "column": "registration_ids",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rapns_notifications' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "rapns_notifications",
+            "column": "retries",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130740_add_rpush.rb",
+            "line": 217,
+            "raw_snippet": "remove_column :rapns_notifications, :retries",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rapns_notifications",
+            "column": "retries",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rapns_notifications' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "rapns_notifications",
+            "column": "app_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130740_add_rpush.rb",
+            "line": 232,
+            "raw_snippet": "remove_column :rapns_notifications, :app_id",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rapns_notifications",
+            "column": "app_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rapns_notifications' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "rapns_notifications",
+            "column": "uri",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130740_add_rpush.rb",
+            "line": 251,
+            "raw_snippet": "remove_column :rapns_notifications, :uri",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rapns_notifications",
+            "column": "uri",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rapns_notifications' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "rapns_apps",
+            "column": "client_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130740_add_rpush.rb",
+            "line": 272,
+            "raw_snippet": "remove_column :rapns_apps, :client_id",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rapns_apps",
+            "column": "client_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rapns_apps' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "rapns_apps",
+            "column": "client_secret",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130740_add_rpush.rb",
+            "line": 273,
+            "raw_snippet": "remove_column :rapns_apps, :client_secret",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rapns_apps",
+            "column": "client_secret",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rapns_apps' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "rapns_apps",
+            "column": "access_token",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130740_add_rpush.rb",
+            "line": 274,
+            "raw_snippet": "remove_column :rapns_apps, :access_token",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rapns_apps",
+            "column": "access_token",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rapns_apps' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "rapns_apps",
+            "column": "access_token_expiration",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130740_add_rpush.rb",
+            "line": 275,
+            "raw_snippet": "remove_column :rapns_apps, :access_token_expiration",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rapns_apps",
+            "column": "access_token_expiration",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rapns_apps' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_TABLE",
+            "table": "rapns_notifications",
+            "column": null,
+            "new_name": "rpush_notifications",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130740_add_rpush.rb",
+            "line": 295,
+            "raw_snippet": "rename_table :rapns_notifications, :rpush_notifications",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rapns_notifications",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "UNCERTAIN",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rapns_notifications' not resolved in C_{t-1} ORM snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_TABLE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_TABLE",
+            "table": "rapns_apps",
+            "column": null,
+            "new_name": "rpush_apps",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130740_add_rpush.rb",
+            "line": 296,
+            "raw_snippet": "rename_table :rapns_apps, :rpush_apps",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rapns_apps",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "UNCERTAIN",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rapns_apps' not resolved in C_{t-1} ORM snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_TABLE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_TABLE",
+            "table": "rapns_feedback",
+            "column": null,
+            "new_name": "rpush_feedback",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130740_add_rpush.rb",
+            "line": 297,
+            "raw_snippet": "rename_table :rapns_feedback, :rpush_feedback",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rapns_feedback",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "UNCERTAIN",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rapns_feedback' not resolved in C_{t-1} ORM snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_TABLE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_TABLE",
+            "table": "rpush_notifications",
+            "column": null,
+            "new_name": "rapns_notifications",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130740_add_rpush.rb",
+            "line": 337,
+            "raw_snippet": "rename_table :rpush_notifications, :rapns_notifications",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rpush_notifications",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "UNCERTAIN",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rpush_notifications' not resolved in C_{t-1} ORM snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_TABLE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_TABLE",
+            "table": "rpush_apps",
+            "column": null,
+            "new_name": "rapns_apps",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130740_add_rpush.rb",
+            "line": 338,
+            "raw_snippet": "rename_table :rpush_apps, :rapns_apps",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rpush_apps",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "UNCERTAIN",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rpush_apps' not resolved in C_{t-1} ORM snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_TABLE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_TABLE",
+            "table": "rpush_feedback",
+            "column": null,
+            "new_name": "rapns_feedback",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130740_add_rpush.rb",
+            "line": 339,
+            "raw_snippet": "rename_table :rpush_feedback, :rapns_feedback",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rpush_feedback",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "UNCERTAIN",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rpush_feedback' not resolved in C_{t-1} ORM snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_TABLE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "rpush_notifications",
+            "column": "fail_after",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130740_add_rpush.rb",
+            "line": 349,
+            "raw_snippet": "remove_column :rpush_notifications, :fail_after",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rpush_notifications",
+            "column": "fail_after",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rpush_notifications' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_COLUMN",
+            "table": "rpush_feedback",
+            "column": "app",
+            "new_name": "app_id",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130741_rpush_2_0_0_updates.rb",
+            "line": 26,
+            "raw_snippet": "rename_column :rpush_feedback, :app, :app_id",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rpush_feedback",
+            "column": "app",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "RENAME_COLUMN 'app'->'app_id' breaks C_{t-1} |= S_t.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "rpush_feedback",
+            "column": "app_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "INT",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130741_rpush_2_0_0_updates.rb",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE rpush_feedback ALTER COLUMN app_id SET DATA TYPE INT USING (CAST(TRIM(app_id) AS INT))",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rpush_feedback",
+            "column": "app_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rpush_feedback' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "rpush_feedback",
+            "column": "app_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "integer",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130741_rpush_2_0_0_updates.rb",
+            "line": 31,
+            "raw_snippet": "change_column :rpush_feedback, :app_id, :integer",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rpush_feedback",
+            "column": "app_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rpush_feedback' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "rpush_feedback",
+            "column": "app_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "string",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130741_rpush_2_0_0_updates.rb",
+            "line": 46,
+            "raw_snippet": "change_column :rpush_feedback, :app_id, :string",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rpush_feedback",
+            "column": "app_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rpush_feedback' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_COLUMN",
+            "table": "rpush_feedback",
+            "column": "app_id",
+            "new_name": "app",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130741_rpush_2_0_0_updates.rb",
+            "line": 47,
+            "raw_snippet": "rename_column :rpush_feedback, :app_id, :app",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rpush_feedback",
+            "column": "app_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_FORWARD",
+          "reason": "RENAME_COLUMN 'app_id'->'app' breaks C_t |= S_{t-1}.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "rpush_notifications",
+            "column": "priority",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130741_rpush_2_0_0_updates.rb",
+            "line": 55,
+            "raw_snippet": "remove_column :rpush_notifications, :priority",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rpush_notifications",
+            "column": "priority",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rpush_notifications' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "rpush_notifications",
+            "column": "processing",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130741_rpush_2_0_0_updates.rb",
+            "line": 56,
+            "raw_snippet": "remove_column :rpush_notifications, :processing",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rpush_notifications",
+            "column": "processing",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rpush_notifications' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "rpush_notifications",
+            "column": "url_args",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130742_rpush_2_1_0_updates.rb",
+            "line": 8,
+            "raw_snippet": "remove_column :rpush_notifications, :url_args",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rpush_notifications",
+            "column": "url_args",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rpush_notifications' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "rpush_notifications",
+            "column": "category",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130742_rpush_2_1_0_updates.rb",
+            "line": 9,
+            "raw_snippet": "remove_column :rpush_notifications, :category",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rpush_notifications",
+            "column": "category",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rpush_notifications' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "rpush_notifications",
+            "column": "content_available",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130743_rpush_2_6_0_updates.rb",
+            "line": 7,
+            "raw_snippet": "remove_column :rpush_notifications, :content_available",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rpush_notifications",
+            "column": "content_available",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rpush_notifications' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "rpush_notifications",
+            "column": "alert",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130744_rpush_2_7_0_updates.rb",
+            "line": 3,
+            "raw_snippet": "change_column :rpush_notifications, :alert, :text",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rpush_notifications",
+            "column": "alert",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rpush_notifications' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "rpush_notifications",
+            "column": "alert",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "string",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130744_rpush_2_7_0_updates.rb",
+            "line": 8,
+            "raw_snippet": "change_column :rpush_notifications, :alert, :string",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rpush_notifications",
+            "column": "alert",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rpush_notifications' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "rpush_notifications",
+            "column": "notification",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130744_rpush_2_7_0_updates.rb",
+            "line": 9,
+            "raw_snippet": "remove_column :rpush_notifications, :notification",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rpush_notifications",
+            "column": "notification",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rpush_notifications' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "rpush_notifications",
+            "column": "sound",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "string",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130745_rpush_3_0_0_updates.rb",
+            "line": 4,
+            "raw_snippet": "change_column :rpush_notifications, :sound, :string, default: nil",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rpush_notifications",
+            "column": "sound",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rpush_notifications' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "rpush_notifications",
+            "column": "mutable_content",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130745_rpush_3_0_0_updates.rb",
+            "line": 8,
+            "raw_snippet": "remove_column :rpush_notifications, :mutable_content",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rpush_notifications",
+            "column": "mutable_content",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rpush_notifications' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "rpush_notifications",
+            "column": "sound",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "string",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130745_rpush_3_0_0_updates.rb",
+            "line": 9,
+            "raw_snippet": "change_column :rpush_notifications, :sound, :string, default: 'default'",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rpush_notifications",
+            "column": "sound",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rpush_notifications' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "rpush_notifications",
+            "column": "mutable_content",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130746_rpush_3_0_1_updates.rb",
+            "line": 3,
+            "raw_snippet": "change_column_null :rpush_notifications, :mutable_content, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rpush_notifications",
+            "column": "mutable_content",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rpush_notifications' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "SET_NOT_NULL",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "rpush_notifications",
+            "column": "content_available",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130746_rpush_3_0_1_updates.rb",
+            "line": 4,
+            "raw_snippet": "change_column_null :rpush_notifications, :content_available, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rpush_notifications",
+            "column": "content_available",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rpush_notifications' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "SET_NOT_NULL",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "rpush_notifications",
+            "column": "alert_is_json",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130746_rpush_3_0_1_updates.rb",
+            "line": 5,
+            "raw_snippet": "change_column_null :rpush_notifications, :alert_is_json, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rpush_notifications",
+            "column": "alert_is_json",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rpush_notifications' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "SET_NOT_NULL",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "rpush_notifications",
+            "column": "external_device_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130747_rpush_3_1_0_add_pushy.rb",
+            "line": 7,
+            "raw_snippet": "remove_column :rpush_notifications, :external_device_id",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rpush_notifications",
+            "column": "external_device_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rpush_notifications' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "rpush_apps",
+            "column": "apn_key",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130749_rpush_3_2_0_add_apns_p8.rb",
+            "line": 10,
+            "raw_snippet": "remove_column :rpush_apps, :apn_key",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rpush_apps",
+            "column": "apn_key",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rpush_apps' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "rpush_apps",
+            "column": "apn_key_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130749_rpush_3_2_0_add_apns_p8.rb",
+            "line": 11,
+            "raw_snippet": "remove_column :rpush_apps, :apn_key_id",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rpush_apps",
+            "column": "apn_key_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rpush_apps' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "rpush_apps",
+            "column": "team_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130749_rpush_3_2_0_add_apns_p8.rb",
+            "line": 12,
+            "raw_snippet": "remove_column :rpush_apps, :team_id",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rpush_apps",
+            "column": "team_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rpush_apps' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "rpush_apps",
+            "column": "bundle_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130749_rpush_3_2_0_add_apns_p8.rb",
+            "line": 13,
+            "raw_snippet": "remove_column :rpush_apps, :bundle_id",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rpush_apps",
+            "column": "bundle_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rpush_apps' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "rpush_apps",
+            "column": "apn_key",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130750_rpush_3_2_4_updates.rb",
+            "line": 3,
+            "raw_snippet": "change_column :rpush_apps, :apn_key, :text, null: true",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rpush_apps",
+            "column": "apn_key",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rpush_apps' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "rpush_apps",
+            "column": "apn_key",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "string",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130750_rpush_3_2_4_updates.rb",
+            "line": 7,
+            "raw_snippet": "change_column :rpush_apps, :apn_key, :string, null: true",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rpush_apps",
+            "column": "apn_key",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rpush_apps' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "rpush_notifications",
+            "column": "thread_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130751_rpush_3_3_0_updates.rb",
+            "line": 7,
+            "raw_snippet": "remove_column :rpush_notifications, :thread_id",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rpush_notifications",
+            "column": "thread_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rpush_notifications' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "rpush_notifications",
+            "column": "device_token",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "string",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130752_rpush_3_3_1_updates.rb",
+            "line": 3,
+            "raw_snippet": "change_column :rpush_notifications, :device_token, :string, null: true",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rpush_notifications",
+            "column": "device_token",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rpush_notifications' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "rpush_feedback",
+            "column": "device_token",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "string",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130752_rpush_3_3_1_updates.rb",
+            "line": 4,
+            "raw_snippet": "change_column :rpush_feedback, :device_token, :string, null: true",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rpush_feedback",
+            "column": "device_token",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rpush_feedback' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "rpush_notifications",
+            "column": "device_token",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "string",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130752_rpush_3_3_1_updates.rb",
+            "line": 8,
+            "raw_snippet": "change_column :rpush_notifications, :device_token, :string, null: true, limit: 64",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rpush_notifications",
+            "column": "device_token",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rpush_notifications' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "rpush_feedback",
+            "column": "device_token",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "string",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130752_rpush_3_3_1_updates.rb",
+            "line": 9,
+            "raw_snippet": "change_column :rpush_feedback, :device_token, :string, null: true, limit: 64",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rpush_feedback",
+            "column": "device_token",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rpush_feedback' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "rpush_notifications",
+            "column": "dry_run",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130753_rpush_4_1_0_updates.rb",
+            "line": 7,
+            "raw_snippet": "remove_column :rpush_notifications, :dry_run",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rpush_notifications",
+            "column": "dry_run",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rpush_notifications' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "rpush_apps",
+            "column": "feedback_enabled",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130754_rpush_4_1_1_updates.rb",
+            "line": 7,
+            "raw_snippet": "remove_column :rpush_apps, :feedback_enabled",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rpush_apps",
+            "column": "feedback_enabled",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rpush_apps' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "rpush_notifications",
+            "column": "sound_is_json",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250625130755_rpush_4_2_0_updates.rb",
+            "line": 7,
+            "raw_snippet": "remove_column :rpush_notifications, :sound_is_json",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rpush_notifications",
+            "column": "sound_is_json",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'rpush_notifications' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        }
+      ]
+    }
+  ]
+}

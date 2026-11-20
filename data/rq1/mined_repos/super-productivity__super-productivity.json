@@ -1,0 +1,141 @@
+{
+  "repo": "super-productivity/super-productivity",
+  "ecosystem": "prisma",
+  "stars": 23845,
+  "has_k8s_helm": true,
+  "status": "ok",
+  "stats": {
+    "total_migration_commits_in_history": 25,
+    "migration_commits_analyzed": 25,
+    "total_migration_files_parsed": 32,
+    "commits_with_any_destructive": 2,
+    "commits_with_forward_destructive": 2,
+    "commits_with_rollback_only_destructive": 0,
+    "total_ops_extracted": 2,
+    "destructive_ops_up": 2,
+    "destructive_ops_down": 0
+  },
+  "verdict_counts": {
+    "DUAL_VERSION_VIOLATION_BACKWARD": 2
+  },
+  "destructive_commits": [
+    {
+      "sha": "a52b7716aabffd8941c7a473bf32d2df4c6891b7",
+      "parent": "805327731b050ca071a3abbcb36d08fd9b031cb6",
+      "date": "2025-12-28T12:08:28+01:00",
+      "subject": "refactor(sync): remove tombstone system",
+      "mig_files": [
+        "packages/super-sync-server/prisma/migrations/20251228000001_remove_tombstones/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "packages/super-sync-server/prisma/schema.prisma",
+        "packages/super-sync-server/scripts/clear-data.ts",
+        "packages/super-sync-server/src/db.ts",
+        "packages/super-sync-server/src/sync/sync.routes.ts",
+        "packages/super-sync-server/src/sync/sync.service.ts"
+      ],
+      "orm_models_parsed_old": 10,
+      "raw_sql": "-- DropTable\nDROP TABLE IF EXISTS \"tombstones\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "tombstones",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/super-sync-server/prisma/migrations/20251228000001_remove_tombstones/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE IF EXISTS \"tombstones\"",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "tombstones",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/super-sync-server/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'tombstones' active in C_{t-1}."
+        }
+      ]
+    },
+    {
+      "sha": "77a4ca34cbefa3dd05c7d6654ee85c476c53eef2",
+      "parent": "8aee4cf42df1ad11b453454fdd3a790e682d79b5",
+      "date": "2025-12-28T11:48:38+01:00",
+      "subject": "refactor(sync): remove unused parentOpId field",
+      "mig_files": [
+        "packages/super-sync-server/prisma/migrations/20251228000000_remove_parent_op_id/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "packages/super-sync-server/prisma/schema.prisma",
+        "packages/super-sync-server/src/sync/services/operation-download.service.ts",
+        "packages/super-sync-server/src/sync/sync.routes.ts",
+        "packages/super-sync-server/src/sync/sync.service.ts",
+        "packages/super-sync-server/src/sync/sync.types.ts",
+        "src/app/core/persistence/operation-log/compact/compact-operation.types.ts",
+        "src/app/core/persistence/operation-log/compact/operation-codec.service.spec.ts",
+        "src/app/core/persistence/operation-log/compact/operation-codec.service.ts",
+        "src/app/op-log/core/operation.types.ts"
+      ],
+      "orm_models_parsed_old": 10,
+      "raw_sql": "-- DropColumn\nALTER TABLE \"operations\" DROP COLUMN IF EXISTS \"parent_op_id\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "operations",
+            "column": "parent_op_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/super-sync-server/prisma/migrations/20251228000000_remove_parent_op_id/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE operations DROP COLUMN IF EXISTS \"parent_op_id\"",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "operations",
+            "column": "parent_op_id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/super-sync-server/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'parent_op_id' active in C_{t-1} ORM (packages/super-sync-server/prisma/schema.prisma); identifier removed in same commit diff"
+        }
+      ]
+    }
+  ]
+}

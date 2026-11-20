@@ -1,0 +1,431 @@
+[
+ {
+  "repo": "fatkodima/online_migrations",
+  "number": 84,
+  "url": "https://github.com/fatkodima/online_migrations/issues/84",
+  "title": "Column rename with pre-existing `ignored_columns` causes errors during finalize",
+  "state": "CLOSED",
+  "created": "2026-03-05T09:07:24Z",
+  "body": "I recently ran in to a situation where I was renaming a column and started getting errors while the old processes where still running. After doing some digging I realised that it was because the ActiveRecord model associated with the table I was renaming a column for already had one `ignored_columns` set, left over from a previous migration done without `online_migrations`. \n\n## Summary\n\nWhen a model has `ignored_columns` set (or `enumerate_columns_in_select_statements` enabled), finalizing a column rename causes `PG::UndefinedColumn` errors on old processes that are still running after the migration is finished but before new code has been deployed.\n\n## Root cause\n\nThe `SchemaCache` patch exposes both old and new column names during the VIEW phase via `duplicate_column`. When Rails' `build_select` enumerates columns explicitly (triggered by `ignored_columns.any?` or `enumerate_columns_in_select_statements`), it generates `SELECT \"old_name\", \"new_name\", ...` instead of `SELECT *`.\n\nAfter `finalize_column_rename` drops the VIEW and renames the column, old processes still have both names in their stale schema cache. The old column name no longer exists, causing:\n\n```\nActiveRecord::StatementInvalid: PG::UndefinedColumn: ERROR: column table.old_name does not exist\n```\n\nWhen `ignored_columns.any?` is true, [Rails enumerates every column from `model.column_names` in the SELECT](https://github.com/rails/rails/blob/v8.0.4/activerecord/lib/active_record/relation/query_methods.rb#L1907). With both old and new names cached, both appear in the query.\n\n## Steps to reproduce\n\n1. Have a model with `ignored_columns` set (e.g., `self.ignored_columns += [\"some_other_column\"]`)\n2. Follow the column rename steps: add config, deploy, `initialize_column_rename`, update code, deploy\n3. Run `finalize_column_rename`. During the deployment window, old processes error with `PG::UndefinedColumn`\n\n## Proposed fix\n\nI was first thinking that one approach could be to replace `duplicate_column` with a renaming so that we only expose the new column name from the view and not the old name in the schema cache. In other words, if the `initialize_column_rename` has been ran, we populate the schema cache with only the new column name, together with patching `alias_attribute :old_name, :new_name` to all ActiveRecord::Base descendants referencing that table. And if we haven't ran `initialize_column_rename`, we skip this. \n\nBut I'm thinking that approach is maybe a bit fragile. Haven't considered all of the edge cases. So maybe an easier approach is to just add it to the README.\n\n## Environment\n\n- Rails 8.0.4\n- online_migrations 0.33.1\n- PostgreSQL 16",
+  "comments": []
+ },
+ {
+  "repo": "getsentry/sentry",
+  "number": 98147,
+  "url": "https://github.com/getsentry/sentry/issues/98147",
+  "title": "Error column sentry_monitor.is_upserting does not exist Failed to process check-in",
+  "state": "OPEN",
+  "created": "2025-08-13T23:03:36Z",
+  "body": "### Self-Hosted Version\n\n25.7.0\n\n### CPU Architecture\n\nkubernetes x86\n\n### Docker Version\n\n20.10\n\n### Docker Compose Version\n\n2.6.0\n\n### Machine Specification\n\n- [x] My system meets the minimum system requirements of Sentry\n\n### Steps to Reproduce\n\nInstall sentry on perm 25.7.0\nError detected on sentry-snuba-consumer \n\n\n### Expected Result\n\nsentry-snuba-consumer should work\n\n### Actual Result\n\n`\n2025-08-13 22:55:22,607 Caught MessageRejected() while submitting BrokerValue(_BrokerValue__payload=KafkaPayload(key=b'1', value=b'[2,\"insert\",{\"group_id\":5268,\"group_ids\":[5268],\"event_id\":\"ca4732059a2a4e1c912428efce80e796\",\"organization_id\":1,\"project_id\":1,\"message\":\"Failed to process check-in UndefinedColumn(\\'column sentry_monitor.is_upserting does not exist\\\\\\\\nLINE 1: ...try_monitor\\\\\".\\\\\"is_muted\\\\\", \\\\\"sentry_monitor\\\\\".\\\\\"name\\\\\", \\\\\"sentry_mo...\\\\\\\\n                                                             ^\\\\\\\\n\\')\\\\nSQL: SELECT \\\\\"sentry_monitor\\\\\".\\\\\"id\\\\\", \\\\\"sentry_monitor\\\\\".\\\\\"date_added\\\\\", \\\\\"sentry_monitor\\\\\".\\\\\"organization_id\\\\\", \\\\\"sentry_monitor\\\\\".\\\\\"project_id\\\\\", \\\\\"sentry_monitor\\\\\".\\\\\"status\\\\\", \\\\\"sentry_monitor\\\\\".\\\\\"guid\\\\\", \\\\\"sentry_monitor\\\\\".\\\\\"slug\\\\\", \\\\\"sentry_monitor\\\\\".\\\\\"is_muted\\\\\", \\\\\"sentry_monitor\\\\\".\\\\\"name\\\\\", \\\\\"sentry_monitor\\\\\".\\\\\"is_upserting\\\\\", \\\\\"sentry_monitor\\\\\".\\\\\"owner_user_id\\\\\", \\\\\"sentry_monitor\\\\\".\\\\\"owner_team_id\\\\\", \\\\\"sentry_monitor\\\\\".\\\\\"config\\\\\" FROM \\\\\"sentry_monitor\\\\\" WHERE (\\\\\"sentry_monitor\\\\\".\\\\\"organization_id\\\\\" = %s AND \\\\\"sentry_monitor\\\\\".\\\\\"project_id\\\\\" = %s AND \\\\\"sentry_monitor\\\\\".\\\\\"slug\\\\\" = %s) LIMIT 21 ProgrammingError sentry/db/postgres/base.py execute monitors.monitor_consumer\",\"platform\":\"python\",\"datetime\":\"2025-08-07T12:58:02.532425Z\",\"data\":{\"event_id\":\"ca4732059a2a4e1c912428efce80e796\",\"level\":\"error\",\"version\":\"7\",\"type\":\"error\",\"transaction\":\"monitors.monitor_consumer\",\"transaction_info\":{\"source\":\"custom\"},\"logentry\":{\"formatted\":\"Failed to process check-in\",\"params\":[],\"message\":null},\"logger\":\"sentry.monitors.consumers.monitor_consumer\",\"modules\":{\"amqp\":\"5.3.1\",\"anyio\":\"3.7.1\",\"asgiref\":\"3.8.1\",\"attrs\":\"24.2.0\",\"avalara\":\"20.9.0\",\"beautifulsoup4\":\"4.7.1\",\"billiard\":\"4.2.1\",\"boto3\":\"1.34.128\",\"botocore\":\"1.34.128\",\"brotli\":\"1.1.0\",\"cachetools\":\"5.3.0\",\"celery\":\"5.5.2\",\"certifi\":\"2024.7.4\",\"cffi\":\"1.17.1\",\"chardet\":\"5.2.0\",\"charset-normalizer\":\"3.4.0\",\"click\":\"8.2.1\",\"click-didyoumean\":\"0.3.1\",\"click-plugins\":\"1.1.1\",\"click-repl\":\"0.3.0\",\"confluent-kafka\":\"2.8.0\",\"cronsim\":\"2.6\",\"cryptography\":\"44.0.1\",\"cssselect\":\"1.0.3\",\"cssutils\":\"2.9.0\",\"datadog\":\"0.49.1\",\"distro\":\"1.8.0\",\"django\":\"5.2.1\",\"django-crispy-forms\":\"1.14.0\",\"django-pg-zero-downtime-migrations\":\"0.18\",\"django_csp\":\"3.8\",\"djangorestframework\":\"3.16.0\",\"drf-spectacular\":\"0.27.2\",\"fastjsonschema\":\"2.16.2\",\"fido2\":\"0.9.2\",\"filelock\":\"3.15.3\",\"google-api-core\":\"2.19.1\",\"google-auth\":\"2.29.0\",\"google-cloud-bigtable\":\"2.30.1\",\"google-cloud-build\":\"3.24.2\",\"google-cloud-core\":\"2.4.1\",\"google-cloud-functions\":\"1.17.0\",\"google-cloud-kms\":\"2.24.2\",\"google-cloud-pubsub\":\"2.23.0\",\"google-cloud-spanner\":\"3.49.0\",\"google-cloud-storage\":\"2.18.0\",\"google-crc32c\":\"1.6.0\",\"google-resumable-media\":\"2.7.0\",\"googleapis-common-protos\":\"1.63.2\",\"grpc-google-iam-v1\":\"0.13.1\",\"grpc-stubs\":\"1.53.0.5\",\"grpcio\":\"1.67.0\",\"grpcio-status\":\"1.67.0\",\"h11\":\"0.14.0\",\"h2\":\"4.2.0\",\"hiredis\":\"2.3.2\",\"hpack\":\"4.1.0\",\"httpcore\":\"1.0.2\",\"httpx\":\"0.25.2\",\"hyperframe\":\"6.1.0\",\"idna\":\"3.7\",\"inflection\":\"0.5.1\",\"iso3166\":\"2.1.1\",\"isodate\":\"0.6.1\",\"jmespath\":\"0.10.0\",\"jsonschema\":\"4.20.0\",\"jsonschema-specifications\":\"2023.7.1\",\"kombu\":\"5.5.3\",\"lxml\":\"5.3.0\",\"maxminddb\":\"2.3.0\",\"milksnake\":\"0.1.6\",\"mistune\":\"2.0.4\",\"mmh3\":\"4.0.0\",\"msgpack\":\"1.1.0\",\"oauthlib\":\"3.1.0\",\"openai\":\"1.3.5\",\"orjson\":\"3.10.10\",\"packaging\":\"24.1\",\"parsimonious\":\"0.10.0\",\"petname\":\"2.6\",\"phonenumberslite\":\"8.12.55\",\"pillow\":\"11.0.0\",\"pip\":\"24.3.1\",\"prompt_toolkit\":\"3.0.51\",\"proto-plus\":\"1.25.0\",\"protobuf\":\"5.27.3\",\"psutil\":\"5.9.7\",\"psycopg2-bin",
+  "comments": [
+   [
+    "sky-philipalmeida",
+    "sentry=# \\d sentry_monitor\n                                         Table \"public.sentry_monitor\"\n     Column      |           Type           | Collation | Nullable |                  Default\n-----------------+--------------------------+-----------+----------+--------------------------------------------\n id              | bigint                   |           | not null | nextval('sentry_monitor_id_seq'::regclass)\n guid            | uuid                     |           | not null |\n organization_id | bigint                   |           | not null |\n project_id      | bigint                   |           | not null |\n name            | character varying(128)   |           | not null |\n status          | integer                  |           | not null |\n config          | text                     |           | not null |\n date_added      | timestamp with time zone |           | not null |\n slug            | character varying(50)    |           | not null |\n is_muted        | boolean                  |           | not null | false\n owner_team_id   | bigint                   |           |          |\n owner_user_id   | bigint                   |           |          |\n is_upserting    |"
+   ],
+   [
+    "sky-philipalmeida",
+    "Line 988\n\n{\"timestamp\":1754571481.498931,\"type\":\"redis\",\"category\":\"redis\",\"level\":\"info\",\"message\":\"redis.pipeline.execute\",\"data\":{\"redis.is_cluster\":false,\"redis.transaction\":true}},{\"timestamp\":1754571481.500132,\"type\":\"default\",\"category\":\"query\",\"level\":\"info\",\"message\":\"SELECT \\\\\"sentry_monitor\\\\\".\\\\\"id\\\\\", \\\\\"sentry_monitor\\\\\".\\\\\"date_added\\\\\", \\\\\"sentry_monitor\\\\\".\\\\\"organization_id\\\\\", \\\\\"sentry_monitor\\\\\".\\\\\"project_id\\\\\", \\\\\"sentry_monitor\\\\\".\\\\\"status\\\\\", \\\\\"sentry_monitor\\\\\".\\\\\"guid\\\\\", \\\\\"sentry_monitor\\\\\".\\\\\"slug\\\\\", \\\\\"sentry_monitor\\\\\".\\\\\"is_muted\\\\\", \\\\\"sentry_monitor\\\\\".\\\\\"name\\\\\", \\\\\"sentry_monitor\\\\\".\\\\\"is_upserting\\\\\", \\\\\"sentry_monitor\\\\\".\\\\\"owner_user_id\\\\\", \\\\\"sentry_monitor\\\\\".\\\\\"owner_team_id\\\\\", \\\\\"sentry_monitor\\\\\".\\\\\"config\\\\\" FROM \\\\\"sentry_monitor\\\\\" WHERE (\\\\\"sentry_monitor\\\\\".\\\\\"organization_id\\\\\" = %s AND \\\\\"sentry_monitor\\\\\".\\\\\"project_id\\\\\" = %s AND \\\\\"sentry_monitor\\\\\".\\\\\"slug\\\\\" = %s) LIMIT 21\"},{\"timestamp\":1754571481.509134,\"type\":\"log\",\"category\":\"sentry.monitors.consumers.monitor_consumer\",\"level\":\"error\",\"message\":\"Failed to process check-in\"},{\"timestamp\":1754571482.105116,\"type\":\"default\",\"category\":\"query\",\"level\":\"info\",\"message\":\"SE"
+   ],
+   [
+    "sky-philipalmeida",
+    "Try adding option:\n crons.organization.disable-check-in | [{\"organization_id\":\"1\"}]\nno success"
+   ],
+   [
+    "aldy505",
+    "@InterstellarStella Hi, can you transfer this to sentry repo, please? Thank you!"
+   ],
+   [
+    "getsantry",
+    "Assigning to @getsentry/support for [routing](https://open.sentry.io/triage/#2-route) ⏲️"
+   ],
+   [
+    "getsantry",
+    "Routing to @getsentry/product-owners-crons for [triage](https://develop.sentry.dev/processing-tickets/#3-triage) ⏲️"
+   ]
+  ]
+ },
+ {
+  "repo": "David-Wobrock/django-migration-linter",
+  "number": 294,
+  "url": "https://github.com/David-Wobrock/django-migration-linter/issues/294",
+  "title": "False Positive When Using SeparateDatabaseAndState",
+  "state": "OPEN",
+  "created": "2025-01-07T14:46:45Z",
+  "body": "## Steps to Reproduce\r\n\r\nLet's say I have the following Django model:\r\n\r\n```\r\nclass Product(models.Model):\r\n    name = models.CharField(max_length=255)\r\n    rating = models.IntegerField(null=True, blank=True)\r\n```\r\n\r\nI want to remove the rating field in a backwards-compatible way, so I create the following two migrations:\r\n\r\n**Migration 1: Remove rating field from the state**\r\n\r\n```\r\n# 0002_remove_product_rating_from_state.py\r\nclass Migration(migrations.Migration):\r\n    dependencies = [\r\n        (\"appname\", \"0001_initial\"),\r\n    ]\r\n\r\n    operations = [\r\n        migrations.SeparateDatabaseAndState(\r\n            state_operations=[\r\n                migrations.RemoveField(\r\n                    model_name=\"product\",\r\n                    name=\"rating\",\r\n                ),\r\n            ],\r\n            database_operations=[],\r\n        ),\r\n    ]\r\n```\r\n\r\n**Migration 2: Remove rating field from the database**\r\n\r\n```\r\n# 0003_remove_product_rating_from_db.py\r\nclass Migration(migrations.Migration):\r\n    dependencies = [\r\n        (\"appname\", \"0002_remove_product_rating_from_state\"),\r\n    ]\r\n\r\n    operations = [\r\n        migrations.SeparateDatabaseAndState(\r\n            state_operations=[],\r\n            database_operations=[\r\n                migrations.RunSQL(\r\n                    \"ALTER TABLE product DROP COLUMN rating;\"\r\n                ),\r\n            ],\r\n        ),\r\n    ]\r\n```\r\n\r\nThe `lintmigrations` command reports that `0003_remove_product_rating_from_db` is backwards incompatible:\r\n\r\n```\r\n$ python manage.py lintmigrations -q ok\r\n(api, 0004_remove_metabase_field_from_db)... ERR\r\n\tDROPPING columns\r\n```\r\n\r\n## Expected Result\r\n\r\nThe `lintmigrations` should show no errors. The `rating` field was removed from the state in `0002_remove_product_rating_from_state` which makes `0003_remove_product_rating_from_db` backwards compatible.\r\n\r\n## Questions / Comments\r\n\r\nDoes this seem like the correct solution? One issue is that these two migrations are ONLY backwards compatible if they're deployed separately. Deploying them both at once is obviously backwards incompatible.\r\n\r\nIf we can't track / enforce when these migrations are deployed, is the recommended solution to continue to report as backwards incompatible and require the user to ignore the false positive?\r\n\r\n```\r\n$ python manage.py lintmigrations -q ok -- ignore_name 0004_remove_metabase_field_from_db\r\n# No errors\r\n```",
+  "comments": [
+   [
+    "lukas-vokracko-b2c2",
+    "+1"
+   ],
+   [
+    "David-Wobrock",
+    "Hey @johnnymetz,\n\nThanks for opening an issue about this.\n\n`SeparateDatabaseAndState` are not really properly handled by the django-migration-linter, but it would be a good addition 👍 \n\n> One issue is that these two migrations are ONLY backwards compatible if they're deployed separately. Deploying them both at once is obviously backwards incompatible.\n\nI reckon you are correct about this.\nI think a user splitting the migration into two using `SeparateDatabaseAndState` has a relatively advanced usage of migrations, and their intent is to deploy them separately.\nOn top of my head, I would suggest the django-migration-linter raises a warning in this case, highlighting to be careful to really deploy it in two different steps. Else, raising an error would be fine as well IMO, as the tool should be rather pessimistic.\n"
+   ]
+  ]
+ },
+ {
+  "repo": "ankane/strong_migrations",
+  "number": 208,
+  "url": "https://github.com/ankane/strong_migrations/issues/208",
+  "title": "Explain two separate deployments when removing a column",
+  "state": "CLOSED",
+  "created": "2022-11-11T17:30:04Z",
+  "body": "The [\"Good\" alternative for removing a column](https://github.com/ankane/strong_migrations#good) suggests two separate deployments. But I don't see why deploying\r\n```\r\nclass User < ApplicationRecord\r\n  self.ignored_columns = [\"name\"]\r\nend\r\n\r\nclass RemoveColumn < ActiveRecord::Migration[7.0]\r\n  def change\r\n    safety_assured { remove_column :users, :name }\r\n  end\r\nend\r\n```\r\nin a single commit wouldn't work. Can you add an explanation?",
+  "comments": [
+   [
+    "alexeyr-ci1",
+    "After thinking some more: is the explanation that `rake db:migrate` will run before the final code is deployed, so if both are done in a single deploy: \r\n1. there is a narrow window after `db:migrate` where old code is still running and can access the removed column;\r\n2. the deploy can fail, but the migration won't be rolled back by default, so again we can end up with old code trying to access the removed column?"
+   ],
+   [
+    "ankane",
+    "A single commit should be fine if you wait until all the old code is no longer running to run the migration."
+   ],
+   [
+    "alexeyr-ci1",
+    "Thank you!"
+   ],
+   [
+    "diazruy",
+    "Follow up question: why is a _third_ deploy (for step 5) necessary? Wouldn't it be ok to do it (remove the `ignored_columns=`) in the same deploy that has the migration to `remove_column` (step 3/4)? By this point, due to the previous deploy, all instances should already be ignoring the column and after the removal, on boot, the cache would no longer detect the new column and thus the `ignored_columns` would be unnecessary, would it not?"
+   ],
+   [
+    "ankane",
+    "If you can guarantee the column is removed before the app boots, that'll work (for instance, you run migrations before the app is deployed to application servers)."
+   ],
+   [
+    "diazruy",
+    "Thanks for the quick reply! \r\n\r\nSo, in the case of heroku, where we're running migrations as part of the `release` phase, this would be the case, since the web servers are not actually restarted (with the new code) until after successful completion of `release`."
+   ]
+  ]
+ },
+ {
+  "repo": "ankane/strong_migrations",
+  "number": 66,
+  "url": "https://github.com/ankane/strong_migrations/issues/66",
+  "title": "[QUESTION] : Does Custom Checks don't run for safety assured blocks ?",
+  "state": "CLOSED",
+  "created": "2019-04-16T17:20:52Z",
+  "body": "I am doing a remove column as below \r\n\r\n```\r\ndef up\r\n      remove_column :sample, :region_id \r\nend\r\n```\r\nStrong migrations enforces me to put a safety assured block as below once I do that successfully \r\n\r\n```\r\nDeploy the code, then wrap this step in a safety_assured { ... } block.\r\n\r\nclass RemoveColumnrulesets < ActiveRecord::Migration[5.1]\r\n  def change\r\n    safety_assured { remove_column :sample, :region_id }\r\n  end\r\nend\r\n```\r\nIn the initializer I have a custom check to stop someone from removing the column for the above table it doesn't really stop it the migrations works successfully \r\n\r\ncustom check below : \r\n\r\n```\r\nStrongMigrations.add_check do |method, args|\r\n  if method == :remove_column && args[0].to_s == \"sample\"\r\n  stop! Don't remove columns on sample table \r\n end\r\nend\r\n```\r\n",
+  "comments": [
+   [
+    "ankane",
+    "Hey @bheemreddy181, `safety_assured` skips all checks, including custom ones. It allows developers to run any migration code."
+   ],
+   [
+    "bheemreddy181-zz",
+    "Is this something we want to enable for custom checks ? "
+   ],
+   [
+    "ankane",
+    "Hey @bheemreddy181, this problem seems specific to `remove_column` custom checks, so I don't think it makes sense to change the current behavior. We could add an option to `add_check` that specifies if it can be overridden. Something like:\r\n\r\n```ruby\r\nStrongMigrations.add_check(overridable: false) do |method, args|\r\n  # code...\r\nend\r\n```\r\n\r\n(with ideally a better name)"
+   ],
+   [
+    "bheemreddy181-zz",
+    "yes, that makes sense. you want to label this as an enhancement. if you are ok I could give a try but I need some inputs from you for creating a PR. Thanks for your time :-)"
+   ],
+   [
+    "bheemreddy181-zz",
+    "@ankane any chance getting on to this?"
+   ],
+   [
+    "ankane",
+    "Hey @bheemreddy181, sorry for the delay. After thinking about it more, I don't think it makes sense to add a new concept (non-overridable checks) just for this use case. You're welcome to fork the gem and make this change for your app, but I don't think it's something I want to include in the main project at this point."
+   ]
+  ]
+ },
+ {
+  "repo": "ankane/strong_migrations",
+  "number": 211,
+  "url": "https://github.com/ankane/strong_migrations/issues/211",
+  "title": "[Idea] Safely removing a column default value",
+  "state": "CLOSED",
+  "created": "2022-12-16T00:15:59Z",
+  "body": "Rails will load and cache the database schema at application startup, which contains columns with default values. When creating new records, Active Record will not INSERT attribute values that match the database column default value. During the period between the database migration being run to remove the column default value, and the Rails application being restarted and schema cache reloaded, records can end up with unexpected null values.\r\n\r\nHere's what happens when there is a default value that matches the attribute value:\r\n\r\n```ruby\r\ncreate_table :users do |t|\r\n  t.string :name, default: \"Alice\"\r\nend\r\n\r\nUser.create!(name: \"Alice\") # => INSERT INTO \\\"users\\\" DEFAULT VALUES;\r\n```\r\n\r\nThe solution, as far as I have discovered, is to call `{COLUMN}_will_change!` to force Active Record to update the attribute:\r\n\r\n```ruby\r\nclass User < ActiveRecord::Base\r\n  after_initialize do\r\n    name_will_change! if !persisted?\r\n  end\r\nend\r\n\r\nUser.create!(name: \"Alice\") # => INSERT INTO \\\"users\\\" (\\\"name\\\") VALUES (?) \r\n```\r\n\r\n...which, in a similar pattern to `ignored_columns`, should be deployed prior to the migration that removes the default value:\r\n\r\n```ruby\r\nchange_column_default :users, :name, from: \"Alice\", to: nil\r\n```\r\n\r\nHere's a quick gist if you want to play around with it: https://gist.github.com/bensheldon/4bd371ac900eaa3f6d0f131815163d06\r\n\r\nThe idea here is to enforce a `safety_assured` block around `change_column_default` for the change to `nil`.",
+  "comments": [
+   [
+    "bensheldon",
+    "Thinking about this some more, _any_ change to an existing column default value is unsafe without forcing `_will_change!`"
+   ],
+   [
+    "ankane",
+    "Hey @bensheldon, thanks for sharing. Will dig into this when I have a chance."
+   ],
+   [
+    "fatkodima",
+    "Gitlab tried to solve the same problem - https://gitlab.com/gitlab-org/gitlab/-/blob/master/app/models/concerns/safely_change_column_default.rb"
+   ],
+   [
+    "zacharysierakowski",
+    "@bensheldon @ankane @fatkodima any update here? I'd be interesting in helping to get a solution out there for us. Given the current focus on availability, I think this area/problem is applicable and pretty important. "
+   ],
+   [
+    "zacharysierakowski",
+    "> The idea here is to enforce a safety_assured block around change_column_default for the change to nil.\r\n\r\nCan someone elaborate on this? I know we already updated our Hub docs to talk about adding the `{column}_will_change` _before_ the migration. Is the followup to this now to try to add a linter to detect automatically? Or something different? I'm not familiar with `safety_assured block` TBH."
+   ],
+   [
+    "bensheldon",
+    "@zacharysierakowski whoops! I think our internal GitHub discussion about this has leaked into a community gem issue."
+   ]
+  ]
+ },
+ {
+  "repo": "sbdchd/squawk",
+  "number": 1370,
+  "url": "https://github.com/sbdchd/squawk/issues/1370",
+  "title": "New rules: ban dropping views, functions, types, triggers, and column defaults",
+  "state": "CLOSED",
+  "created": "2026-09-28T01:13:50Z",
+  "body": "Hi, and thanks for Squawk! We run it in CI to verify that the previously deployed version of an app still runs against the new schema, so a rollback remains possible.\n\nThe `ban-drop-*`, `renaming-*`, and `changing-column-type` rules cover tables and columns well. Dropping other objects that application code depends on, however, is not covered. \n\nOn 2.66.0, none of these statements reports a compatibility rule. Only `prefer-robust-stmts` fires, on some of them:\n\n```\nDROP VIEW v;\nDROP MATERIALIZED VIEW mv;\nDROP FUNCTION f(int);\nDROP TYPE t;\nDROP TRIGGER trg ON tbl;\nALTER TABLE tbl ALTER COLUMN c DROP DEFAULT;\n```\n\nFor comparison, `ALTER TABLE tbl DROP COLUMN c` reports `ban-drop-column`.\n\nHow these break existing clients:\n\n1. `DROP VIEW` / `DROP MATERIALIZED VIEW`: queries against the view fail with `42P01 undefined_table`.\n2. `DROP FUNCTION` / `DROP PROCEDURE`: calls fail with `42883 undefined_function`.\n3. `DROP TYPE`: casts or parameters that name the type fail with `42704 undefined_object`. With `CASCADE`, it also drops every column of that type.\n4. `ALTER COLUMN ... DROP DEFAULT`: inserts that omit the column fail with `23502 not_null_violation` on a `NOT NULL` column. On a nullable column, they silently write `NULL`.\n5. `DROP TRIGGER`: nothing errors, but code that relied on the trigger (e.g. maintaining `updated_at` or writing audit rows) silently loses that behaviour. This one, is a bit less important though, so I'd leave this up to your judgement.\n\nI suggest adding the following rules, using the existing naming (roughly in priority order):\n\n- `ban-drop-view` (including materialized views)\n- `ban-drop-function` (including procedures)\n- `ban-drop-type`\n- `ban-drop-default`\n- `ban-drop-trigger`\n\nThe problem and solution text could mirror `ban-drop-column`: \"Dropping a view may break existing clients. Update your application code to no longer use the view, then drop it in a later migration.\"\n\nRelated: #316, since these would fit the backwards-compatibility group suggested there, and #937, which makes the same case for rolling deploys and rollbacks.\n\nHappy to open a PR for any of these if you're open to it. Thanks!",
+  "comments": [
+   [
+    "sbdchd",
+    "Yeah I think these make sense to add. Do you think they should be enabled by default?"
+   ],
+   [
+    "Temikus",
+    "@sbdchd thanks for the quick response! ❤️ \n\nPersonally, I think 1-4 make sense by default, but I would make the 5th optional. \n\nAre you happy for us to write up a PR?"
+   ],
+   [
+    "t-monaghan",
+    "I've opened up a PR with these changes, I've left it open for maintainers to edit, but please let me know if there's anything I can do to help this get merged in. Cheers!"
+   ],
+   [
+    "t-monaghan",
+    "Thanks for accepting the contribution @sbdchd, we really appreciate it. We've done some more digging and come up with other operations we'd be keen to warn on to avoid breaking existing clients and I've opened a PR at #1383. I appreciate it's a large PR, and am more than happy to accommodate any changes to it (such as splitting it into smaller PRs) to ease the burden involved in review.\n\nThese rules are what we've decided on for our ideal level of risk. There are more rules in a follow up PR #1384 but they are all rules we've decided would be better off as opt-in due to the risk of breakage requiring further database/application configuration that squawk isn't privy to. \n\nIf you're happy to review #1383 I'll take your advice there and apply anything we've learnt from that to #1384 before opening that up (it still has other rough edges, but I've opened a draft so you have more context on what we've been looking at)."
+   ],
+   [
+    "t-monaghan",
+    "Thanks again for the speedy review @sbdchd \n\n#1384 is ready for your review. It's bigger than the previous PRs but is similar in complexity. Again let me know if there's anything I can do to reduce the burden of review.\n\nOnce this is merged, would we be able to ask for you to cut a release?"
+   ],
+   [
+    "Temikus",
+    "@sbdchd thanks so much for your assistance! I think this can be closed 👍 "
+   ]
+  ]
+ },
+ {
+  "repo": "sbdchd/squawk",
+  "number": 115,
+  "url": "https://github.com/sbdchd/squawk/issues/115",
+  "title": "Should we warn about `SET DEFAULT` w/ update inside a transaction?",
+  "state": "CLOSED",
+  "created": "2021-04-15T16:47:06Z",
+  "body": "Here's a migration generated by Django that doesn't generate a warning from Squawk\r\n\r\n```sql\r\nBEGIN;\r\n--\r\n-- Alter field col_name on foo_tabl\r\n--\r\nALTER TABLE \"foo_tbl\" ALTER COLUMN \"col_name\" SET DEFAULT false;\r\nUPDATE \"foo_tbl\" SET \"col_name\" = false WHERE \"col_name\" IS NULL;\r\nALTER TABLE \"foo_tbl\" ALTER COLUMN \"col_name\" SET NOT NULL;\r\nALTER TABLE \"foo_tbl\" ALTER COLUMN \"col_name\" DROP DEFAULT;\r\nCOMMIT;\r\n```\r\n\r\ncode change in python land was:\r\n\r\n\r\n```python\r\nclass Foo(Model):\r\n    field_name = models.BooleanField(null=True)\r\n```\r\n\r\nbeing replaced by:\r\n\r\n```python\r\nclass Foo(Model):\r\n    field_name = models.BooleanField(null=False, default=False)\r\n```\r\n",
+  "comments": [
+   [
+    "chdsbd",
+    "\r\n`SET DEFAULT false` blocks reads to `foo_tbl`.\r\n\r\n`UPDATE` could take a while to run and hold open the transaction."
+   ],
+   [
+    "chdsbd",
+    "I think this is the proper alternative\r\n```sql\r\nALTER TABLE \"foo_tbl\" ALTER COLUMN \"col_name\" SET DEFAULT false;\r\n\r\n-- prevent new null rows\r\nALTER TABLE \"foo_tbl\" ADD CONSTRAINT col_name_null\r\n    CHECK (\"col_name\" IS NOT NULL) NOT VALID;\r\n\r\n-- backfill column so it's not null\r\nUPDATE \"foo_tbl\" SET \"col_name\" = false WHERE \"col_name\" IS NULL;\r\n-- verify existing columns are not-null\r\nALTER TABLE \"foo_tbl\" VALIDATE CONSTRAINT col_name_null;\r\n-- remove default\r\nALTER TABLE \"foo_tbl\" ALTER COLUMN \"col_name\" DROP DEFAULT;\r\n```"
+   ],
+   [
+    "chdsbd",
+    "Closing in favor of #123."
+   ]
+  ]
+ },
+ {
+  "repo": "sbdchd/squawk",
+  "number": 149,
+  "url": "https://github.com/sbdchd/squawk/issues/149",
+  "title": "Ignore specific query",
+  "state": "CLOSED",
+  "created": "2021-06-15T04:31:09Z",
+  "body": "I'm integrating Squawk into a CI pipeline and want to be able to tell it to ignore specific queries, similar to \r\n\r\n```rust\r\n#[allow(clippy::some_rule)]\r\n// some code that would fail\r\n```\r\n\r\nSo we'd have something like\r\n\r\n```sql\r\n/* Trust me, I'm an expert */\r\n-- squawk: nolint\r\nALTER TABLE foo ALTER COLUMN bar SET NOT NULL;\r\n```\r\n\r\nI couldn't find a way to do that, if there one? And if not, would you be open to a PR adding that?",
+  "comments": [
+   [
+    "sbdchd",
+    "yeah squawk doesn't have a way to do that currently, I'm open to the feature\r\n\r\nI think it might be tricky to add if the AST doesn't include comments, might need to rework things a bit"
+   ],
+   [
+    "ccakes",
+    "Hmm yeah - I see.\r\n\r\nIt looks like libpg_query v2 exposes `pg_query_scan()` and `pg_query_split_with_xxx()`. It might be doable with some combination of those before the parse stage 🤔 "
+   ],
+   [
+    "saurabhbhalla90",
+    "Any updates on this? This is a very useful feature"
+   ],
+   [
+    "chdsbd",
+    "It seems like pg_query.rs has a [`CommentStmt`](https://github.com/pganalyze/pg_query.rs/blob/264167f4825b0a4c8fa7313db7acd9f72efb4829/src/node_ref.rs#L76), which might work.\r\n\r\nHere's the related [`pg_query.proto`](https://github.com/pganalyze/libpg_query/blob/d1d0186b80c1fbf496265789af89da4e7ca890ab/protobuf/pg_query.proto#L90).\r\n\r\n"
+   ],
+   [
+    "adamrdavid",
+    "@chdsbd I took a stab at using that, but the `CommentStmt` is for an actual SQL `COMMENT ON` https://www.postgresql.org/docs/current/sql-comment.html\r\n\r\nThe downside of using this is that it actually changes the DB schema and you can only have one comment per object, so it would overwrite any existing comment on the object.\r\n\r\nHopefully there is a way to get the actual code comment i.e. `-- I am an SQL comment`"
+   ],
+   [
+    "chdsbd",
+    "@adamrdavid That's too bad that doesn't work.\r\n\r\nI feel like we need to do something ourselves to parse our comments vs SQL."
+   ]
+  ]
+ },
+ {
+  "repo": "ankane/strong_migrations",
+  "number": 95,
+  "url": "https://github.com/ankane/strong_migrations/issues/95",
+  "title": "Ideas",
+  "state": "CLOSED",
+  "created": "2019-11-11T04:17:18Z",
+  "body": "I'm still on the fence about many of them. If anyone would like to discuss any of the ideas below, please create a new issue.\r\n\r\nLikely ideas\r\n\r\n- [ ] Show friendly message for lock timeout - `lock_timeout_message` branch\r\n- [ ] Add support for multiple databases with `target_version` and other options - `{primary: 10, other: 12}`\r\n- [ ] Change default lock timeout to 5 seconds in generator\r\n\r\nOther ideas\r\n\r\n- [ ] Option to retry lock timeouts - `lock_timeout_retries` branch\r\n- [ ] Condense `add_foreign_key` and `change_column_null` suggestions into a single migration (downside: failed migration can result in db state that needs manually reconciled) - `add_foreign_key` may be safe to do since it can detect locks\r\n\r\nDecided against\r\n\r\n- Helper methods - better as a separate gem - see #111 \r\n- Don't require `safety_assured` for `remove_column` if `ignored_columns` detected (`ignored_columns` will likely be removed after it runs in production, so this would cause errors for other devs)\r\n- Enforce timestamptz (opt-in) - apps can [change globally](https://github.com/rails/rails/issues/21126#issuecomment-327895275) in initializer if needed\r\n- Deprecate `safety_assured` for `remove_index!`, `execute!`, etc (no good reason to change for now)\r\n- `rails g` commands to generate safe migrations (like `gindex` gem)\r\n- Enforce reversible migrations (opt-in)\r\n- Enforce reversible operations (opt-in) - `remove_column` with `type`, `change_column_default` with `to`/`from`\r\n- Include null constraints in schema.rb - `dump_null_constraints` branch (or may be better to use `execute` command) - this shouldn't be needed in Postgres 12+, as well as Rails 6.1+",
+  "comments": [
+   [
+    "mvz",
+    "I'd be very interested in some helper method for renaming tables."
+   ],
+   [
+    "jjb",
+    "Gitlab has these migration helpers for their own internal use. They automagically set up triggers and such in order to do things like seamless column renaming.\r\n\r\nhttps://gitlab.com/gitlab-org/gitlab/issues/34292"
+   ],
+   [
+    "bheemreddy181-zz",
+    "Can we add a retry mechanism if migrations fail due to a timeout?"
+   ],
+   [
+    "ankane",
+    "Hey @bheemreddy181, it's an interesting idea.\r\n\r\nFor statements run outside a transaction, retrying the statement should work:\r\n\r\n```ruby\r\nclass AddSomeIndexToUsers < ActiveRecord::Migration[6.0]\r\n  disable_ddl_transaction!\r\n\r\n  def change\r\n    add_index :users, :some_column, algorithm: :concurrently\r\n  end\r\nend\r\n```\r\n\r\nFor statements run inside a transaction, the entire transaction needs to be re-run. For migrations that only use Active Record's DDL transaction and have no side effects, retrying the entire migration should work:\r\n\r\n```ruby\r\nclass SimpleMigration < ActiveRecord::Migration[6.0]\r\n  def change\r\n    add_column :users, :some_column, :string\r\n  end\r\nend\r\n```\r\n\r\nHowever, retrying more complex migrations can cause issues or errors (which may be an acceptable trade-off).\r\n\r\n```ruby\r\nclass ComplexMigration < ActiveRecord::Migration[6.0]\r\n  def change\r\n    add_column :users, :some_column, :string\r\n    commit_db_transaction # we can avoid retry if this method is called\r\n    begin_db_transaction\r\n    add_column :users, :other_column, :string\r\n  end\r\nend\r\n```\r\n\r\nOr\r\n\r\n```ruby\r\nclass ComplexMigration2 < ActiveRecord::Migration[6.0]\r\n  disable_ddl_transaction!\r\n\r\n  def change\r\n   "
+   ],
+   [
+    "bheemreddy181-zz",
+    "@ankane I will give a try and will let you know thanks for this feature, appreciate your work. Your contribution matters a lot."
+   ],
+   [
+    "bheemreddy181-zz",
+    "@ankane I started testing the retry feature started seeing the below error, am I missing something here \r\n\r\n<img width=\"947\" alt=\"Screen Shot 2020-10-30 at 6 32 09 PM\" src=\"https://user-images.githubusercontent.com/3464623/97764976-713fca80-1ade-11eb-893c-978d056f5133.png\">\r\n"
+   ]
+  ]
+ },
+ {
+  "repo": "netbox-community/netbox",
+  "number": 17401,
+  "url": "https://github.com/netbox-community/netbox/issues/17401",
+  "title": "Error upgrading from 4.0.11 to 4.1.0",
+  "state": "CLOSED",
+  "created": "2024-09-06T15:56:49Z",
+  "body": "### Deployment Type\n\nSelf-hosted\n\n### NetBox Version\n\nv4.1.0\n\n### Python Version\n\n3.12\n\n### Steps to Reproduce\n\nTrying to upgrade from 4.0.11 to 4.1.0 rise migration error.\n\n### Expected Behavior\n\nNo errors during upgrade.\n\n### Observed Behavior\n\nPlease don't close this issue without investigate, we have several **closed unresolved** issues in this repo and netbox-docker.\r\nLike https://github.com/netbox-community/netbox/issues/17352 and https://github.com/netbox-community/netbox-docker/issues/1314\r\nIn https://github.com/netbox-community/netbox-docker/issues/1313 @tobiasge wrote `Needs to be fixed in Netbox itself.` https://github.com/netbox-community/netbox-docker/issues/1313#issuecomment-2333929966\r\n\r\nAlso some discussions abount this problem - https://github.com/netbox-community/netbox/discussions/17382 and https://github.com/netbox-community/netbox/discussions/17388\r\n\r\nLog from netbox side:\r\n```\r\nRunning migrations:\r\nTraceback (most recent call last):\r\n  File \"/opt/netbox/venv/lib/python3.12/site-packages/django/db/backends/utils.py\", line 105, in _execute\r\n    return self.cursor.execute(sql, params)\r\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n  File \"/opt/netbox/venv/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\r\n    raise ex.with_traceback(None)\r\npsycopg.errors.UndefinedTable: relation \"extras_objectchange\" does not exist\r\nLINE 1: ...ct_type_id\", \"extras_objectchange\".\"user_id\" FROM \"extras_ob...\r\n                                                             ^\r\n\r\nThe above exception was the direct cause of the following exception:\r\n\r\nTraceback (most recent call last):\r\n  File \"/opt/netbox/netbox/./manage.py\", line 10, in <module>\r\n    execute_from_command_line(sys.argv)\r\n  File \"/opt/netbox/venv/lib/python3.12/site-packages/django/core/management/__init__.py\", line 442, in execute_from_command_line\r\n    utility.execute()\r\n  File \"/opt/netbox/venv/lib/python3.12/site-packages/django/core/management/__init__.py\", line 436, in execute\r\n    self.fetch_command(subcommand).run_from_argv(self.argv)\r\n  File \"/opt/netbox/venv/lib/python3.12/site-packages/django/core/management/base.py\", line 413, in run_from_argv\r\n    self.execute(*args, **cmd_options)\r\n  File \"/opt/netbox/venv/lib/python3.12/site-packages/django/core/management/base.py\", line 459, in execute\r\n    output = self.handle(*args, **options)\r\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n  File \"/opt/netbox/venv/lib/python3.12/site-packages/django/core/management/base.py\", line 107, in wrapper\r\n    res = handle_func(*args, **kwargs)\r\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n  File \"/opt/netbox/venv/lib/python3.12/site-packages/django/core/management/commands/migrate.py\", line 356, in handle\r\n    post_migrate_state = executor.migrate(\r\n                         ^^^^^^^^^^^^^^^^^\r\n  File \"/opt/netbox/venv/lib/python3.12/site-packages/django/db/migrations/executor.py\", line 135, in migrate\r\n    state = self._migrate_all_forwards(\r\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n  File \"/opt/netbox/venv/lib/python3.12/site-packages/django/db/migrations/executor.py\", line 167, in _migrate_all_forwards\r\n    state = self.apply_migration(\r\n            ^^^^^^^^^^^^^^^^^^^^^\r\n  File \"/opt/netbox/venv/lib/python3.12/site-packages/django/db/migrations/executor.py\", line 252, in apply_migration\r\n    state = migration.apply(state, schema_editor)\r\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n  File \"/opt/netbox/venv/lib/python3.12/site-packages/django/db/migrations/migration.py\", line 132, in apply\r\n    operation.database_forwards(\r\n  File \"/opt/netbox/venv/lib/python3.12/site-packages/django/db/migrations/operations/special.py\", line 193, in database_forwards\r\n    self.code(from_state.apps, schema_editor)\r\n  File \"/opt/netbox/netbox/extras/migrations/0117_move_objectchange.py\", line 8, in update_content_types\r\n    ContentType.objects.filter(app_label='core', model='objectchange').delete()\r\n  File \"/opt/netbox/venv/lib/python3.12/site-packages/django/db/models/query",
+  "comments": [
+   [
+    "jeremystretch",
+    "> Trying to upgrade from 4.0.11 to 4.1.0 rise migration error.\r\n\r\nBug reports are not to be used for upgrade support. Per the bug report template:\r\n\r\n> Describe in detail the exact steps that someone else can take to reproduce this bug using the current stable release of NetBox.\r\n\r\nWe know that simply installing NetBox v4.0.11 and upgrading to v4.1.0 works as expected, so you'll need to identify steps that someone else can take to reproduce this issue if you want it to be investigated as a bug. These steps **must not** involve the Docker container, as that is out of scope for this project.\r\n\r\nOnce you've done that, please update the \"Steps to Reproduce\" section in your post above with the necessary detail."
+   ],
+   [
+    "avbor",
+    "> Bug reports are not to be used for upgrade support\r\n\r\nVery strange approach, migration procedures are kind of part of the product, aren't they?\r\n\r\n> so you'll need to identify steps that someone else can take to reproduce this issue if you want it to be investigated as a bug\r\n\r\nI have provided several links to issues and discussions where other users have encountered the same problem.\r\n\r\n> These steps must not involve the Docker container, as that is out of scope for this project.\r\n\r\nAs I wrote above, issues in the netbox-docker repository are closed without review and indicate the need to create an issue in that repository.\r\nIt all seems like a vicious circle.\r\nIt turns out that users simply don't have the opportunity to create an issue in the \"right place\".\r\n\r\n> Steps to Reproduce\r\n\r\nI and other users encountering the problem have no other steps to take other than trying to upgrade the product.\r\n\r\n![image](https://github.com/user-attachments/assets/37950ada-54d9-4494-8f1e-55eec1a35831)\r\n![image](https://github.com/user-attachments/assets/a5153bce-6723-45db-ba76-03ecba256232)\r\n![image](https://github.com/user-attachments/assets/956997a2-45f1-49fd-b638-e25d90b9d46c)\r\n"
+   ],
+   [
+    "jeremystretch",
+    "> Very strange approach, migration procedures are kind of part of the product, aren't they?\r\n\r\nI never suggested otherwise. If you can point to a bug _in the migration procedure_, we'll happy to address it. But to do that, you first need to provide steps to reproduce the reported behavior, as I asked. Migrations can fail for any number of reasons, such as corrupt or missing data. This does not necessarily indicate a bug in NetBox."
+   ],
+   [
+    "avbor",
+    "> steps to reproduce the reported behavior\r\n\r\nI'd love to describe the specific steps, but there is only one step - trying to upgrade an existing netbox installation. Judging by the discussions, different users have tried different ways to reproduce the problem, but the result is the same.\r\nFor example:\r\n`I successfully exported the NetBox database version 4.0.7 with PostgreSQL version 16.3 and imported it onto a new fresh Netbox 4.1.0 install. Unfortunately, the following error occurs when running the upgrade script sudo /opt/netbox/upgrade.sh.`\r\n\r\n`I tried the same, made new instance, made fresh install, the dropped netbox DB, created new and wrote a dump from last worked version. It didn't help at all. `\r\n\r\n> Migrations can fail for any number of reasons, such as corrupt or missing data.\r\n\r\nThat's true, but without help from developers, we're unlikely to find the problem. What is required of us to find the problem?\r\nDatabase dumps, logs, something else?\r\n\r\nAnd I want to pay attention to this point - judging by postgresql logs, during the migration procedure (0117_move_objectchange), first the table is renamed, and then an attempt to select by the old name is made:\r\n\r\n```\r\n2024-0"
+   ],
+   [
+    "kovacs-andras",
+    "Similar problem here, in-place upgrade didn't work, now I can't revert."
+   ],
+   [
+    "jeremystretch",
+    "> I'd love to describe the specific steps, but there is only one step - trying to upgrade an existing netbox installation.\r\n\r\nOk, let's do that \"one step.\" You said:\r\n\r\n> Trying to upgrade from 4.0.11 to 4.1.0 rise migration error.\r\n\r\nSo let's do that:\r\n\r\n1. Check out NetBox v4.0.11\r\n2. Populate the [v4.0 demo data](https://github.com/netbox-community/netbox-demo-data/blob/master/sql/netbox-demo-v4.0.sql)\r\n3. Verify that NetBox runs as expected\r\n4. Check out the v4.1.0 release\r\n5. Run `upgrade.sh` successfully\r\n\r\nAll the migrations complete successfully, as expected:\r\n\r\n```\r\nApplying database migrations (python3 netbox/manage.py migrate)...\r\nOperations to perform:\r\n  Apply all migrations: account, auth, circuits, contenttypes, core, dcim, django_rq, extras, ipam, sessions, social_django, taggit, tenancy, users, virtualization, vpn, wireless\r\nRunning migrations:\r\n  Applying core.0011_move_objectchange... OK\r\n  Applying extras.0117_move_objectchange... OK\r\n  Applying extras.0118_customfield_uniqueness... OK\r\n  Applying extras.0119_notifications... OK\r\n  Applying circuits.0044_circuit_groups... OK\r\n  Applying core.0012_job_object_type_optional... OK\r\n  Applying extras.0120_eventrule_e"
+   ]
+  ]
+ },
+ {
+  "repo": "Dispatcharr/Dispatcharr",
+  "number": 987,
+  "url": "https://github.com/Dispatcharr/Dispatcharr/issues/987",
+  "title": "Migration 0033 fails: cannot CREATE INDEX due to pending trigger events",
+  "state": "CLOSED",
+  "created": "2026-02-15T09:25:32Z",
+  "body": "## Description\n\nMigration `0033_stream_id_stream_chno` consistently fails with a PostgreSQL `OperationalError`, causing the container to crash loop on startup and never become ready (502 Bad Gateway from nginx).\n\n## Environment\n\n- **Dispatcharr version:** 0.19.0 (`ghcr.io/dispatcharr/dispatcharr:latest`)\n- **Deployment:** Docker (AIO mode)\n- **Database:** Built-in PostgreSQL 17.7\n- **Streams:** ~13,284\n\n## Error\n\n```\ndjango.db.utils.OperationalError: cannot CREATE INDEX \"dispatcharr_channels_stream\" because it has pending trigger events\n```\n\nFull traceback:\n```\npsycopg2.errors.ObjectInUse: cannot CREATE INDEX \"dispatcharr_channels_stream\" because it has pending trigger events\n\nStatement: CREATE INDEX \"dispatcharr_stream_id_idx\" ON \"dispatcharr_channels_stream\" (\"stream_id\")\n```\n\n## Steps to Reproduce\n\n1. Have an existing Dispatcharr instance with ~13k streams\n2. Update to 0.19.0\n3. Container starts, migration 0033 runs:\n   - Processes 13,284 streams in batches of 1,000\n   - Deletes 6,582 duplicate streams due to hash collisions\n   - Attempts to create index `dispatcharr_stream_id_idx`\n   - **Fails** because the data modifications (updates + deletes) created pending trigger events in the same transaction\n4. Container crashes and restarts in a loop\n\n## Root Cause\n\nPostgreSQL does not allow `CREATE INDEX` within a transaction that has pending trigger events. Migration 0033 modifies data (batch updates and duplicate deletions via triggers/constraints) and then attempts to create an index in the same transaction.\n\n## Suggested Fix\n\nSplit migration 0033 into two separate migrations:\n1. **Migration 0033**: Data migration (stream_id population + duplicate removal)\n2. **Migration 0034**: Schema migration (index creation)\n\nAlternatively, the migration could use `SeparateDatabaseAndState` or add `atomic = False` to run the index creation outside the data migration transaction.\n\n## Logs\n\n```\n2026-02-15 09:22:05,594 INFO apps.channels.migrations.0033_stream_id_stream_chno Processing 13284 total streams\n2026-02-15 09:22:34,712 INFO apps.channels.migrations.0033_stream_id_stream_chno Updated batch: 1000/13284 streams processed\n...\n2026-02-15 09:22:41,608 INFO apps.channels.migrations.0033_stream_id_stream_chno Updated batch: 6000/13284 streams processed\n2026-02-15 09:22:43,516 WARNING apps.channels.migrations.0033_stream_id_stream_chno Deleting 6582 duplicate streams due to hash collisions\n2026-02-15 09:22:44,379 INFO apps.channels.migrations.0033_stream_id_stream_chno Migration complete: 6702 streams updated, 6582 duplicates removed\n  Applying dispatcharr_channels.0033_stream_id_stream_chno...\n2026-02-15 09:22:44.412 UTC [167] ERROR:  cannot CREATE INDEX \"dispatcharr_channels_stream\" because it has pending trigger events\n```",
+  "comments": [
+   [
+    "bterps",
+    "## Additional Context\n\nThe Xtreme Codes server URL I was using went down and I had to switch to a new URL. After updating the XC account with the new URL, Dispatcharr did not flush/remove the old streams associated with the previous URL — it added the new streams alongside the old ones and marked the old ones with a red color indicator.\n\nThis may be relevant to why migration 0033 encounters so many duplicates (6,582 out of 13,284 streams) and why the hash collision cleanup triggers so many pending events in the transaction. The combination of stale streams from the old URL and new streams from the new URL likely creates a large number of duplicates that the migration tries to clean up in a single transaction, ultimately causing the index creation to fail."
+   ],
+   [
+    "bterps",
+    "## Workaround Applied\n\nFor anyone else hitting this, here's what I did to get past the failed migration:\n\n### 1. Stop dispatcharr and start a temp container with just Postgres + Redis\n\n```bash\ndocker stop dispatcharr\n\ndocker run -d --name dispatcharr-fix \\\n  -v /path/to/dispatcharr/data:/data \\\n  -e DISPATCHARR_ENV=aio \\\n  -e REDIS_HOST=localhost \\\n  -e CELERY_BROKER_URL=redis://localhost:6379/0 \\\n  -e DISPATCHARR_LOG_LEVEL=INFO \\\n  --entrypoint /bin/bash \\\n  ghcr.io/dispatcharr/dispatcharr:latest \\\n  -c '\n    su postgres -c \"/usr/lib/postgresql/17/bin/pg_ctl -D /data/db -l /tmp/pg.log start\"\n    sleep 2\n    redis-server --daemonize yes\n    sleep 3600\n  '\n```\n\n### 2. Run the data migration manually via Django\n\nThe columns (`stream_id`, `stream_chno`) already existed from a previous partial run (the `AddField` operations committed before the transaction failed). So we just needed to run the Python data migration + create the indexes outside of a single transaction.\n\n```bash\ndocker exec dispatcharr-fix bash -c '\ncd /app\nexport DJANGO_SETTINGS_MODULE=dispatcharr.settings\nexport DISPATCHARR_ENV=aio\nexport REDIS_HOST=localhost\nexport CELERY_BROKER_URL=redis://localhost:6379/0\n\n/dispatch"
+   ],
+   [
+    "albertcard",
+    "@bterps, I actually ran into this but forgot to capture the error before rolling back.\n\nWhat had happened in my case is I have 2x M3U accounts. One of them recently had a bad URL. \n\nI ran through the [steps](https://github.com/Dispatcharr/Dispatcharr/issues/751#issuecomment-3698352392) to update the URL for my M3U account.\n\nI then pulled the new image and restarted  Dispatcharr and walked away. I noticed 2 days later that my Dispatcharr data directory went from ~150M to 4.5G in size.\n\nI stopped the Dispatcharr container and restored the Dispatcharr data directory to the last working and launched Dispatcharr on v0.18.1\n\nWhat I noticed was that the Dispatcharr upgrade was breaking on stale streams. I had like 152 stale streams (per the error in the Dispatcharr container logs that Postgres was breaking on).\n\nI went to both of my M3U accounts and set the stale streams to '0' days and refreshed. Sure enough, it showed that 152 channels were deleted between the 2x M3U accounts then upgraded and had no issues. \n\nSo for those who haven't upgraded to v0.19.0 yet, maybe try set the stale streams to '0' days and refresh then upgrade."
+   ],
+   [
+    "bterps",
+    "Nice thanks @albertcard! I didn't actually look for a bug associated with changing the URL and just changed it, so that was helpful.\n\nMy current 'M3U Hash Key' is ONLY 'URL'. Do you think I should add the other 2 in your steps?\n\nBut yeah, setting stale streams to 0 probably would have had the same effect."
+   ],
+   [
+    "bterps",
+    "Let me know if you want me to close the issue, as may not actually be a bug..."
+   ],
+   [
+    "albertcard",
+    "No, I agree, this is probably an issue that should be fixed because anyone not seeing this issue and having stale streams will likely break on their upgrade to v0.19.0 and would either need to rollback and do my steps or recover using your steps.\n\n@bterps, for the M3U hash key, I have TVG-ID, URL and M3U ID because that's what it was set to when I first started using Dispatcharr. I don't know if there's a better alternative. I've been using Dispatcharr since it was first announced on Reddit so maybe the default install is different now? I dunno."
+   ]
+  ]
+ },
+ {
+  "repo": "mastodon/mastodon",
+  "number": 26246,
+  "url": "https://github.com/mastodon/mastodon/issues/26246",
+  "title": "`tootctl search deploy` crashes on the latest nightly: PG::UndefinedColumn: ERROR:  column \"id\" does not exist (ActiveRecord::StatementInvalid) LINE 1: SELECT \"id\" FROM \"instances\" WHERE \"instances\".\"id\" IN ($1, ...",
+  "state": "CLOSED",
+  "created": "2023-07-29T12:18:09Z",
+  "body": "### Steps to reproduce the problem\n\n1. Pull the latest main up until [74903af](https://github.com/mastodon/mastodon/commit/74903af7ce6a0622752e19b1e0b326ecfa0463cb)\r\n2. Rebuild assets\r\n3. Restart server\r\n4. Run `RAILS_ENV=production /home/mastodon/live/bin/tootctl search deploy;`\r\n5. Get error on \"Importing InstancesIndex\"\r\n\n\n### Expected behaviour\n\nThe command should run through\n\n### Actual behaviour\n\nCrashes on error\n\n### Detailed description\n\nI first thought this is about my fork but then pulled the clean main and it does the same:\r\n\r\n```\r\nRAILS_ENV=production /home/mastodon/live/bin/tootctl search deploy;\r\n```\r\n\r\nThis (at the first part _Importing InstancesIndex 2700/6715551 |                  |  ETA: 00:26:11_)\r\n\r\n```\r\n/home/mastodon/live/vendor/bundle/ruby/3.2.0/gems/activerecord-7.0.6/lib/active_record/connection_adapters/postgresql_adapter.rb:768:in `exec_params': PG::UndefinedColumn: ERROR:  column \"id\" does not exist (ActiveRecord::StatementInvalid)\r\nLINE 1: SELECT \"id\" FROM \"instances\" WHERE \"instances\".\"id\" IN ($1, ...\r\n               ^\r\n\r\n        from /home/mastodon/live/vendor/bundle/ruby/3.2.0/gems/activerecord-7.0.6/lib/active_record/connection_adapters/postgresql_adapter.rb:768:in `block (2 levels) in exec_no_cache'\r\n        from /home/mastodon/live/vendor/bundle/ruby/3.2.0/gems/activesupport-7.0.6/lib/active_support/concurrency/share_lock.rb:187:in `yield_shares'\r\n        from /home/mastodon/live/vendor/bundle/ruby/3.2.0/gems/activesupport-7.0.6/lib/active_support/dependencies/interlock.rb:41:in `permit_concurrent_loads'\r\n        from /home/mastodon/live/vendor/bundle/ruby/3.2.0/gems/activerecord-7.0.6/lib/active_record/connection_adapters/postgresql_adapter.rb:767:in `block in exec_no_cache'\r\n        from /home/mastodon/live/vendor/bundle/ruby/3.2.0/gems/activesupport-7.0.6/lib/active_support/concurrency/load_interlock_aware_monitor.rb:25:in `handle_interrupt'\r\n        from /home/mastodon/live/vendor/bundle/ruby/3.2.0/gems/activesupport-7.0.6/lib/active_support/concurrency/load_interlock_aware_monitor.rb:25:in `block in synchronize'\r\n        from /home/mastodon/live/vendor/bundle/ruby/3.2.0/gems/activesupport-7.0.6/lib/active_support/concurrency/load_interlock_aware_monitor.rb:21:in `handle_interrupt'\r\n        from /home/mastodon/live/vendor/bundle/ruby/3.2.0/gems/activesupport-7.0.6/lib/active_support/concurrency/load_interlock_aware_monitor.rb:21:in `synchronize'\r\n        from /home/mastodon/live/vendor/bundle/ruby/3.2.0/gems/activerecord-7.0.6/lib/active_record/connection_adapters/abstract_adapter.rb:769:in `block in log'\r\n        from /home/mastodon/live/vendor/bundle/ruby/3.2.0/gems/activesupport-7.0.6/lib/active_support/notifications/instrumenter.rb:24:in `instrument'\r\n        from /home/mastodon/live/vendor/bundle/ruby/3.2.0/gems/activerecord-7.0.6/lib/active_record/connection_adapters/abstract_adapter.rb:760:in `log'\r\n        from /home/mastodon/live/vendor/bundle/ruby/3.2.0/gems/activerecord-7.0.6/lib/active_record/connection_adapters/postgresql_adapter.rb:766:in `exec_no_cache'\r\n        from /home/mastodon/live/vendor/bundle/ruby/3.2.0/gems/activerecord-7.0.6/lib/active_record/connection_adapters/postgresql_adapter.rb:745:in `execute_and_clear'\r\n        from /home/mastodon/live/vendor/bundle/ruby/3.2.0/gems/activerecord-7.0.6/lib/active_record/connection_adapters/postgresql/database_statements.rb:54:in `exec_query'\r\n        from /home/mastodon/live/vendor/bundle/ruby/3.2.0/gems/activerecord-7.0.6/lib/active_record/connection_adapters/abstract/database_statements.rb:560:in `select'\r\n        from /home/mastodon/live/vendor/bundle/ruby/3.2.0/gems/activerecord-7.0.6/lib/active_record/connection_adapters/abstract/database_statements.rb:66:in `select_all'\r\n        from /home/mastodon/live/vendor/bundle/ruby/3.2.0/gems/activerecord-7.0.6/lib/active_record/connection_adapters/abstract/query_cache.rb:110:in `select_all'\r\n        from /home/mastodon/live/vendor/bundle/ruby/3.2.0/gems/activerecord-7.0.6/lib/a",
+  "comments": [
+   [
+    "supernovae",
+    "Confirmed on universeodon.com\r\n\r\nThis index rebuild worked from main from about ~2 days ago, but is broken as of 7/29/23\r\n\r\nExact same error message.\r\n"
+   ],
+   [
+    "D-side",
+    "Most likely the cleanup procedure (that runs last) being hardcoded to using ids:\r\n\r\nhttps://github.com/mastodon/mastodon/blob/74903af7ce6a0622752e19b1e0b326ecfa0463cb/app/lib/importer/base_importer.rb#L46-L61\r\n\r\n…and in case of instances should be using domains instead."
+   ],
+   [
+    "rollecode",
+    "> Most likely the cleanup procedure (that runs last) being hardcoded to using ids:\r\n> \r\n> https://github.com/mastodon/mastodon/blob/74903af7ce6a0622752e19b1e0b326ecfa0463cb/app/lib/importer/base_importer.rb#L46-L61\r\n> \r\n> …and in case of instances should be using domains instead.\r\n\r\nThat's it! Tested it with changing ids to domains on a local environment. After the change it works:\r\n\r\n```\r\n$ RAILS_ENV=production bin/tootctl search deploy --only instances --concurrency 16 --batch_size 4096;\r\nDone! 18407/18407 |=================================================================================================================================================================================| Time: 00:00:01 (18407 docs/s)\r\nIndexed 18373 records, de-indexed 0\r\n```\r\n\r\nThere's no id column indeed:\r\n\r\n```\r\nmastodon_production-# \\d+ instances\r\n                                           Materialized view \"public.instances\"\r\n     Column     |       Type        | Collation | Nullable | Default | Storage  | Compression | Stats target | Description \r\n----------------+-------------------+-----------+----------+---------+----------+-------------+--------------+-------------\r\n domain         | characte"
+   ],
+   [
+    "renchap",
+    "I think this comes from the introduction of `app/chewy/instances_index.rb` in #26075."
+   ]
+  ]
+ },
+ {
+  "repo": "chatwoot/chatwoot",
+  "number": 12288,
+  "url": "https://github.com/chatwoot/chatwoot/issues/12288",
+  "title": "Bug Report: migration task db:chatwoot_prepare crashes with PG::UndefinedTable",
+  "state": "OPEN",
+  "created": "2025-08-25T01:09:34Z",
+  "body": "Running `bundle exec rails db:chatwoot_prepare` in the Chatwoot **admin** container against a **fresh** PostgreSQL database fails during the prepare/migration phase because the task attempts to read from the `installation_configs` table **before it exists**. The failure occurs while initializing the AI Agents SDK and the task aborts with `PG::UndefinedTable` for `installation_configs`. The `reline`/`fiddle` message is only a Ruby warning and not related to the failure.\n\n**Environment:** self-hosted on a Hetzner Cloud VM (Debian 12), Docker deployment; PostgreSQL is reachable and empty.\n\n```\n/app # bundle exec rails db:chatwoot_prepare\n/gems/ruby/3.4.0/gems/reline-0.3.6/lib/reline/terminfo.rb:2: warning: /usr/local/lib/ruby/3.4.0/fiddle.rb was loaded from the standard library, but will no longer be part of the default gems starting from Ruby 3.5.0.\nYou can add fiddle to your Gemfile or gemspec to silence this warning.\nAlso please contact the author of reline-0.3.6 to request adding fiddle into its gemspec.\nE, [2025-08-25T00:14:47.878042 #51] ERROR -- : Failed to configure AI Agents SDK: PG::UndefinedTable: ERROR:  relation \"installation_configs\" does not exist\nLINE 10:  WHERE a.attrelid = '\"installation_configs\"'::regclass\n                             ^\nI, [2025-08-25T00:14:47.878742 #51]  INFO -- : [rake ip_lookup:setup] IP_LOOKUP_API_KEY empty. Skipping geoip database setup\nLoading Installation config\n/app #\n```\n\n### To Reproduce\n\n1. Install/deploy the **admin** service connected to a **fresh** PostgreSQL database (empty schema).\n2. Open a shell/console inside the `admin` container (working dir `/app`).\n3. Run:\n   ```bash\n   bundle exec rails db:chatwoot_prepare\n   ```\n4. The command fails with the error shown in the **Describe the bug** section (same stack trace reported there).\n\n### Expected behavior\n\n- Running `bundle exec rails db:chatwoot_prepare` on a **fresh** PostgreSQL database completes **without errors**.\n- All pending migrations are applied and the required tables are created.\n- Initializers and any seed/setup tasks (including AI Agents SDK configuration) run **after** the schema is created and finish successfully.\n- The command exits with status code `0` and logs a clear completion message (e.g., database prepared/migrations complete).\n- Chatwoot can start normally right after the task.\n\n### Environment\n\nDocker\n\n### Cloud Provider\n\nOther [please specify in the description]\n\n### Platform\n\nBrowser\n\n### Operating system\n\nDebian GNU/Linux 12 (bookworm), x86_64 — Hetzner Cloud VM\n\n### Browser and version\n\nN/A — issue occurs in container console (no browser interaction)\n\n### Docker (if applicable)\n\n_No response_\n\n### Additional context\n\n_No response_",
+  "comments": [
+   [
+    "jaoa12or",
+    "Same problem here. Any solution?"
+   ],
+   [
+    "ParthThakkar08",
+    "\n/gems/ruby/3.4.0/gems/reline-0.3.6/lib/reline/terminfo.rb:2: warning: /usr/local/lib/ruby/3.4.0/fiddle.rb was loaded from the standard library, but will no longer be part of the default gems starting from Ruby 3.5.0.\nYou can add fiddle to your Gemfile or gemspec to silence this warning.\nAlso please contact the author of reline-0.3.6 to request adding fiddle into its gemspec.\nI, [2025-08-28T21:56:06.066079 #1]  INFO -- : [rake ip_lookup:setup] IP_LOOKUP_API_KEY empty. Skipping geoip database setup\nI, [2025-08-28T21:56:06.515851 #1]  INFO -- : Migrating to AddCachedLabelsList (20231211010807)\n== 20231211010807 AddCachedLabelsList: migrating ==============================\n-- add_column(:conversations, :cached_label_list, :string)\n   -> 0.0021s\nbin/rails aborted!\nStandardError: An error has occurred, this and all later migrations canceled: (StandardError)\n\n\nSame issue"
+   ],
+   [
+    "pranavrajs",
+    "@vishnu-narayanan Please take a look when you have a chance."
+   ],
+   [
+    "andrekutianski",
+    "Tente isso https://github.com/chatwoot/chatwoot/issues/11614#issuecomment-3092435694"
+   ],
+   [
+    "sant77",
+    "I have the same error. I had to downgrade to v4.0.4, run bundle exec rails db:chatwoot_prepare, and then update to the current version."
+   ],
+   [
+    "Ligament",
+    "Here are the steps I used to fix it:\n\n1. **Verify your `.env` is correct**\n   Make sure the environment variables match the storage mode you use and that they are actually loaded into the Rails container. Reference: [https://developers.chatwoot.com/self-hosted/configuration/environment-variables](https://developers.chatwoot.com/self-hosted/configuration/environment-variables)\n\n2. **Ensure PostgreSQL extensions exist: `pg_stat_statements` and `vector`**\n\n* Your Postgres must preload `pg_stat_statements`:\n\n  ```yaml\n  # docker-compose.yml (postgres service)\n  command: [\"postgres\",\"-c\",\"shared_preload_libraries=pg_stat_statements\"]\n  ```\n* Create the extensions once with a superuser:\n\n  ```bash\n  docker compose exec postgres psql -U $POSTGRES_USER -d $POSTGRES_DB -c \\\n    \"CREATE EXTENSION IF NOT EXISTS pg_stat_statements;\"\n  docker compose exec postgres psql -U $POSTGRES_USER -d $POSTGRES_DB -c \\\n    \"CREATE EXTENSION IF NOT EXISTS vector;\"\n  ```\n\n(For managed DBs like RDS/CloudSQL, enable `pg_stat_statements` in the parameter group and run the `CREATE EXTENSION` commands with a privileged role.)\n\n3. **Pin to Chatwoot `v4.4.0`, prepare DB, then upgrade to latest and prepare again**\n\n"
+   ]
+  ]
+ }
+]

@@ -1,0 +1,327 @@
+{
+  "repo": "basecamp/once-campfire",
+  "ecosystem": "rails",
+  "stars": 4845,
+  "has_k8s_helm": false,
+  "status": "ok",
+  "stats": {
+    "total_migration_commits_in_history": 13,
+    "migration_commits_analyzed": 11,
+    "total_migration_files_parsed": 14,
+    "commits_with_any_destructive": 4,
+    "commits_with_forward_destructive": 2,
+    "commits_with_rollback_only_destructive": 2,
+    "total_ops_extracted": 5,
+    "destructive_ops_up": 2,
+    "destructive_ops_down": 3
+  },
+  "verdict_counts": {
+    "ROLLBACK_ONLY_FALSE_ALARM": 3,
+    "DUAL_VERSION_VIOLATION_BACKWARD": 1,
+    "UNCERTAIN": 1
+  },
+  "destructive_commits": [
+    {
+      "sha": "9fd1563c9b2961916d5b17cac739ba0bc428d475",
+      "parent": "1f5858098b9fea518229758ed9aab67185ffe72b",
+      "date": "2026-10-07T19:46:57Z",
+      "subject": "Simplify messages_count trigger install and harden ensure!",
+      "mig_files": [
+        "db/migrate/20261007190000_add_messages_count_to_rooms.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/room/messages_count.rb",
+        "config/initializers/room_messages_count.rb",
+        "db/schema.rb",
+        "test/controllers/messages/by_bots_controller_test.rb",
+        "test/models/room/messages_count_test.rb"
+      ],
+      "orm_models_parsed_old": 45,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "rooms",
+            "column": "messages_count",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20261007190000_add_messages_count_to_rooms.rb",
+            "line": 13,
+            "raw_snippet": "remove_column :rooms, :messages_count",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rooms",
+            "column": "messages_count",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "1f5858098b9fea518229758ed9aab67185ffe72b",
+      "parent": "6e312c6028f8d67af5a83df22bd8215e1cf53e6a",
+      "date": "2026-10-07T19:36:01Z",
+      "subject": "Keep bot page totals on SQLite-maintained rooms.messages_count",
+      "mig_files": [
+        "db/migrate/20261007190000_add_messages_count_to_rooms.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/messages/by_bots_controller.rb",
+        "app/models/room/messages_count.rb",
+        "config/initializers/room_messages_count.rb",
+        "db/schema.rb",
+        "test/controllers/messages/by_bots_controller_test.rb",
+        "test/models/room/messages_count_test.rb"
+      ],
+      "orm_models_parsed_old": 44,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "rooms",
+            "column": "messages_count",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20261007190000_add_messages_count_to_rooms.rb",
+            "line": 15,
+            "raw_snippet": "remove_column :rooms, :messages_count",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "rooms",
+            "column": "messages_count",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "30fe6ab1219a4f0b3e83b098d962159835b0b102",
+      "parent": "612ca32d2c0e8883f03524e604fbf7a32c3ca90b",
+      "date": "2025-11-26T09:43:11Z",
+      "subject": "Add IP-based user banning",
+      "mig_files": [
+        "db/migrate/20251126092013_create_bans.rb",
+        "db/migrate/20251126115722_change_active_to_status_on_users.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/accounts_controller.rb",
+        "app/controllers/application_controller.rb",
+        "app/controllers/concerns/block_banned_requests.rb",
+        "app/controllers/messages_controller.rb",
+        "app/controllers/users/bans_controller.rb",
+        "app/jobs/remove_banned_content_job.rb",
+        "app/models/ban.rb",
+        "app/models/message/broadcasts.rb",
+        "app/models/user.rb",
+        "app/models/user/bannable.rb",
+        "config/routes.rb",
+        "test/controllers/concerns/block_banned_requests_test.rb"
+      ],
+      "orm_models_parsed_old": 41,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "users",
+            "column": "active",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20251126115722_change_active_to_status_on_users.rb",
+            "line": 11,
+            "raw_snippet": "remove_column :users, :active, :boolean",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users",
+            "column": "active",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/user.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "eecdb2933252746f9ccc35a53a636df95bed9c6d",
+      "parent": "657d4edcd4113d6e9a4cf7b68b8d1b38bdd2f217",
+      "date": "2025-09-02T17:02:41+02:00",
+      "subject": "Upgrade to Rails 8 and Ruby 3.4.5 (#1)",
+      "mig_files": [
+        "db/migrate/20250825100957_add_service_name_to_active_storage_blobs.active_storage.rb",
+        "db/migrate/20250825100958_create_active_storage_variant_records.active_storage.rb",
+        "db/migrate/20250825100959_remove_not_null_on_active_storage_blobs_checksum.active_storage.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/rooms/closeds_controller.rb",
+        "app/controllers/rooms/involvements_controller.rb",
+        "app/controllers/rooms/opens_controller.rb",
+        "app/controllers/rooms_controller.rb",
+        "app/models/membership.rb",
+        "app/models/opengraph/fetch.rb",
+        "app/models/user/role.rb",
+        "app/models/webhook.rb",
+        "config/application.rb",
+        "config/ci.rb",
+        "config/environments/development.rb",
+        "config/environments/production.rb"
+      ],
+      "orm_models_parsed_old": 41,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "active_storage_blobs",
+            "column": "service_name",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "string",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250825100957_add_service_name_to_active_storage_blobs.active_storage.rb",
+            "line": 13,
+            "raw_snippet": "change_column :active_storage_blobs, :service_name, :string, null: false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "active_storage_blobs",
+            "column": "service_name",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "db/structure.sql"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "UNCERTAIN",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'active_storage_blobs' has no ActiveRecord class in C_{t-1} app/models.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "active_storage_blobs",
+            "column": "service_name",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250825100957_add_service_name_to_active_storage_blobs.active_storage.rb",
+            "line": 20,
+            "raw_snippet": "remove_column :active_storage_blobs, :service_name",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "active_storage_blobs",
+            "column": "service_name",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    }
+  ]
+}

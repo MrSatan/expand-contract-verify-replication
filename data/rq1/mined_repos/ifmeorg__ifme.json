@@ -1,0 +1,4955 @@
+{
+  "repo": "ifmeorg/ifme",
+  "ecosystem": "rails",
+  "stars": 1651,
+  "has_k8s_helm": false,
+  "status": "ok",
+  "stats": {
+    "total_migration_commits_in_history": 98,
+    "migration_commits_analyzed": 91,
+    "total_migration_files_parsed": 155,
+    "commits_with_any_destructive": 29,
+    "commits_with_forward_destructive": 26,
+    "commits_with_rollback_only_destructive": 3,
+    "total_ops_extracted": 101,
+    "destructive_ops_up": 96,
+    "destructive_ops_down": 5
+  },
+  "verdict_counts": {
+    "UNCERTAIN": 4,
+    "ROLLBACK_ONLY_FALSE_ALARM": 5,
+    "SAFE_CONTRACT": 11,
+    "DUAL_VERSION_VIOLATION_BACKWARD": 19,
+    "DUAL_VERSION_VIOLATION_BOTH": 22,
+    "SAFE_ADDITIVE": 38,
+    "DUAL_VERSION_VIOLATION_FORWARD": 2
+  },
+  "destructive_commits": [
+    {
+      "sha": "a6cc5ff7f811ee6078eb9fa169f5e273815259cd",
+      "parent": "e1b3c6c7e2fa74f2eeb548689f09275fc69b423e",
+      "date": "2023-05-09T03:38:34+01:00",
+      "subject": "Upgrade to Ruby v3 and Rails v7 (#2183)",
+      "mig_files": [
+        "db/migrate/20221025214531_add_service_name_to_active_storage_blobs.active_storage.rb",
+        "db/migrate/20221025214532_create_active_storage_variant_records.active_storage.rb",
+        "db/migrate/20221025214533_remove_not_null_on_active_storage_blobs_checksum.active_storage.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/application_controller.rb",
+        "app/controllers/comments_controller.rb",
+        "app/controllers/groups/memberships_controller.rb",
+        "app/controllers/notifications_controller.rb",
+        "app/helpers/application_helper.rb",
+        "app/helpers/moments_helper.rb",
+        "app/models/comment.rb",
+        "app/models/meeting_member.rb",
+        "app/models/report.rb",
+        "app/models/user.rb",
+        "app/services/comment_notifications_service.rb",
+        "app/services/medium.rb"
+      ],
+      "orm_models_parsed_old": 34,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "active_storage_blobs",
+            "column": "service_name",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "string",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20221025214531_add_service_name_to_active_storage_blobs.active_storage.rb",
+            "line": 13,
+            "raw_snippet": "change_column :active_storage_blobs, :service_name, :string, null: false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "active_storage_blobs",
+            "column": "service_name",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'active_storage_blobs' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "active_storage_blobs",
+            "column": "service_name",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20221025214531_add_service_name_to_active_storage_blobs.active_storage.rb",
+            "line": 20,
+            "raw_snippet": "remove_column :active_storage_blobs, :service_name",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "active_storage_blobs",
+            "column": "service_name",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "6ede8faaf607a4ebbab2a561187c1737fc2f7c24",
+      "parent": "f479119a7db32b02b2e05f1e72158d554c1754e7",
+      "date": "2021-10-04T23:16:12-03:00",
+      "subject": "Add confirmable to devise model",
+      "mig_files": [
+        "db/migrate/20211005010735_add_confirmable_to_devise.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/helpers/application_helper.rb",
+        "app/models/user.rb",
+        "db/schema.rb",
+        "spec/factories/user.rb",
+        "spec/features/user_auth_spec.rb",
+        "spec/helpers/application_helper_spec.rb"
+      ],
+      "orm_models_parsed_old": 33,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "users",
+            "column": "unconfirmed_email",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20211005010735_add_confirmable_to_devise.rb",
+            "line": 14,
+            "raw_snippet": "remove_column :users, :unconfirmed_email",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users",
+            "column": "unconfirmed_email",
+            "orm_active_old": false,
+            "orm_active_new": true,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/user.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'unconfirmed_email' already absent from C_{t-1} ORM and app code.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "users",
+            "column": "confirmation_sent_at",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20211005010735_add_confirmable_to_devise.rb",
+            "line": 15,
+            "raw_snippet": "remove_column :users, :confirmation_sent_at",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users",
+            "column": "confirmation_sent_at",
+            "orm_active_old": false,
+            "orm_active_new": true,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/user.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'confirmation_sent_at' already absent from C_{t-1} ORM and app code.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "users",
+            "column": "confirmed_at",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20211005010735_add_confirmable_to_devise.rb",
+            "line": 16,
+            "raw_snippet": "remove_column :users, :confirmed_at",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users",
+            "column": "confirmed_at",
+            "orm_active_old": false,
+            "orm_active_new": true,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/user.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'confirmed_at' already absent from C_{t-1} ORM and app code.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "users",
+            "column": "confirmation_token",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20211005010735_add_confirmable_to_devise.rb",
+            "line": 17,
+            "raw_snippet": "remove_column :users, :confirmation_token",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users",
+            "column": "confirmation_token",
+            "orm_active_old": false,
+            "orm_active_new": true,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/user.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'confirmation_token' already absent from C_{t-1} ORM and app code.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "3b96393f31aa071c5e98a12e55b4ae7f0c715e7e",
+      "parent": "2bff3cd2686a4cfd9b067ce0b203951abd5b6aa6",
+      "date": "2021-02-18T09:33:07+05:30",
+      "subject": "Add confirmation mail while sign up (#1958)",
+      "mig_files": [
+        "db/migrate/20210212112419_add_confirmable_to_devise.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/omniauth_callbacks_controller.rb",
+        "app/models/user.rb",
+        "db/schema.rb",
+        "spec/factories/user.rb"
+      ],
+      "orm_models_parsed_old": 32,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "users",
+            "column": "unconfirmed_email",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20210212112419_add_confirmable_to_devise.rb",
+            "line": 13,
+            "raw_snippet": "remove_column :users, :unconfirmed_email",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users",
+            "column": "unconfirmed_email",
+            "orm_active_old": false,
+            "orm_active_new": true,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/user.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'unconfirmed_email' already absent from C_{t-1} ORM and app code.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "users",
+            "column": "confirmation_sent_at",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20210212112419_add_confirmable_to_devise.rb",
+            "line": 14,
+            "raw_snippet": "remove_column :users, :confirmation_sent_at",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users",
+            "column": "confirmation_sent_at",
+            "orm_active_old": false,
+            "orm_active_new": true,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/user.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'confirmation_sent_at' already absent from C_{t-1} ORM and app code.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "users",
+            "column": "confirmed_at",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20210212112419_add_confirmable_to_devise.rb",
+            "line": 15,
+            "raw_snippet": "remove_column :users, :confirmed_at",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users",
+            "column": "confirmed_at",
+            "orm_active_old": false,
+            "orm_active_new": true,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/user.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'confirmed_at' already absent from C_{t-1} ORM and app code.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "users",
+            "column": "confirmation_token",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20210212112419_add_confirmable_to_devise.rb",
+            "line": 16,
+            "raw_snippet": "remove_column :users, :confirmation_token",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users",
+            "column": "confirmation_token",
+            "orm_active_old": false,
+            "orm_active_new": true,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/user.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'confirmation_token' already absent from C_{t-1} ORM and app code.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "1eb6d8bbe19449786be183abb0b7108094c695ec",
+      "parent": "2acc7a3c4286c98c5f81b4ff61b2e7fdd43f91b9",
+      "date": "2020-10-24T01:00:42+05:30",
+      "subject": "Data to csv (#1900)",
+      "mig_files": [
+        "db/migrate/20201008170831_create_users_data_requests.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/users/reports_controller.rb",
+        "app/helpers/users/reports_helper.rb",
+        "app/models/allyship.rb",
+        "app/models/application_record.rb",
+        "app/models/care_plan_contact.rb",
+        "app/models/category.rb",
+        "app/models/group.rb",
+        "app/models/group_member.rb",
+        "app/models/medication.rb",
+        "app/models/meeting_member.rb",
+        "app/models/moment.rb",
+        "app/models/mood.rb"
+      ],
+      "orm_models_parsed_old": 30,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_TABLE",
+            "table": "users_data_requests",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20201008170831_create_users_data_requests.rb",
+            "line": 21,
+            "raw_snippet": "drop_table :users_data_requests",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users_data_requests",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "6fe9eccab2867780d42f7024e4f374bcacd00d80",
+      "parent": "f50aeca660d39a5a626419eb627b0b22b3926e58",
+      "date": "2020-10-09T11:59:15-07:00",
+      "subject": "runs migration to drop password histories",
+      "mig_files": [
+        "db/migrate/20201009185200_drop_password_histories_table.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "db/schema.rb"
+      ],
+      "orm_models_parsed_old": 32,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_TABLE",
+            "table": "password_histories",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20201009185200_drop_password_histories_table.rb",
+            "line": 3,
+            "raw_snippet": "drop_table(:password_histories)",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "password_histories",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/password_history.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'password_histories' active in C_{t-1}.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_TABLE",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "b5def037e6ab181316226d61862c062b8a06862d",
+      "parent": "bd58ad1df19c77a25592dda6a9105f905d370878",
+      "date": "2020-02-24T20:06:32-05:00",
+      "subject": "Strategy Categories cleanup",
+      "mig_files": [
+        "db/migrate/20200225010346_drop_strategies_category_column.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/concerns/shared.rb",
+        "app/controllers/strategies_controller.rb",
+        "app/helpers/most_focus_helper.rb",
+        "app/helpers/strategies_form_helper.rb",
+        "app/helpers/tags_helper.rb",
+        "app/helpers/viewers_helper.rb",
+        "app/models/concerns/common_methods.rb",
+        "app/models/strategy.rb",
+        "db/schema.rb",
+        "spec/controllers/categories_controller_spec.rb",
+        "spec/controllers/strategies_controller_spec.rb",
+        "spec/helpers/shared_examples.rb"
+      ],
+      "orm_models_parsed_old": 31,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "strategies",
+            "column": "category",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20200225010346_drop_strategies_category_column.rb",
+            "line": 3,
+            "raw_snippet": "remove_column :strategies, :category",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "strategies",
+            "column": "category",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/strategy.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'category' active in C_{t-1} ORM (app/models/strategy.rb); identifier removed in same commit diff",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "fa2e39e1c083717afd88a61017b0c5daa49ed8b9",
+      "parent": "4a30343d5da4d95d494d6fb1ca5b30b88247ba55",
+      "date": "2020-02-24T18:53:51-05:00",
+      "subject": "Moments Strategies cleanup",
+      "mig_files": [
+        "db/migrate/20200224234822_drop_moments_strategy_column.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/concerns/shared.rb",
+        "app/helpers/moments_form_helper.rb",
+        "app/helpers/most_focus_helper.rb",
+        "app/helpers/tags_helper.rb",
+        "app/helpers/viewers_helper.rb",
+        "app/models/moment.rb",
+        "db/schema.rb",
+        "spec/helpers/shared_examples.rb",
+        "spec/helpers/viewers_helper_spec.rb",
+        "spec/models/moment_spec.rb"
+      ],
+      "orm_models_parsed_old": 30,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "moments",
+            "column": "strategy",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20200224234822_drop_moments_strategy_column.rb",
+            "line": 3,
+            "raw_snippet": "remove_column :moments, :strategy",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "moments",
+            "column": "strategy",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/moment.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'strategy' active in C_{t-1} ORM (app/models/moment.rb); identifier removed in same commit diff",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "3e0564e5e19b076422db089b9e28ca5b6e66f305",
+      "parent": "b51a630e7f522a9c598af97f68220c766b5fb7c4",
+      "date": "2020-02-24T16:06:25-05:00",
+      "subject": "Moment Categories cleanup",
+      "mig_files": [
+        "db/migrate/20200224205313_drop_moments_category_column.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/concerns/shared.rb",
+        "app/helpers/moments_form_helper.rb",
+        "app/helpers/most_focus_helper.rb",
+        "app/helpers/tags_helper.rb",
+        "app/helpers/viewers_helper.rb",
+        "app/models/concerns/common_methods.rb",
+        "app/models/moment.rb",
+        "db/schema.rb",
+        "spec/controllers/categories_controller_spec.rb",
+        "spec/helpers/shared_examples.rb",
+        "spec/helpers/viewers_helper_spec.rb",
+        "spec/models/moment_spec.rb"
+      ],
+      "orm_models_parsed_old": 29,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "moments",
+            "column": "category",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20200224205313_drop_moments_category_column.rb",
+            "line": 3,
+            "raw_snippet": "remove_column :moments, :category",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "moments",
+            "column": "category",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/moment.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'category' active in C_{t-1} ORM (app/models/moment.rb); identifier removed in same commit diff",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "03ac167f41c5867b31afab5d3bcf315b61a40053",
+      "parent": "10c1bfa571e1bb9ed13021d289ada858cdc6afa7",
+      "date": "2020-02-24T12:53:28-06:00",
+      "subject": "Issue 1655 moment moods cleanup (#1674)",
+      "mig_files": [
+        "db/migrate/20200221153634_drop_moments_mood_column.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/concerns/shared.rb",
+        "app/helpers/moments_form_helper.rb",
+        "app/helpers/most_focus_helper.rb",
+        "app/helpers/tags_helper.rb",
+        "app/helpers/viewers_helper.rb",
+        "app/models/concerns/common_methods.rb",
+        "app/models/moment.rb",
+        "db/schema.rb",
+        "spec/controllers/moods_controller_spec.rb",
+        "spec/helpers/shared_examples.rb",
+        "spec/helpers/viewers_helper_spec.rb",
+        "spec/models/moment_spec.rb"
+      ],
+      "orm_models_parsed_old": 28,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "moments",
+            "column": "mood",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20200221153634_drop_moments_mood_column.rb",
+            "line": 3,
+            "raw_snippet": "remove_column :moments, :mood",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "moments",
+            "column": "mood",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/moment.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'mood' active in C_{t-1} ORM (app/models/moment.rb); identifier removed in same commit diff",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "1cdace70f72f2dbd861382eea27118533f97b6c9",
+      "parent": "99503d3e22961fffc098a951667b51ebc8b6bc8e",
+      "date": "2019-04-10T10:17:55+05:30",
+      "subject": "113 add meeting to gcal (#1418)",
+      "mig_files": [
+        "db/migrate/20190316160238_add_google_cal_event_id_to_meeting_members.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/meetings/google_calendar_event_controller.rb",
+        "app/controllers/meetings_controller.rb",
+        "app/helpers/medication_refill_helper.rb",
+        "app/helpers/meetings_helper.rb",
+        "app/models/meeting.rb",
+        "app/models/meeting_member.rb",
+        "app/services/calendar_uploader.rb",
+        "config/routes.rb",
+        "db/schema.rb",
+        "spec/controllers/meetings/google_calendar_event_controller_spec.rb",
+        "spec/helpers/medication_refill_helper_spec.rb",
+        "spec/helpers/meetings_helper_spec.rb"
+      ],
+      "orm_models_parsed_old": 27,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "meeting_members",
+            "column": "google_cal_event_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20190316160238_add_google_cal_event_id_to_meeting_members.rb",
+            "line": 7,
+            "raw_snippet": "remove_column(:meeting_members, :google_cal_event_id)",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "meeting_members",
+            "column": "google_cal_event_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "7d2fdbe929725ee6e55f678afbd45b332e24fcf9",
+      "parent": "e7eacdd10a4f6922242fc944bb6731ec39de7d54",
+      "date": "2018-11-23T02:53:29+05:30",
+      "subject": "1168 - Password change alert (#1249)",
+      "mig_files": [
+        "db/migrate/20181030143627_create_password_histories.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/concerns/ally_concern.rb",
+        "app/models/concerns/password_validator.rb",
+        "app/models/password_history.rb",
+        "app/models/user.rb",
+        "db/schema.rb",
+        "spec/concerns/ally_concern_spec.rb",
+        "spec/concerns/password_validator_spec.rb",
+        "spec/factories/factories.rb",
+        "spec/models/password_history_spec.rb",
+        "spec/models/user_spec.rb"
+      ],
+      "orm_models_parsed_old": 24,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_TABLE",
+            "table": "password_histories",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20181030143627_create_password_histories.rb",
+            "line": 12,
+            "raw_snippet": "drop_table(:password_histories)",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "password_histories",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "dd0d42bdf57af906490bea23f42aeb17fa3bf989",
+      "parent": "63693e5f17a47b1bdbcadbb7f5c4054075e56ce8",
+      "date": "2018-11-21T05:51:43+03:00",
+      "subject": "Change refill column type (#1273)",
+      "mig_files": [
+        "db/migrate/20181119152925_change_refill_column_type.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/helpers/medications_helper.rb",
+        "app/services/medication_reminders.rb",
+        "db/schema.rb"
+      ],
+      "orm_models_parsed_old": 24,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "medications",
+            "column": "refill",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "timestamptz using cast(refill as timestamptz)",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20181119152925_change_refill_column_type.rb",
+            "line": 3,
+            "raw_snippet": "change_column(:medications, :refill, 'timestamptz USING CAST(refill AS timestamptz)')",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "medications",
+            "column": "refill",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/medication.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'medications.refill' (string -> timestamptz using cast(refill as timestamptz)).",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "medications",
+            "column": "refill",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "string",
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20181119152925_change_refill_column_type.rb",
+            "line": 7,
+            "raw_snippet": "change_column(:medications, :refill, :string)",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "medications",
+            "column": "refill",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "3d780a4a3fa778c9245b50b420c1b658ab3cae5d",
+      "parent": "11dfaac6f0d457b4f817ac4a63b4d5863d6485be",
+      "date": "2018-07-24T13:44:40+08:00",
+      "subject": "Issue 841 rename foreign keys (#920)",
+      "mig_files": [
+        "db/migrate/20180724031319_rename_meetingid_on_meeting_members.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/application_controller.rb",
+        "app/controllers/meetings_controller.rb",
+        "app/helpers/meetings_helper.rb",
+        "app/models/comment.rb",
+        "app/models/meeting.rb",
+        "app/models/meeting_member.rb",
+        "db/schema.rb",
+        "db/seeds.rb",
+        "spec/controllers/application_controller_spec.rb",
+        "spec/features/user_visits_group_show_spec.rb",
+        "spec/helpers/meetings_helper_spec.rb",
+        "spec/models/comment_spec.rb"
+      ],
+      "orm_models_parsed_old": 22,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_COLUMN",
+            "table": "meeting_members",
+            "column": "meetingid",
+            "new_name": "meeting_id",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20180724031319_rename_meetingid_on_meeting_members.rb",
+            "line": 3,
+            "raw_snippet": "rename_column(:meeting_members, :meetingid, :meeting_id)",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "meeting_members",
+            "column": "meetingid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/meeting_member.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_COLUMN 'meetingid'->'meeting_id' breaks both C_{t-1} |= S_t and C_t |= S_{t-1}.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_COLUMN",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "3be271c26346e687895fb66fb1cadd9b93919029",
+      "parent": "4d82c5c2154bd8a2fc2b687ef9aedac632365c9d",
+      "date": "2018-07-23T12:15:25+08:00",
+      "subject": "Removed non-RESTful routes on groups_controller. (#915)",
+      "mig_files": [
+        "db/migrate/20180318075504_rename_userid_on_categories.rb",
+        "db/migrate/20180318080518_rename_groupid_on_group_members.rb",
+        "db/migrate/20180405152328_rename_userid_on_moods.rb",
+        "db/migrate/20180405153007_rename_userid_on_strategies.rb",
+        "db/migrate/20180406232114_rename_userid_on_moments.rb",
+        "db/migrate/20180716033741_rename_userid_on_meetings.rb",
+        "db/migrate/20180716035719_rename_userid_on_notifications.rb",
+        "db/migrate/20180716035735_rename_userid_on_supports.rb",
+        "db/migrate/20180716035805_rename_userid_on_medications.rb",
+        "db/migrate/20180716035824_rename_userid_on_meeting_members.rb",
+        "db/migrate/20180716040119_rename_userid_on_group_members.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/application_controller.rb",
+        "app/controllers/categories_controller.rb",
+        "app/controllers/concerns/collection_page_setup.rb",
+        "app/controllers/groups/memberships_controller.rb",
+        "app/controllers/groups_controller.rb",
+        "app/controllers/medications_controller.rb",
+        "app/controllers/meetings_controller.rb",
+        "app/controllers/moments_controller.rb",
+        "app/controllers/moods_controller.rb",
+        "app/controllers/notifications_controller.rb",
+        "app/controllers/pages_controller.rb",
+        "app/controllers/profile_controller.rb"
+      ],
+      "orm_models_parsed_old": 22,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_COLUMN",
+            "table": "categories",
+            "column": "userid",
+            "new_name": "user_id",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20180318075504_rename_userid_on_categories.rb",
+            "line": 3,
+            "raw_snippet": "rename_column(:categories, :userid, :user_id)",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "categories",
+            "column": "userid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/category.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_COLUMN 'userid'->'user_id' breaks both C_{t-1} |= S_t and C_t |= S_{t-1}.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_COLUMN",
+            "table": "group_members",
+            "column": "groupid",
+            "new_name": "group_id",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20180318080518_rename_groupid_on_group_members.rb",
+            "line": 3,
+            "raw_snippet": "rename_column(:group_members, :groupid, :group_id)",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "group_members",
+            "column": "groupid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/group_member.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_COLUMN 'groupid'->'group_id' breaks both C_{t-1} |= S_t and C_t |= S_{t-1}.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_COLUMN",
+            "table": "moods",
+            "column": "userid",
+            "new_name": "user_id",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20180405152328_rename_userid_on_moods.rb",
+            "line": 3,
+            "raw_snippet": "rename_column(:moods, :userid, :user_id)",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "moods",
+            "column": "userid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/mood.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_COLUMN 'userid'->'user_id' breaks both C_{t-1} |= S_t and C_t |= S_{t-1}.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_COLUMN",
+            "table": "strategies",
+            "column": "userid",
+            "new_name": "user_id",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20180405153007_rename_userid_on_strategies.rb",
+            "line": 3,
+            "raw_snippet": "rename_column(:strategies, :userid, :user_id)",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "strategies",
+            "column": "userid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/strategy.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_COLUMN 'userid'->'user_id' breaks both C_{t-1} |= S_t and C_t |= S_{t-1}.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_COLUMN",
+            "table": "moments",
+            "column": "userid",
+            "new_name": "user_id",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20180406232114_rename_userid_on_moments.rb",
+            "line": 3,
+            "raw_snippet": "rename_column(:moments, :userid, :user_id)",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "moments",
+            "column": "userid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/moment.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_COLUMN 'userid'->'user_id' breaks both C_{t-1} |= S_t and C_t |= S_{t-1}.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_COLUMN",
+            "table": "meetings",
+            "column": "groupid",
+            "new_name": "group_id",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20180716033741_rename_userid_on_meetings.rb",
+            "line": 3,
+            "raw_snippet": "rename_column(:meetings, :groupid, :group_id)",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "meetings",
+            "column": "groupid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/meeting.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_COLUMN 'groupid'->'group_id' breaks both C_{t-1} |= S_t and C_t |= S_{t-1}.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_COLUMN",
+            "table": "notifications",
+            "column": "userid",
+            "new_name": "user_id",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20180716035719_rename_userid_on_notifications.rb",
+            "line": 3,
+            "raw_snippet": "rename_column(:notifications, :userid, :user_id)",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "notifications",
+            "column": "userid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/notification.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_COLUMN 'userid'->'user_id' breaks both C_{t-1} |= S_t and C_t |= S_{t-1}.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_COLUMN",
+            "table": "supports",
+            "column": "userid",
+            "new_name": "user_id",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20180716035735_rename_userid_on_supports.rb",
+            "line": 3,
+            "raw_snippet": "rename_column(:supports, :userid, :user_id)",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "supports",
+            "column": "userid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/support.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_COLUMN 'userid'->'user_id' breaks both C_{t-1} |= S_t and C_t |= S_{t-1}.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_COLUMN",
+            "table": "medications",
+            "column": "userid",
+            "new_name": "user_id",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20180716035805_rename_userid_on_medications.rb",
+            "line": 3,
+            "raw_snippet": "rename_column(:medications, :userid, :user_id)",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "medications",
+            "column": "userid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/medication.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_COLUMN 'userid'->'user_id' breaks both C_{t-1} |= S_t and C_t |= S_{t-1}.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_COLUMN",
+            "table": "meeting_members",
+            "column": "userid",
+            "new_name": "user_id",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20180716035824_rename_userid_on_meeting_members.rb",
+            "line": 3,
+            "raw_snippet": "rename_column(:meeting_members, :userid, :user_id)",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "meeting_members",
+            "column": "userid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/meeting_member.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_COLUMN 'userid'->'user_id' breaks both C_{t-1} |= S_t and C_t |= S_{t-1}.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_COLUMN",
+            "table": "group_members",
+            "column": "userid",
+            "new_name": "user_id",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20180716040119_rename_userid_on_group_members.rb",
+            "line": 3,
+            "raw_snippet": "rename_column(:group_members, :userid, :user_id)",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "group_members",
+            "column": "userid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/group_member.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_COLUMN 'userid'->'user_id' breaks both C_{t-1} |= S_t and C_t |= S_{t-1}.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_COLUMN",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "7a3b82ee67c72b5ed7dcc84079bc4a682694235c",
+      "parent": "3f094f9a04f9fd82d2b92c6a8302ba97c9df4b4b",
+      "date": "2017-08-25T18:47:23-05:00",
+      "subject": "Add migration to support polymorphic comments",
+      "mig_files": [
+        "db/migrate/20170825205513_change_comments_to_be_polymorphic.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/application_controller.rb",
+        "app/controllers/meetings_controller.rb",
+        "app/controllers/moments_controller.rb",
+        "app/controllers/strategies_controller.rb",
+        "app/models/comment.rb",
+        "app/services/comment_visibility.rb",
+        "db/schema.rb",
+        "spec/controllers/moments_controller_spec.rb",
+        "spec/controllers/strategies_controller_spec.rb",
+        "spec/factories.rb",
+        "spec/models/comment_spec.rb",
+        "spec/services/comment_visibility_spec.rb"
+      ],
+      "orm_models_parsed_old": 22,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_COLUMN",
+            "table": "comments",
+            "column": "comment_type",
+            "new_name": "commentable_type",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20170825205513_change_comments_to_be_polymorphic.rb",
+            "line": 3,
+            "raw_snippet": "rename_column :comments, :comment_type, :commentable_type",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "comments",
+            "column": "comment_type",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/comment.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_COLUMN 'comment_type'->'commentable_type' breaks both C_{t-1} |= S_t and C_t |= S_{t-1}.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_COLUMN",
+            "table": "comments",
+            "column": "commented_on",
+            "new_name": "commentable_id",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20170825205513_change_comments_to_be_polymorphic.rb",
+            "line": 4,
+            "raw_snippet": "rename_column :comments, :commented_on, :commentable_id",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "comments",
+            "column": "commented_on",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/comment.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_COLUMN 'commented_on'->'commentable_id' breaks both C_{t-1} |= S_t and C_t |= S_{t-1}.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_COLUMN",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "fb7a9a52822d95a501c6d470867a9011d4b45676",
+      "parent": "dc86eec66208a888babb9a0a8088a503b418248d",
+      "date": "2017-08-17T09:10:33+10:00",
+      "subject": "Fix issues caused when rebasing from master",
+      "mig_files": [
+        "db/migrate/20170806232047_change_column_names_in_moments.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/application_controller.rb",
+        "app/controllers/categories_controller.rb",
+        "app/controllers/meetings_controller.rb",
+        "app/controllers/moments_controller.rb",
+        "app/controllers/moods_controller.rb",
+        "app/controllers/notifications_controller.rb",
+        "app/controllers/strategies_controller.rb",
+        "app/models/category.rb",
+        "app/models/comment.rb",
+        "app/models/concerns/viewer.rb",
+        "app/models/moment.rb",
+        "app/models/mood.rb"
+      ],
+      "orm_models_parsed_old": 22,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_COLUMN",
+            "table": "moments",
+            "column": "strategies",
+            "new_name": "strategy",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20170806232047_change_column_names_in_moments.rb",
+            "line": 3,
+            "raw_snippet": "rename_column :moments, :strategies, :strategy",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "moments",
+            "column": "strategies",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/moment.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_COLUMN 'strategies'->'strategy' breaks both C_{t-1} |= S_t and C_t |= S_{t-1}.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_COLUMN",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "ad1d9457608f7ab926da5766accb124e7808cb5c",
+      "parent": "dbe9c4eabf802caf712e38d2824ab69b3e09a952",
+      "date": "2017-08-06T17:09:44+10:00",
+      "subject": "Update migrations and schema",
+      "mig_files": [
+        "db/migrate/20150506005730_setup_database.rb",
+        "db/migrate/20151205193444_add_relations.rb",
+        "db/migrate/20151205193712_change_column_names_in_allyships.rb",
+        "db/migrate/20160429191349_create_notifications.rb",
+        "db/migrate/20160506154041_devise_invitable_add_to_users.rb",
+        "db/migrate/20160511231156_add_viewers_to_comments.rb",
+        "db/migrate/20160512174202_set_limits_on_text.rb",
+        "db/migrate/20160516202831_add_notifications_to_users.rb",
+        "db/migrate/20160518220139_create_medication_reminders.rb",
+        "db/migrate/20161127002019_create_strategy_reminders.rb",
+        "db/migrate/20161127232311_create_friendly_id_slugs.rb",
+        "db/migrate/20161127233144_add_slug_to_moments.rb",
+        "db/migrate/20161215060504_add_slug_to_models.rb",
+        "db/migrate/20170225182017_add_locale_to_users.rb",
+        "db/migrate/20170724124951_add_access_expires_at_to_user.rb",
+        "db/migrate/20170724160338_add_refresh_token_to_user.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "db/schema.rb"
+      ],
+      "orm_models_parsed_old": 21,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_TABLE",
+            "table": "allies",
+            "column": null,
+            "new_name": "allyships",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20151205193444_add_relations.rb",
+            "line": 3,
+            "raw_snippet": "rename_table :allies, :allyships",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "allies",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": true,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "UNCERTAIN",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'allies' not resolved in C_{t-1} ORM snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_TABLE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_COLUMN",
+            "table": "allyships",
+            "column": "userid1",
+            "new_name": "user_id",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20151205193712_change_column_names_in_allyships.rb",
+            "line": 3,
+            "raw_snippet": "rename_column :allyships, :userid1, :user_id",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "allyships",
+            "column": "userid1",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/allyship.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Renamed column 'userid1' not referenced in C_{t-1} or C_t.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_COLUMN",
+            "table": "allyships",
+            "column": "userid2",
+            "new_name": "ally_id",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20151205193712_change_column_names_in_allyships.rb",
+            "line": 4,
+            "raw_snippet": "rename_column :allyships, :userid2, :ally_id",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "allyships",
+            "column": "userid2",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/allyship.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Renamed column 'userid2' not referenced in C_{t-1} or C_t.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "categories",
+            "column": "description",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160512174202_set_limits_on_text.rb",
+            "line": 3,
+            "raw_snippet": "change_column :categories, :description, :text, :limit => nil",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "categories",
+            "column": "description",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/category.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening text -> text preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "comments",
+            "column": "comment",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160512174202_set_limits_on_text.rb",
+            "line": 4,
+            "raw_snippet": "change_column :comments, :comment, :text, :limit => nil",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "comments",
+            "column": "comment",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/comment.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening text -> text preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "comments",
+            "column": "viewers",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160512174202_set_limits_on_text.rb",
+            "line": 5,
+            "raw_snippet": "change_column :comments, :viewers, :text, :limit => nil",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "comments",
+            "column": "viewers",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/comment.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening text -> text preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "groups",
+            "column": "description",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160512174202_set_limits_on_text.rb",
+            "line": 6,
+            "raw_snippet": "change_column :groups, :description, :text, :limit => nil",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "groups",
+            "column": "description",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/group.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening text -> text preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "medications",
+            "column": "comments",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160512174202_set_limits_on_text.rb",
+            "line": 7,
+            "raw_snippet": "change_column :medications, :comments, :text, :limit => nil",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "medications",
+            "column": "comments",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/medication.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening text -> text preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "meetings",
+            "column": "description",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160512174202_set_limits_on_text.rb",
+            "line": 8,
+            "raw_snippet": "change_column :meetings, :description, :text, :limit => nil",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "meetings",
+            "column": "description",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/meeting.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening text -> text preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "meetings",
+            "column": "location",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160512174202_set_limits_on_text.rb",
+            "line": 9,
+            "raw_snippet": "change_column :meetings, :location, :text, :limit => nil",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "meetings",
+            "column": "location",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/meeting.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening text -> text preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "moments",
+            "column": "category",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160512174202_set_limits_on_text.rb",
+            "line": 10,
+            "raw_snippet": "change_column :moments, :category, :text, :limit => nil",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "moments",
+            "column": "category",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/moment.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening text -> text preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "moments",
+            "column": "mood",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160512174202_set_limits_on_text.rb",
+            "line": 11,
+            "raw_snippet": "change_column :moments, :mood, :text, :limit => nil",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "moments",
+            "column": "mood",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/moment.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening text -> text preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "moments",
+            "column": "why",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160512174202_set_limits_on_text.rb",
+            "line": 12,
+            "raw_snippet": "change_column :moments, :why, :text, :limit => nil",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "moments",
+            "column": "why",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/moment.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening text -> text preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "moments",
+            "column": "fix",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160512174202_set_limits_on_text.rb",
+            "line": 13,
+            "raw_snippet": "change_column :moments, :fix, :text, :limit => nil",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "moments",
+            "column": "fix",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/moment.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening text -> text preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "moments",
+            "column": "viewers",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160512174202_set_limits_on_text.rb",
+            "line": 14,
+            "raw_snippet": "change_column :moments, :viewers, :text, :limit => nil",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "moments",
+            "column": "viewers",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/moment.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening text -> text preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "moments",
+            "column": "strategies",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160512174202_set_limits_on_text.rb",
+            "line": 15,
+            "raw_snippet": "change_column :moments, :strategies, :text, :limit => nil",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "moments",
+            "column": "strategies",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/moment.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'moments.strategies' (None -> text).",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "moods",
+            "column": "description",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160512174202_set_limits_on_text.rb",
+            "line": 16,
+            "raw_snippet": "change_column :moods, :description, :text, :limit => nil",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "moods",
+            "column": "description",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/mood.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening text -> text preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "notifications",
+            "column": "data",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160512174202_set_limits_on_text.rb",
+            "line": 17,
+            "raw_snippet": "change_column :notifications, :data, :text, :limit => nil",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "notifications",
+            "column": "data",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/notification.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening text -> text preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "strategies",
+            "column": "category",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160512174202_set_limits_on_text.rb",
+            "line": 18,
+            "raw_snippet": "change_column :strategies, :category, :text, :limit => nil",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "strategies",
+            "column": "category",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/strategy.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening text -> text preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "strategies",
+            "column": "description",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160512174202_set_limits_on_text.rb",
+            "line": 19,
+            "raw_snippet": "change_column :strategies, :description, :text, :limit => nil",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "strategies",
+            "column": "description",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/strategy.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening text -> text preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "strategies",
+            "column": "viewers",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160512174202_set_limits_on_text.rb",
+            "line": 20,
+            "raw_snippet": "change_column :strategies, :viewers, :text, :limit => nil",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "strategies",
+            "column": "viewers",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/strategy.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening text -> text preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "users",
+            "column": "about",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160512174202_set_limits_on_text.rb",
+            "line": 21,
+            "raw_snippet": "change_column :users, :about, :text, :limit => nil",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users",
+            "column": "about",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/user.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening text -> text preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "users",
+            "column": "conditions",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160512174202_set_limits_on_text.rb",
+            "line": 22,
+            "raw_snippet": "change_column :users, :conditions, :text, :limit => nil",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users",
+            "column": "conditions",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/user.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening text -> text preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "831b8b73dc82373d09121bf4eeb4107ced46575f",
+      "parent": "ab393db38870a189a45654bb4bd4b955100c9570",
+      "date": "2017-08-15T20:05:36-07:00",
+      "subject": "[#523] Auto-complete for Moments/Strategies form (#533)",
+      "mig_files": [
+        "db/migrate/20170806232047_change_column_names_in_moments.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/application_controller.rb",
+        "app/controllers/categories_controller.rb",
+        "app/controllers/concerns/quick_create.rb",
+        "app/controllers/moments_controller.rb",
+        "app/controllers/moods_controller.rb",
+        "app/controllers/strategies_controller.rb",
+        "app/models/moment.rb",
+        "app/models/strategy.rb",
+        "db/schema.rb",
+        "spec/concerns/collection_page_setup.spec.rb",
+        "spec/concerns/collection_page_setup_spec.rb",
+        "spec/concerns/quick_create_spec.rb"
+      ],
+      "orm_models_parsed_old": 20,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_COLUMN",
+            "table": "moments",
+            "column": "strategies",
+            "new_name": "strategy",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20170806232047_change_column_names_in_moments.rb",
+            "line": 3,
+            "raw_snippet": "rename_column :moments, :strategies, :strategy",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "moments",
+            "column": "strategies",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/moment.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_COLUMN 'strategies'->'strategy' breaks both C_{t-1} |= S_t and C_t |= S_{t-1}.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_COLUMN",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "e51fa604ca7e2cf3b74c059291e9004727ad7b8a",
+      "parent": "3e31940bf46e15abe0e7b68a594f513da3bf53f7",
+      "date": "2016-05-12T11:41:11-07:00",
+      "subject": "Dealing with character limits in text type columns",
+      "mig_files": [
+        "db/migrate/20160512174202_set_limits_on_text.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "db/schema.rb"
+      ],
+      "orm_models_parsed_old": 18,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "categories",
+            "column": "description",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160512174202_set_limits_on_text.rb",
+            "line": 3,
+            "raw_snippet": "change_column :categories, :description, :text, :limit => nil",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "categories",
+            "column": "description",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/category.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening text -> text preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "comments",
+            "column": "comment",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160512174202_set_limits_on_text.rb",
+            "line": 4,
+            "raw_snippet": "change_column :comments, :comment, :text, :limit => nil",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "comments",
+            "column": "comment",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/comment.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening text -> text preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "comments",
+            "column": "viewers",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160512174202_set_limits_on_text.rb",
+            "line": 5,
+            "raw_snippet": "change_column :comments, :viewers, :text, :limit => nil",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "comments",
+            "column": "viewers",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/comment.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening text -> text preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "groups",
+            "column": "description",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160512174202_set_limits_on_text.rb",
+            "line": 6,
+            "raw_snippet": "change_column :groups, :description, :text, :limit => nil",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "groups",
+            "column": "description",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/group.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening text -> text preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "medications",
+            "column": "comments",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160512174202_set_limits_on_text.rb",
+            "line": 7,
+            "raw_snippet": "change_column :medications, :comments, :text, :limit => nil",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "medications",
+            "column": "comments",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/medication.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening text -> text preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "meetings",
+            "column": "description",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160512174202_set_limits_on_text.rb",
+            "line": 8,
+            "raw_snippet": "change_column :meetings, :description, :text, :limit => nil",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "meetings",
+            "column": "description",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/meeting.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening text -> text preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "meetings",
+            "column": "location",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160512174202_set_limits_on_text.rb",
+            "line": 9,
+            "raw_snippet": "change_column :meetings, :location, :text, :limit => nil",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "meetings",
+            "column": "location",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/meeting.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening text -> text preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "moments",
+            "column": "category",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160512174202_set_limits_on_text.rb",
+            "line": 10,
+            "raw_snippet": "change_column :moments, :category, :text, :limit => nil",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "moments",
+            "column": "category",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/moment.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening text -> text preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "moments",
+            "column": "mood",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160512174202_set_limits_on_text.rb",
+            "line": 11,
+            "raw_snippet": "change_column :moments, :mood, :text, :limit => nil",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "moments",
+            "column": "mood",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/moment.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'moments.mood' (string -> text).",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "moments",
+            "column": "why",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160512174202_set_limits_on_text.rb",
+            "line": 12,
+            "raw_snippet": "change_column :moments, :why, :text, :limit => nil",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "moments",
+            "column": "why",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/moment.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening text -> text preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "moments",
+            "column": "fix",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160512174202_set_limits_on_text.rb",
+            "line": 13,
+            "raw_snippet": "change_column :moments, :fix, :text, :limit => nil",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "moments",
+            "column": "fix",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/moment.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening text -> text preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "moments",
+            "column": "viewers",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160512174202_set_limits_on_text.rb",
+            "line": 14,
+            "raw_snippet": "change_column :moments, :viewers, :text, :limit => nil",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "moments",
+            "column": "viewers",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/moment.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening text -> text preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "moments",
+            "column": "strategies",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160512174202_set_limits_on_text.rb",
+            "line": 15,
+            "raw_snippet": "change_column :moments, :strategies, :text, :limit => nil",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "moments",
+            "column": "strategies",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/moment.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening text -> text preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "moods",
+            "column": "description",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160512174202_set_limits_on_text.rb",
+            "line": 16,
+            "raw_snippet": "change_column :moods, :description, :text, :limit => nil",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "moods",
+            "column": "description",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/mood.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening text -> text preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "notifications",
+            "column": "data",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160512174202_set_limits_on_text.rb",
+            "line": 17,
+            "raw_snippet": "change_column :notifications, :data, :text, :limit => nil",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "notifications",
+            "column": "data",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/notification.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening text -> text preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "strategies",
+            "column": "category",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160512174202_set_limits_on_text.rb",
+            "line": 18,
+            "raw_snippet": "change_column :strategies, :category, :text, :limit => nil",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "strategies",
+            "column": "category",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/strategy.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening text -> text preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "strategies",
+            "column": "description",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160512174202_set_limits_on_text.rb",
+            "line": 19,
+            "raw_snippet": "change_column :strategies, :description, :text, :limit => nil",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "strategies",
+            "column": "description",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/strategy.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening text -> text preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "strategies",
+            "column": "viewers",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160512174202_set_limits_on_text.rb",
+            "line": 20,
+            "raw_snippet": "change_column :strategies, :viewers, :text, :limit => nil",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "strategies",
+            "column": "viewers",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/strategy.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening text -> text preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "users",
+            "column": "about",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160512174202_set_limits_on_text.rb",
+            "line": 21,
+            "raw_snippet": "change_column :users, :about, :text, :limit => nil",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users",
+            "column": "about",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/user.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening text -> text preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "users",
+            "column": "conditions",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20160512174202_set_limits_on_text.rb",
+            "line": 22,
+            "raw_snippet": "change_column :users, :conditions, :text, :limit => nil",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users",
+            "column": "conditions",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/user.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening text -> text preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "fc84c712b4fa80895807b919a5753535d07555a0",
+      "parent": "86a902ead6149048a083d37cccc115dd9be8be1a",
+      "date": "2015-12-06T23:54:55-05:00",
+      "subject": "changed name of userid column on alerts table",
+      "mig_files": [
+        "db/migrate/20151207045350_change_column_on_alert.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "db/schema.rb"
+      ],
+      "orm_models_parsed_old": 16,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_COLUMN",
+            "table": "alerts",
+            "column": "userid",
+            "new_name": "user_id",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20151207045350_change_column_on_alert.rb",
+            "line": 3,
+            "raw_snippet": "rename_column :alerts, :userid, :user_id",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "alerts",
+            "column": "userid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/alert.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "RENAME_COLUMN 'userid'->'user_id' breaks C_{t-1} |= S_t.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_COLUMN",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "1ebd09495cc4fd20a6dfa0ff4a5ea3e5bbeb09bb",
+      "parent": "646aa9a5e49d94f4226a7857d34854949cbdbf10",
+      "date": "2015-12-05T15:08:02-05:00",
+      "subject": "Refactor User and Ally model to use ActiveRecord relations.",
+      "mig_files": [
+        "db/migrate/20151205193444_add_relations.rb",
+        "db/migrate/20151205193712_change_column_names_in_allyships.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/allies_controller.rb",
+        "app/controllers/application_controller.rb",
+        "app/models/ally.rb",
+        "app/models/allyship.rb",
+        "app/models/user.rb",
+        "db/schema.rb",
+        "spec/factories.rb",
+        "spec/models/ally_spec.rb",
+        "spec/models/allyship_spec.rb",
+        "spec/models/trigger_spec.rb"
+      ],
+      "orm_models_parsed_old": 16,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_TABLE",
+            "table": "allies",
+            "column": null,
+            "new_name": "allyships",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20151205193444_add_relations.rb",
+            "line": 3,
+            "raw_snippet": "rename_table :allies, :allyships",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "allies",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": true,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/ally.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_TABLE 'allies'->'allyships' breaks both directions.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_TABLE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_COLUMN",
+            "table": "allyships",
+            "column": "userid1",
+            "new_name": "user_id",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20151205193712_change_column_names_in_allyships.rb",
+            "line": 3,
+            "raw_snippet": "rename_column :allyships, :userid1, :user_id",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "allyships",
+            "column": "userid1",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_COLUMN 'userid1'->'user_id' breaks both C_{t-1} |= S_t and C_t |= S_{t-1}.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_COLUMN",
+            "table": "allyships",
+            "column": "userid2",
+            "new_name": "ally_id",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20151205193712_change_column_names_in_allyships.rb",
+            "line": 4,
+            "raw_snippet": "rename_column :allyships, :userid2, :ally_id",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "allyships",
+            "column": "userid2",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_COLUMN 'userid2'->'ally_id' breaks both C_{t-1} |= S_t and C_t |= S_{t-1}.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_COLUMN",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "97b24010c204c935668cbec6d598f814ba6f0315",
+      "parent": "64df78f464ef2cdb134c2ba90541e963e0770c7d",
+      "date": "2015-05-15T00:14:49-07:00",
+      "subject": "Fixed migration file for MeetingMember",
+      "mig_files": [
+        "db/migrate/20150506004848_rename_session_members_to_meeting_members.rb"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 16,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_TABLE",
+            "table": "session_members",
+            "column": null,
+            "new_name": "meeting_members",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20150506004848_rename_session_members_to_meeting_members.rb",
+            "line": 3,
+            "raw_snippet": "rename_table :session_members, :meeting_members",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "session_members",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": true,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "UNCERTAIN",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'session_members' not resolved in C_{t-1} ORM snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_TABLE",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "cb34fd2549ebc91becb4d10cdc2470d1a3055d08",
+      "parent": "0c59644aa50bd44e744e430b665b5e766e56a3ea",
+      "date": "2015-05-05T18:08:07-07:00",
+      "subject": "Renamed sessions to meetings due to Devise conflict",
+      "mig_files": [
+        "db/migrate/20150505231016_create_session_members.rb",
+        "db/migrate/20150506004632_rename_sessions_to_meetings.rb",
+        "db/migrate/20150506004848_rename_session_members_to_meeting_members.rb",
+        "db/migrate/20150506005730_rename_sessionid_to_meetingid.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/groups_controller.rb",
+        "app/models/meeting.rb",
+        "app/models/meeting_member.rb",
+        "app/models/session.rb",
+        "app/models/session_member.rb",
+        "db/schema.rb",
+        "db/seeds.rb",
+        "spec/controllers/meetings_controller_spec.rb",
+        "spec/controllers/sessions_controller_spec.rb",
+        "spec/factories.rb",
+        "spec/models/meeting_member_spec.rb",
+        "spec/models/meeting_spec.rb"
+      ],
+      "orm_models_parsed_old": 16,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_TABLE",
+            "table": "sessions",
+            "column": null,
+            "new_name": "meetings",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20150506004632_rename_sessions_to_meetings.rb",
+            "line": 3,
+            "raw_snippet": "rename_table :sessions, :meetings",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "sessions",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": true,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/session.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_TABLE 'sessions'->'meetings' breaks both directions.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_TABLE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_TABLE",
+            "table": "meeting_members",
+            "column": null,
+            "new_name": "meeting_members",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20150506004848_rename_session_members_to_meeting_members.rb",
+            "line": 3,
+            "raw_snippet": "rename_table :meeting_members, :meeting_members",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "meeting_members",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": true,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "UNCERTAIN",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'meeting_members' not resolved in C_{t-1} ORM snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_TABLE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_COLUMN",
+            "table": "meeting_members",
+            "column": "meetingid",
+            "new_name": "meetingid",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20150506005730_rename_sessionid_to_meetingid.rb",
+            "line": 3,
+            "raw_snippet": "rename_column :meeting_members, :meetingid, :meetingid",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "meeting_members",
+            "column": "meetingid",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_FORWARD",
+          "reason": "RENAME_COLUMN 'meetingid'->'meetingid' breaks C_t |= S_{t-1}.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_COLUMN",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "d2192b3f7d1d50401552e99afd1ecfea961d9cc4",
+      "parent": "2d09e0a59adce5bb9f47cddab7c698829426a027",
+      "date": "2015-03-03T18:00:07-05:00",
+      "subject": "Set up Google authentication with access to calendars, refactored name in user model",
+      "mig_files": [
+        "db/migrate/20150303210405_google_auth_for_users.rb",
+        "db/migrate/20150303221447_change_name_in_users.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/application_controller.rb",
+        "app/controllers/categories_controller.rb",
+        "app/controllers/moods_controller.rb",
+        "app/controllers/omniauth_callbacks_controller.rb",
+        "app/controllers/profile_controller.rb",
+        "app/controllers/registrations_controller.rb",
+        "app/controllers/search_controller.rb",
+        "app/controllers/strategies_controller.rb",
+        "app/controllers/triggers_controller.rb",
+        "app/models/user.rb",
+        "config/environments/development.rb",
+        "config/initializers/devise.rb"
+      ],
+      "orm_models_parsed_old": 12,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "users",
+            "column": "lastname",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20150303221447_change_name_in_users.rb",
+            "line": 3,
+            "raw_snippet": "remove_column :users, :lastname",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users",
+            "column": "lastname",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/user.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'lastname' active in C_{t-1} ORM (app/models/user.rb); identifier removed in same commit diff",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_COLUMN",
+            "table": "users",
+            "column": "firstname",
+            "new_name": "name",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20150303221447_change_name_in_users.rb",
+            "line": 4,
+            "raw_snippet": "rename_column :users, :firstname, :name",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users",
+            "column": "firstname",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/user.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_COLUMN 'firstname'->'name' breaks both C_{t-1} |= S_t and C_t |= S_{t-1}.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_COLUMN",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "26308679bffa26af86f8688a95b339d416dec030",
+      "parent": "370e5a57182e152b49e0e9b53b93efe803771a1e",
+      "date": "2015-03-03T06:21:41-05:00",
+      "subject": "Refactor ally model so that it's a junction table and fixed tests",
+      "mig_files": [
+        "db/migrate/20150303042006_make_allies_junction_table.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/ally.rb",
+        "db/schema.rb",
+        "db/seeds.rb",
+        "spec/controllers/ally_controller_spec.rb",
+        "spec/controllers/trigger_controller_spec.rb",
+        "spec/controllers/triggers_controller_spec.rb",
+        "spec/factories.rb",
+        "spec/models/ally_spec.rb",
+        "spec/models/comment_spec.rb",
+        "spec/models/support_spec.rb"
+      ],
+      "orm_models_parsed_old": 10,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "allies",
+            "column": "allies",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20150303042006_make_allies_junction_table.rb",
+            "line": 3,
+            "raw_snippet": "remove_column :allies, :allies",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "allies",
+            "column": "allies",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/ally.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'allies' active in C_{t-1} ORM (app/models/ally.rb); identifier removed in same commit diff",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_COLUMN",
+            "table": "allies",
+            "column": "userid",
+            "new_name": "userid1",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20150303042006_make_allies_junction_table.rb",
+            "line": 4,
+            "raw_snippet": "rename_column :allies, :userid, :userid1",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "allies",
+            "column": "userid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/ally.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_COLUMN 'userid'->'userid1' breaks both C_{t-1} |= S_t and C_t |= S_{t-1}.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_COLUMN",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "7cba5b72c93710f2951bf65f9ce5b3be7c871839",
+      "parent": "a4017351fcd7fd909818f44cb837dfb56cc77042",
+      "date": "2014-05-15T22:01:53-04:00",
+      "subject": "Handled character limits, switched string type to text type, and added page titles on error pages",
+      "mig_files": [
+        "db/migrate/20140516014130_change_descriptions_to_text.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/alerts_controller.rb",
+        "app/controllers/categories_controller.rb",
+        "app/controllers/medications_controller.rb",
+        "app/controllers/moods_controller.rb",
+        "app/controllers/triggers_controller.rb",
+        "app/models/category.rb",
+        "app/models/comment.rb",
+        "app/models/mood.rb",
+        "app/models/trigger.rb",
+        "db/schema.rb"
+      ],
+      "orm_models_parsed_old": 9,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "categories",
+            "column": "description",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20140516014130_change_descriptions_to_text.rb",
+            "line": 3,
+            "raw_snippet": "change_column :categories, :description, :text",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "categories",
+            "column": "description",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/category.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'categories.description' (string -> text).",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "comments",
+            "column": "comment",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20140516014130_change_descriptions_to_text.rb",
+            "line": 4,
+            "raw_snippet": "change_column :comments, :comment, :text",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "comments",
+            "column": "comment",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/comment.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'comments.comment' (string -> text).",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "moods",
+            "column": "description",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20140516014130_change_descriptions_to_text.rb",
+            "line": 5,
+            "raw_snippet": "change_column :moods, :description, :text",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "moods",
+            "column": "description",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/mood.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'moods.description' (string -> text).",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "triggers",
+            "column": "why",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20140516014130_change_descriptions_to_text.rb",
+            "line": 6,
+            "raw_snippet": "change_column :triggers, :why, :text",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "triggers",
+            "column": "why",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/trigger.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'triggers.why' (string -> text).",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "triggers",
+            "column": "fix",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20140516014130_change_descriptions_to_text.rb",
+            "line": 7,
+            "raw_snippet": "change_column :triggers, :fix, :text",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "triggers",
+            "column": "fix",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/trigger.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'triggers.fix' (string -> text).",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "c7c1a0254282dc0748ad9a5a947004e10cb18d90",
+      "parent": "332d988cf50525d41400018a5481afbe69acab0d",
+      "date": "2014-04-20T03:36:26-04:00",
+      "subject": "Latest updates to Alerts",
+      "mig_files": [
+        "db/migrate/20140420061729_rename_times_from_alerts.rb",
+        "db/migrate/20140420065155_add_time_minute_to_alerts.rb",
+        "db/migrate/20140420065216_add_time_period_to_alerts.rb",
+        "db/migrate/20140420070158_rename_time_minute_from_alerts.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/alerts_controller.rb",
+        "app/models/alert.rb",
+        "db/schema.rb"
+      ],
+      "orm_models_parsed_old": 6,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_COLUMN",
+            "table": "alerts",
+            "column": "times",
+            "new_name": "time",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20140420061729_rename_times_from_alerts.rb",
+            "line": 3,
+            "raw_snippet": "rename_column :alerts, :times, :time",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "alerts",
+            "column": "times",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/alert.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "RENAME_COLUMN 'times'->'time' breaks C_{t-1} |= S_t.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "alerts",
+            "column": "time_minute",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "string",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20140420070158_rename_time_minute_from_alerts.rb",
+            "line": 3,
+            "raw_snippet": "change_column :alerts, :time_minute, :string",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "alerts",
+            "column": "time_minute",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/alert.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Column 'alerts.time_minute' not active in C_{t-1}.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "ca56943df61902b6777db96a9c8f39f6998801ca",
+      "parent": "fd5ca1abb0967c48c1c72ceb8fca3e578d87eb67",
+      "date": "2014-04-19T22:59:14-04:00",
+      "subject": "Added Alerts model",
+      "mig_files": [
+        "db/migrate/20140420024617_create_alerts.rb",
+        "db/migrate/20140420025119_add_name_to_alerts.rb",
+        "db/migrate/20140420025520_rename_time_from_alerts.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/alerts_controller.rb",
+        "app/controllers/medications_controller.rb",
+        "app/helpers/alerts_helper.rb",
+        "app/models/alert.rb",
+        "config/routes.rb",
+        "db/schema.rb",
+        "test/controllers/alerts_controller_test.rb",
+        "test/helpers/alerts_helper_test.rb",
+        "test/models/alert_test.rb"
+      ],
+      "orm_models_parsed_old": 5,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_COLUMN",
+            "table": "alerts",
+            "column": "time",
+            "new_name": "times",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20140420025520_rename_time_from_alerts.rb",
+            "line": 3,
+            "raw_snippet": "rename_column :alerts, :time, :times",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "alerts",
+            "column": "time",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_FORWARD",
+          "reason": "RENAME_COLUMN 'time'->'times' breaks C_t |= S_{t-1}.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_COLUMN",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "b1c3ecf0d52851d49fb339efb33d11acfd7d1370",
+      "parent": "269a8161c17f03c8e65289933813c5c1a06676d8",
+      "date": "2014-04-19T16:06:26-04:00",
+      "subject": "Multiple categories and moods for triggers",
+      "mig_files": [
+        "db/migrate/20140419193300_rename_category_from_triggers.rb",
+        "db/migrate/20140419194712_rename_mood_from_triggers.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/triggers_controller.rb",
+        "app/models/trigger.rb",
+        "db/schema.rb"
+      ],
+      "orm_models_parsed_old": 4,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "triggers",
+            "column": "category",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "string",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20140419193300_rename_category_from_triggers.rb",
+            "line": 3,
+            "raw_snippet": "change_column :triggers, :category, :string",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "triggers",
+            "column": "category",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/trigger.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'triggers.category' (integer -> string).",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "triggers",
+            "column": "mood",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "string",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20140419194712_rename_mood_from_triggers.rb",
+            "line": 3,
+            "raw_snippet": "change_column :triggers, :mood, :string",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "triggers",
+            "column": "mood",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/trigger.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'triggers.mood' (integer -> string).",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        }
+      ]
+    }
+  ]
+}

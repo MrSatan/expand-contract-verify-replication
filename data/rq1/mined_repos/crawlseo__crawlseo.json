@@ -1,0 +1,20 @@
+{
+  "repo": "crawlseo/crawlseo",
+  "ecosystem": "prisma",
+  "stars": 713,
+  "has_k8s_helm": false,
+  "status": "ok",
+  "stats": {
+    "total_migration_commits_in_history": 15,
+    "migration_commits_analyzed": 15,
+    "total_migration_files_parsed": 17,
+    "commits_with_any_destructive": 0,
+    "commits_with_forward_destructive": 0,
+    "commits_with_rollback_only_destructive": 0,
+    "total_ops_extracted": 0,
+    "destructive_ops_up": 0,
+    "destructive_ops_down": 0
+  },
+  "verdict_counts": {},
+  "destructive_commits": []
+}

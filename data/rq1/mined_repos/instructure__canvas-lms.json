@@ -1,0 +1,2861 @@
+{
+  "repo": "instructure/canvas-lms",
+  "ecosystem": "rails",
+  "stars": 6919,
+  "has_k8s_helm": false,
+  "status": "ok",
+  "stats": {
+    "total_migration_commits_in_history": 2704,
+    "migration_commits_analyzed": 150,
+    "total_migration_files_parsed": 198,
+    "commits_with_any_destructive": 29,
+    "commits_with_forward_destructive": 22,
+    "commits_with_rollback_only_destructive": 7,
+    "total_ops_extracted": 55,
+    "destructive_ops_up": 37,
+    "destructive_ops_down": 18
+  },
+  "verdict_counts": {
+    "UNCERTAIN": 20,
+    "DUAL_VERSION_VIOLATION_BACKWARD": 14,
+    "ROLLBACK_ONLY_FALSE_ALARM": 18,
+    "DATA_DEPENDENT": 2,
+    "SAFE_ADDITIVE": 1
+  },
+  "destructive_commits": [
+    {
+      "sha": "6f8b0d53b71887845a3425773c926e9381550c8b",
+      "parent": "fd40428b820173b1d879fcb99efeb2f522e30b77",
+      "date": "2026-03-18T14:42:51-06:00",
+      "subject": "squash old migrations 202512",
+      "mig_files": [
+        "db/migrate/20101210192618_init_canvas_db.rb",
+        "db/migrate/20101217224513_set_replica_identities.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "lib/data_fixup/backfill_granular_profile_account_settings.rb",
+        "lib/data_fixup/set_attachment_id_on_media_recording_submissions.rb",
+        "lib/extensions/active_record/schema_statements/polymorphic_associations.rb",
+        "spec/lib/data_fixup/set_attachment_id_on_media_recording_submissions_spec.rb"
+      ],
+      "orm_models_parsed_old": 3,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "quiz_submissions",
+            "column": "fudge_points",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "float",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20101210192618_init_canvas_db.rb",
+            "line": 4493,
+            "raw_snippet": "change_column :quiz_submissions, :fudge_points, :float",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "quiz_submissions",
+            "column": "fudge_points",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/quizzes/quiz_submission.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'quiz_submissions' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "schema_migrations",
+            "column": "version",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "string",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20101210192618_init_canvas_db.rb",
+            "line": 5407,
+            "raw_snippet": "change_column :schema_migrations, :version, :string, limit: 255",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "schema_migrations",
+            "column": "version",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'schema_migrations.version' (None -> string).",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "5507056819aa91bac158ec97b1afabe94a7fe78d",
+      "parent": "f89715db0663a765c6689e9f0854a7af2c74d232",
+      "date": "2026-03-18T14:23:18-06:00",
+      "subject": "squash old migrations 202511",
+      "mig_files": [
+        "db/migrate/20101210192618_init_canvas_db.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "lib/data_fixup/delete_redundant_new_user_tutorial_feature_flags.rb",
+        "lib/data_fixup/sync_lti_registration_created_at_from_developer_key.rb",
+        "spec/lib/data_fixup/delete_redundant_new_user_tutorial_feature_flags_spec.rb",
+        "spec/lib/data_fixup/sync_lti_registration_created_at_from_developer_key_spec.rb"
+      ],
+      "orm_models_parsed_old": 3,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "quiz_submissions",
+            "column": "fudge_points",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "float",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20101210192618_init_canvas_db.rb",
+            "line": 4464,
+            "raw_snippet": "change_column :quiz_submissions, :fudge_points, :float",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "quiz_submissions",
+            "column": "fudge_points",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/quizzes/quiz_submission.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'quiz_submissions' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "schema_migrations",
+            "column": "version",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "string",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20101210192618_init_canvas_db.rb",
+            "line": 5378,
+            "raw_snippet": "change_column :schema_migrations, :version, :string, limit: 255",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "schema_migrations",
+            "column": "version",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'schema_migrations.version' (None -> string).",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "f89715db0663a765c6689e9f0854a7af2c74d232",
+      "parent": "236265f0e9c96915f11169bb13e5e1a9234c871d",
+      "date": "2026-03-18T14:14:02-06:00",
+      "subject": "squash old migrations 202510",
+      "mig_files": [
+        "db/migrate/20101210192618_init_canvas_db.rb",
+        "db/migrate/20101217224513_set_replica_identities.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "lib/data_fixup/lti/backfill_context_external_tool_registration_ids.rb",
+        "lib/data_fixup/lti/backfill_lti_registration_history_entry_state_columns.rb",
+        "lib/data_fixup/lti/backfill_portfolio_target_link_uri.rb",
+        "lib/data_fixup/lti/delete_useless_registration_history_entries.rb",
+        "lib/data_fixup/re_normalize_pseudonyms.rb",
+        "lib/data_fixup/set_expiration_date_on_student_access_tokens.rb",
+        "spec/lib/data_fixup/lti/backfill_context_external_tool_registration_ids_spec.rb",
+        "spec/lib/data_fixup/lti/backfill_lti_registration_history_entry_state_columns_spec.rb",
+        "spec/lib/data_fixup/lti/backfill_portfolio_target_link_uri_spec.rb",
+        "spec/lib/data_fixup/lti/delete_useless_registration_history_entries_spec.rb",
+        "spec/lib/data_fixup/set_expiration_date_on_student_access_tokens_spec.rb"
+      ],
+      "orm_models_parsed_old": 3,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "quiz_submissions",
+            "column": "fudge_points",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "float",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20101210192618_init_canvas_db.rb",
+            "line": 4473,
+            "raw_snippet": "change_column :quiz_submissions, :fudge_points, :float",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "quiz_submissions",
+            "column": "fudge_points",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/quizzes/quiz_submission.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'quiz_submissions' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "schema_migrations",
+            "column": "version",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "string",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20101210192618_init_canvas_db.rb",
+            "line": 5384,
+            "raw_snippet": "change_column :schema_migrations, :version, :string, limit: 255",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "schema_migrations",
+            "column": "version",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'schema_migrations.version' (None -> string).",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "3e05b637eb66cbe1d1e72074294cf7a2080f7ef0",
+      "parent": "bb1c86591ea2a076787b4699f1a61bbf02ad6716",
+      "date": "2026-03-24T09:40:46-06:00",
+      "subject": "simplify trgm logic in migrations",
+      "mig_files": [
+        "db/migrate/20101210192618_init_canvas_db.rb"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 3,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "quiz_submissions",
+            "column": "fudge_points",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "float",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20101210192618_init_canvas_db.rb",
+            "line": 4452,
+            "raw_snippet": "change_column :quiz_submissions, :fudge_points, :float",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "quiz_submissions",
+            "column": "fudge_points",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/quizzes/quiz_submission.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'quiz_submissions' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "schema_migrations",
+            "column": "version",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "string",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20101210192618_init_canvas_db.rb",
+            "line": 5369,
+            "raw_snippet": "change_column :schema_migrations, :version, :string, limit: 255",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "schema_migrations",
+            "column": "version",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'schema_migrations' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "77d57179deffcc034f5429d4555bb2c8cde2bec0",
+      "parent": "f307b4e14e2e46a5151da1688b3d0974452f17c3",
+      "date": "2026-03-05T11:36:27-07:00",
+      "subject": "add cop to enforce multi-column polymorphic associations",
+      "mig_files": [
+        "db/migrate/20101210192618_init_canvas_db.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "gems/rubocop-canvas/lib/rubocop_canvas.rb",
+        "gems/rubocop-canvas/lib/rubocop_canvas/cops/migration/polymorphic_associations.rb"
+      ],
+      "orm_models_parsed_old": 3,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "quiz_submissions",
+            "column": "fudge_points",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "float",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20101210192618_init_canvas_db.rb",
+            "line": 4459,
+            "raw_snippet": "change_column :quiz_submissions, :fudge_points, :float",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "quiz_submissions",
+            "column": "fudge_points",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/quizzes/quiz_submission.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'quiz_submissions' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "schema_migrations",
+            "column": "version",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "string",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20101210192618_init_canvas_db.rb",
+            "line": 5376,
+            "raw_snippet": "change_column :schema_migrations, :version, :string, limit: 255",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "schema_migrations",
+            "column": "version",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'schema_migrations' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "000dccb0d78a8cb709c03371d3bff6452341a94d",
+      "parent": "8abd58ce1e35900f4914ee39b9e514762c45dee8",
+      "date": "2026-02-25T11:14:51Z",
+      "subject": "Revert \"Revert \"Increase precision of points deducted in submissions\"\"",
+      "mig_files": [
+        "db/migrate/20260128083741_increase_points_deducted_precision.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "spec/models/submission_spec.rb"
+      ],
+      "orm_models_parsed_old": 1,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "submissions",
+            "column": "points_deducted",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "decimal",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260128083741_increase_points_deducted_precision.rb",
+            "line": 25,
+            "raw_snippet": "change_column :submissions, :points_deducted, :decimal, precision: 12, scale: 2",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "submissions",
+            "column": "points_deducted",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/live_assessments/submission.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'submissions' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "submissions",
+            "column": "points_deducted",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "decimal",
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260128083741_increase_points_deducted_precision.rb",
+            "line": 29,
+            "raw_snippet": "change_column :submissions, :points_deducted, :decimal, precision: 6, scale: 2",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "submissions",
+            "column": "points_deducted",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "d1eae644a9db40e222c560f8d49e61b8e787ba99",
+      "parent": "ac279a6faa42510b604acd6809fee6625c6446c8",
+      "date": "2026-02-12T07:29:54-05:00",
+      "subject": "Remove the Lti::IMS::Registration overlay column",
+      "mig_files": [
+        "db/migrate/20260211161100_remove_registration_overlay_from_lti_ims_registrations.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/lti/ims/dynamic_registration_controller.rb",
+        "app/models/lti/ims/registration.rb",
+        "app/models/lti/registration.rb",
+        "app/services/lti/apply_registration_update_request_service.rb",
+        "lib/data_fixup/lti/backfill_lti_overlays_from_ims_registrations.rb",
+        "spec/controllers/lti/ims/dynamic_registration_controller_spec.rb",
+        "spec/controllers/lti/tool_configurations_api_controller_spec.rb",
+        "spec/lib/data_fixup/lti/backfill_lti_overlays_from_ims_registrations_spec.rb",
+        "spec/models/lti/ims/registration_spec.rb",
+        "spec/models/lti/registration_spec.rb"
+      ],
+      "orm_models_parsed_old": 3,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "lti_ims_registrations",
+            "column": "registration_overlay",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260211161100_remove_registration_overlay_from_lti_ims_registrations.rb",
+            "line": 24,
+            "raw_snippet": "remove_column :lti_ims_registrations, :registration_overlay",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "lti_ims_registrations",
+            "column": "registration_overlay",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/lti/ims/registration.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "de7e3da99a9bcf790af74aa2ad075e230032d426",
+      "parent": "2a5f55528e679ce6da195d74c620135b33309109",
+      "date": "2026-02-10T00:12:34Z",
+      "subject": "nav_menu_links can have multiple nav types",
+      "mig_files": [
+        "db/migrate/20260209153014_add_nav_type_columns_to_nav_menu_links.rb",
+        "db/migrate/20260209153023_remove_nav_type_from_nav_menu_links.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/courses_controller.rb",
+        "app/models/nav_menu_link.rb",
+        "lib/nav_menu_link_tabs.rb",
+        "spec/apis/v1/tabs_api_spec.rb",
+        "spec/controllers/courses_controller_spec.rb",
+        "spec/lib/cc/cc_exporter_spec.rb",
+        "spec/lib/nav_menu_link_tabs_spec.rb",
+        "spec/models/course_spec.rb",
+        "spec/models/importers/course_content_importer_spec.rb",
+        "spec/models/nav_menu_link_spec.rb"
+      ],
+      "orm_models_parsed_old": 2,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ADD_UNIQUE_OR_CHECK",
+            "table": "nav_menu_links",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260209153014_add_nav_type_columns_to_nav_menu_links.rb",
+            "line": 32,
+            "raw_snippet": "add_check_constraint :nav_menu_links, \"(course_nav OR account_nav OR user_nav)\", name: \"chk_at_least_one_nav_type\"",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "nav_menu_links",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/nav_menu_link.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "DATA_DEPENDENT",
+          "compat_forward": "SAFE",
+          "classification": "DATA_DEPENDENT",
+          "reason": "CHECK/UNIQUE constraint added on active C_{t-1} table 'nav_menu_links'; safety depends on C_{t-1} write values.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ADD_UNIQUE_OR_CHECK",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ADD_UNIQUE_OR_CHECK",
+            "table": "nav_menu_links",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260209153014_add_nav_type_columns_to_nav_menu_links.rb",
+            "line": 35,
+            "raw_snippet": "add_check_constraint :nav_menu_links, \"(course_id IS NULL) OR (account_nav = false AND user_nav = false)\", name: \"chk_course_id_implies_only_course_nav\"",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "nav_menu_links",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/nav_menu_link.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "DATA_DEPENDENT",
+          "compat_forward": "SAFE",
+          "classification": "DATA_DEPENDENT",
+          "reason": "CHECK/UNIQUE constraint added on active C_{t-1} table 'nav_menu_links'; safety depends on C_{t-1} write values.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ADD_UNIQUE_OR_CHECK",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "nav_menu_links",
+            "column": "nav_type",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260209153023_remove_nav_type_from_nav_menu_links.rb",
+            "line": 31,
+            "raw_snippet": "remove_column :nav_menu_links, :nav_type",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "nav_menu_links",
+            "column": "nav_type",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/nav_menu_link.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ADD_UNIQUE_OR_CHECK",
+            "table": "nav_menu_links",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260209153023_remove_nav_type_from_nav_menu_links.rb",
+            "line": 36,
+            "raw_snippet": "add_check_constraint :nav_menu_links, \"nav_type IN ('course', 'account', 'user')\", name: \"chk_nav_type_enum\"",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "nav_menu_links",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ADD_UNIQUE_OR_CHECK",
+            "table": "nav_menu_links",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260209153023_remove_nav_type_from_nav_menu_links.rb",
+            "line": 39,
+            "raw_snippet": "add_check_constraint :nav_menu_links, \"(nav_type = 'course') = (course_id IS NOT NULL)\", name: \"chk_nav_type_matches_context\"",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "nav_menu_links",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "ff0f355cbc6e2d09a99593fb54a738e3e4368dab",
+      "parent": "04d1bd6b391dfb1ab6f2a9aa053c66851872a563",
+      "date": "2026-01-26T10:52:33-07:00",
+      "subject": "Squash old migrations 202509",
+      "mig_files": [
+        "db/migrate/20101210192618_init_canvas_db.rb",
+        "db/migrate/20101217224513_set_replica_identities.rb",
+        "db/migrate/20141109202906_create_initial_partitions.rb",
+        "db/migrate/20251222081144_add_polymorphic_check_constraints_for_new_a11y_checker_resources.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/custom_data.rb",
+        "lib/data_fixup/lti/migrate_overlay_versions_to_registration_history_entries.rb",
+        "lib/extensions/active_record/schema_statements/polymorphic_associations.rb",
+        "spec/lib/data_fixup/lti/migrate_overlay_versions_to_registration_history_entries_spec.rb"
+      ],
+      "orm_models_parsed_old": 3,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "quiz_submissions",
+            "column": "fudge_points",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "float",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20101210192618_init_canvas_db.rb",
+            "line": 4458,
+            "raw_snippet": "change_column :quiz_submissions, :fudge_points, :float",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "quiz_submissions",
+            "column": "fudge_points",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/quizzes/quiz_submission.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'quiz_submissions' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "schema_migrations",
+            "column": "version",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "string",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20101210192618_init_canvas_db.rb",
+            "line": 5375,
+            "raw_snippet": "change_column :schema_migrations, :version, :string, limit: 255",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "schema_migrations",
+            "column": "version",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'schema_migrations.version' (None -> string).",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "58ec4530f26a9b4ac5d7dcb37667816b826f4be5",
+      "parent": "d3952d2de101ad7f74cbea83c0115d5e385bda79",
+      "date": "2026-01-26T09:32:45-07:00",
+      "subject": "Squash old migrations 202508",
+      "mig_files": [
+        "db/migrate/20101210192618_init_canvas_db.rb",
+        "db/migrate/20101217224513_set_replica_identities.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/pseudonym.rb",
+        "lib/data_fixup/backfill_horizon_account_ids.rb",
+        "lib/data_fixup/delete_skype_user_service.rb",
+        "spec/lib/data_fixup/backfill_horizon_account_ids_spec.rb"
+      ],
+      "orm_models_parsed_old": 3,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "quiz_submissions",
+            "column": "fudge_points",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "float",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20101210192618_init_canvas_db.rb",
+            "line": 4444,
+            "raw_snippet": "change_column :quiz_submissions, :fudge_points, :float",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "quiz_submissions",
+            "column": "fudge_points",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/quizzes/quiz_submission.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'quiz_submissions' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "schema_migrations",
+            "column": "version",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "string",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20101210192618_init_canvas_db.rb",
+            "line": 5353,
+            "raw_snippet": "change_column :schema_migrations, :version, :string, limit: 255",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "schema_migrations",
+            "column": "version",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'schema_migrations.version' (None -> string).",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "d3952d2de101ad7f74cbea83c0115d5e385bda79",
+      "parent": "b2f820e477a85619ccddda9b2c72feb030aa5859",
+      "date": "2026-01-26T09:04:50-07:00",
+      "subject": "Squash old migrations 202507",
+      "mig_files": [
+        "db/migrate/20101210192618_init_canvas_db.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/attachment_association.rb",
+        "lib/data_fixup/group_discussion_only_visible_to_overrides.rb",
+        "lib/data_fixup/lti/backfill_lti_registration_account_bindings.rb",
+        "lib/data_fixup/lti/fix_up_unnamed_lti_registrations.rb",
+        "lib/data_fixup/remove_orphaned_canvadocs_submissions.rb",
+        "spec/lib/data_fixup/lti/backfill_lti_registration_account_bindings_spec.rb",
+        "spec/lib/data_fixup/lti/fix_up_unnamed_lti_registrations_spec.rb",
+        "spec/lib/data_fixup/remove_orphaned_canvadocs_submissions_spec.rb"
+      ],
+      "orm_models_parsed_old": 3,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "quiz_submissions",
+            "column": "fudge_points",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "float",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20101210192618_init_canvas_db.rb",
+            "line": 4393,
+            "raw_snippet": "change_column :quiz_submissions, :fudge_points, :float",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "quiz_submissions",
+            "column": "fudge_points",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/quizzes/quiz_submission.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'quiz_submissions' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "schema_migrations",
+            "column": "version",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "string",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20101210192618_init_canvas_db.rb",
+            "line": 5299,
+            "raw_snippet": "change_column :schema_migrations, :version, :string, limit: 255",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "schema_migrations",
+            "column": "version",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'schema_migrations.version' (None -> string).",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "f6d717526b2fb0c7b1581396baac037af62d927e",
+      "parent": "61b92d98b8ac6f9009f522a0d57fe0bd5be26441",
+      "date": "2026-01-28T09:59:01+01:00",
+      "subject": "Increase precision of points deducted in submissions",
+      "mig_files": [
+        "db/migrate/20260128083741_increase_points_deducted_precision.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "spec/models/submission_spec.rb"
+      ],
+      "orm_models_parsed_old": 1,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "submissions",
+            "column": "points_deducted",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "decimal",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260128083741_increase_points_deducted_precision.rb",
+            "line": 25,
+            "raw_snippet": "change_column :submissions, :points_deducted, :decimal, precision: 12, scale: 2",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "submissions",
+            "column": "points_deducted",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/live_assessments/submission.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'submissions' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "submissions",
+            "column": "points_deducted",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "decimal",
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260128083741_increase_points_deducted_precision.rb",
+            "line": 29,
+            "raw_snippet": "change_column :submissions, :points_deducted, :decimal, precision: 6, scale: 2",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "submissions",
+            "column": "points_deducted",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "c83f4ea958feba3f5618d369c4d814dccf4933a4",
+      "parent": "ead5551769ccb35ea750e09afa95073e743fe17c",
+      "date": "2026-01-13T13:11:27-06:00",
+      "subject": "Remove the rest of Equella",
+      "mig_files": [
+        "db/migrate/20260113135348_remove_equella_endpoint_from_accounts.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/accounts_controller.rb",
+        "app/controllers/external_content_controller.rb",
+        "app/helpers/application_helper.rb",
+        "app/models/account.rb",
+        "app/models/course.rb",
+        "spec/models/account_spec.rb",
+        "spec/selenium/admin/admin_settings_tab_spec.rb"
+      ],
+      "orm_models_parsed_old": 1,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "accounts",
+            "column": "equella_endpoint",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260113135348_remove_equella_endpoint_from_accounts.rb",
+            "line": 24,
+            "raw_snippet": "remove_column :accounts, :equella_endpoint, :string, limit: 255, if_exists: true",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "accounts",
+            "column": "equella_endpoint",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/account.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "71c3fbc58e27d6ac6967b28db08a7a64a3c53ee9",
+      "parent": "99f022bfde5000d8a6c80fbc3e4cc5355930dcde",
+      "date": "2025-12-22T09:45:34+01:00",
+      "subject": "Add new scan resources to a11y checker tables",
+      "mig_files": [
+        "db/migrate/20251222081104_add_additional_scan_resources_to_a11y_checker_tables.rb",
+        "db/migrate/20251222081144_add_polymorphic_check_constraints_for_new_a11y_checker_resources.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/accessibility_issue.rb",
+        "app/models/accessibility_resource_scan.rb",
+        "spec/lib/extensions/active_record/polymorphic_associations_spec.rb",
+        "spec/models/accessibility_issue_spec.rb",
+        "spec/models/accessibility_resource_scan_spec.rb"
+      ],
+      "orm_models_parsed_old": 3,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "accessibility_issues",
+            "column": "is_syllabus",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20251222081104_add_additional_scan_resources_to_a11y_checker_tables.rb",
+            "line": 69,
+            "raw_snippet": "remove_column :accessibility_issues, :is_syllabus, if_exists: true",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "accessibility_issues",
+            "column": "is_syllabus",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "accessibility_resource_scans",
+            "column": "is_syllabus",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20251222081104_add_additional_scan_resources_to_a11y_checker_tables.rb",
+            "line": 70,
+            "raw_snippet": "remove_column :accessibility_resource_scans, :is_syllabus, if_exists: true",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "accessibility_resource_scans",
+            "column": "is_syllabus",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "accessibility_issues",
+            "column": "announcement_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20251222081104_add_additional_scan_resources_to_a11y_checker_tables.rb",
+            "line": 72,
+            "raw_snippet": "remove_reference :accessibility_issues, :announcement, if_exists: true",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "accessibility_issues",
+            "column": "announcement_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "accessibility_resource_scans",
+            "column": "announcement_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20251222081104_add_additional_scan_resources_to_a11y_checker_tables.rb",
+            "line": 73,
+            "raw_snippet": "remove_reference :accessibility_resource_scans, :announcement, if_exists: true",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "accessibility_resource_scans",
+            "column": "announcement_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "accessibility_issues",
+            "column": "discussion_topic_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20251222081104_add_additional_scan_resources_to_a11y_checker_tables.rb",
+            "line": 75,
+            "raw_snippet": "remove_reference :accessibility_issues, :discussion_topic, if_exists: true",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "accessibility_issues",
+            "column": "discussion_topic_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "accessibility_resource_scans",
+            "column": "discussion_topic_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20251222081104_add_additional_scan_resources_to_a11y_checker_tables.rb",
+            "line": 76,
+            "raw_snippet": "remove_reference :accessibility_resource_scans, :discussion_topic, if_exists: true",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "accessibility_resource_scans",
+            "column": "discussion_topic_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "f40989e8d14d21d2da93a9043486955caf775b45",
+      "parent": "d8e1523e16f53feed78ccf81c9ec1c64640c9d94",
+      "date": "2025-12-12T12:01:48-07:00",
+      "subject": "add template to LTI registrations",
+      "mig_files": [
+        "db/migrate/20250814193219_add_template_registration_id_to_lti_registrations.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/lti/registration.rb",
+        "app/models/lti/registration_account_binding.rb",
+        "lib/api/v1/lti/registration.rb",
+        "spec/apis/v1/lti/registration_spec.rb",
+        "spec/models/lti/registration_spec.rb"
+      ],
+      "orm_models_parsed_old": 3,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "lti_registrations",
+            "column": "template_registration_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250814193219_add_template_registration_id_to_lti_registrations.rb",
+            "line": 38,
+            "raw_snippet": "remove_reference :lti_registrations, :template_registration, if_exists: true, foreign_key: false, index: true",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "lti_registrations",
+            "column": "template_registration_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "b802232f2b38d844325f8002933b411d92d65a6c",
+      "parent": "62d9e15245add1db52069bdb0e583425f727bfac",
+      "date": "2025-11-11T10:02:48+01:00",
+      "subject": "Remove discussion entry draft p2",
+      "mig_files": [
+        "db/migrate/20251111085656_remove_discussion_entry_drafts.rb"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 2,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_TABLE",
+            "table": "discussion_entry_drafts",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20251111085656_remove_discussion_entry_drafts.rb",
+            "line": 23,
+            "raw_snippet": "drop_table :discussion_entry_drafts, if_exists: true",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "discussion_entry_drafts",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'discussion_entry_drafts' not resolved in C_{t-1} ORM snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_TABLE",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "2febed08af91e39611847f88867c093288a4cdeb",
+      "parent": "cbfa47435c98d6749691dd59ad8410407c0128b1",
+      "date": "2025-11-20T16:17:15+01:00",
+      "subject": "Add column to ToolProxy to track LTI migration",
+      "mig_files": [
+        "db/migrate/20251120142215_add_migrated_to_context_external_tool_id_to_tool_proxy.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/lti/tool_proxy.rb",
+        "spec/models/lti/tool_proxy_spec.rb"
+      ],
+      "orm_models_parsed_old": 1,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "lti_tool_proxies",
+            "column": "migrated_to_context_external_tool_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20251120142215_add_migrated_to_context_external_tool_id_to_tool_proxy.rb",
+            "line": 38,
+            "raw_snippet": "remove_reference :lti_tool_proxies, :migrated_to_context_external_tool, if_exists: true, foreign_key: { to_table: :context_external_tools, on_delete: :nullify }, index: true",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "lti_tool_proxies",
+            "column": "migrated_to_context_external_tool_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "957d0f43cb40d0efd0914894627c3fb288d51255",
+      "parent": "aae90ab2568cf6dd340386c9e12f3b4de12900d4",
+      "date": "2025-10-23T15:41:33-04:00",
+      "subject": "add peer_review_submission_required to assignments",
+      "mig_files": [
+        "db/migrate/20251023192401_add_peer_review_submission_required_to_assignments.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/abstract_assignment.rb",
+        "spec/models/assignment_spec.rb"
+      ],
+      "orm_models_parsed_old": 1,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "assignments",
+            "column": "peer_review_submission_required",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20251023192401_add_peer_review_submission_required_to_assignments.rb",
+            "line": 28,
+            "raw_snippet": "remove_column :assignments, :peer_review_submission_required",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "assignments",
+            "column": "peer_review_submission_required",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "8000ed291508b162858eda652a52e5bc089e7376",
+      "parent": "930b2c7369284aca8f8da6bf455d7b7d0ab64de9",
+      "date": "2025-10-15T16:15:26-06:00",
+      "subject": "squash old migrations 202506",
+      "mig_files": [
+        "db/migrate/20101210192618_init_canvas_db.rb",
+        "db/migrate/20101217224513_set_replica_identities.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "lib/data_fixup/fix_import_sort_order_on_discussion.rb",
+        "lib/data_fixup/lti/delete_invalid_manage_lti_registrations_role_overrides.rb",
+        "spec/lib/data_fixup/fix_import_sort_order_on_discussion_spec.rb",
+        "spec/lib/data_fixup/lti/delete_invalid_manage_lti_registrations_role_overrides_spec.rb"
+      ],
+      "orm_models_parsed_old": 3,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "quiz_submissions",
+            "column": "fudge_points",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "float",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20101210192618_init_canvas_db.rb",
+            "line": 4378,
+            "raw_snippet": "change_column :quiz_submissions, :fudge_points, :float",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "quiz_submissions",
+            "column": "fudge_points",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/quizzes/quiz_submission.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'quiz_submissions' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "schema_migrations",
+            "column": "version",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "string",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20101210192618_init_canvas_db.rb",
+            "line": 5276,
+            "raw_snippet": "change_column :schema_migrations, :version, :string, limit: 255",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "schema_migrations",
+            "column": "version",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'schema_migrations.version' (None -> string).",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "930b2c7369284aca8f8da6bf455d7b7d0ab64de9",
+      "parent": "9eedeff790804fcf415b906bfeff49458f938ea8",
+      "date": "2025-10-15T16:03:45-06:00",
+      "subject": "squash old migrations 202505",
+      "mig_files": [
+        "db/migrate/20101210192618_init_canvas_db.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/lti/asset_report.rb",
+        "lib/data_fixup/copy_field_name_values_to_context_concern.rb",
+        "lib/data_fixup/lti/backfill_lti_context_controls.rb",
+        "spec/lib/data_fixup/lti/backfill_lti_context_controls_spec.rb"
+      ],
+      "orm_models_parsed_old": 3,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "quiz_submissions",
+            "column": "fudge_points",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "float",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20101210192618_init_canvas_db.rb",
+            "line": 4301,
+            "raw_snippet": "change_column :quiz_submissions, :fudge_points, :float",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "quiz_submissions",
+            "column": "fudge_points",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/quizzes/quiz_submission.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'quiz_submissions' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "schema_migrations",
+            "column": "version",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "string",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20101210192618_init_canvas_db.rb",
+            "line": 5185,
+            "raw_snippet": "change_column :schema_migrations, :version, :string, limit: 255",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "schema_migrations",
+            "column": "version",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'schema_migrations.version' (None -> string).",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "9eedeff790804fcf415b906bfeff49458f938ea8",
+      "parent": "fe17d023c716404d1a61e14dd78bb4062d68ccbd",
+      "date": "2025-10-15T15:53:29-06:00",
+      "subject": "squash old migrations 202504",
+      "mig_files": [
+        "db/migrate/20101210192618_init_canvas_db.rb",
+        "db/migrate/20101217224513_set_replica_identities.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "lib/data_fixup/backfill_authorized_flows_on_developer_key.rb",
+        "lib/data_fixup/sync_has_sub_assignments_flag.rb",
+        "lib/data_fixup/sync_important_date_with_child_events.rb",
+        "spec/lib/data_fixup/localize_root_account_ids_on_attachment_spec.rb",
+        "spec/lib/data_fixup/sync_has_sub_assignments_flag_spec.rb"
+      ],
+      "orm_models_parsed_old": 3,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "quiz_submissions",
+            "column": "fudge_points",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "float",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20101210192618_init_canvas_db.rb",
+            "line": 4279,
+            "raw_snippet": "change_column :quiz_submissions, :fudge_points, :float",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "quiz_submissions",
+            "column": "fudge_points",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/quizzes/quiz_submission.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'quiz_submissions' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "schema_migrations",
+            "column": "version",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "string",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20101210192618_init_canvas_db.rb",
+            "line": 5163,
+            "raw_snippet": "change_column :schema_migrations, :version, :string, limit: 255",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "schema_migrations",
+            "column": "version",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'schema_migrations.version' (None -> string).",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "f27434698040c2b45a7708167dd221ae2fb33f3f",
+      "parent": "0ce810643eafdb36d5388b3efd2192df090ec350",
+      "date": "2025-09-04T13:32:09-06:00",
+      "subject": "add support for discrete column polymorphic associations",
+      "mig_files": [
+        "db/migrate/20101210192618_init_canvas_db.rb",
+        "db/migrate/20250414211602_create_lti_context_controls.rb",
+        "db/migrate/20250619135251_create_accessibility_issues.rb",
+        "db/migrate/20250619135253_create_accessibility_resource_scans.rb",
+        "db/migrate/20250904210807_standarize_polymorphic_check_constraints.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/accessibility_resource_scans_controller.rb",
+        "app/models/accessibility/has_context.rb",
+        "app/models/accessibility/scannable.rb",
+        "app/models/accessibility_issue.rb",
+        "app/models/accessibility_resource_scan.rb",
+        "app/models/estimated_duration.rb",
+        "app/models/lti/context_control.rb",
+        "app/models/rubric_import.rb",
+        "app/services/accessibility/resource_scanner_service.rb",
+        "config/initializers/active_record.rb",
+        "config/initializers/simply_versioned.rb",
+        "gems/canvas_partman/lib/canvas_partman/partition_manager/by_id.rb"
+      ],
+      "orm_models_parsed_old": 3,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "quiz_submissions",
+            "column": "fudge_points",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "float",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20101210192618_init_canvas_db.rb",
+            "line": 4136,
+            "raw_snippet": "change_column :quiz_submissions, :fudge_points, :float",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "quiz_submissions",
+            "column": "fudge_points",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/quizzes/quiz_submission.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'quiz_submissions' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "schema_migrations",
+            "column": "version",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "string",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20101210192618_init_canvas_db.rb",
+            "line": 5020,
+            "raw_snippet": "change_column :schema_migrations, :version, :string, limit: 255",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "schema_migrations",
+            "column": "version",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'schema_migrations.version' (None -> string).",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "1d1763f200ed2158e1f11f4be807907bd62d5537",
+      "parent": "ef6772938559f5cf61c4645a0a36e38788e5009b",
+      "date": "2025-10-07T12:15:05-05:00",
+      "subject": "Clean up unused indexes",
+      "mig_files": [
+        "db/migrate/20251007170942_index_cleanup.rb"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 0,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_TABLE",
+            "table": "sessions",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20251007170942_index_cleanup.rb",
+            "line": 38,
+            "raw_snippet": "drop_table :sessions, if_exists: true do |t| t.string :session_id, null: false, limit: 255, index: true t.text :data t.timestamps precision: nil t.index :updated_at end",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "sessions",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "C_{t-1} ORM snapshot unavailable.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_TABLE",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "57e81ab530d264887e17fe59436cef5317ef4817",
+      "parent": "64f0543952bf79fc5564af8953389f40fb00dfe1",
+      "date": "2025-09-22T16:49:26-05:00",
+      "subject": "remove crocodoc from canvas",
+      "mig_files": [
+        "db/migrate/20250925211913_remove_crocodoc_documents.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "Gemfile.d/app.rb",
+        "app/controllers/canvadoc_sessions_controller.rb",
+        "app/controllers/crocodoc_sessions_controller.rb",
+        "app/controllers/file_previews_controller.rb",
+        "app/controllers/support_helpers/crocodoc_controller.rb",
+        "app/helpers/attachment_helper.rb",
+        "app/models/account.rb",
+        "app/models/attachment.rb",
+        "app/models/canvadocs_submission.rb",
+        "app/models/crocodoc_document.rb",
+        "app/models/moderated_grading/provisional_grade.rb",
+        "app/models/speed_grader/assignment.rb"
+      ],
+      "orm_models_parsed_old": 4,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "canvadocs_submissions",
+            "column": "crocodoc_document_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250925211913_remove_crocodoc_documents.rb",
+            "line": 23,
+            "raw_snippet": "remove_reference :canvadocs_submissions, :crocodoc_document, if_exists: true, foreign_key: { to_table: :crocodoc_documents }",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "canvadocs_submissions",
+            "column": "crocodoc_document_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/canvadocs_submission.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'canvadocs_submissions' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_TABLE",
+            "table": "crocodoc_documents",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250925211913_remove_crocodoc_documents.rb",
+            "line": 28,
+            "raw_snippet": "drop_table :crocodoc_documents, if_exists: true",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "crocodoc_documents",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/crocodoc_document.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'crocodoc_documents' active in C_{t-1}.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_TABLE",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "a6bb2c36265c2422f129e84d45cd969840ef8f21",
+      "parent": "4fbb2fc6c3e207e1e0ed04894a75ec47aa6d540d",
+      "date": "2025-04-20T21:11:54-04:00",
+      "subject": "Add Registration Update Request",
+      "mig_files": [
+        "db/migrate/20250420011314_create_registration_update_request.rb",
+        "db/migrate/20250421145603_add_replica_identity_to_registration_update_request.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/lti/registration_update_request.rb"
+      ],
+      "orm_models_parsed_old": 3,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ADD_UNIQUE_OR_CHECK",
+            "table": "lti_registration_update_requests",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250420011314_create_registration_update_request.rb",
+            "line": 40,
+            "raw_snippet": "add_check_constraint :lti_registration_update_requests, \"(lti_ims_registration IS NOT NULL AND canvas_lti_configuration IS NULL) OR \" \\ \"(lti_ims_registration IS NULL AND canvas_lt",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "lti_registration_update_requests",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Constraint added on newly created table 'lti_registration_update_requests'.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ADD_UNIQUE_OR_CHECK",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "6cab019f25f65f862f99c6ae1a80e42dfc081449",
+      "parent": "92f039b27f84fa6c9fc1771cb07987b33bf63bba",
+      "date": "2025-09-25T07:48:23-06:00",
+      "subject": "change AuthenticationProvider#settings to jsonb",
+      "mig_files": [
+        "db/migrate/20250925134046_change_authentication_providers_settings_to_jsonb.rb"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 2,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "authentication_providers",
+            "column": "settings",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "jsonb",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250925134046_change_authentication_providers_settings_to_jsonb.rb",
+            "line": 23,
+            "raw_snippet": "change_column :authentication_providers, :settings, :jsonb, using: \"settings::jsonb\", default: {}",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "authentication_providers",
+            "column": "settings",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/authentication_provider.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'authentication_providers' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "authentication_providers",
+            "column": "settings",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "json",
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250925134046_change_authentication_providers_settings_to_jsonb.rb",
+            "line": 27,
+            "raw_snippet": "change_column :authentication_providers, :settings, :json, using: \"settings::json\", default: {}",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "authentication_providers",
+            "column": "settings",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "89968751df9904f3dcfb2a8b237f116866430679",
+      "parent": "55ab8e358bc044fb57210163b557bfd7022e266d",
+      "date": "2025-09-08T14:11:40-07:00",
+      "subject": "audit account user deletion",
+      "mig_files": [
+        "db/migrate/20250905230247_create_auditor_account_user_record.rb",
+        "db/migrate/20250905231257_set_replica_identity_index_on_auditor_account_user_records.rb",
+        "db/migrate/20250905231553_create_account_user_auditor_partitions.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/accounts_controller.rb",
+        "app/controllers/admins_controller.rb",
+        "app/models/account.rb",
+        "app/models/account_user.rb",
+        "app/models/auditors/account_user.rb",
+        "app/models/auditors/active_record/account_user_record.rb",
+        "app/models/auditors/active_record/partitioner.rb",
+        "app/models/user.rb",
+        "lib/sis/admin_importer.rb",
+        "spec/lib/sis/csv/admin_importer_spec.rb",
+        "spec/models/account_user_spec.rb",
+        "spec/models/auditors/account_user_spec.rb"
+      ],
+      "orm_models_parsed_old": 0,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_TABLE",
+            "table": "partition",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250905231553_create_account_user_auditor_partitions.rb",
+            "line": 34,
+            "raw_snippet": "drop_table partition",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "partition",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "f965ca074a65d87ba2675901b568771a01c685e8",
+      "parent": "d0580e50455bc83be2d9bc9dcb767ba4c0c06d57",
+      "date": "2025-08-26T11:25:13+02:00",
+      "subject": "Add discussion_version_id to lti_assets",
+      "mig_files": [
+        "db/migrate/20250825115746_add_discussion_entry_version_id_to_lti_assets.rb",
+        "db/migrate/20250825115747_modify_lti_assets_constraints.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/discussion_entry_version.rb",
+        "app/models/lti/asset.rb",
+        "spec/models/lti/asset_spec.rb"
+      ],
+      "orm_models_parsed_old": 2,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "lti_assets",
+            "column": "discussion_entry_version_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250825115746_add_discussion_entry_version_id_to_lti_assets.rb",
+            "line": 40,
+            "raw_snippet": "remove_reference :lti_assets, :discussion_entry_version, foreign_key: true, index: { name: \"index_lti_assets_unique_discussion_entry_version_id\", if_exists: true }, if_exists: true",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "lti_assets",
+            "column": "discussion_entry_version_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ADD_UNIQUE_OR_CHECK",
+            "table": "lti_assets",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250825115747_modify_lti_assets_constraints.rb",
+            "line": 44,
+            "raw_snippet": "add_check_constraint :lti_assets, \"(attachment_id IS NULL) <> (submission_attempt IS NULL)\", name: \"chk_attachment_id_or_submission_attempt_filled\", if_not_exists: true",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "lti_assets",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "813e792da940ebec532cfc15d6cdc866b5b861db",
+      "parent": "4bf0d947f73fc6e788f8440caf2d08712bd5382e",
+      "date": "2025-07-25T11:53:19+02:00",
+      "subject": "Add Asset Report resubmission for group Assignment",
+      "mig_files": [
+        "db/migrate/20250818072453_add_real_submitter_id_to_submissions.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/lti/asset_processor_controller.rb",
+        "app/models/abstract_assignment.rb",
+        "app/models/submission.rb",
+        "app/models/user.rb",
+        "app/services/lti/asset_processor_notifier.rb",
+        "spec/controllers/lti/asset_processor_controller_spec.rb",
+        "spec/models/assignment_spec.rb",
+        "spec/models/user_spec.rb"
+      ],
+      "orm_models_parsed_old": 1,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "submissions",
+            "column": "real_submitter_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20250818072453_add_real_submitter_id_to_submissions.rb",
+            "line": 38,
+            "raw_snippet": "remove_reference :submissions, :real_submitter, if_exists: true, foreign_key: { to_table: :users }, index: true",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "submissions",
+            "column": "real_submitter_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    }
+  ]
+}

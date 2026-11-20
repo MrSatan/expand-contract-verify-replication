@@ -1,0 +1,4307 @@
+{
+  "repo": "brightbeanxyz/brightbean-studio",
+  "ecosystem": "django",
+  "stars": 2660,
+  "has_k8s_helm": false,
+  "status": "ok",
+  "stats": {
+    "total_migration_commits_in_history": 83,
+    "migration_commits_analyzed": 83,
+    "total_migration_files_parsed": 184,
+    "commits_with_any_destructive": 33,
+    "commits_with_forward_destructive": 33,
+    "commits_with_rollback_only_destructive": 0,
+    "total_ops_extracted": 127,
+    "destructive_ops_up": 85,
+    "destructive_ops_down": 0
+  },
+  "verdict_counts": {
+    "DUAL_VERSION_VIOLATION_BACKWARD": 55,
+    "SAFE_CONTRACT": 4,
+    "SAFE_ADDITIVE": 26
+  },
+  "destructive_commits": [
+    {
+      "sha": "b9a1edfb40a68dcaa7e66dbbd4c02fd8aee94316",
+      "parent": "7aecb7b65d2030351321d49f6ebd381b1db9846e",
+      "date": "2026-10-13T22:57:04+02:00",
+      "subject": "Remediate YouTube analytics, attribution and data lifecycle",
+      "mig_files": [
+        "apps/analytics/migrations/0004_youtubeperiodreport.py",
+        "apps/composer/migrations/0023_platformpost_youtube_video_checked_at.py",
+        "apps/inbox/migrations/0006_inboxmessage_api_refreshed_at.py",
+        "apps/social_accounts/migrations/0025_youtuberevocation_and_more.py"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/analytics/api_builders.py",
+        "apps/analytics/derive.py",
+        "apps/analytics/metrics.py",
+        "apps/analytics/models.py",
+        "apps/analytics/services.py",
+        "apps/analytics/tasks.py",
+        "apps/analytics/templatetags/analytics_extras.py",
+        "apps/analytics/views.py",
+        "apps/analytics/youtube_reports.py",
+        "apps/api/schemas.py",
+        "apps/composer/models.py",
+        "apps/composer/services.py"
+      ],
+      "orm_models_parsed_old": 4,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "social_accounts_socialaccount",
+            "column": "youtube_data_generation",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "PositiveIntegerField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/social_accounts/migrations/0025_youtuberevocation_and_more.py",
+            "line": 39,
+            "raw_snippet": "migrations.AddField( model_name='socialaccount', name='youtube_data_generation', field=models.PositiveIntegerField(default=0), )",
+            "extra": {
+              "model_name": "socialaccount",
+              "app_label": "social_accounts",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "social_accounts_socialaccount",
+            "column": "youtube_data_generation",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/social_accounts/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'social_accounts_socialaccount.youtube_data_generation' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "social_accounts_socialaccount",
+            "column": "youtube_verification_started_at",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "DateTimeField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/social_accounts/migrations/0025_youtuberevocation_and_more.py",
+            "line": 49,
+            "raw_snippet": "migrations.AddField( model_name='socialaccount', name='youtube_verification_started_at', field=models.DateTimeField(default=django.utils.timezone.now), )",
+            "extra": {
+              "model_name": "socialaccount",
+              "app_label": "social_accounts",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "social_accounts_socialaccount",
+            "column": "youtube_verification_started_at",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/social_accounts/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'social_accounts_socialaccount.youtube_verification_started_at' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    },
+    {
+      "sha": "a854306546800b0329d1e39cd804c2f01987d221",
+      "parent": "58d20323d7785855754eee6c19bead5d6599ed64",
+      "date": "2026-10-12T15:25:02+02:00",
+      "subject": "feat(inbox): support Instagram DMs through Facebook Login",
+      "mig_files": [
+        "apps/inbox/migrations/0005_meta_dm_timestamps.py",
+        "apps/social_accounts/migrations/0023_socialaccount_messaging_access.py",
+        "apps/social_accounts/migrations/0024_socialaccount_instagram_dm_poll_state.py"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/api/schemas.py",
+        "apps/credentials/forms.py",
+        "apps/inbox/models.py",
+        "apps/inbox/reply_policy.py",
+        "apps/inbox/services.py",
+        "apps/inbox/tasks.py",
+        "apps/inbox/views.py",
+        "apps/inbox/webhooks.py",
+        "apps/onboarding/views.py",
+        "apps/publisher/engine.py",
+        "apps/social_accounts/management/commands/diagnose_instagram_messages.py",
+        "apps/social_accounts/models.py"
+      ],
+      "orm_models_parsed_old": 4,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "social_accounts_socialaccount",
+            "column": "instagram_dm_poll_state",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "JSONField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/social_accounts/migrations/0024_socialaccount_instagram_dm_poll_state.py",
+            "line": 8,
+            "raw_snippet": "migrations.AddField( model_name=\"socialaccount\", name=\"instagram_dm_poll_state\", field=models.JSONField(blank=True, default=dict), )",
+            "extra": {
+              "model_name": "socialaccount",
+              "app_label": "social_accounts",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "social_accounts_socialaccount",
+            "column": "instagram_dm_poll_state",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/social_accounts/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'social_accounts_socialaccount.instagram_dm_poll_state' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    },
+    {
+      "sha": "1b0e569b70fe4d065c5463191cbfcee6e92013fd",
+      "parent": "766521161ccc8375ec51c0e0c847c8e1e2f07e43",
+      "date": "2026-10-12T13:51:40+02:00",
+      "subject": "fix(instagram): preserve user credentials for analytics",
+      "mig_files": [
+        "apps/social_accounts/migrations/0022_instagram_analytics_credentials.py"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/analytics/instagram_access.py",
+        "apps/analytics/signals.py",
+        "apps/analytics/tasks.py",
+        "apps/analytics/urls.py",
+        "apps/analytics/views.py",
+        "apps/onboarding/views.py",
+        "apps/social_accounts/models.py",
+        "apps/social_accounts/views.py",
+        "apps/social_accounts/webhooks.py",
+        "providers/instagram.py"
+      ],
+      "orm_models_parsed_old": 4,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "social_accounts_socialaccount",
+            "column": "analytics_credentials_version",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "PositiveIntegerField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/social_accounts/migrations/0022_instagram_analytics_credentials.py",
+            "line": 19,
+            "raw_snippet": "migrations.AddField( model_name='socialaccount', name='analytics_credentials_version', field=models.PositiveIntegerField(default=0), )",
+            "extra": {
+              "model_name": "socialaccount",
+              "app_label": "social_accounts",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "social_accounts_socialaccount",
+            "column": "analytics_credentials_version",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/social_accounts/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'social_accounts_socialaccount.analytics_credentials_version' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "social_accounts_socialaccount",
+            "column": "analytics_error_reason",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "CharField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/social_accounts/migrations/0022_instagram_analytics_credentials.py",
+            "line": 24,
+            "raw_snippet": "migrations.AddField( model_name='socialaccount', name='analytics_error_reason', field=models.CharField(blank=True, default='', max_length=40), )",
+            "extra": {
+              "model_name": "socialaccount",
+              "app_label": "social_accounts",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "social_accounts_socialaccount",
+            "column": "analytics_error_reason",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/social_accounts/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'social_accounts_socialaccount.analytics_error_reason' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "social_accounts_socialaccount",
+            "column": "analytics_status",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "CharField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/social_accounts/migrations/0022_instagram_analytics_credentials.py",
+            "line": 29,
+            "raw_snippet": "migrations.AddField( model_name='socialaccount', name='analytics_status', field=models.CharField(choices=[('unknown', 'Not checked'), ('checking', 'Checking'), ('ready', 'Ready'), ",
+            "extra": {
+              "model_name": "socialaccount",
+              "app_label": "social_accounts",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "social_accounts_socialaccount",
+            "column": "analytics_status",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/social_accounts/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'social_accounts_socialaccount.analytics_status' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "social_accounts_socialaccount",
+            "column": "oauth_facebook_user_access_token",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "EncryptedTextField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/social_accounts/migrations/0022_instagram_analytics_credentials.py",
+            "line": 39,
+            "raw_snippet": "migrations.AddField( model_name='socialaccount', name='oauth_facebook_user_access_token', field=apps.common.encryption.EncryptedTextField(blank=True, default=''), )",
+            "extra": {
+              "model_name": "socialaccount",
+              "app_label": "social_accounts",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "social_accounts_socialaccount",
+            "column": "oauth_facebook_user_access_token",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/social_accounts/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'social_accounts_socialaccount.oauth_facebook_user_access_token' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    },
+    {
+      "sha": "6e7893adec3ca0b5b48c8fdcf91e94a2d578351d",
+      "parent": "512036f9418725b0f3f30c83298059b41e2a764a",
+      "date": "2026-09-20T17:17:21+02:00",
+      "subject": "fix(youtube): resume bounded inbox history walks and preserve quota blocks",
+      "mig_files": [
+        "apps/social_accounts/migrations/0020_inbox_history_cursors.py"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/common/quota.py",
+        "apps/inbox/management/commands/backfill_inbox.py",
+        "apps/inbox/tasks.py",
+        "apps/social_accounts/error_messages.py",
+        "apps/social_accounts/models.py",
+        "providers/youtube.py"
+      ],
+      "orm_models_parsed_old": 4,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "social_accounts_socialaccount",
+            "column": "inbox_initial_backfill_cursor",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TextField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/social_accounts/migrations/0020_inbox_history_cursors.py",
+            "line": 10,
+            "raw_snippet": "migrations.AddField( model_name=\"socialaccount\", name=\"inbox_initial_backfill_cursor\", field=models.TextField(blank=True, default=\"\"), )",
+            "extra": {
+              "model_name": "socialaccount",
+              "app_label": "social_accounts",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "social_accounts_socialaccount",
+            "column": "inbox_initial_backfill_cursor",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/social_accounts/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'social_accounts_socialaccount.inbox_initial_backfill_cursor' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "social_accounts_socialaccount",
+            "column": "inbox_deep_sweep_cursor",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TextField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/social_accounts/migrations/0020_inbox_history_cursors.py",
+            "line": 20,
+            "raw_snippet": "migrations.AddField( model_name=\"socialaccount\", name=\"inbox_deep_sweep_cursor\", field=models.TextField(blank=True, default=\"\"), )",
+            "extra": {
+              "model_name": "socialaccount",
+              "app_label": "social_accounts",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "social_accounts_socialaccount",
+            "column": "inbox_deep_sweep_cursor",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/social_accounts/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'social_accounts_socialaccount.inbox_deep_sweep_cursor' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    },
+    {
+      "sha": "14f6159af082a9e725b80a7c9980c6158ca0dc1b",
+      "parent": "14552b8feb4cfb22e6526256db29098312714a5d",
+      "date": "2026-09-17T22:05:24+02:00",
+      "subject": "fix(email): stop the publish-failure storms exhausting the Resend quota (#179)",
+      "mig_files": [
+        "apps/common/migrations/0001_initial.py",
+        "apps/members/migrations/0003_invitation_last_sent_at_invitation_send_count.py",
+        "apps/notifications/migrations/0005_notificationdelivery_batch_claimed_at.py"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/accounts/adapters.py",
+        "apps/client_portal/services.py",
+        "apps/client_portal/views_admin.py",
+        "apps/common/admin.py",
+        "apps/common/apps.py",
+        "apps/common/mail.py",
+        "apps/common/models.py",
+        "apps/common/tasks.py",
+        "apps/common/validators.py",
+        "apps/common/webhook_urls.py",
+        "apps/common/webhooks.py",
+        "apps/members/models.py"
+      ],
+      "orm_models_parsed_old": 4,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "members_invitation",
+            "column": "send_count",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "PositiveIntegerField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/members/migrations/0003_invitation_last_sent_at_invitation_send_count.py",
+            "line": 26,
+            "raw_snippet": "migrations.AddField( model_name='invitation', name='send_count', field=models.PositiveIntegerField(default=0), )",
+            "extra": {
+              "model_name": "invitation",
+              "app_label": "members",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "members_invitation",
+            "column": "send_count",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/members/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'members_invitation.send_count' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    },
+    {
+      "sha": "59b8fee3f922808e6cac8df4d111da9f4f9752e1",
+      "parent": "77d9a80c451b3104ed2cb27181ffcdefb5550961",
+      "date": "2026-09-15T23:23:43+02:00",
+      "subject": "fix(inbox): stop 0002 failing on Postgres with existing replies",
+      "mig_files": [
+        "apps/inbox/migrations/0002_inboxreply_draft_lifecycle.py",
+        "apps/inbox/migrations/0003_inboxreply_column_defaults.py",
+        "apps/inbox/migrations/0004_backfill_inboxreply_status.py"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 5,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "inbox_inboxreply",
+            "column": "status",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "CharField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/inbox/migrations/0002_inboxreply_draft_lifecycle.py",
+            "line": 28,
+            "raw_snippet": "migrations.AddField( model_name=\"inboxreply\", name=\"status\", field=models.CharField( choices=[(\"draft\", \"Draft\"), (\"sent\", \"Sent\"), (\"failed\", \"Failed\")], db_index=True, default=\"d",
+            "extra": {
+              "model_name": "inboxreply",
+              "app_label": "inbox",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "inbox_inboxreply",
+            "column": "status",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/inbox/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'inbox_inboxreply.status' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "inbox_inboxreply",
+            "column": "send_error",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TextField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/inbox/migrations/0002_inboxreply_draft_lifecycle.py",
+            "line": 38,
+            "raw_snippet": "migrations.AddField( model_name=\"inboxreply\", name=\"send_error\", field=models.TextField(blank=True, default=\"\"), )",
+            "extra": {
+              "model_name": "inboxreply",
+              "app_label": "inbox",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "inbox_inboxreply",
+            "column": "send_error",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/inbox/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'inbox_inboxreply.send_error' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "inbox_inboxreply",
+            "column": "created_at",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "DateTimeField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/inbox/migrations/0002_inboxreply_draft_lifecycle.py",
+            "line": 43,
+            "raw_snippet": "migrations.AddField( model_name=\"inboxreply\", name=\"created_at\", field=models.DateTimeField( auto_now_add=True, default=django.utils.timezone.now, ), preserve_default=False, )",
+            "extra": {
+              "model_name": "inboxreply",
+              "app_label": "inbox",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "inbox_inboxreply",
+            "column": "created_at",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/inbox/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'inbox_inboxreply.created_at' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "inbox_inboxreply",
+            "column": "updated_at",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "DateTimeField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/inbox/migrations/0002_inboxreply_draft_lifecycle.py",
+            "line": 52,
+            "raw_snippet": "migrations.AddField( model_name=\"inboxreply\", name=\"updated_at\", field=models.DateTimeField(auto_now=True, default=django.utils.timezone.now), preserve_default=False, )",
+            "extra": {
+              "model_name": "inboxreply",
+              "app_label": "inbox",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "inbox_inboxreply",
+            "column": "updated_at",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/inbox/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'inbox_inboxreply.updated_at' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    },
+    {
+      "sha": "ad2cf164c5f24319c091da0878c567a6540c9b2d",
+      "parent": "d85fce192e687d20e8fd7e9449a40ad7952ec7c3",
+      "date": "2026-09-10T21:57:03+02:00",
+      "subject": "fix(social-accounts): make a partial Meta grant visible, and stop faking revoke",
+      "mig_files": [
+        "apps/social_accounts/migrations/0018_socialaccount_missing_scopes.py"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/onboarding/views.py",
+        "apps/social_accounts/management/commands/diagnose_facebook.py",
+        "apps/social_accounts/models.py",
+        "apps/social_accounts/provider_factory.py",
+        "apps/social_accounts/views.py",
+        "apps/social_accounts/webhooks.py",
+        "providers/base.py",
+        "providers/facebook.py",
+        "providers/instagram.py",
+        "providers/instagram_login.py",
+        "providers/meta_oauth.py"
+      ],
+      "orm_models_parsed_old": 4,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "social_accounts_socialaccount",
+            "column": "missing_scopes",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "JSONField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/social_accounts/migrations/0018_socialaccount_missing_scopes.py",
+            "line": 13,
+            "raw_snippet": "migrations.AddField( model_name='socialaccount', name='missing_scopes', field=models.JSONField(blank=True, default=list), )",
+            "extra": {
+              "model_name": "socialaccount",
+              "app_label": "social_accounts",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "social_accounts_socialaccount",
+            "column": "missing_scopes",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/social_accounts/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'social_accounts_socialaccount.missing_scopes' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    },
+    {
+      "sha": "8749d05ec140b1b46689e25099d594df87fbefd2",
+      "parent": "d85fce192e687d20e8fd7e9449a40ad7952ec7c3",
+      "date": "2026-08-30T07:39:03-04:00",
+      "subject": "feat(inbox): add draft replies with REST and MCP surfaces",
+      "mig_files": [
+        "apps/inbox/migrations/0002_inboxreply_draft_lifecycle.py"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/api/api.py",
+        "apps/api/routers/inbox.py",
+        "apps/api/schemas.py",
+        "apps/inbox/models.py",
+        "apps/inbox/services.py",
+        "apps/inbox/urls.py",
+        "apps/inbox/views.py",
+        "apps/mcp/handlers.py"
+      ],
+      "orm_models_parsed_old": 5,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "inbox_inboxreply",
+            "column": "status",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "CharField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/inbox/migrations/0002_inboxreply_draft_lifecycle.py",
+            "line": 35,
+            "raw_snippet": "migrations.AddField( model_name=\"inboxreply\", name=\"status\", field=models.CharField( choices=[(\"draft\", \"Draft\"), (\"sent\", \"Sent\"), (\"failed\", \"Failed\")], db_index=True, default=\"d",
+            "extra": {
+              "model_name": "inboxreply",
+              "app_label": "inbox",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "inbox_inboxreply",
+            "column": "status",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "apps/inbox/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'inbox_inboxreply.status' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "inbox_inboxreply",
+            "column": "send_error",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TextField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/inbox/migrations/0002_inboxreply_draft_lifecycle.py",
+            "line": 45,
+            "raw_snippet": "migrations.AddField( model_name=\"inboxreply\", name=\"send_error\", field=models.TextField(blank=True, default=\"\"), )",
+            "extra": {
+              "model_name": "inboxreply",
+              "app_label": "inbox",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "inbox_inboxreply",
+            "column": "send_error",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/inbox/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'inbox_inboxreply.send_error' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "inbox_inboxreply",
+            "column": "created_at",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "DateTimeField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/inbox/migrations/0002_inboxreply_draft_lifecycle.py",
+            "line": 50,
+            "raw_snippet": "migrations.AddField( model_name=\"inboxreply\", name=\"created_at\", field=models.DateTimeField( auto_now_add=True, default=django.utils.timezone.now, ), preserve_default=False, )",
+            "extra": {
+              "model_name": "inboxreply",
+              "app_label": "inbox",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "inbox_inboxreply",
+            "column": "created_at",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "apps/inbox/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'inbox_inboxreply.created_at' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "inbox_inboxreply",
+            "column": "updated_at",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "DateTimeField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/inbox/migrations/0002_inboxreply_draft_lifecycle.py",
+            "line": 59,
+            "raw_snippet": "migrations.AddField( model_name=\"inboxreply\", name=\"updated_at\", field=models.DateTimeField(auto_now=True, default=django.utils.timezone.now), preserve_default=False, )",
+            "extra": {
+              "model_name": "inboxreply",
+              "app_label": "inbox",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "inbox_inboxreply",
+            "column": "updated_at",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/inbox/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'inbox_inboxreply.updated_at' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    },
+    {
+      "sha": "a304d5a1f989a2b2b159d23140858a7c989a8096",
+      "parent": "8b85acba565641035188cda65152c35fc4a25118",
+      "date": "2026-08-10T20:13:38+02:00",
+      "subject": "fix(social-accounts): make the inbox webhook warning actionable",
+      "mig_files": [
+        "apps/social_accounts/migrations/0016_socialaccount_webhook_error_detail_and_more.py"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/onboarding/views.py",
+        "apps/social_accounts/error_messages.py",
+        "apps/social_accounts/management/commands/diagnose_facebook.py",
+        "apps/social_accounts/management/commands/subscribe_webhooks.py",
+        "apps/social_accounts/models.py",
+        "apps/social_accounts/provider_factory.py",
+        "apps/social_accounts/tasks.py",
+        "apps/social_accounts/urls.py",
+        "apps/social_accounts/views.py",
+        "apps/social_accounts/webhooks.py"
+      ],
+      "orm_models_parsed_old": 4,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "social_accounts_socialaccount",
+            "column": "webhook_error_detail",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TextField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/social_accounts/migrations/0016_socialaccount_webhook_error_detail_and_more.py",
+            "line": 13,
+            "raw_snippet": "migrations.AddField( model_name='socialaccount', name='webhook_error_detail', field=models.TextField(blank=True, default=''), )",
+            "extra": {
+              "model_name": "socialaccount",
+              "app_label": "social_accounts",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "social_accounts_socialaccount",
+            "column": "webhook_error_detail",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/social_accounts/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'social_accounts_socialaccount.webhook_error_detail' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "social_accounts_socialaccount",
+            "column": "webhook_needs_reconnect",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "BooleanField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/social_accounts/migrations/0016_socialaccount_webhook_error_detail_and_more.py",
+            "line": 18,
+            "raw_snippet": "migrations.AddField( model_name='socialaccount', name='webhook_needs_reconnect', field=models.BooleanField(default=False), )",
+            "extra": {
+              "model_name": "socialaccount",
+              "app_label": "social_accounts",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "social_accounts_socialaccount",
+            "column": "webhook_needs_reconnect",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/social_accounts/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'social_accounts_socialaccount.webhook_needs_reconnect' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "social_accounts_socialaccount",
+            "column": "webhook_retry_count",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "PositiveSmallIntegerField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/social_accounts/migrations/0016_socialaccount_webhook_error_detail_and_more.py",
+            "line": 23,
+            "raw_snippet": "migrations.AddField( model_name='socialaccount', name='webhook_retry_count', field=models.PositiveSmallIntegerField(default=0), )",
+            "extra": {
+              "model_name": "socialaccount",
+              "app_label": "social_accounts",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "social_accounts_socialaccount",
+            "column": "webhook_retry_count",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/social_accounts/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'social_accounts_socialaccount.webhook_retry_count' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    },
+    {
+      "sha": "a9df9c2289189d23d0b9ea0b357e822e3907c92a",
+      "parent": "14555d1d1ed3b5bcec9aef81c5d1c9d9e68d7694",
+      "date": "2026-08-07T13:48:40+02:00",
+      "subject": "fix(facebook): poll Page comments into the inbox and stop losing first comments",
+      "mig_files": [
+        "apps/composer/migrations/0020_platformpost_first_comment_state.py"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/composer/models.py",
+        "apps/composer/views.py",
+        "apps/inbox/management/commands/backfill_inbox.py",
+        "apps/inbox/tasks.py",
+        "apps/inbox/webhooks.py",
+        "apps/publisher/engine.py",
+        "apps/settings_manager/helpers.py",
+        "apps/social_accounts/management/commands/diagnose_facebook.py",
+        "config/settings/base.py",
+        "providers/base.py",
+        "providers/facebook.py"
+      ],
+      "orm_models_parsed_old": 12,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "composer_platformpost",
+            "column": "first_comment_error",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TextField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/composer/migrations/0020_platformpost_first_comment_state.py",
+            "line": 13,
+            "raw_snippet": "migrations.AddField( model_name='platformpost', name='first_comment_error', field=models.TextField(blank=True, default=''), )",
+            "extra": {
+              "model_name": "platformpost",
+              "app_label": "composer",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "composer_platformpost",
+            "column": "first_comment_error",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/composer/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'composer_platformpost.first_comment_error' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "composer_platformpost",
+            "column": "first_comment_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "CharField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/composer/migrations/0020_platformpost_first_comment_state.py",
+            "line": 18,
+            "raw_snippet": "migrations.AddField( model_name='platformpost', name='first_comment_id', field=models.CharField(blank=True, default='', max_length=255), )",
+            "extra": {
+              "model_name": "platformpost",
+              "app_label": "composer",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "composer_platformpost",
+            "column": "first_comment_id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/composer/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'composer_platformpost.first_comment_id' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "composer_platformpost",
+            "column": "first_comment_retry_count",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "PositiveIntegerField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/composer/migrations/0020_platformpost_first_comment_state.py",
+            "line": 28,
+            "raw_snippet": "migrations.AddField( model_name='platformpost', name='first_comment_retry_count', field=models.PositiveIntegerField(default=0), )",
+            "extra": {
+              "model_name": "platformpost",
+              "app_label": "composer",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "composer_platformpost",
+            "column": "first_comment_retry_count",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/composer/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'composer_platformpost.first_comment_retry_count' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "composer_platformpost",
+            "column": "first_comment_status",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "CharField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/composer/migrations/0020_platformpost_first_comment_state.py",
+            "line": 33,
+            "raw_snippet": "migrations.AddField( model_name='platformpost', name='first_comment_status', field=models.CharField(choices=[('none', 'Not requested'), ('pending', 'Pending'), ('posted', 'Posted')",
+            "extra": {
+              "model_name": "platformpost",
+              "app_label": "composer",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "composer_platformpost",
+            "column": "first_comment_status",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/composer/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'composer_platformpost.first_comment_status' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    },
+    {
+      "sha": "2d997f17e0c19e1391d1c0d04a06a4e7d227fbbe",
+      "parent": "e4da3a2c2b717f9140af54a7a03a34b90ae4cf59",
+      "date": "2026-08-06T23:39:47+02:00",
+      "subject": "fix(inbox): deliver Meta comments and actually send replies (#134)",
+      "mig_files": [
+        "apps/social_accounts/migrations/0013_socialaccount_webhook_target_id.py",
+        "apps/social_accounts/migrations/0014_socialaccount_webhook_error_and_more.py"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/inbox/views.py",
+        "apps/inbox/webhooks.py",
+        "apps/onboarding/views.py",
+        "apps/publisher/engine.py",
+        "apps/social_accounts/management/commands/subscribe_webhooks.py",
+        "apps/social_accounts/models.py",
+        "apps/social_accounts/views.py",
+        "providers/base.py",
+        "providers/facebook.py",
+        "providers/instagram.py",
+        "providers/instagram_login.py",
+        "providers/linkedin.py"
+      ],
+      "orm_models_parsed_old": 4,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "social_accounts_socialaccount",
+            "column": "webhook_target_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "CharField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/social_accounts/migrations/0013_socialaccount_webhook_target_id.py",
+            "line": 13,
+            "raw_snippet": "migrations.AddField( model_name='socialaccount', name='webhook_target_id', field=models.CharField(blank=True, default='', max_length=255), )",
+            "extra": {
+              "model_name": "socialaccount",
+              "app_label": "social_accounts",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "social_accounts_socialaccount",
+            "column": "webhook_target_id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/social_accounts/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'social_accounts_socialaccount.webhook_target_id' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "social_accounts_socialaccount",
+            "column": "webhook_error",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "CharField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/social_accounts/migrations/0014_socialaccount_webhook_error_and_more.py",
+            "line": 13,
+            "raw_snippet": "migrations.AddField( model_name='socialaccount', name='webhook_error', field=models.CharField(blank=True, default='', max_length=500), )",
+            "extra": {
+              "model_name": "socialaccount",
+              "app_label": "social_accounts",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "social_accounts_socialaccount",
+            "column": "webhook_error",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/social_accounts/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'social_accounts_socialaccount.webhook_error' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    },
+    {
+      "sha": "466ed324dbf7cfbf1459fccf06116c6d7ec077b4",
+      "parent": "c108137f5ac90615f47421037db1fa7e7a6b17da",
+      "date": "2026-06-23T21:25:43-04:00",
+      "subject": "fix meta analytics metrics (#99)",
+      "mig_files": [
+        "apps/analytics/migrations/0002_snapshot_raw_errors.py"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/analytics/derive.py",
+        "apps/analytics/metrics.py",
+        "apps/analytics/models.py",
+        "apps/analytics/services.py",
+        "apps/analytics/tasks.py",
+        "providers/facebook.py",
+        "providers/instagram.py",
+        "providers/instagram_login.py",
+        "providers/meta_insights.py"
+      ],
+      "orm_models_parsed_old": 2,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "analytics_accountinsightssnapshot",
+            "column": "errors",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "JSONField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/analytics/migrations/0002_snapshot_raw_errors.py",
+            "line": 10,
+            "raw_snippet": "migrations.AddField( model_name=\"accountinsightssnapshot\", name=\"errors\", field=models.JSONField(blank=True, default=dict), )",
+            "extra": {
+              "model_name": "accountinsightssnapshot",
+              "app_label": "analytics",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "analytics_accountinsightssnapshot",
+            "column": "errors",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/analytics/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'analytics_accountinsightssnapshot.errors' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "analytics_accountinsightssnapshot",
+            "column": "raw",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "JSONField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/analytics/migrations/0002_snapshot_raw_errors.py",
+            "line": 15,
+            "raw_snippet": "migrations.AddField( model_name=\"accountinsightssnapshot\", name=\"raw\", field=models.JSONField(blank=True, default=dict), )",
+            "extra": {
+              "model_name": "accountinsightssnapshot",
+              "app_label": "analytics",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "analytics_accountinsightssnapshot",
+            "column": "raw",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/analytics/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'analytics_accountinsightssnapshot.raw' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "analytics_postinsightssnapshot",
+            "column": "errors",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "JSONField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/analytics/migrations/0002_snapshot_raw_errors.py",
+            "line": 20,
+            "raw_snippet": "migrations.AddField( model_name=\"postinsightssnapshot\", name=\"errors\", field=models.JSONField(blank=True, default=dict), )",
+            "extra": {
+              "model_name": "postinsightssnapshot",
+              "app_label": "analytics",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "analytics_postinsightssnapshot",
+            "column": "errors",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/analytics/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'analytics_postinsightssnapshot.errors' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "analytics_postinsightssnapshot",
+            "column": "raw",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "JSONField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/analytics/migrations/0002_snapshot_raw_errors.py",
+            "line": 25,
+            "raw_snippet": "migrations.AddField( model_name=\"postinsightssnapshot\", name=\"raw\", field=models.JSONField(blank=True, default=dict), )",
+            "extra": {
+              "model_name": "postinsightssnapshot",
+              "app_label": "analytics",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "analytics_postinsightssnapshot",
+            "column": "raw",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/analytics/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'analytics_postinsightssnapshot.raw' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    },
+    {
+      "sha": "f9e78401b94f8be7a5a9e25c9447ee4a28eb8826",
+      "parent": "7788f65aeba8e09c62e165fbe18b9af7d868cc4e",
+      "date": "2026-06-09T11:48:45+02:00",
+      "subject": "Add OAuth 2.1 to the MCP server so Claude Desktop can connect (#61)",
+      "mig_files": [
+        "apps/api_keys/migrations/0003_apikeyauditlog_actor_label_apikeyauditlog_actor_user_and_more.py"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/api/api.py",
+        "apps/api/auth.py",
+        "apps/api/middleware.py",
+        "apps/api_keys/models.py",
+        "apps/oauth_server/__init__.py",
+        "apps/oauth_server/apps.py",
+        "apps/oauth_server/metadata.py",
+        "apps/oauth_server/urls.py",
+        "apps/oauth_server/validator.py",
+        "apps/oauth_server/views.py",
+        "config/settings/base.py",
+        "config/urls.py"
+      ],
+      "orm_models_parsed_old": 2,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "api_keys_apikeyauditlog",
+            "column": "actor_label",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "CharField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/api_keys/migrations/0003_apikeyauditlog_actor_label_apikeyauditlog_actor_user_and_more.py",
+            "line": 15,
+            "raw_snippet": "migrations.AddField( model_name=\"apikeyauditlog\", name=\"actor_label\", field=models.CharField( blank=True, default=\"\", help_text='Credential type, e.g. \"oauth\". Empty for bb_studio_",
+            "extra": {
+              "model_name": "apikeyauditlog",
+              "app_label": "api_keys",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "api_keys_apikeyauditlog",
+            "column": "actor_label",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/api_keys/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'api_keys_apikeyauditlog.actor_label' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    },
+    {
+      "sha": "7a9050a009be2e29d2898be0b054ae3dd7b95bd1",
+      "parent": "16d5372500b29d3ee379ac4365dce457e24fa51c",
+      "date": "2026-06-02T11:38:05+02:00",
+      "subject": "CI error fixes",
+      "mig_files": [
+        "apps/analytics/migrations/0001_initial.py",
+        "apps/social_accounts/migrations/0009_analytics_platform_config.py"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/analytics/services.py",
+        "apps/analytics/signals.py",
+        "apps/social_accounts/management/commands/instagram_review_test_calls.py"
+      ],
+      "orm_models_parsed_old": 4,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "social_accounts_socialaccount",
+            "column": "analytics_needs_reconnect",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "BooleanField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/social_accounts/migrations/0009_analytics_platform_config.py",
+            "line": 52,
+            "raw_snippet": "migrations.AddField( model_name=\"socialaccount\", name=\"analytics_needs_reconnect\", field=models.BooleanField(default=False), )",
+            "extra": {
+              "model_name": "socialaccount",
+              "app_label": "social_accounts",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "social_accounts_socialaccount",
+            "column": "analytics_needs_reconnect",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/social_accounts/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'social_accounts_socialaccount.analytics_needs_reconnect' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    },
+    {
+      "sha": "d3fa02ba231166997cb6df6fdb0be238e856a140",
+      "parent": "af99e9eedf64f4f6dda6cb05ae0df5f430c4c362",
+      "date": "2026-06-02T11:20:22+02:00",
+      "subject": "Analytics Feature",
+      "mig_files": [
+        "apps/analytics/migrations/0001_initial.py",
+        "apps/social_accounts/migrations/0009_analytics_platform_config.py",
+        "apps/social_accounts/migrations/0010_seed_analytics_platform_config.py"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/analytics/__init__.py",
+        "apps/analytics/admin.py",
+        "apps/analytics/apps.py",
+        "apps/analytics/derive.py",
+        "apps/analytics/management/__init__.py",
+        "apps/analytics/management/commands/__init__.py",
+        "apps/analytics/management/commands/backfill_analytics.py",
+        "apps/analytics/metrics.py",
+        "apps/analytics/models.py",
+        "apps/analytics/services.py",
+        "apps/analytics/signals.py",
+        "apps/analytics/tasks.py"
+      ],
+      "orm_models_parsed_old": 3,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "social_accounts_socialaccount",
+            "column": "analytics_needs_reconnect",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "BooleanField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/social_accounts/migrations/0009_analytics_platform_config.py",
+            "line": 28,
+            "raw_snippet": "migrations.AddField( model_name='socialaccount', name='analytics_needs_reconnect', field=models.BooleanField(default=False), )",
+            "extra": {
+              "model_name": "socialaccount",
+              "app_label": "social_accounts",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "social_accounts_socialaccount",
+            "column": "analytics_needs_reconnect",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/social_accounts/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'social_accounts_socialaccount.analytics_needs_reconnect' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    },
+    {
+      "sha": "fa569e0ae54fe31782e41ff0a41b89631dba72aa",
+      "parent": "ed91136d6f563aecd18da037f2cdb9ba22dbafca",
+      "date": "2026-05-25T14:05:48+02:00",
+      "subject": "CI prep",
+      "mig_files": [
+        "apps/intelligence/migrations/0001_initial.py",
+        "apps/organizations/migrations/0002_organization_billing_email.py"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/intelligence/apps.py",
+        "apps/intelligence/models.py",
+        "apps/intelligence/preview_data.py",
+        "apps/intelligence/services/client.py",
+        "apps/intelligence/services/exceptions.py",
+        "apps/intelligence/tasks.py",
+        "apps/intelligence/views.py",
+        "apps/members/decorators.py",
+        "config/settings/base.py"
+      ],
+      "orm_models_parsed_old": 1,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "organizations_organization",
+            "column": "billing_email",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "EmailField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/organizations/migrations/0002_organization_billing_email.py",
+            "line": 12,
+            "raw_snippet": "migrations.AddField( model_name=\"organization\", name=\"billing_email\", field=models.EmailField(blank=True, default=\"\", max_length=254), )",
+            "extra": {
+              "model_name": "organization",
+              "app_label": "organizations",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "organizations_organization",
+            "column": "billing_email",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "apps/organizations/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'organizations_organization.billing_email' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    },
+    {
+      "sha": "bcbfa5e152a0070466fbd39e89cf9ef268ff9a50",
+      "parent": "9b1221aaa4af153cf853b8e24f703851ada3f6eb",
+      "date": "2026-05-22T09:25:00+02:00",
+      "subject": "organizations: billing_email + has_intelligence for the Intel integration",
+      "mig_files": [
+        "apps/organizations/migrations/0002_organization_billing_email.py"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/organizations/models.py"
+      ],
+      "orm_models_parsed_old": 1,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "organizations_organization",
+            "column": "billing_email",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "EmailField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/organizations/migrations/0002_organization_billing_email.py",
+            "line": 13,
+            "raw_snippet": "migrations.AddField( model_name='organization', name='billing_email', field=models.EmailField(blank=True, default='', max_length=254), )",
+            "extra": {
+              "model_name": "organization",
+              "app_label": "organizations",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "organizations_organization",
+            "column": "billing_email",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/organizations/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'organizations_organization.billing_email' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    },
+    {
+      "sha": "e07d44dadbf03292f348b75307566e1f962ce849",
+      "parent": "b11ccd854cc2a8ee0a7ffe58affbb88eb4b3b482",
+      "date": "2026-04-12T19:49:38+02:00",
+      "subject": "ruff check fix",
+      "mig_files": [
+        "apps/composer/migrations/0015_per_account_status.py"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/approvals/services.py",
+        "apps/composer/views.py"
+      ],
+      "orm_models_parsed_old": 12,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "composer_platformpost",
+            "column": "status",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "CharField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/composer/migrations/0015_per_account_status.py",
+            "line": 66,
+            "raw_snippet": "migrations.AddField( model_name=\"platformpost\", name=\"status\", field=models.CharField( choices=_STATUS_CHOICES, default=\"draft\", max_length=30, db_index=True, ), )",
+            "extra": {
+              "model_name": "platformpost",
+              "app_label": "composer",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "composer_platformpost",
+            "column": "status",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/composer/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'composer_platformpost.status' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "composer_platformpost",
+            "column": "publish_status",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/composer/migrations/0015_per_account_status.py",
+            "line": 84,
+            "raw_snippet": "migrations.RemoveField( model_name=\"platformpost\", name=\"publish_status\", )",
+            "extra": {
+              "model_name": "platformpost",
+              "app_label": "composer"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "composer_platformpost",
+            "column": "publish_status",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/composer/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'publish_status' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "composer_post",
+            "column": "status",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/composer/migrations/0015_per_account_status.py",
+            "line": 106,
+            "raw_snippet": "migrations.RemoveField( model_name=\"post\", name=\"status\", )",
+            "extra": {
+              "model_name": "post",
+              "app_label": "composer"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "composer_post",
+            "column": "status",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/composer/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'status' already absent from C_{t-1} ORM and app code."
+        }
+      ]
+    },
+    {
+      "sha": "fecd0082316d4e91dac6a1b50cbdfdffc14dd3dc",
+      "parent": "4877209c5d4093c65c0ec0c5d42622cb2093b3ca",
+      "date": "2026-04-10T23:35:14+02:00",
+      "subject": "refactored PlatformPost to also have a status allowing them to move independently through a post lifecycle",
+      "mig_files": [
+        "apps/approvals/migrations/0002_approvalaction_platform_post.py",
+        "apps/composer/migrations/0015_per_account_status.py"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/approvals/models.py",
+        "apps/approvals/services.py",
+        "apps/approvals/tasks.py",
+        "apps/approvals/views.py",
+        "apps/calendar/tasks.py",
+        "apps/calendar/views.py",
+        "apps/client_portal/views.py",
+        "apps/common/context_processors.py",
+        "apps/composer/models.py",
+        "apps/composer/status.py",
+        "apps/composer/urls.py",
+        "apps/composer/views.py"
+      ],
+      "orm_models_parsed_old": 12,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "composer_platformpost",
+            "column": "status",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "CharField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/composer/migrations/0015_per_account_status.py",
+            "line": 67,
+            "raw_snippet": "migrations.AddField( model_name=\"platformpost\", name=\"status\", field=models.CharField( choices=_STATUS_CHOICES, default=\"draft\", max_length=30, db_index=True, ), )",
+            "extra": {
+              "model_name": "platformpost",
+              "app_label": "composer",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "composer_platformpost",
+            "column": "status",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "apps/composer/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'composer_platformpost.status' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "composer_platformpost",
+            "column": "publish_status",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/composer/migrations/0015_per_account_status.py",
+            "line": 85,
+            "raw_snippet": "migrations.RemoveField( model_name=\"platformpost\", name=\"publish_status\", )",
+            "extra": {
+              "model_name": "platformpost",
+              "app_label": "composer"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "composer_platformpost",
+            "column": "publish_status",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "apps/composer/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'publish_status' active in C_{t-1} ORM (apps/composer/models.py); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "composer_post",
+            "column": "status",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/composer/migrations/0015_per_account_status.py",
+            "line": 107,
+            "raw_snippet": "migrations.RemoveField( model_name=\"post\", name=\"status\", )",
+            "extra": {
+              "model_name": "post",
+              "app_label": "composer"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "composer_post",
+            "column": "status",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "apps/composer/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'status' active in C_{t-1} ORM (apps/composer/models.py); identifier removed in same commit diff"
+        }
+      ]
+    },
+    {
+      "sha": "fd3628932bc7330824ab3b8e2e3ffeb76d1e0482",
+      "parent": "4fc9623deaab44685e1e2c19cc3faf6e76e4f701",
+      "date": "2026-04-10T11:16:23+02:00",
+      "subject": "ruff format fixes",
+      "mig_files": [
+        "apps/accounts/migrations/0003_add_tos_accepted_at.py",
+        "apps/composer/migrations/0013_add_platform_post_scheduled_at.py",
+        "apps/composer/migrations/0014_add_platform_post_platform_extra.py",
+        "apps/credentials/migrations/0002_split_linkedin.py",
+        "apps/credentials/migrations/0003_add_instagram_personal_platform.py",
+        "apps/social_accounts/migrations/0002_split_linkedin.py",
+        "apps/social_accounts/migrations/0003_add_instagram_personal_platform.py"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/accounts/views.py",
+        "apps/approvals/views.py",
+        "apps/calendar/services.py",
+        "apps/calendar/tasks.py",
+        "apps/calendar/views.py",
+        "apps/client_portal/views_admin.py",
+        "apps/composer/services.py",
+        "apps/composer/views.py",
+        "apps/media_library/management/commands/cleanup_orphaned_media.py",
+        "apps/media_library/services.py",
+        "apps/notifications/engine.py",
+        "apps/organizations/views.py"
+      ],
+      "orm_models_parsed_old": 15,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "composer_platformpost",
+            "column": "platform_extra",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "JSONField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/composer/migrations/0014_add_platform_post_platform_extra.py",
+            "line": 12,
+            "raw_snippet": "migrations.AddField( model_name=\"platformpost\", name=\"platform_extra\", field=models.JSONField( blank=True, default=dict, help_text=\"Per-platform metadata (privacy, tags, thumbnail_",
+            "extra": {
+              "model_name": "platformpost",
+              "app_label": "composer",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "composer_platformpost",
+            "column": "platform_extra",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "apps/composer/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'composer_platformpost.platform_extra' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    },
+    {
+      "sha": "42590b51e143ab37f3cb00f1eb96fbd38b9e3252",
+      "parent": "e73f19d93fa7ac6b21ed9e2889e9da846227bcf5",
+      "date": "2026-04-05T23:49:26+02:00",
+      "subject": "composer youtube custom fields",
+      "mig_files": [
+        "apps/composer/migrations/0014_add_platform_post_platform_extra.py"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/composer/models.py",
+        "apps/composer/urls.py",
+        "apps/composer/views.py",
+        "apps/publisher/engine.py",
+        "apps/social_accounts/models.py",
+        "providers/youtube.py"
+      ],
+      "orm_models_parsed_old": 12,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "composer_platformpost",
+            "column": "platform_extra",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "JSONField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/composer/migrations/0014_add_platform_post_platform_extra.py",
+            "line": 13,
+            "raw_snippet": "migrations.AddField( model_name='platformpost', name='platform_extra', field=models.JSONField( blank=True, default=dict, help_text='Per-platform metadata (privacy, tags, thumbnail_",
+            "extra": {
+              "model_name": "platformpost",
+              "app_label": "composer",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "composer_platformpost",
+            "column": "platform_extra",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/composer/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'composer_platformpost.platform_extra' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    },
+    {
+      "sha": "d86474873ab7e919072a0b2ff0fe287a91c516de",
+      "parent": "91861d8e16939c318018db38a5e9b50e8a693a49",
+      "date": "2026-04-01T14:58:21Z",
+      "subject": "style: run ruff format across codebase",
+      "mig_files": [
+        "apps/accounts/migrations/0002_replace_avatar_url_with_avatar.py",
+        "apps/composer/migrations/0005_add_idea_group.py",
+        "apps/composer/migrations/0006_populate_default_idea_groups.py",
+        "apps/composer/migrations/0007_platformpost_platform_specific_title_post_title.py",
+        "apps/composer/migrations/0008_add_tag_model.py",
+        "apps/composer/migrations/0009_populate_tags_from_json.py",
+        "apps/composer/migrations/0010_add_feed_model.py",
+        "apps/composer/migrations/0011_add_media_asset_to_idea.py",
+        "apps/notifications/migrations/0003_alter_notification_event_type_and_more.py",
+        "apps/workspaces/migrations/0002_replace_icon_url_with_icon.py"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/accounts/signals.py",
+        "apps/accounts/views.py",
+        "apps/calendar/services.py",
+        "apps/calendar/views.py",
+        "apps/composer/builtin_templates.py",
+        "apps/composer/curated_feeds.py",
+        "apps/composer/views.py",
+        "apps/inbox/management/commands/backfill_inbox.py",
+        "apps/members/services.py",
+        "apps/members/views.py",
+        "apps/organizations/views.py",
+        "providers/linkedin.py"
+      ],
+      "orm_models_parsed_old": 24,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "accounts_user",
+            "column": "avatar_url",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/accounts/migrations/0002_replace_avatar_url_with_avatar.py",
+            "line": 12,
+            "raw_snippet": "migrations.RemoveField( model_name=\"user\", name=\"avatar_url\", )",
+            "extra": {
+              "model_name": "user",
+              "app_label": "accounts"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "accounts_user",
+            "column": "avatar_url",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/accounts/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'avatar_url' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "accounts_user",
+            "column": "avatar",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ImageField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/accounts/migrations/0002_replace_avatar_url_with_avatar.py",
+            "line": 16,
+            "raw_snippet": "migrations.AddField( model_name=\"user\", name=\"avatar\", field=models.ImageField(blank=True, upload_to=\"avatars/%Y/%m/\"), )",
+            "extra": {
+              "model_name": "user",
+              "app_label": "accounts",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "accounts_user",
+            "column": "avatar",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/accounts/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'accounts_user.avatar' breaks C_{t-1} INSERTs."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "composer_post",
+            "column": "title",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "CharField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/composer/migrations/0007_platformpost_platform_specific_title_post_title.py",
+            "line": 17,
+            "raw_snippet": "migrations.AddField( model_name=\"post\", name=\"title\", field=models.CharField(blank=True, default=\"\", max_length=255), )",
+            "extra": {
+              "model_name": "post",
+              "app_label": "composer",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "composer_post",
+            "column": "title",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "apps/composer/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'composer_post.title' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "workspaces_workspace",
+            "column": "icon_url",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/workspaces/migrations/0002_replace_icon_url_with_icon.py",
+            "line": 12,
+            "raw_snippet": "migrations.RemoveField( model_name=\"workspace\", name=\"icon_url\", )",
+            "extra": {
+              "model_name": "workspace",
+              "app_label": "workspaces"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "workspaces_workspace",
+            "column": "icon_url",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/workspaces/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'icon_url' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "workspaces_workspace",
+            "column": "icon",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ImageField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/workspaces/migrations/0002_replace_icon_url_with_icon.py",
+            "line": 16,
+            "raw_snippet": "migrations.AddField( model_name=\"workspace\", name=\"icon\", field=models.ImageField(blank=True, upload_to=\"workspaces/icons/%Y/%m/\"), )",
+            "extra": {
+              "model_name": "workspace",
+              "app_label": "workspaces",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "workspaces_workspace",
+            "column": "icon",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/workspaces/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'workspaces_workspace.icon' breaks C_{t-1} INSERTs."
+        }
+      ]
+    },
+    {
+      "sha": "029bcc1ac40cd2afb4aabe3be16db8737035aadb",
+      "parent": "a126580572440d8848eae9dbaecb7983e21bf429",
+      "date": "2026-04-01T11:03:46Z",
+      "subject": "feat: implement team member invites, role management, and workspace assignment",
+      "mig_files": [
+        "apps/members/migrations/0002_invitation_org_role.py"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/accounts/signals.py",
+        "apps/members/models.py",
+        "apps/members/services.py",
+        "apps/members/urls.py",
+        "apps/members/views.py"
+      ],
+      "orm_models_parsed_old": 4,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "members_invitation",
+            "column": "org_role",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "CharField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/members/migrations/0002_invitation_org_role.py",
+            "line": 10,
+            "raw_snippet": "migrations.AddField( model_name=\"invitation\", name=\"org_role\", field=models.CharField( choices=[(\"owner\", \"Owner\"), (\"admin\", \"Admin\"), (\"member\", \"Member\")], default=\"member\", max",
+            "extra": {
+              "model_name": "invitation",
+              "app_label": "members",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "members_invitation",
+            "column": "org_role",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/members/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'members_invitation.org_role' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    },
+    {
+      "sha": "3da5b2f069f2c275aaa72c8677cd887db1ec2daf",
+      "parent": "d9b5153c2b6405ad7eaf05775ceaa642a0c7343b",
+      "date": "2026-03-30T10:39:08+02:00",
+      "subject": "improved composer UI and UX",
+      "mig_files": [
+        "apps/composer/migrations/0005_add_idea_group.py",
+        "apps/composer/migrations/0006_populate_default_idea_groups.py",
+        "apps/composer/migrations/0007_platformpost_platform_specific_title_post_title.py"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/composer/forms.py",
+        "apps/composer/models.py",
+        "apps/composer/urls.py",
+        "apps/composer/views.py",
+        "apps/onboarding/checklist.py",
+        "apps/publisher/engine.py",
+        "apps/workspaces/urls.py"
+      ],
+      "orm_models_parsed_old": 9,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "composer_post",
+            "column": "title",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "CharField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/composer/migrations/0007_platformpost_platform_specific_title_post_title.py",
+            "line": 18,
+            "raw_snippet": "migrations.AddField( model_name='post', name='title', field=models.CharField(blank=True, default='', max_length=255), )",
+            "extra": {
+              "model_name": "post",
+              "app_label": "composer",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "composer_post",
+            "column": "title",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/composer/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'composer_post.title' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    },
+    {
+      "sha": "ff781917ad2034d57e1dc521d01074a098714891",
+      "parent": "6af142710ff307485de7fd29255d74ff68efd60c",
+      "date": "2026-03-27T14:36:45+01:00",
+      "subject": "settings update",
+      "mig_files": [
+        "apps/accounts/migrations/0002_replace_avatar_url_with_avatar.py"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/accounts/admin.py",
+        "apps/accounts/models.py",
+        "apps/accounts/views.py",
+        "apps/composer/views.py"
+      ],
+      "orm_models_parsed_old": 4,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "accounts_user",
+            "column": "avatar_url",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/accounts/migrations/0002_replace_avatar_url_with_avatar.py",
+            "line": 13,
+            "raw_snippet": "migrations.RemoveField( model_name='user', name='avatar_url', )",
+            "extra": {
+              "model_name": "user",
+              "app_label": "accounts"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "accounts_user",
+            "column": "avatar_url",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "apps/accounts/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'avatar_url' active in C_{t-1} ORM (apps/accounts/models.py); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "accounts_user",
+            "column": "avatar",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ImageField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/accounts/migrations/0002_replace_avatar_url_with_avatar.py",
+            "line": 17,
+            "raw_snippet": "migrations.AddField( model_name='user', name='avatar', field=models.ImageField(blank=True, upload_to='avatars/%Y/%m/'), )",
+            "extra": {
+              "model_name": "user",
+              "app_label": "accounts",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "accounts_user",
+            "column": "avatar",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/accounts/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'accounts_user.avatar' breaks C_{t-1} INSERTs."
+        }
+      ]
+    },
+    {
+      "sha": "5bcadd967645ad51b82e689d2eba5237cd9fab2f",
+      "parent": "cba51db40c540fe6678fd03bb02d4d2596898238",
+      "date": "2026-03-27T13:46:58+01:00",
+      "subject": "workspace settings",
+      "mig_files": [
+        "apps/workspaces/migrations/0002_replace_icon_url_with_icon.py"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/media_library/views.py",
+        "apps/workspaces/models.py",
+        "apps/workspaces/urls.py",
+        "apps/workspaces/views.py"
+      ],
+      "orm_models_parsed_old": 1,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "DROP_COLUMN",
+            "table": "workspaces_workspace",
+            "column": "icon_url",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/workspaces/migrations/0002_replace_icon_url_with_icon.py",
+            "line": 13,
+            "raw_snippet": "migrations.RemoveField( model_name='workspace', name='icon_url', )",
+            "extra": {
+              "model_name": "workspace",
+              "app_label": "workspaces"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "workspaces_workspace",
+            "column": "icon_url",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "apps/workspaces/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'icon_url' active in C_{t-1} ORM (apps/workspaces/models.py); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "workspaces_workspace",
+            "column": "icon",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ImageField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/workspaces/migrations/0002_replace_icon_url_with_icon.py",
+            "line": 17,
+            "raw_snippet": "migrations.AddField( model_name='workspace', name='icon', field=models.ImageField(blank=True, upload_to='workspaces/icons/%Y/%m/'), )",
+            "extra": {
+              "model_name": "workspace",
+              "app_label": "workspaces",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "workspaces_workspace",
+            "column": "icon",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/workspaces/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'workspaces_workspace.icon' breaks C_{t-1} INSERTs."
+        }
+      ]
+    },
+    {
+      "sha": "3fcf1444a95d422027866b224ddd4b95cacc4571",
+      "parent": "4f87a04fa3d2e41246d9ae8e8770863275a7de89",
+      "date": "2026-03-26T21:09:21+01:00",
+      "subject": "Apply ruff format to all files",
+      "mig_files": [
+        "apps/calendar/migrations/0003_queue_queueentry_recurrencerule_customcalendarevent.py",
+        "apps/calendar/migrations/0004_queue_category_queue_social_account_queue_workspace_and_more.py",
+        "apps/composer/migrations/0003_idea.py",
+        "apps/composer/migrations/0004_contentcategory_post_category_csvimportjob_and_more.py"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/accounts/views.py",
+        "apps/calendar/holidays.py",
+        "apps/calendar/services.py",
+        "apps/calendar/tasks.py",
+        "apps/calendar/views.py",
+        "apps/common/context_processors.py",
+        "apps/composer/models.py",
+        "apps/composer/views.py",
+        "apps/media_library/views.py",
+        "apps/organizations/views.py"
+      ],
+      "orm_models_parsed_old": 5,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "calendar_queue",
+            "column": "social_account",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/calendar/migrations/0004_queue_category_queue_social_account_queue_workspace_and_more.py",
+            "line": 27,
+            "raw_snippet": "migrations.AddField( model_name=\"queue\", name=\"social_account\", field=models.ForeignKey( on_delete=django.db.models.deletion.CASCADE, related_name=\"queues\", to=\"social_accounts.soc",
+            "extra": {
+              "model_name": "queue",
+              "app_label": "calendar",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "calendar_queue",
+            "column": "social_account",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "apps/calendar/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'calendar_queue' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "calendar_queue",
+            "column": "workspace",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/calendar/migrations/0004_queue_category_queue_social_account_queue_workspace_and_more.py",
+            "line": 34,
+            "raw_snippet": "migrations.AddField( model_name=\"queue\", name=\"workspace\", field=models.ForeignKey( on_delete=django.db.models.deletion.CASCADE, related_name=\"queues\", to=\"workspaces.workspace\" ),",
+            "extra": {
+              "model_name": "queue",
+              "app_label": "calendar",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "calendar_queue",
+            "column": "workspace",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "apps/calendar/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'calendar_queue' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "calendar_queueentry",
+            "column": "post",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/calendar/migrations/0004_queue_category_queue_social_account_queue_workspace_and_more.py",
+            "line": 41,
+            "raw_snippet": "migrations.AddField( model_name=\"queueentry\", name=\"post\", field=models.ForeignKey( on_delete=django.db.models.deletion.CASCADE, related_name=\"queue_entries\", to=\"composer.post\" ),",
+            "extra": {
+              "model_name": "queueentry",
+              "app_label": "calendar",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "calendar_queueentry",
+            "column": "post",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "apps/calendar/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'calendar_queueentry' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "calendar_queueentry",
+            "column": "queue",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/calendar/migrations/0004_queue_category_queue_social_account_queue_workspace_and_more.py",
+            "line": 48,
+            "raw_snippet": "migrations.AddField( model_name=\"queueentry\", name=\"queue\", field=models.ForeignKey( on_delete=django.db.models.deletion.CASCADE, related_name=\"entries\", to=\"calendar.queue\" ), )",
+            "extra": {
+              "model_name": "queueentry",
+              "app_label": "calendar",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "calendar_queueentry",
+            "column": "queue",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "apps/calendar/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'calendar_queueentry' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "calendar_recurrencerule",
+            "column": "post",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "OneToOneField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/calendar/migrations/0004_queue_category_queue_social_account_queue_workspace_and_more.py",
+            "line": 55,
+            "raw_snippet": "migrations.AddField( model_name=\"recurrencerule\", name=\"post\", field=models.OneToOneField( on_delete=django.db.models.deletion.CASCADE, related_name=\"recurrence_rule\", to=\"composer",
+            "extra": {
+              "model_name": "recurrencerule",
+              "app_label": "calendar",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "calendar_recurrencerule",
+            "column": "post",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "apps/calendar/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'calendar_recurrencerule' was created in the same commit; C_{t-1} does not write to it."
+        }
+      ]
+    },
+    {
+      "sha": "7c2960551a75884705241df954c0678319003f8a",
+      "parent": "01d914758edc359138c6a8e65c00973c7b535f0a",
+      "date": "2026-03-26T20:26:40+01:00",
+      "subject": "Add calendar & composer enhancements: queues, CSV import, templates, categories, recurring posts, holidays, custom events",
+      "mig_files": [
+        "apps/calendar/migrations/0003_queue_queueentry_recurrencerule_customcalendarevent.py",
+        "apps/calendar/migrations/0004_queue_category_queue_social_account_queue_workspace_and_more.py",
+        "apps/composer/migrations/0004_contentcategory_post_category_csvimportjob_and_more.py"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/calendar/holidays.py",
+        "apps/calendar/models.py",
+        "apps/calendar/services.py",
+        "apps/calendar/tasks.py",
+        "apps/calendar/urls.py",
+        "apps/calendar/views.py",
+        "apps/composer/forms.py",
+        "apps/composer/models.py",
+        "apps/composer/urls.py",
+        "apps/composer/views.py",
+        "apps/organizations/urls.py",
+        "apps/organizations/views.py"
+      ],
+      "orm_models_parsed_old": 1,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "calendar_queue",
+            "column": "social_account",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/calendar/migrations/0004_queue_category_queue_social_account_queue_workspace_and_more.py",
+            "line": 22,
+            "raw_snippet": "migrations.AddField( model_name='queue', name='social_account', field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='queues', to='social_accounts.soci",
+            "extra": {
+              "model_name": "queue",
+              "app_label": "calendar",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "calendar_queue",
+            "column": "social_account",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'calendar_queue' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "calendar_queue",
+            "column": "workspace",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/calendar/migrations/0004_queue_category_queue_social_account_queue_workspace_and_more.py",
+            "line": 27,
+            "raw_snippet": "migrations.AddField( model_name='queue', name='workspace', field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='queues', to='workspaces.workspace'), )",
+            "extra": {
+              "model_name": "queue",
+              "app_label": "calendar",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "calendar_queue",
+            "column": "workspace",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'calendar_queue' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "calendar_queueentry",
+            "column": "post",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/calendar/migrations/0004_queue_category_queue_social_account_queue_workspace_and_more.py",
+            "line": 32,
+            "raw_snippet": "migrations.AddField( model_name='queueentry', name='post', field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='queue_entries', to='composer.post'), )",
+            "extra": {
+              "model_name": "queueentry",
+              "app_label": "calendar",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "calendar_queueentry",
+            "column": "post",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'calendar_queueentry' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "calendar_queueentry",
+            "column": "queue",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/calendar/migrations/0004_queue_category_queue_social_account_queue_workspace_and_more.py",
+            "line": 37,
+            "raw_snippet": "migrations.AddField( model_name='queueentry', name='queue', field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='entries', to='calendar.queue'), )",
+            "extra": {
+              "model_name": "queueentry",
+              "app_label": "calendar",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "calendar_queueentry",
+            "column": "queue",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'calendar_queueentry' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "calendar_recurrencerule",
+            "column": "post",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "OneToOneField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/calendar/migrations/0004_queue_category_queue_social_account_queue_workspace_and_more.py",
+            "line": 42,
+            "raw_snippet": "migrations.AddField( model_name='recurrencerule', name='post', field=models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='recurrence_rule', to='composer.",
+            "extra": {
+              "model_name": "recurrencerule",
+              "app_label": "calendar",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "calendar_recurrencerule",
+            "column": "post",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'calendar_recurrencerule' was created in the same commit; C_{t-1} does not write to it."
+        }
+      ]
+    },
+    {
+      "sha": "7f05bf702fc0ee748cf68b74e2d8536d664731c7",
+      "parent": "3470e65c08aa420d243560fff122ab8ff36bcf1e",
+      "date": "2026-03-26T01:16:36+01:00",
+      "subject": "Run ruff format on all unformatted files",
+      "mig_files": [
+        "apps/media_library/migrations/0002_mediaasset_is_starred_mediaasset_organization_and_more.py",
+        "apps/notifications/migrations/0001_initial.py"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/media_library/managers.py",
+        "apps/media_library/services.py",
+        "apps/media_library/tasks.py",
+        "apps/media_library/views.py",
+        "apps/notifications/context_processors.py",
+        "apps/notifications/engine.py",
+        "apps/notifications/views.py"
+      ],
+      "orm_models_parsed_old": 3,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "media_library_mediaasset",
+            "column": "is_starred",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "BooleanField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/media_library/migrations/0002_mediaasset_is_starred_mediaasset_organization_and_more.py",
+            "line": 19,
+            "raw_snippet": "migrations.AddField( model_name=\"mediaasset\", name=\"is_starred\", field=models.BooleanField(default=False), )",
+            "extra": {
+              "model_name": "mediaasset",
+              "app_label": "media_library",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "media_library_mediaasset",
+            "column": "is_starred",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/media_library/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'media_library_mediaasset.is_starred' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    },
+    {
+      "sha": "3470e65c08aa420d243560fff122ab8ff36bcf1e",
+      "parent": "b56e51854b2bc77a4f4480dbcdea5875f9fca778",
+      "date": "2026-03-26T01:14:15+01:00",
+      "subject": "Fix migration import order lint and preferences test assertion",
+      "mig_files": [
+        "apps/media_library/migrations/0002_mediaasset_is_starred_mediaasset_organization_and_more.py"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 3,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "media_library_mediaasset",
+            "column": "is_starred",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "BooleanField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/media_library/migrations/0002_mediaasset_is_starred_mediaasset_organization_and_more.py",
+            "line": 20,
+            "raw_snippet": "migrations.AddField( model_name='mediaasset', name='is_starred', field=models.BooleanField(default=False), )",
+            "extra": {
+              "model_name": "mediaasset",
+              "app_label": "media_library",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "media_library_mediaasset",
+            "column": "is_starred",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/media_library/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'media_library_mediaasset.is_starred' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    },
+    {
+      "sha": "5dda4b02bc007ec745b90b8e386aed6cdb4a03a1",
+      "parent": "fdf30e4ded0fc6b027f0a32db021d86108c77e24",
+      "date": "2026-03-26T00:54:09+01:00",
+      "subject": "Add full media library feature (F-6.1)",
+      "mig_files": [
+        "apps/media_library/migrations/0002_mediaasset_is_starred_mediaasset_organization_and_more.py",
+        "apps/notifications/migrations/0001_initial.py"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/media_library/admin.py",
+        "apps/media_library/managers.py",
+        "apps/media_library/models.py",
+        "apps/media_library/services.py",
+        "apps/media_library/tasks.py",
+        "apps/media_library/urls.py",
+        "apps/media_library/urls_org.py",
+        "apps/media_library/validators.py",
+        "apps/media_library/views.py",
+        "apps/members/models.py",
+        "apps/notifications/__init__.py",
+        "apps/notifications/admin.py"
+      ],
+      "orm_models_parsed_old": 1,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "media_library_mediaasset",
+            "column": "is_starred",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "BooleanField",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/media_library/migrations/0002_mediaasset_is_starred_mediaasset_organization_and_more.py",
+            "line": 19,
+            "raw_snippet": "migrations.AddField( model_name='mediaasset', name='is_starred', field=models.BooleanField(default=False), )",
+            "extra": {
+              "model_name": "mediaasset",
+              "app_label": "media_library",
+              "django_python_default_dropped_in_db": true
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "media_library_mediaasset",
+            "column": "is_starred",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/media_library/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'media_library_mediaasset.is_starred' breaks C_{t-1} INSERTs (Django drops DB default after backfill)."
+        }
+      ]
+    },
+    {
+      "sha": "380b2379717b99faa2097a5c9a969437233f212f",
+      "parent": "98a317ffae5feacbdf72fc7e4e6416d01322365a",
+      "date": "2026-03-25T23:44:16+01:00",
+      "subject": "Apply ruff format to all files",
+      "mig_files": [
+        "apps/accounts/migrations/0001_initial.py",
+        "apps/calendar/migrations/0001_initial.py",
+        "apps/calendar/migrations/0002_initial.py",
+        "apps/composer/migrations/0001_initial.py",
+        "apps/composer/migrations/0002_initial.py",
+        "apps/credentials/migrations/0001_initial.py",
+        "apps/media_library/migrations/0001_initial.py",
+        "apps/members/migrations/0001_initial.py",
+        "apps/organizations/migrations/0001_initial.py",
+        "apps/publisher/migrations/0001_initial.py",
+        "apps/publisher/migrations/0002_initial.py",
+        "apps/settings_manager/migrations/0001_initial.py",
+        "apps/social_accounts/migrations/0001_initial.py",
+        "apps/workspaces/migrations/0001_initial.py"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/accounts/admin.py",
+        "apps/calendar/urls.py",
+        "apps/calendar/views.py",
+        "apps/composer/forms.py",
+        "apps/composer/models.py",
+        "apps/composer/urls.py",
+        "apps/composer/views.py",
+        "apps/members/decorators.py",
+        "apps/members/middleware.py",
+        "apps/publisher/engine.py",
+        "apps/publisher/management/commands/run_publisher.py",
+        "apps/settings_manager/helpers.py"
+      ],
+      "orm_models_parsed_old": 7,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "calendar_postingslot",
+            "column": "social_account",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/calendar/migrations/0002_initial.py",
+            "line": 16,
+            "raw_snippet": "migrations.AddField( model_name=\"postingslot\", name=\"social_account\", field=models.ForeignKey( on_delete=django.db.models.deletion.CASCADE, related_name=\"posting_slots\", to=\"social",
+            "extra": {
+              "model_name": "postingslot",
+              "app_label": "calendar",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "calendar_postingslot",
+            "column": "social_account",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "apps/calendar/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'calendar_postingslot' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "composer_platformpost",
+            "column": "social_account",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/composer/migrations/0002_initial.py",
+            "line": 20,
+            "raw_snippet": "migrations.AddField( model_name=\"platformpost\", name=\"social_account\", field=models.ForeignKey( on_delete=django.db.models.deletion.CASCADE, related_name=\"platform_posts\", to=\"soci",
+            "extra": {
+              "model_name": "platformpost",
+              "app_label": "composer",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "composer_platformpost",
+            "column": "social_account",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "apps/composer/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'composer_platformpost' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "composer_post",
+            "column": "workspace",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/composer/migrations/0002_initial.py",
+            "line": 40,
+            "raw_snippet": "migrations.AddField( model_name=\"post\", name=\"workspace\", field=models.ForeignKey( on_delete=django.db.models.deletion.CASCADE, related_name=\"posts\", to=\"workspaces.workspace\" ), )",
+            "extra": {
+              "model_name": "post",
+              "app_label": "composer",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "composer_post",
+            "column": "workspace",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "apps/composer/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'composer_post' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "composer_platformpost",
+            "column": "post",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/composer/migrations/0002_initial.py",
+            "line": 47,
+            "raw_snippet": "migrations.AddField( model_name=\"platformpost\", name=\"post\", field=models.ForeignKey( on_delete=django.db.models.deletion.CASCADE, related_name=\"platform_posts\", to=\"composer.post\"",
+            "extra": {
+              "model_name": "platformpost",
+              "app_label": "composer",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "composer_platformpost",
+            "column": "post",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "apps/composer/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'composer_platformpost' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "composer_postmedia",
+            "column": "media_asset",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/composer/migrations/0002_initial.py",
+            "line": 54,
+            "raw_snippet": "migrations.AddField( model_name=\"postmedia\", name=\"media_asset\", field=models.ForeignKey( on_delete=django.db.models.deletion.CASCADE, related_name=\"post_usages\", to=\"media_library",
+            "extra": {
+              "model_name": "postmedia",
+              "app_label": "composer",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "composer_postmedia",
+            "column": "media_asset",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "apps/composer/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'composer_postmedia' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "composer_postmedia",
+            "column": "post",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/composer/migrations/0002_initial.py",
+            "line": 61,
+            "raw_snippet": "migrations.AddField( model_name=\"postmedia\", name=\"post\", field=models.ForeignKey( on_delete=django.db.models.deletion.CASCADE, related_name=\"media_attachments\", to=\"composer.post\"",
+            "extra": {
+              "model_name": "postmedia",
+              "app_label": "composer",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "composer_postmedia",
+            "column": "post",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "apps/composer/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'composer_postmedia' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "composer_postversion",
+            "column": "post",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/composer/migrations/0002_initial.py",
+            "line": 75,
+            "raw_snippet": "migrations.AddField( model_name=\"postversion\", name=\"post\", field=models.ForeignKey( on_delete=django.db.models.deletion.CASCADE, related_name=\"versions\", to=\"composer.post\" ), )",
+            "extra": {
+              "model_name": "postversion",
+              "app_label": "composer",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "composer_postversion",
+            "column": "post",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "apps/composer/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'composer_postversion' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "publisher_ratelimitstate",
+            "column": "social_account",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/publisher/migrations/0002_initial.py",
+            "line": 16,
+            "raw_snippet": "migrations.AddField( model_name=\"ratelimitstate\", name=\"social_account\", field=models.ForeignKey( on_delete=django.db.models.deletion.CASCADE, related_name=\"rate_limit_states\", to=",
+            "extra": {
+              "model_name": "ratelimitstate",
+              "app_label": "publisher",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "publisher_ratelimitstate",
+            "column": "social_account",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "apps/publisher/models.py"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'publisher_ratelimitstate' was created in the same commit; C_{t-1} does not write to it."
+        }
+      ]
+    },
+    {
+      "sha": "208ac508b06d155e9cf82eecf0c1fbd581a24686",
+      "parent": "52558a26c03969c2fa2efd3834e9d2b9a0cd6390",
+      "date": "2026-03-25T23:06:54+01:00",
+      "subject": "Implement Stream A content pipeline: composer, calendar, publishing engine",
+      "mig_files": [
+        "apps/calendar/migrations/0001_initial.py",
+        "apps/calendar/migrations/0002_initial.py",
+        "apps/composer/migrations/0001_initial.py",
+        "apps/composer/migrations/0002_initial.py",
+        "apps/media_library/migrations/0001_initial.py",
+        "apps/publisher/migrations/0001_initial.py",
+        "apps/publisher/migrations/0002_initial.py",
+        "apps/social_accounts/migrations/0001_initial.py"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/calendar/__init__.py",
+        "apps/calendar/apps.py",
+        "apps/calendar/models.py",
+        "apps/calendar/urls.py",
+        "apps/calendar/views.py",
+        "apps/composer/__init__.py",
+        "apps/composer/apps.py",
+        "apps/composer/forms.py",
+        "apps/composer/models.py",
+        "apps/composer/urls.py",
+        "apps/composer/views.py",
+        "apps/media_library/__init__.py"
+      ],
+      "orm_models_parsed_old": 0,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "calendar_postingslot",
+            "column": "social_account",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/calendar/migrations/0002_initial.py",
+            "line": 17,
+            "raw_snippet": "migrations.AddField( model_name='postingslot', name='social_account', field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='posting_slots', to='social_",
+            "extra": {
+              "model_name": "postingslot",
+              "app_label": "calendar",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "calendar_postingslot",
+            "column": "social_account",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'calendar_postingslot' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "composer_platformpost",
+            "column": "social_account",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/composer/migrations/0002_initial.py",
+            "line": 21,
+            "raw_snippet": "migrations.AddField( model_name='platformpost', name='social_account', field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='platform_posts', to='socia",
+            "extra": {
+              "model_name": "platformpost",
+              "app_label": "composer",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "composer_platformpost",
+            "column": "social_account",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'composer_platformpost' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "composer_post",
+            "column": "workspace",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/composer/migrations/0002_initial.py",
+            "line": 31,
+            "raw_snippet": "migrations.AddField( model_name='post', name='workspace', field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='posts', to='workspaces.workspace'), )",
+            "extra": {
+              "model_name": "post",
+              "app_label": "composer",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "composer_post",
+            "column": "workspace",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'composer_post' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "composer_platformpost",
+            "column": "post",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/composer/migrations/0002_initial.py",
+            "line": 36,
+            "raw_snippet": "migrations.AddField( model_name='platformpost', name='post', field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='platform_posts', to='composer.post')",
+            "extra": {
+              "model_name": "platformpost",
+              "app_label": "composer",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "composer_platformpost",
+            "column": "post",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'composer_platformpost' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "composer_postmedia",
+            "column": "media_asset",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/composer/migrations/0002_initial.py",
+            "line": 41,
+            "raw_snippet": "migrations.AddField( model_name='postmedia', name='media_asset', field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='post_usages', to='media_library.",
+            "extra": {
+              "model_name": "postmedia",
+              "app_label": "composer",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "composer_postmedia",
+            "column": "media_asset",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'composer_postmedia' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "composer_postmedia",
+            "column": "post",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/composer/migrations/0002_initial.py",
+            "line": 46,
+            "raw_snippet": "migrations.AddField( model_name='postmedia', name='post', field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='media_attachments', to='composer.post')",
+            "extra": {
+              "model_name": "postmedia",
+              "app_label": "composer",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "composer_postmedia",
+            "column": "post",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'composer_postmedia' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "composer_postversion",
+            "column": "post",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/composer/migrations/0002_initial.py",
+            "line": 56,
+            "raw_snippet": "migrations.AddField( model_name='postversion', name='post', field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='versions', to='composer.post'), )",
+            "extra": {
+              "model_name": "postversion",
+              "app_label": "composer",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "composer_postversion",
+            "column": "post",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'composer_postversion' was created in the same commit; C_{t-1} does not write to it."
+        },
+        {
+          "op": {
+            "ecosystem": "django",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "publisher_ratelimitstate",
+            "column": "social_account",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "ForeignKey",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "apps/publisher/migrations/0002_initial.py",
+            "line": 17,
+            "raw_snippet": "migrations.AddField( model_name='ratelimitstate', name='social_account', field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='rate_limit_states', to='",
+            "extra": {
+              "model_name": "ratelimitstate",
+              "app_label": "publisher",
+              "django_python_default_dropped_in_db": false
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "publisher_ratelimitstate",
+            "column": "social_account",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'publisher_ratelimitstate' was created in the same commit; C_{t-1} does not write to it."
+        }
+      ]
+    }
+  ]
+}

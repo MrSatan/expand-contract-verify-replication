@@ -1,0 +1,401 @@
+{
+  "rq4_synth_minimal_with_schema_equiv": {
+    "ADD_NOT_NULL_NO_DEFAULT": {
+      "attempted": 23,
+      "verified_pass": 23,
+      "schema_equiv": 23
+    },
+    "ADD_UNIQUE_OR_CHECK": {
+      "attempted": 7,
+      "verified_pass": 7,
+      "schema_equiv": 7
+    },
+    "ALL": {
+      "attempted": 117,
+      "verified_pass": 109,
+      "schema_equiv": 109
+    },
+    "ALTER_COLUMN_TYPE": {
+      "attempted": 9,
+      "verified_pass": 2,
+      "schema_equiv": 2
+    },
+    "DROP_COLUMN": {
+      "attempted": 23,
+      "verified_pass": 23,
+      "schema_equiv": 23
+    },
+    "DROP_TABLE": {
+      "attempted": 18,
+      "verified_pass": 18,
+      "schema_equiv": 18
+    },
+    "RENAME_COLUMN": {
+      "attempted": 13,
+      "verified_pass": 13,
+      "schema_equiv": 13
+    },
+    "RENAME_TABLE": {
+      "attempted": 10,
+      "verified_pass": 10,
+      "schema_equiv": 10
+    },
+    "RENAME_TYPE_ENUM": {
+      "attempted": 2,
+      "verified_pass": 2,
+      "schema_equiv": 2
+    },
+    "SET_NOT_NULL": {
+      "attempted": 12,
+      "verified_pass": 11,
+      "schema_equiv": 11
+    }
+  },
+  "listing1_papermark_exact_equiv": {
+    "c_old_expand_ok": true,
+    "c_new_expand_ok": true,
+    "c_new_contract_ok": true,
+    "schema_exact_match_S_t": true,
+    "ref_schema": [
+      {
+        "table": "Chat",
+        "col": "id",
+        "type": "text",
+        "udt": "text",
+        "dt_prec": null,
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "table": "Chat",
+        "col": "teamId",
+        "type": "text",
+        "udt": "text",
+        "dt_prec": null,
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "table": "Chat",
+        "col": "updatedAt",
+        "type": "timestamp without time zone",
+        "udt": "timestamp",
+        "dt_prec": 3,
+        "nullable": "NO",
+        "default": null
+      }
+    ],
+    "contract_schema": [
+      {
+        "table": "Chat",
+        "col": "id",
+        "type": "text",
+        "udt": "text",
+        "dt_prec": null,
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "table": "Chat",
+        "col": "teamId",
+        "type": "text",
+        "udt": "text",
+        "dt_prec": null,
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "table": "Chat",
+        "col": "updatedAt",
+        "type": "timestamp without time zone",
+        "udt": "timestamp",
+        "dt_prec": 3,
+        "nullable": "NO",
+        "default": null
+      }
+    ]
+  },
+  "rq4_full_schema_dmmf": {
+    "candidates_attempted": 58,
+    "histories_loaded": 38,
+    "reproducible": 31,
+    "crashes_reproduced": 31,
+    "dmmf_driven_crashes": 26,
+    "distinct_repos_crashed": 10,
+    "synth_verified_with_schema_equiv": 19,
+    "pass_rate_pct": 61.3,
+    "avg_tables": 34.1,
+    "avg_fks": 37.5,
+    "max_tables": 65,
+    "max_fks": 113,
+    "by_op_crashed": {
+      "ADD_NOT_NULL_NO_DEFAULT": 10,
+      "RENAME_COLUMN": 3,
+      "DROP_COLUMN": 5,
+      "DROP_TABLE": 4,
+      "SET_NOT_NULL": 8,
+      "RENAME_TABLE": 1
+    },
+    "by_op_verified": {
+      "ADD_NOT_NULL_NO_DEFAULT": 8,
+      "DROP_COLUMN": 5,
+      "DROP_TABLE": 4,
+      "RENAME_COLUMN": 2
+    },
+    "sqlstates": {
+      "23502": 9,
+      "42703": 14,
+      "42P01": 8
+    },
+    "examples": [
+      {
+        "repo": "Raktim94/nodedr-restaurant-pos",
+        "sha": "4d758bd5",
+        "op_kind": "ADD_NOT_NULL_NO_DEFAULT",
+        "table": "modifier_groups",
+        "col": null,
+        "dmmf": true,
+        "tables": 45,
+        "fks": 91,
+        "enums": 17,
+        "prior_migs": 7,
+        "sqlstate": "23502",
+        "equiv": true,
+        "verified": true,
+        "ms": 17730
+      },
+      {
+        "repo": "invoicerr-app/invoicerr",
+        "sha": "5d27478d",
+        "op_kind": "DROP_COLUMN",
+        "table": "company_subscription",
+        "col": "polarCustomerId",
+        "dmmf": false,
+        "tables": 56,
+        "fks": 66,
+        "enums": 32,
+        "prior_migs": 165,
+        "sqlstate": "42703",
+        "equiv": true,
+        "verified": true,
+        "ms": 14319
+      },
+      {
+        "repo": "papermark/papermark",
+        "sha": "51a67827",
+        "op_kind": "ADD_NOT_NULL_NO_DEFAULT",
+        "table": "Chat",
+        "col": null,
+        "dmmf": false,
+        "tables": 56,
+        "fks": 113,
+        "enums": 18,
+        "prior_migs": 94,
+        "sqlstate": "42703",
+        "equiv": true,
+        "verified": true,
+        "ms": 11025
+      },
+      {
+        "repo": "umami-software/umami",
+        "sha": "b121505b",
+        "op_kind": "DROP_TABLE",
+        "table": "commerce_item",
+        "col": null,
+        "dmmf": true,
+        "tables": 31,
+        "fks": 1,
+        "enums": 0,
+        "prior_migs": 31,
+        "sqlstate": "42P01",
+        "equiv": true,
+        "verified": true,
+        "ms": 6975
+      },
+      {
+        "repo": "toeverything/AFFiNE",
+        "sha": "965f4590",
+        "op_kind": "DROP_COLUMN",
+        "table": "ai_workspace_byok_configs",
+        "col": "endpoint",
+        "dmmf": true,
+        "tables": 65,
+        "fks": 65,
+        "enums": 11,
+        "prior_migs": 115,
+        "sqlstate": "42703",
+        "equiv": true,
+        "verified": true,
+        "ms": 5622
+      },
+      {
+        "repo": "Openpanel-dev/openpanel",
+        "sha": "02d52d5d",
+        "op_kind": "ADD_NOT_NULL_NO_DEFAULT",
+        "table": "event_meta",
+        "col": null,
+        "dmmf": true,
+        "tables": 10,
+        "fks": 7,
+        "enums": 3,
+        "prior_migs": 42,
+        "sqlstate": "23502",
+        "equiv": true,
+        "verified": true,
+        "ms": 11377
+      },
+      {
+        "repo": "invoicerr-app/invoicerr",
+        "sha": "5d27478d",
+        "op_kind": "DROP_TABLE",
+        "table": "polar_webhook_event",
+        "col": null,
+        "dmmf": false,
+        "tables": 56,
+        "fks": 66,
+        "enums": 32,
+        "prior_migs": 165,
+        "sqlstate": "42P01",
+        "equiv": true,
+        "verified": true,
+        "ms": 13905
+      },
+      {
+        "repo": "papermark/papermark",
+        "sha": "51a67827",
+        "op_kind": "ADD_NOT_NULL_NO_DEFAULT",
+        "table": "Chat",
+        "col": null,
+        "dmmf": false,
+        "tables": 56,
+        "fks": 113,
+        "enums": 18,
+        "prior_migs": 94,
+        "sqlstate": "42703",
+        "equiv": true,
+        "verified": true,
+        "ms": 12686
+      },
+      {
+        "repo": "umami-software/umami",
+        "sha": "b121505b",
+        "op_kind": "DROP_COLUMN",
+        "table": "website",
+        "col": "commerce_config",
+        "dmmf": true,
+        "tables": 31,
+        "fks": 1,
+        "enums": 0,
+        "prior_migs": 31,
+        "sqlstate": "42703",
+        "equiv": true,
+        "verified": true,
+        "ms": 9824
+      },
+      {
+        "repo": "toeverything/AFFiNE",
+        "sha": "965f4590",
+        "op_kind": "DROP_TABLE",
+        "table": "ai_prompts_messages",
+        "col": null,
+        "dmmf": true,
+        "tables": 65,
+        "fks": 65,
+        "enums": 11,
+        "prior_migs": 115,
+        "sqlstate": "42P01",
+        "equiv": true,
+        "verified": true,
+        "ms": 7595
+      },
+      {
+        "repo": "amplication/amplication",
+        "sha": "87f8a9aa",
+        "op_kind": "ADD_NOT_NULL_NO_DEFAULT",
+        "table": "BuildPlugin",
+        "col": null,
+        "dmmf": true,
+        "tables": 38,
+        "fks": 64,
+        "enums": 17,
+        "prior_migs": 93,
+        "sqlstate": "42703",
+        "equiv": true,
+        "verified": true,
+        "ms": 12543
+      },
+      {
+        "repo": "amplication/amplication",
+        "sha": "87f8a9aa",
+        "op_kind": "ADD_NOT_NULL_NO_DEFAULT",
+        "table": "BuildPlugin",
+        "col": null,
+        "dmmf": true,
+        "tables": 38,
+        "fks": 64,
+        "enums": 17,
+        "prior_migs": 93,
+        "sqlstate": "42703",
+        "equiv": true,
+        "verified": true,
+        "ms": 11454
+      },
+      {
+        "repo": "linkwarden/linkwarden",
+        "sha": "98106b9f",
+        "op_kind": "RENAME_COLUMN",
+        "table": "Link",
+        "col": "screenshotPath",
+        "dmmf": true,
+        "tables": 12,
+        "fks": 13,
+        "enums": 0,
+        "prior_migs": 21,
+        "sqlstate": "42703",
+        "equiv": true,
+        "verified": true,
+        "ms": 10567
+      },
+      {
+        "repo": "wasp-lang/wasp",
+        "sha": "a445da9e",
+        "op_kind": "DROP_TABLE",
+        "table": "SocialLogin",
+        "col": null,
+        "dmmf": true,
+        "tables": 6,
+        "fks": 5,
+        "enums": 0,
+        "prior_migs": 18,
+        "sqlstate": "42P01",
+        "equiv": true,
+        "verified": true,
+        "ms": 7655
+      },
+      {
+        "repo": "captableinc/captable",
+        "sha": "7789249e",
+        "op_kind": "DROP_COLUMN",
+        "table": "ApiKey",
+        "col": "hashedToken",
+        "dmmf": true,
+        "tables": 37,
+        "fks": 0,
+        "enums": 29,
+        "prior_migs": 20,
+        "sqlstate": "42P01",
+        "equiv": true,
+        "verified": true,
+        "ms": 17379
+      }
+    ]
+  },
+  "rq2_squawk_prisma_added_only": {
+    "commits_evaluated": 400,
+    "ecv_safe_contract_only_commits": 58,
+    "flagged_by_squawk_default": 58,
+    "flagged_by_squawk_strict_compat": 56,
+    "ecv_violation_commits": 312,
+    "missed_by_squawk_strict_compat": 43
+  }
+}

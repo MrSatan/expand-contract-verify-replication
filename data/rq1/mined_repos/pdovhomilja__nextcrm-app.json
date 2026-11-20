@@ -1,0 +1,2426 @@
+{
+  "repo": "pdovhomilja/nextcrm-app",
+  "ecosystem": "prisma",
+  "stars": 743,
+  "has_k8s_helm": false,
+  "status": "ok",
+  "stats": {
+    "total_migration_commits_in_history": 66,
+    "migration_commits_analyzed": 64,
+    "total_migration_files_parsed": 70,
+    "commits_with_any_destructive": 18,
+    "commits_with_forward_destructive": 18,
+    "commits_with_rollback_only_destructive": 0,
+    "total_ops_extracted": 53,
+    "destructive_ops_up": 53,
+    "destructive_ops_down": 0
+  },
+  "verdict_counts": {
+    "DUAL_VERSION_VIOLATION_BACKWARD": 23,
+    "SAFE_CONTRACT": 24,
+    "DATA_DEPENDENT": 1,
+    "SAFE_ADDITIVE": 3,
+    "UNCERTAIN": 2
+  },
+  "destructive_commits": [
+    {
+      "sha": "a3749b8111883031d303ce1301b43ca453b44d95",
+      "parent": "8848fe74fae7c105cf06b9f042678e779403ef6d",
+      "date": "2026-10-08T10:53:49+02:00",
+      "subject": "fix(plugins): plugin lifecycle audit rows were never written",
+      "mig_files": [
+        "prisma/migrations/20261008000000_plugin_audit_log/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "lib/plugins/__tests__/audit-actions.test.ts",
+        "prisma/schema.prisma"
+      ],
+      "orm_models_parsed_old": 87,
+      "raw_sql": "-- AlterEnum\nALTER TYPE \"crm_AuditLog_Action\" ADD VALUE 'installed';\nALTER TYPE \"crm_AuditLog_Action\" ADD VALUE 'uninstalled';\nALTER TYPE \"crm_AuditLog_Action\" ADD VALUE 'enabled';\nALTER TYPE \"crm_AuditLog_Action\" ADD VALUE 'disabled';\nALTER TYPE \"crm_AuditLog_Action\" ADD VALUE 'settings_changed';\nALTER TYPE \"crm_AuditLog_Action\" ADD VALUE 'upgraded';\n\n-- Plugin ids are not UUIDs (entityType \"plugin\")\nALTER TABLE \"crm_AuditLog\" ALTER COLUMN \"entityId\" SET DATA TYPE TEXT;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "crm_auditlog",
+            "column": "entityid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TEXT",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20261008000000_plugin_audit_log/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE crm_auditlog ALTER COLUMN \"entityId\" SET DATA TYPE TEXT",
+            "extra": {
+              "table_sql": "crm_AuditLog",
+              "column_sql": "entityId"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "crm_auditlog",
+            "column": "entityid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'crm_auditlog.entityid' (String -> TEXT)."
+        }
+      ]
+    },
+    {
+      "sha": "2c34ebbe203ffa620535eaf3437d2db5ed067d15",
+      "parent": "83a4b60b04c2a19b98b305e4c83df6e00b11d2fb",
+      "date": "2026-07-17T08:08:28+02:00",
+      "subject": "fix(ci): make migration chain replayable on a fresh database",
+      "mig_files": [
+        "prisma/migrations/20260415164939_invoices_module/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "__tests__/invoices/lifecycle.test.ts"
+      ],
+      "orm_models_parsed_old": 81,
+      "raw_sql": "-- The 0_init baseline (Dec 2025 Mongo->Postgres migration) carried a legacy\n-- standalone \"Invoices\" table that this module replaces. Databases replayed\n-- from scratch still have it at this point, so drop it first; databases that\n-- already ran this migration never re-execute this file.\nDROP TABLE IF EXISTS \"Invoices\" CASCADE;\n\n-- CreateEnum\nCREATE TYPE \"Invoice_Status\" AS ENUM ('DRAFT', 'ISSUED', 'SENT', 'PARTIALLY_PAID', 'PAID', 'OVERDUE', 'CANCELLED', 'DISPUTED', 'REFUNDED', 'WRITTEN_OFF');\n\n-- CreateEnum\nCREATE TYPE \"Invoice_Type\" AS ENUM ('INVOICE', 'CREDIT_NOTE', 'PROFORMA');\n\n-- CreateTable\nCREATE TABLE \"Invoices\" (\n    \"id\" UUID NOT NULL,\n    \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    \"updatedAt\" TIMESTAMP(3) NOT NULL,\n    \"createdBy\" UUID NOT NULL,\n    \"type\" \"Invoice_Type\" NOT NULL DEFAULT 'INVOICE',\n    \"status\" \"Invoice_Status\" NOT NULL DEFAULT 'DRAFT',\n    \"number\" TEXT,\n    \"numberOverridden\" BOOLEAN NOT NULL DEFAULT false,\n    \"seriesId\" UUID,\n    \"accountId\" UUID NOT NULL,\n    \"billingSnapshot\" JSONB,\n    \"issueDate\" TIMESTAMP(3),\n    \"taxableSupplyDate\" TIMESTAMP(3),\n    \"dueDate\" TIMESTAMP(3),\n    \"currency\" VARCHAR(3) NOT NULL,\n    \"baseCurrency\" VARCHAR(3),\n    \"fxRateToBase\" DECIMAL(18,8),\n    \"subtotal\" DECIMAL(14,2) NOT NULL DEFAULT 0,\n    \"discountTotal\" DECIMAL(14,2) NOT NULL DEFAULT 0,\n    \"vatTotal\" DECIMAL(14,2) NOT NULL DEFAULT 0,\n    \"grandTotal\" DECIMAL(14,2) NOT NULL DEFAULT 0,\n    \"paidTotal\" DECIMAL(14,2) NOT NULL DEFAULT 0,\n    \"balanceDue\" DECIMAL(14,2) NOT NULL DEFAULT 0,\n    \"bankName\" TEXT,\n    \"bankAccount\" TEXT,\n    \"iban\" TEXT,\n    \"swift\" TEXT,\n    \"variableSymbol\" TEXT,\n    \"publicNotes\" TEXT,\n    \"internalNotes\" TEXT,\n    \"originalInvoiceId\" UUID,\n    \"pdfStorageKey\" TEXT,\n    \"pdfGeneratedAt\" TIMESTAMP(3),\n    \"search_vector\" tsvector,\n\n    CONSTRAINT \"Invoices_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateTable\nCREATE TABLE \"Invoice_LineItems\" (\n    \"id\" UUID NOT NULL,\n    \"invoiceId\" UUID NOT NULL,\n    \"position\" INTEGER NOT NULL,\n    \"productId\" UUID,\n    \"description\" TEXT NOT NULL,\n    \"quantity\" DECIMAL(14,4) NOT NULL,\n    \"unitPrice\" DECIMAL(14,4) NOT NULL,\n    \"discountPercent\" DECIMAL(5,2) NOT NULL DEFAULT 0,\n    \"taxRateId\" UUID,\n    \"taxRateSnapshot\" DECIMAL(5,2),\n    \"lineSubtotal\" DECIMAL(14,2) NOT NULL,\n    \"lineVat\" DECIMAL(14,2) NOT NULL,\n    \"lineTotal\" DECIMAL(14,2) NOT NULL,\n\n    CONSTRAINT \"Invoice_LineItems_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateTable\nCREATE TABLE \"Invoice_Payments\" (\n    \"id\" UUID NOT NULL,\n    \"invoiceId\" UUID NOT NULL,\n    \"paidAt\" TIMESTAMP(3) NOT NULL,\n    \"amount\" DECIMAL(14,2) NOT NULL,\n    \"method\" TEXT,\n    \"reference\" TEXT,\n    \"note\" TEXT,\n    \"createdBy\" UUID NOT NULL,\n    \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n\n    CONSTRAINT \"Invoice_Payments_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateTable\nCREATE TABLE \"Invoice_Attachments\" (\n    \"id\" UUID NOT NULL,\n    \"invoiceId\" UUID NOT NULL,\n    \"storageKey\" TEXT NOT NULL,\n    \"filename\" TEXT NOT NULL,\n    \"mimeType\" TEXT NOT NULL,\n    \"size\" INTEGER NOT NULL,\n    \"uploadedBy\" UUID NOT NULL,\n    \"uploadedAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    \"isPrimaryPdf\" BOOLEAN NOT NULL DEFAULT false,\n\n    CONSTRAINT \"Invoice_Attachments_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateTable\nCREATE TABLE \"Invoice_Activity\" (\n    \"id\" UUID NOT NULL,\n    \"invoiceId\" UUID NOT NULL,\n    \"actorId\" UUID NOT NULL,\n    \"action\" TEXT NOT NULL,\n    \"meta\" JSONB,\n    \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n\n    CONSTRAINT \"Invoice_Activity_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateTable\nCREATE TABLE \"Invoice_TaxRates\" (\n    \"id\" UUID NOT NULL,\n    \"name\" TEXT NOT NULL,\n    \"rate\" DECIMAL(5,2) NOT NULL,\n    \"isDefault\" BOOLEAN NOT NULL DEFAULT false,\n    \"active\" BOOLEAN NOT NULL DEFAULT true,\n    \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    \"updatedAt\" TIMESTAMP(3) NOT NULL,\n\n    CONSTRAINT \"Invoice_TaxRates_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateTable\nCREATE TABLE \"Invoice_Series\" (\n    \"id\" UUID NOT NULL,\n    \"name\" TEXT NOT NULL,\n    \"prefixTemplate\" TEXT NOT NULL,\n    \"resetPolicy\" TEXT NOT NULL DEFAULT 'YEARLY',\n    \"currentYear\" INTEGER,\n    \"counter\" INTEGER NOT NULL DEFAULT 0,\n    \"isDefault\" BOOLEAN NOT NULL DEFAULT false,\n    \"active\" BOOLEAN NOT NULL DEFAULT true,\n    \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    \"updatedAt\" TIMESTAMP(3) NOT NULL,\n\n    CONSTRAINT \"Invoice_Series_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateTable\nCREATE TABLE \"Invoice_Currencies\" (\n    \"code\" VARCHAR(3) NOT NULL,\n    \"name\" TEXT NOT NULL,\n    \"symbol\" TEXT,\n    \"active\" BOOLEAN NOT NULL DEFAULT true,\n    \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n\n    CONSTRAINT \"Invoice_Currencies_pkey\" PRIMARY KEY (\"code\")\n);\n\n-- CreateTable\nCREATE TABLE \"Invoice_Settings\" (\n    \"id\" UUID NOT NULL,\n    \"baseCurrency\" VARCHAR(3) NOT NULL,\n    \"defaultSeriesId\" UUID,\n    \"defaultTaxRateId\" UUID,\n    \"defaultDueDays\" INTEGER NOT NULL DEFAULT 14,\n    \"bankName\" TEXT,\n    \"bankAccount\" TEXT,\n    \"iban\" TEXT,\n    \"swift\" TEXT,\n    \"footerText\" TEXT,\n    \"updatedAt\" TIMESTAMP(3) NOT NULL,\n\n    CONSTRAINT \"Invoice_Settings_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateIndex\nCREATE INDEX \"Invoices_accountId_idx\" ON \"Invoices\"(\"accountId\");\n\n-- CreateIndex\nCREATE INDEX \"Invoices_status_idx\" ON \"Invoices\"(\"status\");\n\n-- CreateIndex\nCREATE INDEX \"Invoices_issueDate_idx\" ON \"Invoices\"(\"issueDate\");\n\n-- CreateIndex\nCREATE INDEX \"Invoices_dueDate_idx\" ON \"Invoices\"(\"dueDate\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"Invoices_seriesId_number_key\" ON \"Invoices\"(\"seriesId\", \"number\");\n\n-- CreateIndex\nCREATE INDEX \"Invoice_LineItems_invoiceId_idx\" ON \"Invoice_LineItems\"(\"invoiceId\");\n\n-- CreateIndex\nCREATE INDEX \"Invoice_Payments_invoiceId_idx\" ON \"Invoice_Payments\"(\"invoiceId\");\n\n-- CreateIndex\nCREATE INDEX \"Invoice_Attachments_invoiceId_idx\" ON \"Invoice_Attachments\"(\"invoiceId\");\n\n-- CreateIndex\nCREATE INDEX \"Invoice_Activity_invoiceId_idx\" ON \"Invoice_Activity\"(\"invoiceId\");\n\n-- AddForeignKey\nALTER TABLE \"Invoices\" ADD CONSTRAINT \"Invoices_createdBy_fkey\" FOREIGN KEY (\"createdBy\") REFERENCES \"Users\"(\"id\") ON DELETE RESTRICT ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"Invoices\" ADD CONSTRAINT \"Invoices_seriesId_fkey\" FOREIGN KEY (\"seriesId\") REFERENCES \"Invoice_Series\"(\"id\") ON DELETE SET NULL ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"Invoices\" ADD CONSTRAINT \"Invoices_accountId_fkey\" FOREIGN KEY (\"accountId\") REFERENCES \"crm_Accounts\"(\"id\") ON DELETE RESTRICT ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"Invoices\" ADD CONSTRAINT \"Invoices_originalInvoiceId_fkey\" FOREIGN KEY (\"originalInvoiceId\") REFERENCES \"Invoices\"(\"id\") ON DELETE SET NULL ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"Invoice_LineItems\" ADD CONSTRAINT \"Invoice_LineItems_invoiceId_fkey\" FOREIGN KEY (\"invoiceId\") REFERENCES \"Invoices\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"Invoice_LineItems\" ADD CONSTRAINT \"Invoice_LineItems_productId_fkey\" FOREIGN KEY (\"productId\") REFERENCES \"crm_Products\"(\"id\") ON DELETE SET NULL ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"Invoice_LineItems\" ADD CONSTRAINT \"Invoice_LineItems_taxRateId_fkey\" FOREIGN KEY (\"taxRateId\") REFERENCES \"Invoice_TaxRates\"(\"id\") ON DELETE SET NULL ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"Invoice_Payments\" ADD CONSTRAINT \"Invoice_Payments_invoiceId_fkey\" FOREIGN KEY (\"invoiceId\") REFERENCES \"Invoices\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"Invoice_Attachments\" ADD CONSTRAINT \"Invoice_Attachments_invoiceId_fkey\" FOREIGN KEY (\"invoiceId\") REFERENCES \"Invoices\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"Invoice_Activity\" ADD CONSTRAINT \"Invoice_Activity_invoiceId_fkey\" FOREIGN KEY (\"invoiceId\") REFERENCES \"Invoices\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "invoices",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20260415164939_invoices_module/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* The 0_init baseline (Dec 2025 Mongo->Postgres migration) carried a legacy */ /* standalone \"Invoices\" table that this module replaces. Databases replayed */ /* from scratch stil",
+            "extra": {
+              "table_sql": "Invoices"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "invoices",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'invoices' active in C_{t-1}."
+        }
+      ]
+    },
+    {
+      "sha": "7fa5196b04d594386ce17bd23049207a556e581e",
+      "parent": "b6ba238108ae6378625123fdfa7376b0150ba569",
+      "date": "2026-05-05T08:30:55+02:00",
+      "subject": "fix(migration): scrub orphan creator FK refs before adding new FK constraint",
+      "mig_files": [
+        "prisma/migrations/20260505120000_authz_phase_f1_drop_legacy_created_by/migration.sql"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 81,
+      "raw_sql": "-- Phase F.1: consolidate dual created_by / createdBy on crm_Contacts and crm_Opportunities.\n--\n-- The Prisma relations crate_by_user (contacts) and created_by_user (opportunities)\n-- previously joined on created_by; their FK target moves to createdBy in this same\n-- deployment via the schema change. Relation names and labels are unchanged so\n-- existing `include: { crate_by_user: ... }` and `include: { created_by_user: ... }`\n-- callers continue to work without modification.\n\n-- 1. crm_Contacts ---------------------------------------------------------\n\nUPDATE \"crm_Contacts\"\n   SET \"createdBy\" = \"created_by\"\n WHERE \"createdBy\" IS NULL AND \"created_by\" IS NOT NULL;\n\n-- Defensive: scrub orphan FK references that the legacy ON DELETE SET NULL\n-- did not catch. Some rows (notably those imported from MongoDB before the\n-- FK existed) point at user ids that no longer exist in \"Users\". Without\n-- this scrub the new FK ADD below fails with 23503.\nUPDATE \"crm_Contacts\"\n   SET \"createdBy\" = NULL\n WHERE \"createdBy\" IS NOT NULL\n   AND NOT EXISTS (\n     SELECT 1 FROM \"Users\" WHERE \"id\" = \"crm_Contacts\".\"createdBy\"\n   );\n\nALTER TABLE \"crm_Contacts\" DROP CONSTRAINT IF EXISTS \"crm_Contacts_created_by_fkey\";\n\nALTER TABLE \"crm_Contacts\"\n  ADD CONSTRAINT \"crm_Contacts_createdBy_fkey\"\n  FOREIGN KEY (\"createdBy\") REFERENCES \"Users\"(\"id\")\n  ON DELETE SET NULL ON UPDATE CASCADE;\n\nDROP INDEX IF EXISTS \"crm_Contacts_created_by_idx\";\n\nALTER TABLE \"crm_Contacts\" DROP COLUMN \"created_by\";\n\n-- 2. crm_Opportunities ---------------------------------------------------\n\nUPDATE \"crm_Opportunities\"\n   SET \"createdBy\" = \"created_by\"\n WHERE \"createdBy\" IS NULL AND \"created_by\" IS NOT NULL;\n\n-- Same defensive scrub as above for opportunities.\nUPDATE \"crm_Opportunities\"\n   SET \"createdBy\" = NULL\n WHERE \"createdBy\" IS NOT NULL\n   AND NOT EXISTS (\n     SELECT 1 FROM \"Users\" WHERE \"id\" = \"crm_Opportunities\".\"createdBy\"\n   );\n\nALTER TABLE \"crm_Opportunities\" DROP CONSTRAINT IF EXISTS \"crm_Opportunities_created_by_fkey\";\n\nALTER TABLE \"crm_Opportunities\"\n  ADD CONSTRAINT \"crm_Opportunities_createdBy_fkey\"\n  FOREIGN KEY (\"createdBy\") REFERENCES \"Users\"(\"id\")\n  ON DELETE SET NULL ON UPDATE CASCADE;\n\nDROP INDEX IF EXISTS \"crm_Opportunities_created_by_idx\";\n\nALTER TABLE \"crm_Opportunities\" DROP COLUMN \"created_by\";\n\n-- crm_Opportunities did not previously have a createdBy index; add one so the\n-- authz read-scope query (filter by createdBy) does not seq-scan.\nCREATE INDEX IF NOT EXISTS \"crm_Opportunities_createdBy_idx\"\n  ON \"crm_Opportunities\"(\"createdBy\");\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "crm_contacts",
+            "column": "created_by",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20260505120000_authz_phase_f1_drop_legacy_created_by/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE crm_contacts DROP COLUMN \"created_by\"",
+            "extra": {
+              "table_sql": "crm_Contacts"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "crm_contacts",
+            "column": "created_by",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'created_by' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "crm_opportunities",
+            "column": "created_by",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20260505120000_authz_phase_f1_drop_legacy_created_by/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE crm_opportunities DROP COLUMN \"created_by\"",
+            "extra": {
+              "table_sql": "crm_Opportunities"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "crm_opportunities",
+            "column": "created_by",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'created_by' already absent from C_{t-1} ORM and app code."
+        }
+      ]
+    },
+    {
+      "sha": "b6ba238108ae6378625123fdfa7376b0150ba569",
+      "parent": "c22bf837e83b10487641fcfc458629fa0fedf5d6",
+      "date": "2026-05-05T08:17:11+02:00",
+      "subject": "refactor(schema): consolidate dual creator columns on contacts and opportunities (Phase F.1)",
+      "mig_files": [
+        "prisma/migrations/20260505120000_authz_phase_f1_drop_legacy_created_by/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "__tests__/inngest/send-scheduled-scope.test.ts",
+        "__tests__/reports/dashboard.test.ts",
+        "__tests__/reports/sales.test.ts",
+        "actions/crm/__tests__/get-contacts-by-accountId-scope.test.ts",
+        "actions/crm/__tests__/get-contacts-by-opportunityId-scope.test.ts",
+        "actions/crm/__tests__/get-contacts-scope.test.ts",
+        "actions/crm/__tests__/get-opportunities-scope.test.ts",
+        "actions/crm/__tests__/get-opportunities-with-includes-by-accountId-scope.test.ts",
+        "actions/crm/__tests__/get-opportunities-with-includes-by-contactId-scope.test.ts",
+        "actions/crm/__tests__/get-opportunities-with-includes-scope.test.ts",
+        "actions/crm/opportunities/create-opportunity.ts",
+        "actions/crm/targets/convert-target.ts"
+      ],
+      "orm_models_parsed_old": 81,
+      "raw_sql": "-- Phase F.1: consolidate dual created_by / createdBy on crm_Contacts and crm_Opportunities.\n--\n-- The Prisma relations crate_by_user (contacts) and created_by_user (opportunities)\n-- previously joined on created_by; their FK target moves to createdBy in this same\n-- deployment via the schema change. Relation names and labels are unchanged so\n-- existing `include: { crate_by_user: ... }` and `include: { created_by_user: ... }`\n-- callers continue to work without modification.\n\n-- 1. crm_Contacts ---------------------------------------------------------\n\nUPDATE \"crm_Contacts\"\n   SET \"createdBy\" = \"created_by\"\n WHERE \"createdBy\" IS NULL AND \"created_by\" IS NOT NULL;\n\nALTER TABLE \"crm_Contacts\" DROP CONSTRAINT IF EXISTS \"crm_Contacts_created_by_fkey\";\n\nALTER TABLE \"crm_Contacts\"\n  ADD CONSTRAINT \"crm_Contacts_createdBy_fkey\"\n  FOREIGN KEY (\"createdBy\") REFERENCES \"Users\"(\"id\")\n  ON DELETE SET NULL ON UPDATE CASCADE;\n\nDROP INDEX IF EXISTS \"crm_Contacts_created_by_idx\";\n\nALTER TABLE \"crm_Contacts\" DROP COLUMN \"created_by\";\n\n-- 2. crm_Opportunities ---------------------------------------------------\n\nUPDATE \"crm_Opportunities\"\n   SET \"createdBy\" = \"created_by\"\n WHERE \"createdBy\" IS NULL AND \"created_by\" IS NOT NULL;\n\nALTER TABLE \"crm_Opportunities\" DROP CONSTRAINT IF EXISTS \"crm_Opportunities_created_by_fkey\";\n\nALTER TABLE \"crm_Opportunities\"\n  ADD CONSTRAINT \"crm_Opportunities_createdBy_fkey\"\n  FOREIGN KEY (\"createdBy\") REFERENCES \"Users\"(\"id\")\n  ON DELETE SET NULL ON UPDATE CASCADE;\n\nDROP INDEX IF EXISTS \"crm_Opportunities_created_by_idx\";\n\nALTER TABLE \"crm_Opportunities\" DROP COLUMN \"created_by\";\n\n-- crm_Opportunities did not previously have a createdBy index; add one so the\n-- authz read-scope query (filter by createdBy) does not seq-scan.\nCREATE INDEX IF NOT EXISTS \"crm_Opportunities_createdBy_idx\"\n  ON \"crm_Opportunities\"(\"createdBy\");\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "crm_contacts",
+            "column": "created_by",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20260505120000_authz_phase_f1_drop_legacy_created_by/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE crm_contacts DROP COLUMN \"created_by\"",
+            "extra": {
+              "table_sql": "crm_Contacts"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "crm_contacts",
+            "column": "created_by",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'created_by' active in C_{t-1} ORM (prisma/schema.prisma); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "crm_opportunities",
+            "column": "created_by",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20260505120000_authz_phase_f1_drop_legacy_created_by/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE crm_opportunities DROP COLUMN \"created_by\"",
+            "extra": {
+              "table_sql": "crm_Opportunities"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "crm_opportunities",
+            "column": "created_by",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'created_by' active in C_{t-1} ORM (prisma/schema.prisma); identifier removed in same commit diff"
+        }
+      ]
+    },
+    {
+      "sha": "9356e95c1f9a17e761527709eaaf661b39dfbde4",
+      "parent": "d598305ebc97b15852f41d5cc5f1807836302cfe",
+      "date": "2026-05-04T14:09:41+02:00",
+      "subject": "refactor(schema): drop legacy is_admin and is_account_admin columns",
+      "mig_files": [
+        "prisma/migrations/20260504120100_authz_phase_f_drop_legacy_admin_flags/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "__tests__/invoices/lifecycle.test.ts",
+        "app/[locale]/(routes)/components/app-sidebar.tsx",
+        "prisma/schema.prisma",
+        "prisma/seeds/seed.ts",
+        "scripts/migration/backfill-roles.ts",
+        "scripts/migration/transformers/users-transformer.ts"
+      ],
+      "orm_models_parsed_old": 81,
+      "raw_sql": "-- Phase F (Task 4): drop legacy admin flags from Users.\n--\n-- Both columns were superseded by Users.role (now an AppRole enum). All\n-- runtime authorization decisions go through lib/authz, which reads role\n-- exclusively. Pre-flight check ran in Phase F Task 2 / Task 1: no code\n-- still reads either column at runtime.\n\n-- Drop the indexes Prisma created on these columns first.\nDROP INDEX IF EXISTS \"Users_is_admin_idx\";\nDROP INDEX IF EXISTS \"Users_is_account_admin_idx\";\n\n-- Drop the columns themselves.\nALTER TABLE \"Users\" DROP COLUMN IF EXISTS \"is_admin\";\nALTER TABLE \"Users\" DROP COLUMN IF EXISTS \"is_account_admin\";\n\n-- Add a role index to replace the role-based filters that previously used is_admin.\nCREATE INDEX IF NOT EXISTS \"Users_role_idx\" ON \"Users\"(\"role\");\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "users",
+            "column": "is_admin",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20260504120100_authz_phase_f_drop_legacy_admin_flags/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE users DROP COLUMN IF EXISTS \"is_admin\"",
+            "extra": {
+              "table_sql": "Users"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users",
+            "column": "is_admin",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'is_admin' active in C_{t-1} ORM (prisma/schema.prisma); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "users",
+            "column": "is_account_admin",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20260504120100_authz_phase_f_drop_legacy_admin_flags/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE users DROP COLUMN IF EXISTS \"is_account_admin\"",
+            "extra": {
+              "table_sql": "Users"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users",
+            "column": "is_account_admin",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'is_account_admin' active in C_{t-1} ORM (prisma/schema.prisma); identifier removed in same commit diff"
+        }
+      ]
+    },
+    {
+      "sha": "d598305ebc97b15852f41d5cc5f1807836302cfe",
+      "parent": "4c890a473d44b77161dee7213a54b9309ecf2166",
+      "date": "2026-05-04T14:06:54+02:00",
+      "subject": "feat(authz): switch Users.role to Prisma enum AppRole",
+      "mig_files": [
+        "prisma/migrations/20260504120000_authz_phase_f_role_enum/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "prisma/schema.prisma"
+      ],
+      "orm_models_parsed_old": 81,
+      "raw_sql": "-- Phase F (Task 3): switch Users.role from String to AppRole enum.\n--\n-- Pre-flight: Phase A's canonical_roles_backfill migration normalized all\n-- legacy roles (admin/member/viewer) into admin/manager/user. This migration\n-- defends against any post-A drift before swapping the column type.\n\n-- 1. Create the enum.\nCREATE TYPE \"AppRole\" AS ENUM ('user', 'manager', 'admin');\n\n-- 2. Defensive backfill: any rogue role value coerces to 'user'.\nUPDATE \"Users\"\n   SET \"role\" = 'user'\n WHERE \"role\" NOT IN ('user', 'manager', 'admin');\n\n-- 3. Switch column type. Drop default, retype, restore default.\nALTER TABLE \"Users\"\n  ALTER COLUMN \"role\" DROP DEFAULT;\n\nALTER TABLE \"Users\"\n  ALTER COLUMN \"role\" TYPE \"AppRole\"\n    USING \"role\"::\"AppRole\";\n\nALTER TABLE \"Users\"\n  ALTER COLUMN \"role\" SET DEFAULT 'user';\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "users",
+            "column": "role",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "\"AppRole\"",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20260504120000_authz_phase_f_role_enum/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE users ALTER COLUMN \"role\" SET DATA TYPE \"AppRole\" USING CAST(\"role\" AS \"AppRole\")",
+            "extra": {
+              "table_sql": "Users"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users",
+            "column": "role",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'users.role' (String -> \"AppRole\")."
+        }
+      ]
+    },
+    {
+      "sha": "31e2b29c0d99d5a86429eeb5b03de38c45586cd2",
+      "parent": "6332e392ea062d13129adc09e8ef037ab3c2e20f",
+      "date": "2026-04-21T09:06:38+02:00",
+      "subject": "fix(invoices): add supplier company details, PDF regeneration, admin route guard",
+      "mig_files": [
+        "prisma/migrations/20260404150000_add_currency_support/migration.sql",
+        "prisma/migrations/20260421064232_invoice_settings_company_fields/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "actions/invoices/issue-invoice.ts",
+        "actions/invoices/regenerate-pdf.ts",
+        "app/[locale]/(routes)/admin/_components/AdminSidebarNav.tsx",
+        "app/[locale]/(routes)/admin/invoices/_components/InvoicesTabs.tsx",
+        "app/[locale]/(routes)/admin/invoices/layout.tsx",
+        "app/[locale]/(routes)/admin/invoices/page.tsx",
+        "app/[locale]/(routes)/admin/invoices/settings/_actions/invoice-settings.ts",
+        "app/[locale]/(routes)/admin/invoices/settings/_components/InvoiceSettingsForm.tsx",
+        "app/[locale]/(routes)/admin/layout.tsx",
+        "app/[locale]/(routes)/invoices/[invoiceId]/components/invoice-actions.tsx",
+        "app/api/admin/invoices/settings/route.ts",
+        "lib/invoices/pdf/build-pdf-data.ts"
+      ],
+      "orm_models_parsed_old": 81,
+      "raw_sql": "-- Clean up failed migration record from previous attempt (if exists)\n-- Guarded: the shadow DB may not have _prisma_migrations yet when replaying.\nDO $$ BEGIN\n  IF EXISTS (\n    SELECT 1 FROM information_schema.tables\n    WHERE table_schema = 'public' AND table_name = '_prisma_migrations'\n  ) THEN\n    DELETE FROM \"_prisma_migrations\" WHERE \"migration_name\" = '20260404120000_add_currency_support';\n  END IF;\nEND $$;\n\n-- CreateEnum (idempotent)\nDO $$ BEGIN CREATE TYPE \"ExchangeRateSource\" AS ENUM ('MANUAL', 'ECB'); EXCEPTION WHEN duplicate_object THEN NULL; END $$;\n\n-- CreateTable\nCREATE TABLE IF NOT EXISTS \"Currency\" (\n    \"code\" VARCHAR(3) NOT NULL,\n    \"name\" TEXT NOT NULL,\n    \"symbol\" VARCHAR(5) NOT NULL,\n    \"isEnabled\" BOOLEAN NOT NULL DEFAULT true,\n    \"isDefault\" BOOLEAN NOT NULL DEFAULT false,\n    \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    \"updatedAt\" TIMESTAMP(3) NOT NULL,\n\n    CONSTRAINT \"Currency_pkey\" PRIMARY KEY (\"code\")\n);\n\n-- CreateTable\nCREATE TABLE IF NOT EXISTS \"ExchangeRate\" (\n    \"id\" UUID NOT NULL DEFAULT gen_random_uuid(),\n    \"fromCurrency\" VARCHAR(3) NOT NULL,\n    \"toCurrency\" VARCHAR(3) NOT NULL,\n    \"rate\" DECIMAL(18,8) NOT NULL,\n    \"source\" \"ExchangeRateSource\" NOT NULL DEFAULT 'MANUAL',\n    \"effectiveDate\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    \"updatedAt\" TIMESTAMP(3) NOT NULL,\n\n    CONSTRAINT \"ExchangeRate_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateTable\nCREATE TABLE IF NOT EXISTS \"crm_SystemSettings\" (\n    \"key\" TEXT NOT NULL,\n    \"value\" TEXT NOT NULL,\n    \"updatedAt\" TIMESTAMP(3) NOT NULL,\n\n    CONSTRAINT \"crm_SystemSettings_pkey\" PRIMARY KEY (\"key\")\n);\n\n-- Seed default currencies (needed before FK constraints)\nINSERT INTO \"Currency\" (\"code\", \"name\", \"symbol\", \"isEnabled\", \"isDefault\", \"createdAt\", \"updatedAt\")\nVALUES\n    ('EUR', 'Euro', '\u20ac', true, true, NOW(), NOW()),\n    ('USD', 'US Dollar', '$', true, false, NOW(), NOW()),\n    ('CZK', 'Czech Koruna', 'K\u010d', true, false, NOW(), NOW())\nON CONFLICT (\"code\") DO NOTHING;\n\n-- Seed default exchange rates\nINSERT INTO \"ExchangeRate\" (\"id\", \"fromCurrency\", \"toCurrency\", \"rate\", \"source\", \"effectiveDate\", \"createdAt\", \"updatedAt\")\nVALUES\n    (gen_random_uuid(), 'EUR', 'USD', 1.084, 'ECB', NOW(), NOW(), NOW()),\n    (gen_random_uuid(), 'EUR', 'CZK', 25.315, 'ECB', NOW(), NOW(), NOW()),\n    (gen_random_uuid(), 'USD', 'EUR', 0.92251, 'ECB', NOW(), NOW(), NOW()),\n    (gen_random_uuid(), 'USD', 'CZK', 23.35, 'ECB', NOW(), NOW(), NOW()),\n    (gen_random_uuid(), 'CZK', 'EUR', 0.0395, 'ECB', NOW(), NOW(), NOW()),\n    (gen_random_uuid(), 'CZK', 'USD', 0.04283, 'ECB', NOW(), NOW(), NOW())\nON CONFLICT DO NOTHING;\n\n-- Seed default system settings\nINSERT INTO \"crm_SystemSettings\" (\"key\", \"value\", \"updatedAt\")\nVALUES\n    ('ecb_auto_update', 'false', NOW()),\n    ('default_currency', 'EUR', NOW())\nON CONFLICT (\"key\") DO NOTHING;\n\n-- Clean up existing currency values: truncate to 3 chars, nullify invalid ones\nUPDATE \"crm_Opportunities\" SET \"currency\" = LEFT(TRIM(\"currency\"), 3) WHERE \"currency\" IS NOT NULL;\nUPDATE \"crm_Opportunities\" SET \"currency\" = NULL WHERE \"currency\" IS NOT NULL AND \"currency\" NOT IN (SELECT \"code\" FROM \"Currency\");\n\n-- AlterTable: crm_Opportunities\nALTER TABLE \"crm_Opportunities\" ALTER COLUMN \"budget\" SET DATA TYPE DECIMAL(18,2);\nALTER TABLE \"crm_Opportunities\" ALTER COLUMN \"expected_revenue\" SET DATA TYPE DECIMAL(18,2);\nALTER TABLE \"crm_Opportunities\" ALTER COLUMN \"currency\" SET DATA TYPE VARCHAR(3);\nALTER TABLE \"crm_Opportunities\" ADD COLUMN IF NOT EXISTS \"snapshot_rate\" DECIMAL(18,8);\n\n-- AlterTable: crm_Contracts\nALTER TABLE \"crm_Contracts\" ALTER COLUMN \"value\" SET DATA TYPE DECIMAL(18,2);\nALTER TABLE \"crm_Contracts\" ADD COLUMN IF NOT EXISTS \"currency\" VARCHAR(3);\nALTER TABLE \"crm_Contracts\" ADD COLUMN IF NOT EXISTS \"snapshot_rate\" DECIMAL(18,8);\n\n-- CreateIndex\nCREATE UNIQUE INDEX IF NOT EXISTS \"ExchangeRate_fromCurrency_toCurrency_key\" ON \"ExchangeRate\"(\"fromCurrency\", \"toCurrency\");\nCREATE INDEX IF NOT EXISTS \"ExchangeRate_fromCurrency_idx\" ON \"ExchangeRate\"(\"fromCurrency\");\nCREATE INDEX IF NOT EXISTS \"ExchangeRate_toCurrency_idx\" ON \"ExchangeRate\"(\"toCurrency\");\n\n-- AddForeignKey (idempotent: drop if exists, then create)\nDO $$ BEGIN\n  ALTER TABLE \"crm_Opportunities\" DROP CONSTRAINT IF EXISTS \"crm_Opportunities_currency_fkey\";\n  ALTER TABLE \"crm_Opportunities\" ADD CONSTRAINT \"crm_Opportunities_currency_fkey\" FOREIGN KEY (\"currency\") REFERENCES \"Currency\"(\"code\") ON DELETE SET NULL ON UPDATE CASCADE;\n  ALTER TABLE \"crm_Contracts\" DROP CONSTRAINT IF EXISTS \"crm_Contracts_currency_fkey\";\n  ALTER TABLE \"crm_Contracts\" ADD CONSTRAINT \"crm_Contracts_currency_fkey\" FOREIGN KEY (\"currency\") REFERENCES \"Currency\"(\"code\") ON DELETE SET NULL ON UPDATE CASCADE;\n  ALTER TABLE \"ExchangeRate\" DROP CONSTRAINT IF EXISTS \"ExchangeRate_fromCurrency_fkey\";\n  ALTER TABLE \"ExchangeRate\" ADD CONSTRAINT \"ExchangeRate_fromCurrency_fkey\" FOREIGN KEY (\"fromCurrency\") REFERENCES \"Currency\"(\"code\") ON DELETE RESTRICT ON UPDATE CASCADE;\n  ALTER TABLE \"ExchangeRate\" DROP CONSTRAINT IF EXISTS \"ExchangeRate_toCurrency_fkey\";\n  ALTER TABLE \"ExchangeRate\" ADD CONSTRAINT \"ExchangeRate_toCurrency_fkey\" FOREIGN KEY (\"toCurrency\") REFERENCES \"Currency\"(\"code\") ON DELETE RESTRICT ON UPDATE CASCADE;\nEND $$;\n\n-- AlterTable: add company details to Invoice_Settings\nALTER TABLE \"Invoice_Settings\"\n  ADD COLUMN \"companyName\"    TEXT,\n  ADD COLUMN \"companyAddress\" TEXT,\n  ADD COLUMN \"companyCity\"    TEXT,\n  ADD COLUMN \"companyZip\"     TEXT,\n  ADD COLUMN \"companyCountry\" TEXT,\n  ADD COLUMN \"companyVatId\"   TEXT,\n  ADD COLUMN \"companyTaxId\"   TEXT,\n  ADD COLUMN \"companyRegNo\"   TEXT,\n  ADD COLUMN \"companyEmail\"   TEXT,\n  ADD COLUMN \"companyPhone\"   TEXT,\n  ADD COLUMN \"companyWebsite\" TEXT;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "crm_opportunities",
+            "column": "budget",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "DECIMAL(18, 2)",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20260404150000_add_currency_support/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE crm_opportunities ALTER COLUMN \"budget\" SET DATA TYPE DECIMAL(18, 2)",
+            "extra": {
+              "table_sql": "crm_Opportunities"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "crm_opportunities",
+            "column": "budget",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'crm_opportunities.budget' (Decimal -> DECIMAL(18, 2))."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "crm_opportunities",
+            "column": "expected_revenue",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "DECIMAL(18, 2)",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20260404150000_add_currency_support/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE crm_opportunities ALTER COLUMN \"expected_revenue\" SET DATA TYPE DECIMAL(18, 2)",
+            "extra": {
+              "table_sql": "crm_Opportunities"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "crm_opportunities",
+            "column": "expected_revenue",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'crm_opportunities.expected_revenue' (Decimal -> DECIMAL(18, 2))."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "crm_opportunities",
+            "column": "currency",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "VARCHAR(3)",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20260404150000_add_currency_support/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE crm_opportunities ALTER COLUMN \"currency\" SET DATA TYPE VARCHAR(3)",
+            "extra": {
+              "table_sql": "crm_Opportunities",
+              "column_sql": "Currency"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "crm_opportunities",
+            "column": "currency",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'crm_opportunities.currency' (String -> VARCHAR(3))."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "crm_contracts",
+            "column": "value",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "DECIMAL(18, 2)",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20260404150000_add_currency_support/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE crm_contracts ALTER COLUMN \"value\" SET DATA TYPE DECIMAL(18, 2)",
+            "extra": {
+              "table_sql": "crm_Contracts"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "crm_contracts",
+            "column": "value",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'crm_contracts.value' (Decimal -> DECIMAL(18, 2))."
+        }
+      ]
+    },
+    {
+      "sha": "2c6820d65e440906472f498b490f7c9fbdd73ea3",
+      "parent": "dc111f03541e3724e1483e832f39dbc0411b58fd",
+      "date": "2026-04-20T08:03:49+02:00",
+      "subject": "fix(invoices): consolidate Invoice_Currencies into shared Currency table",
+      "mig_files": [
+        "prisma/migrations/20260420120000_consolidate_invoice_currencies/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "__tests__/invoices/lifecycle.test.ts",
+        "app/[locale]/(routes)/admin/invoices/currencies/_components/InvoiceCurrenciesTable.tsx",
+        "app/[locale]/(routes)/admin/invoices/currencies/page.tsx",
+        "app/[locale]/(routes)/admin/invoices/settings/page.tsx",
+        "app/[locale]/(routes)/invoices/[invoiceId]/edit/page.tsx",
+        "app/[locale]/(routes)/invoices/new/page.tsx",
+        "app/api/admin/invoices/currencies/[code]/route.ts",
+        "app/api/admin/invoices/currencies/route.ts",
+        "prisma/schema.prisma",
+        "prisma/seeds/invoices.ts"
+      ],
+      "orm_models_parsed_old": 82,
+      "raw_sql": "-- Consolidate Invoice_Currencies into the shared Currency table.\n-- The Invoices.currency FK now references Currency(code), matching\n-- crm_Products, crm_Opportunities, crm_Contracts, and crm_AccountProducts.\n\n-- 1. Copy any Invoice_Currencies rows missing from Currency.\n--    Currency.symbol is NOT NULL; fall back to the code when symbol is null.\nDO $$ BEGIN\n  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'Invoice_Currencies') THEN\n    INSERT INTO \"Currency\" (\"code\", \"name\", \"symbol\", \"isEnabled\", \"isDefault\", \"createdAt\", \"updatedAt\")\n    SELECT ic.\"code\",\n           ic.\"name\",\n           COALESCE(NULLIF(ic.\"symbol\", ''), ic.\"code\"),\n           ic.\"active\",\n           false,\n           ic.\"createdAt\",\n           NOW()\n    FROM \"Invoice_Currencies\" ic\n    LEFT JOIN \"Currency\" c ON c.\"code\" = ic.\"code\"\n    WHERE c.\"code\" IS NULL;\n  END IF;\nEND $$;\n\n-- 2. Drop the old FK pointing to Invoice_Currencies.\nALTER TABLE \"Invoices\" DROP CONSTRAINT IF EXISTS \"Invoices_currency_fkey\";\n\n-- 3. Add the new FK pointing to the shared Currency table.\nALTER TABLE \"Invoices\"\n  ADD CONSTRAINT \"Invoices_currency_fkey\"\n  FOREIGN KEY (\"currency\") REFERENCES \"Currency\"(\"code\")\n  ON DELETE RESTRICT ON UPDATE CASCADE;\n\n-- 4. Drop the redundant Invoice_Currencies table.\nDROP TABLE IF EXISTS \"Invoice_Currencies\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "invoice_currencies",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20260420120000_consolidate_invoice_currencies/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* 4. Drop the redundant Invoice_Currencies table. */ DROP TABLE IF EXISTS \"Invoice_Currencies\"",
+            "extra": {
+              "table_sql": "Invoice_Currencies"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "invoice_currencies",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'invoice_currencies' active in C_{t-1}."
+        }
+      ]
+    },
+    {
+      "sha": "1496266419db40292f2b0829eacafbc2c9457c4d",
+      "parent": "6b9f7f366e8592a07d0ac534d0cc6b216762379c",
+      "date": "2026-04-15T20:06:11+02:00",
+      "subject": "feat(invoices): add FKs, indexes, line-item trigger, money CHECK",
+      "mig_files": [
+        "prisma/migrations/20260415180233_invoices_fks_and_indexes/migration.sql",
+        "prisma/migrations/20260415180234_invoices_search_line_items/migration.sql",
+        "prisma/migrations/20260415180235_invoices_money_check/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "prisma/schema.prisma"
+      ],
+      "orm_models_parsed_old": 82,
+      "raw_sql": "-- CreateIndex\nCREATE INDEX \"Invoice_LineItems_productId_idx\" ON \"Invoice_LineItems\"(\"productId\");\n\n-- CreateIndex\nCREATE INDEX \"Invoice_LineItems_taxRateId_idx\" ON \"Invoice_LineItems\"(\"taxRateId\");\n\n-- CreateIndex\nCREATE INDEX \"Invoices_createdBy_idx\" ON \"Invoices\"(\"createdBy\");\n\n-- CreateIndex\nCREATE INDEX \"Invoices_originalInvoiceId_idx\" ON \"Invoices\"(\"originalInvoiceId\");\n\n-- AddForeignKey\nALTER TABLE \"Invoices\" ADD CONSTRAINT \"Invoices_currency_fkey\" FOREIGN KEY (\"currency\") REFERENCES \"Invoice_Currencies\"(\"code\") ON DELETE RESTRICT ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"Invoice_Payments\" ADD CONSTRAINT \"Invoice_Payments_createdBy_fkey\" FOREIGN KEY (\"createdBy\") REFERENCES \"Users\"(\"id\") ON DELETE RESTRICT ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"Invoice_Attachments\" ADD CONSTRAINT \"Invoice_Attachments_uploadedBy_fkey\" FOREIGN KEY (\"uploadedBy\") REFERENCES \"Users\"(\"id\") ON DELETE RESTRICT ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"Invoice_Activity\" ADD CONSTRAINT \"Invoice_Activity_actorId_fkey\" FOREIGN KEY (\"actorId\") REFERENCES \"Users\"(\"id\") ON DELETE RESTRICT ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"Invoice_Settings\" ADD CONSTRAINT \"Invoice_Settings_defaultSeriesId_fkey\" FOREIGN KEY (\"defaultSeriesId\") REFERENCES \"Invoice_Series\"(\"id\") ON DELETE SET NULL ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"Invoice_Settings\" ADD CONSTRAINT \"Invoice_Settings_defaultTaxRateId_fkey\" FOREIGN KEY (\"defaultTaxRateId\") REFERENCES \"Invoice_TaxRates\"(\"id\") ON DELETE SET NULL ON UPDATE CASCADE;\n\nCREATE OR REPLACE FUNCTION invoices_search_vector_from_line_item() RETURNS trigger AS $$\nDECLARE\n  target_id uuid;\nBEGIN\n  target_id := COALESCE(NEW.\"invoiceId\", OLD.\"invoiceId\");\n  UPDATE \"Invoices\" SET \"updatedAt\" = \"updatedAt\" WHERE id = target_id;\n  RETURN NULL;\nEND\n$$ LANGUAGE plpgsql;\n\nDROP TRIGGER IF EXISTS invoices_search_vector_line_items_trg ON \"Invoice_LineItems\";\nCREATE TRIGGER invoices_search_vector_line_items_trg\n  AFTER INSERT OR UPDATE OR DELETE ON \"Invoice_LineItems\"\n  FOR EACH ROW EXECUTE FUNCTION invoices_search_vector_from_line_item();\n\nALTER TABLE \"Invoices\"\n  ADD CONSTRAINT invoices_base_currency_fx_both_or_neither\n  CHECK (((\"baseCurrency\" IS NULL) = (\"fxRateToBase\" IS NULL)));\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ADD_UNIQUE_OR_CHECK",
+            "table": "invoices",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20260415180235_invoices_money_check/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE invoices ADD CONSTRAINT invoices_base_currency_fx_both_or_neither CHECK (((\"baseCurrency\" IS NULL) = (\"fxRateToBase\" IS NULL)))",
+            "extra": {
+              "table_sql": "Invoices"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "invoices",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "DATA_DEPENDENT",
+          "compat_forward": "SAFE",
+          "classification": "DATA_DEPENDENT",
+          "reason": "CHECK/UNIQUE constraint added on active C_{t-1} table 'invoices'; safety depends on C_{t-1} write values."
+        }
+      ]
+    },
+    {
+      "sha": "18db65216b417d44172cefbb72eca3c8046031a1",
+      "parent": "81932196b5988495e329313b01c2f2e8a50b3ca6",
+      "date": "2026-04-06T08:08:29+02:00",
+      "subject": "chore: add migration for dead model removal and BigInt to Int",
+      "mig_files": [
+        "prisma/migrations/20260406120000_cleanup_dead_models_and_bigint/migration.sql"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 73,
+      "raw_sql": "-- AlterTable\nALTER TABLE \"crm_Opportunities_Sales_Stages\" ALTER COLUMN \"probability\" SET DATA TYPE INTEGER,\nALTER COLUMN \"order\" SET DATA TYPE INTEGER;\n\n-- AlterTable\nALTER TABLE \"crm_Opportunities_Type\" ALTER COLUMN \"order\" SET DATA TYPE INTEGER;\n\n-- DropTable\nDROP TABLE \"gpt_models\";\n\n-- DropTable\nDROP TABLE \"modulStatus\";\n\n-- DropEnum\nDROP TYPE \"gptStatus\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "crm_opportunities_sales_stages",
+            "column": "probability",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "INT",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20260406120000_cleanup_dead_models_and_bigint/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE crm_opportunities_sales_stages ALTER COLUMN \"probability\" SET DATA TYPE INT",
+            "extra": {
+              "table_sql": "crm_Opportunities_Sales_Stages"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "crm_opportunities_sales_stages",
+            "column": "probability",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening Int -> INT preserves C_{t-1} data compatibility."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "crm_opportunities_sales_stages",
+            "column": "order",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "INT",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20260406120000_cleanup_dead_models_and_bigint/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE crm_opportunities_sales_stages ALTER COLUMN \"order\" SET DATA TYPE INT",
+            "extra": {
+              "table_sql": "crm_Opportunities_Sales_Stages"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "crm_opportunities_sales_stages",
+            "column": "order",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening Int -> INT preserves C_{t-1} data compatibility."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "crm_opportunities_type",
+            "column": "order",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "INT",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20260406120000_cleanup_dead_models_and_bigint/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE crm_opportunities_type ALTER COLUMN \"order\" SET DATA TYPE INT",
+            "extra": {
+              "table_sql": "crm_Opportunities_Type"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "crm_opportunities_type",
+            "column": "order",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening Int -> INT preserves C_{t-1} data compatibility."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "gpt_models",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20260406120000_cleanup_dead_models_and_bigint/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE \"gpt_models\"",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "gpt_models",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'gpt_models' not resolved in C_{t-1} ORM snapshot."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "modulstatus",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20260406120000_cleanup_dead_models_and_bigint/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE \"modulStatus\"",
+            "extra": {
+              "table_sql": "modulStatus"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "modulstatus",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'modulstatus' not resolved in C_{t-1} ORM snapshot."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "gptstatus",
+            "column": "gptstatus",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20260406120000_cleanup_dead_models_and_bigint/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropEnum */ DROP TYPE \"gptStatus\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "gptStatus",
+              "column_sql": "gptStatus"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "gptstatus",
+            "column": "gptstatus",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "ENUM 'gptstatus' not present in C_{t-1} schema."
+        }
+      ]
+    },
+    {
+      "sha": "6ca3dccf08960b8cf6c2d1e83c8a8a2632acb75a",
+      "parent": "78a0ec19a5fbe53c03aca25dd8db9452845fe76c",
+      "date": "2026-04-04T17:25:11+02:00",
+      "subject": "fix(migration): seed currencies and clean data before VARCHAR cast",
+      "mig_files": [
+        "prisma/migrations/20260404120000_add_currency_support/migration.sql"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 70,
+      "raw_sql": "-- CreateEnum\nCREATE TYPE \"ExchangeRateSource\" AS ENUM ('MANUAL', 'ECB');\n\n-- CreateTable\nCREATE TABLE \"Currency\" (\n    \"code\" VARCHAR(3) NOT NULL,\n    \"name\" TEXT NOT NULL,\n    \"symbol\" VARCHAR(5) NOT NULL,\n    \"isEnabled\" BOOLEAN NOT NULL DEFAULT true,\n    \"isDefault\" BOOLEAN NOT NULL DEFAULT false,\n    \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    \"updatedAt\" TIMESTAMP(3) NOT NULL,\n\n    CONSTRAINT \"Currency_pkey\" PRIMARY KEY (\"code\")\n);\n\n-- CreateTable\nCREATE TABLE \"ExchangeRate\" (\n    \"id\" UUID NOT NULL DEFAULT gen_random_uuid(),\n    \"fromCurrency\" VARCHAR(3) NOT NULL,\n    \"toCurrency\" VARCHAR(3) NOT NULL,\n    \"rate\" DECIMAL(18,8) NOT NULL,\n    \"source\" \"ExchangeRateSource\" NOT NULL DEFAULT 'MANUAL',\n    \"effectiveDate\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    \"updatedAt\" TIMESTAMP(3) NOT NULL,\n\n    CONSTRAINT \"ExchangeRate_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateTable\nCREATE TABLE \"crm_SystemSettings\" (\n    \"key\" TEXT NOT NULL,\n    \"value\" TEXT NOT NULL,\n    \"updatedAt\" TIMESTAMP(3) NOT NULL,\n\n    CONSTRAINT \"crm_SystemSettings_pkey\" PRIMARY KEY (\"key\")\n);\n\n-- Seed default currencies (needed before FK constraints)\nINSERT INTO \"Currency\" (\"code\", \"name\", \"symbol\", \"isEnabled\", \"isDefault\", \"createdAt\", \"updatedAt\")\nVALUES\n    ('EUR', 'Euro', '\u20ac', true, true, NOW(), NOW()),\n    ('USD', 'US Dollar', '$', true, false, NOW(), NOW()),\n    ('CZK', 'Czech Koruna', 'K\u010d', true, false, NOW(), NOW())\nON CONFLICT (\"code\") DO NOTHING;\n\n-- Seed default exchange rates\nINSERT INTO \"ExchangeRate\" (\"id\", \"fromCurrency\", \"toCurrency\", \"rate\", \"source\", \"effectiveDate\", \"createdAt\", \"updatedAt\")\nVALUES\n    (gen_random_uuid(), 'EUR', 'USD', 1.084, 'ECB', NOW(), NOW(), NOW()),\n    (gen_random_uuid(), 'EUR', 'CZK', 25.315, 'ECB', NOW(), NOW(), NOW()),\n    (gen_random_uuid(), 'USD', 'EUR', 0.92251, 'ECB', NOW(), NOW(), NOW()),\n    (gen_random_uuid(), 'USD', 'CZK', 23.35, 'ECB', NOW(), NOW(), NOW()),\n    (gen_random_uuid(), 'CZK', 'EUR', 0.0395, 'ECB', NOW(), NOW(), NOW()),\n    (gen_random_uuid(), 'CZK', 'USD', 0.04283, 'ECB', NOW(), NOW(), NOW())\nON CONFLICT DO NOTHING;\n\n-- Seed default system settings\nINSERT INTO \"crm_SystemSettings\" (\"key\", \"value\", \"updatedAt\")\nVALUES\n    ('ecb_auto_update', 'false', NOW()),\n    ('default_currency', 'EUR', NOW())\nON CONFLICT (\"key\") DO NOTHING;\n\n-- Clean up existing currency values: truncate to 3 chars, nullify invalid ones\nUPDATE \"crm_Opportunities\" SET \"currency\" = LEFT(TRIM(\"currency\"), 3) WHERE \"currency\" IS NOT NULL;\nUPDATE \"crm_Opportunities\" SET \"currency\" = NULL WHERE \"currency\" IS NOT NULL AND \"currency\" NOT IN (SELECT \"code\" FROM \"Currency\");\n\n-- AlterTable: crm_Opportunities\nALTER TABLE \"crm_Opportunities\" ALTER COLUMN \"budget\" SET DATA TYPE DECIMAL(18,2);\nALTER TABLE \"crm_Opportunities\" ALTER COLUMN \"expected_revenue\" SET DATA TYPE DECIMAL(18,2);\nALTER TABLE \"crm_Opportunities\" ALTER COLUMN \"currency\" SET DATA TYPE VARCHAR(3);\nALTER TABLE \"crm_Opportunities\" ADD COLUMN IF NOT EXISTS \"snapshot_rate\" DECIMAL(18,8);\n\n-- AlterTable: crm_Contracts\nALTER TABLE \"crm_Contracts\" ALTER COLUMN \"value\" SET DATA TYPE DECIMAL(18,2);\nALTER TABLE \"crm_Contracts\" ADD COLUMN IF NOT EXISTS \"currency\" VARCHAR(3);\nALTER TABLE \"crm_Contracts\" ADD COLUMN IF NOT EXISTS \"snapshot_rate\" DECIMAL(18,8);\n\n-- CreateIndex\nCREATE UNIQUE INDEX IF NOT EXISTS \"ExchangeRate_fromCurrency_toCurrency_key\" ON \"ExchangeRate\"(\"fromCurrency\", \"toCurrency\");\nCREATE INDEX IF NOT EXISTS \"ExchangeRate_fromCurrency_idx\" ON \"ExchangeRate\"(\"fromCurrency\");\nCREATE INDEX IF NOT EXISTS \"ExchangeRate_toCurrency_idx\" ON \"ExchangeRate\"(\"toCurrency\");\n\n-- AddForeignKey\nALTER TABLE \"crm_Opportunities\" ADD CONSTRAINT \"crm_Opportunities_currency_fkey\" FOREIGN KEY (\"currency\") REFERENCES \"Currency\"(\"code\") ON DELETE SET NULL ON UPDATE CASCADE;\nALTER TABLE \"crm_Contracts\" ADD CONSTRAINT \"crm_Contracts_currency_fkey\" FOREIGN KEY (\"currency\") REFERENCES \"Currency\"(\"code\") ON DELETE SET NULL ON UPDATE CASCADE;\nALTER TABLE \"ExchangeRate\" ADD CONSTRAINT \"ExchangeRate_fromCurrency_fkey\" FOREIGN KEY (\"fromCurrency\") REFERENCES \"Currency\"(\"code\") ON DELETE RESTRICT ON UPDATE CASCADE;\nALTER TABLE \"ExchangeRate\" ADD CONSTRAINT \"ExchangeRate_toCurrency_fkey\" FOREIGN KEY (\"toCurrency\") REFERENCES \"Currency\"(\"code\") ON DELETE RESTRICT ON UPDATE CASCADE;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "crm_opportunities",
+            "column": "budget",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "DECIMAL(18, 2)",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20260404120000_add_currency_support/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE crm_opportunities ALTER COLUMN \"budget\" SET DATA TYPE DECIMAL(18, 2)",
+            "extra": {
+              "table_sql": "crm_Opportunities"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "crm_opportunities",
+            "column": "budget",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'crm_opportunities.budget' (Decimal -> DECIMAL(18, 2))."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "crm_opportunities",
+            "column": "expected_revenue",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "DECIMAL(18, 2)",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20260404120000_add_currency_support/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE crm_opportunities ALTER COLUMN \"expected_revenue\" SET DATA TYPE DECIMAL(18, 2)",
+            "extra": {
+              "table_sql": "crm_Opportunities"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "crm_opportunities",
+            "column": "expected_revenue",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'crm_opportunities.expected_revenue' (Decimal -> DECIMAL(18, 2))."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "crm_opportunities",
+            "column": "currency",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "VARCHAR(3)",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20260404120000_add_currency_support/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE crm_opportunities ALTER COLUMN \"currency\" SET DATA TYPE VARCHAR(3)",
+            "extra": {
+              "table_sql": "crm_Opportunities",
+              "column_sql": "Currency"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "crm_opportunities",
+            "column": "currency",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'crm_opportunities.currency' (String -> VARCHAR(3))."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "crm_contracts",
+            "column": "value",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "DECIMAL(18, 2)",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20260404120000_add_currency_support/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE crm_contracts ALTER COLUMN \"value\" SET DATA TYPE DECIMAL(18, 2)",
+            "extra": {
+              "table_sql": "crm_Contracts"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "crm_contracts",
+            "column": "value",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'crm_contracts.value' (Decimal -> DECIMAL(18, 2))."
+        }
+      ]
+    },
+    {
+      "sha": "86b76636742c8bc4860de078f3731ac0e36886f9",
+      "parent": "10a5fe9e8d0530d8993d080cf5b78555840b4709",
+      "date": "2026-04-04T17:01:45+02:00",
+      "subject": "feat(migration): add currency support migration",
+      "mig_files": [
+        "prisma/migrations/20260404120000_add_currency_support/migration.sql"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 70,
+      "raw_sql": "-- CreateEnum\nCREATE TYPE \"ExchangeRateSource\" AS ENUM ('MANUAL', 'ECB');\n\n-- CreateTable\nCREATE TABLE \"Currency\" (\n    \"code\" VARCHAR(3) NOT NULL,\n    \"name\" TEXT NOT NULL,\n    \"symbol\" VARCHAR(5) NOT NULL,\n    \"isEnabled\" BOOLEAN NOT NULL DEFAULT true,\n    \"isDefault\" BOOLEAN NOT NULL DEFAULT false,\n    \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    \"updatedAt\" TIMESTAMP(3) NOT NULL,\n\n    CONSTRAINT \"Currency_pkey\" PRIMARY KEY (\"code\")\n);\n\n-- CreateTable\nCREATE TABLE \"ExchangeRate\" (\n    \"id\" UUID NOT NULL DEFAULT gen_random_uuid(),\n    \"fromCurrency\" VARCHAR(3) NOT NULL,\n    \"toCurrency\" VARCHAR(3) NOT NULL,\n    \"rate\" DECIMAL(18,8) NOT NULL,\n    \"source\" \"ExchangeRateSource\" NOT NULL DEFAULT 'MANUAL',\n    \"effectiveDate\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    \"updatedAt\" TIMESTAMP(3) NOT NULL,\n\n    CONSTRAINT \"ExchangeRate_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateTable\nCREATE TABLE \"crm_SystemSettings\" (\n    \"key\" TEXT NOT NULL,\n    \"value\" TEXT NOT NULL,\n    \"updatedAt\" TIMESTAMP(3) NOT NULL,\n\n    CONSTRAINT \"crm_SystemSettings_pkey\" PRIMARY KEY (\"key\")\n);\n\n-- AlterTable: crm_Opportunities\nALTER TABLE \"crm_Opportunities\" ALTER COLUMN \"budget\" SET DATA TYPE DECIMAL(18,2);\nALTER TABLE \"crm_Opportunities\" ALTER COLUMN \"expected_revenue\" SET DATA TYPE DECIMAL(18,2);\nALTER TABLE \"crm_Opportunities\" ALTER COLUMN \"currency\" SET DATA TYPE VARCHAR(3);\nALTER TABLE \"crm_Opportunities\" ADD COLUMN \"snapshot_rate\" DECIMAL(18,8);\n\n-- AlterTable: crm_Contracts\nALTER TABLE \"crm_Contracts\" ALTER COLUMN \"value\" SET DATA TYPE DECIMAL(18,2);\nALTER TABLE \"crm_Contracts\" ADD COLUMN \"currency\" VARCHAR(3);\nALTER TABLE \"crm_Contracts\" ADD COLUMN \"snapshot_rate\" DECIMAL(18,8);\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"ExchangeRate_fromCurrency_toCurrency_key\" ON \"ExchangeRate\"(\"fromCurrency\", \"toCurrency\");\nCREATE INDEX \"ExchangeRate_fromCurrency_idx\" ON \"ExchangeRate\"(\"fromCurrency\");\nCREATE INDEX \"ExchangeRate_toCurrency_idx\" ON \"ExchangeRate\"(\"toCurrency\");\n\n-- AddForeignKey\nALTER TABLE \"crm_Opportunities\" ADD CONSTRAINT \"crm_Opportunities_currency_fkey\" FOREIGN KEY (\"currency\") REFERENCES \"Currency\"(\"code\") ON DELETE SET NULL ON UPDATE CASCADE;\nALTER TABLE \"crm_Contracts\" ADD CONSTRAINT \"crm_Contracts_currency_fkey\" FOREIGN KEY (\"currency\") REFERENCES \"Currency\"(\"code\") ON DELETE SET NULL ON UPDATE CASCADE;\nALTER TABLE \"ExchangeRate\" ADD CONSTRAINT \"ExchangeRate_fromCurrency_fkey\" FOREIGN KEY (\"fromCurrency\") REFERENCES \"Currency\"(\"code\") ON DELETE RESTRICT ON UPDATE CASCADE;\nALTER TABLE \"ExchangeRate\" ADD CONSTRAINT \"ExchangeRate_toCurrency_fkey\" FOREIGN KEY (\"toCurrency\") REFERENCES \"Currency\"(\"code\") ON DELETE RESTRICT ON UPDATE CASCADE;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "crm_opportunities",
+            "column": "budget",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "DECIMAL(18, 2)",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20260404120000_add_currency_support/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE crm_opportunities ALTER COLUMN \"budget\" SET DATA TYPE DECIMAL(18, 2)",
+            "extra": {
+              "table_sql": "crm_Opportunities"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "crm_opportunities",
+            "column": "budget",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'crm_opportunities.budget' (Decimal -> DECIMAL(18, 2))."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "crm_opportunities",
+            "column": "expected_revenue",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "DECIMAL(18, 2)",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20260404120000_add_currency_support/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE crm_opportunities ALTER COLUMN \"expected_revenue\" SET DATA TYPE DECIMAL(18, 2)",
+            "extra": {
+              "table_sql": "crm_Opportunities"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "crm_opportunities",
+            "column": "expected_revenue",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'crm_opportunities.expected_revenue' (Decimal -> DECIMAL(18, 2))."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "crm_opportunities",
+            "column": "currency",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "VARCHAR(3)",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20260404120000_add_currency_support/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE crm_opportunities ALTER COLUMN \"currency\" SET DATA TYPE VARCHAR(3)",
+            "extra": {
+              "table_sql": "crm_Opportunities",
+              "column_sql": "Currency"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "crm_opportunities",
+            "column": "currency",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'crm_opportunities.currency' (String -> VARCHAR(3))."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "crm_contracts",
+            "column": "value",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "DECIMAL(18, 2)",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20260404120000_add_currency_support/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE crm_contracts ALTER COLUMN \"value\" SET DATA TYPE DECIMAL(18, 2)",
+            "extra": {
+              "table_sql": "crm_Contracts"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "crm_contracts",
+            "column": "value",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'crm_contracts.value' (Decimal -> DECIMAL(18, 2))."
+        }
+      ]
+    },
+    {
+      "sha": "094e7ee715c034b7c023a574241871690cee68ad",
+      "parent": "bfd80404a74f08e9729c24175dc2dcb6211f16fe",
+      "date": "2026-04-04T09:00:25+02:00",
+      "subject": "fix(auth): resolve Google OAuth user creation failures",
+      "mig_files": [
+        "prisma/migrations/20260404000000_fix_better_auth_id_defaults/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "lib/auth.ts",
+        "prisma/schema.prisma"
+      ],
+      "orm_models_parsed_old": 67,
+      "raw_sql": "-- Fix Better Auth model ID fields: add UUID defaults so DB can auto-generate\n-- when Better Auth does not provide an explicit id value.\n\n-- Session: add UUID default (column stays TEXT to avoid breaking existing data)\nALTER TABLE \"session\" ALTER COLUMN \"id\" SET DEFAULT gen_random_uuid()::text;\n\n-- Account: add UUID default (column stays TEXT to avoid breaking existing data)\nALTER TABLE \"account\" ALTER COLUMN \"id\" SET DEFAULT gen_random_uuid()::text;\n\n-- Verification: change id from TEXT to UUID with default\n-- (table is expected to be empty / newly created)\nALTER TABLE \"verification\" ALTER COLUMN \"id\" TYPE UUID USING \"id\"::UUID;\nALTER TABLE \"verification\" ALTER COLUMN \"id\" SET DEFAULT gen_random_uuid();\n\n-- Add banned fields to Users table (required by Better Auth admin plugin)\nALTER TABLE \"Users\" ADD COLUMN IF NOT EXISTS \"banned\" BOOLEAN NOT NULL DEFAULT false;\nALTER TABLE \"Users\" ADD COLUMN IF NOT EXISTS \"banReason\" TEXT;\nALTER TABLE \"Users\" ADD COLUMN IF NOT EXISTS \"banExpires\" TIMESTAMP(3);\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "verification",
+            "column": "id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "UUID",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20260404000000_fix_better_auth_id_defaults/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE verification ALTER COLUMN \"id\" SET DATA TYPE UUID USING CAST(\"id\" AS UUID)",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "verification",
+            "column": "id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'verification.id' (String -> UUID)."
+        }
+      ]
+    },
+    {
+      "sha": "ce90c270feffd968f919247b2dcf1dcec7a4f6ad",
+      "parent": "47cbd5946fe418b673389a924e2352ff3810a969",
+      "date": "2026-03-27T16:47:55+01:00",
+      "subject": "fix: remove redundant name indexes, add pre-migration data check comment",
+      "mig_files": [
+        "prisma/migrations/20260327000001_crm_settings_db_backed/migration.sql"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 57,
+      "raw_sql": "BEGIN;\n\n-- Step 1: Create new config tables\nCREATE TABLE IF NOT EXISTS \"crm_Contact_Types\" (\n  \"id\" UUID NOT NULL DEFAULT gen_random_uuid(),\n  \"__v\" INTEGER NOT NULL DEFAULT 0,\n  \"name\" TEXT NOT NULL,\n  CONSTRAINT \"crm_Contact_Types_pkey\" PRIMARY KEY (\"id\"),\n  CONSTRAINT \"crm_Contact_Types_name_key\" UNIQUE (\"name\")\n);\n\nCREATE TABLE IF NOT EXISTS \"crm_Lead_Sources\" (\n  \"id\" UUID NOT NULL DEFAULT gen_random_uuid(),\n  \"__v\" INTEGER NOT NULL DEFAULT 0,\n  \"name\" TEXT NOT NULL,\n  CONSTRAINT \"crm_Lead_Sources_pkey\" PRIMARY KEY (\"id\"),\n  CONSTRAINT \"crm_Lead_Sources_name_key\" UNIQUE (\"name\")\n);\n\nCREATE TABLE IF NOT EXISTS \"crm_Lead_Statuses\" (\n  \"id\" UUID NOT NULL DEFAULT gen_random_uuid(),\n  \"__v\" INTEGER NOT NULL DEFAULT 0,\n  \"name\" TEXT NOT NULL,\n  CONSTRAINT \"crm_Lead_Statuses_pkey\" PRIMARY KEY (\"id\"),\n  CONSTRAINT \"crm_Lead_Statuses_name_key\" UNIQUE (\"name\")\n);\n\nCREATE TABLE IF NOT EXISTS \"crm_Lead_Types\" (\n  \"id\" UUID NOT NULL DEFAULT gen_random_uuid(),\n  \"__v\" INTEGER NOT NULL DEFAULT 0,\n  \"name\" TEXT NOT NULL,\n  CONSTRAINT \"crm_Lead_Types_pkey\" PRIMARY KEY (\"id\"),\n  CONSTRAINT \"crm_Lead_Types_name_key\" UNIQUE (\"name\")\n);\n\n-- Step 2: Populate new tables from known current string values\nINSERT INTO \"crm_Contact_Types\" (\"name\") VALUES\n  ('Customer'), ('Partner'), ('Vendor'), ('Prospect')\nON CONFLICT (\"name\") DO NOTHING;\n\nINSERT INTO \"crm_Lead_Statuses\" (\"name\") VALUES\n  ('New'), ('Contacted'), ('Qualified'), ('Lost')\nON CONFLICT (\"name\") DO NOTHING;\n\nINSERT INTO \"crm_Lead_Types\" (\"name\") VALUES\n  ('Demo')\nON CONFLICT (\"name\") DO NOTHING;\n\n-- crm_Lead_Sources: lead_source was free-text, no backfill needed\n-- Seed rows will be added by seed.ts after migration\n\n-- IMPORTANT: If your database has lead status/type values outside of\n-- ('New','Contacted','Qualified','Lost') or ('Demo'), the assertions in\n-- Step 5 will catch them and roll back this migration. Run this query\n-- first to check: SELECT DISTINCT status FROM \"crm_Leads\" WHERE status IS NOT NULL;\n-- and: SELECT DISTINCT type FROM \"crm_Leads\" WHERE type IS NOT NULL;\n-- Add any extra values to the seed INSERTs in Step 2 before applying.\n\n-- Step 3: Add new nullable FK columns alongside old columns\nALTER TABLE \"crm_Contacts\" ADD COLUMN IF NOT EXISTS \"contact_type_id\" UUID;\nALTER TABLE \"crm_Leads\"    ADD COLUMN IF NOT EXISTS \"lead_source_id\"  UUID;\nALTER TABLE \"crm_Leads\"    ADD COLUMN IF NOT EXISTS \"lead_status_id\"  UUID;\nALTER TABLE \"crm_Leads\"    ADD COLUMN IF NOT EXISTS \"lead_type_id\"    UUID;\n\n-- Step 4: Backfill FK columns from old string values\nUPDATE \"crm_Contacts\" c\nSET \"contact_type_id\" = ct.id\nFROM \"crm_Contact_Types\" ct\nWHERE LOWER(c.type) = LOWER(ct.name) AND c.type IS NOT NULL;\n\n-- Case-insensitive match: old values were uppercase (\"NEW\"), new rows are title-case (\"New\")\nUPDATE \"crm_Leads\" l\nSET \"lead_status_id\" = ls.id\nFROM \"crm_Lead_Statuses\" ls\nWHERE LOWER(l.status) = LOWER(ls.name) AND l.status IS NOT NULL;\n\nUPDATE \"crm_Leads\" l\nSET \"lead_type_id\" = lt.id\nFROM \"crm_Lead_Types\" lt\nWHERE LOWER(l.type) = LOWER(lt.name) AND l.type IS NOT NULL;\n\n-- lead_source was free-text; no reliable backfill (values won't match seeded rows)\n\n-- Step 5: Assert backfill is complete (rolls back transaction on failure)\nDO $$ BEGIN\n  ASSERT (\n    SELECT COUNT(*) FROM \"crm_Contacts\"\n    WHERE type IS NOT NULL AND \"contact_type_id\" IS NULL\n  ) = 0, 'Contact type backfill incomplete \u2014 unmatched values exist';\n\n  ASSERT (\n    SELECT COUNT(*) FROM \"crm_Leads\"\n    WHERE status IS NOT NULL AND \"lead_status_id\" IS NULL\n  ) = 0, 'Lead status backfill incomplete \u2014 unmatched values exist';\n\n  ASSERT (\n    SELECT COUNT(*) FROM \"crm_Leads\"\n    WHERE type IS NOT NULL AND \"lead_type_id\" IS NULL\n  ) = 0, 'Lead type backfill incomplete \u2014 unmatched values exist';\nEND $$;\n\n-- Step 6: Drop old string columns\nALTER TABLE \"crm_Contacts\" DROP COLUMN IF EXISTS \"type\";\nALTER TABLE \"crm_Leads\"    DROP COLUMN IF EXISTS \"status\";\nALTER TABLE \"crm_Leads\"    DROP COLUMN IF EXISTS \"type\";\nALTER TABLE \"crm_Leads\"    DROP COLUMN IF EXISTS \"lead_source\";\n\n-- Step 7: Drop orphaned enum types (they were unused by any model field)\nDROP TYPE IF EXISTS \"crm_Contact_Type\";\nDROP TYPE IF EXISTS \"crm_Lead_Status\";\nDROP TYPE IF EXISTS \"crm_Lead_Type\";\n\n-- Step 8: Add FK constraints\nALTER TABLE \"crm_Contacts\" ADD CONSTRAINT \"fk_contact_type\"\n  FOREIGN KEY (\"contact_type_id\") REFERENCES \"crm_Contact_Types\"(\"id\") ON DELETE SET NULL;\n\nALTER TABLE \"crm_Leads\" ADD CONSTRAINT \"fk_lead_source\"\n  FOREIGN KEY (\"lead_source_id\") REFERENCES \"crm_Lead_Sources\"(\"id\") ON DELETE SET NULL;\n\nALTER TABLE \"crm_Leads\" ADD CONSTRAINT \"fk_lead_status\"\n  FOREIGN KEY (\"lead_status_id\") REFERENCES \"crm_Lead_Statuses\"(\"id\") ON DELETE SET NULL;\n\nALTER TABLE \"crm_Leads\" ADD CONSTRAINT \"fk_lead_type\"\n  FOREIGN KEY (\"lead_type_id\") REFERENCES \"crm_Lead_Types\"(\"id\") ON DELETE SET NULL;\n\n-- Indexes for new FK columns\nCREATE INDEX IF NOT EXISTS \"crm_Contacts_contact_type_id_idx\" ON \"crm_Contacts\"(\"contact_type_id\");\nCREATE INDEX IF NOT EXISTS \"crm_Leads_lead_source_id_idx\"     ON \"crm_Leads\"(\"lead_source_id\");\nCREATE INDEX IF NOT EXISTS \"crm_Leads_lead_status_id_idx\"     ON \"crm_Leads\"(\"lead_status_id\");\nCREATE INDEX IF NOT EXISTS \"crm_Leads_lead_type_id_idx\"       ON \"crm_Leads\"(\"lead_type_id\");\n\nCOMMIT;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "crm_contacts",
+            "column": "type",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20260327000001_crm_settings_db_backed/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE crm_contacts DROP COLUMN IF EXISTS \"type\"",
+            "extra": {
+              "table_sql": "crm_Contacts"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "crm_contacts",
+            "column": "type",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'type' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "crm_leads",
+            "column": "status",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20260327000001_crm_settings_db_backed/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE crm_leads DROP COLUMN IF EXISTS \"status\"",
+            "extra": {
+              "table_sql": "crm_Leads"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "crm_leads",
+            "column": "status",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'status' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "crm_leads",
+            "column": "type",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20260327000001_crm_settings_db_backed/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE crm_leads DROP COLUMN IF EXISTS \"type\"",
+            "extra": {
+              "table_sql": "crm_Leads"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "crm_leads",
+            "column": "type",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'type' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "crm_leads",
+            "column": "lead_source",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20260327000001_crm_settings_db_backed/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE crm_leads DROP COLUMN IF EXISTS \"lead_source\"",
+            "extra": {
+              "table_sql": "crm_Leads"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "crm_leads",
+            "column": "lead_source",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'lead_source' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "crm_contact_type",
+            "column": "crm_contact_type",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20260327000001_crm_settings_db_backed/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* Step 7: Drop orphaned enum types (they were unused by any model field) */ DROP TYPE IF EXISTS \"crm_Contact_Type\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "crm_Contact_Type",
+              "column_sql": "crm_Contact_Type"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "crm_contact_type",
+            "column": "crm_contact_type",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "ENUM 'crm_contact_type' not present in C_{t-1} schema."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "crm_lead_status",
+            "column": "crm_lead_status",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20260327000001_crm_settings_db_backed/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TYPE IF EXISTS \"crm_Lead_Status\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "crm_Lead_Status",
+              "column_sql": "crm_Lead_Status"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "crm_lead_status",
+            "column": "crm_lead_status",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "ENUM 'crm_lead_status' not present in C_{t-1} schema."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "crm_lead_type",
+            "column": "crm_lead_type",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20260327000001_crm_settings_db_backed/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TYPE IF EXISTS \"crm_Lead_Type\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "crm_Lead_Type",
+              "column_sql": "crm_Lead_Type"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "crm_lead_type",
+            "column": "crm_lead_type",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "ENUM 'crm_lead_type' not present in C_{t-1} schema."
+        }
+      ]
+    },
+    {
+      "sha": "47cbd5946fe418b673389a924e2352ff3810a969",
+      "parent": "c0eb77393dee335c32e2b6ff9216b70a5fc0063d",
+      "date": "2026-03-27T16:46:20+01:00",
+      "subject": "fix: use LOWER() case-insensitive match in contact type backfill",
+      "mig_files": [
+        "prisma/migrations/20260327000001_crm_settings_db_backed/migration.sql"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 57,
+      "raw_sql": "BEGIN;\n\n-- Step 1: Create new config tables\nCREATE TABLE IF NOT EXISTS \"crm_Contact_Types\" (\n  \"id\" UUID NOT NULL DEFAULT gen_random_uuid(),\n  \"__v\" INTEGER NOT NULL DEFAULT 0,\n  \"name\" TEXT NOT NULL,\n  CONSTRAINT \"crm_Contact_Types_pkey\" PRIMARY KEY (\"id\"),\n  CONSTRAINT \"crm_Contact_Types_name_key\" UNIQUE (\"name\")\n);\nCREATE INDEX IF NOT EXISTS \"crm_Contact_Types_name_idx\" ON \"crm_Contact_Types\"(\"name\");\n\nCREATE TABLE IF NOT EXISTS \"crm_Lead_Sources\" (\n  \"id\" UUID NOT NULL DEFAULT gen_random_uuid(),\n  \"__v\" INTEGER NOT NULL DEFAULT 0,\n  \"name\" TEXT NOT NULL,\n  CONSTRAINT \"crm_Lead_Sources_pkey\" PRIMARY KEY (\"id\"),\n  CONSTRAINT \"crm_Lead_Sources_name_key\" UNIQUE (\"name\")\n);\nCREATE INDEX IF NOT EXISTS \"crm_Lead_Sources_name_idx\" ON \"crm_Lead_Sources\"(\"name\");\n\nCREATE TABLE IF NOT EXISTS \"crm_Lead_Statuses\" (\n  \"id\" UUID NOT NULL DEFAULT gen_random_uuid(),\n  \"__v\" INTEGER NOT NULL DEFAULT 0,\n  \"name\" TEXT NOT NULL,\n  CONSTRAINT \"crm_Lead_Statuses_pkey\" PRIMARY KEY (\"id\"),\n  CONSTRAINT \"crm_Lead_Statuses_name_key\" UNIQUE (\"name\")\n);\nCREATE INDEX IF NOT EXISTS \"crm_Lead_Statuses_name_idx\" ON \"crm_Lead_Statuses\"(\"name\");\n\nCREATE TABLE IF NOT EXISTS \"crm_Lead_Types\" (\n  \"id\" UUID NOT NULL DEFAULT gen_random_uuid(),\n  \"__v\" INTEGER NOT NULL DEFAULT 0,\n  \"name\" TEXT NOT NULL,\n  CONSTRAINT \"crm_Lead_Types_pkey\" PRIMARY KEY (\"id\"),\n  CONSTRAINT \"crm_Lead_Types_name_key\" UNIQUE (\"name\")\n);\nCREATE INDEX IF NOT EXISTS \"crm_Lead_Types_name_idx\" ON \"crm_Lead_Types\"(\"name\");\n\n-- Step 2: Populate new tables from known current string values\nINSERT INTO \"crm_Contact_Types\" (\"name\") VALUES\n  ('Customer'), ('Partner'), ('Vendor'), ('Prospect')\nON CONFLICT (\"name\") DO NOTHING;\n\nINSERT INTO \"crm_Lead_Statuses\" (\"name\") VALUES\n  ('New'), ('Contacted'), ('Qualified'), ('Lost')\nON CONFLICT (\"name\") DO NOTHING;\n\nINSERT INTO \"crm_Lead_Types\" (\"name\") VALUES\n  ('Demo')\nON CONFLICT (\"name\") DO NOTHING;\n\n-- crm_Lead_Sources: lead_source was free-text, no backfill needed\n-- Seed rows will be added by seed.ts after migration\n\n-- Step 3: Add new nullable FK columns alongside old columns\nALTER TABLE \"crm_Contacts\" ADD COLUMN IF NOT EXISTS \"contact_type_id\" UUID;\nALTER TABLE \"crm_Leads\"    ADD COLUMN IF NOT EXISTS \"lead_source_id\"  UUID;\nALTER TABLE \"crm_Leads\"    ADD COLUMN IF NOT EXISTS \"lead_status_id\"  UUID;\nALTER TABLE \"crm_Leads\"    ADD COLUMN IF NOT EXISTS \"lead_type_id\"    UUID;\n\n-- Step 4: Backfill FK columns from old string values\nUPDATE \"crm_Contacts\" c\nSET \"contact_type_id\" = ct.id\nFROM \"crm_Contact_Types\" ct\nWHERE LOWER(c.type) = LOWER(ct.name) AND c.type IS NOT NULL;\n\n-- Case-insensitive match: old values were uppercase (\"NEW\"), new rows are title-case (\"New\")\nUPDATE \"crm_Leads\" l\nSET \"lead_status_id\" = ls.id\nFROM \"crm_Lead_Statuses\" ls\nWHERE LOWER(l.status) = LOWER(ls.name) AND l.status IS NOT NULL;\n\nUPDATE \"crm_Leads\" l\nSET \"lead_type_id\" = lt.id\nFROM \"crm_Lead_Types\" lt\nWHERE LOWER(l.type) = LOWER(lt.name) AND l.type IS NOT NULL;\n\n-- lead_source was free-text; no reliable backfill (values won't match seeded rows)\n\n-- Step 5: Assert backfill is complete (rolls back transaction on failure)\nDO $$ BEGIN\n  ASSERT (\n    SELECT COUNT(*) FROM \"crm_Contacts\"\n    WHERE type IS NOT NULL AND \"contact_type_id\" IS NULL\n  ) = 0, 'Contact type backfill incomplete \u2014 unmatched values exist';\n\n  ASSERT (\n    SELECT COUNT(*) FROM \"crm_Leads\"\n    WHERE status IS NOT NULL AND \"lead_status_id\" IS NULL\n  ) = 0, 'Lead status backfill incomplete \u2014 unmatched values exist';\n\n  ASSERT (\n    SELECT COUNT(*) FROM \"crm_Leads\"\n    WHERE type IS NOT NULL AND \"lead_type_id\" IS NULL\n  ) = 0, 'Lead type backfill incomplete \u2014 unmatched values exist';\nEND $$;\n\n-- Step 6: Drop old string columns\nALTER TABLE \"crm_Contacts\" DROP COLUMN IF EXISTS \"type\";\nALTER TABLE \"crm_Leads\"    DROP COLUMN IF EXISTS \"status\";\nALTER TABLE \"crm_Leads\"    DROP COLUMN IF EXISTS \"type\";\nALTER TABLE \"crm_Leads\"    DROP COLUMN IF EXISTS \"lead_source\";\n\n-- Step 7: Drop orphaned enum types (they were unused by any model field)\nDROP TYPE IF EXISTS \"crm_Contact_Type\";\nDROP TYPE IF EXISTS \"crm_Lead_Status\";\nDROP TYPE IF EXISTS \"crm_Lead_Type\";\n\n-- Step 8: Add FK constraints\nALTER TABLE \"crm_Contacts\" ADD CONSTRAINT \"fk_contact_type\"\n  FOREIGN KEY (\"contact_type_id\") REFERENCES \"crm_Contact_Types\"(\"id\") ON DELETE SET NULL;\n\nALTER TABLE \"crm_Leads\" ADD CONSTRAINT \"fk_lead_source\"\n  FOREIGN KEY (\"lead_source_id\") REFERENCES \"crm_Lead_Sources\"(\"id\") ON DELETE SET NULL;\n\nALTER TABLE \"crm_Leads\" ADD CONSTRAINT \"fk_lead_status\"\n  FOREIGN KEY (\"lead_status_id\") REFERENCES \"crm_Lead_Statuses\"(\"id\") ON DELETE SET NULL;\n\nALTER TABLE \"crm_Leads\" ADD CONSTRAINT \"fk_lead_type\"\n  FOREIGN KEY (\"lead_type_id\") REFERENCES \"crm_Lead_Types\"(\"id\") ON DELETE SET NULL;\n\n-- Indexes for new FK columns\nCREATE INDEX IF NOT EXISTS \"crm_Contacts_contact_type_id_idx\" ON \"crm_Contacts\"(\"contact_type_id\");\nCREATE INDEX IF NOT EXISTS \"crm_Leads_lead_source_id_idx\"     ON \"crm_Leads\"(\"lead_source_id\");\nCREATE INDEX IF NOT EXISTS \"crm_Leads_lead_status_id_idx\"     ON \"crm_Leads\"(\"lead_status_id\");\nCREATE INDEX IF NOT EXISTS \"crm_Leads_lead_type_id_idx\"       ON \"crm_Leads\"(\"lead_type_id\");\n\nCOMMIT;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "crm_contacts",
+            "column": "type",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20260327000001_crm_settings_db_backed/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE crm_contacts DROP COLUMN IF EXISTS \"type\"",
+            "extra": {
+              "table_sql": "crm_Contacts"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "crm_contacts",
+            "column": "type",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'type' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "crm_leads",
+            "column": "status",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20260327000001_crm_settings_db_backed/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE crm_leads DROP COLUMN IF EXISTS \"status\"",
+            "extra": {
+              "table_sql": "crm_Leads"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "crm_leads",
+            "column": "status",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'status' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "crm_leads",
+            "column": "type",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20260327000001_crm_settings_db_backed/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE crm_leads DROP COLUMN IF EXISTS \"type\"",
+            "extra": {
+              "table_sql": "crm_Leads"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "crm_leads",
+            "column": "type",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'type' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "crm_leads",
+            "column": "lead_source",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20260327000001_crm_settings_db_backed/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE crm_leads DROP COLUMN IF EXISTS \"lead_source\"",
+            "extra": {
+              "table_sql": "crm_Leads"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "crm_leads",
+            "column": "lead_source",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'lead_source' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "crm_contact_type",
+            "column": "crm_contact_type",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20260327000001_crm_settings_db_backed/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* Step 7: Drop orphaned enum types (they were unused by any model field) */ DROP TYPE IF EXISTS \"crm_Contact_Type\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "crm_Contact_Type",
+              "column_sql": "crm_Contact_Type"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "crm_contact_type",
+            "column": "crm_contact_type",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "ENUM 'crm_contact_type' not present in C_{t-1} schema."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "crm_lead_status",
+            "column": "crm_lead_status",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20260327000001_crm_settings_db_backed/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TYPE IF EXISTS \"crm_Lead_Status\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "crm_Lead_Status",
+              "column_sql": "crm_Lead_Status"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "crm_lead_status",
+            "column": "crm_lead_status",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "ENUM 'crm_lead_status' not present in C_{t-1} schema."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "crm_lead_type",
+            "column": "crm_lead_type",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20260327000001_crm_settings_db_backed/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TYPE IF EXISTS \"crm_Lead_Type\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "crm_Lead_Type",
+              "column_sql": "crm_Lead_Type"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "crm_lead_type",
+            "column": "crm_lead_type",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "ENUM 'crm_lead_type' not present in C_{t-1} schema."
+        }
+      ]
+    },
+    {
+      "sha": "c0eb77393dee335c32e2b6ff9216b70a5fc0063d",
+      "parent": "ae944be11028c104aa34d27551723429996d1fbe",
+      "date": "2026-03-27T16:45:15+01:00",
+      "subject": "feat: raw SQL migration \u2014 convert crm string fields to DB-backed FK relations",
+      "mig_files": [
+        "prisma/migrations/20260327000001_crm_settings_db_backed/migration.sql"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 57,
+      "raw_sql": "BEGIN;\n\n-- Step 1: Create new config tables\nCREATE TABLE IF NOT EXISTS \"crm_Contact_Types\" (\n  \"id\" UUID NOT NULL DEFAULT gen_random_uuid(),\n  \"__v\" INTEGER NOT NULL DEFAULT 0,\n  \"name\" TEXT NOT NULL,\n  CONSTRAINT \"crm_Contact_Types_pkey\" PRIMARY KEY (\"id\"),\n  CONSTRAINT \"crm_Contact_Types_name_key\" UNIQUE (\"name\")\n);\nCREATE INDEX IF NOT EXISTS \"crm_Contact_Types_name_idx\" ON \"crm_Contact_Types\"(\"name\");\n\nCREATE TABLE IF NOT EXISTS \"crm_Lead_Sources\" (\n  \"id\" UUID NOT NULL DEFAULT gen_random_uuid(),\n  \"__v\" INTEGER NOT NULL DEFAULT 0,\n  \"name\" TEXT NOT NULL,\n  CONSTRAINT \"crm_Lead_Sources_pkey\" PRIMARY KEY (\"id\"),\n  CONSTRAINT \"crm_Lead_Sources_name_key\" UNIQUE (\"name\")\n);\nCREATE INDEX IF NOT EXISTS \"crm_Lead_Sources_name_idx\" ON \"crm_Lead_Sources\"(\"name\");\n\nCREATE TABLE IF NOT EXISTS \"crm_Lead_Statuses\" (\n  \"id\" UUID NOT NULL DEFAULT gen_random_uuid(),\n  \"__v\" INTEGER NOT NULL DEFAULT 0,\n  \"name\" TEXT NOT NULL,\n  CONSTRAINT \"crm_Lead_Statuses_pkey\" PRIMARY KEY (\"id\"),\n  CONSTRAINT \"crm_Lead_Statuses_name_key\" UNIQUE (\"name\")\n);\nCREATE INDEX IF NOT EXISTS \"crm_Lead_Statuses_name_idx\" ON \"crm_Lead_Statuses\"(\"name\");\n\nCREATE TABLE IF NOT EXISTS \"crm_Lead_Types\" (\n  \"id\" UUID NOT NULL DEFAULT gen_random_uuid(),\n  \"__v\" INTEGER NOT NULL DEFAULT 0,\n  \"name\" TEXT NOT NULL,\n  CONSTRAINT \"crm_Lead_Types_pkey\" PRIMARY KEY (\"id\"),\n  CONSTRAINT \"crm_Lead_Types_name_key\" UNIQUE (\"name\")\n);\nCREATE INDEX IF NOT EXISTS \"crm_Lead_Types_name_idx\" ON \"crm_Lead_Types\"(\"name\");\n\n-- Step 2: Populate new tables from known current string values\nINSERT INTO \"crm_Contact_Types\" (\"name\") VALUES\n  ('Customer'), ('Partner'), ('Vendor'), ('Prospect')\nON CONFLICT (\"name\") DO NOTHING;\n\nINSERT INTO \"crm_Lead_Statuses\" (\"name\") VALUES\n  ('New'), ('Contacted'), ('Qualified'), ('Lost')\nON CONFLICT (\"name\") DO NOTHING;\n\nINSERT INTO \"crm_Lead_Types\" (\"name\") VALUES\n  ('Demo')\nON CONFLICT (\"name\") DO NOTHING;\n\n-- crm_Lead_Sources: lead_source was free-text, no backfill needed\n-- Seed rows will be added by seed.ts after migration\n\n-- Step 3: Add new nullable FK columns alongside old columns\nALTER TABLE \"crm_Contacts\" ADD COLUMN IF NOT EXISTS \"contact_type_id\" UUID;\nALTER TABLE \"crm_Leads\"    ADD COLUMN IF NOT EXISTS \"lead_source_id\"  UUID;\nALTER TABLE \"crm_Leads\"    ADD COLUMN IF NOT EXISTS \"lead_status_id\"  UUID;\nALTER TABLE \"crm_Leads\"    ADD COLUMN IF NOT EXISTS \"lead_type_id\"    UUID;\n\n-- Step 4: Backfill FK columns from old string values\nUPDATE \"crm_Contacts\" c\nSET \"contact_type_id\" = ct.id\nFROM \"crm_Contact_Types\" ct\nWHERE c.type = ct.name AND c.type IS NOT NULL;\n\n-- Case-insensitive match: old values were uppercase (\"NEW\"), new rows are title-case (\"New\")\nUPDATE \"crm_Leads\" l\nSET \"lead_status_id\" = ls.id\nFROM \"crm_Lead_Statuses\" ls\nWHERE LOWER(l.status) = LOWER(ls.name) AND l.status IS NOT NULL;\n\nUPDATE \"crm_Leads\" l\nSET \"lead_type_id\" = lt.id\nFROM \"crm_Lead_Types\" lt\nWHERE LOWER(l.type) = LOWER(lt.name) AND l.type IS NOT NULL;\n\n-- lead_source was free-text; no reliable backfill (values won't match seeded rows)\n\n-- Step 5: Assert backfill is complete (rolls back transaction on failure)\nDO $$ BEGIN\n  ASSERT (\n    SELECT COUNT(*) FROM \"crm_Contacts\"\n    WHERE type IS NOT NULL AND \"contact_type_id\" IS NULL\n  ) = 0, 'Contact type backfill incomplete \u2014 unmatched values exist';\n\n  ASSERT (\n    SELECT COUNT(*) FROM \"crm_Leads\"\n    WHERE status IS NOT NULL AND \"lead_status_id\" IS NULL\n  ) = 0, 'Lead status backfill incomplete \u2014 unmatched values exist';\n\n  ASSERT (\n    SELECT COUNT(*) FROM \"crm_Leads\"\n    WHERE type IS NOT NULL AND \"lead_type_id\" IS NULL\n  ) = 0, 'Lead type backfill incomplete \u2014 unmatched values exist';\nEND $$;\n\n-- Step 6: Drop old string columns\nALTER TABLE \"crm_Contacts\" DROP COLUMN IF EXISTS \"type\";\nALTER TABLE \"crm_Leads\"    DROP COLUMN IF EXISTS \"status\";\nALTER TABLE \"crm_Leads\"    DROP COLUMN IF EXISTS \"type\";\nALTER TABLE \"crm_Leads\"    DROP COLUMN IF EXISTS \"lead_source\";\n\n-- Step 7: Drop orphaned enum types (they were unused by any model field)\nDROP TYPE IF EXISTS \"crm_Contact_Type\";\nDROP TYPE IF EXISTS \"crm_Lead_Status\";\nDROP TYPE IF EXISTS \"crm_Lead_Type\";\n\n-- Step 8: Add FK constraints\nALTER TABLE \"crm_Contacts\" ADD CONSTRAINT \"fk_contact_type\"\n  FOREIGN KEY (\"contact_type_id\") REFERENCES \"crm_Contact_Types\"(\"id\") ON DELETE SET NULL;\n\nALTER TABLE \"crm_Leads\" ADD CONSTRAINT \"fk_lead_source\"\n  FOREIGN KEY (\"lead_source_id\") REFERENCES \"crm_Lead_Sources\"(\"id\") ON DELETE SET NULL;\n\nALTER TABLE \"crm_Leads\" ADD CONSTRAINT \"fk_lead_status\"\n  FOREIGN KEY (\"lead_status_id\") REFERENCES \"crm_Lead_Statuses\"(\"id\") ON DELETE SET NULL;\n\nALTER TABLE \"crm_Leads\" ADD CONSTRAINT \"fk_lead_type\"\n  FOREIGN KEY (\"lead_type_id\") REFERENCES \"crm_Lead_Types\"(\"id\") ON DELETE SET NULL;\n\n-- Indexes for new FK columns\nCREATE INDEX IF NOT EXISTS \"crm_Contacts_contact_type_id_idx\" ON \"crm_Contacts\"(\"contact_type_id\");\nCREATE INDEX IF NOT EXISTS \"crm_Leads_lead_source_id_idx\"     ON \"crm_Leads\"(\"lead_source_id\");\nCREATE INDEX IF NOT EXISTS \"crm_Leads_lead_status_id_idx\"     ON \"crm_Leads\"(\"lead_status_id\");\nCREATE INDEX IF NOT EXISTS \"crm_Leads_lead_type_id_idx\"       ON \"crm_Leads\"(\"lead_type_id\");\n\nCOMMIT;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "crm_contacts",
+            "column": "type",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20260327000001_crm_settings_db_backed/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE crm_contacts DROP COLUMN IF EXISTS \"type\"",
+            "extra": {
+              "table_sql": "crm_Contacts"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "crm_contacts",
+            "column": "type",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'type' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "crm_leads",
+            "column": "status",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20260327000001_crm_settings_db_backed/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE crm_leads DROP COLUMN IF EXISTS \"status\"",
+            "extra": {
+              "table_sql": "crm_Leads"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "crm_leads",
+            "column": "status",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'status' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "crm_leads",
+            "column": "type",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20260327000001_crm_settings_db_backed/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE crm_leads DROP COLUMN IF EXISTS \"type\"",
+            "extra": {
+              "table_sql": "crm_Leads"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "crm_leads",
+            "column": "type",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'type' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "crm_leads",
+            "column": "lead_source",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20260327000001_crm_settings_db_backed/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE crm_leads DROP COLUMN IF EXISTS \"lead_source\"",
+            "extra": {
+              "table_sql": "crm_Leads"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "crm_leads",
+            "column": "lead_source",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'lead_source' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "crm_contact_type",
+            "column": "crm_contact_type",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20260327000001_crm_settings_db_backed/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* Step 7: Drop orphaned enum types (they were unused by any model field) */ DROP TYPE IF EXISTS \"crm_Contact_Type\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "crm_Contact_Type",
+              "column_sql": "crm_Contact_Type"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "crm_contact_type",
+            "column": "crm_contact_type",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "ENUM 'crm_contact_type' not present in C_{t-1} schema."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "crm_lead_status",
+            "column": "crm_lead_status",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20260327000001_crm_settings_db_backed/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TYPE IF EXISTS \"crm_Lead_Status\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "crm_Lead_Status",
+              "column_sql": "crm_Lead_Status"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "crm_lead_status",
+            "column": "crm_lead_status",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "ENUM 'crm_lead_status' not present in C_{t-1} schema."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "crm_lead_type",
+            "column": "crm_lead_type",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20260327000001_crm_settings_db_backed/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TYPE IF EXISTS \"crm_Lead_Type\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "crm_Lead_Type",
+              "column_sql": "crm_Lead_Type"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "crm_lead_type",
+            "column": "crm_lead_type",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "ENUM 'crm_lead_type' not present in C_{t-1} schema."
+        }
+      ]
+    },
+    {
+      "sha": "797731e6f688f99a837acc97f7698e29f80c8aac",
+      "parent": "e151242afa2e3ae13a8158487cf172400b038257",
+      "date": "2026-03-25T08:51:09+01:00",
+      "subject": "refactor: remove modules management from admin, drop system_Modules_Enabled table, add prisma migrate deploy to build",
+      "mig_files": [
+        "prisma/migrations/20260325000000_drop_system_modules_enabled/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "actions/admin/activate-module.ts",
+        "actions/admin/deactivate-module.ts",
+        "actions/get-modules.ts",
+        "app/[locale]/(routes)/admin/_components/AdminSidebarNav.tsx",
+        "app/[locale]/(routes)/admin/modules/components/Columns.tsx",
+        "app/[locale]/(routes)/admin/modules/components/cell-action.tsx",
+        "app/[locale]/(routes)/admin/modules/components/data-table.tsx",
+        "app/[locale]/(routes)/admin/modules/page.tsx",
+        "app/[locale]/(routes)/page.tsx",
+        "prisma/schema.prisma"
+      ],
+      "orm_models_parsed_old": 53,
+      "raw_sql": "DROP TABLE IF EXISTS \"system_Modules_Enabled\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "system_modules_enabled",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20260325000000_drop_system_modules_enabled/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TABLE IF EXISTS \"system_Modules_Enabled\"",
+            "extra": {
+              "table_sql": "system_Modules_Enabled"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "system_modules_enabled",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'system_modules_enabled' active in C_{t-1}."
+        }
+      ]
+    },
+    {
+      "sha": "463c9f7b398e376ec80b19ba70090c44e40e8d56",
+      "parent": "0187913e2d07b73639fa3b787a8bf8d0f07e4f72",
+      "date": "2026-03-23T17:08:23+01:00",
+      "subject": "feat: add ApiKeys model \u2014 replace openAi_keys with encrypted multi-provider key store",
+      "mig_files": [
+        "prisma/migrations/20260323000001_add_api_keys/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "prisma/schema.prisma"
+      ],
+      "orm_models_parsed_old": 49,
+      "raw_sql": "-- CreateEnum\nCREATE TYPE \"ApiKeyScope\" AS ENUM ('SYSTEM', 'USER');\n\n-- CreateEnum\nCREATE TYPE \"ApiKeyProvider\" AS ENUM ('OPENAI', 'FIRECRAWL', 'ANTHROPIC', 'GROQ');\n\n-- CreateTable\nCREATE TABLE \"ApiKeys\" (\n    \"id\" UUID NOT NULL,\n    \"scope\" \"ApiKeyScope\" NOT NULL,\n    \"userId\" UUID,\n    \"provider\" \"ApiKeyProvider\" NOT NULL,\n    \"encryptedKey\" TEXT NOT NULL,\n    \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    \"updatedAt\" TIMESTAMP(3) NOT NULL,\n\n    CONSTRAINT \"ApiKeys_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateIndex\nCREATE INDEX \"ApiKeys_scope_provider_idx\" ON \"ApiKeys\"(\"scope\", \"provider\");\n\n-- CreateIndex\nCREATE INDEX \"ApiKeys_userId_provider_idx\" ON \"ApiKeys\"(\"userId\", \"provider\");\n\n-- AddForeignKey\nALTER TABLE \"ApiKeys\" ADD CONSTRAINT \"ApiKeys_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"Users\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- DropForeignKey\nALTER TABLE \"openAi_keys\" DROP CONSTRAINT IF EXISTS \"openAi_keys_user_fkey\";\n\n-- DropTable\nDROP TABLE \"openAi_keys\";\n\n-- Partial unique indexes (@@unique doesn't handle NULL correctly for SYSTEM scope)\nCREATE UNIQUE INDEX \"api_keys_system_provider_unique\"\n  ON \"ApiKeys\" (provider)\n  WHERE scope = 'SYSTEM';\n\nCREATE UNIQUE INDEX \"api_keys_user_provider_unique\"\n  ON \"ApiKeys\" (\"userId\", provider)\n  WHERE scope = 'USER';\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "openai_keys",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20260323000001_add_api_keys/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE \"openAi_keys\"",
+            "extra": {
+              "table_sql": "openAi_keys"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "openai_keys",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'openai_keys' active in C_{t-1}."
+        }
+      ]
+    }
+  ]
+}

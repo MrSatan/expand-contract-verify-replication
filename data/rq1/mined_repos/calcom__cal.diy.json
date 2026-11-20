@@ -1,0 +1,3449 @@
+{
+  "repo": "calcom/cal.diy",
+  "ecosystem": "prisma",
+  "stars": 50234,
+  "has_k8s_helm": false,
+  "status": "ok",
+  "stats": {
+    "total_migration_commits_in_history": 559,
+    "migration_commits_analyzed": 150,
+    "total_migration_files_parsed": 169,
+    "commits_with_any_destructive": 13,
+    "commits_with_forward_destructive": 13,
+    "commits_with_rollback_only_destructive": 0,
+    "total_ops_extracted": 80,
+    "destructive_ops_up": 80,
+    "destructive_ops_down": 0
+  },
+  "verdict_counts": {
+    "SAFE_CONTRACT": 15,
+    "DUAL_VERSION_VIOLATION_BOTH": 18,
+    "DUAL_VERSION_VIOLATION_BACKWARD": 40,
+    "SAFE_ADDITIVE": 4,
+    "DATA_DEPENDENT": 3
+  },
+  "destructive_commits": [
+    {
+      "sha": "91341cbba403460fac033f95003ce2e2911d4a4e",
+      "parent": "1591a50bc5e3769e9cc912b24404bcce38f35d78",
+      "date": "2026-05-01T08:11:32+05:30",
+      "subject": "cleanup(webhooks): remove instant meeting trigger support (#29022)",
+      "mig_files": [
+        "packages/prisma/migrations/20260430000000_drop_instant_meeting_webhook_trigger/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/web/modules/webhooks/components/WebhookForm.tsx",
+        "packages/features/webhooks/lib/constants.ts",
+        "packages/features/webhooks/lib/dto/types.ts",
+        "packages/features/webhooks/lib/factory/base/BaseInstantMeetingBuilder.test.ts",
+        "packages/features/webhooks/lib/factory/base/BaseInstantMeetingBuilder.ts",
+        "packages/features/webhooks/lib/factory/base/index.ts",
+        "packages/features/webhooks/lib/factory/types.ts",
+        "packages/features/webhooks/lib/factory/versioned/PayloadBuilderFactory.test.ts",
+        "packages/features/webhooks/lib/factory/versioned/PayloadBuilderFactory.ts",
+        "packages/features/webhooks/lib/factory/versioned/registry.test.ts",
+        "packages/features/webhooks/lib/factory/versioned/registry.ts",
+        "packages/features/webhooks/lib/factory/versioned/v2021-10-20/InstantMeetingBuilder.ts"
+      ],
+      "orm_models_parsed_old": 100,
+      "raw_sql": "BEGIN;\nUPDATE \"public\".\"Webhook\"\nSET \"eventTriggers\" = array_remove(\"eventTriggers\", 'INSTANT_MEETING'::\"public\".\"WebhookTriggerEvents\")\nWHERE \"eventTriggers\" @> ARRAY['INSTANT_MEETING']::\"public\".\"WebhookTriggerEvents\"[];\n\nCREATE TYPE \"public\".\"WebhookTriggerEvents_new\" AS ENUM (\n  'BOOKING_CREATED',\n  'BOOKING_PAYMENT_INITIATED',\n  'BOOKING_PAID',\n  'BOOKING_RESCHEDULED',\n  'BOOKING_REQUESTED',\n  'BOOKING_CANCELLED',\n  'BOOKING_REJECTED',\n  'BOOKING_NO_SHOW_UPDATED',\n  'FORM_SUBMITTED',\n  'MEETING_ENDED',\n  'MEETING_STARTED',\n  'RECORDING_READY',\n  'RECORDING_TRANSCRIPTION_GENERATED',\n  'OOO_CREATED',\n  'AFTER_HOSTS_CAL_VIDEO_NO_SHOW',\n  'AFTER_GUESTS_CAL_VIDEO_NO_SHOW',\n  'FORM_SUBMITTED_NO_EVENT',\n  'DELEGATION_CREDENTIAL_ERROR',\n  'WRONG_ASSIGNMENT_REPORT'\n);\nALTER TABLE \"public\".\"Webhook\"\nALTER COLUMN \"eventTriggers\" TYPE \"public\".\"WebhookTriggerEvents_new\"[]\nUSING (\"eventTriggers\"::text::\"public\".\"WebhookTriggerEvents_new\"[]);\nALTER TYPE \"public\".\"WebhookTriggerEvents\" RENAME TO \"WebhookTriggerEvents_old\";\nALTER TYPE \"public\".\"WebhookTriggerEvents_new\" RENAME TO \"WebhookTriggerEvents\";\nDROP TYPE \"public\".\"WebhookTriggerEvents_old\";\nCOMMIT;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "webhook",
+            "column": "eventtriggers",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "\"public\".\"WebhookTriggerEvents_new\"[]",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260430000000_drop_instant_meeting_webhook_trigger/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE webhook ALTER COLUMN \"eventTriggers\" SET DATA TYPE \"public\".\"WebhookTriggerEvents_new\"[] USING (CAST(CAST(\"eventTriggers\" AS TEXT) AS \"public\".\"WebhookTriggerEvents_new",
+            "extra": {
+              "column_sql": "eventTriggers"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "webhook",
+            "column": "eventtriggers",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Column 'webhook.eventtriggers' not active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "webhooktriggerevents",
+            "column": "webhooktriggerevents",
+            "new_name": "webhooktriggerevents_old",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260430000000_drop_instant_meeting_webhook_trigger/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TYPE \"public\".\"WebhookTriggerEvents\" RENAME TO \"WebhookTriggerEvents_old\"",
+            "extra": {
+              "table_sql": "WebhookTriggerEvents",
+              "column_sql": "WebhookTriggerEvents",
+              "new_name_sql": "WebhookTriggerEvents_old"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "webhooktriggerevents",
+            "column": "webhooktriggerevents",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'webhooktriggerevents' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "webhooktriggerevents_new",
+            "column": "webhooktriggerevents_new",
+            "new_name": "webhooktriggerevents",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260430000000_drop_instant_meeting_webhook_trigger/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TYPE \"public\".\"WebhookTriggerEvents_new\" RENAME TO \"WebhookTriggerEvents\"",
+            "extra": {
+              "table_sql": "WebhookTriggerEvents_new",
+              "column_sql": "WebhookTriggerEvents_new",
+              "new_name_sql": "WebhookTriggerEvents"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "webhooktriggerevents_new",
+            "column": "webhooktriggerevents_new",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'webhooktriggerevents_new' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "webhooktriggerevents_old",
+            "column": "webhooktriggerevents_old",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260430000000_drop_instant_meeting_webhook_trigger/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TYPE \"public\".\"WebhookTriggerEvents_old\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "WebhookTriggerEvents_old",
+              "column_sql": "WebhookTriggerEvents_old"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "webhooktriggerevents_old",
+            "column": "webhooktriggerevents_old",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "ENUM 'webhooktriggerevents_old' not present in C_{t-1} schema."
+        }
+      ]
+    },
+    {
+      "sha": "ab21c7f805a089fa3a11ffd61c4a9aecc349c16c",
+      "parent": "a17f28e9ab44d34a24840cff70082470d775b9b1",
+      "date": "2026-04-15T21:52:36+09:00",
+      "subject": "refactor: Cal.diy (#28903)",
+      "mig_files": [
+        "packages/prisma/migrations/20260305043434_remove_routing_forms/migration.sql",
+        "packages/prisma/migrations/20260319000000_drop_workflow_tables/migration.sql",
+        "packages/prisma/migrations/20260319100000_drop_impersonations_table/migration.sql",
+        "packages/prisma/migrations/20260319161640_drop_domain_wide_delegation/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        ".snaplet/transform.ts",
+        "__checks__/organization.spec.ts",
+        "apps/api/v1/instrumentation.ts",
+        "apps/api/v1/lib/constants.ts",
+        "apps/api/v1/lib/helpers/addRequestid.ts",
+        "apps/api/v1/lib/helpers/captureErrors.ts",
+        "apps/api/v1/lib/helpers/captureUserId.ts",
+        "apps/api/v1/lib/helpers/extendRequest.ts",
+        "apps/api/v1/lib/helpers/httpMethods.ts",
+        "apps/api/v1/lib/helpers/rateLimitApiKey.test.ts",
+        "apps/api/v1/lib/helpers/rateLimitApiKey.ts",
+        "apps/api/v1/lib/helpers/safeParseJSON.ts"
+      ],
+      "orm_models_parsed_old": 119,
+      "raw_sql": "/*\n  Warnings:\n\n  - The values [ROUTING_FORM_ROUTING,ROUTING_FORM_ROUTING_FALLBACK] on the enum `AssignmentReasonEnum` will be removed. If these variants are still used in the database, this will fail.\n  - The values [ROUTING_FORM_FALLBACK_HIT] on the enum `WebhookTriggerEvents` will be removed. If these variants are still used in the database, this will fail.\n  - The values [ROUTING_FORM] on the enum `WorkflowType` will be removed. If these variants are still used in the database, this will fail.\n  - You are about to drop the column `redirectUrlOnNoRoutingFormResponse` on the `EventType` table. All the data in the column will be lost.\n  - You are about to drop the column `routingFormId` on the `WrongAssignmentReport` table. All the data in the column will be lost.\n  - You are about to drop the `App_RoutingForms_Form` table. If the table is not empty, all the data it contains will be lost.\n  - You are about to drop the `App_RoutingForms_FormResponse` table. If the table is not empty, all the data it contains will be lost.\n  - You are about to drop the `App_RoutingForms_IncompleteBookingActions` table. If the table is not empty, all the data it contains will be lost.\n  - You are about to drop the `App_RoutingForms_QueuedFormResponse` table. If the table is not empty, all the data it contains will be lost.\n  - You are about to drop the `PendingRoutingTrace` table. If the table is not empty, all the data it contains will be lost.\n  - You are about to drop the `RoutingFormResponseDenormalized` table. If the table is not empty, all the data it contains will be lost.\n  - You are about to drop the `RoutingFormResponseField` table. If the table is not empty, all the data it contains will be lost.\n  - You are about to drop the `RoutingTrace` table. If the table is not empty, all the data it contains will be lost.\n  - You are about to drop the `WorkflowsOnRoutingForms` table. If the table is not empty, all the data it contains will be lost.\n\n*/\n\n-- Drop the RoutingFormResponse view (depends on App_RoutingForms_Form and App_RoutingForms_FormResponse)\nDROP VIEW IF EXISTS \"RoutingFormResponse\";\n\n-- Drop triggers on App_RoutingForms_FormResponse\nDROP TRIGGER IF EXISTS routing_form_response_insert_update_trigger ON \"App_RoutingForms_FormResponse\";\nDROP TRIGGER IF EXISTS routing_form_response_delete_trigger ON \"App_RoutingForms_FormResponse\";\nDROP TRIGGER IF EXISTS routing_form_response_update_trigger ON \"App_RoutingForms_FormResponse\";\n\n-- Drop triggers on App_RoutingForms_Form\nDROP TRIGGER IF EXISTS routing_form_name_update_trigger ON \"App_RoutingForms_Form\";\nDROP TRIGGER IF EXISTS routing_form_team_update_trigger ON \"App_RoutingForms_Form\";\nDROP TRIGGER IF EXISTS routing_form_user_update_trigger ON \"App_RoutingForms_Form\";\nDROP TRIGGER IF EXISTS routing_form_delete_trigger ON \"App_RoutingForms_Form\";\n\n-- Drop triggers on RoutingFormResponseDenormalized\nDROP TRIGGER IF EXISTS routing_form_response_denormalized_insert_trigger ON \"RoutingFormResponseDenormalized\";\n\n-- Drop routing-form-related triggers on Booking\nDROP TRIGGER IF EXISTS booking_insert_trigger_for_routing_form ON \"Booking\";\nDROP TRIGGER IF EXISTS booking_update_trigger_for_routing_form ON \"Booking\";\nDROP TRIGGER IF EXISTS booking_delete_trigger_for_routing_form ON \"Booking\";\n\n-- Drop routing-form-related triggers on users\nDROP TRIGGER IF EXISTS user_update_trigger_for_routing_form ON users;\nDROP TRIGGER IF EXISTS user_delete_trigger_for_routing_form ON users;\n\n-- Drop routing-form-related triggers on EventType\nDROP TRIGGER IF EXISTS event_type_update_trigger_for_routing_form ON \"EventType\";\nDROP TRIGGER IF EXISTS trigger_nullify_routing_form_response_denormalized_event_type ON \"EventType\";\n\n-- Drop routing-form-related triggers on AssignmentReason\nDROP TRIGGER IF EXISTS assignment_reason_insert_trigger_for_routing_form ON \"AssignmentReason\";\nDROP TRIGGER IF EXISTS assignment_reason_update_trigger_for_routing_form ON \"AssignmentReason\";\nDROP TRIGGER IF EXISTS assignment_reason_delete_trigger_for_routing_form ON \"AssignmentReason\";\n\n-- Drop routing-form-related triggers on Tracking\nDROP TRIGGER IF EXISTS tracking_insert_trigger_for_routing_form ON \"Tracking\";\nDROP TRIGGER IF EXISTS tracking_update_trigger_for_routing_form ON \"Tracking\";\nDROP TRIGGER IF EXISTS tracking_delete_trigger_for_routing_form ON \"Tracking\";\n\n-- Drop routing-form-related functions\nDROP FUNCTION IF EXISTS handle_routing_form_response_fields();\nDROP FUNCTION IF EXISTS _process_routing_form_response_fields(integer, jsonb, text);\nDROP FUNCTION IF EXISTS reprocess_routing_form_response_fields(integer);\nDROP FUNCTION IF EXISTS refresh_routing_form_response_denormalized(integer);\nDROP FUNCTION IF EXISTS trigger_refresh_routing_form_response_denormalized();\nDROP FUNCTION IF EXISTS trigger_delete_routing_form_response_denormalized();\nDROP FUNCTION IF EXISTS trigger_refresh_routing_form_response_denormalized_form_name();\nDROP FUNCTION IF EXISTS trigger_refresh_routing_form_response_denormalized_form_team();\nDROP FUNCTION IF EXISTS trigger_refresh_routing_form_response_denormalized_form_user();\nDROP FUNCTION IF EXISTS trigger_refresh_routing_form_response_denormalized_booking();\nDROP FUNCTION IF EXISTS trigger_refresh_routing_form_response_denormalized_user();\nDROP FUNCTION IF EXISTS trigger_refresh_routing_form_response_denormalized_event_type();\nDROP FUNCTION IF EXISTS trigger_cleanup_routing_form_response_denormalized_form();\nDROP FUNCTION IF EXISTS trigger_cleanup_routing_form_response_denormalized_user();\nDROP FUNCTION IF EXISTS trigger_cleanup_routing_form_response_denormalized_booking();\nDROP FUNCTION IF EXISTS trigger_nullify_routing_form_response_denormalized_event_type();\nDROP FUNCTION IF EXISTS trigger_refresh_routing_form_response_denormalized_assignment_reason();\nDROP FUNCTION IF EXISTS trigger_cleanup_routing_form_response_denormalized_assignment_reason();\nDROP FUNCTION IF EXISTS trigger_refresh_routing_form_response_denormalized_tracking();\nDROP FUNCTION IF EXISTS trigger_cleanup_routing_form_response_denormalized_tracking();\nDROP FUNCTION IF EXISTS calculate_booking_status_order(text);\n\n-- Pre-migration cleanup to allow enum variant removal\nDELETE FROM \"public\".\"AssignmentReason\" WHERE \"reasonEnum\" IN ('ROUTING_FORM_ROUTING', 'ROUTING_FORM_ROUTING_FALLBACK');\n\nUPDATE \"public\".\"Webhook\"\nSET \"eventTriggers\" = array_remove(\"eventTriggers\", 'ROUTING_FORM_FALLBACK_HIT'::\"public\".\"WebhookTriggerEvents\")\nWHERE \"eventTriggers\" @> ARRAY['ROUTING_FORM_FALLBACK_HIT']::\"public\".\"WebhookTriggerEvents\"[];\n\nDELETE FROM \"public\".\"Workflow\" WHERE \"type\" = 'ROUTING_FORM';\n\n-- AlterEnum\nBEGIN;\nCREATE TYPE \"public\".\"AssignmentReasonEnum_new\" AS ENUM ('REASSIGNED', 'RR_REASSIGNED', 'REROUTED', 'SALESFORCE_ASSIGNMENT');\nALTER TABLE \"public\".\"AssignmentReason\" ALTER COLUMN \"reasonEnum\" TYPE \"public\".\"AssignmentReasonEnum_new\" USING (\"reasonEnum\"::text::\"public\".\"AssignmentReasonEnum_new\");\nALTER TYPE \"public\".\"AssignmentReasonEnum\" RENAME TO \"AssignmentReasonEnum_old\";\nALTER TYPE \"public\".\"AssignmentReasonEnum_new\" RENAME TO \"AssignmentReasonEnum\";\nDROP TYPE \"public\".\"AssignmentReasonEnum_old\";\nCOMMIT;\n\n-- AlterEnum\nBEGIN;\nCREATE TYPE \"public\".\"WebhookTriggerEvents_new\" AS ENUM ('BOOKING_CREATED', 'BOOKING_PAYMENT_INITIATED', 'BOOKING_PAID', 'BOOKING_RESCHEDULED', 'BOOKING_REQUESTED', 'BOOKING_CANCELLED', 'BOOKING_REJECTED', 'BOOKING_NO_SHOW_UPDATED', 'FORM_SUBMITTED', 'MEETING_ENDED', 'MEETING_STARTED', 'RECORDING_READY', 'INSTANT_MEETING', 'RECORDING_TRANSCRIPTION_GENERATED', 'OOO_CREATED', 'AFTER_HOSTS_CAL_VIDEO_NO_SHOW', 'AFTER_GUESTS_CAL_VIDEO_NO_SHOW', 'FORM_SUBMITTED_NO_EVENT', 'DELEGATION_CREDENTIAL_ERROR', 'WRONG_ASSIGNMENT_REPORT');\nALTER TABLE \"public\".\"Webhook\" ALTER COLUMN \"eventTriggers\" TYPE \"public\".\"WebhookTriggerEvents_new\"[] USING (\"eventTriggers\"::text::\"public\".\"WebhookTriggerEvents_new\"[]);\nALTER TYPE \"public\".\"WebhookTriggerEvents\" RENAME TO \"WebhookTriggerEvents_old\";\nALTER TYPE \"public\".\"WebhookTriggerEvents_new\" RENAME TO \"WebhookTriggerEvents\";\nDROP TYPE \"public\".\"WebhookTriggerEvents_old\";\nCOMMIT;\n\n-- AlterEnum\nBEGIN;\nCREATE TYPE \"public\".\"WorkflowType_new\" AS ENUM ('EVENT_TYPE');\nALTER TABLE \"public\".\"Workflow\" ALTER COLUMN \"type\" DROP DEFAULT;\nALTER TABLE \"public\".\"Workflow\" ALTER COLUMN \"type\" TYPE \"public\".\"WorkflowType_new\" USING (\"type\"::text::\"public\".\"WorkflowType_new\");\nALTER TYPE \"public\".\"WorkflowType\" RENAME TO \"WorkflowType_old\";\nALTER TYPE \"public\".\"WorkflowType_new\" RENAME TO \"WorkflowType\";\nDROP TYPE \"public\".\"WorkflowType_old\";\nALTER TABLE \"public\".\"Workflow\" ALTER COLUMN \"type\" SET DEFAULT 'EVENT_TYPE';\nCOMMIT;\n\n-- DropForeignKey\nALTER TABLE \"public\".\"App_RoutingForms_Form\" DROP CONSTRAINT \"App_RoutingForms_Form_teamId_fkey\";\n\n-- DropForeignKey\nALTER TABLE \"public\".\"App_RoutingForms_Form\" DROP CONSTRAINT \"App_RoutingForms_Form_updatedById_fkey\";\n\n-- DropForeignKey\nALTER TABLE \"public\".\"App_RoutingForms_Form\" DROP CONSTRAINT \"App_RoutingForms_Form_userId_fkey\";\n\n-- DropForeignKey\nALTER TABLE \"public\".\"App_RoutingForms_FormResponse\" DROP CONSTRAINT \"App_RoutingForms_FormResponse_formId_fkey\";\n\n-- DropForeignKey\nALTER TABLE \"public\".\"App_RoutingForms_FormResponse\" DROP CONSTRAINT \"App_RoutingForms_FormResponse_routedToBookingUid_fkey\";\n\n-- DropForeignKey\nALTER TABLE \"public\".\"App_RoutingForms_IncompleteBookingActions\" DROP CONSTRAINT \"App_RoutingForms_IncompleteBookingActions_formId_fkey\";\n\n-- DropForeignKey\nALTER TABLE \"public\".\"App_RoutingForms_QueuedFormResponse\" DROP CONSTRAINT \"App_RoutingForms_QueuedFormResponse_actualResponseId_fkey\";\n\n-- DropForeignKey\nALTER TABLE \"public\".\"App_RoutingForms_QueuedFormResponse\" DROP CONSTRAINT \"App_RoutingForms_QueuedFormResponse_formId_fkey\";\n\n-- DropForeignKey\nALTER TABLE \"public\".\"PendingRoutingTrace\" DROP CONSTRAINT \"PendingRoutingTrace_formResponseId_fkey\";\n\n-- DropForeignKey\nALTER TABLE \"public\".\"PendingRoutingTrace\" DROP CONSTRAINT \"PendingRoutingTrace_queuedFormResponseId_fkey\";\n\n-- DropForeignKey\nALTER TABLE \"public\".\"RoutingFormResponseDenormalized\" DROP CONSTRAINT \"RoutingFormResponseDenormalized_bookingId_fkey\";\n\n-- DropForeignKey\nALTER TABLE \"public\".\"RoutingFormResponseDenormalized\" DROP CONSTRAINT \"RoutingFormResponseDenormalized_id_fkey\";\n\n-- DropForeignKey\nALTER TABLE \"public\".\"RoutingFormResponseField\" DROP CONSTRAINT \"RoutingFormResponseField_responseId_fkey\";\n\n-- DropForeignKey\nALTER TABLE \"public\".\"RoutingFormResponseField\" DROP CONSTRAINT \"RoutingFormResponseField_response_fkey\";\n\n-- DropForeignKey\nALTER TABLE \"public\".\"RoutingTrace\" DROP CONSTRAINT \"RoutingTrace_assignmentReasonId_fkey\";\n\n-- DropForeignKey\nALTER TABLE \"public\".\"RoutingTrace\" DROP CONSTRAINT \"RoutingTrace_bookingUid_fkey\";\n\n-- DropForeignKey\nALTER TABLE \"public\".\"RoutingTrace\" DROP CONSTRAINT \"RoutingTrace_formResponseId_fkey\";\n\n-- DropForeignKey\nALTER TABLE \"public\".\"RoutingTrace\" DROP CONSTRAINT \"RoutingTrace_queuedFormResponseId_fkey\";\n\n-- DropForeignKey\nALTER TABLE \"public\".\"WorkflowsOnRoutingForms\" DROP CONSTRAINT \"WorkflowsOnRoutingForms_routingFormId_fkey\";\n\n-- DropForeignKey\nALTER TABLE \"public\".\"WorkflowsOnRoutingForms\" DROP CONSTRAINT \"WorkflowsOnRoutingForms_workflowId_fkey\";\n\n-- DropForeignKey\nALTER TABLE \"public\".\"WrongAssignmentReport\" DROP CONSTRAINT \"WrongAssignmentReport_routingFormId_fkey\";\n\n-- DropIndex\nDROP INDEX \"public\".\"WrongAssignmentReport_routingFormId_idx\";\n\n-- AlterTable\nALTER TABLE \"public\".\"EventType\" DROP COLUMN \"redirectUrlOnNoRoutingFormResponse\";\n\n-- AlterTable\nALTER TABLE \"public\".\"WrongAssignmentReport\" DROP COLUMN \"routingFormId\";\n\n-- DropTable\nDROP TABLE \"public\".\"App_RoutingForms_Form\";\n\n-- DropTable\nDROP TABLE \"public\".\"App_RoutingForms_FormResponse\";\n\n-- DropTable\nDROP TABLE \"public\".\"App_RoutingForms_IncompleteBookingActions\";\n\n-- DropTable\nDROP TABLE \"public\".\"App_RoutingForms_QueuedFormResponse\";\n\n-- DropTable\nDROP TABLE \"public\".\"PendingRoutingTrace\";\n\n-- DropTable\nDROP TABLE \"public\".\"RoutingFormResponseDenormalized\";\n\n-- DropTable\nDROP TABLE \"public\".\"RoutingFormResponseField\";\n\n-- DropTable\nDROP TABLE \"public\".\"RoutingTrace\";\n\n-- DropTable\nDROP TABLE \"public\".\"WorkflowsOnRoutingForms\";\n\n-- DropEnum\nDROP TYPE \"public\".\"IncompleteBookingActionType\";\n\n-- Drop workflow-related tables and columns (EE feature cleanup)\n\n-- 1. Drop junction/child tables first (they reference parent tables)\nDROP TABLE IF EXISTS \"WorkflowStepTranslation\" CASCADE;\nDROP TABLE IF EXISTS \"WorkflowReminder\" CASCADE;\nDROP TABLE IF EXISTS \"WorkflowsOnEventTypes\" CASCADE;\nDROP TABLE IF EXISTS \"WorkflowsOnTeams\" CASCADE;\nDROP TABLE IF EXISTS \"WorkflowOptOutContact\" CASCADE;\nDROP TABLE IF EXISTS \"AIPhoneCallConfiguration\" CASCADE;\n\n-- 2. Drop WorkflowStep (references Workflow and Agent)\nDROP TABLE IF EXISTS \"WorkflowStep\" CASCADE;\n\n-- 3. Drop Workflow (references User and Team)\nDROP TABLE IF EXISTS \"Workflow\" CASCADE;\n\n-- 4. Remove relation fields from other tables\n-- Remove workflows field from EventType (relation-only, no column to drop)\n-- Remove aiPhoneCallConfig from EventType (relation-only, no column to drop)\n-- Remove workflows from User (relation-only, no column to drop)\nALTER TABLE \"users\" DROP COLUMN IF EXISTS \"whitelistWorkflows\";\n-- Remove workflows from Team (relation-only, no column to drop)\n-- Remove activeOrgWorkflows from Team (relation-only, no column to drop)\n-- Remove workflowReminders from Booking (relation-only, no column to drop)\n-- Remove workflowStep/inboundWorkflowStep from Agent (relation-only, no column to drop)\n\n-- 5. Drop enum types\nDROP TYPE IF EXISTS \"WorkflowTriggerEvents\";\nDROP TYPE IF EXISTS \"WorkflowActions\";\nDROP TYPE IF EXISTS \"WorkflowType\";\nDROP TYPE IF EXISTS \"WorkflowTemplates\";\nDROP TYPE IF EXISTS \"WorkflowMethods\";\nDROP TYPE IF EXISTS \"WorkflowStepAutoTranslatedField\";\nDROP TYPE IF EXISTS \"WorkflowContactType\";\n\n-- DropTable\nDROP TABLE IF EXISTS \"Impersonations\";\n\n-- AlterTable: Remove disableImpersonation from User\nALTER TABLE \"users\" DROP COLUMN IF EXISTS \"disableImpersonation\";\n\n-- AlterTable: Remove disableImpersonation from Membership\nALTER TABLE \"Membership\" DROP COLUMN IF EXISTS \"disableImpersonation\";\n\n-- DropForeignKey\nALTER TABLE \"DestinationCalendar\" DROP CONSTRAINT IF EXISTS \"DestinationCalendar_domainWideDelegationCredentialId_fkey\";\n\n-- DropForeignKey\nALTER TABLE \"BookingReference\" DROP CONSTRAINT IF EXISTS \"BookingReference_domainWideDelegationCredentialId_fkey\";\n\n-- DropForeignKey\nALTER TABLE \"SelectedCalendar\" DROP CONSTRAINT IF EXISTS \"SelectedCalendar_domainWideDelegationCredentialId_fkey\";\n\n-- DropForeignKey\nALTER TABLE \"DomainWideDelegation\" DROP CONSTRAINT IF EXISTS \"DomainWideDelegation_workspacePlatformId_fkey\";\n\n-- DropForeignKey\nALTER TABLE \"DomainWideDelegation\" DROP CONSTRAINT IF EXISTS \"DomainWideDelegation_organizationId_fkey\";\n\n-- DropIndex\nDROP INDEX IF EXISTS \"DomainWideDelegation_organizationId_domain_key\";\n\n-- AlterTable\nALTER TABLE \"BookingReference\" DROP COLUMN IF EXISTS \"domainWideDelegationCredentialId\";\n\n-- AlterTable\nALTER TABLE \"DestinationCalendar\" DROP COLUMN IF EXISTS \"domainWideDelegationCredentialId\";\n\n-- AlterTable\nALTER TABLE \"SelectedCalendar\" DROP COLUMN IF EXISTS \"domainWideDelegationCredentialId\";\n\n-- DropTable\nDROP TABLE IF EXISTS \"DomainWideDelegation\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "assignmentreason",
+            "column": "reasonenum",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "\"public\".\"AssignmentReasonEnum_new\"",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260305043434_remove_routing_forms/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE assignmentreason ALTER COLUMN \"reasonEnum\" SET DATA TYPE \"public\".\"AssignmentReasonEnum_new\" USING (CAST(CAST(\"reasonEnum\" AS TEXT) AS \"public\".\"AssignmentReasonEnum_ne",
+            "extra": {
+              "column_sql": "reasonEnum"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "assignmentreason",
+            "column": "reasonenum",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'assignmentreason.reasonenum' (AssignmentReasonEnum -> \"public\".\"AssignmentReasonEnum_new\")."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "assignmentreasonenum",
+            "column": "assignmentreasonenum",
+            "new_name": "assignmentreasonenum_old",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260305043434_remove_routing_forms/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TYPE \"public\".\"AssignmentReasonEnum\" RENAME TO \"AssignmentReasonEnum_old\"",
+            "extra": {
+              "table_sql": "AssignmentReasonEnum",
+              "column_sql": "AssignmentReasonEnum",
+              "new_name_sql": "AssignmentReasonEnum_old"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "assignmentreasonenum",
+            "column": "assignmentreasonenum",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'assignmentreasonenum' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "assignmentreasonenum_new",
+            "column": "assignmentreasonenum_new",
+            "new_name": "assignmentreasonenum",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260305043434_remove_routing_forms/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TYPE \"public\".\"AssignmentReasonEnum_new\" RENAME TO \"AssignmentReasonEnum\"",
+            "extra": {
+              "table_sql": "AssignmentReasonEnum_new",
+              "column_sql": "AssignmentReasonEnum_new",
+              "new_name_sql": "AssignmentReasonEnum"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "assignmentreasonenum_new",
+            "column": "assignmentreasonenum_new",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'assignmentreasonenum_new' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "assignmentreasonenum_old",
+            "column": "assignmentreasonenum_old",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260305043434_remove_routing_forms/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TYPE \"public\".\"AssignmentReasonEnum_old\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "AssignmentReasonEnum_old",
+              "column_sql": "AssignmentReasonEnum_old"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "assignmentreasonenum_old",
+            "column": "assignmentreasonenum_old",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "ENUM 'assignmentreasonenum_old' not present in C_{t-1} schema."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "webhook",
+            "column": "eventtriggers",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "\"public\".\"WebhookTriggerEvents_new\"[]",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260305043434_remove_routing_forms/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE webhook ALTER COLUMN \"eventTriggers\" SET DATA TYPE \"public\".\"WebhookTriggerEvents_new\"[] USING (CAST(CAST(\"eventTriggers\" AS TEXT) AS \"public\".\"WebhookTriggerEvents_new",
+            "extra": {
+              "column_sql": "eventTriggers"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "webhook",
+            "column": "eventtriggers",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Column 'webhook.eventtriggers' not active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "webhooktriggerevents",
+            "column": "webhooktriggerevents",
+            "new_name": "webhooktriggerevents_old",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260305043434_remove_routing_forms/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TYPE \"public\".\"WebhookTriggerEvents\" RENAME TO \"WebhookTriggerEvents_old\"",
+            "extra": {
+              "table_sql": "WebhookTriggerEvents",
+              "column_sql": "WebhookTriggerEvents",
+              "new_name_sql": "WebhookTriggerEvents_old"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "webhooktriggerevents",
+            "column": "webhooktriggerevents",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'webhooktriggerevents' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "webhooktriggerevents_new",
+            "column": "webhooktriggerevents_new",
+            "new_name": "webhooktriggerevents",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260305043434_remove_routing_forms/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TYPE \"public\".\"WebhookTriggerEvents_new\" RENAME TO \"WebhookTriggerEvents\"",
+            "extra": {
+              "table_sql": "WebhookTriggerEvents_new",
+              "column_sql": "WebhookTriggerEvents_new",
+              "new_name_sql": "WebhookTriggerEvents"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "webhooktriggerevents_new",
+            "column": "webhooktriggerevents_new",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'webhooktriggerevents_new' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "webhooktriggerevents_old",
+            "column": "webhooktriggerevents_old",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260305043434_remove_routing_forms/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TYPE \"public\".\"WebhookTriggerEvents_old\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "WebhookTriggerEvents_old",
+              "column_sql": "WebhookTriggerEvents_old"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "webhooktriggerevents_old",
+            "column": "webhooktriggerevents_old",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "ENUM 'webhooktriggerevents_old' not present in C_{t-1} schema."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "workflow",
+            "column": "type",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "\"public\".\"WorkflowType_new\"",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260305043434_remove_routing_forms/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE workflow ALTER COLUMN \"type\" SET DATA TYPE \"public\".\"WorkflowType_new\" USING (CAST(CAST(\"type\" AS TEXT) AS \"public\".\"WorkflowType_new\"))",
+            "extra": {
+              "table_sql": "Workflow"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "workflow",
+            "column": "type",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'workflow.type' (WorkflowType -> \"public\".\"WorkflowType_new\")."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "workflowtype",
+            "column": "workflowtype",
+            "new_name": "workflowtype_old",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260305043434_remove_routing_forms/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TYPE \"public\".\"WorkflowType\" RENAME TO \"WorkflowType_old\"",
+            "extra": {
+              "table_sql": "WorkflowType",
+              "column_sql": "WorkflowType",
+              "new_name_sql": "WorkflowType_old"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "workflowtype",
+            "column": "workflowtype",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'workflowtype' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "workflowtype_new",
+            "column": "workflowtype_new",
+            "new_name": "workflowtype",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260305043434_remove_routing_forms/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TYPE \"public\".\"WorkflowType_new\" RENAME TO \"WorkflowType\"",
+            "extra": {
+              "table_sql": "WorkflowType_new",
+              "column_sql": "WorkflowType_new",
+              "new_name_sql": "WorkflowType"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "workflowtype_new",
+            "column": "workflowtype_new",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'workflowtype_new' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "workflowtype_old",
+            "column": "workflowtype_old",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260305043434_remove_routing_forms/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TYPE \"public\".\"WorkflowType_old\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "WorkflowType_old",
+              "column_sql": "WorkflowType_old"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "workflowtype_old",
+            "column": "workflowtype_old",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "ENUM 'workflowtype_old' not present in C_{t-1} schema."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "eventtype",
+            "column": "redirecturlonnoroutingformresponse",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260305043434_remove_routing_forms/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE eventtype DROP COLUMN \"redirectUrlOnNoRoutingFormResponse\"",
+            "extra": {
+              "table_sql": "EventType",
+              "column_sql": "redirectUrlOnNoRoutingFormResponse"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "eventtype",
+            "column": "redirecturlonnoroutingformresponse",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'redirecturlonnoroutingformresponse' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "wrongassignmentreport",
+            "column": "routingformid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260305043434_remove_routing_forms/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE wrongassignmentreport DROP COLUMN \"routingFormId\"",
+            "extra": {
+              "table_sql": "WrongAssignmentReport",
+              "column_sql": "routingFormId"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "wrongassignmentreport",
+            "column": "routingformid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'routingformid' active in C_{t-1} ORM (packages/prisma/schema.prisma)"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "app_routingforms_form",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260305043434_remove_routing_forms/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE \"public\".\"App_RoutingForms_Form\"",
+            "extra": {
+              "table_sql": "App_RoutingForms_Form"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "app_routingforms_form",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'app_routingforms_form' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "app_routingforms_formresponse",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260305043434_remove_routing_forms/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE \"public\".\"App_RoutingForms_FormResponse\"",
+            "extra": {
+              "table_sql": "App_RoutingForms_FormResponse"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "app_routingforms_formresponse",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'app_routingforms_formresponse' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "app_routingforms_incompletebookingactions",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260305043434_remove_routing_forms/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE \"public\".\"App_RoutingForms_IncompleteBookingActions\"",
+            "extra": {
+              "table_sql": "App_RoutingForms_IncompleteBookingActions"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "app_routingforms_incompletebookingactions",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'app_routingforms_incompletebookingactions' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "app_routingforms_queuedformresponse",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260305043434_remove_routing_forms/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE \"public\".\"App_RoutingForms_QueuedFormResponse\"",
+            "extra": {
+              "table_sql": "App_RoutingForms_QueuedFormResponse"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "app_routingforms_queuedformresponse",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'app_routingforms_queuedformresponse' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "pendingroutingtrace",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260305043434_remove_routing_forms/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE \"public\".\"PendingRoutingTrace\"",
+            "extra": {
+              "table_sql": "PendingRoutingTrace"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "pendingroutingtrace",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'pendingroutingtrace' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "routingformresponsedenormalized",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260305043434_remove_routing_forms/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE \"public\".\"RoutingFormResponseDenormalized\"",
+            "extra": {
+              "table_sql": "RoutingFormResponseDenormalized"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "routingformresponsedenormalized",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'routingformresponsedenormalized' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "routingformresponsefield",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260305043434_remove_routing_forms/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE \"public\".\"RoutingFormResponseField\"",
+            "extra": {
+              "table_sql": "RoutingFormResponseField"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "routingformresponsefield",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'routingformresponsefield' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "routingtrace",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260305043434_remove_routing_forms/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE \"public\".\"RoutingTrace\"",
+            "extra": {
+              "table_sql": "RoutingTrace"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "routingtrace",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'routingtrace' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "workflowsonroutingforms",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260305043434_remove_routing_forms/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE \"public\".\"WorkflowsOnRoutingForms\"",
+            "extra": {
+              "table_sql": "WorkflowsOnRoutingForms"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "workflowsonroutingforms",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'workflowsonroutingforms' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "incompletebookingactiontype",
+            "column": "incompletebookingactiontype",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260305043434_remove_routing_forms/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropEnum */ DROP TYPE \"public\".\"IncompleteBookingActionType\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "IncompleteBookingActionType",
+              "column_sql": "IncompleteBookingActionType"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "incompletebookingactiontype",
+            "column": "incompletebookingactiontype",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'incompletebookingactiontype' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "workflowsteptranslation",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260319000000_drop_workflow_tables/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* Drop workflow-related tables and columns (EE feature cleanup) */ /* 1. Drop junction/child tables first (they reference parent tables) */ DROP TABLE IF EXISTS \"WorkflowStepTrans",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "workflowsteptranslation",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'workflowsteptranslation' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "workflowreminder",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260319000000_drop_workflow_tables/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TABLE IF EXISTS \"WorkflowReminder\" CASCADE",
+            "extra": {
+              "table_sql": "WorkflowReminder"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "workflowreminder",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'workflowreminder' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "workflowsoneventtypes",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260319000000_drop_workflow_tables/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TABLE IF EXISTS \"WorkflowsOnEventTypes\" CASCADE",
+            "extra": {
+              "table_sql": "WorkflowsOnEventTypes"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "workflowsoneventtypes",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'workflowsoneventtypes' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "workflowsonteams",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260319000000_drop_workflow_tables/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TABLE IF EXISTS \"WorkflowsOnTeams\" CASCADE",
+            "extra": {
+              "table_sql": "WorkflowsOnTeams"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "workflowsonteams",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'workflowsonteams' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "workflowoptoutcontact",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260319000000_drop_workflow_tables/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TABLE IF EXISTS \"WorkflowOptOutContact\" CASCADE",
+            "extra": {
+              "table_sql": "WorkflowOptOutContact"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "workflowoptoutcontact",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'workflowoptoutcontact' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "aiphonecallconfiguration",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260319000000_drop_workflow_tables/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TABLE IF EXISTS \"AIPhoneCallConfiguration\" CASCADE",
+            "extra": {
+              "table_sql": "AIPhoneCallConfiguration"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "aiphonecallconfiguration",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'aiphonecallconfiguration' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "workflowstep",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260319000000_drop_workflow_tables/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* 2. Drop WorkflowStep (references Workflow and Agent) */ DROP TABLE IF EXISTS \"WorkflowStep\" CASCADE",
+            "extra": {
+              "table_sql": "WorkflowStep"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "workflowstep",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'workflowstep' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "workflow",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260319000000_drop_workflow_tables/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* 3. Drop Workflow (references User and Team) */ DROP TABLE IF EXISTS \"Workflow\" CASCADE",
+            "extra": {
+              "table_sql": "Workflow"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "workflow",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'workflow' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "users",
+            "column": "whitelistworkflows",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260319000000_drop_workflow_tables/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE users DROP COLUMN IF EXISTS \"whitelistWorkflows\"",
+            "extra": {
+              "column_sql": "whitelistWorkflows"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users",
+            "column": "whitelistworkflows",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'whitelistworkflows' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "workflowtriggerevents",
+            "column": "workflowtriggerevents",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260319000000_drop_workflow_tables/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* Remove workflows from Team (relation-only, no column to drop) */ /* Remove activeOrgWorkflows from Team (relation-only, no column to drop) */ /* Remove workflowReminders from Bo",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "WorkflowTriggerEvents",
+              "column_sql": "WorkflowTriggerEvents"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "workflowtriggerevents",
+            "column": "workflowtriggerevents",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'workflowtriggerevents' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "workflowactions",
+            "column": "workflowactions",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260319000000_drop_workflow_tables/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TYPE IF EXISTS \"WorkflowActions\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "WorkflowActions",
+              "column_sql": "WorkflowActions"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "workflowactions",
+            "column": "workflowactions",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'workflowactions' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "workflowtype",
+            "column": "workflowtype",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260319000000_drop_workflow_tables/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TYPE IF EXISTS \"WorkflowType\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "WorkflowType",
+              "column_sql": "WorkflowType"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "workflowtype",
+            "column": "workflowtype",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'workflowtype' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "workflowtemplates",
+            "column": "workflowtemplates",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260319000000_drop_workflow_tables/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TYPE IF EXISTS \"WorkflowTemplates\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "WorkflowTemplates",
+              "column_sql": "WorkflowTemplates"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "workflowtemplates",
+            "column": "workflowtemplates",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'workflowtemplates' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "workflowmethods",
+            "column": "workflowmethods",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260319000000_drop_workflow_tables/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TYPE IF EXISTS \"WorkflowMethods\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "WorkflowMethods",
+              "column_sql": "WorkflowMethods"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "workflowmethods",
+            "column": "workflowmethods",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'workflowmethods' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "workflowstepautotranslatedfield",
+            "column": "workflowstepautotranslatedfield",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260319000000_drop_workflow_tables/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TYPE IF EXISTS \"WorkflowStepAutoTranslatedField\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "WorkflowStepAutoTranslatedField",
+              "column_sql": "WorkflowStepAutoTranslatedField"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "workflowstepautotranslatedfield",
+            "column": "workflowstepautotranslatedfield",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'workflowstepautotranslatedfield' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "workflowcontacttype",
+            "column": "workflowcontacttype",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260319000000_drop_workflow_tables/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TYPE IF EXISTS \"WorkflowContactType\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "WorkflowContactType",
+              "column_sql": "WorkflowContactType"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "workflowcontacttype",
+            "column": "workflowcontacttype",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'workflowcontacttype' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "impersonations",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260319100000_drop_impersonations_table/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE IF EXISTS \"Impersonations\"",
+            "extra": {
+              "table_sql": "Impersonations"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "impersonations",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'impersonations' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "users",
+            "column": "disableimpersonation",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260319100000_drop_impersonations_table/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE users DROP COLUMN IF EXISTS \"disableImpersonation\"",
+            "extra": {
+              "column_sql": "disableImpersonation"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users",
+            "column": "disableimpersonation",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'disableimpersonation' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "membership",
+            "column": "disableimpersonation",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260319100000_drop_impersonations_table/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE membership DROP COLUMN IF EXISTS \"disableImpersonation\"",
+            "extra": {
+              "table_sql": "Membership",
+              "column_sql": "disableImpersonation"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "membership",
+            "column": "disableimpersonation",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'disableimpersonation' active in C_{t-1} ORM (packages/prisma/schema.prisma)"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "bookingreference",
+            "column": "domainwidedelegationcredentialid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260319161640_drop_domain_wide_delegation/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE bookingreference DROP COLUMN IF EXISTS \"domainWideDelegationCredentialId\"",
+            "extra": {
+              "table_sql": "BookingReference",
+              "column_sql": "domainWideDelegationCredentialId"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "bookingreference",
+            "column": "domainwidedelegationcredentialid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'domainwidedelegationcredentialid' active in C_{t-1} ORM (packages/prisma/schema.prisma)"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "destinationcalendar",
+            "column": "domainwidedelegationcredentialid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260319161640_drop_domain_wide_delegation/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE destinationcalendar DROP COLUMN IF EXISTS \"domainWideDelegationCredentialId\"",
+            "extra": {
+              "table_sql": "DestinationCalendar",
+              "column_sql": "domainWideDelegationCredentialId"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "destinationcalendar",
+            "column": "domainwidedelegationcredentialid",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'domainwidedelegationcredentialid' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "selectedcalendar",
+            "column": "domainwidedelegationcredentialid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260319161640_drop_domain_wide_delegation/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE selectedcalendar DROP COLUMN IF EXISTS \"domainWideDelegationCredentialId\"",
+            "extra": {
+              "table_sql": "SelectedCalendar",
+              "column_sql": "domainWideDelegationCredentialId"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "selectedcalendar",
+            "column": "domainwidedelegationcredentialid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'domainwidedelegationcredentialid' active in C_{t-1} ORM (packages/prisma/schema.prisma)"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "domainwidedelegation",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260319161640_drop_domain_wide_delegation/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropTable */ DROP TABLE IF EXISTS \"DomainWideDelegation\"",
+            "extra": {
+              "table_sql": "DomainWideDelegation"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "domainwidedelegation",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'domainwidedelegation' active in C_{t-1}."
+        }
+      ]
+    },
+    {
+      "sha": "28023102685fa3867dc0cf4c3135c9ac1f8230b3",
+      "parent": "2ec9e903ce965b81fd458fa36d851a76809e737a",
+      "date": "2026-01-29T17:17:26+05:30",
+      "subject": "feat: Add infrastructure for no-show audit integration (#27187)",
+      "mig_files": [
+        "packages/prisma/migrations/20260119113000_add_system_source/migration.sql",
+        "packages/prisma/migrations/20260120093500_add_no_show_updated_audit_action/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/web/modules/booking-audit/components/BookingHistory.tsx",
+        "packages/features/booking-audit/di/BookingAuditTaskConsumer.module.ts",
+        "packages/features/booking-audit/lib/actions/AttendeeNoShowUpdatedAuditActionService.ts",
+        "packages/features/booking-audit/lib/actions/HostNoShowUpdatedAuditActionService.ts",
+        "packages/features/booking-audit/lib/actions/IAuditActionService.ts",
+        "packages/features/booking-audit/lib/actions/NoShowUpdatedAuditActionService.ts",
+        "packages/features/booking-audit/lib/actions/ReassignmentAuditActionService.ts",
+        "packages/features/booking-audit/lib/actions/__tests__/ReassignmentAuditActionService.test.ts",
+        "packages/features/booking-audit/lib/repository/IBookingAuditRepository.ts",
+        "packages/features/booking-audit/lib/service/BookingAuditActionServiceRegistry.ts",
+        "packages/features/booking-audit/lib/service/BookingAuditProducerService.interface.ts",
+        "packages/features/booking-audit/lib/service/BookingAuditTaskConsumer.ts"
+      ],
+      "orm_models_parsed_old": 117,
+      "raw_sql": "-- AlterEnum\nALTER TYPE \"public\".\"BookingAuditSource\" ADD VALUE 'system';\n\n-- AlterEnum: Remove old values and add new unified value\n-- Rename old type to backup\nALTER TYPE \"BookingAuditAction\" RENAME TO \"BookingAuditAction_old\";\n\n-- Create new type without deprecated values, with new unified value\nCREATE TYPE \"BookingAuditAction\" AS ENUM (\n    'created',\n    'cancelled',\n    'accepted',\n    'rejected',\n    'pending',\n    'awaiting_host',\n    'rescheduled',\n    'attendee_added',\n    'attendee_removed',\n    'reassignment',\n    'location_changed',\n    'no_show_updated',\n    'reschedule_requested',\n    'seat_booked',\n    'seat_rescheduled'\n);\n\n-- Update the column to use the new type, converting deprecated values to the new unified value\nALTER TABLE \"BookingAudit\" ALTER COLUMN \"action\" TYPE \"BookingAuditAction\" USING (\n    CASE \n        WHEN \"action\"::text IN ('host_no_show_updated', 'attendee_no_show_updated') THEN 'no_show_updated'::text\n        ELSE \"action\"::text\n    END\n)::\"BookingAuditAction\";\n\n-- Drop the old type\nDROP TYPE \"BookingAuditAction_old\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "bookingauditaction",
+            "column": "bookingauditaction",
+            "new_name": "bookingauditaction_old",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260120093500_add_no_show_updated_audit_action/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* AlterEnum: Remove old values and add new unified value */ /* Rename old type to backup */ ALTER TYPE \"BookingAuditAction\" RENAME TO \"BookingAuditAction_old\"",
+            "extra": {
+              "table_sql": "BookingAuditAction",
+              "column_sql": "BookingAuditAction",
+              "new_name_sql": "BookingAuditAction_old"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "bookingauditaction",
+            "column": "bookingauditaction",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'bookingauditaction' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "bookingaudit",
+            "column": "action",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "\"BookingAuditAction\"",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260120093500_add_no_show_updated_audit_action/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE bookingaudit ALTER COLUMN \"action\" SET DATA TYPE \"BookingAuditAction\" USING CAST((CASE WHEN CAST(\"action\" AS TEXT) IN ('host_no_show_updated', 'attendee_no_show_updated",
+            "extra": {
+              "table_sql": "BookingAudit"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "bookingaudit",
+            "column": "action",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'bookingaudit.action' (BookingAuditAction -> \"BookingAuditAction\")."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "bookingauditaction_old",
+            "column": "bookingauditaction_old",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260120093500_add_no_show_updated_audit_action/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* Drop the old type */ DROP TYPE \"BookingAuditAction_old\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "BookingAuditAction_old",
+              "column_sql": "BookingAuditAction_old"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "bookingauditaction_old",
+            "column": "bookingauditaction_old",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "ENUM 'bookingauditaction_old' not present in C_{t-1} schema."
+        }
+      ]
+    },
+    {
+      "sha": "620445d85fe2e30d71e60de30aac1fa407b6e6f8",
+      "parent": "c9bd18e8666afcdb0e5150fe0cfc8ed2b61b85d4",
+      "date": "2026-01-28T12:45:15-05:00",
+      "subject": "feat: Use `RoutingTraceService` to write assignment reasons (#27225)",
+      "mig_files": [
+        "packages/prisma/migrations/20260127035022_add_routing_trace_tables/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/web/app/api/routing-forms/queued-response/route.ts",
+        "packages/app-store/routing-forms/lib/crmRouting/routerGetCrmContactOwnerEmail.ts",
+        "packages/features/bookings/lib/service/RegularBookingService.ts",
+        "packages/features/routing-forms/lib/findTeamMembersMatchingAttributeLogic.ts",
+        "packages/features/routing-forms/lib/getRoutedUrl.test.ts",
+        "packages/features/routing-forms/lib/getRoutedUrl.ts",
+        "packages/features/routing-forms/lib/getUrlSearchParamsToForward.ts",
+        "packages/features/routing-forms/lib/handleResponse.ts",
+        "packages/features/routing-trace/di/PendingRoutingTraceRepository.module.ts",
+        "packages/features/routing-trace/di/RoutingTraceRepository.module.ts",
+        "packages/features/routing-trace/di/RoutingTraceService.container.ts",
+        "packages/features/routing-trace/di/tokens.ts"
+      ],
+      "orm_models_parsed_old": 115,
+      "raw_sql": "-- CreateTable\nCREATE TABLE \"public\".\"PendingRoutingTrace\" (\n    \"id\" TEXT NOT NULL,\n    \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    \"trace\" JSONB NOT NULL,\n    \"formResponseId\" INTEGER,\n    \"queuedFormResponseId\" TEXT,\n\n    CONSTRAINT \"PendingRoutingTrace_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateTable\nCREATE TABLE \"public\".\"RoutingTrace\" (\n    \"id\" TEXT NOT NULL,\n    \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    \"trace\" JSONB NOT NULL,\n    \"formResponseId\" INTEGER,\n    \"queuedFormResponseId\" TEXT,\n    \"bookingUid\" TEXT,\n    \"assignmentReasonId\" INTEGER,\n\n    CONSTRAINT \"RoutingTrace_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"PendingRoutingTrace_formResponseId_key\" ON \"public\".\"PendingRoutingTrace\"(\"formResponseId\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"PendingRoutingTrace_queuedFormResponseId_key\" ON \"public\".\"PendingRoutingTrace\"(\"queuedFormResponseId\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"RoutingTrace_formResponseId_key\" ON \"public\".\"RoutingTrace\"(\"formResponseId\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"RoutingTrace_queuedFormResponseId_key\" ON \"public\".\"RoutingTrace\"(\"queuedFormResponseId\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"RoutingTrace_bookingUid_key\" ON \"public\".\"RoutingTrace\"(\"bookingUid\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"RoutingTrace_assignmentReasonId_key\" ON \"public\".\"RoutingTrace\"(\"assignmentReasonId\");\n\n-- AddForeignKey\nALTER TABLE \"public\".\"PendingRoutingTrace\" ADD CONSTRAINT \"PendingRoutingTrace_formResponseId_fkey\" FOREIGN KEY (\"formResponseId\") REFERENCES \"public\".\"App_RoutingForms_FormResponse\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"public\".\"PendingRoutingTrace\" ADD CONSTRAINT \"PendingRoutingTrace_queuedFormResponseId_fkey\" FOREIGN KEY (\"queuedFormResponseId\") REFERENCES \"public\".\"App_RoutingForms_QueuedFormResponse\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"public\".\"RoutingTrace\" ADD CONSTRAINT \"RoutingTrace_formResponseId_fkey\" FOREIGN KEY (\"formResponseId\") REFERENCES \"public\".\"App_RoutingForms_FormResponse\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"public\".\"RoutingTrace\" ADD CONSTRAINT \"RoutingTrace_queuedFormResponseId_fkey\" FOREIGN KEY (\"queuedFormResponseId\") REFERENCES \"public\".\"App_RoutingForms_QueuedFormResponse\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"public\".\"RoutingTrace\" ADD CONSTRAINT \"RoutingTrace_bookingUid_fkey\" FOREIGN KEY (\"bookingUid\") REFERENCES \"public\".\"Booking\"(\"uid\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"public\".\"RoutingTrace\" ADD CONSTRAINT \"RoutingTrace_assignmentReasonId_fkey\" FOREIGN KEY (\"assignmentReasonId\") REFERENCES \"public\".\"AssignmentReason\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddCheckConstraint: Ensure at least one of formResponseId or queuedFormResponseId is set\nALTER TABLE \"public\".\"PendingRoutingTrace\" ADD CONSTRAINT \"PendingRoutingTrace_at_least_one_response_id\" CHECK (\"formResponseId\" IS NOT NULL OR \"queuedFormResponseId\" IS NOT NULL);\n\n-- AddCheckConstraint: Ensure at least one of formResponseId or queuedFormResponseId is set\nALTER TABLE \"public\".\"RoutingTrace\" ADD CONSTRAINT \"RoutingTrace_at_least_one_response_id\" CHECK (\"formResponseId\" IS NOT NULL OR \"queuedFormResponseId\" IS NOT NULL);\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ADD_UNIQUE_OR_CHECK",
+            "table": "pendingroutingtrace",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260127035022_add_routing_trace_tables/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE pendingroutingtrace ADD CONSTRAINT \"PendingRoutingTrace_at_least_one_response_id\" CHECK (\"formResponseId\" IS NOT NULL OR \"queuedFormResponseId\" IS NOT NULL)",
+            "extra": {
+              "table_sql": "PendingRoutingTrace"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "pendingroutingtrace",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Constraint added on newly created table 'pendingroutingtrace'."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ADD_UNIQUE_OR_CHECK",
+            "table": "routingtrace",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260127035022_add_routing_trace_tables/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE routingtrace ADD CONSTRAINT \"RoutingTrace_at_least_one_response_id\" CHECK (\"formResponseId\" IS NOT NULL OR \"queuedFormResponseId\" IS NOT NULL)",
+            "extra": {
+              "table_sql": "RoutingTrace"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "routingtrace",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Constraint added on newly created table 'routingtrace'."
+        }
+      ]
+    },
+    {
+      "sha": "7efd9a43c95f4afa646ce09740c72370d63a5fa1",
+      "parent": "51976b1eabef46c25955a74f2c2f37516e159941",
+      "date": "2026-01-22T12:52:36-03:00",
+      "subject": "chore: drop deprecated user.startTime and user.endTime columns (#27146)",
+      "mig_files": [
+        "packages/prisma/migrations/20260122145500_drop_user_starttime_endtime/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "packages/prisma/schema.prisma"
+      ],
+      "orm_models_parsed_old": 114,
+      "raw_sql": "-- AlterTable\nALTER TABLE \"users\" DROP COLUMN \"startTime\",\nDROP COLUMN \"endTime\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "users",
+            "column": "starttime",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260122145500_drop_user_starttime_endtime/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE users DROP COLUMN \"startTime\"",
+            "extra": {
+              "column_sql": "startTime"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users",
+            "column": "starttime",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "users",
+            "column": "endtime",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20260122145500_drop_user_starttime_endtime/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE users DROP COLUMN \"endTime\"",
+            "extra": {
+              "column_sql": "endTime"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users",
+            "column": "endtime",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: identifier removed in same commit diff"
+        }
+      ]
+    },
+    {
+      "sha": "f1011ddd0858ae79c4e7fb65f814f39e4c14654c",
+      "parent": "9019be58ed120c6198f10b2d7908d51bd2fc68f8",
+      "date": "2025-12-18T18:16:24+05:30",
+      "subject": "chore: Improves the core booking audit architecture by adding new capabilities and simplifying the existing interfaces. (#25872)",
+      "mig_files": [
+        "packages/prisma/migrations/20251216074521_enhance_booking_audit_schema/migration.sql",
+        "packages/prisma/migrations/20251217090304_enhance_audit_schema/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/api/v2/src/lib/services/booking-audit-producer.service.ts",
+        "apps/web/modules/booking/logs/views/booking-logs-view.tsx",
+        "packages/features/booking-audit/di/AuditActorRepository.container.ts",
+        "packages/features/booking-audit/di/BookingAuditTaskerProducerService.module.ts",
+        "packages/features/booking-audit/di/BookingAuditViewerService.module.ts",
+        "packages/features/booking-audit/lib/actions/AcceptedAuditActionService.ts",
+        "packages/features/booking-audit/lib/actions/AttendeeAddedAuditActionService.ts",
+        "packages/features/booking-audit/lib/actions/AttendeeNoShowUpdatedAuditActionService.ts",
+        "packages/features/booking-audit/lib/actions/AttendeeRemovedAuditActionService.ts",
+        "packages/features/booking-audit/lib/actions/CancelledAuditActionService.ts",
+        "packages/features/booking-audit/lib/actions/CreatedAuditActionService.ts",
+        "packages/features/booking-audit/lib/actions/HostNoShowUpdatedAuditActionService.ts"
+      ],
+      "orm_models_parsed_old": 109,
+      "raw_sql": "/*\n  Warnings:\n\n  - Added the required column `operationId` to the `BookingAudit` table without a default value. This is not possible if the table is not empty.\n  - Added the required column `source` to the `BookingAudit` table without a default value. This is not possible if the table is not empty.\n\n*/\n-- CreateEnum\nCREATE TYPE \"public\".\"BookingAuditSource\" AS ENUM ('api_v1', 'api_v2', 'webapp', 'webhook', 'unknown');\n\n-- AlterEnum\nALTER TYPE \"public\".\"AuditActorType\" ADD VALUE 'app';\n\n-- AlterEnum\n-- This migration adds more than one value to an enum.\n-- With PostgreSQL versions 11 and earlier, this is not possible\n-- in a single migration. This can be worked around by creating\n-- multiple migrations, each migration adding only one value to\n-- the enum.\n\n\nALTER TYPE \"public\".\"BookingAuditAction\" ADD VALUE 'seat_booked';\nALTER TYPE \"public\".\"BookingAuditAction\" ADD VALUE 'seat_rescheduled';\n\n-- AlterTable\nALTER TABLE \"public\".\"BookingAudit\" ADD COLUMN     \"operationId\" TEXT NOT NULL,\nADD COLUMN     \"source\" \"public\".\"BookingAuditSource\" NOT NULL;\n\n-- CreateIndex\nCREATE INDEX \"BookingAudit_operationId_idx\" ON \"public\".\"BookingAudit\"(\"operationId\");\n\n/*\n  Warnings:\n\n  - A unique constraint covering the columns `[credentialId]` on the table `AuditActor` will be added. If there are existing duplicate values, this will fail.\n\n*/\n-- AlterTable\nALTER TABLE \"public\".\"AuditActor\" ADD COLUMN     \"credentialId\" INTEGER;\n\n-- CreateIndex\nCREATE INDEX \"AuditActor_credentialId_idx\" ON \"public\".\"AuditActor\"(\"credentialId\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"AuditActor_credentialId_key\" ON \"public\".\"AuditActor\"(\"credentialId\");\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "bookingaudit",
+            "column": "operationid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TEXT",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20251216074521_enhance_booking_audit_schema/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE bookingaudit ADD COLUMN \"operationId\" TEXT NOT NULL",
+            "extra": {
+              "table_sql": "BookingAudit",
+              "column_sql": "operationId"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "bookingaudit",
+            "column": "operationid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'bookingaudit.operationid' breaks C_{t-1} INSERTs."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "bookingaudit",
+            "column": "source",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "\"public\".\"BookingAuditSource\"",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20251216074521_enhance_booking_audit_schema/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE bookingaudit ADD COLUMN \"source\" \"public\".\"BookingAuditSource\" NOT NULL",
+            "extra": {
+              "table_sql": "BookingAudit"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "bookingaudit",
+            "column": "source",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'bookingaudit.source' breaks C_{t-1} INSERTs."
+        }
+      ]
+    },
+    {
+      "sha": "105a82f97da8e3778751247f831f539ca4b65fc7",
+      "parent": "fdd3d11111421e7d76d01f5b2d0184522ace4573",
+      "date": "2025-11-19T18:47:02+05:30",
+      "subject": "feat: add uuidv7 and @db.Uuid to AuditActor and BookingAudit models (#25269)",
+      "mig_files": [
+        "packages/prisma/migrations/20251119124132_add_uuidv7_to_audit_actor/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "packages/prisma/schema.prisma"
+      ],
+      "orm_models_parsed_old": 107,
+      "raw_sql": "/*\n  Warnings:\n\n  - The primary key for the `AuditActor` table will be changed. If it partially fails, the table could be left without primary key constraint.\n  - Changed the type of `id` on the `AuditActor` table. No cast exists, the column would be dropped and recreated, which cannot be done if there is data, since the column is required.\n  - Changed the type of `actorId` on the `BookingAudit` table to UUID.\n\n*/\n\nALTER TABLE \"public\".\"BookingAudit\" DROP CONSTRAINT \"BookingAudit_actorId_fkey\";\n\nALTER TABLE \"public\".\"BookingAudit\" ALTER COLUMN \"actorId\" TYPE UUID USING \"actorId\"::UUID;\n\nALTER TABLE \"public\".\"AuditActor\" DROP CONSTRAINT \"AuditActor_pkey\";\n\nALTER TABLE \"public\".\"AuditActor\" ALTER COLUMN \"id\" TYPE UUID USING \"id\"::UUID;\n\nALTER TABLE \"public\".\"AuditActor\" ADD CONSTRAINT \"AuditActor_pkey\" PRIMARY KEY (\"id\");\n\nALTER TABLE \"public\".\"BookingAudit\" ADD CONSTRAINT \"BookingAudit_actorId_fkey\" FOREIGN KEY (\"actorId\") REFERENCES \"public\".\"AuditActor\"(\"id\") ON DELETE RESTRICT ON UPDATE CASCADE;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "bookingaudit",
+            "column": "actorid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "UUID",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20251119124132_add_uuidv7_to_audit_actor/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE bookingaudit ALTER COLUMN \"actorId\" SET DATA TYPE UUID USING CAST(\"actorId\" AS UUID)",
+            "extra": {
+              "table_sql": "BookingAudit",
+              "column_sql": "actorId"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "bookingaudit",
+            "column": "actorid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'bookingaudit.actorid' (String -> UUID)."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "auditactor",
+            "column": "id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "UUID",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20251119124132_add_uuidv7_to_audit_actor/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE auditactor ALTER COLUMN \"id\" SET DATA TYPE UUID USING CAST(\"id\" AS UUID)",
+            "extra": {
+              "table_sql": "AuditActor"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "auditactor",
+            "column": "id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'auditactor.id' (String -> UUID)."
+        }
+      ]
+    },
+    {
+      "sha": "ab37847ea12ddc0ee4a1a61e3a1cffb7ed459149",
+      "parent": "0a2ddf05cab34e08c2f2c6c4e035498a9d69087e",
+      "date": "2025-11-04T00:20:52Z",
+      "subject": "chore: User->UUID as a required field, ready for use in foreign keys (#24881)",
+      "mig_files": [
+        "packages/prisma/migrations/20251103175338_make_user_uuid_required/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "packages/prisma/schema.prisma"
+      ],
+      "orm_models_parsed_old": 104,
+      "raw_sql": "/*\n  Warnings:\n\n  - Made the column `uuid` on table `users` required. This step will fail if there are existing NULL values in that column.\n\n*/\n-- AlterTable\nALTER TABLE \"public\".\"users\" ALTER COLUMN \"uuid\" SET NOT NULL;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "SET_NOT_NULL",
+            "table": "users",
+            "column": "uuid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20251103175338_make_user_uuid_required/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE users ALTER COLUMN \"uuid\" SET NOT NULL",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users",
+            "column": "uuid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "SET_NOT_NULL on 'users.uuid' which was nullable in C_{t-1} ORM (packages/prisma/schema.prisma)."
+        }
+      ]
+    },
+    {
+      "sha": "7cd8dbf7d87556a7dcedc5db4853c0419b45c90e",
+      "parent": "654a8650071ab9375d013418aa432133485a44c4",
+      "date": "2025-10-04T06:14:37+05:30",
+      "subject": "chore: Watchlist schema update (#24246)",
+      "mig_files": [
+        "packages/prisma/migrations/20251003103832_upsert_watchlist_audit/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "packages/features/watchlist/watchlist.repository.ts",
+        "packages/prisma/schema.prisma"
+      ],
+      "orm_models_parsed_old": 99,
+      "raw_sql": "-- CreateEnum\nCREATE TYPE \"WatchlistSource\" AS ENUM ('MANUAL', 'FREE_DOMAIN_POLICY');\n\n-- AlterEnum\nALTER TYPE \"WatchlistAction\" ADD VALUE 'ALERT';\n\n\n-- 1) Add a temporary UUID column `uid` and backfill it without extensions\nALTER TABLE \"Watchlist\"\n  ADD COLUMN IF NOT EXISTS \"uid\" UUID;\n\n-- Backfill existing rows with UUIDs using gen_random_uuid()\nUPDATE \"Watchlist\"\nSET \"uid\" = COALESCE(\"uid\", gen_random_uuid());\n\n-- Enforce NOT NULL now that all rows have a value\nALTER TABLE \"Watchlist\"\n  ALTER COLUMN \"uid\" SET NOT NULL;\n\n-- 2) Adjust uniques/indexes that reference old id? (none in your snippet)\n--    If you had FKs or PK references elsewhere, you'd update them here.\n\n-- 3) Switch primary key from old `id` to new `uid`:\n--    Drop old PK (name might vary in your DB; adjust if needed)\nDO $$ BEGIN\n  ALTER TABLE \"Watchlist\" DROP CONSTRAINT \"Watchlist_pkey\";\nEXCEPTION\n  WHEN undefined_object THEN NULL;\nEND $$;\n\n-- 4) Drop the old `id` column and rename `uid`\u2192`id`\nALTER TABLE \"Watchlist\" DROP COLUMN \"id\";\nALTER TABLE \"Watchlist\" RENAME COLUMN \"uid\" TO \"id\";\n\n-- 5) Add the new PK on `id` (UUID)\nALTER TABLE \"Watchlist\" ADD CONSTRAINT \"Watchlist_pkey\" PRIMARY KEY (\"id\");\n\n-- DropForeignKey - Do this before modifying Watchlist structure\nALTER TABLE \"Watchlist\" DROP CONSTRAINT \"Watchlist_createdById_fkey\";\n\n-- DropForeignKey\nALTER TABLE \"Watchlist\" DROP CONSTRAINT \"Watchlist_updatedById_fkey\";\n\n-- Modify Watchlist table structure FIRST\n-- AlterTable\nALTER TABLE \"Watchlist\" DROP COLUMN \"createdAt\",\nDROP COLUMN \"createdById\",\nDROP COLUMN \"severity\",\nDROP COLUMN \"updatedAt\",\nDROP COLUMN \"updatedById\",\nADD COLUMN     \"isGlobal\" BOOLEAN NOT NULL DEFAULT false,\nADD COLUMN     \"lastUpdatedAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\nADD COLUMN     \"source\" \"WatchlistSource\" NOT NULL DEFAULT 'MANUAL';\n\n-- Create WatchlistAudit table AFTER Watchlist has UUID id\n-- CreateTable\nCREATE TABLE \"WatchlistAudit\" (\n    \"id\" UUID NOT NULL,\n    \"type\" \"WatchlistType\" NOT NULL,\n    \"value\" TEXT NOT NULL,\n    \"description\" TEXT,\n    \"action\" \"WatchlistAction\" NOT NULL DEFAULT 'REPORT',\n    \"changedAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    \"changedByUserId\" INTEGER,\n    \"watchlistId\" UUID NOT NULL,\n\n    CONSTRAINT \"WatchlistAudit_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- Drop the BlockedBookingLog table\n-- DropTable\nDROP TABLE \"BlockedBookingLog\";\n\n-- Drop unused enum\n-- DropEnum\nDROP TYPE \"WatchlistSeverity\";\n\n-- Create WatchlistEventAudit table\n-- CreateTable\nCREATE TABLE \"WatchlistEventAudit\" (\n    \"id\" UUID NOT NULL,\n    \"watchlistId\" UUID NOT NULL,\n    \"eventTypeId\" INTEGER NOT NULL,\n    \"actionTaken\" \"WatchlistAction\" NOT NULL,\n    \"timestamp\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n\n    CONSTRAINT \"WatchlistEventAudit_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- Create indexes for performance\n-- CreateIndex\nCREATE UNIQUE INDEX IF NOT EXISTS \"WatchlistAudit_id_key\" ON \"WatchlistAudit\"(\"id\");\n\n-- CreateIndex\nCREATE INDEX IF NOT EXISTS \"WatchlistAudit_watchlistId_changedAt_idx\" ON \"WatchlistAudit\"(\"watchlistId\", \"changedAt\");\n\n-- CreateIndex - Main composite index matching schema\nCREATE INDEX IF NOT EXISTS \"Watchlist_type_value_organizationId_action_idx\" ON \"Watchlist\"(\"type\", \"value\", \"organizationId\", \"action\");\n\n-- CreateIndex - For organization-specific and global queries\nCREATE INDEX IF NOT EXISTS \"Watchlist_organizationId_isGlobal_idx\" ON \"Watchlist\"(\"organizationId\", \"isGlobal\");\n\n-- CreateIndex - For source-based queries\nCREATE INDEX IF NOT EXISTS \"Watchlist_source_idx\" ON \"Watchlist\"(\"source\");\n\n-- CreateIndex - Add unique constraint matching schema\nCREATE UNIQUE INDEX IF NOT EXISTS \"Watchlist_type_value_organizationId_key\" ON \"Watchlist\"(\"type\", \"value\", \"organizationId\");\n\n-- CreateIndex - Performance index for WatchlistEventAudit queries\nCREATE INDEX IF NOT EXISTS \"WatchlistEventAudit_watchlistId_timestamp_idx\" ON \"WatchlistEventAudit\"(\"watchlistId\", \"timestamp\");\n\n-- CreateIndex - For eventType-based queries\nCREATE INDEX IF NOT EXISTS \"WatchlistEventAudit_eventTypeId_timestamp_idx\" ON \"WatchlistEventAudit\"(\"eventTypeId\", \"timestamp\");\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "SET_NOT_NULL",
+            "table": "watchlist",
+            "column": "uid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20251003103832_upsert_watchlist_audit/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE watchlist ALTER COLUMN \"uid\" SET NOT NULL",
+            "extra": {
+              "table_sql": "Watchlist"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "watchlist",
+            "column": "uid",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Column 'watchlist.uid' not active in C_{t-1} ORM."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "watchlist",
+            "column": "id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20251003103832_upsert_watchlist_audit/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE watchlist DROP COLUMN \"id\"",
+            "extra": {
+              "table_sql": "Watchlist"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "watchlist",
+            "column": "id",
+            "orm_active_old": true,
+            "orm_active_new": true,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'id' active in C_{t-1} ORM (packages/prisma/schema.prisma)"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_COLUMN",
+            "table": "watchlist",
+            "column": "uid",
+            "new_name": "id",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20251003103832_upsert_watchlist_audit/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE watchlist RENAME COLUMN \"uid\" TO \"id\"",
+            "extra": {
+              "table_sql": "Watchlist"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "watchlist",
+            "column": "uid",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Renamed column 'uid' not referenced in C_{t-1} or C_t."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "watchlist",
+            "column": "createdat",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20251003103832_upsert_watchlist_audit/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE watchlist DROP COLUMN \"createdAt\"",
+            "extra": {
+              "table_sql": "Watchlist",
+              "column_sql": "createdAt"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "watchlist",
+            "column": "createdat",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'createdat' active in C_{t-1} ORM (packages/prisma/schema.prisma); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "watchlist",
+            "column": "createdbyid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20251003103832_upsert_watchlist_audit/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE watchlist DROP COLUMN \"createdById\"",
+            "extra": {
+              "table_sql": "Watchlist",
+              "column_sql": "createdById"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "watchlist",
+            "column": "createdbyid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'createdbyid' active in C_{t-1} ORM (packages/prisma/schema.prisma); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "watchlist",
+            "column": "severity",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20251003103832_upsert_watchlist_audit/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE watchlist DROP COLUMN \"severity\"",
+            "extra": {
+              "table_sql": "Watchlist"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "watchlist",
+            "column": "severity",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'severity' active in C_{t-1} ORM (packages/prisma/schema.prisma); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "watchlist",
+            "column": "updatedat",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20251003103832_upsert_watchlist_audit/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE watchlist DROP COLUMN \"updatedAt\"",
+            "extra": {
+              "table_sql": "Watchlist",
+              "column_sql": "updatedAt"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "watchlist",
+            "column": "updatedat",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'updatedat' active in C_{t-1} ORM (packages/prisma/schema.prisma); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "watchlist",
+            "column": "updatedbyid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20251003103832_upsert_watchlist_audit/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE watchlist DROP COLUMN \"updatedById\"",
+            "extra": {
+              "table_sql": "Watchlist",
+              "column_sql": "updatedById"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "watchlist",
+            "column": "updatedbyid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'updatedbyid' active in C_{t-1} ORM (packages/prisma/schema.prisma); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "blockedbookinglog",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20251003103832_upsert_watchlist_audit/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* Drop the BlockedBookingLog table */ /* DropTable */ DROP TABLE \"BlockedBookingLog\"",
+            "extra": {
+              "table_sql": "BlockedBookingLog"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "blockedbookinglog",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'blockedbookinglog' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "watchlistseverity",
+            "column": "watchlistseverity",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20251003103832_upsert_watchlist_audit/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* Drop unused enum */ /* DropEnum */ DROP TYPE \"WatchlistSeverity\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "WatchlistSeverity",
+              "column_sql": "WatchlistSeverity"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "watchlistseverity",
+            "column": "watchlistseverity",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'watchlistseverity' affects active C_{t-1} enum definition/code."
+        }
+      ]
+    },
+    {
+      "sha": "d4bff9d6b14aa9965bb108c0f956768fb969a972",
+      "parent": "6defa1cd7d15846922f7dfe22e6601782fab4e24",
+      "date": "2025-08-29T09:34:05+05:30",
+      "subject": "feat: Cal.ai Self Serve #2  (#22995)",
+      "mig_files": [
+        "packages/prisma/migrations/20250817234749_add_cal_ai_voice_agents/migration.sql",
+        "packages/prisma/migrations/20250821141229_add_external_ref_and_duration/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/web/app/api/calAIPhone/subscription/success/route.ts",
+        "apps/web/app/api/webhooks/retell-ai/__tests__/route.test.ts",
+        "apps/web/app/api/webhooks/retell-ai/route.ts",
+        "apps/web/modules/settings/billing/components/BillingCredits.tsx",
+        "apps/web/pages/api/trpc/aiVoiceAgent/[trpc].ts",
+        "apps/web/pages/api/trpc/phoneNumber/[trpc].ts",
+        "apps/web/pages/api/twilio/webhook.ts",
+        "packages/app-store/stripepayment/lib/utils.ts",
+        "packages/features/bookings/lib/SystemField.ts",
+        "packages/features/bookings/lib/getBookingFields.ts",
+        "packages/features/calAIPhone/AIPhoneServiceRegistry.test.ts",
+        "packages/features/calAIPhone/AIPhoneServiceRegistry.ts"
+      ],
+      "orm_models_parsed_old": 97,
+      "raw_sql": "INSERT INTO\n  \"Feature\" (slug, enabled, description, \"type\")\nVALUES\n  (\n    'cal-ai-voice-agents',\n    false,\n    'Enable Cal AI Voice Agents - Allow AI-powered voice agents to make phone calls.',\n    'OPERATIONAL'\n  ) ON CONFLICT (slug) DO NOTHING;\n/*\n  Warnings:\n\n  - A unique constraint covering the columns `[externalRef]` on the table `CreditExpenseLog` will be added. If there are existing duplicate values, this will fail.\n\n*/\n-- AlterTable\nALTER TABLE \"CreditExpenseLog\" ADD COLUMN     \"callDuration\" INTEGER,\nADD COLUMN     \"externalRef\" TEXT;\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"CreditExpenseLog_externalRef_key\" ON \"CreditExpenseLog\"(\"externalRef\");\n\n-- CreateEnum\nCREATE TYPE \"CreditUsageType\" AS ENUM ('SMS', 'CAL_AI_PHONE_CALL');\n\n-- AlterTable\nALTER TABLE \"CreditExpenseLog\" ADD COLUMN     \"creditFor\" \"CreditUsageType\";\n\n-- Add check constraint for CAL_AI_PHONE_CALL requiring callDuration\nALTER TABLE \"CreditExpenseLog\" ADD CONSTRAINT \"CreditExpenseLog_cal_ai_phone_call_duration_required\"\nCHECK (\"creditFor\" != 'CAL_AI_PHONE_CALL' OR \"callDuration\" IS NOT NULL);\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ADD_UNIQUE_OR_CHECK",
+            "table": "creditexpenselog",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20250821141229_add_external_ref_and_duration/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE creditexpenselog ADD CONSTRAINT \"CreditExpenseLog_cal_ai_phone_call_duration_required\" CHECK (\"creditFor\" <> 'CAL_AI_PHONE_CALL' OR \"callDuration\" IS NOT NULL)",
+            "extra": {
+              "table_sql": "CreditExpenseLog"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "creditexpenselog",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "DATA_DEPENDENT",
+          "compat_forward": "SAFE",
+          "classification": "DATA_DEPENDENT",
+          "reason": "CHECK/UNIQUE constraint added on active C_{t-1} table 'creditexpenselog'; safety depends on C_{t-1} write values."
+        }
+      ]
+    },
+    {
+      "sha": "22663014697b33a5b34bff240bd929d325aaf13b",
+      "parent": "30b0012e6ad167afd0c32ba93542ec278843d91f",
+      "date": "2025-08-22T09:18:18+02:00",
+      "subject": "feat: implement system filter segments for data tables (#22939)",
+      "mig_files": [
+        "packages/prisma/migrations/20250812084523_add_system_segment_id/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/web/app/(use-page-wrapper)/(main-nav)/bookings/[status]/page.tsx",
+        "apps/web/modules/bookings/views/bookings-listing-view.tsx",
+        "apps/web/modules/insights/insights-view.tsx",
+        "apps/web/playwright/filter-helpers.ts",
+        "apps/web/playwright/insights.e2e.ts",
+        "apps/web/playwright/system-segments.e2e.ts",
+        "packages/features/data-table/DataTableProvider.tsx",
+        "packages/features/data-table/components/segment/DeleteSegmentDialog.tsx",
+        "packages/features/data-table/components/segment/DuplicateSegmentDialog.tsx",
+        "packages/features/data-table/components/segment/FilterSegmentSelect.tsx",
+        "packages/features/data-table/components/segment/RenameSegmentDialog.tsx",
+        "packages/features/data-table/components/segment/SaveFilterSegmentButton.tsx"
+      ],
+      "orm_models_parsed_old": 97,
+      "raw_sql": "-- AlterTable\nALTER TABLE \"UserFilterSegmentPreference\" ADD COLUMN \"systemSegmentId\" TEXT,\nALTER COLUMN \"segmentId\" DROP NOT NULL;\n\n-- Add an XOR CHECK constraint between segmentId and systemSegmentId\nALTER TABLE \"UserFilterSegmentPreference\"\n  ADD CONSTRAINT \"UserFilterSegmentPreference_segment_xor_system_chk\"\n  CHECK (\n    ((\"segmentId\" IS NOT NULL AND \"systemSegmentId\" IS NULL)\n     OR (\"segmentId\" IS NULL AND \"systemSegmentId\" IS NOT NULL))\n  ),\n  ADD CONSTRAINT \"UserFilterSegmentPreference_systemSegmentId_nonempty_chk\"\n  CHECK (\"systemSegmentId\" IS NULL OR length(\"systemSegmentId\") > 0);\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ADD_UNIQUE_OR_CHECK",
+            "table": "userfiltersegmentpreference",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20250812084523_add_system_segment_id/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE userfiltersegmentpreference ADD CONSTRAINT \"UserFilterSegmentPreference_segment_xor_system_chk\" CHECK (((\"segmentId\" IS NOT NULL AND \"systemSegmentId\" IS NULL) OR (\"seg",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "userfiltersegmentpreference",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "DATA_DEPENDENT",
+          "compat_forward": "SAFE",
+          "classification": "DATA_DEPENDENT",
+          "reason": "CHECK/UNIQUE constraint added on active C_{t-1} table 'userfiltersegmentpreference'; safety depends on C_{t-1} write values."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ADD_UNIQUE_OR_CHECK",
+            "table": "userfiltersegmentpreference",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20250812084523_add_system_segment_id/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE userfiltersegmentpreference ADD CONSTRAINT \"UserFilterSegmentPreference_systemSegmentId_nonempty_chk\" CHECK (\"systemSegmentId\" IS NULL OR LENGTH(\"systemSegmentId\") > 0)",
+            "extra": {
+              "table_sql": "UserFilterSegmentPreference"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "userfiltersegmentpreference",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "DATA_DEPENDENT",
+          "compat_forward": "SAFE",
+          "classification": "DATA_DEPENDENT",
+          "reason": "CHECK/UNIQUE constraint added on active C_{t-1} table 'userfiltersegmentpreference'; safety depends on C_{t-1} write values."
+        }
+      ]
+    },
+    {
+      "sha": "02c86d0268668903d5174376e8c31e6f8de2eb44",
+      "parent": "49f99d69a8441e80415a07e6277e07783c20160c",
+      "date": "2025-08-08T21:27:13+05:30",
+      "subject": "feat: cal ai self serve architecture #1 (#22919)",
+      "mig_files": [
+        "packages/prisma/migrations/20250807134931_add_cal_ai_self_serve/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/api/v2/src/modules/workflows/inputs/workflow-step.input.ts",
+        "apps/web/pages/api/get-inbound-dynamic-variables.ts",
+        "packages/app-store/stripepayment/lib/constants.ts",
+        "packages/app-store/stripepayment/lib/utils.ts",
+        "packages/features/calAIPhone/AIPhoneServiceRegistry.test.ts",
+        "packages/features/calAIPhone/AIPhoneServiceRegistry.ts",
+        "packages/features/calAIPhone/getTemplateFieldsSchema.ts",
+        "packages/features/calAIPhone/index.ts",
+        "packages/features/calAIPhone/initializeRegistry.ts",
+        "packages/features/calAIPhone/interfaces/AIPhoneService.interface.ts",
+        "packages/features/calAIPhone/promptTemplates.ts",
+        "packages/features/calAIPhone/providers/adapters/PrismaAgentRepositoryAdapter.ts"
+      ],
+      "orm_models_parsed_old": 95,
+      "raw_sql": "/*\n  Warnings:\n\n  - A unique constraint covering the columns `[agentId]` on the table `WorkflowStep` will be added. If there are existing duplicate values, this will fail.\n\n*/\n-- CreateEnum\nCREATE TYPE \"PhoneNumberSubscriptionStatus\" AS ENUM ('ACTIVE', 'PAST_DUE', 'CANCELLED', 'INCOMPLETE', 'INCOMPLETE_EXPIRED', 'TRIALING', 'UNPAID');\n\n-- AlterEnum\nALTER TYPE \"WorkflowActions\" ADD VALUE 'CAL_AI_PHONE_CALL';\n\n-- AlterEnum\nALTER TYPE \"WorkflowMethods\" ADD VALUE 'AI_PHONE_CALL';\n\n-- AlterTable\nALTER TABLE \"WorkflowStep\" ADD COLUMN     \"agentId\" TEXT;\n\n-- CreateTable\nCREATE TABLE \"Agent\" (\n    \"id\" TEXT NOT NULL,\n    \"name\" TEXT NOT NULL,\n    \"userId\" INTEGER,\n    \"teamId\" INTEGER,\n    \"providerAgentId\" TEXT NOT NULL,\n    \"enabled\" BOOLEAN NOT NULL DEFAULT true,\n    \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    \"updatedAt\" TIMESTAMP(3) NOT NULL,\n\n    CONSTRAINT \"Agent_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateTable\nCREATE TABLE \"CalAiPhoneNumber\" (\n    \"id\" SERIAL NOT NULL,\n    \"userId\" INTEGER,\n    \"teamId\" INTEGER,\n    \"phoneNumber\" TEXT NOT NULL,\n    \"provider\" TEXT NOT NULL,\n    \"providerPhoneNumberId\" TEXT,\n    \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    \"updatedAt\" TIMESTAMP(3) NOT NULL,\n    \"stripeCustomerId\" TEXT,\n    \"stripeSubscriptionId\" TEXT,\n    \"subscriptionStatus\" \"PhoneNumberSubscriptionStatus\",\n    \"inboundAgentId\" TEXT,\n    \"outboundAgentId\" TEXT,\n\n    CONSTRAINT \"CalAiPhoneNumber_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"Agent_providerAgentId_key\" ON \"Agent\"(\"providerAgentId\");\n\n-- CreateIndex\nCREATE INDEX \"Agent_userId_idx\" ON \"Agent\"(\"userId\");\n\n-- CreateIndex\nCREATE INDEX \"Agent_teamId_idx\" ON \"Agent\"(\"teamId\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"CalAiPhoneNumber_phoneNumber_key\" ON \"CalAiPhoneNumber\"(\"phoneNumber\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"CalAiPhoneNumber_providerPhoneNumberId_key\" ON \"CalAiPhoneNumber\"(\"providerPhoneNumberId\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"CalAiPhoneNumber_stripeSubscriptionId_key\" ON \"CalAiPhoneNumber\"(\"stripeSubscriptionId\");\n\n-- CreateIndex\nCREATE INDEX \"CalAiPhoneNumber_userId_idx\" ON \"CalAiPhoneNumber\"(\"userId\");\n\n-- CreateIndex\nCREATE INDEX \"CalAiPhoneNumber_teamId_idx\" ON \"CalAiPhoneNumber\"(\"teamId\");\n\n-- CreateIndex\nCREATE INDEX \"CalAiPhoneNumber_inboundAgentId_idx\" ON \"CalAiPhoneNumber\"(\"inboundAgentId\");\n\n-- CreateIndex\nCREATE INDEX \"CalAiPhoneNumber_outboundAgentId_idx\" ON \"CalAiPhoneNumber\"(\"outboundAgentId\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"WorkflowStep_agentId_key\" ON \"WorkflowStep\"(\"agentId\");\n\n-- AddForeignKey\nALTER TABLE \"WorkflowStep\" ADD CONSTRAINT \"WorkflowStep_agentId_fkey\" FOREIGN KEY (\"agentId\") REFERENCES \"Agent\"(\"id\") ON DELETE SET NULL ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"Agent\" ADD CONSTRAINT \"Agent_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"users\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"Agent\" ADD CONSTRAINT \"Agent_teamId_fkey\" FOREIGN KEY (\"teamId\") REFERENCES \"Team\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"CalAiPhoneNumber\" ADD CONSTRAINT \"CalAiPhoneNumber_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"users\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"CalAiPhoneNumber\" ADD CONSTRAINT \"CalAiPhoneNumber_teamId_fkey\" FOREIGN KEY (\"teamId\") REFERENCES \"Team\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"CalAiPhoneNumber\" ADD CONSTRAINT \"CalAiPhoneNumber_inboundAgentId_fkey\" FOREIGN KEY (\"inboundAgentId\") REFERENCES \"Agent\"(\"id\") ON DELETE SET NULL ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"CalAiPhoneNumber\" ADD CONSTRAINT \"CalAiPhoneNumber_outboundAgentId_fkey\" FOREIGN KEY (\"outboundAgentId\") REFERENCES \"Agent\"(\"id\") ON DELETE SET NULL ON UPDATE CASCADE;\n\n-- Add check constraint for Agent table to ensure at least one owner\nALTER TABLE \"Agent\" ADD CONSTRAINT \"Agent_owner_check\" \n  CHECK (\"userId\" IS NOT NULL OR \"teamId\" IS NOT NULL);\n\n-- Add check constraint for CalAiPhoneNumber table to ensure at least one owner\nALTER TABLE \"CalAiPhoneNumber\" ADD CONSTRAINT \"CalAiPhoneNumber_owner_check\"\n  CHECK (\"userId\" IS NOT NULL OR \"teamId\" IS NOT NULL);\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ADD_UNIQUE_OR_CHECK",
+            "table": "agent",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20250807134931_add_cal_ai_self_serve/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE agent ADD CONSTRAINT \"Agent_owner_check\" CHECK (\"userId\" IS NOT NULL OR \"teamId\" IS NOT NULL)",
+            "extra": {
+              "table_sql": "Agent"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "agent",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Constraint added on newly created table 'agent'."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ADD_UNIQUE_OR_CHECK",
+            "table": "calaiphonenumber",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20250807134931_add_cal_ai_self_serve/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE calaiphonenumber ADD CONSTRAINT \"CalAiPhoneNumber_owner_check\" CHECK (\"userId\" IS NOT NULL OR \"teamId\" IS NOT NULL)",
+            "extra": {
+              "table_sql": "CalAiPhoneNumber"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "calaiphonenumber",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Constraint added on newly created table 'calaiphonenumber'."
+        }
+      ]
+    },
+    {
+      "sha": "2303eb79082742fd99d78ca0f79a6cfc558144df",
+      "parent": "c3666dd064566cd21947d9fc459489b4e9492906",
+      "date": "2025-06-25T16:49:20+02:00",
+      "subject": "fix: add uuid to App_RoutingForms_FormResponse (#21910)",
+      "mig_files": [
+        "packages/prisma/migrations/20250618151833_add_uuid_to_app_routingforms_formresponse/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "packages/app-store/routing-forms/lib/handleResponse.test.ts",
+        "packages/prisma/schema.prisma"
+      ],
+      "orm_models_parsed_old": 94,
+      "raw_sql": "-- Step 1: Add column as nullable\nALTER TABLE \"App_RoutingForms_FormResponse\" ADD COLUMN \"uuid\" TEXT;\n\n-- Step 2: Populate existing rows with UUIDs\nUPDATE \"App_RoutingForms_FormResponse\" SET \"uuid\" = gen_random_uuid()::text WHERE \"uuid\" IS NULL;\n\n-- Step 3: Make column NOT NULL\nALTER TABLE \"App_RoutingForms_FormResponse\" ALTER COLUMN \"uuid\" SET NOT NULL;\n\n-- Step 4: Add unique constraint\nCREATE UNIQUE INDEX \"App_RoutingForms_FormResponse_uuid_key\" ON \"App_RoutingForms_FormResponse\"(\"uuid\");\n\n-- Step 5: Add UUID to RoutingFormResponseDenormalized\nALTER TABLE \"RoutingFormResponseDenormalized\" ADD COLUMN \"uuid\" TEXT;\n\n-- Step 6: Populate existing rows with UUIDs\nUPDATE \"RoutingFormResponseDenormalized\" d\nSET \"uuid\" = f.\"uuid\"\nFROM \"App_RoutingForms_FormResponse\" f\nWHERE d.\"id\" = f.\"id\";\n\n-- Step 7: Make column NOT NULL\nALTER TABLE \"RoutingFormResponseDenormalized\" ALTER COLUMN \"uuid\" SET NOT NULL;\n\n-- Step 8: Add unique constraint\nCREATE UNIQUE INDEX \"RoutingFormResponseDenormalized_uuid_key\" ON \"RoutingFormResponseDenormalized\"(\"uuid\");\n\n-- Step 9: Add UUID to RoutingFormResponseDenormalized\nCREATE OR REPLACE FUNCTION refresh_routing_form_response_denormalized(response_id INTEGER)\nRETURNS VOID AS $$\nBEGIN\n    -- Delete existing entry if any\n    DELETE FROM \"RoutingFormResponseDenormalized\" WHERE id = response_id;\n    \n    -- Insert form response with all related data\n    INSERT INTO \"RoutingFormResponseDenormalized\" (\n        id,\n        uuid,\n        \"formId\",\n        \"formName\",\n        \"formTeamId\",\n        \"formUserId\",\n        \"bookingUid\",\n        \"bookingId\",\n        \"bookingStatus\",\n        \"bookingStatusOrder\",\n        \"bookingCreatedAt\",\n        \"bookingStartTime\",\n        \"bookingEndTime\",\n        \"bookingUserId\",\n        \"bookingUserName\",\n        \"bookingUserEmail\",\n        \"bookingUserAvatarUrl\",\n        \"bookingAssignmentReason\",\n        \"eventTypeId\",\n        \"eventTypeParentId\",\n        \"eventTypeSchedulingType\",\n        \"createdAt\",\n        \"utm_source\",\n        \"utm_medium\",\n        \"utm_campaign\",\n        \"utm_term\",\n        \"utm_content\"\n    )\n    SELECT \n        r.id,\n        r.\"uuid\",\n        r.\"formId\",\n        f.name as \"formName\",\n        f.\"teamId\" as \"formTeamId\",\n        f.\"userId\" as \"formUserId\",\n        b.uid as \"bookingUid\",\n        b.id as \"bookingId\",\n        b.status as \"bookingStatus\",\n        calculate_booking_status_order(b.status::text) as \"bookingStatusOrder\",\n        b.\"createdAt\" as \"bookingCreatedAt\",\n        b.\"startTime\" as \"bookingStartTime\",\n        b.\"endTime\" as \"bookingEndTime\",\n        b.\"userId\" as \"bookingUserId\",\n        u.name as \"bookingUserName\",\n        u.email as \"bookingUserEmail\",\n        u.\"avatarUrl\" as \"bookingUserAvatarUrl\",\n        COALESCE(\n            (\n                SELECT ar.\"reasonString\"\n                FROM \"AssignmentReason\" ar\n                WHERE ar.\"bookingId\" = b.id\n                LIMIT 1\n            ),\n            ''\n        ) as \"bookingAssignmentReason\",\n        et.id as \"eventTypeId\",\n        et.\"parentId\" as \"eventTypeParentId\",\n        et.\"schedulingType\" as \"eventTypeSchedulingType\",\n        r.\"createdAt\",\n        t.utm_source,\n        t.utm_medium,\n        t.utm_campaign,\n        t.utm_term,\n        t.utm_content\n    FROM \"App_RoutingForms_FormResponse\" r\n    INNER JOIN \"App_RoutingForms_Form\" f ON r.\"formId\" = f.id\n    INNER JOIN \"users\" u ON f.\"userId\" = u.id\n    LEFT JOIN \"Booking\" b ON b.uid = r.\"routedToBookingUid\"\n    LEFT JOIN \"EventType\" et ON b.\"eventTypeId\" = et.id\n    LEFT JOIN \"Tracking\" t ON t.\"bookingId\" = b.id\n    WHERE r.id = response_id;\nEND;\n$$ LANGUAGE plpgsql;",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "SET_NOT_NULL",
+            "table": "app_routingforms_formresponse",
+            "column": "uuid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20250618151833_add_uuid_to_app_routingforms_formresponse/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE app_routingforms_formresponse ALTER COLUMN \"uuid\" SET NOT NULL",
+            "extra": {
+              "table_sql": "App_RoutingForms_FormResponse"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "app_routingforms_formresponse",
+            "column": "uuid",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Column 'app_routingforms_formresponse.uuid' not active in C_{t-1} ORM."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "SET_NOT_NULL",
+            "table": "routingformresponsedenormalized",
+            "column": "uuid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/prisma/migrations/20250618151833_add_uuid_to_app_routingforms_formresponse/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE routingformresponsedenormalized ALTER COLUMN \"uuid\" SET NOT NULL",
+            "extra": {
+              "table_sql": "RoutingFormResponseDenormalized"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "routingformresponsedenormalized",
+            "column": "uuid",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Column 'routingformresponsedenormalized.uuid' not active in C_{t-1} ORM."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,555 @@
+{
+  "repo": "quenti-io/quenti",
+  "ecosystem": "prisma",
+  "stars": 490,
+  "has_k8s_helm": false,
+  "status": "ok",
+  "stats": {
+    "total_migration_commits_in_history": 44,
+    "migration_commits_analyzed": 43,
+    "total_migration_files_parsed": 49,
+    "commits_with_any_destructive": 6,
+    "commits_with_forward_destructive": 6,
+    "commits_with_rollback_only_destructive": 0,
+    "total_ops_extracted": 10,
+    "destructive_ops_up": 10,
+    "destructive_ops_down": 0
+  },
+  "verdict_counts": {
+    "DUAL_VERSION_VIOLATION_BACKWARD": 7,
+    "SAFE_ADDITIVE": 1,
+    "DUAL_VERSION_VIOLATION_BOTH": 2
+  },
+  "destructive_commits": [
+    {
+      "sha": "3eeb713bc9a3bf263c1cc2919b3fde6c550798b3",
+      "parent": "639d2b5c8afcdd293555e602aa9ebe7d2f6b0963",
+      "date": "2023-06-26T13:12:19-04:00",
+      "subject": "start of leaderboard wip",
+      "mig_files": [
+        "prisma/migrations/20230626153333_highscore_timestamp/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "kysely-types.ts",
+        "prisma/schema.prisma",
+        "src/modules/create-match-data.tsx",
+        "src/modules/match/leaderboard-entry.tsx",
+        "src/modules/match/leaderboard.tsx",
+        "src/modules/match/match-container.tsx",
+        "src/modules/match/match-end-modal.tsx",
+        "src/modules/match/match-info.tsx",
+        "src/modules/match/match-start-modal.tsx",
+        "src/modules/match/match-summary.tsx",
+        "src/server/api/common/constants.ts",
+        "src/server/api/root.ts"
+      ],
+      "orm_models_parsed_old": 20,
+      "raw_sql": "/*\n  Warnings:\n\n  - Added the required column `timestamp` to the `Highscore` table without a default value. This is not possible if the table is not empty.\n\n*/\n-- AlterTable\nALTER TABLE \"Highscore\" ADD COLUMN     \"timestamp\" TIMESTAMP(3) NOT NULL;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "highscore",
+            "column": "timestamp",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TIMESTAMP(3)",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20230626153333_highscore_timestamp/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE highscore ADD COLUMN \"timestamp\" TIMESTAMP(3) NOT NULL",
+            "extra": {
+              "table_sql": "Highscore"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "highscore",
+            "column": "timestamp",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'highscore.timestamp' breaks C_{t-1} INSERTs."
+        }
+      ]
+    },
+    {
+      "sha": "c2d788f06438509651104e7d507e52de23e95538",
+      "parent": "85a3b1ed986d400fa126ff28fe6ed6e10f227700",
+      "date": "2023-04-08T09:57:01-04:00",
+      "subject": "schema updates, start of working folders",
+      "mig_files": [
+        "prisma/migrations/20230408132816_required_container_id/migration.sql",
+        "prisma/migrations/20230408134554_require_container_id/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "prisma/schema.prisma",
+        "src/server/api/routers/folders.ts",
+        "src/server/api/routers/studiable-terms.ts"
+      ],
+      "orm_models_parsed_old": 18,
+      "raw_sql": "/*\n Warnings:\n\n - Added the required column `containerId` to the `StudiableTerm` table without a default value. This is not possible if the table is not empty.\n\n */\n-- AlterTable\nALTER TABLE\n  \"StudiableTerm\"\nADD\n  COLUMN \"containerId\" TEXT NOT NULL GENERATED ALWAYS AS (COALESCE(\"experienceId\", \"folderExperienceId\")) STORED;\n\n/*\n  Warnings:\n\n  - The primary key for the `StudiableTerm` table will be changed. If it partially fails, the table could be left without primary key constraint.\n\n*/\n-- AlterTable\nALTER TABLE \"StudiableTerm\" DROP CONSTRAINT \"StudiableTerm_pkey\",\nALTER COLUMN \"containerId\" DROP EXPRESSION,\nADD CONSTRAINT \"StudiableTerm_pkey\" PRIMARY KEY (\"userId\", \"termId\", \"containerId\", \"mode\");\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "studiableterm",
+            "column": "containerid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TEXT",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20230408132816_required_container_id/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE studiableterm ADD COLUMN \"containerId\" TEXT NOT NULL GENERATED ALWAYS AS (COALESCE(\"experienceId\", \"folderExperienceId\")) STORED",
+            "extra": {
+              "table_sql": "StudiableTerm",
+              "column_sql": "containerId"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "studiableterm",
+            "column": "containerid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'studiableterm.containerid' breaks C_{t-1} INSERTs."
+        }
+      ]
+    },
+    {
+      "sha": "47ecbfaadc3bf306316ae408027953ef2595b3a9",
+      "parent": "45e1c4d3a5bd324c02a4bba0b62b1128a7d3c8b2",
+      "date": "2023-03-02T17:39:06-05:00",
+      "subject": "email regex additions, api improvements",
+      "mig_files": [
+        "prisma/migrations/20230302211137_allowed_email_regex/migration.sql",
+        "prisma/migrations/20230302212536_regex_label/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "prisma/schema.prisma",
+        "src/modules/admin/allowed-regexes.tsx",
+        "src/modules/admin/emails.tsx",
+        "src/modules/admin/regex-modal.tsx",
+        "src/pages/api/auth/[...nextauth].ts",
+        "src/server/api/common/validation.ts",
+        "src/server/api/routers/admin.ts"
+      ],
+      "orm_models_parsed_old": 16,
+      "raw_sql": "-- CreateTable\nCREATE TABLE \"AllowedEmailRegex\" (\n    \"regex\" TEXT NOT NULL,\n    \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n\n    CONSTRAINT \"AllowedEmailRegex_pkey\" PRIMARY KEY (\"regex\")\n);\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"AllowedEmailRegex_regex_key\" ON \"AllowedEmailRegex\"(\"regex\");\n\n/*\n  Warnings:\n\n  - Added the required column `label` to the `AllowedEmailRegex` table without a default value. This is not possible if the table is not empty.\n\n*/\n-- AlterTable\nALTER TABLE \"AllowedEmailRegex\" ADD COLUMN     \"label\" TEXT NOT NULL;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "allowedemailregex",
+            "column": "label",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TEXT",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20230302212536_regex_label/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE allowedemailregex ADD COLUMN \"label\" TEXT NOT NULL",
+            "extra": {
+              "table_sql": "AllowedEmailRegex"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "allowedemailregex",
+            "column": "label",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Table 'allowedemailregex' was created in the same commit; C_{t-1} does not write to it."
+        }
+      ]
+    },
+    {
+      "sha": "533f01e657398591fe520dff06bf6731677c16de",
+      "parent": "af85258d94350ca8ec73d9ad3f10b0dee3fd0a7c",
+      "date": "2023-02-23T20:11:06-05:00",
+      "subject": "use proper list of languages",
+      "mig_files": [
+        "prisma/migrations/20230223223030_update_languages/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "prisma/schema.prisma",
+        "src/lib/evaluator.ts",
+        "src/lib/language.ts",
+        "src/modules/editor/language-menu.tsx",
+        "src/modules/editor/sortable-term-card.tsx",
+        "src/modules/editor/term-card.tsx",
+        "src/modules/editor/terms-list.tsx",
+        "src/modules/editor/top-bar.tsx",
+        "src/modules/hydrate-auto-save-data.tsx",
+        "src/server/api/common/constants.ts",
+        "src/server/api/routers/auto-save.ts",
+        "src/server/api/routers/study-sets.ts"
+      ],
+      "orm_models_parsed_old": 16,
+      "raw_sql": "/*\n  Warnings:\n\n  - The `definitionLanguage` column on the `SetAutoSave` table would be dropped and recreated. This will lead to data loss if there is data in the column.\n  - The `wordLanguage` column on the `SetAutoSave` table would be dropped and recreated. This will lead to data loss if there is data in the column.\n  - The `definitionLanguage` column on the `StudySet` table would be dropped and recreated. This will lead to data loss if there is data in the column.\n  - The `wordLanguage` column on the `StudySet` table would be dropped and recreated. This will lead to data loss if there is data in the column.\n\n*/\n-- AlterTable\nALTER TABLE \"SetAutoSave\" DROP COLUMN \"definitionLanguage\",\nADD COLUMN     \"definitionLanguage\" TEXT NOT NULL DEFAULT 'en',\nDROP COLUMN \"wordLanguage\",\nADD COLUMN     \"wordLanguage\" TEXT NOT NULL DEFAULT 'en';\n\n-- AlterTable\nALTER TABLE \"StudySet\" DROP COLUMN \"definitionLanguage\",\nADD COLUMN     \"definitionLanguage\" TEXT NOT NULL DEFAULT 'en',\nDROP COLUMN \"wordLanguage\",\nADD COLUMN     \"wordLanguage\" TEXT NOT NULL DEFAULT 'en';\n\n-- DropEnum\nDROP TYPE \"Language\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "setautosave",
+            "column": "definitionlanguage",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20230223223030_update_languages/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE setautosave DROP COLUMN \"definitionLanguage\"",
+            "extra": {
+              "table_sql": "SetAutoSave",
+              "column_sql": "definitionLanguage"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "setautosave",
+            "column": "definitionlanguage",
+            "orm_active_old": true,
+            "orm_active_new": true,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'definitionlanguage' active in C_{t-1} ORM (prisma/schema.prisma); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "setautosave",
+            "column": "wordlanguage",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20230223223030_update_languages/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE setautosave DROP COLUMN \"wordLanguage\"",
+            "extra": {
+              "table_sql": "SetAutoSave",
+              "column_sql": "wordLanguage"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "setautosave",
+            "column": "wordlanguage",
+            "orm_active_old": true,
+            "orm_active_new": true,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'wordlanguage' active in C_{t-1} ORM (prisma/schema.prisma); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "studyset",
+            "column": "definitionlanguage",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20230223223030_update_languages/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE studyset DROP COLUMN \"definitionLanguage\"",
+            "extra": {
+              "table_sql": "StudySet",
+              "column_sql": "definitionLanguage"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "studyset",
+            "column": "definitionlanguage",
+            "orm_active_old": true,
+            "orm_active_new": true,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'definitionlanguage' active in C_{t-1} ORM (prisma/schema.prisma); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "studyset",
+            "column": "wordlanguage",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20230223223030_update_languages/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE studyset DROP COLUMN \"wordLanguage\"",
+            "extra": {
+              "table_sql": "StudySet",
+              "column_sql": "wordLanguage"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "studyset",
+            "column": "wordlanguage",
+            "orm_active_old": true,
+            "orm_active_new": true,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'wordlanguage' active in C_{t-1} ORM (prisma/schema.prisma); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "language",
+            "column": "language",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20230223223030_update_languages/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* DropEnum */ DROP TYPE \"Language\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "Language",
+              "column_sql": "Language"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "language",
+            "column": "language",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'language' affects active C_{t-1} enum definition/code."
+        }
+      ]
+    },
+    {
+      "sha": "0481221a574e6d4f541f24296f9983cd7d16ecea",
+      "parent": "104a6e57d76ea63b7165b58c762d78ccbece63a7",
+      "date": "2023-02-01T18:10:59-05:00",
+      "subject": "require username",
+      "mig_files": [
+        "prisma/migrations/20230201231025_require_username/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "prisma/schema.prisma"
+      ],
+      "orm_models_parsed_old": 11,
+      "raw_sql": "/*\n  Warnings:\n\n  - Made the column `username` on table `User` required. This step will fail if there are existing NULL values in that column.\n\n*/\n-- AlterTable\nALTER TABLE \"User\" ALTER COLUMN \"username\" SET NOT NULL;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "SET_NOT_NULL",
+            "table": "user",
+            "column": "username",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20230201231025_require_username/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE user ALTER COLUMN \"username\" SET NOT NULL",
+            "extra": {
+              "table_sql": "User"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "user",
+            "column": "username",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "SET_NOT_NULL on 'user.username' which was nullable in C_{t-1} ORM (prisma/schema.prisma)."
+        }
+      ]
+    },
+    {
+      "sha": "d3cf2878281705a12240996c167637447ce15736",
+      "parent": "ab393dcf694118a487cfeb42c5aa1f35f27af57e",
+      "date": "2023-01-24T21:49:12-05:00",
+      "subject": "significant changes",
+      "mig_files": [
+        "prisma/migrations/20230120145237_rename_term/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "prisma/schema.prisma",
+        "src/components/auto-resize-textarea.tsx",
+        "src/components/chakra.tsx",
+        "src/components/flashcard-shortcut-layer.tsx",
+        "src/components/flashcard-wrapper.tsx",
+        "src/components/flashcard.tsx",
+        "src/components/hero.tsx",
+        "src/components/icon-button.tsx",
+        "src/components/navbar.tsx",
+        "src/hooks/use-shortcut.tsx",
+        "src/icons/logo.tsx",
+        "src/lib/chakraTheme.ts"
+      ],
+      "orm_models_parsed_old": 7,
+      "raw_sql": "ALTER TABLE\n  \"Term\" RENAME COLUMN \"term\" TO \"word\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_COLUMN",
+            "table": "term",
+            "column": "term",
+            "new_name": "word",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "prisma/migrations/20230120145237_rename_term/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE term RENAME COLUMN \"term\" TO \"word\"",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "term",
+            "column": "term",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_COLUMN 'term'->'word' breaks both C_{t-1} |= S_t and C_t |= S_{t-1}."
+        }
+      ]
+    }
+  ]
+}

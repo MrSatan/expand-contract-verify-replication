@@ -1,0 +1,2752 @@
+{
+  "repo": "huginn/huginn",
+  "ecosystem": "rails",
+  "stars": 50587,
+  "has_k8s_helm": false,
+  "status": "ok",
+  "stats": {
+    "total_migration_commits_in_history": 110,
+    "migration_commits_analyzed": 108,
+    "total_migration_files_parsed": 182,
+    "commits_with_any_destructive": 25,
+    "commits_with_forward_destructive": 18,
+    "commits_with_rollback_only_destructive": 7,
+    "total_ops_extracted": 54,
+    "destructive_ops_up": 30,
+    "destructive_ops_down": 24
+  },
+  "verdict_counts": {
+    "UNCERTAIN": 19,
+    "ROLLBACK_ONLY_FALSE_ALARM": 24,
+    "DUAL_VERSION_VIOLATION_BACKWARD": 4,
+    "DUAL_VERSION_VIOLATION_BOTH": 4,
+    "SAFE_CONTRACT": 1,
+    "SAFE_ADDITIVE": 2
+  },
+  "destructive_commits": [
+    {
+      "sha": "c92b9ac71397569dcee4636d4ae70fa281b87bb1",
+      "parent": "639c050b2bf4e14ef9983012af99dfc1dc68b334",
+      "date": "2026-11-11T02:30:44+09:00",
+      "subject": "Store 4-byte characters in credential values on MySQL",
+      "mig_files": [
+        "db/migrate/20261111000000_change_user_credential_values_to_utf8mb4.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "spec/models/user_credential_spec.rb"
+      ],
+      "orm_models_parsed_old": 2,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "user_credentials",
+            "column": "credential_value",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20261111000000_change_user_credential_values_to_utf8mb4.rb",
+            "line": 7,
+            "raw_snippet": "change_column :user_credentials, :credential_value, :text, null: false, charset: 'utf8mb4', collation: 'utf8mb4_bin'",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "user_credentials",
+            "column": "credential_value",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/user_credential.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'user_credentials' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "709c11ce7e24e428af755c0efd938fa963a22292",
+      "parent": "8ad1af42dd25cbd40aca0c59a8a13f20a2786118",
+      "date": "2023-04-17T03:00:16+09:00",
+      "subject": "Use the keyword parameter syntax",
+      "mig_files": [
+        "db/migrate/20140813110107_set_charset_for_mysql.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/agents/local_file_agent.rb",
+        "app/models/agents/shell_command_agent.rb",
+        "spec/models/agents/shell_command_agent_spec.rb"
+      ],
+      "orm_models_parsed_old": 0,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "table_name",
+            "column": "name",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "type",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20140813110107_set_charset_for_mysql.rb",
+            "line": 56,
+            "raw_snippet": "change_column table_name, name, type, **options",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "table_name",
+            "column": "name",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'table_name' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "a976f00897000bc3ead754519e9bd7790a767828",
+      "parent": "bd808ea260de8d8104110be3285eaf3e37a1a21c",
+      "date": "2019-10-06T10:21:05+07:00",
+      "subject": "Escape MySQL database name during migration",
+      "mig_files": [
+        "db/migrate/20140813110107_set_charset_for_mysql.rb"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 0,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "table_name",
+            "column": "name",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "type",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20140813110107_set_charset_for_mysql.rb",
+            "line": 56,
+            "raw_snippet": "change_column table_name, name, type, options",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "table_name",
+            "column": "name",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'table_name' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "ff2615a71fd7a7d37d2681509bbaa6b4add65d64",
+      "parent": "1b84518b7ff1175463f499392fa47b021419a1ef",
+      "date": "2017-02-24T22:07:20+01:00",
+      "subject": "Upgrade rails and configuration to 5.1.1",
+      "mig_files": [
+        "db/migrate/20120728210244_devise_create_users.rb",
+        "db/migrate/20120728215449_add_admin_to_users.rb",
+        "db/migrate/20120919061122_enable_lockable_strategy_for_devise.rb",
+        "db/migrate/20120919063304_add_username_to_users.rb",
+        "db/migrate/20121216025930_create_events.rb",
+        "db/migrate/20121220053905_create_agents.rb",
+        "db/migrate/20121222074732_create_links.rb",
+        "db/migrate/20121223203701_create_delayed_jobs.rb",
+        "db/migrate/20121231170705_add_memory_to_agents.rb",
+        "db/migrate/20130107050049_add_invitation_code_to_users.rb",
+        "db/migrate/20130124050117_add_indexes.rb",
+        "db/migrate/20130126080736_change_memory_to_long_text.rb",
+        "db/migrate/20130509053743_add_last_webhook_at_to_agents.rb",
+        "db/migrate/20130819160603_create_agent_logs.rb",
+        "db/migrate/20131105063248_add_expires_at_to_events.rb",
+        "db/migrate/20131222211558_add_keep_events_for_to_agents.rb",
+        "db/migrate/20131223032112_switch_to_json_serialization.rb",
+        "db/migrate/20131227000021_add_cached_dates_to_agent.rb",
+        "db/migrate/20140121075418_create_user_credentials.rb",
+        "db/migrate/20140127164931_change_handler_to_medium_text.rb",
+        "db/migrate/20140210062747_add_mode_to_user_credentials.rb",
+        "db/migrate/20140213053001_add_event_id_at_creation_to_links.rb",
+        "db/migrate/20140216201250_add_propagate_immediately_to_agent.rb",
+        "db/migrate/20140403043556_add_disabled_to_agent.rb",
+        "db/migrate/20140408150825_rename_webhook_to_web_request.rb",
+        "db/migrate/20140505201716_migrate_agents_to_liquid_templating.rb",
+        "db/migrate/20140509170420_create_scenarios.rb",
+        "db/migrate/20140509170443_create_scenario_memberships.rb",
+        "db/migrate/20140515211100_create_services.rb",
+        "db/migrate/20140525150040_add_service_id_to_agents.rb",
+        "db/migrate/20140525150140_migrate_agents_to_service_authentication.rb",
+        "db/migrate/20140531232016_add_fields_to_scenarios.rb",
+        "db/migrate/20140602014917_add_indices_to_scenarios.rb",
+        "db/migrate/20140603104211_rename_digest_email_to_email_digest.rb",
+        "db/migrate/20140605032822_add_guid_to_agents.rb",
+        "db/migrate/20140722131220_convert_efa_skip_agent.rb",
+        "db/migrate/20140723110551_adopt_xpath_in_website_agent.rb",
+        "db/migrate/20140730005210_convert_efa_skip_created_at.rb",
+        "db/migrate/20140809211540_remove_service_index_on_user_id.rb",
+        "db/migrate/20140811200922_add_uid_column_to_services.rb",
+        "db/migrate/20140813110107_set_charset_for_mysql.rb",
+        "db/migrate/20140820003139_add_tag_color_to_scenarios.rb",
+        "db/migrate/20140901143732_add_control_links.rb",
+        "db/migrate/20140906030139_set_events_count_default.rb",
+        "db/migrate/20150219213604_add_type_option_attribute_to_pushbullet_agents.rb",
+        "db/migrate/20150507153436_update_keep_events_for_to_be_in_seconds.rb",
+        "db/migrate/20150808115436_remove_requirement_from_users_invitation_code.rb",
+        "db/migrate/20160108221620_website_agent_does_not_use_event_url.rb",
+        "db/migrate/20160224120316_add_mode_option_to_ftpsite_agents.rb",
+        "db/migrate/20160301113717_add_confirmable_attributes_to_users.rb",
+        "db/migrate/20160302095413_add_deactivated_at_to_users.rb",
+        "db/migrate/20160307084729_add_deactivated_to_agents.rb",
+        "db/migrate/20160307085545_warn_about_duplicate_usernames.rb",
+        "db/migrate/20160405072512_post_agent_set_event_header_style.rb",
+        "db/migrate/20160419150930_add_icon_to_scenarios.rb",
+        "db/migrate/20160423163416_add_xml_namespace_option_to_data_output_agents.rb",
+        "db/migrate/20160607055850_change_events_order_to_events_list_order.rb",
+        "db/migrate/20160807000122_remove_queue_from_email_digest_agent_memory.rb",
+        "db/migrate/20160823151303_set_emit_error_event_for_twitter_action_agents.rb",
+        "db/migrate/20161004120214_update_pushover_agent_options.rb",
+        "db/migrate/20161007030910_reset_data_output_agents.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/agent.rb",
+        "config/application.rb",
+        "config/environments/production.rb",
+        "config/initializers/new_framework_defaults.rb"
+      ],
+      "orm_models_parsed_old": 5,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "users",
+            "column": "failed_attempts",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20120919061122_enable_lockable_strategy_for_devise.rb",
+            "line": 11,
+            "raw_snippet": "remove_column :users, :failed_attempts",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users",
+            "column": "failed_attempts",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "users",
+            "column": "unlock_token",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20120919061122_enable_lockable_strategy_for_devise.rb",
+            "line": 12,
+            "raw_snippet": "remove_column :users, :unlock_token",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users",
+            "column": "unlock_token",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "users",
+            "column": "locked_at",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20120919061122_enable_lockable_strategy_for_devise.rb",
+            "line": 13,
+            "raw_snippet": "remove_column :users, :locked_at",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users",
+            "column": "locked_at",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "users",
+            "column": "username",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "string",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20120919063304_add_username_to_users.rb",
+            "line": 12,
+            "raw_snippet": "change_column :users, :username, :string, :null => false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users",
+            "column": "username",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/user.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'users' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "users",
+            "column": "username",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20120919063304_add_username_to_users.rb",
+            "line": 17,
+            "raw_snippet": "remove_column :users, :username",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users",
+            "column": "username",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_TABLE",
+            "table": "delayed_jobs",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20121223203701_create_delayed_jobs.rb",
+            "line": 20,
+            "raw_snippet": "drop_table :delayed_jobs",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "delayed_jobs",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'delayed_jobs' not resolved in C_{t-1} ORM snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_TABLE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "users",
+            "column": "invitation_code",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "string",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20130107050049_add_invitation_code_to_users.rb",
+            "line": 4,
+            "raw_snippet": "change_column :users, :invitation_code, :string, :null => false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users",
+            "column": "invitation_code",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/user.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'users' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "agents",
+            "column": "memory",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20130126080736_change_memory_to_long_text.rb",
+            "line": 6,
+            "raw_snippet": "change_column :agents, :memory, :text, :limit => 4294967295",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "agents",
+            "column": "memory",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/agent.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'agents' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "events",
+            "column": "payload",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20130126080736_change_memory_to_long_text.rb",
+            "line": 7,
+            "raw_snippet": "change_column :events, :payload, :text, :limit => 16777215",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "events",
+            "column": "payload",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/event.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'events' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "agents",
+            "column": "memory",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20130126080736_change_memory_to_long_text.rb",
+            "line": 13,
+            "raw_snippet": "change_column :agents, :memory, :text, :limit => 65535",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "agents",
+            "column": "memory",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "events",
+            "column": "payload",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20130126080736_change_memory_to_long_text.rb",
+            "line": 14,
+            "raw_snippet": "change_column :events, :payload, :text, :limit => 65535",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "events",
+            "column": "payload",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "agents",
+            "column": "last_event_at",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20131227000021_add_cached_dates_to_agent.rb",
+            "line": 11,
+            "raw_snippet": "remove_column :agents, :last_event_at",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "agents",
+            "column": "last_event_at",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "agents",
+            "column": "last_error_log_at",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20131227000021_add_cached_dates_to_agent.rb",
+            "line": 12,
+            "raw_snippet": "remove_column :agents, :last_error_log_at",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "agents",
+            "column": "last_error_log_at",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "delayed_jobs",
+            "column": "handler",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20140127164931_change_handler_to_medium_text.rb",
+            "line": 6,
+            "raw_snippet": "change_column :delayed_jobs, :handler, :text, :limit => 16777215",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "delayed_jobs",
+            "column": "handler",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'delayed_jobs' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "delayed_jobs",
+            "column": "handler",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20140127164931_change_handler_to_medium_text.rb",
+            "line": 12,
+            "raw_snippet": "change_column :delayed_jobs, :handler, :text, :limit => 65535",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "delayed_jobs",
+            "column": "handler",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "links",
+            "column": "event_id_at_creation",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20140213053001_add_event_id_at_creation_to_links.rb",
+            "line": 26,
+            "raw_snippet": "remove_column :links, :event_id_at_creation",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "links",
+            "column": "event_id_at_creation",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "agents",
+            "column": "propagate_immediately",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20140216201250_add_propagate_immediately_to_agent.rb",
+            "line": 7,
+            "raw_snippet": "remove_column :agents, :propagate_immediately",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "agents",
+            "column": "propagate_immediately",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_COLUMN",
+            "table": "agents",
+            "column": "last_webhook_at",
+            "new_name": "last_web_request_at",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20140408150825_rename_webhook_to_web_request.rb",
+            "line": 3,
+            "raw_snippet": "rename_column :agents, :last_webhook_at, :last_web_request_at",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "agents",
+            "column": "last_webhook_at",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/agent.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "UNCERTAIN",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'agents' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_COLUMN",
+            "table": "agents",
+            "column": "last_web_request_at",
+            "new_name": "last_webhook_at",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20140408150825_rename_webhook_to_web_request.rb",
+            "line": 7,
+            "raw_snippet": "rename_column :agents, :last_web_request_at, :last_webhook_at",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "agents",
+            "column": "last_web_request_at",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "scenarios",
+            "column": "guid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "string",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20140531232016_add_fields_to_scenarios.rb",
+            "line": 6,
+            "raw_snippet": "change_column :scenarios, :guid, :string, :null => false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "scenarios",
+            "column": "guid",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/scenario.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'scenarios' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "agents",
+            "column": "guid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20140605032822_add_guid_to_agents.rb",
+            "line": 11,
+            "raw_snippet": "change_column_null :agents, :guid, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "agents",
+            "column": "guid",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/agent.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'agents' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "SET_NOT_NULL",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "table_name",
+            "column": "name",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "type",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20140813110107_set_charset_for_mysql.rb",
+            "line": 56,
+            "raw_snippet": "change_column table_name, name, type, options",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "table_name",
+            "column": "name",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'table_name' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "agents",
+            "column": "events_count",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20140906030139_set_events_count_default.rb",
+            "line": 4,
+            "raw_snippet": "change_column_null(:agents, :events_count, false, 0)",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "agents",
+            "column": "events_count",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/agent.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'agents' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "SET_NOT_NULL",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "2dab52ae9b0fd7a70ebb6e76fcddff25df154c61",
+      "parent": "ed85ad5ed3a4010d76c88a98047e7821be591f57",
+      "date": "2017-01-03T13:55:36+01:00",
+      "subject": "Make migrations compatible with SQLite (#1842)",
+      "mig_files": [
+        "db/migrate/20130107050049_add_invitation_code_to_users.rb",
+        "db/migrate/20140531232016_add_fields_to_scenarios.rb",
+        "db/migrate/20160301113717_add_confirmable_attributes_to_users.rb"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 2,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "users",
+            "column": "invitation_code",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "string",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20130107050049_add_invitation_code_to_users.rb",
+            "line": 4,
+            "raw_snippet": "change_column :users, :invitation_code, :string, :null => false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users",
+            "column": "invitation_code",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/user.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'users' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "scenarios",
+            "column": "guid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "string",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20140531232016_add_fields_to_scenarios.rb",
+            "line": 6,
+            "raw_snippet": "change_column :scenarios, :guid, :string, :null => false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "scenarios",
+            "column": "guid",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/scenario.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'scenarios' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "755027457826b5ca68f1ce84f0df35915e3f87e5",
+      "parent": "c3d5380f98bc812c113c93bcbcffeb66ecc5f9b6",
+      "date": "2016-09-10T10:24:23-04:00",
+      "subject": "Remove unused contact model (#1680)",
+      "mig_files": [
+        "db/migrate/20140813110107_set_charset_for_mysql.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/contact.rb"
+      ],
+      "orm_models_parsed_old": 0,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "table_name",
+            "column": "name",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "type",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20140813110107_set_charset_for_mysql.rb",
+            "line": 56,
+            "raw_snippet": "change_column table_name, name, type, options",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "table_name",
+            "column": "name",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'table_name.name' (None -> type).",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "7c6224d7eb6b9309a0abd9c39a3a5bf4a607112d",
+      "parent": "cc9680f04585c1b7d8919556a3cdf3154b8f701c",
+      "date": "2015-02-25T18:52:20+09:00",
+      "subject": "Do not refer to AbstractMysqlAdapter for checking the connection adapter type.",
+      "mig_files": [
+        "db/migrate/20140813110107_set_charset_for_mysql.rb"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 11,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "table_name",
+            "column": "name",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "type",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20140813110107_set_charset_for_mysql.rb",
+            "line": 58,
+            "raw_snippet": "change_column table_name, name, type, options",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "table_name",
+            "column": "name",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'table_name' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "142bb35d4eb5a9960837ea886365d2016976b055",
+      "parent": "7c37fea1c5a6dc4f57f798c91acc980038d8b88c",
+      "date": "2014-09-05T20:19:39-07:00",
+      "subject": "Only update Agent's last_event_at on Event creation, not when Events are updated.",
+      "mig_files": [
+        "db/migrate/20140906030139_set_events_count_default.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/event.rb",
+        "db/schema.rb",
+        "spec/models/event_spec.rb"
+      ],
+      "orm_models_parsed_old": 10,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "agents",
+            "column": "events_count",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20140906030139_set_events_count_default.rb",
+            "line": 4,
+            "raw_snippet": "change_column_null(:agents, :events_count, false, 0)",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "agents",
+            "column": "events_count",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/agent.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "SET_NOT_NULL on 'agents.events_count' which was nullable in C_{t-1} ORM (app/models/agent.rb).",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "SET_NOT_NULL",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "8065721b7776f7fd6c811cbe21feff165ff2b2c9",
+      "parent": "05dd52dc3d623a8d980e83836e2dabee9139cd21",
+      "date": "2014-09-01T23:47:04+09:00",
+      "subject": "Rename \"chain\" to \"control link\" for clarity.",
+      "mig_files": [
+        "db/migrate/20140901143732_rename_chains_to_control_links.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/agent.rb",
+        "app/models/chain.rb",
+        "app/models/control_link.rb",
+        "db/schema.rb"
+      ],
+      "orm_models_parsed_old": 11,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_TABLE",
+            "table": "chains",
+            "column": null,
+            "new_name": "control_links",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20140901143732_rename_chains_to_control_links.rb",
+            "line": 3,
+            "raw_snippet": "rename_table :chains, :control_links",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "chains",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": true,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/chain.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_TABLE 'chains'->'control_links' breaks both directions.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_TABLE",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "30041706ff86383a3de7b3897e0a39117de62ab7",
+      "parent": "d0d9c8ecf10bd52ea12a204ed394cba23759c7d3",
+      "date": "2014-08-29T17:17:57+09:00",
+      "subject": "Rename \"target\" to \"control target\".",
+      "mig_files": [
+        "db/migrate/20140829081212_rename_target_id_to_control_target_id.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/concerns/agent_controller_concern.rb",
+        "app/helpers/dot_helper.rb",
+        "app/models/agent.rb",
+        "app/models/chain.rb",
+        "db/schema.rb",
+        "spec/models/agent_spec.rb",
+        "spec/models/agents/scheduler_agent_spec.rb"
+      ],
+      "orm_models_parsed_old": 11,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_COLUMN",
+            "table": "chains",
+            "column": "target_id",
+            "new_name": "control_target_id",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20140829081212_rename_target_id_to_control_target_id.rb",
+            "line": 3,
+            "raw_snippet": "rename_column :chains, :target_id, :control_target_id",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "chains",
+            "column": "target_id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/chain.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_COLUMN 'target_id'->'control_target_id' breaks both C_{t-1} |= S_t and C_t |= S_{t-1}.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_COLUMN",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "393e3c4ddc003a0ec448798ae06cb0e53fa17da1",
+      "parent": "66d1ac07c81a8965f0ba2cf36386ec1831ca5d25",
+      "date": "2014-08-21T19:46:24+09:00",
+      "subject": "Follow the default collation of Rails rather than MySQL.",
+      "mig_files": [
+        "db/migrate/20140813110107_set_charset_for_mysql.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "db/schema.rb"
+      ],
+      "orm_models_parsed_old": 10,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "table_name",
+            "column": "name",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "type",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20140813110107_set_charset_for_mysql.rb",
+            "line": 60,
+            "raw_snippet": "change_column table_name, name, type, options",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "table_name",
+            "column": "name",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'table_name' columns not resolved in C_{t-1} schema snapshot.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "db792cdd82eb782e98d934995964809d9e8cb77d",
+      "parent": "6d1caa44209b4a0d57632ea6e087921669816cbc",
+      "date": "2014-07-25T17:32:53+09:00",
+      "subject": "Set charset/collation properly for each text column if using MySQL.",
+      "mig_files": [
+        "db/migrate/20140813110107_set_charset_for_mysql.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "config/initializers/ar_mysql_column_charset.rb",
+        "db/schema.rb",
+        "lib/ar_mysql_column_charset.rb"
+      ],
+      "orm_models_parsed_old": 10,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "table_name",
+            "column": "name",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "type",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20140813110107_set_charset_for_mysql.rb",
+            "line": 60,
+            "raw_snippet": "change_column table_name, name, type, options",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "table_name",
+            "column": "name",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'table_name.name' (None -> type).",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "de5619fb6468c7d8f7357d7c87e062196b0ca0e8",
+      "parent": "56fa4cb7515fcc2f80d80a7263a1f6a910768ded",
+      "date": "2014-08-22T18:13:41+09:00",
+      "subject": "Rename \"runner\" to \"controller\".",
+      "mig_files": [
+        "db/migrate/20140822085519_rename_runner_to_controller.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/concerns/agent_controller_concern.rb",
+        "app/helpers/agent_helper.rb",
+        "app/helpers/dot_helper.rb",
+        "app/models/agent.rb",
+        "app/models/agents/scheduler_agent.rb",
+        "app/models/chain.rb",
+        "db/schema.rb",
+        "spec/models/agent_spec.rb"
+      ],
+      "orm_models_parsed_old": 10,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_COLUMN",
+            "table": "chains",
+            "column": "runner_id",
+            "new_name": "controller_id",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20140822085519_rename_runner_to_controller.rb",
+            "line": 3,
+            "raw_snippet": "rename_column :chains, :runner_id, :controller_id",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "chains",
+            "column": "runner_id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/chain.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_COLUMN 'runner_id'->'controller_id' breaks both C_{t-1} |= S_t and C_t |= S_{t-1}.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_COLUMN",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "64564eb120354eef872c98b970c03b56b6e1264a",
+      "parent": "5c1fbdb9970397af0e108bf43904711fef7650a6",
+      "date": "2014-06-04T22:26:56-07:00",
+      "subject": "Importing of Scenarios now works, creating any needed Agents by global guid",
+      "mig_files": [
+        "db/migrate/20140602014917_add_indices_to_scenarios.rb",
+        "db/migrate/20140605032822_add_guid_to_agents.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/concerns/assignable_types.rb",
+        "app/concerns/has_guid.rb",
+        "app/models/agent.rb",
+        "app/models/scenario.rb",
+        "app/models/scenario_import.rb",
+        "db/schema.rb",
+        "lib/agents_exporter.rb",
+        "spec/lib/agents_exporter_spec.rb",
+        "spec/models/agent_spec.rb",
+        "spec/models/agents/data_output_agent_spec.rb",
+        "spec/models/agents/hipchat_agent_spec.rb",
+        "spec/models/agents/human_task_agent_spec.rb"
+      ],
+      "orm_models_parsed_old": 47,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "SET_NOT_NULL",
+            "table": "agents",
+            "column": "guid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20140605032822_add_guid_to_agents.rb",
+            "line": 11,
+            "raw_snippet": "change_column_null :agents, :guid, false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "agents",
+            "column": "guid",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/agent.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Column 'agents.guid' not active in C_{t-1} ORM.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "SET_NOT_NULL",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "663250227d8c63869780c116117738b812cfced8",
+      "parent": "eb49a8b203d8a955be2b86517e94d5c1492da48a",
+      "date": "2014-05-31T23:36:33-07:00",
+      "subject": "allow exporting of a set of Agents with their links from a Scenario; Scenario guid is now generated and copied to export, as well as a sourc",
+      "mig_files": [
+        "db/migrate/20140531232016_add_fields_to_scenarios.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/concerns/assignable_types.rb",
+        "app/concerns/inheritance_tracking.rb",
+        "app/concerns/json_serialized_field.rb",
+        "app/concerns/markdown_class_attributes.rb",
+        "app/controllers/scenarios_controller.rb",
+        "app/models/scenario.rb",
+        "config/routes.rb",
+        "db/schema.rb",
+        "lib/agents_exporter.rb",
+        "lib/assignable_types.rb",
+        "lib/inheritance_tracking.rb",
+        "lib/json_serialized_field.rb"
+      ],
+      "orm_models_parsed_old": 45,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "scenarios",
+            "column": "guid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "string",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20140531232016_add_fields_to_scenarios.rb",
+            "line": 5,
+            "raw_snippet": "add_column :scenarios, :guid, :string, :null => false",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "scenarios",
+            "column": "guid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/scenario.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'scenarios.guid' breaks C_{t-1} INSERTs.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ADD_NOT_NULL_NO_DEFAULT",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "2ea5ad24c4fec3e47de05513805d3527348aeea4",
+      "parent": "52275b60bd81e963c61bcf2e7e76d2fd5a82715b",
+      "date": "2014-05-02T10:42:11-04:00",
+      "subject": "add Link, Event classes to migration and use find_each",
+      "mig_files": [
+        "db/migrate/20140213053001_add_event_id_at_creation_to_links.rb"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 41,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "links",
+            "column": "event_id_at_creation",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20140213053001_add_event_id_at_creation_to_links.rb",
+            "line": 26,
+            "raw_snippet": "remove_column :links, :event_id_at_creation",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "links",
+            "column": "event_id_at_creation",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "52275b60bd81e963c61bcf2e7e76d2fd5a82715b",
+      "parent": "15b55ac37103a91fc9076d853b0c42829c9641fd",
+      "date": "2014-05-01T18:19:49-04:00",
+      "subject": "actually save the link",
+      "mig_files": [
+        "db/migrate/20140213053001_add_event_id_at_creation_to_links.rb"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 41,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "links",
+            "column": "event_id_at_creation",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20140213053001_add_event_id_at_creation_to_links.rb",
+            "line": 23,
+            "raw_snippet": "remove_column :links, :event_id_at_creation",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "links",
+            "column": "event_id_at_creation",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "15b55ac37103a91fc9076d853b0c42829c9641fd",
+      "parent": "07243cee345060316ff2b27530e20e38e72d7713",
+      "date": "2014-05-01T15:32:04-04:00",
+      "subject": "in the AddEventIdAtCreationToLinks migration, handle the case of links that don't yet have any events",
+      "mig_files": [
+        "db/migrate/20140213053001_add_event_id_at_creation_to_links.rb"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 41,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "links",
+            "column": "event_id_at_creation",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20140213053001_add_event_id_at_creation_to_links.rb",
+            "line": 22,
+            "raw_snippet": "remove_column :links, :event_id_at_creation",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "links",
+            "column": "event_id_at_creation",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "db0fbe4c938d65a09c6d51549482e898753315e3",
+      "parent": "ea8963a8cf5f5ef718c21031c71a99dac5c4809d",
+      "date": "2014-04-08T09:38:06-07:00",
+      "subject": "rename WebhooksController to WebRequestsController; refactor and support deprecated methods for now",
+      "mig_files": [
+        "db/migrate/20140408150825_rename_webhook_to_web_request.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/web_requests_controller.rb",
+        "app/controllers/webhooks_controller.rb",
+        "app/models/agent.rb",
+        "app/models/agents/data_output_agent.rb",
+        "app/models/agents/twilio_agent.rb",
+        "app/models/agents/webhook_agent.rb",
+        "config/routes.rb",
+        "db/schema.rb",
+        "spec/controllers/web_requests_controller_spec.rb",
+        "spec/controllers/webhooks_controller_spec.rb",
+        "spec/models/agent_spec.rb",
+        "spec/models/agents/data_output_agent_spec.rb"
+      ],
+      "orm_models_parsed_old": 33,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_COLUMN",
+            "table": "agents",
+            "column": "last_webhook_at",
+            "new_name": "last_web_request_at",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20140408150825_rename_webhook_to_web_request.rb",
+            "line": 3,
+            "raw_snippet": "rename_column :agents, :last_webhook_at, :last_web_request_at",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "agents",
+            "column": "last_webhook_at",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/agent.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "RENAME_COLUMN 'last_webhook_at'->'last_web_request_at' breaks both C_{t-1} |= S_t and C_t |= S_{t-1}.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "RENAME_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "RENAME_COLUMN",
+            "table": "agents",
+            "column": "last_web_request_at",
+            "new_name": "last_webhook_at",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20140408150825_rename_webhook_to_web_request.rb",
+            "line": 7,
+            "raw_snippet": "rename_column :agents, :last_web_request_at, :last_webhook_at",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "agents",
+            "column": "last_web_request_at",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "1294d47bbaecd509e2e9db4e7c736b5dcf31e453",
+      "parent": "a2b4485537360ee7c19f006de338d52f0d2b3d3b",
+      "date": "2014-02-17T10:43:49-05:00",
+      "subject": "minor fixes",
+      "mig_files": [
+        "db/migrate/20140216201250_add_propagate_immediately_to_agent.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/event.rb"
+      ],
+      "orm_models_parsed_old": 31,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "agents",
+            "column": "propagate_immediately",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20140216201250_add_propagate_immediately_to_agent.rb",
+            "line": 7,
+            "raw_snippet": "remove_column :agents, :propagate_immediately",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "agents",
+            "column": "propagate_immediately",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "31e4d152ccd20ec8f9ebc5727ce1d5a0dc0bb845",
+      "parent": "b65bb8d55f5d86cbe03589cfcc8a663facc50a01",
+      "date": "2014-02-16T22:15:49-05:00",
+      "subject": "first working version of Agents that propagate immediately",
+      "mig_files": [
+        "db/migrate/20140216201250_add_propagate_immediately_to_agent.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/agent.rb",
+        "app/models/event.rb",
+        "db/schema.rb",
+        "spec/models/agent_spec.rb"
+      ],
+      "orm_models_parsed_old": 31,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "agents",
+            "column": "propagate_immediately",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20140216201250_add_propagate_immediately_to_agent.rb",
+            "line": 8,
+            "raw_snippet": "remove_column :agents, :propagate_immediately",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "agents",
+            "column": "propagate_immediately",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "306843de0a0981ef8d0d3249e63c5f76a7079a8d",
+      "parent": "5b54cded24ad5c6f96eec026655b5f63a01d6231",
+      "date": "2014-02-12T22:56:33-08:00",
+      "subject": "Add event_id_at_creation field to links and use it to prevent propagation of events created before the link was made.",
+      "mig_files": [
+        "db/migrate/20140213053001_add_event_id_at_creation_to_links.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/models/agent.rb",
+        "app/models/link.rb",
+        "db/schema.rb",
+        "spec/models/agent_spec.rb"
+      ],
+      "orm_models_parsed_old": 31,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "links",
+            "column": "event_id_at_creation",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20140213053001_add_event_id_at_creation_to_links.rb",
+            "line": 16,
+            "raw_snippet": "remove_column :links, :event_id_at_creation",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "links",
+            "column": "event_id_at_creation",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "49b4fd89dea3ee85969ce21137ba222ae2232260",
+      "parent": "16ae63181dceab316ad003d4540c823bfc1f5210",
+      "date": "2014-01-30T09:28:17-05:00",
+      "subject": "#141 change delayed_job.handler to mediumtext (16MB) like event.payload",
+      "mig_files": [
+        "db/migrate/20140127164931_change_handler_to_medium_text.rb"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 30,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "delayed_jobs",
+            "column": "handler",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20140127164931_change_handler_to_medium_text.rb",
+            "line": 6,
+            "raw_snippet": "change_column :delayed_jobs, :handler, :text, :limit => 16777215",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "delayed_jobs",
+            "column": "handler",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "db/schema.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "UNCERTAIN",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'delayed_jobs' has no ActiveRecord class in C_{t-1} app/models.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "delayed_jobs",
+            "column": "handler",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20140127164931_change_handler_to_medium_text.rb",
+            "line": 12,
+            "raw_snippet": "change_column :delayed_jobs, :handler, :text, :limit => 65535",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "delayed_jobs",
+            "column": "handler",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "00b7423dd7ee76729cac876c30af30dfac6484ef",
+      "parent": "bca562513b9aa5533193c5910f8f71fd71bbfc9b",
+      "date": "2013-12-26T20:15:29-05:00",
+      "subject": "add cached columns for event creation and last errors, reducing the number of SQL queries",
+      "mig_files": [
+        "db/migrate/20131227000021_add_cached_dates_to_agent.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/events_controller.rb",
+        "app/controllers/logs_controller.rb",
+        "app/models/agent.rb",
+        "app/models/agent_log.rb",
+        "app/models/agents/adioso_agent.rb",
+        "app/models/agents/twitter_publish_agent.rb",
+        "app/models/agents/twitter_stream_agent.rb",
+        "app/models/agents/twitter_user_agent.rb",
+        "app/models/agents/user_location_agent.rb",
+        "app/models/agents/weather_agent.rb",
+        "app/models/agents/website_agent.rb",
+        "app/models/agents/weibo_publish_agent.rb"
+      ],
+      "orm_models_parsed_old": 28,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "agents",
+            "column": "last_event_at",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20131227000021_add_cached_dates_to_agent.rb",
+            "line": 11,
+            "raw_snippet": "remove_column :agents, :last_event_at",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "agents",
+            "column": "last_event_at",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "agents",
+            "column": "last_error_log_at",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20131227000021_add_cached_dates_to_agent.rb",
+            "line": 12,
+            "raw_snippet": "remove_column :agents, :last_error_log_at",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "agents",
+            "column": "last_error_log_at",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "ac67a5de15e0bcab8ce5ff3c01100620ef577fff",
+      "parent": "3eff5bfa0c33e23779c637393d2dcacd237ddf69",
+      "date": "2013-03-24T20:32:53-07:00",
+      "subject": "Only increase text field size for mysql.",
+      "mig_files": [
+        "db/migrate/20130126080736_change_memory_to_long_text.rb"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 14,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "agents",
+            "column": "memory",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20130126080736_change_memory_to_long_text.rb",
+            "line": 6,
+            "raw_snippet": "change_column :agents, :memory, :text, :limit => 4294967295",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "agents",
+            "column": "memory",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/agent.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening text -> text preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "events",
+            "column": "payload",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20130126080736_change_memory_to_long_text.rb",
+            "line": 7,
+            "raw_snippet": "change_column :events, :payload, :text, :limit => 16777215",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "events",
+            "column": "payload",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/event.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening text -> text preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "agents",
+            "column": "memory",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20130126080736_change_memory_to_long_text.rb",
+            "line": 13,
+            "raw_snippet": "change_column :agents, :memory, :text, :limit => 65535",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "agents",
+            "column": "memory",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "events",
+            "column": "payload",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20130126080736_change_memory_to_long_text.rb",
+            "line": 14,
+            "raw_snippet": "change_column :events, :payload, :text, :limit => 65535",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "events",
+            "column": "payload",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    }
+  ]
+}

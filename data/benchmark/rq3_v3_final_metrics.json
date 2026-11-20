@@ -1,0 +1,1768 @@
+{
+  "benchmark_size": 180,
+  "gt_overall": {
+    "viol": 117,
+    "safe": 63
+  },
+  "gt_by_ecosystem": {
+    "prisma": {
+      "viol": 34,
+      "safe": 26,
+      "uncertain_in_ecv": 2
+    },
+    "rails": {
+      "viol": 40,
+      "safe": 20,
+      "uncertain_in_ecv": 13
+    },
+    "django": {
+      "viol": 43,
+      "safe": 17,
+      "uncertain_in_ecv": 4
+    }
+  },
+  "prisma_dmmf_pg_oracle_agreement": {
+    "agree": 26,
+    "total": 34
+  },
+  "metrics": {
+    "all_excl_constraints": {
+      "ecv_fast": {
+        "tp": 90,
+        "fp": 15,
+        "fn": 20,
+        "tn": 44,
+        "precision_pct": 85.7,
+        "recall_pct": 81.8,
+        "f1_pct": 83.7,
+        "fpr_pct": 25.4,
+        "specificity_pct": 74.6,
+        "balanced_acc_pct": 78.2,
+        "accuracy_pct": 79.3,
+        "mcc": 0.554,
+        "precision_ci95_pct": [
+          77.8,
+          91.1
+        ],
+        "recall_ci95_pct": [
+          73.6,
+          87.9
+        ],
+        "fpr_ci95_pct": [
+          16.1,
+          37.8
+        ],
+        "coverage_pct": 90.5
+      },
+      "ecv_deep": {
+        "tp": 100,
+        "fp": 23,
+        "fn": 10,
+        "tn": 36,
+        "precision_pct": 81.3,
+        "recall_pct": 90.9,
+        "f1_pct": 85.8,
+        "fpr_pct": 39.0,
+        "specificity_pct": 61.0,
+        "balanced_acc_pct": 76.0,
+        "accuracy_pct": 80.5,
+        "mcc": 0.556,
+        "precision_ci95_pct": [
+          73.5,
+          87.2
+        ],
+        "recall_ci95_pct": [
+          84.1,
+          95.0
+        ],
+        "fpr_ci95_pct": [
+          27.6,
+          51.7
+        ]
+      },
+      "squawk_strict_compat": {
+        "tp": 97,
+        "fp": 57,
+        "fn": 13,
+        "tn": 2,
+        "precision_pct": 63.0,
+        "recall_pct": 88.2,
+        "f1_pct": 73.5,
+        "fpr_pct": 96.6,
+        "specificity_pct": 3.4,
+        "balanced_acc_pct": 45.8,
+        "accuracy_pct": 58.6,
+        "mcc": -0.141,
+        "precision_ci95_pct": [
+          55.1,
+          70.2
+        ],
+        "recall_ci95_pct": [
+          80.8,
+          93.0
+        ],
+        "fpr_ci95_pct": [
+          88.5,
+          99.1
+        ]
+      },
+      "always_flag_trivial": {
+        "tp": 110,
+        "fp": 59,
+        "fn": 0,
+        "tn": 0,
+        "precision_pct": 65.1,
+        "recall_pct": 100.0,
+        "f1_pct": 78.9,
+        "fpr_pct": 100.0,
+        "specificity_pct": 0.0,
+        "balanced_acc_pct": 50.0,
+        "accuracy_pct": 65.1,
+        "mcc": 0.0,
+        "precision_ci95_pct": [
+          57.6,
+          71.9
+        ],
+        "recall_ci95_pct": [
+          96.6,
+          100.0
+        ],
+        "fpr_ci95_pct": [
+          93.9,
+          100.0
+        ]
+      }
+    },
+    "all_180": {
+      "ecv_deep": {
+        "tp": 107,
+        "fp": 25,
+        "fn": 10,
+        "tn": 38,
+        "precision_pct": 81.1,
+        "recall_pct": 91.5,
+        "f1_pct": 85.9,
+        "fpr_pct": 39.7,
+        "specificity_pct": 60.3,
+        "balanced_acc_pct": 75.9,
+        "accuracy_pct": 80.6,
+        "mcc": 0.558,
+        "precision_ci95_pct": [
+          73.5,
+          86.8
+        ],
+        "recall_ci95_pct": [
+          85.0,
+          95.3
+        ],
+        "fpr_ci95_pct": [
+          28.5,
+          52.0
+        ],
+        "coverage_pct": 92.8
+      },
+      "ecv_fast": {
+        "tp": 97,
+        "fp": 16,
+        "fn": 20,
+        "tn": 47,
+        "precision_pct": 85.8,
+        "recall_pct": 82.9,
+        "f1_pct": 84.3,
+        "fpr_pct": 25.4,
+        "specificity_pct": 74.6,
+        "balanced_acc_pct": 78.8,
+        "accuracy_pct": 80.0,
+        "mcc": 0.567,
+        "precision_ci95_pct": [
+          78.2,
+          91.1
+        ],
+        "recall_ci95_pct": [
+          75.1,
+          88.7
+        ],
+        "fpr_ci95_pct": [
+          16.3,
+          37.3
+        ],
+        "coverage_pct": 89.4
+      },
+      "ecv_fast_resolved_only": {
+        "tp": 97,
+        "fp": 16,
+        "fn": 15,
+        "tn": 33,
+        "precision_pct": 85.8,
+        "recall_pct": 86.6,
+        "f1_pct": 86.2,
+        "fpr_pct": 32.7,
+        "specificity_pct": 67.3,
+        "balanced_acc_pct": 77.0,
+        "accuracy_pct": 80.7,
+        "mcc": 0.543,
+        "precision_ci95_pct": [
+          78.2,
+          91.1
+        ],
+        "recall_ci95_pct": [
+          79.1,
+          91.7
+        ],
+        "fpr_ci95_pct": [
+          21.2,
+          46.6
+        ],
+        "coverage_pct": 100.0
+      },
+      "ecv_deep_resolved_only": {
+        "tp": 104,
+        "fp": 22,
+        "fn": 8,
+        "tn": 27,
+        "precision_pct": 82.5,
+        "recall_pct": 92.9,
+        "f1_pct": 87.4,
+        "fpr_pct": 44.9,
+        "specificity_pct": 55.1,
+        "balanced_acc_pct": 74.0,
+        "accuracy_pct": 81.4,
+        "mcc": 0.535,
+        "precision_ci95_pct": [
+          75.0,
+          88.2
+        ],
+        "recall_ci95_pct": [
+          86.5,
+          96.3
+        ],
+        "fpr_ci95_pct": [
+          31.9,
+          58.7
+        ]
+      },
+      "ablation_schema_only": {
+        "tp": 86,
+        "fp": 16,
+        "fn": 31,
+        "tn": 47,
+        "precision_pct": 84.3,
+        "recall_pct": 73.5,
+        "f1_pct": 78.5,
+        "fpr_pct": 25.4,
+        "specificity_pct": 74.6,
+        "balanced_acc_pct": 74.1,
+        "accuracy_pct": 73.9,
+        "mcc": 0.463,
+        "precision_ci95_pct": [
+          76.0,
+          90.1
+        ],
+        "recall_ci95_pct": [
+          64.9,
+          80.7
+        ],
+        "fpr_ci95_pct": [
+          16.3,
+          37.3
+        ]
+      },
+      "ablation_diff_only": {
+        "tp": 38,
+        "fp": 8,
+        "fn": 79,
+        "tn": 55,
+        "precision_pct": 82.6,
+        "recall_pct": 32.5,
+        "f1_pct": 46.6,
+        "fpr_pct": 12.7,
+        "specificity_pct": 87.3,
+        "balanced_acc_pct": 59.9,
+        "accuracy_pct": 51.7,
+        "mcc": 0.216,
+        "precision_ci95_pct": [
+          69.3,
+          90.9
+        ],
+        "recall_ci95_pct": [
+          24.7,
+          41.4
+        ],
+        "fpr_ci95_pct": [
+          6.6,
+          23.1
+        ]
+      },
+      "squawk_strict_compat": {
+        "tp": 98,
+        "fp": 57,
+        "fn": 19,
+        "tn": 6,
+        "precision_pct": 63.2,
+        "recall_pct": 83.8,
+        "f1_pct": 72.1,
+        "fpr_pct": 90.5,
+        "specificity_pct": 9.5,
+        "balanced_acc_pct": 46.6,
+        "accuracy_pct": 57.8,
+        "mcc": -0.093,
+        "precision_ci95_pct": [
+          55.4,
+          70.4
+        ],
+        "recall_ci95_pct": [
+          76.0,
+          89.4
+        ],
+        "fpr_ci95_pct": [
+          80.7,
+          95.6
+        ]
+      },
+      "squawk_default": {
+        "tp": 117,
+        "fp": 63,
+        "fn": 0,
+        "tn": 0,
+        "precision_pct": 65.0,
+        "recall_pct": 100.0,
+        "f1_pct": 78.8,
+        "fpr_pct": 100.0,
+        "specificity_pct": 0.0,
+        "balanced_acc_pct": 50.0,
+        "accuracy_pct": 65.0,
+        "mcc": 0.0,
+        "precision_ci95_pct": [
+          57.8,
+          71.6
+        ],
+        "recall_ci95_pct": [
+          96.8,
+          100.0
+        ],
+        "fpr_ci95_pct": [
+          94.3,
+          100.0
+        ]
+      },
+      "always_flag_trivial": {
+        "tp": 117,
+        "fp": 63,
+        "fn": 0,
+        "tn": 0,
+        "precision_pct": 65.0,
+        "recall_pct": 100.0,
+        "f1_pct": 78.8,
+        "fpr_pct": 100.0,
+        "specificity_pct": 0.0,
+        "balanced_acc_pct": 50.0,
+        "accuracy_pct": 65.0,
+        "mcc": 0.0,
+        "precision_ci95_pct": [
+          57.8,
+          71.6
+        ],
+        "recall_ci95_pct": [
+          96.8,
+          100.0
+        ],
+        "fpr_ci95_pct": [
+          94.3,
+          100.0
+        ]
+      }
+    },
+    "prisma_60": {
+      "ecv_deep": {
+        "tp": 32,
+        "fp": 10,
+        "fn": 2,
+        "tn": 16,
+        "precision_pct": 76.2,
+        "recall_pct": 94.1,
+        "f1_pct": 84.2,
+        "fpr_pct": 38.5,
+        "specificity_pct": 61.5,
+        "balanced_acc_pct": 77.8,
+        "accuracy_pct": 80.0,
+        "mcc": 0.602,
+        "precision_ci95_pct": [
+          61.5,
+          86.5
+        ],
+        "recall_ci95_pct": [
+          80.9,
+          98.4
+        ],
+        "fpr_ci95_pct": [
+          22.4,
+          57.5
+        ]
+      },
+      "ecv_fast": {
+        "tp": 29,
+        "fp": 8,
+        "fn": 5,
+        "tn": 18,
+        "precision_pct": 78.4,
+        "recall_pct": 85.3,
+        "f1_pct": 81.7,
+        "fpr_pct": 30.8,
+        "specificity_pct": 69.2,
+        "balanced_acc_pct": 77.3,
+        "accuracy_pct": 78.3,
+        "mcc": 0.556,
+        "precision_ci95_pct": [
+          62.8,
+          88.6
+        ],
+        "recall_ci95_pct": [
+          69.9,
+          93.6
+        ],
+        "fpr_ci95_pct": [
+          16.5,
+          50.0
+        ],
+        "coverage_pct": 96.7
+      },
+      "ecv_fast_resolved_only": {
+        "tp": 29,
+        "fp": 8,
+        "fn": 5,
+        "tn": 16,
+        "precision_pct": 78.4,
+        "recall_pct": 85.3,
+        "f1_pct": 81.7,
+        "fpr_pct": 33.3,
+        "specificity_pct": 66.7,
+        "balanced_acc_pct": 76.0,
+        "accuracy_pct": 77.6,
+        "mcc": 0.532,
+        "precision_ci95_pct": [
+          62.8,
+          88.6
+        ],
+        "recall_ci95_pct": [
+          69.9,
+          93.6
+        ],
+        "fpr_ci95_pct": [
+          18.0,
+          53.3
+        ]
+      },
+      "squawk_strict_compat_native": {
+        "tp": 30,
+        "fp": 22,
+        "fn": 4,
+        "tn": 4,
+        "precision_pct": 57.7,
+        "recall_pct": 88.2,
+        "f1_pct": 69.8,
+        "fpr_pct": 84.6,
+        "specificity_pct": 15.4,
+        "balanced_acc_pct": 51.8,
+        "accuracy_pct": 56.7,
+        "mcc": 0.053,
+        "precision_ci95_pct": [
+          44.2,
+          70.1
+        ],
+        "recall_ci95_pct": [
+          73.4,
+          95.3
+        ],
+        "fpr_ci95_pct": [
+          66.5,
+          93.9
+        ]
+      },
+      "squawk_default_native": {
+        "tp": 34,
+        "fp": 26,
+        "fn": 0,
+        "tn": 0,
+        "precision_pct": 56.7,
+        "recall_pct": 100.0,
+        "f1_pct": 72.3,
+        "fpr_pct": 100.0,
+        "specificity_pct": 0.0,
+        "balanced_acc_pct": 50.0,
+        "accuracy_pct": 56.7,
+        "mcc": 0.0,
+        "precision_ci95_pct": [
+          44.1,
+          68.4
+        ],
+        "recall_ci95_pct": [
+          89.8,
+          100.0
+        ],
+        "fpr_ci95_pct": [
+          87.1,
+          100.0
+        ]
+      },
+      "always_flag_trivial": {
+        "tp": 34,
+        "fp": 26,
+        "fn": 0,
+        "tn": 0,
+        "precision_pct": 56.7,
+        "recall_pct": 100.0,
+        "f1_pct": 72.3,
+        "fpr_pct": 100.0,
+        "specificity_pct": 0.0,
+        "balanced_acc_pct": 50.0,
+        "accuracy_pct": 56.7,
+        "mcc": 0.0,
+        "precision_ci95_pct": [
+          44.1,
+          68.4
+        ],
+        "recall_ci95_pct": [
+          89.8,
+          100.0
+        ],
+        "fpr_ci95_pct": [
+          87.1,
+          100.0
+        ]
+      }
+    },
+    "rails_60": {
+      "ecv_deep": {
+        "tp": 36,
+        "fp": 8,
+        "fn": 4,
+        "tn": 12,
+        "precision_pct": 81.8,
+        "recall_pct": 90.0,
+        "f1_pct": 85.7,
+        "fpr_pct": 40.0,
+        "specificity_pct": 60.0,
+        "balanced_acc_pct": 75.0,
+        "accuracy_pct": 80.0,
+        "mcc": 0.533,
+        "precision_ci95_pct": [
+          68.0,
+          90.5
+        ],
+        "recall_ci95_pct": [
+          76.9,
+          96.0
+        ],
+        "fpr_ci95_pct": [
+          21.9,
+          61.3
+        ]
+      },
+      "ecv_fast": {
+        "tp": 33,
+        "fp": 4,
+        "fn": 7,
+        "tn": 16,
+        "precision_pct": 89.2,
+        "recall_pct": 82.5,
+        "f1_pct": 85.7,
+        "fpr_pct": 20.0,
+        "specificity_pct": 80.0,
+        "balanced_acc_pct": 81.2,
+        "accuracy_pct": 81.7,
+        "mcc": 0.606,
+        "precision_ci95_pct": [
+          75.3,
+          95.7
+        ],
+        "recall_ci95_pct": [
+          68.0,
+          91.3
+        ],
+        "fpr_ci95_pct": [
+          8.1,
+          41.6
+        ],
+        "coverage_pct": 78.3
+      },
+      "ecv_fast_resolved_only": {
+        "tp": 33,
+        "fp": 4,
+        "fn": 2,
+        "tn": 8,
+        "precision_pct": 89.2,
+        "recall_pct": 94.3,
+        "f1_pct": 91.7,
+        "fpr_pct": 33.3,
+        "specificity_pct": 66.7,
+        "balanced_acc_pct": 80.5,
+        "accuracy_pct": 87.2,
+        "mcc": 0.649,
+        "precision_ci95_pct": [
+          75.3,
+          95.7
+        ],
+        "recall_ci95_pct": [
+          81.4,
+          98.4
+        ],
+        "fpr_ci95_pct": [
+          13.8,
+          60.9
+        ]
+      },
+      "strong_migrations_real_all60": {
+        "tp": 24,
+        "fp": 15,
+        "fn": 16,
+        "tn": 5,
+        "precision_pct": 61.5,
+        "recall_pct": 60.0,
+        "f1_pct": 60.8,
+        "fpr_pct": 75.0,
+        "specificity_pct": 25.0,
+        "balanced_acc_pct": 42.5,
+        "accuracy_pct": 48.3,
+        "mcc": -0.148,
+        "precision_ci95_pct": [
+          45.9,
+          75.1
+        ],
+        "recall_ci95_pct": [
+          44.6,
+          73.7
+        ],
+        "fpr_ci95_pct": [
+          53.1,
+          88.8
+        ]
+      },
+      "strong_migrations_real_exec52": {
+        "tp": 24,
+        "fp": 15,
+        "fn": 11,
+        "tn": 2,
+        "precision_pct": 61.5,
+        "recall_pct": 68.6,
+        "f1_pct": 64.9,
+        "fpr_pct": 88.2,
+        "specificity_pct": 11.8,
+        "balanced_acc_pct": 40.2,
+        "accuracy_pct": 50.0,
+        "mcc": -0.213,
+        "precision_ci95_pct": [
+          45.9,
+          75.1
+        ],
+        "recall_ci95_pct": [
+          52.0,
+          81.4
+        ],
+        "fpr_ci95_pct": [
+          65.7,
+          96.7
+        ]
+      },
+      "ecv_fast_on_sm_exec52": {
+        "tp": 31,
+        "fp": 3,
+        "fn": 4,
+        "tn": 14,
+        "precision_pct": 91.2,
+        "recall_pct": 88.6,
+        "f1_pct": 89.9,
+        "fpr_pct": 17.6,
+        "specificity_pct": 82.4,
+        "balanced_acc_pct": 85.5,
+        "accuracy_pct": 86.5,
+        "mcc": 0.699,
+        "precision_ci95_pct": [
+          77.0,
+          97.0
+        ],
+        "recall_ci95_pct": [
+          74.0,
+          95.5
+        ],
+        "fpr_ci95_pct": [
+          6.2,
+          41.0
+        ],
+        "coverage_pct": 82.7
+      },
+      "ecv_deep_on_sm_exec52": {
+        "tp": 31,
+        "fp": 6,
+        "fn": 4,
+        "tn": 11,
+        "precision_pct": 83.8,
+        "recall_pct": 88.6,
+        "f1_pct": 86.1,
+        "fpr_pct": 35.3,
+        "specificity_pct": 64.7,
+        "balanced_acc_pct": 76.6,
+        "accuracy_pct": 80.8,
+        "mcc": 0.552,
+        "precision_ci95_pct": [
+          68.9,
+          92.3
+        ],
+        "recall_ci95_pct": [
+          74.0,
+          95.5
+        ],
+        "fpr_ci95_pct": [
+          17.3,
+          58.7
+        ]
+      },
+      "squawk_strict_compat_sql_transl": {
+        "tp": 37,
+        "fp": 19,
+        "fn": 3,
+        "tn": 1,
+        "precision_pct": 66.1,
+        "recall_pct": 92.5,
+        "f1_pct": 77.1,
+        "fpr_pct": 95.0,
+        "specificity_pct": 5.0,
+        "balanced_acc_pct": 48.8,
+        "accuracy_pct": 63.3,
+        "mcc": -0.047,
+        "precision_ci95_pct": [
+          53.0,
+          77.1
+        ],
+        "recall_ci95_pct": [
+          80.1,
+          97.4
+        ],
+        "fpr_ci95_pct": [
+          76.4,
+          99.1
+        ]
+      },
+      "always_flag_trivial": {
+        "tp": 40,
+        "fp": 20,
+        "fn": 0,
+        "tn": 0,
+        "precision_pct": 66.7,
+        "recall_pct": 100.0,
+        "f1_pct": 80.0,
+        "fpr_pct": 100.0,
+        "specificity_pct": 0.0,
+        "balanced_acc_pct": 50.0,
+        "accuracy_pct": 66.7,
+        "mcc": 0.0,
+        "precision_ci95_pct": [
+          54.1,
+          77.3
+        ],
+        "recall_ci95_pct": [
+          91.2,
+          100.0
+        ],
+        "fpr_ci95_pct": [
+          83.9,
+          100.0
+        ]
+      }
+    },
+    "django_60": {
+      "ecv_deep": {
+        "tp": 39,
+        "fp": 7,
+        "fn": 4,
+        "tn": 10,
+        "precision_pct": 84.8,
+        "recall_pct": 90.7,
+        "f1_pct": 87.6,
+        "fpr_pct": 41.2,
+        "specificity_pct": 58.8,
+        "balanced_acc_pct": 74.8,
+        "accuracy_pct": 81.7,
+        "mcc": 0.528,
+        "precision_ci95_pct": [
+          71.8,
+          92.4
+        ],
+        "recall_ci95_pct": [
+          78.4,
+          96.3
+        ],
+        "fpr_ci95_pct": [
+          21.6,
+          64.0
+        ]
+      },
+      "ecv_fast": {
+        "tp": 35,
+        "fp": 4,
+        "fn": 8,
+        "tn": 13,
+        "precision_pct": 89.7,
+        "recall_pct": 81.4,
+        "f1_pct": 85.4,
+        "fpr_pct": 23.5,
+        "specificity_pct": 76.5,
+        "balanced_acc_pct": 78.9,
+        "accuracy_pct": 80.0,
+        "mcc": 0.547,
+        "precision_ci95_pct": [
+          76.4,
+          95.9
+        ],
+        "recall_ci95_pct": [
+          67.4,
+          90.3
+        ],
+        "fpr_ci95_pct": [
+          9.6,
+          47.3
+        ],
+        "coverage_pct": 93.3
+      },
+      "ecv_fast_resolved_only": {
+        "tp": 35,
+        "fp": 4,
+        "fn": 8,
+        "tn": 9,
+        "precision_pct": 89.7,
+        "recall_pct": 81.4,
+        "f1_pct": 85.4,
+        "fpr_pct": 30.8,
+        "specificity_pct": 69.2,
+        "balanced_acc_pct": 75.3,
+        "accuracy_pct": 78.6,
+        "mcc": 0.465,
+        "precision_ci95_pct": [
+          76.4,
+          95.9
+        ],
+        "recall_ci95_pct": [
+          67.4,
+          90.3
+        ],
+        "fpr_ci95_pct": [
+          12.7,
+          57.6
+        ]
+      },
+      "django_migration_linter_real": {
+        "tp": 43,
+        "fp": 17,
+        "fn": 0,
+        "tn": 0,
+        "precision_pct": 71.7,
+        "recall_pct": 100.0,
+        "f1_pct": 83.5,
+        "fpr_pct": 100.0,
+        "specificity_pct": 0.0,
+        "balanced_acc_pct": 50.0,
+        "accuracy_pct": 71.7,
+        "mcc": 0.0,
+        "precision_ci95_pct": [
+          59.2,
+          81.5
+        ],
+        "recall_ci95_pct": [
+          91.8,
+          100.0
+        ],
+        "fpr_ci95_pct": [
+          81.6,
+          100.0
+        ]
+      },
+      "squawk_strict_compat_sql_transl": {
+        "tp": 31,
+        "fp": 16,
+        "fn": 12,
+        "tn": 1,
+        "precision_pct": 66.0,
+        "recall_pct": 72.1,
+        "f1_pct": 68.9,
+        "fpr_pct": 94.1,
+        "specificity_pct": 5.9,
+        "balanced_acc_pct": 39.0,
+        "accuracy_pct": 53.3,
+        "mcc": -0.241,
+        "precision_ci95_pct": [
+          51.7,
+          77.8
+        ],
+        "recall_ci95_pct": [
+          57.3,
+          83.3
+        ],
+        "fpr_ci95_pct": [
+          73.0,
+          99.0
+        ]
+      },
+      "always_flag_trivial": {
+        "tp": 43,
+        "fp": 17,
+        "fn": 0,
+        "tn": 0,
+        "precision_pct": 71.7,
+        "recall_pct": 100.0,
+        "f1_pct": 83.5,
+        "fpr_pct": 100.0,
+        "specificity_pct": 0.0,
+        "balanced_acc_pct": 50.0,
+        "accuracy_pct": 71.7,
+        "mcc": 0.0,
+        "precision_ci95_pct": [
+          59.2,
+          81.5
+        ],
+        "recall_ci95_pct": [
+          91.8,
+          100.0
+        ],
+        "fpr_ci95_pct": [
+          81.6,
+          100.0
+        ]
+      }
+    }
+  },
+  "ipw_population_estimates": {
+    "ecv_fast": {
+      "precision_pct": 86.4,
+      "recall_pct": 94.7,
+      "f1_pct": 90.3,
+      "fpr_pct": 39.5,
+      "balanced_acc_pct": 77.6,
+      "mcc": 0.611
+    },
+    "ecv_deep": {
+      "precision_pct": 82.9,
+      "recall_pct": 97.1,
+      "f1_pct": 89.4,
+      "fpr_pct": 52.7,
+      "balanced_acc_pct": 72.2,
+      "mcc": 0.552
+    },
+    "squawk_strict_compat": {
+      "precision_pct": 71.6,
+      "recall_pct": 82.4,
+      "f1_pct": 76.6,
+      "fpr_pct": 86.2,
+      "balanced_acc_pct": 48.1,
+      "mcc": -0.046
+    },
+    "always_flag": {
+      "precision_pct": 72.5,
+      "recall_pct": 100.0,
+      "f1_pct": 84.1,
+      "fpr_pct": 100.0,
+      "balanced_acc_pct": 50.0,
+      "mcc": 0
+    }
+  },
+  "mcnemar_exact_tests": {
+    "all_180_ecv_fast_vs_squawk_compat_overall": {
+      "b_a_right_b_wrong": 61,
+      "c_b_right_a_wrong": 21,
+      "p_value": 1.1296023055413025e-05
+    },
+    "all_180_ecv_fast_vs_squawk_compat_fpr": {
+      "b_a_right_b_wrong": 42,
+      "c_b_right_a_wrong": 1,
+      "p_value": 1.000444171950221e-11
+    },
+    "all_180_ecv_deep_vs_squawk_compat_overall": {
+      "b_a_right_b_wrong": 53,
+      "c_b_right_a_wrong": 12,
+      "p_value": 2.7862343424643344e-07
+    },
+    "all_180_ecv_deep_vs_squawk_compat_fpr": {
+      "b_a_right_b_wrong": 34,
+      "c_b_right_a_wrong": 2,
+      "p_value": 1.941225491464138e-08
+    },
+    "all_180_ecv_fast_vs_ecv_deep_overall": {
+      "b_a_right_b_wrong": 9,
+      "c_b_right_a_wrong": 10,
+      "p_value": 1.0
+    },
+    "all_180_ecv_fast_vs_always_flag_overall": {
+      "b_a_right_b_wrong": 47,
+      "c_b_right_a_wrong": 20,
+      "p_value": 0.0013071686857635996
+    },
+    "all_180_ecv_fast_vs_always_flag_fpr": {
+      "b_a_right_b_wrong": 47,
+      "c_b_right_a_wrong": 0,
+      "p_value": 1.4210854715202004e-14
+    },
+    "prisma_60_ecv_fast_vs_squawk_native_overall": {
+      "b_a_right_b_wrong": 19,
+      "c_b_right_a_wrong": 6,
+      "p_value": 0.01463329792022705
+    },
+    "prisma_60_ecv_fast_vs_squawk_native_fpr": {
+      "b_a_right_b_wrong": 15,
+      "c_b_right_a_wrong": 1,
+      "p_value": 0.000518798828125
+    },
+    "rails_52_ecv_fast_vs_strong_migrations_overall": {
+      "b_a_right_b_wrong": 22,
+      "c_b_right_a_wrong": 3,
+      "p_value": 0.00015652179718017578
+    },
+    "rails_52_ecv_fast_vs_strong_migrations_fpr": {
+      "b_a_right_b_wrong": 13,
+      "c_b_right_a_wrong": 1,
+      "p_value": 0.0018310546875
+    },
+    "rails_52_ecv_deep_vs_strong_migrations_overall": {
+      "b_a_right_b_wrong": 19,
+      "c_b_right_a_wrong": 3,
+      "p_value": 0.0008554458618164062
+    },
+    "rails_52_ecv_deep_vs_strong_migrations_fpr": {
+      "b_a_right_b_wrong": 10,
+      "c_b_right_a_wrong": 1,
+      "p_value": 0.01171875
+    },
+    "django_60_ecv_fast_vs_dml_overall": {
+      "b_a_right_b_wrong": 13,
+      "c_b_right_a_wrong": 8,
+      "p_value": 0.38331031799316406
+    },
+    "django_60_ecv_fast_vs_dml_fpr": {
+      "b_a_right_b_wrong": 13,
+      "c_b_right_a_wrong": 0,
+      "p_value": 0.000244140625
+    },
+    "django_60_ecv_deep_vs_dml_overall": {
+      "b_a_right_b_wrong": 10,
+      "c_b_right_a_wrong": 4,
+      "p_value": 0.1795654296875
+    },
+    "django_60_ecv_deep_vs_dml_fpr": {
+      "b_a_right_b_wrong": 10,
+      "c_b_right_a_wrong": 0,
+      "p_value": 0.001953125
+    }
+  },
+  "runtime_summary": {
+    "ecv_fast_e2e_all": {
+      "median": 30.0,
+      "mean": 58.89,
+      "p95": 222.89
+    },
+    "ecv_fast_e2e_by_eco": {
+      "django": {
+        "median": 25.88,
+        "mean": 72.32,
+        "p95": 296.84
+      },
+      "prisma": {
+        "median": 26.36,
+        "mean": 31.57,
+        "p95": 74.68
+      },
+      "rails": {
+        "median": 57.09,
+        "mean": 72.77,
+        "p95": 203.72
+      }
+    },
+    "ecv_deep_e2e_all": {
+      "median": 60.89,
+      "mean": 94.9,
+      "p95": 280.07
+    },
+    "ecv_deep_e2e_candidates_only": {
+      "median": 122.53,
+      "mean": 147.12,
+      "p95": 289.34
+    },
+    "squawk_native_win_single_cli_all": {
+      "median": 49.94,
+      "mean": 63.77,
+      "p95": 131.99
+    },
+    "squawk_native_win_single_cli_prisma": {
+      "median": 49.45,
+      "mean": 61.79,
+      "p95": 124.03
+    },
+    "squawk_native_win_batched_per_file_ms": 8.92,
+    "strong_migrations_real_rails": {
+      "executed_ok": 52,
+      "total": 60,
+      "flagged": 39,
+      "median_ms": 0.34
+    },
+    "django_migration_linter_real_django": {
+      "total": 60,
+      "flagged_err": 60,
+      "median_ms": 8.59
+    }
+  },
+  "ecv_fast_errors_summary": {
+    "django_FN": 8,
+    "django_FP": 4,
+    "prisma_FP": 8,
+    "prisma_FN": 5,
+    "rails_FN": 7,
+    "rails_FP": 4
+  },
+  "ecv_deep_errors_summary": {
+    "django_FP": 7,
+    "django_FN": 4,
+    "prisma_FP": 10,
+    "prisma_FN": 2,
+    "rails_FP": 8,
+    "rails_FN": 4
+  },
+  "ecv_fast_errors": [
+    {
+      "id": "django_124",
+      "eco": "django",
+      "op": "DROP_TABLE",
+      "ecv": "SAFE_CONTRACT",
+      "gt": true,
+      "kind": "FN",
+      "rationale": "VIOL: C_{t-1} app code references table `players_defaultguest` at `evennia/players/__init__.py:7`."
+    },
+    {
+      "id": "django_126",
+      "eco": "django",
+      "op": "RENAME_TABLE",
+      "ecv": "SAFE_CONTRACT",
+      "gt": true,
+      "kind": "FN",
+      "rationale": "VIOL: C_{t-1} app code references table `documents_sender` at `src/documents/views.py:395`."
+    },
+    {
+      "id": "django_131",
+      "eco": "django",
+      "op": "RENAME_COLUMN",
+      "ecv": "DUAL_VERSION_VIOLATION_BOTH",
+      "gt": false,
+      "kind": "FP",
+      "rationale": "SAFE: transient column `category` was added and modified/dropped within the same migration; absent from C_{t-1}."
+    },
+    {
+      "id": "django_134",
+      "eco": "django",
+      "op": "DROP_COLUMN",
+      "ecv": "SAFE_CONTRACT",
+      "gt": true,
+      "kind": "FN",
+      "rationale": "VIOL: C_{t-1} app code directly references `action` at `apps/common/api/action.py:6`."
+    },
+    {
+      "id": "django_138",
+      "eco": "django",
+      "op": "DROP_COLUMN",
+      "ecv": "SAFE_CONTRACT",
+      "gt": true,
+      "kind": "FN",
+      "rationale": "VIOL: C_{t-1} app code directly references `rw` at `hc/accounts/forms.py:139`."
+    },
+    {
+      "id": "django_139",
+      "eco": "django",
+      "op": "DROP_TABLE",
+      "ecv": "SAFE_CONTRACT",
+      "gt": true,
+      "kind": "FN",
+      "rationale": "VIOL: C_{t-1} app code references table `scripts_checksessions` at `evennia/scripts/scripts.py:18`."
+    },
+    {
+      "id": "django_142",
+      "eco": "django",
+      "op": "DROP_COLUMN",
+      "ecv": "SAFE_CONTRACT",
+      "gt": true,
+      "kind": "FN",
+      "rationale": "VIOL: C_{t-1} app code directly references `variations` at `src/pretix/control/forms/subevents.py:372`."
+    },
+    {
+      "id": "django_146",
+      "eco": "django",
+      "op": "DROP_COLUMN",
+      "ecv": "SAFE_CONTRACT",
+      "gt": true,
+      "kind": "FN",
+      "rationale": "VIOL: C_{t-1} app code directly references `unit` at `wger/nutrition/views/unit_ingredient.py:60`."
+    },
+    {
+      "id": "django_147",
+      "eco": "django",
+      "op": "DROP_TABLE",
+      "ecv": "SAFE_CONTRACT",
+      "gt": true,
+      "kind": "FN",
+      "rationale": "VIOL: C_{t-1} app code references table `contest_contestsubmission` at `contest/views.py:313`."
+    },
+    {
+      "id": "django_153",
+      "eco": "django",
+      "op": "ALTER_COLUMN_TYPE",
+      "ecv": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "gt": false,
+      "kind": "FP",
+      "rationale": "SAFE (verified): Python subclass rename `CoreFormulaModelField -> FormulaField`; both map to PG TEXT."
+    },
+    {
+      "id": "django_163",
+      "eco": "django",
+      "op": "RENAME_COLUMN",
+      "ecv": "DUAL_VERSION_VIOLATION_FORWARD",
+      "gt": false,
+      "kind": "FP",
+      "rationale": "SAFE: column `contest_contestproblem.spj_code_language` absent from C_{t-1} ORM schema, app code, and commit diff."
+    },
+    {
+      "id": "django_165",
+      "eco": "django",
+      "op": "SET_NOT_NULL",
+      "ecv": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "gt": false,
+      "kind": "FP",
+      "rationale": "SAFE: column `projects_domain.validation_process_start` absent or non-nullable in C_{t-1}."
+    },
+    {
+      "id": "prisma_002",
+      "eco": "prisma",
+      "op": "ADD_UNIQUE_OR_CHECK",
+      "ecv": "DATA_DEPENDENT",
+      "gt": false,
+      "kind": "FP",
+      "rationale": "SAFE: target table `scheduled_events` absent from C_{t-1}."
+    },
+    {
+      "id": "prisma_012",
+      "eco": "prisma",
+      "op": "DROP_COLUMN",
+      "ecv": "SAFE_CONTRACT",
+      "gt": true,
+      "kind": "FN",
+      "rationale": "VIOL: C_{t-1} app code directly references `type` at `app/api/crm/contacts/create-from-remote/route.ts:38`."
+    },
+    {
+      "id": "prisma_017",
+      "eco": "prisma",
+      "op": "ALTER_COLUMN_TYPE",
+      "ecv": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "gt": false,
+      "kind": "FP",
+      "rationale": "SAFE (verified): `Decimal -> DECIMAL(18,2)` currency precision normalization; compatible with standard C_{t-1} values."
+    },
+    {
+      "id": "prisma_020",
+      "eco": "prisma",
+      "op": "DROP_COLUMN",
+      "ecv": "SAFE_CONTRACT",
+      "gt": true,
+      "kind": "FN",
+      "rationale": "VIOL: C_{t-1} app code directly references `stakeholder_type` at `src/trpc/routers/stakeholder-router/schema.ts:12`."
+    },
+    {
+      "id": "prisma_021",
+      "eco": "prisma",
+      "op": "DROP_COLUMN",
+      "ecv": "SAFE_CONTRACT",
+      "gt": true,
+      "kind": "FN",
+      "rationale": "VIOL: C_{t-1} app code directly references `ispublic` at `src/trpc/routers/update/schema.ts:11`."
+    },
+    {
+      "id": "prisma_024",
+      "eco": "prisma",
+      "op": "ALTER_COLUMN_TYPE",
+      "ecv": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "gt": false,
+      "kind": "FP",
+      "rationale": "SAFE (verified): `Decimal -> DECIMAL(18,2)` currency precision normalization; compatible with standard C_{t-1} values."
+    },
+    {
+      "id": "prisma_030",
+      "eco": "prisma",
+      "op": "DROP_COLUMN",
+      "ecv": "SAFE_CONTRACT",
+      "gt": true,
+      "kind": "FN",
+      "rationale": "VIOL: C_{t-1} app code directly references `connectionid` at `apps/api/src/cloud-security/cloud-security.controller.ts:18`."
+    },
+    {
+      "id": "prisma_033",
+      "eco": "prisma",
+      "op": "ALTER_COLUMN_TYPE",
+      "ecv": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "gt": false,
+      "kind": "FP",
+      "rationale": "SAFE (verified): `TIMESTAMPTZ(6) -> TIMESTAMP(3)`; PG accepts Prisma ISO datetime strings without crash."
+    },
+    {
+      "id": "prisma_038",
+      "eco": "prisma",
+      "op": "RENAME_TYPE_ENUM",
+      "ecv": "DUAL_VERSION_VIOLATION_BOTH",
+      "gt": false,
+      "kind": "FP",
+      "rationale": "SAFE: enum/type `spacememberrole_new` not present in C_{t-1} schema or code."
+    },
+    {
+      "id": "prisma_042",
+      "eco": "prisma",
+      "op": "ALTER_COLUMN_TYPE",
+      "ecv": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "gt": false,
+      "kind": "FP",
+      "rationale": "SAFE (verified): `TIMESTAMP(3) -> TIMESTAMPTZ(3)`; PG accepts Prisma ISO datetime strings without crash."
+    },
+    {
+      "id": "prisma_046",
+      "eco": "prisma",
+      "op": "RENAME_TABLE",
+      "ecv": "SAFE_CONTRACT",
+      "gt": true,
+      "kind": "FN",
+      "rationale": "VIOL (verified): bulk table/FK rename migration in active `amplication` schema without dual-version view."
+    },
+    {
+      "id": "prisma_051",
+      "eco": "prisma",
+      "op": "ALTER_COLUMN_TYPE",
+      "ecv": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "gt": false,
+      "kind": "FP",
+      "rationale": "SAFE: value-compatible type widening (String -> TEXT); lock hazard only, no C_{t-1} value crash."
+    },
+    {
+      "id": "prisma_060",
+      "eco": "prisma",
+      "op": "ALTER_COLUMN_TYPE",
+      "ecv": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "gt": false,
+      "kind": "FP",
+      "rationale": "SAFE (verified): `TIMESTAMP(3) -> TIMESTAMPTZ(3)`; PG accepts Prisma ISO datetime strings without crash."
+    },
+    {
+      "id": "rails_074",
+      "eco": "rails",
+      "op": "ALTER_COLUMN_TYPE",
+      "ecv": "UNCERTAIN",
+      "gt": true,
+      "kind": "FN",
+      "rationale": "VIOL (verified): changes `checklists.sorted_item_ids` to PostgreSQL `varchar[]` array type."
+    },
+    {
+      "id": "rails_079",
+      "eco": "rails",
+      "op": "SET_NOT_NULL",
+      "ecv": "UNCERTAIN",
+      "gt": true,
+      "kind": "FN",
+      "rationale": "VIOL: tightens nullable/active C_{t-1} column `hosts.comment` to NOT NULL without prior presence guarantee."
+    },
+    {
+      "id": "rails_085",
+      "eco": "rails",
+      "op": "SET_NOT_NULL",
+      "ecv": "UNCERTAIN",
+      "gt": true,
+      "kind": "FN",
+      "rationale": "VIOL: tightens nullable/active C_{t-1} column `communities.currency` to NOT NULL without prior presence guarantee."
+    },
+    {
+      "id": "rails_086",
+      "eco": "rails",
+      "op": "ALTER_COLUMN_TYPE",
+      "ecv": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "gt": false,
+      "kind": "FP",
+      "rationale": "SAFE: value-compatible type widening (string -> text); lock hazard only, no C_{t-1} value crash."
+    },
+    {
+      "id": "rails_087",
+      "eco": "rails",
+      "op": "DROP_COLUMN",
+      "ecv": "SAFE_CONTRACT",
+      "gt": true,
+      "kind": "FN",
+      "rationale": "VIOL: commit diff removes references to `creation_ip` in same commit as DDL."
+    },
+    {
+      "id": "rails_088",
+      "eco": "rails",
+      "op": "DROP_TABLE",
+      "ecv": "UNCERTAIN",
+      "gt": true,
+      "kind": "FN",
+      "rationale": "VIOL: C_{t-1} app code references table `sessions` at `app/controllers/polling/poll_sessions_controller.rb:21`."
+    },
+    {
+      "id": "rails_089",
+      "eco": "rails",
+      "op": "RENAME_COLUMN",
+      "ecv": "SAFE_CONTRACT",
+      "gt": true,
+      "kind": "FN",
+      "rationale": "VIOL: C_{t-1} app code directly references `roles` at `devise/app/controllers/alchemy/admin/users_controller.rb:71`."
+    },
+    {
+      "id": "rails_093",
+      "eco": "rails",
+      "op": "ALTER_COLUMN_TYPE",
+      "ecv": "UNCERTAIN",
+      "gt": true,
+      "kind": "FN",
+      "rationale": "VIOL (check type): alters active C_{t-1} column `rapns_notifications.type` (None -> string)."
+    },
+    {
+      "id": "rails_101",
+      "eco": "rails",
+      "op": "ALTER_COLUMN_TYPE",
+      "ecv": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "gt": false,
+      "kind": "FP",
+      "rationale": "SAFE (verified): PostgreSQL `text -> character varying` (unbounded); binary-coercible identical value domain."
+    },
+    {
+      "id": "rails_112",
+      "eco": "rails",
+      "op": "RENAME_COLUMN",
+      "ecv": "DUAL_VERSION_VIOLATION_FORWARD",
+      "gt": false,
+      "kind": "FP",
+      "rationale": "SAFE: column `alerts.time` absent from C_{t-1} ORM schema, app code, and commit diff."
+    },
+    {
+      "id": "rails_120",
+      "eco": "rails",
+      "op": "RENAME_COLUMN",
+      "ecv": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "gt": false,
+      "kind": "FP",
+      "rationale": "SAFE: transient column `ignore_types` was added and modified/dropped within the same migration; absent from C_{t-1}."
+    }
+  ],
+  "ecv_deep_errors": [
+    {
+      "id": "django_123",
+      "eco": "django",
+      "op": "DROP_COLUMN",
+      "ecv": "SAFE_CONTRACT",
+      "gt": false,
+      "kind": "FP",
+      "rationale": "SAFE: column `app_game.title` absent from C_{t-1} ORM schema, app code, and commit diff."
+    },
+    {
+      "id": "django_124",
+      "eco": "django",
+      "op": "DROP_TABLE",
+      "ecv": "SAFE_CONTRACT",
+      "gt": true,
+      "kind": "FN",
+      "rationale": "VIOL: C_{t-1} app code references table `players_defaultguest` at `evennia/players/__init__.py:7`."
+    },
+    {
+      "id": "django_126",
+      "eco": "django",
+      "op": "RENAME_TABLE",
+      "ecv": "SAFE_CONTRACT",
+      "gt": true,
+      "kind": "FN",
+      "rationale": "VIOL: C_{t-1} app code references table `documents_sender` at `src/documents/views.py:395`."
+    },
+    {
+      "id": "django_131",
+      "eco": "django",
+      "op": "RENAME_COLUMN",
+      "ecv": "DUAL_VERSION_VIOLATION_BOTH",
+      "gt": false,
+      "kind": "FP",
+      "rationale": "SAFE: transient column `category` was added and modified/dropped within the same migration; absent from C_{t-1}."
+    },
+    {
+      "id": "django_139",
+      "eco": "django",
+      "op": "DROP_TABLE",
+      "ecv": "SAFE_CONTRACT",
+      "gt": true,
+      "kind": "FN",
+      "rationale": "VIOL: C_{t-1} app code references table `scripts_checksessions` at `evennia/scripts/scripts.py:18`."
+    },
+    {
+      "id": "django_147",
+      "eco": "django",
+      "op": "DROP_TABLE",
+      "ecv": "SAFE_CONTRACT",
+      "gt": true,
+      "kind": "FN",
+      "rationale": "VIOL: C_{t-1} app code references table `contest_contestsubmission` at `contest/views.py:313`."
+    },
+    {
+      "id": "django_150",
+      "eco": "django",
+      "op": "DROP_COLUMN",
+      "ecv": "SAFE_CONTRACT",
+      "gt": false,
+      "kind": "FP",
+      "rationale": "SAFE: target table `engine_task` was created in the same migration (`table_created_same_migration`); C_{t-1} never accesses it."
+    },
+    {
+      "id": "django_152",
+      "eco": "django",
+      "op": "ADD_UNIQUE_OR_CHECK",
+      "ecv": "UNCERTAIN",
+      "gt": false,
+      "kind": "FP",
+      "rationale": "SAFE: target table `auth_user` absent from C_{t-1}."
+    },
+    {
+      "id": "django_153",
+      "eco": "django",
+      "op": "ALTER_COLUMN_TYPE",
+      "ecv": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "gt": false,
+      "kind": "FP",
+      "rationale": "SAFE (verified): Python subclass rename `CoreFormulaModelField -> FormulaField`; both map to PG TEXT."
+    },
+    {
+      "id": "django_163",
+      "eco": "django",
+      "op": "RENAME_COLUMN",
+      "ecv": "DUAL_VERSION_VIOLATION_FORWARD",
+      "gt": false,
+      "kind": "FP",
+      "rationale": "SAFE: column `contest_contestproblem.spj_code_language` absent from C_{t-1} ORM schema, app code, and commit diff."
+    },
+    {
+      "id": "django_165",
+      "eco": "django",
+      "op": "SET_NOT_NULL",
+      "ecv": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "gt": false,
+      "kind": "FP",
+      "rationale": "SAFE: column `projects_domain.validation_process_start` absent or non-nullable in C_{t-1}."
+    },
+    {
+      "id": "prisma_002",
+      "eco": "prisma",
+      "op": "ADD_UNIQUE_OR_CHECK",
+      "ecv": "DATA_DEPENDENT",
+      "gt": false,
+      "kind": "FP",
+      "rationale": "SAFE: target table `scheduled_events` absent from C_{t-1}."
+    },
+    {
+      "id": "prisma_008",
+      "eco": "prisma",
+      "op": "SET_NOT_NULL",
+      "ecv": "SAFE_CONTRACT",
+      "gt": false,
+      "kind": "FP",
+      "rationale": "SAFE: column `membership.userid` was already non-nullable in C_{t-1} ORM schema."
+    },
+    {
+      "id": "prisma_016",
+      "eco": "prisma",
+      "op": "SET_NOT_NULL",
+      "ecv": "SAFE_CONTRACT",
+      "gt": false,
+      "kind": "FP",
+      "rationale": "SAFE: column `version.name` was already non-nullable in C_{t-1} ORM schema."
+    },
+    {
+      "id": "prisma_017",
+      "eco": "prisma",
+      "op": "ALTER_COLUMN_TYPE",
+      "ecv": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "gt": false,
+      "kind": "FP",
+      "rationale": "SAFE (verified): `Decimal -> DECIMAL(18,2)` currency precision normalization; compatible with standard C_{t-1} values."
+    },
+    {
+      "id": "prisma_024",
+      "eco": "prisma",
+      "op": "ALTER_COLUMN_TYPE",
+      "ecv": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "gt": false,
+      "kind": "FP",
+      "rationale": "SAFE (verified): `Decimal -> DECIMAL(18,2)` currency precision normalization; compatible with standard C_{t-1} values."
+    },
+    {
+      "id": "prisma_030",
+      "eco": "prisma",
+      "op": "DROP_COLUMN",
+      "ecv": "SAFE_CONTRACT",
+      "gt": true,
+      "kind": "FN",
+      "rationale": "VIOL: C_{t-1} app code directly references `connectionid` at `apps/api/src/cloud-security/cloud-security.controller.ts:18`."
+    },
+    {
+      "id": "prisma_033",
+      "eco": "prisma",
+      "op": "ALTER_COLUMN_TYPE",
+      "ecv": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "gt": false,
+      "kind": "FP",
+      "rationale": "SAFE (verified): `TIMESTAMPTZ(6) -> TIMESTAMP(3)`; PG accepts Prisma ISO datetime strings without crash."
+    },
+    {
+      "id": "prisma_038",
+      "eco": "prisma",
+      "op": "RENAME_TYPE_ENUM",
+      "ecv": "DUAL_VERSION_VIOLATION_BOTH",
+      "gt": false,
+      "kind": "FP",
+      "rationale": "SAFE: enum/type `spacememberrole_new` not present in C_{t-1} schema or code."
+    },
+    {
+      "id": "prisma_042",
+      "eco": "prisma",
+      "op": "ALTER_COLUMN_TYPE",
+      "ecv": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "gt": false,
+      "kind": "FP",
+      "rationale": "SAFE (verified): `TIMESTAMP(3) -> TIMESTAMPTZ(3)`; PG accepts Prisma ISO datetime strings without crash."
+    },
+    {
+      "id": "prisma_046",
+      "eco": "prisma",
+      "op": "RENAME_TABLE",
+      "ecv": "SAFE_CONTRACT",
+      "gt": true,
+      "kind": "FN",
+      "rationale": "VIOL (verified): bulk table/FK rename migration in active `amplication` schema without dual-version view."
+    },
+    {
+      "id": "prisma_051",
+      "eco": "prisma",
+      "op": "ALTER_COLUMN_TYPE",
+      "ecv": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "gt": false,
+      "kind": "FP",
+      "rationale": "SAFE: value-compatible type widening (String -> TEXT); lock hazard only, no C_{t-1} value crash."
+    },
+    {
+      "id": "prisma_060",
+      "eco": "prisma",
+      "op": "ALTER_COLUMN_TYPE",
+      "ecv": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "gt": false,
+      "kind": "FP",
+      "rationale": "SAFE (verified): `TIMESTAMP(3) -> TIMESTAMPTZ(3)`; PG accepts Prisma ISO datetime strings without crash."
+    },
+    {
+      "id": "rails_068",
+      "eco": "rails",
+      "op": "ALTER_COLUMN_TYPE",
+      "ecv": "UNCERTAIN",
+      "gt": false,
+      "kind": "FP",
+      "rationale": "SAFE (verified): same `:string` type; only updates PostgreSQL collation (`natural_sort_order`)."
+    },
+    {
+      "id": "rails_080",
+      "eco": "rails",
+      "op": "ALTER_COLUMN_TYPE",
+      "ecv": "UNCERTAIN",
+      "gt": false,
+      "kind": "FP",
+      "rationale": "SAFE (verified): value-compatible `:string -> :text` widening on `flipper_gates.value`."
+    },
+    {
+      "id": "rails_085",
+      "eco": "rails",
+      "op": "SET_NOT_NULL",
+      "ecv": "UNCERTAIN",
+      "gt": true,
+      "kind": "FN",
+      "rationale": "VIOL: tightens nullable/active C_{t-1} column `communities.currency` to NOT NULL without prior presence guarantee."
+    },
+    {
+      "id": "rails_086",
+      "eco": "rails",
+      "op": "ALTER_COLUMN_TYPE",
+      "ecv": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "gt": false,
+      "kind": "FP",
+      "rationale": "SAFE: value-compatible type widening (string -> text); lock hazard only, no C_{t-1} value crash."
+    },
+    {
+      "id": "rails_087",
+      "eco": "rails",
+      "op": "DROP_COLUMN",
+      "ecv": "SAFE_CONTRACT",
+      "gt": true,
+      "kind": "FN",
+      "rationale": "VIOL: commit diff removes references to `creation_ip` in same commit as DDL."
+    },
+    {
+      "id": "rails_088",
+      "eco": "rails",
+      "op": "DROP_TABLE",
+      "ecv": "UNCERTAIN",
+      "gt": true,
+      "kind": "FN",
+      "rationale": "VIOL: C_{t-1} app code references table `sessions` at `app/controllers/polling/poll_sessions_controller.rb:21`."
+    },
+    {
+      "id": "rails_089",
+      "eco": "rails",
+      "op": "RENAME_COLUMN",
+      "ecv": "SAFE_CONTRACT",
+      "gt": true,
+      "kind": "FN",
+      "rationale": "VIOL: C_{t-1} app code directly references `roles` at `devise/app/controllers/alchemy/admin/users_controller.rb:71`."
+    },
+    {
+      "id": "rails_101",
+      "eco": "rails",
+      "op": "ALTER_COLUMN_TYPE",
+      "ecv": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "gt": false,
+      "kind": "FP",
+      "rationale": "SAFE (verified): PostgreSQL `text -> character varying` (unbounded); binary-coercible identical value domain."
+    },
+    {
+      "id": "rails_109",
+      "eco": "rails",
+      "op": "ALTER_COLUMN_TYPE",
+      "ecv": "SAFE_CONTRACT",
+      "gt": false,
+      "kind": "FP",
+      "rationale": "SAFE (verified): `integer -> bigint` PK widening on `stories.id` (lock hazard only, no C_{t-1} value crash)."
+    },
+    {
+      "id": "rails_112",
+      "eco": "rails",
+      "op": "RENAME_COLUMN",
+      "ecv": "DUAL_VERSION_VIOLATION_FORWARD",
+      "gt": false,
+      "kind": "FP",
+      "rationale": "SAFE: column `alerts.time` absent from C_{t-1} ORM schema, app code, and commit diff."
+    },
+    {
+      "id": "rails_114",
+      "eco": "rails",
+      "op": "SET_NOT_NULL",
+      "ecv": "SAFE_CONTRACT",
+      "gt": false,
+      "kind": "FP",
+      "rationale": "SAFE: transient column `uuid` was added and modified/dropped within the same migration; absent from C_{t-1}."
+    },
+    {
+      "id": "rails_120",
+      "eco": "rails",
+      "op": "RENAME_COLUMN",
+      "ecv": "DUAL_VERSION_VIOLATION_BACKWARD",
+      "gt": false,
+      "kind": "FP",
+      "rationale": "SAFE: transient column `ignore_types` was added and modified/dropped within the same migration; absent from C_{t-1}."
+    }
+  ]
+}

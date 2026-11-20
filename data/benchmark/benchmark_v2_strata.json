@@ -1,0 +1,23 @@
+{
+  "prisma": {
+    "mig_only_total": 61,
+    "cochanged_total": 1518,
+    "total": 1579,
+    "mig_only_sampled": 30,
+    "cochanged_sampled": 30
+  },
+  "rails": {
+    "mig_only_total": 432,
+    "cochanged_total": 1431,
+    "total": 1863,
+    "mig_only_sampled": 30,
+    "cochanged_sampled": 30
+  },
+  "django": {
+    "mig_only_total": 238,
+    "cochanged_total": 3001,
+    "total": 3239,
+    "mig_only_sampled": 30,
+    "cochanged_sampled": 30
+  }
+}

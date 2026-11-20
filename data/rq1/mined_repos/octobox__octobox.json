@@ -1,0 +1,1173 @@
+{
+  "repo": "octobox/octobox",
+  "ecosystem": "rails",
+  "stars": 4494,
+  "has_k8s_helm": false,
+  "status": "ok",
+  "stats": {
+    "total_migration_commits_in_history": 57,
+    "migration_commits_analyzed": 56,
+    "total_migration_files_parsed": 60,
+    "commits_with_any_destructive": 7,
+    "commits_with_forward_destructive": 7,
+    "commits_with_rollback_only_destructive": 0,
+    "total_ops_extracted": 25,
+    "destructive_ops_up": 15,
+    "destructive_ops_down": 10
+  },
+  "verdict_counts": {
+    "SAFE_ADDITIVE": 12,
+    "ROLLBACK_ONLY_FALSE_ALARM": 10,
+    "DUAL_VERSION_VIOLATION_BACKWARD": 3
+  },
+  "destructive_commits": [
+    {
+      "sha": "e941d5b76658f1f9a576533bbf53274a7fb20796",
+      "parent": "ab693f19dc4df794a1a5fbaea99024aab1512cbd",
+      "date": "2026-06-30T12:33:51+09:00",
+      "subject": "Support large GitHub account IDs",
+      "mig_files": [
+        "db/migrate/20260630000000_change_github_account_ids_to_bigint.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "db/schema.rb",
+        "test/models/app_installation_test.rb"
+      ],
+      "orm_models_parsed_old": 13,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "app_installations",
+            "column": "app_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "bigint",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260630000000_change_github_account_ids_to_bigint.rb",
+            "line": 3,
+            "raw_snippet": "change_column :app_installations, :app_id, :bigint",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "app_installations",
+            "column": "app_id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/app_installation.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening integer -> bigint preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "app_installations",
+            "column": "account_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "bigint",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260630000000_change_github_account_ids_to_bigint.rb",
+            "line": 4,
+            "raw_snippet": "change_column :app_installations, :account_id, :bigint",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "app_installations",
+            "column": "account_id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/app_installation.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening integer -> bigint preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "app_installations",
+            "column": "target_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "bigint",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260630000000_change_github_account_ids_to_bigint.rb",
+            "line": 5,
+            "raw_snippet": "change_column :app_installations, :target_id, :bigint",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "app_installations",
+            "column": "target_id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/app_installation.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening integer -> bigint preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "subscription_plans",
+            "column": "github_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "bigint",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260630000000_change_github_account_ids_to_bigint.rb",
+            "line": 6,
+            "raw_snippet": "change_column :subscription_plans, :github_id, :bigint",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "subscription_plans",
+            "column": "github_id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/subscription_plan.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening integer -> bigint preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "subscription_purchases",
+            "column": "account_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "bigint",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260630000000_change_github_account_ids_to_bigint.rb",
+            "line": 7,
+            "raw_snippet": "change_column :subscription_purchases, :account_id, :bigint",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "subscription_purchases",
+            "column": "account_id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/subscription_purchase.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening integer -> bigint preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "app_installations",
+            "column": "app_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "integer",
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260630000000_change_github_account_ids_to_bigint.rb",
+            "line": 11,
+            "raw_snippet": "change_column :app_installations, :app_id, :integer",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "app_installations",
+            "column": "app_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "app_installations",
+            "column": "account_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "integer",
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260630000000_change_github_account_ids_to_bigint.rb",
+            "line": 12,
+            "raw_snippet": "change_column :app_installations, :account_id, :integer",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "app_installations",
+            "column": "account_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "app_installations",
+            "column": "target_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "integer",
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260630000000_change_github_account_ids_to_bigint.rb",
+            "line": 13,
+            "raw_snippet": "change_column :app_installations, :target_id, :integer",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "app_installations",
+            "column": "target_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "subscription_plans",
+            "column": "github_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "integer",
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260630000000_change_github_account_ids_to_bigint.rb",
+            "line": 14,
+            "raw_snippet": "change_column :subscription_plans, :github_id, :integer",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "subscription_plans",
+            "column": "github_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "subscription_purchases",
+            "column": "account_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "integer",
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20260630000000_change_github_account_ids_to_bigint.rb",
+            "line": 15,
+            "raw_snippet": "change_column :subscription_purchases, :account_id, :integer",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "subscription_purchases",
+            "column": "account_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "202d5f64a395b7eb6ba0e72cf8e0b189a3c48d46",
+      "parent": "c62504878dc2a24d4ff0f90e8847eaa3c22de7e4",
+      "date": "2024-02-21T19:13:23Z",
+      "subject": "Change subject, repository, user, and app_installation github_id columns to bigint",
+      "mig_files": [
+        "db/migrate/20240221191013_change_subject_github_id_to_bigint.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "db/schema.rb"
+      ],
+      "orm_models_parsed_old": 13,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "subjects",
+            "column": "github_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "bigint",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20240221191013_change_subject_github_id_to_bigint.rb",
+            "line": 3,
+            "raw_snippet": "change_column :subjects, :github_id, :bigint",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "subjects",
+            "column": "github_id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/subject.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening integer -> bigint preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "repositories",
+            "column": "github_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "bigint",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20240221191013_change_subject_github_id_to_bigint.rb",
+            "line": 4,
+            "raw_snippet": "change_column :repositories, :github_id, :bigint",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "repositories",
+            "column": "github_id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/repository.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening integer -> bigint preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "users",
+            "column": "github_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "bigint",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20240221191013_change_subject_github_id_to_bigint.rb",
+            "line": 5,
+            "raw_snippet": "change_column :users, :github_id, :bigint",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users",
+            "column": "github_id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/user.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening integer -> bigint preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "app_installations",
+            "column": "github_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "bigint",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20240221191013_change_subject_github_id_to_bigint.rb",
+            "line": 6,
+            "raw_snippet": "change_column :app_installations, :github_id, :bigint",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "app_installations",
+            "column": "github_id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/app_installation.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening integer -> bigint preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "subjects",
+            "column": "github_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "integer",
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20240221191013_change_subject_github_id_to_bigint.rb",
+            "line": 10,
+            "raw_snippet": "change_column :subjects, :github_id, :integer",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "subjects",
+            "column": "github_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "repositories",
+            "column": "github_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "integer",
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20240221191013_change_subject_github_id_to_bigint.rb",
+            "line": 11,
+            "raw_snippet": "change_column :repositories, :github_id, :integer",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "repositories",
+            "column": "github_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "users",
+            "column": "github_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "integer",
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20240221191013_change_subject_github_id_to_bigint.rb",
+            "line": 12,
+            "raw_snippet": "change_column :users, :github_id, :integer",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users",
+            "column": "github_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "app_installations",
+            "column": "github_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "integer",
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20240221191013_change_subject_github_id_to_bigint.rb",
+            "line": 13,
+            "raw_snippet": "change_column :app_installations, :github_id, :integer",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "app_installations",
+            "column": "github_id",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "0480ea25df51374fc2e36077b78d1613668eb3d9",
+      "parent": "d76d6695657a9b4f897414373b3b05022cca8609",
+      "date": "2021-07-08T08:38:53+01:00",
+      "subject": "change notification github_id coloumn to bigint",
+      "mig_files": [
+        "db/migrate/20210708073701_change_notification_id_type.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "db/schema.rb"
+      ],
+      "orm_models_parsed_old": 13,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "notifications",
+            "column": "github_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "bigint",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20210708073701_change_notification_id_type.rb",
+            "line": 3,
+            "raw_snippet": "change_column :notifications, :github_id, :bigint",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "notifications",
+            "column": "github_id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/notification.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening integer -> bigint preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "25561c24515613dee30b680965743b4f055cc208",
+      "parent": "18828b33a989763264dc03e0a1857d39fb7c2ba9",
+      "date": "2020-06-19T12:14:22+01:00",
+      "subject": "store label github_id in bigint (#2363)",
+      "mig_files": [
+        "db/migrate/20200619095214_label_github_id_bigint.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "db/schema.rb",
+        "test/models/subject_test.rb"
+      ],
+      "orm_models_parsed_old": 13,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "labels",
+            "column": "github_id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "bigint",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20200619095214_label_github_id_bigint.rb",
+            "line": 3,
+            "raw_snippet": "change_column :labels, :github_id, :bigint",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "labels",
+            "column": "github_id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/label.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening integer -> bigint preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "3d8555881c9fda7fe0c865761e8301e56fb7c1f4",
+      "parent": "dd0d086224c88a1c58f540261e015f9cea6afff2",
+      "date": "2019-05-22T15:47:11+01:00",
+      "subject": "Launch 'conversations' (#1645)",
+      "mig_files": [
+        "db/migrate/20190304093903_display_comments_in_ocotobox.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "test/workers/comment_worker_test.rb"
+      ],
+      "orm_models_parsed_old": 13,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "users",
+            "column": "display_comments",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "boolean",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20190304093903_display_comments_in_ocotobox.rb",
+            "line": 3,
+            "raw_snippet": "change_column :users, :display_comments, :boolean, default: true",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users",
+            "column": "display_comments",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "app/models/user.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Type widening boolean -> boolean preserves C_{t-1} data compatibility.",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "04e57e62bd8e9146af489280fc0dae1ebbeb622d",
+      "parent": "4e0e229922daa31f895cbf24271d080770793ba9",
+      "date": "2018-08-09T10:28:00-04:00",
+      "subject": "Encrypt access tokens (#619)",
+      "mig_files": [
+        "db/migrate/20180423185221_add_encrypted_access_token_to_user.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "app/controllers/application_controller.rb",
+        "app/models/user.rb",
+        "db/schema.rb",
+        "lib/octobox/configurator.rb",
+        "test/controllers/sessions_controller_test.rb"
+      ],
+      "orm_models_parsed_old": 5,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "users",
+            "column": "access_token",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20180423185221_add_encrypted_access_token_to_user.rb",
+            "line": 5,
+            "raw_snippet": "remove_column :users, :access_token, :string",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users",
+            "column": "access_token",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/user.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'access_token' active in C_{t-1} ORM (app/models/user.rb); identifier removed in same commit diff",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "DROP_COLUMN",
+            "table": "users",
+            "column": "personal_access_token",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20180423185221_add_encrypted_access_token_to_user.rb",
+            "line": 9,
+            "raw_snippet": "remove_column :users, :personal_access_token, :string",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "users",
+            "column": "personal_access_token",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/user.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'personal_access_token' active in C_{t-1} ORM (app/models/user.rb); identifier removed in same commit diff",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "DROP_COLUMN",
+            "bypassed": false
+          }
+        }
+      ]
+    },
+    {
+      "sha": "6dbe59547514f4f55fc6f4e6436334a3fc175629",
+      "parent": "f4a32e5891da39b85f505f0eec00c12fc73b2fa1",
+      "date": "2018-02-01T13:48:37-05:00",
+      "subject": "Change subject_title from string to text to support longer titles",
+      "mig_files": [
+        "db/migrate/20180201184741_change_subject_title_from_string_to_text.rb"
+      ],
+      "app_files_touched_in_commit": [
+        "db/schema.rb"
+      ],
+      "orm_models_parsed_old": 4,
+      "raw_sql": "",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "notifications",
+            "column": "subject_title",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "text",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20180201184741_change_subject_title_from_string_to_text.rb",
+            "line": 3,
+            "raw_snippet": "change_column :notifications, :subject_title, :text",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "notifications",
+            "column": "subject_title",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "app/models/notification.rb"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'notifications.subject_title' (string -> text).",
+          "strong_migrations_baseline": {
+            "flagged": true,
+            "rule": "ALTER_COLUMN_TYPE",
+            "bypassed": false
+          }
+        },
+        {
+          "op": {
+            "ecosystem": "rails",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "notifications",
+            "column": "subject_title",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "string",
+            "phase_section": "down",
+            "has_safety_bypass": false,
+            "file_path": "db/migrate/20180201184741_change_subject_title_from_string_to_text.rb",
+            "line": 7,
+            "raw_snippet": "change_column :notifications, :subject_title, :string",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "notifications",
+            "column": "subject_title",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "ROLLBACK_ONLY_FALSE_ALARM",
+          "reason": "Destructive DDL appears only inside rollback/down block, never executed in forward rollout.",
+          "strong_migrations_baseline": {
+            "flagged": false,
+            "rule": null,
+            "bypassed": false
+          }
+        }
+      ]
+    }
+  ]
+}

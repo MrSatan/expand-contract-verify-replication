@@ -1,0 +1,2786 @@
+{
+  "repo": "trycompai/comp",
+  "ecosystem": "prisma",
+  "stars": 2100,
+  "has_k8s_helm": false,
+  "status": "ok",
+  "stats": {
+    "total_migration_commits_in_history": 319,
+    "migration_commits_analyzed": 150,
+    "total_migration_files_parsed": 231,
+    "commits_with_any_destructive": 24,
+    "commits_with_forward_destructive": 24,
+    "commits_with_rollback_only_destructive": 0,
+    "total_ops_extracted": 55,
+    "destructive_ops_up": 55,
+    "destructive_ops_down": 0
+  },
+  "verdict_counts": {
+    "SAFE_ADDITIVE": 1,
+    "DATA_DEPENDENT": 7,
+    "DUAL_VERSION_VIOLATION_BACKWARD": 20,
+    "DUAL_VERSION_VIOLATION_BOTH": 4,
+    "SAFE_CONTRACT": 11,
+    "UNCERTAIN": 7,
+    "DUAL_VERSION_VIOLATION_FORWARD": 5
+  },
+  "destructive_commits": [
+    {
+      "sha": "8c4b358ea5a170538e5097f1a28874fd5d470826",
+      "parent": "b9240ebee3ce3f6dc6ce13f81c6d64a12930c109",
+      "date": "2026-07-23T23:29:34-04:00",
+      "subject": "feat(risks): risk acceptance events + ISMS 6.1.2 methodology and 6.1.3 treatment plan documents (CS-727) (#3493)",
+      "mig_files": [
+        "packages/db/prisma/migrations/20260723195431_risk_acceptance_and_risk_doc_types/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/api/src/isms/documents/data-source.spec.ts",
+        "apps/api/src/isms/documents/data-source.ts",
+        "apps/api/src/isms/documents/generate.spec.ts",
+        "apps/api/src/isms/documents/generate.ts",
+        "apps/api/src/isms/documents/interested-parties.spec.ts",
+        "apps/api/src/isms/documents/narrative.spec.ts",
+        "apps/api/src/isms/documents/objectives.spec.ts",
+        "apps/api/src/isms/documents/registry.ts",
+        "apps/api/src/isms/documents/requirements.spec.ts",
+        "apps/api/src/isms/documents/risk-methodology-defaults.ts",
+        "apps/api/src/isms/documents/risk-methodology.spec.ts",
+        "apps/api/src/isms/documents/risk-methodology.ts"
+      ],
+      "orm_models_parsed_old": 161,
+      "raw_sql": "-- AlterEnum\n-- This migration adds more than one value to an enum.\n-- With PostgreSQL versions 11 and earlier, this is not possible\n-- in a single migration. This can be worked around by creating\n-- multiple migrations, each migration adding only one value to\n-- the enum.\n\n\nALTER TYPE \"IsmsDocumentType\" ADD VALUE 'risk_assessment_methodology';\nALTER TYPE \"IsmsDocumentType\" ADD VALUE 'risk_treatment_plan';\n\n-- CreateTable\nCREATE TABLE \"RiskAcceptance\" (\n    \"id\" TEXT NOT NULL DEFAULT generate_prefixed_cuid('rska'::text),\n    \"organizationId\" TEXT NOT NULL,\n    \"riskId\" TEXT,\n    \"vendorId\" TEXT,\n    \"acceptedById\" TEXT,\n    \"acceptedByName\" TEXT NOT NULL,\n    \"notes\" TEXT,\n    \"residualLikelihood\" \"Likelihood\" NOT NULL,\n    \"residualImpact\" \"Impact\" NOT NULL,\n    \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n\n    CONSTRAINT \"RiskAcceptance_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateIndex\nCREATE INDEX \"RiskAcceptance_organizationId_idx\" ON \"RiskAcceptance\"(\"organizationId\");\n\n-- CreateIndex\nCREATE INDEX \"RiskAcceptance_riskId_idx\" ON \"RiskAcceptance\"(\"riskId\");\n\n-- CreateIndex\nCREATE INDEX \"RiskAcceptance_vendorId_idx\" ON \"RiskAcceptance\"(\"vendorId\");\n\n-- AddForeignKey\nALTER TABLE \"RiskAcceptance\" ADD CONSTRAINT \"RiskAcceptance_organizationId_fkey\" FOREIGN KEY (\"organizationId\") REFERENCES \"Organization\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"RiskAcceptance\" ADD CONSTRAINT \"RiskAcceptance_riskId_fkey\" FOREIGN KEY (\"riskId\") REFERENCES \"Risk\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"RiskAcceptance\" ADD CONSTRAINT \"RiskAcceptance_vendorId_fkey\" FOREIGN KEY (\"vendorId\") REFERENCES \"Vendor\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"RiskAcceptance\" ADD CONSTRAINT \"RiskAcceptance_acceptedById_fkey\" FOREIGN KEY (\"acceptedById\") REFERENCES \"Member\"(\"id\") ON DELETE SET NULL ON UPDATE CASCADE;\n\n-- Exactly one subject per acceptance: a row belongs to a risk XOR a vendor.\n-- Prisma cannot express this; keep in sync with risk-acceptance.prisma.\nALTER TABLE \"RiskAcceptance\" ADD CONSTRAINT \"risk_acceptance_single_subject\" CHECK (num_nonnulls(\"riskId\", \"vendorId\") = 1);\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ADD_UNIQUE_OR_CHECK",
+            "table": "riskacceptance",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/db/prisma/migrations/20260723195431_risk_acceptance_and_risk_doc_types/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE riskacceptance ADD CONSTRAINT \"risk_acceptance_single_subject\" CHECK (NUM_NONNULLS(\"riskId\", \"vendorId\") = 1)",
+            "extra": {
+              "table_sql": "RiskAcceptance"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "riskacceptance",
+            "column": null,
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_ADDITIVE",
+          "reason": "Constraint added on newly created table 'riskacceptance'."
+        }
+      ]
+    },
+    {
+      "sha": "e9ed93df7740d23279ca461550a6c5cbe2187351",
+      "parent": "bfa414bae7b3add6409959791de74f2a139da665",
+      "date": "2026-06-10T16:58:01-04:00",
+      "subject": "feat(trust-portal): display custom frameworks on the trust portal",
+      "mig_files": [
+        "packages/db/prisma/migrations/20260610120000_trust_custom_frameworks/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/api/src/trust-portal/dto/compliance-resource.dto.ts",
+        "apps/api/src/trust-portal/dto/trust-custom-framework.dto.ts",
+        "apps/api/src/trust-portal/trust-access.controller.ts",
+        "apps/api/src/trust-portal/trust-access.service.spec.ts",
+        "apps/api/src/trust-portal/trust-access.service.ts",
+        "apps/api/src/trust-portal/trust-custom-framework.service.spec.ts",
+        "apps/api/src/trust-portal/trust-custom-framework.service.ts",
+        "apps/api/src/trust-portal/trust-portal.controller.spec.ts",
+        "apps/api/src/trust-portal/trust-portal.controller.ts",
+        "apps/api/src/trust-portal/trust-portal.module.ts",
+        "apps/api/src/trust-portal/trust-portal.service.ts",
+        "apps/app/src/app/(app)/[orgId]/trust/page.tsx"
+      ],
+      "orm_models_parsed_old": 134,
+      "raw_sql": "-- Custom frameworks on the Trust Portal.\n--\n-- A TrustResource (compliance certificate PDF) can now belong to EITHER a native\n-- framework (TrustFramework enum) OR an org-authored CustomFramework. New table\n-- TrustCustomFramework records which custom frameworks an org displays on its\n-- public portal, mirroring the per-framework enabled/status columns that native\n-- frameworks store on `Trust`.\n\n-- AlterTable: TrustResource \u2014 framework becomes optional; add custom framework link.\nALTER TABLE \"TrustResource\" ALTER COLUMN \"framework\" DROP NOT NULL;\nALTER TABLE \"TrustResource\" ADD COLUMN \"customFrameworkId\" TEXT;\n\n-- CreateTable\nCREATE TABLE \"TrustCustomFramework\" (\n    \"id\" TEXT NOT NULL DEFAULT generate_prefixed_cuid('tcf'::text),\n    \"organizationId\" TEXT NOT NULL,\n    \"customFrameworkId\" TEXT NOT NULL,\n    \"enabled\" BOOLEAN NOT NULL DEFAULT true,\n    \"status\" \"FrameworkStatus\" NOT NULL DEFAULT 'started',\n    \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    \"updatedAt\" TIMESTAMP(3) NOT NULL,\n\n    CONSTRAINT \"TrustCustomFramework_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"TrustResource_organizationId_customFrameworkId_key\" ON \"TrustResource\"(\"organizationId\", \"customFrameworkId\");\n\n-- CreateIndex\nCREATE INDEX \"TrustResource_customFrameworkId_idx\" ON \"TrustResource\"(\"customFrameworkId\");\n\n-- CreateIndex\nCREATE INDEX \"TrustCustomFramework_organizationId_idx\" ON \"TrustCustomFramework\"(\"organizationId\");\n\n-- CreateIndex\nCREATE INDEX \"TrustCustomFramework_customFrameworkId_idx\" ON \"TrustCustomFramework\"(\"customFrameworkId\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"TrustCustomFramework_organizationId_customFrameworkId_key\" ON \"TrustCustomFramework\"(\"organizationId\", \"customFrameworkId\");\n\n-- AddForeignKey\nALTER TABLE \"TrustResource\" ADD CONSTRAINT \"TrustResource_customFrameworkId_organizationId_fkey\" FOREIGN KEY (\"customFrameworkId\", \"organizationId\") REFERENCES \"CustomFramework\"(\"id\", \"organizationId\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"TrustCustomFramework\" ADD CONSTRAINT \"TrustCustomFramework_organizationId_fkey\" FOREIGN KEY (\"organizationId\") REFERENCES \"Organization\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"TrustCustomFramework\" ADD CONSTRAINT \"TrustCustomFramework_customFrameworkId_organizationId_fkey\" FOREIGN KEY (\"customFrameworkId\", \"organizationId\") REFERENCES \"CustomFramework\"(\"id\", \"organizationId\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- CHECK constraint: a TrustResource belongs to exactly one of a native framework\n-- or a custom framework. Existing rows (framework set, customFrameworkId NULL)\n-- satisfy this, so the constraint is safe to add in place.\nALTER TABLE \"TrustResource\"\n    ADD CONSTRAINT \"TrustResource_one_framework_check\"\n    CHECK ((\"framework\" IS NOT NULL)::int + (\"customFrameworkId\" IS NOT NULL)::int = 1);\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ADD_UNIQUE_OR_CHECK",
+            "table": "trustresource",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/db/prisma/migrations/20260610120000_trust_custom_frameworks/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE trustresource ADD CONSTRAINT \"TrustResource_one_framework_check\" CHECK (CAST((\"framework\" IS NOT NULL) AS INT) + CAST((\"customFrameworkId\" IS NOT NULL) AS INT) = 1)",
+            "extra": {
+              "table_sql": "TrustResource"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "trustresource",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/db/prisma/schema/trust.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "DATA_DEPENDENT",
+          "compat_forward": "SAFE",
+          "classification": "DATA_DEPENDENT",
+          "reason": "CHECK/UNIQUE constraint added on active C_{t-1} table 'trustresource'; safety depends on C_{t-1} write values."
+        }
+      ]
+    },
+    {
+      "sha": "1409aae9a45a9f2215b8c2c0702432a27ef53f02",
+      "parent": "2d9f2ea80d17554a70d970903041498725c6de78",
+      "date": "2026-06-02T22:21:39-04:00",
+      "subject": "fix(db): change departments field type to string for member, risk and task models",
+      "mig_files": [
+        "packages/db/prisma/migrations/20260602130000_member_risk_task_department_to_string/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "packages/db/prisma/schema/auth.prisma",
+        "packages/db/prisma/schema/risk.prisma",
+        "packages/db/prisma/schema/task.prisma"
+      ],
+      "orm_models_parsed_old": 134,
+      "raw_sql": "-- AlterTable: Member.department \u2014 convert enum column to TEXT, preserve \"none\" default\nALTER TABLE \"Member\" ALTER COLUMN \"department\" DROP DEFAULT;\nALTER TABLE \"Member\" ALTER COLUMN \"department\" TYPE TEXT USING \"department\"::TEXT;\nALTER TABLE \"Member\" ALTER COLUMN \"department\" SET DEFAULT 'none';\n\n-- AlterTable: Risk.department \u2014 convert nullable enum column to TEXT (no default)\nALTER TABLE \"Risk\" ALTER COLUMN \"department\" TYPE TEXT USING \"department\"::TEXT;\n\n-- AlterTable: Task.department \u2014 convert nullable enum column to TEXT, preserve \"none\" default\nALTER TABLE \"Task\" ALTER COLUMN \"department\" DROP DEFAULT;\nALTER TABLE \"Task\" ALTER COLUMN \"department\" TYPE TEXT USING \"department\"::TEXT;\nALTER TABLE \"Task\" ALTER COLUMN \"department\" SET DEFAULT 'none';\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "member",
+            "column": "department",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TEXT",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/db/prisma/migrations/20260602130000_member_risk_task_department_to_string/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE member ALTER COLUMN \"department\" SET DATA TYPE TEXT USING CAST(\"department\" AS TEXT)",
+            "extra": {
+              "table_sql": "Member"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "member",
+            "column": "department",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/db/prisma/schema/auth.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'member.department' (Departments -> TEXT)."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "risk",
+            "column": "department",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TEXT",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/db/prisma/migrations/20260602130000_member_risk_task_department_to_string/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE risk ALTER COLUMN \"department\" SET DATA TYPE TEXT USING CAST(\"department\" AS TEXT)",
+            "extra": {
+              "table_sql": "Risk"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "risk",
+            "column": "department",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/db/prisma/schema/risk.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'risk.department' (Departments -> TEXT)."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "task",
+            "column": "department",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TEXT",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/db/prisma/migrations/20260602130000_member_risk_task_department_to_string/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE task ALTER COLUMN \"department\" SET DATA TYPE TEXT USING CAST(\"department\" AS TEXT)",
+            "extra": {
+              "table_sql": "Task"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "task",
+            "column": "department",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/db/prisma/schema/task.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'task.department' (Departments -> TEXT)."
+        }
+      ]
+    },
+    {
+      "sha": "cb456c608233a78e728e4f9c09da24fc23411534",
+      "parent": "84510e0cad188ef2a898d02fcb4b2024b61963c4",
+      "date": "2026-06-02T14:41:33-04:00",
+      "subject": "fix(db): change departments type of policy model",
+      "mig_files": [
+        "packages/db/prisma/migrations/20260602120000_policy_department_to_string/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "packages/db/prisma/schema/policy.prisma"
+      ],
+      "orm_models_parsed_old": 134,
+      "raw_sql": "-- AlterTable\nALTER TABLE \"Policy\" ALTER COLUMN \"department\" TYPE TEXT USING \"department\"::TEXT;\n\n-- AlterTable\nALTER TABLE \"Policy\" ALTER COLUMN \"visibleToDepartments\" DROP DEFAULT;\nALTER TABLE \"Policy\" ALTER COLUMN \"visibleToDepartments\" TYPE TEXT[] USING \"visibleToDepartments\"::TEXT[];\nALTER TABLE \"Policy\" ALTER COLUMN \"visibleToDepartments\" SET DEFAULT ARRAY[]::TEXT[];\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "policy",
+            "column": "department",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TEXT",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/db/prisma/migrations/20260602120000_policy_department_to_string/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE policy ALTER COLUMN \"department\" SET DATA TYPE TEXT USING CAST(\"department\" AS TEXT)",
+            "extra": {
+              "table_sql": "Policy"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "policy",
+            "column": "department",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/db/prisma/schema/policy.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'policy.department' (Departments -> TEXT)."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "policy",
+            "column": "visibletodepartments",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TEXT[]",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/db/prisma/migrations/20260602120000_policy_department_to_string/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE policy ALTER COLUMN \"visibleToDepartments\" SET DATA TYPE TEXT[] USING CAST(\"visibleToDepartments\" AS TEXT[])",
+            "extra": {
+              "table_sql": "Policy",
+              "column_sql": "visibleToDepartments"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "policy",
+            "column": "visibletodepartments",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/db/prisma/schema/policy.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'policy.visibletodepartments' (None -> TEXT[])."
+        }
+      ]
+    },
+    {
+      "sha": "6b96503dd84671496f72e477ff0d28ba0fdd4ce5",
+      "parent": "39d5bbef64e3ebd388775e71ae8fc18aca6d25be",
+      "date": "2026-05-07T15:39:26+01:00",
+      "subject": "feat: allow adding custom requirements to existing frameworks",
+      "mig_files": [
+        "packages/db/prisma/migrations/20260507140900_custom_requirement_framework_instance/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/api/src/controls/controls.service.ts",
+        "apps/api/src/frameworks/frameworks.service.spec.ts",
+        "apps/api/src/frameworks/frameworks.service.ts",
+        "apps/app/src/app/(app)/[orgId]/frameworks/[frameworkInstanceId]/requirements/[requirementKey]/page.tsx",
+        "packages/db/prisma/schema/custom-framework.prisma",
+        "packages/db/prisma/schema/framework.prisma"
+      ],
+      "orm_models_parsed_old": 112,
+      "raw_sql": "-- Allow a CustomRequirement to be attached directly to a FrameworkInstance,\n-- not just a CustomFramework. Use case: an org wants to tack an extra\n-- requirement onto a platform framework like ISO 27001 without authoring a\n-- whole new CustomFramework. Exactly one of customFrameworkId /\n-- frameworkInstanceId is set, enforced by a CHECK constraint.\n\n-- 1. Composite-FK target on FrameworkInstance so the new FK can enforce that\n--    a per-instance custom requirement only points at an FI in its own org.\nALTER TABLE \"FrameworkInstance\"\n    ADD CONSTRAINT \"FrameworkInstance_id_organizationId_key\" UNIQUE (\"id\", \"organizationId\");\n\n-- 2. Schema changes on CustomRequirement: relax the existing FK and add the new one.\nALTER TABLE \"CustomRequirement\" ADD COLUMN \"frameworkInstanceId\" TEXT;\nALTER TABLE \"CustomRequirement\" ALTER COLUMN \"customFrameworkId\" DROP NOT NULL;\n\nALTER TABLE \"CustomRequirement\"\n    ADD CONSTRAINT \"CustomRequirement_frameworkInstanceId_organizationId_fkey\"\n    FOREIGN KEY (\"frameworkInstanceId\", \"organizationId\")\n    REFERENCES \"FrameworkInstance\"(\"id\", \"organizationId\")\n    ON DELETE CASCADE ON UPDATE CASCADE;\n\nCREATE INDEX \"CustomRequirement_frameworkInstanceId_idx\"\n    ON \"CustomRequirement\"(\"frameworkInstanceId\");\n\n-- Identifier uniqueness scoped to whichever parent is set. Postgres treats\n-- NULLs as distinct in unique indexes by default, so the inactive parent\n-- column on each row never collides across rows.\nCREATE UNIQUE INDEX \"CustomRequirement_frameworkInstanceId_identifier_key\"\n    ON \"CustomRequirement\"(\"frameworkInstanceId\", \"identifier\");\n\n-- 3. Exactly one of the two parents must be set.\nALTER TABLE \"CustomRequirement\"\n    ADD CONSTRAINT \"CustomRequirement_one_parent_check\"\n    CHECK ((\"customFrameworkId\" IS NOT NULL)::int + (\"frameworkInstanceId\" IS NOT NULL)::int = 1);\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ADD_UNIQUE_OR_CHECK",
+            "table": "frameworkinstance",
+            "column": "id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/db/prisma/migrations/20260507140900_custom_requirement_framework_instance/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE frameworkinstance ADD CONSTRAINT \"FrameworkInstance_id_organizationId_key\" UNIQUE (\"id\", \"organizationId\")",
+            "extra": {
+              "table_sql": "FrameworkInstance"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "frameworkinstance",
+            "column": "id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/db/prisma/schema/framework.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "DATA_DEPENDENT",
+          "compat_forward": "SAFE",
+          "classification": "DATA_DEPENDENT",
+          "reason": "CHECK/UNIQUE constraint added on active C_{t-1} table 'frameworkinstance'; safety depends on C_{t-1} write values."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ADD_UNIQUE_OR_CHECK",
+            "table": "customrequirement",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/db/prisma/migrations/20260507140900_custom_requirement_framework_instance/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE customrequirement ADD CONSTRAINT \"CustomRequirement_one_parent_check\" CHECK (CAST((\"customFrameworkId\" IS NOT NULL) AS INT) + CAST((\"frameworkInstanceId\" IS NOT NULL) A",
+            "extra": {
+              "table_sql": "CustomRequirement"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "customrequirement",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/db/prisma/schema/custom-framework.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "DATA_DEPENDENT",
+          "compat_forward": "SAFE",
+          "classification": "DATA_DEPENDENT",
+          "reason": "CHECK/UNIQUE constraint added on active C_{t-1} table 'customrequirement'; safety depends on C_{t-1} write values."
+        }
+      ]
+    },
+    {
+      "sha": "435c235cf10304b92c2a39a091c34e1a12dba2c2",
+      "parent": "11efc56a554ed471f48a7249c4236aabd3a60d2d",
+      "date": "2026-04-30T20:49:14+01:00",
+      "subject": "feat(billing): integrate billing module and enhance background check services",
+      "mig_files": [
+        "packages/db/prisma/migrations/20260430180000_subscription_billing_foundation/migration.sql",
+        "packages/db/prisma/migrations/20260430181000_drop_stale_pentest_subscription/migration.sql",
+        "packages/db/prisma/migrations/20260430182000_name_billing_subscription_unique_index/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/api/src/app.module.ts",
+        "apps/api/src/background-checks/background-check-billing.service.ts",
+        "apps/api/src/background-checks/background-check-payment.service.spec.ts",
+        "apps/api/src/background-checks/background-check-payment.service.ts",
+        "apps/api/src/background-checks/background-checks.module.ts",
+        "apps/api/src/background-checks/background-checks.service.spec.ts",
+        "apps/api/src/billing/billing-customer.ts",
+        "apps/api/src/billing/billing-entitlements.service.ts",
+        "apps/api/src/billing/billing-entitlements.types.ts",
+        "apps/api/src/billing/billing-invoices.spec.ts",
+        "apps/api/src/billing/billing-invoices.ts",
+        "apps/api/src/billing/billing-preferences.spec.ts"
+      ],
+      "orm_models_parsed_old": 101,
+      "raw_sql": "ALTER TABLE \"organization_billing\"\n  RENAME COLUMN \"stripe_background_check_payment_method_id\" TO \"stripe_payment_method_id\";\n\nALTER TABLE \"organization_billing\"\n  RENAME COLUMN \"background_check_payment_method_setup_at\" TO \"payment_method_updated_at\";\n\nCREATE TABLE \"organization_billing_subscriptions\" (\n  \"id\" TEXT NOT NULL DEFAULT generate_prefixed_cuid('obs'::text),\n  \"organization_id\" TEXT NOT NULL,\n  \"sku_key\" TEXT NOT NULL,\n  \"stripe_subscription_id\" TEXT NOT NULL,\n  \"stripe_subscription_item_id\" TEXT NOT NULL,\n  \"stripe_price_id\" TEXT NOT NULL,\n  \"stripe_status\" TEXT NOT NULL,\n  \"current_period_start\" TIMESTAMP(3),\n  \"current_period_end\" TIMESTAMP(3),\n  \"included_quantity\" INTEGER NOT NULL,\n  \"used_quantity\" INTEGER NOT NULL DEFAULT 0,\n  \"cancel_at_period_end\" BOOLEAN NOT NULL DEFAULT false,\n  \"canceled_at\" TIMESTAMP(3),\n  \"created_at\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n  \"updated_at\" TIMESTAMP(3) NOT NULL,\n\n  CONSTRAINT \"organization_billing_subscriptions_pkey\" PRIMARY KEY (\"id\")\n);\n\nCREATE TABLE \"billing_usage_events\" (\n  \"id\" TEXT NOT NULL DEFAULT generate_prefixed_cuid('bue'::text),\n  \"organization_id\" TEXT NOT NULL,\n  \"sku_key\" TEXT NOT NULL,\n  \"event_type\" TEXT NOT NULL,\n  \"quantity\" INTEGER NOT NULL,\n  \"source_resource_id\" TEXT,\n  \"idempotency_key\" TEXT NOT NULL,\n  \"stripe_event_id\" TEXT,\n  \"stripe_invoice_id\" TEXT,\n  \"stripe_subscription_item_id\" TEXT,\n  \"period_start\" TIMESTAMP(3),\n  \"period_end\" TIMESTAMP(3),\n  \"created_at\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n\n  CONSTRAINT \"billing_usage_events_pkey\" PRIMARY KEY (\"id\")\n);\n\nCREATE TABLE \"stripe_webhook_events\" (\n  \"id\" TEXT NOT NULL DEFAULT generate_prefixed_cuid('swe'::text),\n  \"stripe_event_id\" TEXT NOT NULL,\n  \"event_type\" TEXT NOT NULL,\n  \"payload\" JSONB NOT NULL,\n  \"status\" TEXT NOT NULL DEFAULT 'processed',\n  \"error\" TEXT,\n  \"processed_at\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n  \"created_at\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n\n  CONSTRAINT \"stripe_webhook_events_pkey\" PRIMARY KEY (\"id\")\n);\n\nCREATE TABLE \"billing_audit_events\" (\n  \"id\" TEXT NOT NULL DEFAULT generate_prefixed_cuid('bae'::text),\n  \"organization_id\" TEXT NOT NULL,\n  \"event_type\" TEXT NOT NULL,\n  \"sku_key\" TEXT,\n  \"stripe_event_id\" TEXT,\n  \"metadata\" JSONB,\n  \"created_at\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n\n  CONSTRAINT \"billing_audit_events_pkey\" PRIMARY KEY (\"id\")\n);\n\nCREATE UNIQUE INDEX \"organization_billing_subscriptions_organization_id_sku_key_key\"\n  ON \"organization_billing_subscriptions\"(\"organization_id\", \"sku_key\");\n\nCREATE UNIQUE INDEX \"organization_billing_subscriptions_stripe_subscription_id_stripe_subscription_item_id_key\"\n  ON \"organization_billing_subscriptions\"(\"stripe_subscription_id\", \"stripe_subscription_item_id\");\n\nCREATE INDEX \"organization_billing_subscriptions_organization_id_idx\"\n  ON \"organization_billing_subscriptions\"(\"organization_id\");\n\nCREATE INDEX \"organization_billing_subscriptions_stripe_subscription_id_idx\"\n  ON \"organization_billing_subscriptions\"(\"stripe_subscription_id\");\n\nCREATE INDEX \"organization_billing_subscriptions_sku_key_idx\"\n  ON \"organization_billing_subscriptions\"(\"sku_key\");\n\nCREATE UNIQUE INDEX \"billing_usage_events_idempotency_key_key\"\n  ON \"billing_usage_events\"(\"idempotency_key\");\n\nCREATE INDEX \"billing_usage_events_organization_id_sku_key_idx\"\n  ON \"billing_usage_events\"(\"organization_id\", \"sku_key\");\n\nCREATE INDEX \"billing_usage_events_stripe_event_id_idx\"\n  ON \"billing_usage_events\"(\"stripe_event_id\");\n\nCREATE INDEX \"billing_usage_events_stripe_invoice_id_idx\"\n  ON \"billing_usage_events\"(\"stripe_invoice_id\");\n\nCREATE UNIQUE INDEX \"stripe_webhook_events_stripe_event_id_key\"\n  ON \"stripe_webhook_events\"(\"stripe_event_id\");\n\nCREATE INDEX \"stripe_webhook_events_event_type_idx\"\n  ON \"stripe_webhook_events\"(\"event_type\");\n\nCREATE INDEX \"stripe_webhook_events_status_idx\"\n  ON \"stripe_webhook_events\"(\"status\");\n\nCREATE INDEX \"billing_audit_events_organization_id_idx\"\n  ON \"billing_audit_events\"(\"organization_id\");\n\nCREATE INDEX \"billing_audit_events_stripe_event_id_idx\"\n  ON \"billing_audit_events\"(\"stripe_event_id\");\n\nCREATE INDEX \"billing_audit_events_sku_key_idx\"\n  ON \"billing_audit_events\"(\"sku_key\");\n\nALTER TABLE \"organization_billing_subscriptions\"\n  ADD CONSTRAINT \"organization_billing_subscriptions_organization_id_fkey\"\n  FOREIGN KEY (\"organization_id\") REFERENCES \"Organization\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\nALTER TABLE \"billing_usage_events\"\n  ADD CONSTRAINT \"billing_usage_events_organization_id_fkey\"\n  FOREIGN KEY (\"organization_id\") REFERENCES \"Organization\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\nALTER TABLE \"billing_audit_events\"\n  ADD CONSTRAINT \"billing_audit_events_organization_id_fkey\"\n  FOREIGN KEY (\"organization_id\") REFERENCES \"Organization\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\nDROP TABLE IF EXISTS \"pentest_subscriptions\";\n\nALTER INDEX IF EXISTS \"organization_billing_subscriptions_stripe_subscription_id_strip\"\n  RENAME TO \"org_billing_subs_stripe_sub_item_key\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_COLUMN",
+            "table": "organization_billing",
+            "column": "stripe_background_check_payment_method_id",
+            "new_name": "stripe_payment_method_id",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/db/prisma/migrations/20260430180000_subscription_billing_foundation/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE organization_billing RENAME COLUMN \"stripe_background_check_payment_method_id\" TO \"stripe_payment_method_id\"",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "organization_billing",
+            "column": "stripe_background_check_payment_method_id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/db/prisma/schema/organization-billing.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "RENAME_COLUMN 'stripe_background_check_payment_method_id'->'stripe_payment_method_id' breaks C_{t-1} |= S_t."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_COLUMN",
+            "table": "organization_billing",
+            "column": "background_check_payment_method_setup_at",
+            "new_name": "payment_method_updated_at",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/db/prisma/migrations/20260430180000_subscription_billing_foundation/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE organization_billing RENAME COLUMN \"background_check_payment_method_setup_at\" TO \"payment_method_updated_at\"",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "organization_billing",
+            "column": "background_check_payment_method_setup_at",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/db/prisma/schema/organization-billing.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "RENAME_COLUMN 'background_check_payment_method_setup_at'->'payment_method_updated_at' breaks C_{t-1} |= S_t."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "pentest_subscriptions",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/db/prisma/migrations/20260430181000_drop_stale_pentest_subscription/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TABLE IF EXISTS \"pentest_subscriptions\"",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "pentest_subscriptions",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "apps/framework-editor/prisma/schema.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'pentest_subscriptions' active in C_{t-1}."
+        }
+      ]
+    },
+    {
+      "sha": "ebed6cc7b63c057f62b37d00302bcd1210dcfa36",
+      "parent": "9da37801592e4374483b9e3b686490abbb6063bd",
+      "date": "2026-04-29T09:58:42-04:00",
+      "subject": "fix(pentest): address cubic-AI review \u2014 refund tx, audit dedup, UX bugs",
+      "mig_files": [
+        "packages/db/prisma/migrations/20260429120000_pentest_credits_balance_check/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/api/src/admin-organizations/admin-audit-log.interceptor.ts",
+        "apps/api/src/admin-organizations/admin-pentest-credits.controller.ts",
+        "apps/api/src/main.ts",
+        "apps/api/src/security-penetration-tests/pentest-credits.service.ts",
+        "apps/api/src/security-penetration-tests/security-penetration-tests.service.ts",
+        "apps/app/src/app/(app)/[orgId]/admin/organizations/[adminOrgId]/components/PentestCreditsTab.tsx",
+        "apps/app/src/app/(app)/[orgId]/security/penetration-tests/_components/FindingDetail.tsx",
+        "apps/app/src/app/(app)/[orgId]/security/penetration-tests/_components/FindingsTable.tsx",
+        "apps/app/src/app/(app)/[orgId]/security/penetration-tests/_components/RunningDetail.tsx",
+        "apps/app/src/app/(app)/[orgId]/security/penetration-tests/_components/SplitView.tsx",
+        "apps/app/src/app/(app)/[orgId]/security/penetration-tests/_components/overview-internals.tsx",
+        "apps/app/src/app/(app)/[orgId]/security/penetration-tests/hooks/use-penetration-tests.ts"
+      ],
+      "orm_models_parsed_old": 97,
+      "raw_sql": "-- Defense in depth. The atomic `updateMany WHERE balance > 0` in\n-- PentestCreditsService.debitOrThrow already prevents negative balances\n-- in normal operation, but a CHECK constraint guarantees the invariant\n-- regardless of any future code path that mutates the wallet directly.\nALTER TABLE \"pentest_credits\"\n  ADD CONSTRAINT \"pentest_credits_balance_nonneg\" CHECK (\"balance\" >= 0);\n\n-- Drop the redundant single-column index on organization_id. The\n-- `@unique` constraint on the same column already provides a btree\n-- index \u2014 an additional index just consumes disk and adds write\n-- amplification with no read benefit.\nDROP INDEX IF EXISTS \"pentest_credits_organization_id_idx\";\n\n-- Idempotency marker for `pentest.completed` webhook handling. Without\n-- this, a redelivered completion event would write a duplicate\n-- audit_log row each time. The atomic claim `updateMany WHERE\n-- completed_audit_at IS NULL` short-circuits subsequent deliveries.\nALTER TABLE \"security_penetration_test_runs\"\n  ADD COLUMN \"completed_audit_at\" TIMESTAMP(3);\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ADD_UNIQUE_OR_CHECK",
+            "table": "pentest_credits",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/db/prisma/migrations/20260429120000_pentest_credits_balance_check/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE pentest_credits ADD CONSTRAINT \"pentest_credits_balance_nonneg\" CHECK (\"balance\" >= 0)",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "pentest_credits",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/db/prisma/schema/pentest-credits.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "DATA_DEPENDENT",
+          "compat_forward": "SAFE",
+          "classification": "DATA_DEPENDENT",
+          "reason": "CHECK/UNIQUE constraint added on active C_{t-1} table 'pentest_credits'; safety depends on C_{t-1} write values."
+        }
+      ]
+    },
+    {
+      "sha": "f494299f957b1775909e2fd620ca00dbdc839726",
+      "parent": "db0e7e7fb5045573d4026f59c807bf7874a2103c",
+      "date": "2026-04-29T00:16:30-04:00",
+      "subject": "feat(pentest): credits wallet, admin grants, audit logging, UX polish",
+      "mig_files": [
+        "packages/db/prisma/migrations/20260427000000_pentest_credits/migration.sql",
+        "packages/db/prisma/migrations/20260427120000_pentest_run_credit_refund/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/api/src/admin-organizations/admin-organizations.module.ts",
+        "apps/api/src/admin-organizations/admin-pentest-credits.controller.ts",
+        "apps/api/src/audit/audit-log.constants.ts",
+        "apps/api/src/security-penetration-tests/pentest-credits.controller.ts",
+        "apps/api/src/security-penetration-tests/pentest-credits.service.spec.ts",
+        "apps/api/src/security-penetration-tests/pentest-credits.service.ts",
+        "apps/api/src/security-penetration-tests/security-penetration-tests.module.ts",
+        "apps/api/src/security-penetration-tests/security-penetration-tests.service.spec.ts",
+        "apps/api/src/security-penetration-tests/security-penetration-tests.service.ts",
+        "apps/app/src/app/(app)/[orgId]/admin/organizations/[adminOrgId]/components/AdminOrgTabs.tsx",
+        "apps/app/src/app/(app)/[orgId]/admin/organizations/[adminOrgId]/components/PentestCreditsTab.tsx",
+        "apps/app/src/app/(app)/[orgId]/layout.tsx"
+      ],
+      "orm_models_parsed_old": 93,
+      "raw_sql": "-- Drop the legacy Stripe-coupled pentest tables. They are empty in\n-- production and conflated three concerns (Stripe billing state, quota,\n-- and org link). Replaced by `pentest_credits` (quota only) \u2014 Stripe\n-- billing tables will be designed cross-product when v2 lands.\nDROP TABLE IF EXISTS \"pentest_subscriptions\";\nDROP TABLE IF EXISTS \"organization_billing\";\n\n-- Add `pentest` to the audit-log entity type enum so the existing\n-- AuditLogInterceptor can classify pentest mutations (create / read /\n-- delete) under their own entity type.\nALTER TYPE \"AuditLogEntityType\" ADD VALUE 'pentest';\n\n-- Pentest credit wallet \u2014 one row per organization.\nCREATE TABLE \"pentest_credits\" (\n    \"id\" TEXT NOT NULL DEFAULT generate_prefixed_cuid('pcr'::text),\n    \"organization_id\" TEXT NOT NULL,\n    \"balance\" INTEGER NOT NULL DEFAULT 0,\n    \"total_granted\" INTEGER NOT NULL DEFAULT 0,\n    \"total_consumed\" INTEGER NOT NULL DEFAULT 0,\n    \"last_grant_source\" TEXT NOT NULL DEFAULT 'trial',\n    \"created_at\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    \"updated_at\" TIMESTAMP(3) NOT NULL,\n\n    CONSTRAINT \"pentest_credits_pkey\" PRIMARY KEY (\"id\")\n);\n\nCREATE UNIQUE INDEX \"pentest_credits_organization_id_key\" ON \"pentest_credits\"(\"organization_id\");\nCREATE INDEX \"pentest_credits_organization_id_idx\" ON \"pentest_credits\"(\"organization_id\");\n\nALTER TABLE \"pentest_credits\"\n  ADD CONSTRAINT \"pentest_credits_organization_id_fkey\"\n  FOREIGN KEY (\"organization_id\") REFERENCES \"Organization\"(\"id\")\n  ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- Backfill: every existing organization gets one trial credit. Generous\n-- migration policy \u2014 orgs that already created pentests still get a fresh\n-- credit, on the theory that \"trial mode launching now\" is the right\n-- moment to grant universally.\nINSERT INTO \"pentest_credits\" (\"organization_id\", \"balance\", \"total_granted\", \"last_grant_source\", \"updated_at\")\nSELECT \"id\", 1, 1, 'trial', NOW()\nFROM \"Organization\"\nON CONFLICT (\"organization_id\") DO NOTHING;\n\n-- Track when a run's credit has been refunded (e.g. on `pentest.failed`\n-- or `pentest.cancelled` webhooks) so webhook redelivery cannot\n-- double-credit the org. Nullable: a non-null value means \"already\n-- refunded for this run\".\nALTER TABLE \"security_penetration_test_runs\"\n  ADD COLUMN \"credit_refunded_at\" TIMESTAMP(3);\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "pentest_subscriptions",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/db/prisma/migrations/20260427000000_pentest_credits/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* Drop the legacy Stripe-coupled pentest tables. They are empty in */ /* production and conflated three concerns (Stripe billing state, quota, */ /* and org link). Replaced by `pe",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "pentest_subscriptions",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/db/prisma/schema/pentest-subscription.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'pentest_subscriptions' active in C_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_TABLE",
+            "table": "organization_billing",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/db/prisma/migrations/20260427000000_pentest_credits/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TABLE IF EXISTS \"organization_billing\"",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "organization_billing",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/db/prisma/schema/organization-billing.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_TABLE breaks C_{t-1} |= S_t: table 'organization_billing' active in C_{t-1}."
+        }
+      ]
+    },
+    {
+      "sha": "32b210ee57f4b8eb0c900a961e53a1d7dc9e600e",
+      "parent": "8c3780071afa6584ad31dedb3b91d2817c62d15f",
+      "date": "2026-04-25T12:37:57-04:00",
+      "subject": "feat: add ability to set frequency on automations running",
+      "mig_files": [
+        "packages/db/prisma/migrations/20260424164600_custom_task_schedules/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/api/src/browserbase/browserbase.controller.spec.ts",
+        "apps/api/src/browserbase/browserbase.service.spec.ts",
+        "apps/api/src/browserbase/browserbase.service.ts",
+        "apps/api/src/browserbase/dto/browserbase.dto.ts",
+        "apps/api/src/tasks/automations/automations.service.ts",
+        "apps/api/src/tasks/automations/dto/update-automation.dto.ts",
+        "apps/api/src/tasks/dto/swagger.dto.ts",
+        "apps/api/src/tasks/dto/task-responses.dto.ts",
+        "apps/api/src/tasks/schemas/task.schemas.ts",
+        "apps/api/src/tasks/tasks.controller.ts",
+        "apps/api/src/tasks/tasks.service.ts",
+        "apps/api/src/trigger/browser-automation/run-browser-automation.ts"
+      ],
+      "orm_models_parsed_old": 95,
+      "raw_sql": "/*\n  Warnings:\n\n  - You are about to drop the column `schedule` on the `BrowserAutomation` table. All the data in the column will be lost.\n\n*/\n-- AlterTable\nALTER TABLE \"BrowserAutomation\" DROP COLUMN \"schedule\",\nADD COLUMN     \"lastRunAt\" TIMESTAMP(3),\nADD COLUMN     \"scheduleFrequency\" \"TaskFrequency\" NOT NULL DEFAULT 'daily';\n\n-- AlterTable\nALTER TABLE \"EvidenceAutomation\" ADD COLUMN     \"lastRunAt\" TIMESTAMP(3),\nADD COLUMN     \"scheduleFrequency\" \"TaskFrequency\" NOT NULL DEFAULT 'daily';\n\n-- AlterTable\nALTER TABLE \"Task\" ADD COLUMN     \"integrationLastRunAt\" TIMESTAMP(3),\nADD COLUMN     \"integrationScheduleFrequency\" \"TaskFrequency\" NOT NULL DEFAULT 'daily';\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "browserautomation",
+            "column": "schedule",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/db/prisma/migrations/20260424164600_custom_task_schedules/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE browserautomation DROP COLUMN \"schedule\"",
+            "extra": {
+              "table_sql": "BrowserAutomation"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "browserautomation",
+            "column": "schedule",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/db/prisma/schema/browserbase-context.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'schedule' active in C_{t-1} ORM (packages/db/prisma/schema/browserbase-context.prisma); identifier removed in same commit diff"
+        }
+      ]
+    },
+    {
+      "sha": "4f6f72a39e2eb8560ae61e7224498d864befdea2",
+      "parent": "78f36f0a48c3aa571645867fd5e600e5e539533d",
+      "date": "2026-04-20T17:12:04+01:00",
+      "subject": "chore: merge main into lewis/comp-framework-controls",
+      "mig_files": [
+        "packages/db/prisma/migrations/20260419120000_unified_findings/migration.sql",
+        "packages/db/prisma/migrations/20260419140000_finding_area_add_other/migration.sql",
+        "packages/db/prisma/migrations/20260419150000_finding_area_general_targets/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/api/src/admin-organizations/admin-findings.controller.ts",
+        "apps/api/src/audit/audit-log.utils.ts",
+        "apps/api/src/findings/dto/create-finding.dto.ts",
+        "apps/api/src/findings/dto/update-finding.dto.ts",
+        "apps/api/src/findings/finding-audit.service.ts",
+        "apps/api/src/findings/finding-notifier.service.spec.ts",
+        "apps/api/src/findings/finding-notifier.service.ts",
+        "apps/api/src/findings/findings.controller.spec.ts",
+        "apps/api/src/findings/findings.controller.ts",
+        "apps/api/src/findings/findings.service.spec.ts",
+        "apps/api/src/findings/findings.service.ts",
+        "apps/app/src/app/(app)/[orgId]/admin/organizations/[adminOrgId]/components/FindingForm.tsx"
+      ],
+      "orm_models_parsed_old": 89,
+      "raw_sql": "-- CreateEnum\nCREATE TYPE \"FindingSeverity\" AS ENUM ('low', 'medium', 'high', 'critical');\n\n-- CreateEnum\nCREATE TYPE \"FindingArea\" AS ENUM ('people', 'documents', 'compliance');\n\n-- AlterTable: add new columns\nALTER TABLE \"Finding\" ADD COLUMN \"severity\" \"FindingSeverity\" NOT NULL DEFAULT 'medium';\nALTER TABLE \"Finding\" ADD COLUMN \"area\" \"FindingArea\";\nALTER TABLE \"Finding\" ADD COLUMN \"policyId\" TEXT;\nALTER TABLE \"Finding\" ADD COLUMN \"vendorId\" TEXT;\nALTER TABLE \"Finding\" ADD COLUMN \"riskId\" TEXT;\nALTER TABLE \"Finding\" ADD COLUMN \"memberId\" TEXT;\nALTER TABLE \"Finding\" ADD COLUMN \"deviceId\" TEXT;\n\n-- Backfill: map legacy scope values onto area\nUPDATE \"Finding\"\nSET \"area\" = 'people'::\"FindingArea\"\nWHERE \"scope\" IN ('people', 'people_tasks', 'people_devices', 'people_chart');\n\n-- Drop legacy scope column + enum\nALTER TABLE \"Finding\" DROP COLUMN \"scope\";\nDROP TYPE \"FindingScope\";\n\n-- AddForeignKey\nALTER TABLE \"Finding\"\n  ADD CONSTRAINT \"Finding_policyId_fkey\"\n  FOREIGN KEY (\"policyId\") REFERENCES \"Policy\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\nALTER TABLE \"Finding\"\n  ADD CONSTRAINT \"Finding_vendorId_fkey\"\n  FOREIGN KEY (\"vendorId\") REFERENCES \"Vendor\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\nALTER TABLE \"Finding\"\n  ADD CONSTRAINT \"Finding_riskId_fkey\"\n  FOREIGN KEY (\"riskId\") REFERENCES \"Risk\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\nALTER TABLE \"Finding\"\n  ADD CONSTRAINT \"Finding_memberId_fkey\"\n  FOREIGN KEY (\"memberId\") REFERENCES \"Member\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\nALTER TABLE \"Finding\"\n  ADD CONSTRAINT \"Finding_deviceId_fkey\"\n  FOREIGN KEY (\"deviceId\") REFERENCES \"Device\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- CreateIndex\nCREATE INDEX \"Finding_policyId_idx\" ON \"Finding\"(\"policyId\");\nCREATE INDEX \"Finding_vendorId_idx\" ON \"Finding\"(\"vendorId\");\nCREATE INDEX \"Finding_riskId_idx\" ON \"Finding\"(\"riskId\");\nCREATE INDEX \"Finding_memberId_idx\" ON \"Finding\"(\"memberId\");\nCREATE INDEX \"Finding_deviceId_idx\" ON \"Finding\"(\"deviceId\");\nCREATE INDEX \"Finding_organizationId_severity_idx\" ON \"Finding\"(\"organizationId\", \"severity\");\n\n-- Add an 'other' bucket to FindingArea so legacy rows backfilled by\n-- 20260419120000_unified_findings can be distinguished from genuine\n-- people-area findings. Splitting the ADD VALUE into its own migration\n-- because Postgres 12+ disallows using a newly-added enum value in the\n-- same transaction in which it was added.\nALTER TYPE \"FindingArea\" ADD VALUE IF NOT EXISTS 'other';\n\n-- Extend FindingArea with general buckets so an auditor can log a\n-- \"no risks tracked\" / \"missing policy\" / \"no vendor inventory\" finding\n-- without picking a specific Risk / Policy / Vendor row.\n--\n-- Each ADD VALUE is a separate ALTER TYPE because Postgres 12+ disallows\n-- using a newly-added enum value in the same transaction it was added, and\n-- Prisma wraps each migration file in a transaction. The `IF NOT EXISTS`\n-- guard keeps this idempotent for anyone who already patched locally.\nALTER TYPE \"FindingArea\" ADD VALUE IF NOT EXISTS 'risks';\nALTER TYPE \"FindingArea\" ADD VALUE IF NOT EXISTS 'vendors';\nALTER TYPE \"FindingArea\" ADD VALUE IF NOT EXISTS 'policies';\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "finding",
+            "column": "scope",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/db/prisma/migrations/20260419120000_unified_findings/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE finding DROP COLUMN \"scope\"",
+            "extra": {
+              "table_sql": "Finding"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "finding",
+            "column": "scope",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/db/prisma/schema/finding.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'scope' active in C_{t-1} ORM (packages/db/prisma/schema/finding.prisma); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "findingscope",
+            "column": "findingscope",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/db/prisma/migrations/20260419120000_unified_findings/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TYPE \"FindingScope\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "FindingScope",
+              "column_sql": "FindingScope"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "findingscope",
+            "column": "findingscope",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'findingscope' affects active C_{t-1} enum definition/code."
+        }
+      ]
+    },
+    {
+      "sha": "d296e2a5309a33e61a630c843f99618d82778e8a",
+      "parent": "2b8991f0f87867dbef9ba86c5a2533df6258c3ea",
+      "date": "2026-04-17T23:26:14+01:00",
+      "subject": "fix(frameworks): address review feedback \u2014 tenant-FK hardening + custom-framework parity",
+      "mig_files": [
+        "packages/db/prisma/migrations/20260417220000_tenant_consistent_custom_fks/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/api/src/admin-organizations/admin-policies.controller.ts",
+        "apps/api/src/controls/controls.controller.ts",
+        "apps/api/src/frameworks/frameworks-scores.helper.ts",
+        "apps/api/src/frameworks/frameworks.service.ts",
+        "apps/api/src/policies/policies.controller.ts",
+        "apps/app/src/app/(app)/[orgId]/controls/hooks/useControls.ts",
+        "apps/app/src/app/(app)/[orgId]/frameworks/[frameworkInstanceId]/controls/[controlId]/components/DocumentsTable.tsx",
+        "apps/app/src/app/(app)/[orgId]/frameworks/[frameworkInstanceId]/controls/[controlId]/components/documentTypeLabels.ts",
+        "apps/app/src/app/(app)/[orgId]/frameworks/page.tsx",
+        "apps/app/src/app/(app)/[orgId]/overview/components/FrameworksOverview.tsx",
+        "packages/db/prisma/schema/custom-framework.prisma",
+        "packages/db/prisma/schema/framework.prisma"
+      ],
+      "orm_models_parsed_old": 89,
+      "raw_sql": "-- Enforce tenant consistency on CustomFramework references at the DB level:\n-- a CustomRequirement or FrameworkInstance that points at a CustomFramework\n-- must be in the same organization as that framework. Previously this was\n-- only enforced in application code; this migration upgrades the FKs to\n-- composite (id, organizationId) so Postgres rejects cross-tenant links.\n\n-- Defense-in-depth sanity check: fail the migration loudly if any existing\n-- rows violate the invariant, rather than silently letting the composite FK\n-- rewrite proceed against bad data.\nDO $$\nDECLARE\n  bad_req bigint;\n  bad_fi  bigint;\nBEGIN\n  SELECT count(*) INTO bad_req\n  FROM \"CustomRequirement\" cr\n  JOIN \"CustomFramework\" cf ON cf.\"id\" = cr.\"customFrameworkId\"\n  WHERE cr.\"organizationId\" <> cf.\"organizationId\";\n\n  SELECT count(*) INTO bad_fi\n  FROM \"FrameworkInstance\" fi\n  JOIN \"CustomFramework\" cf ON cf.\"id\" = fi.\"customFrameworkId\"\n  WHERE fi.\"organizationId\" <> cf.\"organizationId\";\n\n  IF bad_req > 0 OR bad_fi > 0 THEN\n    RAISE EXCEPTION\n      'tenant_consistent_custom_fks: % cross-tenant CustomRequirement rows and % cross-tenant FrameworkInstance rows must be fixed before this migration can run',\n      bad_req, bad_fi;\n  END IF;\nEND $$;\n\n-- Unique constraint required for the composite FK target.\nALTER TABLE \"CustomFramework\"\n    ADD CONSTRAINT \"CustomFramework_id_organizationId_key\"\n    UNIQUE (\"id\", \"organizationId\");\n\n-- CustomRequirement: replace the single-column FK with a composite FK.\nALTER TABLE \"CustomRequirement\" DROP CONSTRAINT \"CustomRequirement_customFrameworkId_fkey\";\nALTER TABLE \"CustomRequirement\"\n    ADD CONSTRAINT \"CustomRequirement_customFrameworkId_organizationId_fkey\"\n    FOREIGN KEY (\"customFrameworkId\", \"organizationId\")\n    REFERENCES \"CustomFramework\"(\"id\", \"organizationId\")\n    ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- FrameworkInstance: same treatment for its optional customFrameworkId.\nALTER TABLE \"FrameworkInstance\" DROP CONSTRAINT \"FrameworkInstance_customFrameworkId_fkey\";\nALTER TABLE \"FrameworkInstance\"\n    ADD CONSTRAINT \"FrameworkInstance_customFrameworkId_organizationId_fkey\"\n    FOREIGN KEY (\"customFrameworkId\", \"organizationId\")\n    REFERENCES \"CustomFramework\"(\"id\", \"organizationId\")\n    ON DELETE CASCADE ON UPDATE CASCADE;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ADD_UNIQUE_OR_CHECK",
+            "table": "customframework",
+            "column": "id",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/db/prisma/migrations/20260417220000_tenant_consistent_custom_fks/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE customframework ADD CONSTRAINT \"CustomFramework_id_organizationId_key\" UNIQUE (\"id\", \"organizationId\")",
+            "extra": {
+              "table_sql": "CustomFramework"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "customframework",
+            "column": "id",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/db/prisma/schema/custom-framework.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "DATA_DEPENDENT",
+          "compat_forward": "SAFE",
+          "classification": "DATA_DEPENDENT",
+          "reason": "CHECK/UNIQUE constraint added on active C_{t-1} table 'customframework'; safety depends on C_{t-1} write values."
+        }
+      ]
+    },
+    {
+      "sha": "9f1a8cce2914f481464681b36c9ca1c8c38e5630",
+      "parent": "f40226a13dc926169ee0d251986986e9215ab5b9",
+      "date": "2026-04-17T23:11:36+01:00",
+      "subject": "refactor(frameworks): split custom frameworks into dedicated per-org tables",
+      "mig_files": [
+        "packages/db/prisma/migrations/20260417210000_split_custom_frameworks/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/api/src/admin-organizations/admin-policies.controller.ts",
+        "apps/api/src/controls/controls.controller.ts",
+        "apps/api/src/controls/controls.service.ts",
+        "apps/api/src/controls/dto/create-control.dto.ts",
+        "apps/api/src/controls/dto/link-document-types.dto.ts",
+        "apps/api/src/controls/dto/link-requirements.dto.ts",
+        "apps/api/src/frameworks/frameworks-scores.helper.ts",
+        "apps/api/src/frameworks/frameworks.service.spec.ts",
+        "apps/api/src/frameworks/frameworks.service.ts",
+        "apps/api/src/policies/policies.controller.ts",
+        "apps/api/src/tasks/tasks.service.ts",
+        "apps/app/src/app/(app)/[orgId]/controls/hooks/useControls.ts"
+      ],
+      "orm_models_parsed_old": 87,
+      "raw_sql": "-- Move per-org \"custom\" frameworks and requirements out of the FrameworkEditor*\n-- platform tables into dedicated per-org tables, eliminating cross-tenant leak\n-- risk and restoring the template/instance separation used elsewhere.\n\n-- 1. Create new per-org tables.\nCREATE TABLE \"CustomFramework\" (\n    \"id\"             TEXT NOT NULL DEFAULT generate_prefixed_cuid('cfrm'::text),\n    \"name\"           TEXT NOT NULL,\n    \"description\"    TEXT NOT NULL,\n    \"version\"        TEXT NOT NULL DEFAULT '1.0.0',\n    \"organizationId\" TEXT NOT NULL,\n    \"createdAt\"      TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    \"updatedAt\"      TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n\n    CONSTRAINT \"CustomFramework_pkey\" PRIMARY KEY (\"id\")\n);\n\nCREATE INDEX \"CustomFramework_organizationId_idx\" ON \"CustomFramework\"(\"organizationId\");\n\nALTER TABLE \"CustomFramework\" ADD CONSTRAINT \"CustomFramework_organizationId_fkey\"\n    FOREIGN KEY (\"organizationId\") REFERENCES \"Organization\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\nCREATE TABLE \"CustomRequirement\" (\n    \"id\"                TEXT NOT NULL DEFAULT generate_prefixed_cuid('creq'::text),\n    \"name\"              TEXT NOT NULL,\n    \"description\"       TEXT NOT NULL,\n    \"identifier\"        TEXT NOT NULL,\n    \"organizationId\"    TEXT NOT NULL,\n    \"customFrameworkId\" TEXT NOT NULL,\n    \"createdAt\"         TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    \"updatedAt\"         TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n\n    CONSTRAINT \"CustomRequirement_pkey\" PRIMARY KEY (\"id\")\n);\n\nCREATE UNIQUE INDEX \"CustomRequirement_customFrameworkId_identifier_key\"\n    ON \"CustomRequirement\"(\"customFrameworkId\", \"identifier\");\nCREATE INDEX \"CustomRequirement_organizationId_idx\" ON \"CustomRequirement\"(\"organizationId\");\n\nALTER TABLE \"CustomRequirement\" ADD CONSTRAINT \"CustomRequirement_organizationId_fkey\"\n    FOREIGN KEY (\"organizationId\") REFERENCES \"Organization\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\nALTER TABLE \"CustomRequirement\" ADD CONSTRAINT \"CustomRequirement_customFrameworkId_fkey\"\n    FOREIGN KEY (\"customFrameworkId\") REFERENCES \"CustomFramework\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- 2. Relax FK nullability on FrameworkInstance / RequirementMap so rows can point\n--    at the new tables instead.\nALTER TABLE \"FrameworkInstance\" ADD COLUMN \"customFrameworkId\" TEXT;\nALTER TABLE \"FrameworkInstance\" ALTER COLUMN \"frameworkId\" DROP NOT NULL;\nALTER TABLE \"FrameworkInstance\" ADD CONSTRAINT \"FrameworkInstance_customFrameworkId_fkey\"\n    FOREIGN KEY (\"customFrameworkId\") REFERENCES \"CustomFramework\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\nCREATE INDEX \"FrameworkInstance_customFrameworkId_idx\" ON \"FrameworkInstance\"(\"customFrameworkId\");\nCREATE UNIQUE INDEX \"FrameworkInstance_organizationId_customFrameworkId_key\"\n    ON \"FrameworkInstance\"(\"organizationId\", \"customFrameworkId\");\n\nALTER TABLE \"RequirementMap\" ADD COLUMN \"customRequirementId\" TEXT;\nALTER TABLE \"RequirementMap\" ALTER COLUMN \"requirementId\" DROP NOT NULL;\nALTER TABLE \"RequirementMap\" ADD CONSTRAINT \"RequirementMap_customRequirementId_fkey\"\n    FOREIGN KEY (\"customRequirementId\") REFERENCES \"CustomRequirement\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\nCREATE INDEX \"RequirementMap_customRequirementId_frameworkInstanceId_idx\"\n    ON \"RequirementMap\"(\"customRequirementId\", \"frameworkInstanceId\");\nCREATE UNIQUE INDEX \"RequirementMap_controlId_frameworkInstanceId_customRequirem_key\"\n    ON \"RequirementMap\"(\"controlId\", \"frameworkInstanceId\", \"customRequirementId\");\n\n-- 3. Data move: for any org-scoped rows on the editor tables (added by the\n--    previous migration on this branch), copy them into the new per-org tables\n--    and repoint FrameworkInstance / RequirementMap.\nINSERT INTO \"CustomFramework\" (\"id\", \"name\", \"description\", \"version\", \"organizationId\", \"createdAt\", \"updatedAt\")\nSELECT\n    -- Reuse the original id so dependent FKs (FrameworkInstance.customFrameworkId below)\n    -- can be rewritten by id equality.\n    \"id\", \"name\", \"description\", \"version\", \"organizationId\", \"createdAt\", \"updatedAt\"\nFROM \"FrameworkEditorFramework\"\nWHERE \"organizationId\" IS NOT NULL;\n\nINSERT INTO \"CustomRequirement\" (\"id\", \"name\", \"description\", \"identifier\", \"organizationId\", \"customFrameworkId\", \"createdAt\", \"updatedAt\")\nSELECT\n    \"id\", \"name\", \"description\", \"identifier\", \"organizationId\", \"frameworkId\", \"createdAt\", \"updatedAt\"\nFROM \"FrameworkEditorRequirement\"\nWHERE \"organizationId\" IS NOT NULL;\n\n-- Repoint FrameworkInstance rows that point at now-migrated custom frameworks.\nUPDATE \"FrameworkInstance\" fi\nSET    \"customFrameworkId\" = fi.\"frameworkId\",\n       \"frameworkId\"       = NULL\nFROM   \"FrameworkEditorFramework\" fef\nWHERE  fi.\"frameworkId\" = fef.\"id\"\n  AND  fef.\"organizationId\" IS NOT NULL;\n\n-- Repoint RequirementMap rows that point at now-migrated custom requirements.\nUPDATE \"RequirementMap\" rm\nSET    \"customRequirementId\" = rm.\"requirementId\",\n       \"requirementId\"       = NULL\nFROM   \"FrameworkEditorRequirement\" fer\nWHERE  rm.\"requirementId\" = fer.\"id\"\n  AND  fer.\"organizationId\" IS NOT NULL;\n\n-- 4. Remove org-scoped rows from the editor tables and drop the organizationId\n--    columns + indexes + FKs added in the previous migration.\nDELETE FROM \"FrameworkEditorRequirement\" WHERE \"organizationId\" IS NOT NULL;\nDELETE FROM \"FrameworkEditorFramework\"   WHERE \"organizationId\" IS NOT NULL;\n\nALTER TABLE \"FrameworkEditorFramework\"   DROP CONSTRAINT IF EXISTS \"FrameworkEditorFramework_organizationId_fkey\";\nALTER TABLE \"FrameworkEditorRequirement\" DROP CONSTRAINT IF EXISTS \"FrameworkEditorRequirement_organizationId_fkey\";\nDROP INDEX IF EXISTS \"FrameworkEditorFramework_organizationId_idx\";\nDROP INDEX IF EXISTS \"FrameworkEditorRequirement_organizationId_idx\";\nDROP INDEX IF EXISTS \"FrameworkEditorRequirement_frameworkId_idx\";\nALTER TABLE \"FrameworkEditorFramework\"   DROP COLUMN IF EXISTS \"organizationId\";\nALTER TABLE \"FrameworkEditorRequirement\" DROP COLUMN IF EXISTS \"organizationId\";\n\n-- 5. CHECK constraints: exactly one of the two FKs must be set.\nALTER TABLE \"FrameworkInstance\"\n    ADD CONSTRAINT \"FrameworkInstance_one_framework_check\"\n    CHECK ((\"frameworkId\" IS NOT NULL)::int + (\"customFrameworkId\" IS NOT NULL)::int = 1);\n\nALTER TABLE \"RequirementMap\"\n    ADD CONSTRAINT \"RequirementMap_one_requirement_check\"\n    CHECK ((\"requirementId\" IS NOT NULL)::int + (\"customRequirementId\" IS NOT NULL)::int = 1);\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "frameworkeditorframework",
+            "column": "organizationid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/db/prisma/migrations/20260417210000_split_custom_frameworks/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE frameworkeditorframework DROP COLUMN IF EXISTS \"organizationId\"",
+            "extra": {
+              "table_sql": "FrameworkEditorFramework",
+              "column_sql": "organizationId"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "frameworkeditorframework",
+            "column": "organizationid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/db/prisma/schema/framework-editor.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'organizationid' active in C_{t-1} ORM (packages/db/prisma/schema/framework-editor.prisma); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "frameworkeditorrequirement",
+            "column": "organizationid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/db/prisma/migrations/20260417210000_split_custom_frameworks/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE frameworkeditorrequirement DROP COLUMN IF EXISTS \"organizationId\"",
+            "extra": {
+              "table_sql": "FrameworkEditorRequirement",
+              "column_sql": "organizationId"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "frameworkeditorrequirement",
+            "column": "organizationid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/db/prisma/schema/framework-editor.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'organizationid' active in C_{t-1} ORM (packages/db/prisma/schema/framework-editor.prisma); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ADD_UNIQUE_OR_CHECK",
+            "table": "frameworkinstance",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/db/prisma/migrations/20260417210000_split_custom_frameworks/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE frameworkinstance ADD CONSTRAINT \"FrameworkInstance_one_framework_check\" CHECK (CAST((\"frameworkId\" IS NOT NULL) AS INT) + CAST((\"customFrameworkId\" IS NOT NULL) AS INT",
+            "extra": {
+              "table_sql": "FrameworkInstance"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "frameworkinstance",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/db/prisma/schema/framework.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "DATA_DEPENDENT",
+          "compat_forward": "SAFE",
+          "classification": "DATA_DEPENDENT",
+          "reason": "CHECK/UNIQUE constraint added on active C_{t-1} table 'frameworkinstance'; safety depends on C_{t-1} write values."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ADD_UNIQUE_OR_CHECK",
+            "table": "requirementmap",
+            "column": null,
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/db/prisma/migrations/20260417210000_split_custom_frameworks/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE requirementmap ADD CONSTRAINT \"RequirementMap_one_requirement_check\" CHECK (CAST((\"requirementId\" IS NOT NULL) AS INT) + CAST((\"customRequirementId\" IS NOT NULL) AS INT",
+            "extra": {
+              "table_sql": "RequirementMap"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "requirementmap",
+            "column": null,
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/db/prisma/schema/requirement.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "DATA_DEPENDENT",
+          "compat_forward": "SAFE",
+          "classification": "DATA_DEPENDENT",
+          "reason": "CHECK/UNIQUE constraint added on active C_{t-1} table 'requirementmap'; safety depends on C_{t-1} write values."
+        }
+      ]
+    },
+    {
+      "sha": "fccf989e42726ea78c926cbcadfdaa1e2cf4a5a9",
+      "parent": "0eb38c46b7335cd128d349118b6d17ed230a96cb",
+      "date": "2026-03-21T16:17:06Z",
+      "subject": "[dev] [carhartlewis] lewis/comp-framework-editor (#2355)",
+      "mig_files": [
+        "packages/db/prisma/migrations/20260320194531_add_control_document_type/migration.sql",
+        "packages/db/prisma/migrations/20260320200656_add_document_types_to_control_template/migration.sql",
+        "packages/db/prisma/migrations/20260321151529_control_types/migration.sql",
+        "packages/db/prisma/migrations/20260321151753_framework_editor/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/api/src/app.module.ts",
+        "apps/api/src/auth/auth.server.ts",
+        "apps/api/src/framework-editor/control-template/control-template.controller.ts",
+        "apps/api/src/framework-editor/control-template/control-template.module.ts",
+        "apps/api/src/framework-editor/control-template/control-template.service.ts",
+        "apps/api/src/framework-editor/control-template/dto/create-control-template.dto.ts",
+        "apps/api/src/framework-editor/control-template/dto/update-control-template.dto.ts",
+        "apps/api/src/framework-editor/framework/dto/create-framework.dto.ts",
+        "apps/api/src/framework-editor/framework/dto/update-framework.dto.ts",
+        "apps/api/src/framework-editor/framework/framework.controller.ts",
+        "apps/api/src/framework-editor/framework/framework.module.ts",
+        "apps/api/src/framework-editor/framework/framework.service.ts"
+      ],
+      "orm_models_parsed_old": 84,
+      "raw_sql": "-- CreateTable\nCREATE TABLE \"ControlDocumentType\" (\n    \"id\" TEXT NOT NULL DEFAULT generate_prefixed_cuid('cdt'::text),\n    \"controlId\" TEXT NOT NULL,\n    \"formType\" \"EvidenceFormType\" NOT NULL,\n\n    CONSTRAINT \"ControlDocumentType_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateIndex\nCREATE INDEX \"ControlDocumentType_controlId_idx\" ON \"ControlDocumentType\"(\"controlId\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"ControlDocumentType_controlId_formType_key\" ON \"ControlDocumentType\"(\"controlId\", \"formType\");\n\n-- AddForeignKey\nALTER TABLE \"ControlDocumentType\" ADD CONSTRAINT \"ControlDocumentType_controlId_fkey\" FOREIGN KEY (\"controlId\") REFERENCES \"Control\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AlterTable\nALTER TABLE \"FrameworkEditorControlTemplate\" ADD COLUMN     \"documentTypes\" \"EvidenceFormType\"[];\n\n/*\n  Warnings:\n\n  - You are about to drop the column `documentTypes` on the `FrameworkEditorControlTemplate` table. All the data in the column will be lost.\n\n*/\n-- AlterTable\nALTER TABLE \"FrameworkEditorControlTemplate\" DROP COLUMN \"documentTypes\";\n\n-- AlterTable\nALTER TABLE \"FrameworkEditorControlTemplate\" ADD COLUMN     \"documentTypes\" \"EvidenceFormType\"[];\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "frameworkeditorcontroltemplate",
+            "column": "documenttypes",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/db/prisma/migrations/20260321151529_control_types/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE frameworkeditorcontroltemplate DROP COLUMN \"documentTypes\"",
+            "extra": {
+              "table_sql": "FrameworkEditorControlTemplate",
+              "column_sql": "documentTypes"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "frameworkeditorcontroltemplate",
+            "column": "documenttypes",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/db/prisma/schema/framework-editor.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'documenttypes' already absent from C_{t-1} ORM and app code."
+        }
+      ]
+    },
+    {
+      "sha": "e5318ecc8372b7f2bea9f100eb4026082ecb9a4b",
+      "parent": "6893cfa94d8d697f3e310274ece338f9a9f7f6d0",
+      "date": "2026-03-16T14:35:02-04:00",
+      "subject": "feat(admin-organizations): add admin dashboard",
+      "mig_files": [
+        "packages/db/prisma/migrations/20260312123601_add_admin_plugin_fields/migration.sql",
+        "packages/db/prisma/migrations/20260312181807_add_admin_finding_attribution/migration.sql",
+        "packages/db/prisma/migrations/20260316000000_migrate_is_platform_admin_to_role/migration.sql",
+        "packages/db/prisma/migrations/20260316143239_isplatform/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/api/src/admin-organizations/admin-audit-log.interceptor.spec.ts",
+        "apps/api/src/admin-organizations/admin-audit-log.interceptor.ts",
+        "apps/api/src/admin-organizations/admin-context.controller.spec.ts",
+        "apps/api/src/admin-organizations/admin-context.controller.ts",
+        "apps/api/src/admin-organizations/admin-evidence.controller.spec.ts",
+        "apps/api/src/admin-organizations/admin-evidence.controller.ts",
+        "apps/api/src/admin-organizations/admin-findings.controller.spec.ts",
+        "apps/api/src/admin-organizations/admin-findings.controller.ts",
+        "apps/api/src/admin-organizations/admin-guard-integration.spec.ts",
+        "apps/api/src/admin-organizations/admin-organizations.controller.spec.ts",
+        "apps/api/src/admin-organizations/admin-organizations.controller.ts",
+        "apps/api/src/admin-organizations/admin-organizations.module.ts"
+      ],
+      "orm_models_parsed_old": 83,
+      "raw_sql": "-- AlterTable\nALTER TABLE \"Session\" ADD COLUMN     \"impersonatedBy\" TEXT;\n\n-- AlterTable\nALTER TABLE \"User\" ADD COLUMN     \"banExpires\" TIMESTAMP(3),\nADD COLUMN     \"banReason\" TEXT,\nADD COLUMN     \"banned\" BOOLEAN,\nADD COLUMN     \"role\" TEXT DEFAULT 'user';\n\n-- DropForeignKey\nALTER TABLE \"public\".\"Finding\" DROP CONSTRAINT \"Finding_createdById_fkey\";\n\n-- AlterTable\nALTER TABLE \"Finding\" ADD COLUMN     \"createdByAdminId\" TEXT,\nALTER COLUMN \"createdById\" DROP NOT NULL;\n\n-- AddForeignKey\nALTER TABLE \"Finding\" ADD CONSTRAINT \"Finding_createdById_fkey\" FOREIGN KEY (\"createdById\") REFERENCES \"Member\"(\"id\") ON DELETE SET NULL ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"Finding\" ADD CONSTRAINT \"Finding_createdByAdminId_fkey\" FOREIGN KEY (\"createdByAdminId\") REFERENCES \"User\"(\"id\") ON DELETE SET NULL ON UPDATE CASCADE;\n\n-- Ensure all isPlatformAdmin=true users have role='admin'\nUPDATE \"User\" SET \"role\" = 'admin' WHERE \"isPlatformAdmin\" = true AND (\"role\" IS NULL OR \"role\" != 'admin');\n\n-- Ensure all users have a role value (fill nulls)\nUPDATE \"User\" SET \"role\" = 'user' WHERE \"role\" IS NULL;\n\n-- Drop the redundant isPlatformAdmin column\nALTER TABLE \"User\" DROP COLUMN \"isPlatformAdmin\";\n\n-- AlterTable\nALTER TABLE \"IntegrationPlatformCredential\" ADD COLUMN     \"clientIdHint\" TEXT,\nADD COLUMN     \"clientSecretHint\" TEXT;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "user",
+            "column": "isplatformadmin",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/db/prisma/migrations/20260316000000_migrate_is_platform_admin_to_role/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE user DROP COLUMN \"isPlatformAdmin\"",
+            "extra": {
+              "table_sql": "User",
+              "column_sql": "isPlatformAdmin"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "user",
+            "column": "isplatformadmin",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/db/prisma/schema/auth.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'isplatformadmin' already absent from C_{t-1} ORM and app code."
+        }
+      ]
+    },
+    {
+      "sha": "be119ab2c8b69d892b577a44b9b8216b3604deaf",
+      "parent": "e7ce1ce7ea470f77b6394d5cfd10e30dbb081353",
+      "date": "2026-03-05T16:28:09-05:00",
+      "subject": "Feat/rbac v1 (#2092)",
+      "mig_files": [
+        "packages/db/prisma/migrations/20260305100001_add_policy_visibility/migration.sql",
+        "packages/db/prisma/migrations/20260305100002_add_organization_role_table_for_dynamic_roles/migration.sql",
+        "packages/db/prisma/migrations/20260305100003_role_based_notifications/migration.sql",
+        "packages/db/prisma/migrations/20260305100004_add_jwks_expires_at/migration.sql",
+        "packages/db/prisma/migrations/20260305100005_change_organization_role_permissions_to_text/migration.sql",
+        "packages/db/prisma/migrations/20260305100006_add_api_key_scopes/migration.sql",
+        "packages/db/prisma/migrations/20260305100007_add_api_key_prefix/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/api/src/app.module.ts",
+        "apps/api/src/assistant-chat/assistant-chat-tools.ts",
+        "apps/api/src/assistant-chat/assistant-chat.controller.ts",
+        "apps/api/src/assistant-chat/assistant-chat.module.ts",
+        "apps/api/src/attachments/attachments.controller.ts",
+        "apps/api/src/attachments/attachments.service.ts",
+        "apps/api/src/audit/audit-log.constants.ts",
+        "apps/api/src/audit/audit-log.controller.ts",
+        "apps/api/src/audit/audit-log.interceptor.spec.ts",
+        "apps/api/src/audit/audit-log.interceptor.ts",
+        "apps/api/src/audit/audit-log.resolvers.ts",
+        "apps/api/src/audit/audit-log.utils.ts"
+      ],
+      "orm_models_parsed_old": 78,
+      "raw_sql": "-- CreateEnum\nCREATE TYPE \"PolicyVisibility\" AS ENUM ('ALL', 'DEPARTMENT');\n\n-- AlterEnum\nALTER TYPE \"Role\" ADD VALUE 'program_manager';\n\n-- AlterTable\nALTER TABLE \"Policy\" ADD COLUMN     \"visibility\" \"PolicyVisibility\" NOT NULL DEFAULT 'ALL',\nADD COLUMN     \"visibleToDepartments\" \"Departments\"[] DEFAULT ARRAY[]::\"Departments\"[];\n\n/*\n  Warnings:\n\n  - The values [program_manager] on the enum `Role` will be removed. If these variants are still used in the database, this will fail.\n\n*/\n-- AlterEnum\nBEGIN;\nCREATE TYPE \"Role_new\" AS ENUM ('owner', 'admin', 'auditor', 'employee', 'contractor');\nALTER TYPE \"Role\" RENAME TO \"Role_old\";\nALTER TYPE \"Role_new\" RENAME TO \"Role\";\nDROP TYPE \"public\".\"Role_old\";\nCOMMIT;\n\n-- CreateTable\nCREATE TABLE \"organization_role\" (\n    \"id\" TEXT NOT NULL DEFAULT generate_prefixed_cuid('rol'::text),\n    \"name\" TEXT NOT NULL,\n    \"permissions\" JSONB NOT NULL,\n    \"organizationId\" TEXT NOT NULL,\n    \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    \"updatedAt\" TIMESTAMP(3) NOT NULL,\n\n    CONSTRAINT \"organization_role_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"organization_role_organizationId_name_key\" ON \"organization_role\"(\"organizationId\", \"name\");\n\n-- AddForeignKey\nALTER TABLE \"organization_role\" ADD CONSTRAINT \"organization_role_organizationId_fkey\" FOREIGN KEY (\"organizationId\") REFERENCES \"Organization\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- CreateTable\nCREATE TABLE \"role_notification_setting\" (\n    \"id\" TEXT NOT NULL DEFAULT generate_prefixed_cuid('rns'::text),\n    \"organizationId\" TEXT NOT NULL,\n    \"role\" TEXT NOT NULL,\n    \"policyNotifications\" BOOLEAN NOT NULL DEFAULT true,\n    \"taskReminders\" BOOLEAN NOT NULL DEFAULT true,\n    \"taskAssignments\" BOOLEAN NOT NULL DEFAULT true,\n    \"taskMentions\" BOOLEAN NOT NULL DEFAULT true,\n    \"weeklyTaskDigest\" BOOLEAN NOT NULL DEFAULT true,\n    \"findingNotifications\" BOOLEAN NOT NULL DEFAULT true,\n    \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    \"updatedAt\" TIMESTAMP(3) NOT NULL,\n\n    CONSTRAINT \"role_notification_setting_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"role_notification_setting_organizationId_role_key\" ON \"role_notification_setting\"(\"organizationId\", \"role\");\n\n-- AddForeignKey\nALTER TABLE \"role_notification_setting\" ADD CONSTRAINT \"role_notification_setting_organizationId_fkey\" FOREIGN KEY (\"organizationId\") REFERENCES \"Organization\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AlterTable\nALTER TABLE \"jwks\" ADD COLUMN     \"expiresAt\" TIMESTAMP(3);\n\n-- AlterTable\n-- Change permissions from jsonb to text so better-auth receives a raw JSON string\n-- (Prisma auto-parses jsonb, but better-auth calls JSON.parse() itself)\n-- The cast from jsonb to text produces valid JSON strings.\nALTER TABLE \"organization_role\" ALTER COLUMN \"permissions\" SET DATA TYPE TEXT USING permissions::TEXT;\n\n-- AlterTable\nALTER TABLE \"ApiKey\" ADD COLUMN     \"scopes\" TEXT[] DEFAULT ARRAY[]::TEXT[];\n\n-- AlterTable\nALTER TABLE \"ApiKey\" ADD COLUMN \"keyPrefix\" TEXT;\n\n-- CreateIndex\nCREATE INDEX \"ApiKey_keyPrefix_idx\" ON \"ApiKey\"(\"keyPrefix\");\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "role",
+            "column": "role",
+            "new_name": "role_old",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/db/prisma/migrations/20260305100002_add_organization_role_table_for_dynamic_roles/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TYPE \"Role\" RENAME TO \"Role_old\"",
+            "extra": {
+              "table_sql": "Role",
+              "column_sql": "Role",
+              "new_name_sql": "Role_old"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "role",
+            "column": "role",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'role' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "role_new",
+            "column": "role_new",
+            "new_name": "role",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/db/prisma/migrations/20260305100002_add_organization_role_table_for_dynamic_roles/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TYPE \"Role_new\" RENAME TO \"Role\"",
+            "extra": {
+              "table_sql": "Role_new",
+              "column_sql": "Role_new",
+              "new_name_sql": "Role"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "role_new",
+            "column": "role_new",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'role_new' affects active C_{t-1} enum definition/code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "role_old",
+            "column": "role_old",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/db/prisma/migrations/20260305100002_add_organization_role_table_for_dynamic_roles/migration.sql",
+            "line": 0,
+            "raw_snippet": "DROP TYPE \"public\".\"Role_old\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "Role_old",
+              "column_sql": "Role_old"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "role_old",
+            "column": "role_old",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "ENUM 'role_old' not present in C_{t-1} schema."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "organization_role",
+            "column": "permissions",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TEXT",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/db/prisma/migrations/20260305100005_change_organization_role_permissions_to_text/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE organization_role ALTER COLUMN \"permissions\" SET DATA TYPE TEXT USING CAST(permissions AS TEXT)",
+            "extra": {},
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "organization_role",
+            "column": "permissions",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'organization_role' columns not resolved in C_{t-1} schema snapshot."
+        }
+      ]
+    },
+    {
+      "sha": "aebe81e58897118838e562fbe6ecad78af0530ec",
+      "parent": "7dc610d804c823196b5c5e5c2501e68fef20b8dd",
+      "date": "2026-02-17T17:11:40-05:00",
+      "subject": "[dev] [carhartlewis] lewis/comp-document-tweaks (#2150)",
+      "mig_files": [
+        "packages/db/prisma/migrations/20260217163221_add_evidence_form_type_to_finding/migration.sql",
+        "packages/db/prisma/migrations/20260217190000_convert_evidence_form_types_to_enum/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/api/src/devices/dto/device-responses.dto.ts",
+        "apps/api/src/evidence-forms/evidence-form-type-map.ts",
+        "apps/api/src/evidence-forms/evidence-forms.service.spec.ts",
+        "apps/api/src/evidence-forms/evidence-forms.service.ts",
+        "apps/api/src/findings/dto/create-finding.dto.ts",
+        "apps/api/src/findings/findings.controller.spec.ts",
+        "apps/api/src/findings/findings.controller.ts",
+        "apps/api/src/findings/findings.service.ts",
+        "apps/api/src/org-chart/org-chart.controller.ts",
+        "apps/api/src/org-chart/org-chart.service.ts",
+        "apps/app/src/app/(app)/[orgId]/documents/[formType]/page.tsx",
+        "apps/app/src/app/(app)/[orgId]/documents/components/CompanyFormPageClient.tsx"
+      ],
+      "orm_models_parsed_old": 72,
+      "raw_sql": "-- AlterTable\nALTER TABLE \"Finding\" ADD COLUMN     \"evidenceFormType\" TEXT;\n\n-- CreateIndex\nCREATE INDEX \"Finding_evidenceFormType_idx\" ON \"Finding\"(\"evidenceFormType\");\n\n-- CreateEnum\nCREATE TYPE \"EvidenceFormType\" AS ENUM (\n  'board-meeting',\n  'it-leadership-meeting',\n  'risk-committee-meeting',\n  'meeting',\n  'access-request',\n  'whistleblower-report',\n  'penetration-test',\n  'rbac-matrix',\n  'infrastructure-inventory',\n  'employee-performance-evaluation'\n);\n\n-- Validate existing EvidenceSubmission values before cast\nDO $$\nDECLARE\n  invalid_values TEXT;\nBEGIN\n  SELECT string_agg(DISTINCT \"formType\", ', ')\n  INTO invalid_values\n  FROM \"EvidenceSubmission\"\n  WHERE \"formType\" NOT IN (\n    'board-meeting',\n    'it-leadership-meeting',\n    'risk-committee-meeting',\n    'meeting',\n    'access-request',\n    'whistleblower-report',\n    'penetration-test',\n    'rbac-matrix',\n    'infrastructure-inventory',\n    'employee-performance-evaluation'\n  );\n\n  IF invalid_values IS NOT NULL THEN\n    RAISE EXCEPTION 'Cannot migrate EvidenceSubmission.formType to enum. Invalid values: %', invalid_values;\n  END IF;\nEND $$;\n\n-- Validate existing Finding values before cast\nDO $$\nDECLARE\n  invalid_values TEXT;\nBEGIN\n  SELECT string_agg(DISTINCT \"evidenceFormType\", ', ')\n  INTO invalid_values\n  FROM \"Finding\"\n  WHERE \"evidenceFormType\" IS NOT NULL\n    AND \"evidenceFormType\" NOT IN (\n      'board-meeting',\n      'it-leadership-meeting',\n      'risk-committee-meeting',\n      'meeting',\n      'access-request',\n      'whistleblower-report',\n      'penetration-test',\n      'rbac-matrix',\n      'infrastructure-inventory',\n      'employee-performance-evaluation'\n    );\n\n  IF invalid_values IS NOT NULL THEN\n    RAISE EXCEPTION 'Cannot migrate Finding.evidenceFormType to enum. Invalid values: %', invalid_values;\n  END IF;\nEND $$;\n\n-- AlterTable\nALTER TABLE \"EvidenceSubmission\"\n  ALTER COLUMN \"formType\" TYPE \"EvidenceFormType\"\n  USING (\"formType\"::\"EvidenceFormType\");\n\n-- AlterTable\nALTER TABLE \"Finding\"\n  ALTER COLUMN \"evidenceFormType\" TYPE \"EvidenceFormType\"\n  USING (\"evidenceFormType\"::\"EvidenceFormType\");\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "evidencesubmission",
+            "column": "formtype",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "\"EvidenceFormType\"",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/db/prisma/migrations/20260217190000_convert_evidence_form_types_to_enum/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE evidencesubmission ALTER COLUMN \"formType\" SET DATA TYPE \"EvidenceFormType\" USING (CAST(\"formType\" AS \"EvidenceFormType\"))",
+            "extra": {
+              "table_sql": "EvidenceSubmission",
+              "column_sql": "formType"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "evidencesubmission",
+            "column": "formtype",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/db/prisma/schema/evidence-submission.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ALTER_COLUMN_TYPE on active C_{t-1} column 'evidencesubmission.formtype' (String -> \"EvidenceFormType\")."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "finding",
+            "column": "evidenceformtype",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "\"EvidenceFormType\"",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/db/prisma/migrations/20260217190000_convert_evidence_form_types_to_enum/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE finding ALTER COLUMN \"evidenceFormType\" SET DATA TYPE \"EvidenceFormType\" USING (CAST(\"evidenceFormType\" AS \"EvidenceFormType\"))",
+            "extra": {
+              "table_sql": "Finding",
+              "column_sql": "EvidenceFormType"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "finding",
+            "column": "evidenceformtype",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/db/prisma/schema/finding.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Column 'finding.evidenceformtype' not active in C_{t-1}."
+        }
+      ]
+    },
+    {
+      "sha": "f7fcab3f814e53c3559909aaa3afcaccba1afe4c",
+      "parent": "1cd3f253d46b6259b74d55140bd5f596b0165cd5",
+      "date": "2026-01-22T13:29:23-05:00",
+      "subject": "[FEAT] Upload images for failed device policy (#2018)",
+      "mig_files": [
+        "packages/db/prisma/migrations/20260121144811_add_fleet_policy_result/migration.sql",
+        "packages/db/prisma/migrations/20260121144812_alter_fleet_policy_result_timestamps/migration.sql",
+        "packages/db/prisma/migrations/20260121144813_rename_member_to_user_in_fleet_policy_result/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/app/src/app/(app)/[orgId]/people/devices/components/CarouselControls.tsx",
+        "apps/app/src/app/(app)/[orgId]/people/devices/components/HostDetails.tsx",
+        "apps/app/src/app/(app)/[orgId]/people/devices/components/PolicyImagePreview.tsx",
+        "apps/app/src/app/(app)/[orgId]/people/devices/components/PolicyImagePreviewModal.tsx",
+        "apps/app/src/app/(app)/[orgId]/people/devices/components/PolicyItem.tsx",
+        "apps/app/src/app/(app)/[orgId]/people/devices/data/index.ts",
+        "apps/app/src/app/(app)/[orgId]/people/devices/types/index.ts",
+        "apps/app/src/app/api/get-image-url/route.ts",
+        "apps/portal/src/app/(app)/(home)/[orgId]/components/tasks/DeviceAgentAccordionItem.tsx",
+        "apps/portal/src/app/(app)/(home)/[orgId]/components/tasks/FleetPolicyItem.tsx",
+        "apps/portal/src/app/(app)/(home)/[orgId]/components/tasks/PolicyImagePreviewModal.tsx",
+        "apps/portal/src/app/(app)/(home)/[orgId]/components/tasks/PolicyImageUploadModal.tsx"
+      ],
+      "orm_models_parsed_old": 64,
+      "raw_sql": "-- CreateTable\nCREATE TABLE \"FleetPolicyResult\" (\n    \"id\" TEXT NOT NULL DEFAULT generate_prefixed_cuid('fpr'::text),\n    \"memberId\" TEXT NOT NULL,\n    \"organizationId\" TEXT NOT NULL,\n    \"fleetPolicyId\" INTEGER NOT NULL,\n    \"fleetPolicyName\" TEXT NOT NULL,\n    \"fleetPolicyResponse\" TEXT NOT NULL,\n    \"attachments\" TEXT[] NOT NULL DEFAULT '{}',\n    \"createdAt\" TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    \"updatedAt\" TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,\n\n    CONSTRAINT \"FleetPolicyResult_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateIndex\nCREATE INDEX \"FleetPolicyResult_memberId_idx\" ON \"FleetPolicyResult\"(\"memberId\");\n\n-- CreateIndex\nCREATE INDEX \"FleetPolicyResult_organizationId_idx\" ON \"FleetPolicyResult\"(\"organizationId\");\n\n-- AddForeignKey\nALTER TABLE \"FleetPolicyResult\" ADD CONSTRAINT \"FleetPolicyResult_memberId_fkey\" FOREIGN KEY (\"memberId\") REFERENCES \"Member\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"FleetPolicyResult\" ADD CONSTRAINT \"FleetPolicyResult_organizationId_fkey\" FOREIGN KEY (\"organizationId\") REFERENCES \"Organization\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AlterTable\nALTER TABLE \"FleetPolicyResult\" ALTER COLUMN \"createdAt\" SET DATA TYPE TIMESTAMP(3),\nALTER COLUMN \"updatedAt\" DROP DEFAULT,\nALTER COLUMN \"updatedAt\" SET DATA TYPE TIMESTAMP(3);\n\n-- Rename column\nALTER TABLE \"FleetPolicyResult\" RENAME COLUMN \"memberId\" TO \"userId\";\n\n-- Drop old index if exists and create new index\nDROP INDEX IF EXISTS \"FleetPolicyResult_memberId_idx\";\nCREATE INDEX \"FleetPolicyResult_userId_idx\" ON \"FleetPolicyResult\"(\"userId\");\n\n-- Drop old foreign key and add new one to User\nALTER TABLE \"FleetPolicyResult\" DROP CONSTRAINT IF EXISTS \"FleetPolicyResult_memberId_fkey\";\nALTER TABLE \"FleetPolicyResult\" ADD CONSTRAINT \"FleetPolicyResult_userId_fkey\" FOREIGN KEY (\"userId\") REFERENCES \"User\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "fleetpolicyresult",
+            "column": "createdat",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TIMESTAMP(3)",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/db/prisma/migrations/20260121144812_alter_fleet_policy_result_timestamps/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE fleetpolicyresult ALTER COLUMN \"createdAt\" SET DATA TYPE TIMESTAMP(3)",
+            "extra": {
+              "table_sql": "FleetPolicyResult",
+              "column_sql": "createdAt"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "fleetpolicyresult",
+            "column": "createdat",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'fleetpolicyresult' columns not resolved in C_{t-1} schema snapshot."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ALTER_COLUMN_TYPE",
+            "table": "fleetpolicyresult",
+            "column": "updatedat",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TIMESTAMP(3)",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/db/prisma/migrations/20260121144812_alter_fleet_policy_result_timestamps/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE fleetpolicyresult ALTER COLUMN \"updatedAt\" SET DATA TYPE TIMESTAMP(3)",
+            "extra": {
+              "table_sql": "FleetPolicyResult",
+              "column_sql": "updatedAt"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "fleetpolicyresult",
+            "column": "updatedat",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'fleetpolicyresult' columns not resolved in C_{t-1} schema snapshot."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_COLUMN",
+            "table": "fleetpolicyresult",
+            "column": "memberid",
+            "new_name": "userid",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/db/prisma/migrations/20260121144813_rename_member_to_user_in_fleet_policy_result/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE fleetpolicyresult RENAME COLUMN \"memberId\" TO \"userId\"",
+            "extra": {
+              "table_sql": "FleetPolicyResult",
+              "column_sql": "memberId",
+              "new_name_sql": "userId"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "fleetpolicyresult",
+            "column": "memberid",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_FORWARD",
+          "reason": "RENAME_COLUMN 'memberid'->'userid' breaks C_t |= S_{t-1}."
+        }
+      ]
+    },
+    {
+      "sha": "26f86eeb3159a7a64f7e19c9ea124a94bcf7e070",
+      "parent": "67a37d5a7263ab5269f85e2980892f4ad6d54750",
+      "date": "2026-01-02T10:14:28-05:00",
+      "subject": "[dev] [tofikwest] tofik/update-risk-assesstment-part (#1961)",
+      "mig_files": [
+        "packages/db/prisma/migrations/20251229205657_add_vendor_risk_assessment_fields/migration.sql",
+        "packages/db/prisma/migrations/20251231192605_add_risk_assessment_to_global_vendors_and_remove_from_vendor/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/api/src/task-management/task-management.service.ts",
+        "apps/api/src/trigger/vendor/backfill-vendor-risk-assessment-tasks.ts",
+        "apps/api/src/trigger/vendor/vendor-risk-assessment-monthly-schedule.ts",
+        "apps/api/src/trigger/vendor/vendor-risk-assessment-task.ts",
+        "apps/api/src/vendors/internal-vendor-automation.controller.ts",
+        "apps/api/src/vendors/vendors.service.ts",
+        "apps/app/src/app/(app)/[orgId]/vendors/[vendorId]/components/VendorActions.tsx",
+        "apps/app/src/app/(app)/[orgId]/vendors/[vendorId]/components/VendorHeader.tsx",
+        "apps/app/src/app/(app)/[orgId]/vendors/[vendorId]/components/VendorTabs.tsx",
+        "apps/app/src/app/(app)/[orgId]/vendors/[vendorId]/components/secondary-fields/secondary-fields.tsx",
+        "apps/app/src/app/(app)/[orgId]/vendors/[vendorId]/layout.tsx",
+        "apps/app/src/app/(app)/[orgId]/vendors/[vendorId]/loading.tsx"
+      ],
+      "orm_models_parsed_old": 64,
+      "raw_sql": "-- AlterTable\nALTER TABLE \"Vendor\" ADD COLUMN     \"riskAssessmentData\" JSONB,\nADD COLUMN     \"riskAssessmentUpdatedAt\" TIMESTAMP(3),\nADD COLUMN     \"riskAssessmentVersion\" TEXT;\n\n/*\n  Warnings:\n\n  - You are about to drop the column `riskAssessmentData` on the `Vendor` table. All the data in the column will be lost.\n  - You are about to drop the column `riskAssessmentUpdatedAt` on the `Vendor` table. All the data in the column will be lost.\n  - You are about to drop the column `riskAssessmentVersion` on the `Vendor` table. All the data in the column will be lost.\n\n*/\n-- AlterTable\nALTER TABLE \"GlobalVendors\" ADD COLUMN     \"riskAssessmentData\" JSONB,\nADD COLUMN     \"riskAssessmentUpdatedAt\" TIMESTAMP(3),\nADD COLUMN     \"riskAssessmentVersion\" TEXT;\n\n-- AlterTable\nALTER TABLE \"Vendor\" DROP COLUMN \"riskAssessmentData\",\nDROP COLUMN \"riskAssessmentUpdatedAt\",\nDROP COLUMN \"riskAssessmentVersion\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "vendor",
+            "column": "riskassessmentdata",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/db/prisma/migrations/20251231192605_add_risk_assessment_to_global_vendors_and_remove_from_vendor/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE vendor DROP COLUMN \"riskAssessmentData\"",
+            "extra": {
+              "table_sql": "Vendor",
+              "column_sql": "riskAssessmentData"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "vendor",
+            "column": "riskassessmentdata",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/db/prisma/schema/vendor.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'riskassessmentdata' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "vendor",
+            "column": "riskassessmentupdatedat",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/db/prisma/migrations/20251231192605_add_risk_assessment_to_global_vendors_and_remove_from_vendor/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE vendor DROP COLUMN \"riskAssessmentUpdatedAt\"",
+            "extra": {
+              "table_sql": "Vendor",
+              "column_sql": "riskAssessmentUpdatedAt"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "vendor",
+            "column": "riskassessmentupdatedat",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/db/prisma/schema/vendor.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'riskassessmentupdatedat' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "vendor",
+            "column": "riskassessmentversion",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/db/prisma/migrations/20251231192605_add_risk_assessment_to_global_vendors_and_remove_from_vendor/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE vendor DROP COLUMN \"riskAssessmentVersion\"",
+            "extra": {
+              "table_sql": "Vendor",
+              "column_sql": "riskAssessmentVersion"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "vendor",
+            "column": "riskassessmentversion",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/db/prisma/schema/vendor.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'riskassessmentversion' already absent from C_{t-1} ORM and app code."
+        }
+      ]
+    },
+    {
+      "sha": "665ee9ee98b85a28499d0ac4e1504c088647ebb0",
+      "parent": "c2cbd3587ed5a7286d9c47617a4c969e509e7389",
+      "date": "2025-12-14T19:37:15-08:00",
+      "subject": "Mariano/agent screenshots 2 (#1918)",
+      "mig_files": [
+        "packages/db/prisma/migrations/20251215033455_add_org_id/migration.sql"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 63,
+      "raw_sql": "/*\n  Warnings:\n\n  - You are about to drop the column `authenticatedAt` on the `BrowserbaseContext` table. All the data in the column will be lost.\n  - You are about to drop the column `connectionId` on the `BrowserbaseContext` table. All the data in the column will be lost.\n  - You are about to drop the column `isAuthenticated` on the `BrowserbaseContext` table. All the data in the column will be lost.\n  - A unique constraint covering the columns `[organizationId]` on the table `BrowserbaseContext` will be added. If there are existing duplicate values, this will fail.\n  - Added the required column `organizationId` to the `BrowserbaseContext` table without a default value. This is not possible if the table is not empty.\n\n*/\n-- CreateEnum\nCREATE TYPE \"BrowserAutomationEvaluationStatus\" AS ENUM ('pass', 'fail');\n\n-- CreateEnum\nCREATE TYPE \"BrowserAutomationRunStatus\" AS ENUM ('pending', 'running', 'completed', 'failed');\n\n-- DropForeignKey\nALTER TABLE \"BrowserbaseContext\" DROP CONSTRAINT \"BrowserbaseContext_connectionId_fkey\";\n\n-- DropIndex\nDROP INDEX \"BrowserbaseContext_connectionId_idx\";\n\n-- DropIndex\nDROP INDEX \"BrowserbaseContext_connectionId_key\";\n\n-- AlterTable\nALTER TABLE \"BrowserbaseContext\" DROP COLUMN \"authenticatedAt\",\nDROP COLUMN \"connectionId\",\nDROP COLUMN \"isAuthenticated\",\nADD COLUMN     \"organizationId\" TEXT NOT NULL;\n\n-- CreateTable\nCREATE TABLE \"BrowserAutomation\" (\n    \"id\" TEXT NOT NULL DEFAULT generate_prefixed_cuid('bau'::text),\n    \"name\" TEXT NOT NULL,\n    \"description\" TEXT,\n    \"taskId\" TEXT NOT NULL,\n    \"targetUrl\" TEXT NOT NULL,\n    \"instruction\" TEXT NOT NULL,\n    \"isEnabled\" BOOLEAN NOT NULL DEFAULT false,\n    \"schedule\" TEXT,\n    \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    \"updatedAt\" TIMESTAMP(3) NOT NULL,\n\n    CONSTRAINT \"BrowserAutomation_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateTable\nCREATE TABLE \"BrowserAutomationRun\" (\n    \"id\" TEXT NOT NULL DEFAULT generate_prefixed_cuid('bar'::text),\n    \"automationId\" TEXT NOT NULL,\n    \"status\" \"BrowserAutomationRunStatus\" NOT NULL DEFAULT 'pending',\n    \"startedAt\" TIMESTAMP(3),\n    \"completedAt\" TIMESTAMP(3),\n    \"durationMs\" INTEGER,\n    \"screenshotUrl\" TEXT,\n    \"evaluationStatus\" \"BrowserAutomationEvaluationStatus\",\n    \"evaluationReason\" TEXT,\n    \"error\" TEXT,\n    \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n\n    CONSTRAINT \"BrowserAutomationRun_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateIndex\nCREATE INDEX \"BrowserAutomation_taskId_idx\" ON \"BrowserAutomation\"(\"taskId\");\n\n-- CreateIndex\nCREATE INDEX \"BrowserAutomationRun_automationId_idx\" ON \"BrowserAutomationRun\"(\"automationId\");\n\n-- CreateIndex\nCREATE INDEX \"BrowserAutomationRun_status_idx\" ON \"BrowserAutomationRun\"(\"status\");\n\n-- CreateIndex\nCREATE INDEX \"BrowserAutomationRun_createdAt_idx\" ON \"BrowserAutomationRun\"(\"createdAt\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"BrowserbaseContext_organizationId_key\" ON \"BrowserbaseContext\"(\"organizationId\");\n\n-- CreateIndex\nCREATE INDEX \"BrowserbaseContext_organizationId_idx\" ON \"BrowserbaseContext\"(\"organizationId\");\n\n-- AddForeignKey\nALTER TABLE \"BrowserbaseContext\" ADD CONSTRAINT \"BrowserbaseContext_organizationId_fkey\" FOREIGN KEY (\"organizationId\") REFERENCES \"Organization\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"BrowserAutomation\" ADD CONSTRAINT \"BrowserAutomation_taskId_fkey\" FOREIGN KEY (\"taskId\") REFERENCES \"Task\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"BrowserAutomationRun\" ADD CONSTRAINT \"BrowserAutomationRun_automationId_fkey\" FOREIGN KEY (\"automationId\") REFERENCES \"BrowserAutomation\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "browserbasecontext",
+            "column": "authenticatedat",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/db/prisma/migrations/20251215033455_add_org_id/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE browserbasecontext DROP COLUMN \"authenticatedAt\"",
+            "extra": {
+              "table_sql": "BrowserbaseContext",
+              "column_sql": "authenticatedAt"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "browserbasecontext",
+            "column": "authenticatedat",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/db/prisma/schema/browserbase-context.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'authenticatedat' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "browserbasecontext",
+            "column": "connectionid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/db/prisma/migrations/20251215033455_add_org_id/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE browserbasecontext DROP COLUMN \"connectionId\"",
+            "extra": {
+              "table_sql": "BrowserbaseContext",
+              "column_sql": "connectionId"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "browserbasecontext",
+            "column": "connectionid",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/db/prisma/schema/browserbase-context.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'connectionid' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "browserbasecontext",
+            "column": "isauthenticated",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/db/prisma/migrations/20251215033455_add_org_id/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE browserbasecontext DROP COLUMN \"isAuthenticated\"",
+            "extra": {
+              "table_sql": "BrowserbaseContext",
+              "column_sql": "isAuthenticated"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "browserbasecontext",
+            "column": "isauthenticated",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/db/prisma/schema/browserbase-context.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'isauthenticated' already absent from C_{t-1} ORM and app code."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "ADD_NOT_NULL_NO_DEFAULT",
+            "table": "browserbasecontext",
+            "column": "organizationid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": "TEXT",
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/db/prisma/migrations/20251215033455_add_org_id/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE browserbasecontext ADD COLUMN \"organizationId\" TEXT NOT NULL",
+            "extra": {
+              "table_sql": "BrowserbaseContext",
+              "column_sql": "organizationId"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "browserbasecontext",
+            "column": "organizationid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/db/prisma/schema/browserbase-context.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "ADD_NOT_NULL_NO_DEFAULT on active C_{t-1} table 'browserbasecontext.organizationid' breaks C_{t-1} INSERTs."
+        }
+      ]
+    },
+    {
+      "sha": "96e115ed86a3a7c9bb34c9ba24cfbc46e9190445",
+      "parent": "e735c29781d9c6408237c602d79fecdf9669712b",
+      "date": "2025-11-26T09:00:28-05:00",
+      "subject": "feat(SOA): implement SOA logic and do refactor (#1836)",
+      "mig_files": [
+        "packages/db/prisma/migrations/20251125130730_add_soa_tables_with_versioning/migration.sql",
+        "packages/db/prisma/migrations/20251125182239_add_prepared_by_approved_by_to_soa_document/migration.sql",
+        "packages/db/prisma/migrations/20251125191143_change_approved_by_to_approver_id/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/app/src/app/(app)/[orgId]/knowledge-base/page.tsx",
+        "apps/app/src/app/(app)/[orgId]/questionnaire/[questionnaireId]/components/QuestionnaireBreadcrumb.tsx",
+        "apps/app/src/app/(app)/[orgId]/questionnaire/[questionnaireId]/components/QuestionnaireDetailClient.tsx",
+        "apps/app/src/app/(app)/[orgId]/questionnaire/[questionnaireId]/data/queries.ts",
+        "apps/app/src/app/(app)/[orgId]/questionnaire/[questionnaireId]/page.tsx",
+        "apps/app/src/app/(app)/[orgId]/questionnaire/actions/answer-single-question.ts",
+        "apps/app/src/app/(app)/[orgId]/questionnaire/actions/create-trigger-token.ts",
+        "apps/app/src/app/(app)/[orgId]/questionnaire/actions/delete-questionnaire-answer.ts",
+        "apps/app/src/app/(app)/[orgId]/questionnaire/actions/export-questionnaire.ts",
+        "apps/app/src/app/(app)/[orgId]/questionnaire/actions/parse-questionnaire-ai.ts",
+        "apps/app/src/app/(app)/[orgId]/questionnaire/actions/save-answer.ts",
+        "apps/app/src/app/(app)/[orgId]/questionnaire/actions/save-answers-batch.ts"
+      ],
+      "orm_models_parsed_old": 46,
+      "raw_sql": "-- CreateEnum\nCREATE TYPE \"SOADocumentStatus\" AS ENUM ('draft', 'in_progress', 'completed');\n\n-- CreateEnum\nCREATE TYPE \"SOAAnswerStatus\" AS ENUM ('untouched', 'generated', 'manual');\n\n-- CreateTable\nCREATE TABLE \"SOAFrameworkConfiguration\" (\n    \"id\" TEXT NOT NULL DEFAULT generate_prefixed_cuid('soa_cfg'::text),\n    \"frameworkId\" TEXT NOT NULL,\n    \"version\" INTEGER NOT NULL DEFAULT 1,\n    \"isLatest\" BOOLEAN NOT NULL DEFAULT true,\n    \"columns\" JSONB NOT NULL,\n    \"questions\" JSONB NOT NULL,\n    \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    \"updatedAt\" TIMESTAMP(3) NOT NULL,\n\n    CONSTRAINT \"SOAFrameworkConfiguration_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateTable\nCREATE TABLE \"SOADocument\" (\n    \"id\" TEXT NOT NULL DEFAULT generate_prefixed_cuid('soa_doc'::text),\n    \"frameworkId\" TEXT NOT NULL,\n    \"organizationId\" TEXT NOT NULL,\n    \"configurationId\" TEXT NOT NULL,\n    \"version\" INTEGER NOT NULL DEFAULT 1,\n    \"isLatest\" BOOLEAN NOT NULL DEFAULT true,\n    \"status\" \"SOADocumentStatus\" NOT NULL DEFAULT 'draft',\n    \"totalQuestions\" INTEGER NOT NULL DEFAULT 0,\n    \"answeredQuestions\" INTEGER NOT NULL DEFAULT 0,\n    \"completedAt\" TIMESTAMP(3),\n    \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    \"updatedAt\" TIMESTAMP(3) NOT NULL,\n\n    CONSTRAINT \"SOADocument_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateTable\nCREATE TABLE \"SOAAnswer\" (\n    \"id\" TEXT NOT NULL DEFAULT generate_prefixed_cuid('soa_ans'::text),\n    \"documentId\" TEXT NOT NULL,\n    \"questionId\" TEXT NOT NULL,\n    \"answer\" TEXT,\n    \"status\" \"SOAAnswerStatus\" NOT NULL DEFAULT 'untouched',\n    \"sources\" JSONB,\n    \"generatedAt\" TIMESTAMP(3),\n    \"answerVersion\" INTEGER NOT NULL DEFAULT 1,\n    \"isLatestAnswer\" BOOLEAN NOT NULL DEFAULT true,\n    \"createdBy\" TEXT,\n    \"updatedBy\" TEXT,\n    \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    \"updatedAt\" TIMESTAMP(3) NOT NULL,\n\n    CONSTRAINT \"SOAAnswer_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateIndex\nCREATE INDEX \"SOAFrameworkConfiguration_frameworkId_idx\" ON \"SOAFrameworkConfiguration\"(\"frameworkId\");\n\n-- CreateIndex\nCREATE INDEX \"SOAFrameworkConfiguration_frameworkId_version_idx\" ON \"SOAFrameworkConfiguration\"(\"frameworkId\", \"version\");\n\n-- CreateIndex\nCREATE INDEX \"SOAFrameworkConfiguration_frameworkId_isLatest_idx\" ON \"SOAFrameworkConfiguration\"(\"frameworkId\", \"isLatest\");\n\n-- CreateIndex\nCREATE INDEX \"SOADocument_frameworkId_organizationId_idx\" ON \"SOADocument\"(\"frameworkId\", \"organizationId\");\n\n-- CreateIndex\nCREATE INDEX \"SOADocument_frameworkId_organizationId_version_idx\" ON \"SOADocument\"(\"frameworkId\", \"organizationId\", \"version\");\n\n-- CreateIndex\nCREATE INDEX \"SOADocument_frameworkId_organizationId_isLatest_idx\" ON \"SOADocument\"(\"frameworkId\", \"organizationId\", \"isLatest\");\n\n-- CreateIndex\nCREATE INDEX \"SOADocument_configurationId_idx\" ON \"SOADocument\"(\"configurationId\");\n\n-- CreateIndex\nCREATE INDEX \"SOADocument_status_idx\" ON \"SOADocument\"(\"status\");\n\n-- CreateIndex\nCREATE INDEX \"SOAAnswer_documentId_idx\" ON \"SOAAnswer\"(\"documentId\");\n\n-- CreateIndex\nCREATE INDEX \"SOAAnswer_documentId_questionId_idx\" ON \"SOAAnswer\"(\"documentId\", \"questionId\");\n\n-- CreateIndex\nCREATE INDEX \"SOAAnswer_documentId_questionId_isLatestAnswer_idx\" ON \"SOAAnswer\"(\"documentId\", \"questionId\", \"isLatestAnswer\");\n\n-- CreateIndex\nCREATE INDEX \"SOAAnswer_status_idx\" ON \"SOAAnswer\"(\"status\");\n\n-- CreateUniqueConstraint\nCREATE UNIQUE INDEX \"SOAFrameworkConfiguration_frameworkId_version_key\" ON \"SOAFrameworkConfiguration\"(\"frameworkId\", \"version\");\n\n-- CreateUniqueConstraint\nCREATE UNIQUE INDEX \"SOADocument_frameworkId_organizationId_version_key\" ON \"SOADocument\"(\"frameworkId\", \"organizationId\", \"version\");\n\n-- CreateUniqueConstraint\nCREATE UNIQUE INDEX \"SOAAnswer_documentId_questionId_answerVersion_key\" ON \"SOAAnswer\"(\"documentId\", \"questionId\", \"answerVersion\");\n\n-- AddForeignKey\nALTER TABLE \"SOAFrameworkConfiguration\" ADD CONSTRAINT \"SOAFrameworkConfiguration_frameworkId_fkey\" FOREIGN KEY (\"frameworkId\") REFERENCES \"FrameworkEditorFramework\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"SOADocument\" ADD CONSTRAINT \"SOADocument_frameworkId_fkey\" FOREIGN KEY (\"frameworkId\") REFERENCES \"FrameworkEditorFramework\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"SOADocument\" ADD CONSTRAINT \"SOADocument_organizationId_fkey\" FOREIGN KEY (\"organizationId\") REFERENCES \"Organization\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"SOADocument\" ADD CONSTRAINT \"SOADocument_configurationId_fkey\" FOREIGN KEY (\"configurationId\") REFERENCES \"SOAFrameworkConfiguration\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"SOAAnswer\" ADD CONSTRAINT \"SOAAnswer_documentId_fkey\" FOREIGN KEY (\"documentId\") REFERENCES \"SOADocument\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n\n-- AlterTable\nALTER TABLE \"SOADocument\" ADD COLUMN \"preparedBy\" TEXT NOT NULL DEFAULT 'Comp AI';\nALTER TABLE \"SOADocument\" ADD COLUMN \"approvedBy\" TEXT;\nALTER TABLE \"SOADocument\" ADD COLUMN \"approvedAt\" TIMESTAMP(3);\n\n\n-- AlterEnum: Add needs_review status\nALTER TYPE \"SOADocumentStatus\" ADD VALUE 'needs_review';\n\n-- AlterTable: Rename approvedBy to approverId and change to reference Member\nALTER TABLE \"SOADocument\" RENAME COLUMN \"approvedBy\" TO \"approverId\";\n\n-- AddForeignKey: Add relation to Member\nALTER TABLE \"SOADocument\" ADD CONSTRAINT \"SOADocument_approverId_fkey\" FOREIGN KEY (\"approverId\") REFERENCES \"Member\"(\"id\") ON DELETE SET NULL ON UPDATE CASCADE;\n\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_COLUMN",
+            "table": "soadocument",
+            "column": "approvedby",
+            "new_name": "approverid",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/db/prisma/migrations/20251125191143_change_approved_by_to_approver_id/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE soadocument RENAME COLUMN \"approvedBy\" TO \"approverId\"",
+            "extra": {
+              "table_sql": "SOADocument",
+              "column_sql": "approvedBy",
+              "new_name_sql": "approverId"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "soadocument",
+            "column": "approvedby",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "UNCERTAIN",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'soadocument' columns not resolved in C_{t-1} schema snapshot."
+        }
+      ]
+    },
+    {
+      "sha": "2ba3d5d64591a566c24cc443540bc4e853d9a350",
+      "parent": "60dfb28e6c1727c677571bc3736333fce57b7944",
+      "date": "2025-11-18T03:50:30+09:00",
+      "subject": "feat(trust-access): implement trust access request management system (#1739)",
+      "mig_files": [
+        "packages/db/prisma/migrations/20251112150000_/migration.sql",
+        "packages/db/prisma/migrations/20251112151000_add_trust_nda_agreement/migration.sql",
+        "packages/db/prisma/migrations/20251112152000_trust_documents/migration.sql",
+        "packages/db/prisma/migrations/20251112153000_add_access_token_to_grant/migration.sql",
+        "packages/db/prisma/migrations/20251112154000_remove_extra_scopes/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/api/src/attachments/attachments.service.ts",
+        "apps/api/src/comments/dto/update-comment.dto.ts",
+        "apps/api/src/context/context.controller.ts",
+        "apps/api/src/context/context.service.ts",
+        "apps/api/src/context/dto/context-response.dto.ts",
+        "apps/api/src/context/dto/create-context.dto.ts",
+        "apps/api/src/context/schemas/context-bodies.ts",
+        "apps/api/src/device-agent/device-agent.controller.ts",
+        "apps/api/src/device-agent/device-agent.service.ts",
+        "apps/api/src/device-agent/schemas/download-mac-agent.responses.ts",
+        "apps/api/src/device-agent/schemas/download-windows-agent.responses.ts",
+        "apps/api/src/devices/devices.service.ts"
+      ],
+      "orm_models_parsed_old": 38,
+      "raw_sql": "-- CreateEnum\nCREATE TYPE \"TrustAccessRequestStatus\" AS ENUM ('under_review', 'approved', 'denied', 'canceled');\n\n-- CreateEnum\nCREATE TYPE \"TrustAccessGrantStatus\" AS ENUM ('active', 'expired', 'revoked');\n\n-- AlterEnum\nALTER TYPE \"AuditLogEntityType\" ADD VALUE 'trust';\n\n-- CreateTable\nCREATE TABLE \"TrustAccessRequest\" (\n    \"id\" TEXT NOT NULL DEFAULT generate_prefixed_cuid('tar'::text),\n    \"organizationId\" TEXT NOT NULL,\n    \"name\" TEXT NOT NULL,\n    \"email\" TEXT NOT NULL,\n    \"company\" TEXT,\n    \"jobTitle\" TEXT,\n    \"purpose\" TEXT,\n    \"requestedDurationDays\" INTEGER,\n    \"requestedScopes\" TEXT[],\n    \"status\" \"TrustAccessRequestStatus\" NOT NULL DEFAULT 'under_review',\n    \"reviewerMemberId\" TEXT,\n    \"reviewedAt\" TIMESTAMP(3),\n    \"decisionReason\" TEXT,\n    \"ipAddress\" TEXT,\n    \"userAgent\" TEXT,\n    \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    \"updatedAt\" TIMESTAMP(3) NOT NULL,\n\n    CONSTRAINT \"TrustAccessRequest_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateTable\nCREATE TABLE \"TrustAccessGrant\" (\n    \"id\" TEXT NOT NULL DEFAULT generate_prefixed_cuid('tag'::text),\n    \"accessRequestId\" TEXT NOT NULL,\n    \"subjectEmail\" TEXT NOT NULL,\n    \"scopes\" TEXT[],\n    \"status\" \"TrustAccessGrantStatus\" NOT NULL DEFAULT 'active',\n    \"expiresAt\" TIMESTAMP(3) NOT NULL,\n    \"issuedByMemberId\" TEXT,\n    \"revokedAt\" TIMESTAMP(3),\n    \"revokedByMemberId\" TEXT,\n    \"revokeReason\" TEXT,\n    \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    \"updatedAt\" TIMESTAMP(3) NOT NULL,\n\n    CONSTRAINT \"TrustAccessGrant_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateIndex\nCREATE INDEX \"TrustAccessRequest_organizationId_idx\" ON \"TrustAccessRequest\"(\"organizationId\");\n\n-- CreateIndex\nCREATE INDEX \"TrustAccessRequest_email_idx\" ON \"TrustAccessRequest\"(\"email\");\n\n-- CreateIndex\nCREATE INDEX \"TrustAccessRequest_status_idx\" ON \"TrustAccessRequest\"(\"status\");\n\n-- CreateIndex\nCREATE INDEX \"TrustAccessRequest_organizationId_status_idx\" ON \"TrustAccessRequest\"(\"organizationId\", \"status\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"TrustAccessGrant_accessRequestId_key\" ON \"TrustAccessGrant\"(\"accessRequestId\");\n\n-- CreateIndex\nCREATE INDEX \"TrustAccessGrant_accessRequestId_idx\" ON \"TrustAccessGrant\"(\"accessRequestId\");\n\n-- CreateIndex\nCREATE INDEX \"TrustAccessGrant_subjectEmail_idx\" ON \"TrustAccessGrant\"(\"subjectEmail\");\n\n-- CreateIndex\nCREATE INDEX \"TrustAccessGrant_status_idx\" ON \"TrustAccessGrant\"(\"status\");\n\n-- CreateIndex\nCREATE INDEX \"TrustAccessGrant_expiresAt_idx\" ON \"TrustAccessGrant\"(\"expiresAt\");\n\n-- CreateIndex\nCREATE INDEX \"TrustAccessGrant_status_expiresAt_idx\" ON \"TrustAccessGrant\"(\"status\", \"expiresAt\");\n\n-- AddForeignKey\nALTER TABLE \"TrustAccessRequest\" ADD CONSTRAINT \"TrustAccessRequest_organizationId_fkey\" FOREIGN KEY (\"organizationId\") REFERENCES \"Organization\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"TrustAccessRequest\" ADD CONSTRAINT \"TrustAccessRequest_reviewerMemberId_fkey\" FOREIGN KEY (\"reviewerMemberId\") REFERENCES \"Member\"(\"id\") ON DELETE SET NULL ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"TrustAccessGrant\" ADD CONSTRAINT \"TrustAccessGrant_accessRequestId_fkey\" FOREIGN KEY (\"accessRequestId\") REFERENCES \"TrustAccessRequest\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"TrustAccessGrant\" ADD CONSTRAINT \"TrustAccessGrant_issuedByMemberId_fkey\" FOREIGN KEY (\"issuedByMemberId\") REFERENCES \"Member\"(\"id\") ON DELETE SET NULL ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"TrustAccessGrant\" ADD CONSTRAINT \"TrustAccessGrant_revokedByMemberId_fkey\" FOREIGN KEY (\"revokedByMemberId\") REFERENCES \"Member\"(\"id\") ON DELETE SET NULL ON UPDATE CASCADE;\n\n-- CreateEnum\nCREATE TYPE \"TrustNDAStatus\" AS ENUM ('pending', 'signed', 'void');\n\n-- AlterEnum\nALTER TYPE \"AttachmentEntityType\" ADD VALUE 'trust_nda';\n\n-- CreateTable\nCREATE TABLE \"TrustNDAAgreement\" (\n    \"id\" TEXT NOT NULL DEFAULT generate_prefixed_cuid('tna'::text),\n    \"organizationId\" TEXT NOT NULL,\n    \"accessRequestId\" TEXT NOT NULL,\n    \"grantId\" TEXT,\n    \"signerName\" TEXT,\n    \"signerEmail\" TEXT,\n    \"status\" \"TrustNDAStatus\" NOT NULL DEFAULT 'pending',\n    \"signToken\" TEXT NOT NULL,\n    \"signTokenExpiresAt\" TIMESTAMP(3) NOT NULL,\n    \"pdfTemplateKey\" TEXT,\n    \"pdfSignedKey\" TEXT,\n    \"signedAt\" TIMESTAMP(3),\n    \"ipAddress\" TEXT,\n    \"userAgent\" TEXT,\n    \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    \"updatedAt\" TIMESTAMP(3) NOT NULL,\n\n    CONSTRAINT \"TrustNDAAgreement_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"TrustNDAAgreement_grantId_key\" ON \"TrustNDAAgreement\"(\"grantId\");\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"TrustNDAAgreement_signToken_key\" ON \"TrustNDAAgreement\"(\"signToken\");\n\n-- CreateIndex\nCREATE INDEX \"TrustNDAAgreement_organizationId_idx\" ON \"TrustNDAAgreement\"(\"organizationId\");\n\n-- CreateIndex\nCREATE INDEX \"TrustNDAAgreement_accessRequestId_idx\" ON \"TrustNDAAgreement\"(\"accessRequestId\");\n\n-- CreateIndex\nCREATE INDEX \"TrustNDAAgreement_signToken_idx\" ON \"TrustNDAAgreement\"(\"signToken\");\n\n-- CreateIndex\nCREATE INDEX \"TrustNDAAgreement_status_idx\" ON \"TrustNDAAgreement\"(\"status\");\n\n-- AddForeignKey\nALTER TABLE \"TrustNDAAgreement\" ADD CONSTRAINT \"TrustNDAAgreement_organizationId_fkey\" FOREIGN KEY (\"organizationId\") REFERENCES \"Organization\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"TrustNDAAgreement\" ADD CONSTRAINT \"TrustNDAAgreement_accessRequestId_fkey\" FOREIGN KEY (\"accessRequestId\") REFERENCES \"TrustAccessRequest\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AddForeignKey\nALTER TABLE \"TrustNDAAgreement\" ADD CONSTRAINT \"TrustNDAAgreement_grantId_fkey\" FOREIGN KEY (\"grantId\") REFERENCES \"TrustAccessGrant\"(\"id\") ON DELETE SET NULL ON UPDATE CASCADE;\n\n-- CreateTable\nCREATE TABLE \"TrustDocument\" (\n    \"id\" TEXT NOT NULL DEFAULT generate_prefixed_cuid('tdoc'::text),\n    \"organizationId\" TEXT NOT NULL,\n    \"name\" TEXT NOT NULL,\n    \"description\" TEXT,\n    \"s3Key\" TEXT NOT NULL,\n    \"scopes\" TEXT[],\n    \"isActive\" BOOLEAN NOT NULL DEFAULT true,\n    \"createdAt\" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    \"updatedAt\" TIMESTAMP(3) NOT NULL,\n\n    CONSTRAINT \"TrustDocument_pkey\" PRIMARY KEY (\"id\")\n);\n\n-- CreateIndex\nCREATE INDEX \"TrustDocument_organizationId_idx\" ON \"TrustDocument\"(\"organizationId\");\n\n-- CreateIndex\nCREATE INDEX \"TrustDocument_organizationId_isActive_idx\" ON \"TrustDocument\"(\"organizationId\", \"isActive\");\n\n-- AddForeignKey\nALTER TABLE \"TrustDocument\" ADD CONSTRAINT \"TrustDocument_organizationId_fkey\" FOREIGN KEY (\"organizationId\") REFERENCES \"Organization\"(\"id\") ON DELETE CASCADE ON UPDATE CASCADE;\n\n-- AlterTable\nALTER TABLE \"public\".\"TrustAccessGrant\" ADD COLUMN \"accessToken\" TEXT,\nADD COLUMN \"accessTokenExpiresAt\" TIMESTAMP(3);\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"TrustAccessGrant_accessToken_key\" ON \"public\".\"TrustAccessGrant\"(\"accessToken\");\n\n-- CreateIndex\nCREATE INDEX \"TrustAccessGrant_accessToken_idx\" ON \"public\".\"TrustAccessGrant\"(\"accessToken\");\n\n/*\n  Warnings:\n\n  - You are about to drop the column `scopes` on the `TrustAccessGrant` table. All the data in the column will be lost.\n  - You are about to drop the column `requestedScopes` on the `TrustAccessRequest` table. All the data in the column will be lost.\n  - You are about to drop the column `scopes` on the `TrustDocument` table. All the data in the column will be lost.\n\n*/\n-- AlterTable\nALTER TABLE \"TrustAccessGrant\" DROP COLUMN \"scopes\";\n\n-- AlterTable\nALTER TABLE \"TrustAccessRequest\" DROP COLUMN \"requestedScopes\";\n\n-- AlterTable\nALTER TABLE \"TrustDocument\" DROP COLUMN \"scopes\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "trustaccessgrant",
+            "column": "scopes",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/db/prisma/migrations/20251112154000_remove_extra_scopes/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE trustaccessgrant DROP COLUMN \"scopes\"",
+            "extra": {
+              "table_sql": "TrustAccessGrant"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "trustaccessgrant",
+            "column": "scopes",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'trustaccessgrant' columns not resolved in C_{t-1} schema snapshot."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "trustaccessrequest",
+            "column": "requestedscopes",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/db/prisma/migrations/20251112154000_remove_extra_scopes/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE trustaccessrequest DROP COLUMN \"requestedScopes\"",
+            "extra": {
+              "table_sql": "TrustAccessRequest",
+              "column_sql": "requestedScopes"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "trustaccessrequest",
+            "column": "requestedscopes",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'trustaccessrequest' columns not resolved in C_{t-1} schema snapshot."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "trustdocument",
+            "column": "scopes",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/db/prisma/migrations/20251112154000_remove_extra_scopes/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE trustdocument DROP COLUMN \"scopes\"",
+            "extra": {
+              "table_sql": "TrustDocument"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "trustdocument",
+            "column": "scopes",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "UNCERTAIN",
+          "compat_forward": "SAFE",
+          "classification": "UNCERTAIN",
+          "reason": "Table 'trustdocument' columns not resolved in C_{t-1} schema snapshot."
+        }
+      ]
+    },
+    {
+      "sha": "bbcb8969b918c2699b15ce9761d7ba75e8f1341b",
+      "parent": "cbec722ab3f9fef9432f693d8920ed7146dee393",
+      "date": "2025-09-11T12:31:55-04:00",
+      "subject": "BUG-4 [BUG] - Add PCI badge to app (#1491)",
+      "mig_files": [
+        "packages/db/prisma/migrations/20250910222020_add_soc2_type_I_II_columns/migration.sql",
+        "packages/db/prisma/migrations/20250910233442_add_pci_dss_columns/migration.sql",
+        "packages/db/prisma/migrations/20250911095434_rename_soc2_type_columns/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/app/src/app/(app)/[orgId]/frameworks/components/FrameworksOverview.tsx",
+        "apps/app/src/app/(app)/[orgId]/settings/trust-portal/actions/update-trust-portal-frameworks.ts",
+        "apps/app/src/app/(app)/[orgId]/settings/trust-portal/components/TrustPortalSwitch.tsx",
+        "apps/app/src/app/(app)/[orgId]/settings/trust-portal/components/logos.tsx",
+        "apps/app/src/app/(app)/[orgId]/settings/trust-portal/page.tsx",
+        "packages/db/prisma/schema/trust.prisma"
+      ],
+      "orm_models_parsed_old": 33,
+      "raw_sql": "-- AlterTable\nALTER TABLE \"Trust\" ADD COLUMN     \"soc2typei\" BOOLEAN NOT NULL DEFAULT false;\n\n-- AlterTable\nALTER TABLE \"Trust\" ADD COLUMN     \"soc2typei_status\" \"FrameworkStatus\" NOT NULL DEFAULT 'started';\n\n-- AlterTable\nALTER TABLE \"Trust\" ADD COLUMN     \"soc2typeii\" BOOLEAN NOT NULL DEFAULT false;\n\n-- AlterTable\nALTER TABLE \"Trust\" ADD COLUMN     \"soc2typeii_status\" \"FrameworkStatus\" NOT NULL DEFAULT 'started';\n\n-- AlterTable\nALTER TABLE \"Trust\" ADD COLUMN     \"pci_dss\" BOOLEAN NOT NULL DEFAULT false;\n\n-- AlterTable\nALTER TABLE \"Trust\" ADD COLUMN     \"pci_dss_status\" \"FrameworkStatus\" NOT NULL DEFAULT 'started';\n\n-- Rename SOC2 Type I/II columns to use numbers instead of Roman numerals\n\n-- Rename soc2typei to soc2type1\nALTER TABLE \"Trust\" RENAME COLUMN \"soc2typei\" TO \"soc2type1\";\n\n-- Rename soc2typeii to soc2type2\nALTER TABLE \"Trust\" RENAME COLUMN \"soc2typeii\" TO \"soc2type2\";\n\n-- Rename soc2typei_status to soc2type1_status\nALTER TABLE \"Trust\" RENAME COLUMN \"soc2typei_status\" TO \"soc2type1_status\";\n\n-- Rename soc2typeii_status to soc2type2_status\nALTER TABLE \"Trust\" RENAME COLUMN \"soc2typeii_status\" TO \"soc2type2_status\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_COLUMN",
+            "table": "trust",
+            "column": "soc2typei",
+            "new_name": "soc2type1",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/db/prisma/migrations/20250911095434_rename_soc2_type_columns/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE trust RENAME COLUMN \"soc2typei\" TO \"soc2type1\"",
+            "extra": {
+              "table_sql": "Trust"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "trust",
+            "column": "soc2typei",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/db/prisma/schema/trust.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_FORWARD",
+          "reason": "RENAME_COLUMN 'soc2typei'->'soc2type1' breaks C_t |= S_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_COLUMN",
+            "table": "trust",
+            "column": "soc2typeii",
+            "new_name": "soc2type2",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/db/prisma/migrations/20250911095434_rename_soc2_type_columns/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE trust RENAME COLUMN \"soc2typeii\" TO \"soc2type2\"",
+            "extra": {
+              "table_sql": "Trust"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "trust",
+            "column": "soc2typeii",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/db/prisma/schema/trust.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_FORWARD",
+          "reason": "RENAME_COLUMN 'soc2typeii'->'soc2type2' breaks C_t |= S_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_COLUMN",
+            "table": "trust",
+            "column": "soc2typei_status",
+            "new_name": "soc2type1_status",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/db/prisma/migrations/20250911095434_rename_soc2_type_columns/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE trust RENAME COLUMN \"soc2typei_status\" TO \"soc2type1_status\"",
+            "extra": {
+              "table_sql": "Trust"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "trust",
+            "column": "soc2typei_status",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/db/prisma/schema/trust.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_FORWARD",
+          "reason": "RENAME_COLUMN 'soc2typei_status'->'soc2type1_status' breaks C_t |= S_{t-1}."
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_COLUMN",
+            "table": "trust",
+            "column": "soc2typeii_status",
+            "new_name": "soc2type2_status",
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/db/prisma/migrations/20250911095434_rename_soc2_type_columns/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE trust RENAME COLUMN \"soc2typeii_status\" TO \"soc2type2_status\"",
+            "extra": {
+              "table_sql": "Trust"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "trust",
+            "column": "soc2typeii_status",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/db/prisma/schema/trust.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_FORWARD",
+          "reason": "RENAME_COLUMN 'soc2typeii_status'->'soc2type2_status' breaks C_t |= S_{t-1}."
+        }
+      ]
+    },
+    {
+      "sha": "92eb0d50a656ee2ff2e950c3351993aac0510797",
+      "parent": "db4c4a3bac143a4caefd83f607516221a3dd4609",
+      "date": "2025-07-14T13:24:23-04:00",
+      "subject": "chore: remove stripe altogether from app",
+      "mig_files": [
+        "packages/db/prisma/migrations/20250714153009_remove_stripe_and_add_has_access/migration.sql"
+      ],
+      "app_files_touched_in_commit": [
+        "apps/app/e2e/utils/auth-helpers.ts",
+        "apps/app/src/actions/organization/lib/create-stripe-customer.ts",
+        "apps/app/src/actions/organization/lib/stripe.ts",
+        "apps/app/src/actions/stripe/fetch-price-details.ts",
+        "apps/app/src/app/(app)/[orgId]/layout.tsx",
+        "apps/app/src/app/(app)/[orgId]/settings/billing/cancel-subscription-dialog.tsx",
+        "apps/app/src/app/(app)/[orgId]/settings/billing/loading.tsx",
+        "apps/app/src/app/(app)/[orgId]/settings/billing/page.tsx",
+        "apps/app/src/app/(app)/[orgId]/settings/layout.tsx",
+        "apps/app/src/app/(app)/setup/actions/create-organization-minimal.ts",
+        "apps/app/src/app/(app)/setup/actions/create-organization.ts",
+        "apps/app/src/app/(app)/upgrade/[orgId]/components/BookingDialog.tsx"
+      ],
+      "orm_models_parsed_old": 32,
+      "raw_sql": "/*\n  Warnings:\n\n  - You are about to drop the column `hadCall` on the `Organization` table. All the data in the column will be lost.\n  - You are about to drop the column `stripeCustomerId` on the `Organization` table. All the data in the column will be lost.\n  - You are about to drop the column `stripeSubscriptionData` on the `Organization` table. All the data in the column will be lost.\n  - You are about to drop the column `subscriptionType` on the `Organization` table. All the data in the column will be lost.\n\n*/\n-- DropIndex\nDROP INDEX \"Organization_stripeCustomerId_idx\";\n\n-- DropIndex\nDROP INDEX \"Organization_subscriptionType_idx\";\n\n-- Add hasAccess column\nALTER TABLE \"Organization\" ADD COLUMN \"hasAccess\" BOOLEAN NOT NULL DEFAULT false;\n\n-- Update all organizations to have access depending on subscription type\nUPDATE \"Organization\" SET \"hasAccess\" = true WHERE \"subscriptionType\" = 'FREE';\nUPDATE \"Organization\" SET \"hasAccess\" = true WHERE \"subscriptionType\" = 'STARTER';\nUPDATE \"Organization\" SET \"hasAccess\" = true WHERE \"subscriptionType\" = 'MANAGED';\n\n-- Drop columns\nALTER TABLE \"Organization\" DROP COLUMN \"hadCall\";\nALTER TABLE \"Organization\" DROP COLUMN \"stripeCustomerId\";\nALTER TABLE \"Organization\" DROP COLUMN \"stripeSubscriptionData\";\nALTER TABLE \"Organization\" DROP COLUMN \"subscriptionType\";\n\n-- Drop subscription type enum\nDROP TYPE \"SubscriptionType\";",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "organization",
+            "column": "hadcall",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/db/prisma/migrations/20250714153009_remove_stripe_and_add_has_access/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE organization DROP COLUMN \"hadCall\"",
+            "extra": {
+              "table_sql": "Organization",
+              "column_sql": "hadCall"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "organization",
+            "column": "hadcall",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/db/prisma/schema/organization.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'hadcall' active in C_{t-1} ORM (packages/db/prisma/schema/organization.prisma)"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "organization",
+            "column": "stripecustomerid",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/db/prisma/migrations/20250714153009_remove_stripe_and_add_has_access/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE organization DROP COLUMN \"stripeCustomerId\"",
+            "extra": {
+              "table_sql": "Organization",
+              "column_sql": "stripeCustomerId"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "organization",
+            "column": "stripecustomerid",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/db/prisma/schema/organization.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'stripecustomerid' active in C_{t-1} ORM (packages/db/prisma/schema/organization.prisma); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "organization",
+            "column": "stripesubscriptiondata",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/db/prisma/migrations/20250714153009_remove_stripe_and_add_has_access/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE organization DROP COLUMN \"stripeSubscriptionData\"",
+            "extra": {
+              "table_sql": "Organization",
+              "column_sql": "stripeSubscriptionData"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "organization",
+            "column": "stripesubscriptiondata",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/db/prisma/schema/organization.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'stripesubscriptiondata' active in C_{t-1} ORM (packages/db/prisma/schema/organization.prisma)"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "organization",
+            "column": "subscriptiontype",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/db/prisma/migrations/20250714153009_remove_stripe_and_add_has_access/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE organization DROP COLUMN \"subscriptionType\"",
+            "extra": {
+              "table_sql": "Organization",
+              "column_sql": "SubscriptionType"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "organization",
+            "column": "subscriptiontype",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [
+              "packages/db/prisma/schema/organization.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "SAFE",
+          "classification": "DUAL_VERSION_VIOLATION_BACKWARD",
+          "reason": "DROP_COLUMN breaks C_{t-1} |= S_t: column 'subscriptiontype' active in C_{t-1} ORM (packages/db/prisma/schema/organization.prisma); identifier removed in same commit diff"
+        },
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "RENAME_TYPE_ENUM",
+            "table": "subscriptiontype",
+            "column": "subscriptiontype",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/db/prisma/migrations/20250714153009_remove_stripe_and_add_has_access/migration.sql",
+            "line": 0,
+            "raw_snippet": "/* Drop subscription type enum */ DROP TYPE \"SubscriptionType\"",
+            "extra": {
+              "subtype": "DROP_TYPE",
+              "table_sql": "SubscriptionType",
+              "column_sql": "SubscriptionType"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "subscriptiontype",
+            "column": "subscriptiontype",
+            "orm_active_old": true,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": true,
+            "orm_files_old": [],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "VIOLATION",
+          "compat_forward": "VIOLATION",
+          "classification": "DUAL_VERSION_VIOLATION_BOTH",
+          "reason": "ENUM/TYPE drop or rename 'subscriptiontype' affects active C_{t-1} enum definition/code."
+        }
+      ]
+    },
+    {
+      "sha": "ba0f148de3ed861bfa5b15f9b3680f07613dd0ad",
+      "parent": "4c7be5bf11f44dd66084fcc8d673aebd5b82e2eb",
+      "date": "2025-06-27T15:33:02-04:00",
+      "subject": "refactor(migration): ensure 'triggerJobCompleted' column is added only if it does not exist",
+      "mig_files": [
+        "packages/db/prisma/migrations/20250627180828_rename_completed_col/migration.sql"
+      ],
+      "app_files_touched_in_commit": [],
+      "orm_models_parsed_old": 32,
+      "raw_sql": "/*\n  Warnings:\n\n  - You are about to drop the column `completed` on the `Onboarding` table. All the data in the column will be lost.\n\n*/\n-- AlterTable\nALTER TABLE \"Onboarding\"\nADD COLUMN IF NOT EXISTS \"triggerJobCompleted\" BOOLEAN NOT NULL DEFAULT false;\n\n-- Copy existing values from completed to triggerJobCompleted\nUPDATE \"Onboarding\" SET \"triggerJobCompleted\" = \"completed\";\n\n-- Drop the old column\nALTER TABLE \"Onboarding\" DROP COLUMN \"completed\";\n",
+      "verdicts": [
+        {
+          "op": {
+            "ecosystem": "prisma",
+            "kind": "DROP_COLUMN",
+            "table": "onboarding",
+            "column": "completed",
+            "new_name": null,
+            "old_type": null,
+            "new_type": null,
+            "phase_section": "up",
+            "has_safety_bypass": false,
+            "file_path": "packages/db/prisma/migrations/20250627180828_rename_completed_col/migration.sql",
+            "line": 0,
+            "raw_snippet": "ALTER TABLE onboarding DROP COLUMN \"completed\"",
+            "extra": {
+              "table_sql": "Onboarding"
+            },
+            "is_destructive": true
+          },
+          "evidence": {
+            "table": "onboarding",
+            "column": "completed",
+            "orm_active_old": false,
+            "orm_active_new": false,
+            "rails_ignored_old": false,
+            "app_refs_old_count": 0,
+            "app_refs_new_count": 0,
+            "removed_in_commit_diff": false,
+            "orm_files_old": [
+              "packages/db/prisma/schema/onboarding.prisma"
+            ],
+            "app_files_old": [],
+            "notes": []
+          },
+          "compat_backward": "SAFE",
+          "compat_forward": "SAFE",
+          "classification": "SAFE_CONTRACT",
+          "reason": "Safe Contract phase: column 'completed' already absent from C_{t-1} ORM and app code."
+        }
+      ]
+    }
+  ]
+}
